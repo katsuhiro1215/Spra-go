@@ -1,4 +1,11 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+import { apiFetch } from "@/lib/api";
 
 const navItems = [
   { href: "/owner/dashboard", label: "ダッシュボード" },
@@ -8,13 +15,62 @@ const navItems = [
   { href: "/owner/dashboard/content", label: "コンテンツ" },
   { href: "/owner/dashboard/ai", label: "AI生成" },
   { href: "/owner/dashboard/system", label: "システム" },
+  { href: "/owner/dashboard/admins", label: "Admin" },
+  { href: "/owner/dashboard/users", label: "User" },
 ];
+
+type Owner = {
+  id: number;
+  name: string;
+  email: string;
+};
 
 export default function OwnerDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const [owner, setOwner] = useState<Owner | null>(null);
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+
+    apiFetch("/api/owner/user")
+      .then(async (res) => {
+        if (!active) return;
+
+        if (!res.ok) {
+          router.replace("/owner/login");
+          return;
+        }
+
+        setOwner(await res.json());
+        setChecking(false);
+      })
+      .catch(() => {
+        if (active) router.replace("/owner/login");
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [router]);
+
+  async function handleLogout() {
+    await apiFetch("/owner/logout", { method: "POST" });
+    router.replace("/owner/login");
+  }
+
+  if (checking || !owner) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+        読み込み中...
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen">
       <aside className="w-56 shrink-0 border-r border-border bg-muted/30 p-4">
@@ -35,10 +91,16 @@ export default function OwnerDashboardLayout({
       </aside>
 
       <div className="flex flex-1 flex-col">
-        <header className="flex h-14 items-center border-b border-border px-6">
+        <header className="flex h-14 items-center justify-between border-b border-border px-6">
           <span className="text-sm text-muted-foreground">
             Owner Dashboard
           </span>
+          <div className="flex items-center gap-3">
+            <span className="text-sm">{owner.name}</span>
+            <Button variant="outline" size="sm" onClick={handleLogout}>
+              ログアウト
+            </Button>
+          </div>
         </header>
 
         <main className="flex-1 p-6">{children}</main>
