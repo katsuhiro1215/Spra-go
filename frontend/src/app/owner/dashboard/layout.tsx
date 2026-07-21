@@ -9,6 +9,7 @@ import { apiFetch } from "@/lib/api";
 
 const navItems = [
   { href: "/owner/dashboard", label: "ダッシュボード" },
+  { href: "/owner/dashboard/categories", label: "カテゴリー" },
   { href: "/owner/dashboard/countries", label: "国" },
   { href: "/owner/dashboard/quizzes", label: "クイズ" },
   { href: "/owner/dashboard/events", label: "イベント" },
