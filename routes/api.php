@@ -2,7 +2,11 @@
 
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\ContentItem;
 use App\Models\Country;
+use App\Models\Event;
+use App\Models\Question;
+use App\Models\Quiz;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
@@ -116,6 +120,185 @@ Route::middleware(['auth:owner'])->prefix('owner/countries')->name('owner.countr
 
         return response()->noContent();
     })->name('destroy');
+});
+
+Route::middleware(['auth:owner'])->prefix('owner/events')->name('owner.events.')->group(function () {
+    Route::get('/', function () {
+        return Event::query()->orderBy('starts_at')->get();
+    })->name('index');
+
+    Route::post('/', function (Request $request) {
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'starts_at' => ['required', 'date'],
+            'ends_at' => ['required', 'date', 'after_or_equal:starts_at'],
+        ]);
+
+        return Event::create($data);
+    })->name('store');
+
+    Route::patch('/{event}', function (Request $request, Event $event) {
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'starts_at' => ['required', 'date'],
+            'ends_at' => ['required', 'date', 'after_or_equal:starts_at'],
+        ]);
+
+        $event->update($data);
+
+        return $event;
+    })->name('update');
+
+    Route::delete('/{event}', function (Event $event) {
+        $event->delete();
+
+        return response()->noContent();
+    })->name('destroy');
+});
+
+Route::middleware(['auth:owner'])->prefix('owner/content')->name('owner.content.')->group(function () {
+    $contentTypes = ['単語', '会話', '文化', '歴史', '地理', '国旗', '世界遺産'];
+
+    Route::get('/', function () {
+        return ContentItem::query()->with('country')->latest()->get();
+    })->name('index');
+
+    Route::post('/', function (Request $request) use ($contentTypes) {
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'type' => ['required', Rule::in($contentTypes)],
+            'country_id' => ['nullable', Rule::exists('countries', 'id')],
+        ]);
+
+        return ContentItem::create($data)->load('country');
+    })->name('store');
+
+    Route::patch('/{contentItem}', function (Request $request, ContentItem $contentItem) use ($contentTypes) {
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'type' => ['required', Rule::in($contentTypes)],
+            'country_id' => ['nullable', Rule::exists('countries', 'id')],
+        ]);
+
+        $contentItem->update($data);
+
+        return $contentItem->load('country');
+    })->name('update');
+
+    Route::delete('/{contentItem}', function (ContentItem $contentItem) {
+        $contentItem->delete();
+
+        return response()->noContent();
+    })->name('destroy');
+});
+
+Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.')->group(function () {
+    $quizValidation = fn () => [
+        'title' => ['required', 'string', 'max:255'],
+        'description' => ['nullable', 'string'],
+        'difficulty' => ['required', Rule::in(['初級', '中級', '上級'])],
+        'country_id' => ['nullable', Rule::exists('countries', 'id')],
+        'category_ids' => ['array'],
+        'category_ids.*' => [Rule::exists('categories', 'id')],
+    ];
+    $choicesValidation = [
+        'prompt' => ['required', 'string'],
+        'choices' => ['required', 'array', 'size:4'],
+        'choices.*.label' => ['required', 'string', 'max:255'],
+        'choices.*.is_correct' => ['required', 'boolean'],
+    ];
+
+    Route::get('/', function () {
+        return Quiz::query()
+            ->with(['country', 'categories'])
+            ->withCount('questions')
+            ->latest()
+            ->get();
+    })->name('index');
+
+    Route::post('/', function (Request $request) use ($quizValidation) {
+        $data = $request->validate($quizValidation());
+
+        $quiz = Quiz::create(collect($data)->except('category_ids')->toArray());
+        $quiz->categories()->sync($data['category_ids'] ?? []);
+
+        return $quiz->load(['country', 'categories'])->loadCount('questions');
+    })->name('store');
+
+    Route::get('/{quiz}', function (Quiz $quiz) {
+        return $quiz->load(['country', 'categories', 'questions.choices']);
+    })->name('show');
+
+    Route::patch('/{quiz}', function (Request $request, Quiz $quiz) use ($quizValidation) {
+        $data = $request->validate($quizValidation());
+
+        $quiz->update(collect($data)->except('category_ids')->toArray());
+        $quiz->categories()->sync($data['category_ids'] ?? []);
+
+        return $quiz->load(['country', 'categories'])->loadCount('questions');
+    })->name('update');
+
+    Route::delete('/{quiz}', function (Quiz $quiz) {
+        $quiz->delete();
+
+        return response()->noContent();
+    })->name('destroy');
+
+    Route::post('/{quiz}/questions', function (Request $request, Quiz $quiz) use ($choicesValidation) {
+        $data = $request->validate($choicesValidation);
+
+        if (collect($data['choices'])->where('is_correct', true)->count() !== 1) {
+            return response()->json(['message' => '正解は1つだけ選択してください。'], 422);
+        }
+
+        $nextOrder = $quiz->questions()->max('order') + 1;
+
+        $question = $quiz->questions()->create([
+            'prompt' => $data['prompt'],
+            'order' => $nextOrder,
+        ]);
+
+        foreach ($data['choices'] as $index => $choice) {
+            $question->choices()->create([
+                'label' => $choice['label'],
+                'is_correct' => $choice['is_correct'],
+                'order' => $index,
+            ]);
+        }
+
+        return $question->load('choices');
+    })->name('questions.store');
+
+    Route::patch('/{quiz}/questions/{question}', function (Request $request, Quiz $quiz, Question $question) use ($choicesValidation) {
+        abort_unless($question->quiz_id === $quiz->id, 404);
+
+        $data = $request->validate($choicesValidation);
+
+        if (collect($data['choices'])->where('is_correct', true)->count() !== 1) {
+            return response()->json(['message' => '正解は1つだけ選択してください。'], 422);
+        }
+
+        $question->update(['prompt' => $data['prompt']]);
+        $question->choices()->delete();
+
+        foreach ($data['choices'] as $index => $choice) {
+            $question->choices()->create([
+                'label' => $choice['label'],
+                'is_correct' => $choice['is_correct'],
+                'order' => $index,
+            ]);
+        }
+
+        return $question->load('choices');
+    })->name('questions.update');
+
+    Route::delete('/{quiz}/questions/{question}', function (Quiz $quiz, Question $question) {
+        abort_unless($question->quiz_id === $quiz->id, 404);
+
+        $question->delete();
+
+        return response()->noContent();
+    })->name('questions.destroy');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {

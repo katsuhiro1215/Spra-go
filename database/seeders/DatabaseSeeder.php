@@ -4,8 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\ContentItem;
 use App\Models\Country;
+use App\Models\Event;
 use App\Models\Owner;
+use App\Models\Quiz;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -63,6 +66,55 @@ class DatabaseSeeder extends Seeder
             Country::query()->firstOrCreate(
                 ['code' => $country['code']],
                 [...$country, 'order' => $index]
+            );
+        }
+
+        $events = [
+            ['title' => '夏休みスペシャルイベント', 'starts_at' => '2026-07-15', 'ends_at' => '2026-08-31'],
+            ['title' => '世界遺産ウィーク', 'starts_at' => '2026-09-01', 'ends_at' => '2026-09-07'],
+            ['title' => 'ハロウィンイベント', 'starts_at' => '2026-10-25', 'ends_at' => '2026-10-31'],
+            ['title' => '春の国旗チャレンジ', 'starts_at' => '2026-03-01', 'ends_at' => '2026-03-31'],
+        ];
+
+        foreach ($events as $event) {
+            Event::query()->firstOrCreate(['title' => $event['title']], $event);
+        }
+
+        $contentItems = [
+            ['title' => '基本のあいさつ100選', 'type' => '単語', 'country_code' => 'jp'],
+            ['title' => 'カフェでの注文フレーズ', 'type' => '会話', 'country_code' => 'fr'],
+            ['title' => '闘牛とフラメンコ', 'type' => '文化', 'country_code' => 'es'],
+            ['title' => 'ルネサンス期の歴史', 'type' => '歴史', 'country_code' => 'it'],
+            ['title' => 'リアス式海岸の地理', 'type' => '地理', 'country_code' => 'pt'],
+            ['title' => '国旗の由来', 'type' => '国旗', 'country_code' => 'id'],
+            ['title' => 'アユタヤ遺跡', 'type' => '世界遺産', 'country_code' => 'th'],
+        ];
+
+        foreach ($contentItems as $item) {
+            ContentItem::query()->firstOrCreate(
+                ['title' => $item['title']],
+                [
+                    'type' => $item['type'],
+                    'country_id' => Country::query()->where('code', $item['country_code'])->value('id'),
+                ]
+            );
+        }
+
+        $quizzes = [
+            ['title' => 'あいさつを覚えよう', 'difficulty' => '初級', 'country_code' => 'jp'],
+            ['title' => '首都当てクイズ', 'difficulty' => '初級', 'country_code' => 'fr'],
+            ['title' => 'レストランでの会話', 'difficulty' => '中級', 'country_code' => 'es'],
+            ['title' => '歴史クイズ:ルネサンス', 'difficulty' => '上級', 'country_code' => 'it'],
+            ['title' => '屋台グルメ単語帳', 'difficulty' => '初級', 'country_code' => 'th'],
+        ];
+
+        foreach ($quizzes as $quiz) {
+            Quiz::query()->firstOrCreate(
+                ['title' => $quiz['title']],
+                [
+                    'difficulty' => $quiz['difficulty'],
+                    'country_id' => Country::query()->where('code', $quiz['country_code'])->value('id'),
+                ]
             );
         }
     }
