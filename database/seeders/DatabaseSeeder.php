@@ -8,6 +8,7 @@ use App\Models\ContentItem;
 use App\Models\Country;
 use App\Models\Event;
 use App\Models\Owner;
+use App\Models\Quiz;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -95,6 +96,24 @@ class DatabaseSeeder extends Seeder
                 [
                     'type' => $item['type'],
                     'country_id' => Country::query()->where('code', $item['country_code'])->value('id'),
+                ]
+            );
+        }
+
+        $quizzes = [
+            ['title' => 'あいさつを覚えよう', 'difficulty' => '初級', 'country_code' => 'jp'],
+            ['title' => '首都当てクイズ', 'difficulty' => '初級', 'country_code' => 'fr'],
+            ['title' => 'レストランでの会話', 'difficulty' => '中級', 'country_code' => 'es'],
+            ['title' => '歴史クイズ:ルネサンス', 'difficulty' => '上級', 'country_code' => 'it'],
+            ['title' => '屋台グルメ単語帳', 'difficulty' => '初級', 'country_code' => 'th'],
+        ];
+
+        foreach ($quizzes as $quiz) {
+            Quiz::query()->firstOrCreate(
+                ['title' => $quiz['title']],
+                [
+                    'difficulty' => $quiz['difficulty'],
+                    'country_id' => Country::query()->where('code', $quiz['country_code'])->value('id'),
                 ]
             );
         }
