@@ -2,7 +2,9 @@
 
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\ContentItem;
 use App\Models\Country;
+use App\Models\Event;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
@@ -113,6 +115,76 @@ Route::middleware(['auth:owner'])->prefix('owner/countries')->name('owner.countr
 
     Route::delete('/{country}', function (Country $country) {
         $country->delete();
+
+        return response()->noContent();
+    })->name('destroy');
+});
+
+Route::middleware(['auth:owner'])->prefix('owner/events')->name('owner.events.')->group(function () {
+    Route::get('/', function () {
+        return Event::query()->orderBy('starts_at')->get();
+    })->name('index');
+
+    Route::post('/', function (Request $request) {
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'starts_at' => ['required', 'date'],
+            'ends_at' => ['required', 'date', 'after_or_equal:starts_at'],
+        ]);
+
+        return Event::create($data);
+    })->name('store');
+
+    Route::patch('/{event}', function (Request $request, Event $event) {
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'starts_at' => ['required', 'date'],
+            'ends_at' => ['required', 'date', 'after_or_equal:starts_at'],
+        ]);
+
+        $event->update($data);
+
+        return $event;
+    })->name('update');
+
+    Route::delete('/{event}', function (Event $event) {
+        $event->delete();
+
+        return response()->noContent();
+    })->name('destroy');
+});
+
+Route::middleware(['auth:owner'])->prefix('owner/content')->name('owner.content.')->group(function () {
+    $contentTypes = ['単語', '会話', '文化', '歴史', '地理', '国旗', '世界遺産'];
+
+    Route::get('/', function () {
+        return ContentItem::query()->with('country')->latest()->get();
+    })->name('index');
+
+    Route::post('/', function (Request $request) use ($contentTypes) {
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'type' => ['required', Rule::in($contentTypes)],
+            'country_id' => ['nullable', Rule::exists('countries', 'id')],
+        ]);
+
+        return ContentItem::create($data)->load('country');
+    })->name('store');
+
+    Route::patch('/{contentItem}', function (Request $request, ContentItem $contentItem) use ($contentTypes) {
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'type' => ['required', Rule::in($contentTypes)],
+            'country_id' => ['nullable', Rule::exists('countries', 'id')],
+        ]);
+
+        $contentItem->update($data);
+
+        return $contentItem->load('country');
+    })->name('update');
+
+    Route::delete('/{contentItem}', function (ContentItem $contentItem) {
+        $contentItem->delete();
 
         return response()->noContent();
     })->name('destroy');
