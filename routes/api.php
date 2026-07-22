@@ -301,6 +301,10 @@ Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.
     })->name('questions.destroy');
 });
 
+Route::middleware(['auth:sanctum'])->get('/categories', function () {
+    return Category::query()->orderBy('order')->get();
+})->name('categories.index');
+
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {
     Route::get('/', function (Request $request) {
         return $request->user()->schema?->profiles ?? [];
