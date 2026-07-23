@@ -7,7 +7,9 @@ use App\Models\Country;
 use App\Models\Event;
 use App\Models\Question;
 use App\Models\QuestionChoice;
+use App\Models\QuestionTheme;
 use App\Models\Quiz;
+use App\Models\Stage;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
@@ -302,29 +304,144 @@ Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.
     })->name('questions.destroy');
 });
 
+Route::middleware(['auth:owner'])->prefix('owner/question-themes')->name('owner.question-themes.')->group(function () {
+    Route::get('/', function () {
+        return QuestionTheme::query()->orderBy('label')->get();
+    })->name('index');
+
+    Route::post('/', function (Request $request) {
+        $data = $request->validate([
+            'key' => ['required', 'string', 'max:255', 'unique:question_themes,key'],
+            'label' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        return QuestionTheme::create($data);
+    })->name('store');
+
+    Route::patch('/{questionTheme}', function (Request $request, QuestionTheme $questionTheme) {
+        $data = $request->validate([
+            'key' => ['required', 'string', 'max:255', Rule::unique('question_themes', 'key')->ignore($questionTheme->id)],
+            'label' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        $questionTheme->update($data);
+
+        return $questionTheme;
+    })->name('update');
+
+    Route::delete('/{questionTheme}', function (QuestionTheme $questionTheme) {
+        $questionTheme->delete();
+
+        return response()->noContent();
+    })->name('destroy');
+});
+
+Route::middleware(['auth:owner'])->prefix('owner/stages')->name('owner.stages.')->group(function () {
+    $stageValidation = fn (?Stage $ignore = null) => [
+        'category_id' => ['required', Rule::exists('categories', 'id')],
+        'difficulty' => ['required', Rule::in(array_keys(config('quiz.difficulties')))],
+        'stage_number' => [
+            'required',
+            'integer',
+            'min:1',
+            Rule::unique('stages', 'stage_number')
+                ->where(fn ($query) => $query
+                    ->where('category_id', request('category_id'))
+                    ->where('difficulty', request('difficulty')))
+                ->ignore($ignore?->id),
+        ],
+        'question_theme_id' => ['nullable', Rule::exists('question_themes', 'id')],
+        'question_count' => ['required', 'integer', 'min:1'],
+        'is_boss' => ['boolean'],
+        'title_reward' => ['nullable', 'string', 'max:255'],
+    ];
+
+    Route::get('/', function (Request $request) {
+        return Stage::query()
+            ->when($request->query('category_id'), fn ($q, $categoryId) => $q->where('category_id', $categoryId))
+            ->when($request->query('difficulty'), fn ($q, $difficulty) => $q->where('difficulty', $difficulty))
+            ->with(['category', 'questionTheme'])
+            ->orderBy('stage_number')
+            ->get();
+    })->name('index');
+
+    Route::post('/', function (Request $request) use ($stageValidation) {
+        $data = $request->validate($stageValidation());
+
+        return Stage::create($data)->load(['category', 'questionTheme']);
+    })->name('store');
+
+    Route::patch('/{stage}', function (Request $request, Stage $stage) use ($stageValidation) {
+        $data = $request->validate($stageValidation($stage));
+
+        $stage->update($data);
+
+        return $stage->load(['category', 'questionTheme']);
+    })->name('update');
+
+    Route::delete('/{stage}', function (Stage $stage) {
+        $stage->delete();
+
+        return response()->noContent();
+    })->name('destroy');
+});
+
 Route::middleware(['auth:sanctum'])->get('/categories', function () {
     return Category::query()->orderBy('order')->get();
 })->name('categories.index');
 
-Route::middleware(['auth:sanctum'])->get('/categories/{category}/quizzes', function (Category $category) {
-    return $category->quizzes()
-        ->where('is_published', true)
-        ->with('country')
-        ->withCount('questions')
+Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', function (Category $category) {
+    return collect(config('quiz.difficulties'))
+        ->map(function (array $settings, string $difficulty) use ($category) {
+            $availableCount = Question::query()
+                ->whereHas('quiz', function ($query) use ($category, $difficulty) {
+                    $query->where('is_published', true)
+                        ->where('difficulty', $difficulty)
+                        ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id));
+                })
+                ->count();
+
+            return [
+                'difficulty' => $difficulty,
+                'stage_number' => $settings['stage_number'],
+                'target_count' => $settings['question_count'],
+                'available_count' => $availableCount,
+            ];
+        })
+        ->values();
+})->name('categories.stages');
+
+Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages/{difficulty}', function (Category $category, string $difficulty) {
+    abort_unless(array_key_exists($difficulty, config('quiz.difficulties')), 404);
+
+    $settings = config("quiz.difficulties.{$difficulty}");
+
+    $questions = Question::query()
+        ->whereHas('quiz', function ($query) use ($category, $difficulty) {
+            $query->where('is_published', true)
+                ->where('difficulty', $difficulty)
+                ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id));
+        })
+        ->with('choices')
+        ->inRandomOrder()
+        ->limit($settings['question_count'])
         ->get();
-})->name('categories.quizzes');
 
-Route::middleware(['auth:sanctum'])->get('/quizzes/{quiz}', function (Quiz $quiz) {
-    abort_unless($quiz->is_published, 404);
+    abort_if($questions->isEmpty(), 404);
 
-    $quiz->load('questions.choices');
-
-    $quiz->questions->each(function (Question $question) {
+    $questions->each(function (Question $question) {
         $question->choices->each->makeHidden('is_correct');
     });
 
-    return $quiz;
-})->name('quizzes.show');
+    return [
+        'category' => $category,
+        'difficulty' => $difficulty,
+        'stage_number' => $settings['stage_number'],
+        'questions' => $questions,
+    ];
+})->name('categories.stages.show');
 
 Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', function (Request $request, Question $question) {
     $data = $request->validate([

@@ -14,24 +14,20 @@ type Category = {
   name: string;
 };
 
-type Country = { id: number; code: string; name: string };
 type Difficulty = "初級" | "中級" | "上級";
 
-type QuizSummary = {
-  id: number;
-  title: string;
+type StageSummary = {
   difficulty: Difficulty;
-  country: Country | null;
-  questions_count: number;
+  stage_number: number;
+  target_count: number;
+  available_count: number;
 };
 
 const DIFFICULTIES: Difficulty[] = ["初級", "中級", "上級"];
-const STAGE_NUMBER: Record<Difficulty, number> = { 初級: 1, 中級: 2, 上級: 3 };
 
 type StageIntro = {
   stage: number;
   difficulty: Difficulty;
-  quizId: number;
 };
 
 export default function Page({
@@ -44,7 +40,7 @@ export default function Page({
   const [category, setCategory] = useState<Category | null | undefined>(
     undefined,
   );
-  const [quizzes, setQuizzes] = useState<QuizSummary[] | null>(null);
+  const [stages, setStages] = useState<StageSummary[] | null>(null);
   const [selected, setSelected] = useState<Difficulty | null>(null);
   const [stageIntro, setStageIntro] = useState<StageIntro | null>(null);
 
@@ -60,8 +56,8 @@ export default function Page({
       })
       .catch(() => router.replace("/login"));
 
-    apiFetch(`/api/categories/${id}/quizzes`).then(async (res) => {
-      if (res.ok) setQuizzes(await res.json());
+    apiFetch(`/api/categories/${id}/stages`).then(async (res) => {
+      if (res.ok) setStages(await res.json());
     });
   }, [id, router]);
 
@@ -69,11 +65,11 @@ export default function Page({
     if (!stageIntro) return;
 
     const timer = setTimeout(() => {
-      router.push(`/quiz/${stageIntro.quizId}`);
+      router.push(`/quiz/${id}/${encodeURIComponent(stageIntro.difficulty)}`);
     }, 1800);
 
     return () => clearTimeout(timer);
-  }, [stageIntro, router]);
+  }, [stageIntro, id, router]);
 
   if (category === undefined) {
     return (
@@ -83,21 +79,20 @@ export default function Page({
     );
   }
 
-  const quizByDifficulty = new Map(
+  const stageByDifficulty = new Map(
     DIFFICULTIES.map((difficulty) => [
       difficulty,
-      quizzes?.find((q) => q.difficulty === difficulty) ?? null,
+      stages?.find((s) => s.difficulty === difficulty) ?? null,
     ]),
   );
-  const hasAnyQuiz = (quizzes?.length ?? 0) > 0;
-  const selectedQuiz = selected ? quizByDifficulty.get(selected) : null;
+  const hasAnyStage = (stages ?? []).some((s) => s.available_count > 0);
+  const selectedStage = selected ? stageByDifficulty.get(selected) : null;
 
   function handleStart() {
-    if (!selected || !selectedQuiz) return;
+    if (!selected || !selectedStage) return;
     setStageIntro({
-      stage: STAGE_NUMBER[selected],
+      stage: selectedStage.stage_number,
       difficulty: selected,
-      quizId: selectedQuiz.id,
     });
   }
 
@@ -118,9 +113,9 @@ export default function Page({
           </h1>
         </div>
 
-        {quizzes === null ? (
+        {stages === null ? (
           <p className="text-sm text-white/85">読み込み中...</p>
-        ) : !hasAnyQuiz ? (
+        ) : !hasAnyStage ? (
           <p className="text-sm text-white/85">
             まだクイズがありません。お楽しみに。
           </p>
@@ -128,8 +123,8 @@ export default function Page({
           <>
             <div className="flex flex-col gap-3">
               {DIFFICULTIES.map((difficulty) => {
-                const quiz = quizByDifficulty.get(difficulty);
-                const available = Boolean(quiz);
+                const stage = stageByDifficulty.get(difficulty);
+                const available = Boolean(stage && stage.available_count > 0);
                 const isSelected = selected === difficulty;
 
                 return (
@@ -145,7 +140,9 @@ export default function Page({
                   >
                     <span>{difficulty}</span>
                     <span className="text-xs opacity-80">
-                      {quiz ? `全${quiz.questions_count}問` : "準備中"}
+                      {stage
+                        ? `${stage.available_count}/${stage.target_count}問`
+                        : "準備中"}
                     </span>
                   </AppButton>
                 );

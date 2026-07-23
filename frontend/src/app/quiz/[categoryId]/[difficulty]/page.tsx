@@ -9,17 +9,22 @@ import { apiFetch } from "@/lib/api";
 
 type Choice = { id: number; label: string };
 type QuestionItem = { id: number; prompt: string; choices: Choice[] };
-type QuizPlayData = { id: number; title: string; questions: QuestionItem[] };
+type StagePlayData = {
+  category: { id: number; name: string };
+  difficulty: string;
+  stage_number: number;
+  questions: QuestionItem[];
+};
 
 export default function Page({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ categoryId: string; difficulty: string }>;
 }) {
-  const { id } = use(params);
+  const { categoryId, difficulty } = use(params);
   const router = useRouter();
 
-  const [quiz, setQuiz] = useState<QuizPlayData | null | undefined>(
+  const [stage, setStage] = useState<StagePlayData | null | undefined>(
     undefined,
   );
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -32,18 +37,20 @@ export default function Page({
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    apiFetch(`/api/quizzes/${id}`)
+    apiFetch(
+      `/api/categories/${categoryId}/stages/${encodeURIComponent(difficulty)}`,
+    )
       .then(async (res) => {
         if (res.status === 401) {
           router.replace("/login");
           return;
         }
-        setQuiz(res.ok ? await res.json() : null);
+        setStage(res.ok ? await res.json() : null);
       })
-      .catch(() => setQuiz(null));
-  }, [id, router]);
+      .catch(() => setStage(null));
+  }, [categoryId, difficulty, router]);
 
-  if (quiz === undefined) {
+  if (stage === undefined) {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
         読み込み中...
@@ -51,11 +58,11 @@ export default function Page({
     );
   }
 
-  if (quiz === null || quiz.questions.length === 0) {
+  if (stage === null || stage.questions.length === 0) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3">
         <p className="text-sm text-muted-foreground">
-          このクイズは見つかりませんでした。
+          このステージは見つかりませんでした。
         </p>
         <Link href="/" className="text-sm hover:underline">
           ホームに戻る
@@ -64,9 +71,9 @@ export default function Page({
     );
   }
 
-  const question = quiz.questions[currentIndex];
-  const isLastQuestion = currentIndex === quiz.questions.length - 1;
-  const finished = currentIndex >= quiz.questions.length;
+  const question = stage.questions[currentIndex];
+  const isLastQuestion = currentIndex === stage.questions.length - 1;
+  const finished = currentIndex >= stage.questions.length;
 
   async function handleSelect(choiceId: number) {
     if (answered || submitting) return;
@@ -110,7 +117,7 @@ export default function Page({
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
         <h1 className="text-2xl font-bold">結果発表</h1>
         <p className="text-4xl font-bold text-primary">
-          {score} / {quiz.questions.length} 問正解
+          {score} / {stage.questions.length} 問正解
         </p>
         <div className="flex gap-3">
           <AppButton variant="primary" onClick={handleRestart}>
@@ -128,7 +135,8 @@ export default function Page({
     <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col gap-8 px-6 py-12">
       <div>
         <p className="text-sm text-muted-foreground">
-          {quiz.title} ・ 問題 {currentIndex + 1} / {quiz.questions.length}
+          {stage.category.name} ・ Stage {stage.stage_number} ・ 問題{" "}
+          {currentIndex + 1} / {stage.questions.length}
         </p>
         <h1 className="mt-2 text-xl font-bold">{question.prompt}</h1>
       </div>
