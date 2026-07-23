@@ -128,3 +128,169 @@
     @apply font-sans;
   }
 }
+
+@layer utilities {
+  @keyframes scene-drift {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes scene-twinkle {
+    0%,
+    100% {
+      opacity: 0.15;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  @keyframes scene-float {
+    0% {
+      transform: translateY(0) translateX(0);
+      opacity: 0;
+    }
+    12% {
+      opacity: 0.9;
+    }
+    88% {
+      opacity: 0.9;
+    }
+    100% {
+      transform: translateY(-140px) translateX(var(--drift, 12px));
+      opacity: 0;
+    }
+  }
+  @keyframes scene-sway {
+    0%,
+    100% {
+      transform: rotate(-3deg);
+    }
+    50% {
+      transform: rotate(3deg);
+    }
+  }
+  @keyframes scene-wave {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes scene-fly {
+    from {
+      transform: translate(-15vw, 0);
+    }
+    to {
+      transform: translate(115vw, -24px);
+    }
+  }
+  @keyframes scene-sail {
+    from {
+      transform: translateX(-15vw);
+    }
+    to {
+      transform: translateX(115vw);
+    }
+  }
+  @keyframes scene-flag {
+    0%,
+    100% {
+      transform: skewY(-4deg);
+    }
+    50% {
+      transform: skewY(4deg);
+    }
+  }
+
+  .animate-scene-drift {
+    animation: scene-drift linear infinite;
+  }
+  .animate-scene-twinkle {
+    animation: scene-twinkle ease-in-out infinite;
+  }
+  .animate-scene-float {
+    animation: scene-float ease-in infinite;
+  }
+  .animate-scene-sway {
+    animation: scene-sway ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  .animate-scene-wave {
+    animation: scene-wave linear infinite;
+  }
+  .animate-scene-fly {
+    animation: scene-fly linear infinite;
+  }
+  .animate-scene-sail {
+    animation: scene-sail linear infinite;
+  }
+  .animate-scene-flag {
+    animation: scene-flag ease-in-out infinite;
+    transform-origin: left center;
+  }
+
+  @keyframes character-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  .animate-character-bounce {
+    animation: character-bounce 2.4s ease-in-out infinite;
+  }
+
+  @keyframes stage-intro-pop {
+    0% {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.08);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  .animate-stage-intro {
+    animation: stage-intro-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes stage-intro-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-stage-intro-subtitle {
+    animation: stage-intro-fade-in 0.5s ease-out 0.35s both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-scene-drift,
+    .animate-scene-twinkle,
+    .animate-scene-float,
+    .animate-scene-sway,
+    .animate-scene-wave,
+    .animate-scene-fly,
+    .animate-scene-sail,
+    .animate-scene-flag,
+    .animate-character-bounce,
+    .animate-stage-intro,
+    .animate-stage-intro-subtitle {
+      animation: none !important;
+    }
+  }
+}

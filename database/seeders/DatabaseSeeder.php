@@ -101,21 +101,139 @@ class DatabaseSeeder extends Seeder
         }
 
         $quizzes = [
-            ['title' => 'あいさつを覚えよう', 'difficulty' => '初級', 'country_code' => 'jp'],
-            ['title' => '首都当てクイズ', 'difficulty' => '初級', 'country_code' => 'fr'],
-            ['title' => 'レストランでの会話', 'difficulty' => '中級', 'country_code' => 'es'],
-            ['title' => '歴史クイズ:ルネサンス', 'difficulty' => '上級', 'country_code' => 'it'],
-            ['title' => '屋台グルメ単語帳', 'difficulty' => '初級', 'country_code' => 'th'],
+            [
+                'title' => 'あいさつを覚えよう',
+                'difficulty' => '初級',
+                'country_code' => 'jp',
+                'is_published' => true,
+                'categories' => ['国旗'],
+                'questions' => [
+                    [
+                        'prompt' => '「おはよう」の意味は？',
+                        'choices' => [
+                            'Good morning' => true,
+                            'Good night' => false,
+                            'Thank you' => false,
+                            'Goodbye' => false,
+                        ],
+                    ],
+                    [
+                        'prompt' => '「ありがとう」は英語で何と言う？',
+                        'choices' => [
+                            'Thank you' => true,
+                            'Sorry' => false,
+                            'Please' => false,
+                            'Hello' => false,
+                        ],
+                    ],
+                    [
+                        'prompt' => '日本語で「さようなら」はどんな時に使う？',
+                        'choices' => [
+                            '別れる時' => true,
+                            '出会った時' => false,
+                            '食事の前' => false,
+                            'お礼を言う時' => false,
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'title' => '首都当てクイズ',
+                'difficulty' => '初級',
+                'country_code' => 'fr',
+                'is_published' => true,
+                'categories' => ['国旗', '世界地図'],
+                'questions' => [
+                    [
+                        'prompt' => 'フランスの首都は？',
+                        'choices' => [
+                            'パリ' => true,
+                            'ロンドン' => false,
+                            'ベルリン' => false,
+                            'マドリード' => false,
+                        ],
+                    ],
+                    [
+                        'prompt' => '日本の首都は？',
+                        'choices' => [
+                            '東京' => true,
+                            '大阪' => false,
+                            '京都' => false,
+                            '名古屋' => false,
+                        ],
+                    ],
+                    [
+                        'prompt' => 'スペインの首都は？',
+                        'choices' => [
+                            'マドリード' => true,
+                            'バルセロナ' => false,
+                            'リスボン' => false,
+                            'セビリア' => false,
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'title' => 'レストランでの会話',
+                'difficulty' => '中級',
+                'country_code' => 'es',
+                'is_published' => false,
+                'categories' => ['国旗', '食べ物'],
+                'questions' => [],
+            ],
+            [
+                'title' => '歴史クイズ:ルネサンス',
+                'difficulty' => '上級',
+                'country_code' => 'it',
+                'is_published' => false,
+                'categories' => ['国旗', '歴史'],
+                'questions' => [],
+            ],
+            [
+                'title' => '屋台グルメ単語帳',
+                'difficulty' => '初級',
+                'country_code' => 'th',
+                'is_published' => false,
+                'categories' => ['国旗', '食べ物'],
+                'questions' => [],
+            ],
         ];
 
-        foreach ($quizzes as $quiz) {
-            Quiz::query()->firstOrCreate(
-                ['title' => $quiz['title']],
+        foreach ($quizzes as $quizData) {
+            $quiz = Quiz::query()->updateOrCreate(
+                ['title' => $quizData['title']],
                 [
-                    'difficulty' => $quiz['difficulty'],
-                    'country_id' => Country::query()->where('code', $quiz['country_code'])->value('id'),
+                    'difficulty' => $quizData['difficulty'],
+                    'country_id' => Country::query()->where('code', $quizData['country_code'])->value('id'),
+                    'is_published' => $quizData['is_published'],
                 ]
             );
+
+            $categoryIds = Category::query()
+                ->whereIn('name', $quizData['categories'])
+                ->whereNull('parent_id')
+                ->pluck('id');
+            $quiz->categories()->sync($categoryIds);
+
+            foreach ($quizData['questions'] as $index => $questionData) {
+                $question = $quiz->questions()->firstOrCreate(
+                    ['prompt' => $questionData['prompt']],
+                    ['order' => $index]
+                );
+
+                if ($question->choices()->exists()) {
+                    continue;
+                }
+
+                $choiceIndex = 0;
+                foreach ($questionData['choices'] as $label => $isCorrect) {
+                    $question->choices()->create([
+                        'label' => $label,
+                        'is_correct' => $isCorrect,
+                        'order' => $choiceIndex++,
+                    ]);
+                }
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ use App\Models\ContentItem;
 use App\Models\Country;
 use App\Models\Event;
 use App\Models\Question;
+use App\Models\QuestionChoice;
 use App\Models\Quiz;
 use App\Models\User;
 use App\Models\UserProfile;
@@ -300,6 +301,46 @@ Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.
         return response()->noContent();
     })->name('questions.destroy');
 });
+
+Route::middleware(['auth:sanctum'])->get('/categories', function () {
+    return Category::query()->orderBy('order')->get();
+})->name('categories.index');
+
+Route::middleware(['auth:sanctum'])->get('/categories/{category}/quizzes', function (Category $category) {
+    return $category->quizzes()
+        ->where('is_published', true)
+        ->with('country')
+        ->withCount('questions')
+        ->get();
+})->name('categories.quizzes');
+
+Route::middleware(['auth:sanctum'])->get('/quizzes/{quiz}', function (Quiz $quiz) {
+    abort_unless($quiz->is_published, 404);
+
+    $quiz->load('questions.choices');
+
+    $quiz->questions->each(function (Question $question) {
+        $question->choices->each->makeHidden('is_correct');
+    });
+
+    return $quiz;
+})->name('quizzes.show');
+
+Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', function (Request $request, Question $question) {
+    $data = $request->validate([
+        'choice_id' => ['required', Rule::exists('question_choices', 'id')],
+    ]);
+
+    $choice = QuestionChoice::query()->findOrFail($data['choice_id']);
+    abort_unless($choice->question_id === $question->id, 422);
+
+    $correctChoice = $question->choices()->where('is_correct', true)->first();
+
+    return [
+        'correct' => $choice->is_correct,
+        'correct_choice_id' => $correctChoice?->id,
+    ];
+})->name('questions.answer');
 
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {
     Route::get('/', function (Request $request) {
