@@ -12,6 +12,8 @@ const navItems = [
   { href: "/owner/dashboard/categories", label: "カテゴリー" },
   { href: "/owner/dashboard/countries", label: "国" },
   { href: "/owner/dashboard/quizzes", label: "クイズ" },
+  { href: "/owner/dashboard/stages", label: "ステージ" },
+  { href: "/owner/dashboard/question-themes", label: "出題テーマ" },
   { href: "/owner/dashboard/events", label: "イベント" },
   { href: "/owner/dashboard/content", label: "コンテンツ" },
   { href: "/owner/dashboard/ai", label: "AI生成" },

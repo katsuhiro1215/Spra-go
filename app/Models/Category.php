@@ -25,4 +25,9 @@ class Category extends Model
     {
         return $this->belongsToMany(Quiz::class);
     }
+
+    public function stages(): HasMany
+    {
+        return $this->hasMany(Stage::class);
+    }
 }
