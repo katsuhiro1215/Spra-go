@@ -17,17 +17,28 @@ type Category = {
 type Difficulty = "初級" | "中級" | "上級";
 
 type StageSummary = {
-  difficulty: Difficulty;
+  id: number;
   stage_number: number;
-  target_count: number;
-  available_count: number;
+  is_boss: boolean;
+  title_reward: string | null;
+  question_count: number;
+  assigned_count: number;
+  cleared: boolean;
+  locked: boolean;
+};
+
+type DifficultyGroup = {
+  difficulty: Difficulty;
+  stages: StageSummary[];
 };
 
 const DIFFICULTIES: Difficulty[] = ["初級", "中級", "上級"];
 
 type StageIntro = {
-  stage: number;
+  stageId: number;
+  stageNumber: number;
   difficulty: Difficulty;
+  isBoss: boolean;
 };
 
 export default function Page({
@@ -40,8 +51,12 @@ export default function Page({
   const [category, setCategory] = useState<Category | null | undefined>(
     undefined,
   );
-  const [stages, setStages] = useState<StageSummary[] | null>(null);
-  const [selected, setSelected] = useState<Difficulty | null>(null);
+  const [groups, setGroups] = useState<DifficultyGroup[] | null>(null);
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState<Difficulty | null>(null);
+  const [selectedStage, setSelectedStage] = useState<StageSummary | null>(
+    null,
+  );
   const [stageIntro, setStageIntro] = useState<StageIntro | null>(null);
 
   useEffect(() => {
@@ -57,7 +72,7 @@ export default function Page({
       .catch(() => router.replace("/login"));
 
     apiFetch(`/api/categories/${id}/stages`).then(async (res) => {
-      if (res.ok) setStages(await res.json());
+      if (res.ok) setGroups(await res.json());
     });
   }, [id, router]);
 
@@ -65,11 +80,11 @@ export default function Page({
     if (!stageIntro) return;
 
     const timer = setTimeout(() => {
-      router.push(`/quiz/${id}/${encodeURIComponent(stageIntro.difficulty)}`);
+      router.push(`/quiz/${stageIntro.stageId}`);
     }, 1800);
 
     return () => clearTimeout(timer);
-  }, [stageIntro, id, router]);
+  }, [stageIntro, router]);
 
   if (category === undefined) {
     return (
@@ -79,20 +94,31 @@ export default function Page({
     );
   }
 
-  const stageByDifficulty = new Map(
+  const stagesByDifficulty = new Map(
     DIFFICULTIES.map((difficulty) => [
       difficulty,
-      stages?.find((s) => s.difficulty === difficulty) ?? null,
+      groups?.find((g) => g.difficulty === difficulty)?.stages ?? [],
     ]),
   );
-  const hasAnyStage = (stages ?? []).some((s) => s.available_count > 0);
-  const selectedStage = selected ? stageByDifficulty.get(selected) : null;
+  const hasAnyStage = (groups ?? []).some((g) =>
+    g.stages.some((s) => s.assigned_count > 0),
+  );
+  const selectedStages = selectedDifficulty
+    ? stagesByDifficulty.get(selectedDifficulty)
+    : null;
+
+  function handleSelectDifficulty(difficulty: Difficulty) {
+    setSelectedDifficulty(difficulty);
+    setSelectedStage(null);
+  }
 
   function handleStart() {
-    if (!selected || !selectedStage) return;
+    if (!selectedDifficulty || !selectedStage) return;
     setStageIntro({
-      stage: selectedStage.stage_number,
-      difficulty: selected,
+      stageId: selectedStage.id,
+      stageNumber: selectedStage.stage_number,
+      difficulty: selectedDifficulty,
+      isBoss: selectedStage.is_boss,
     });
   }
 
@@ -113,7 +139,7 @@ export default function Page({
           </h1>
         </div>
 
-        {stages === null ? (
+        {groups === null ? (
           <p className="text-sm text-white/85">読み込み中...</p>
         ) : !hasAnyStage ? (
           <p className="text-sm text-white/85">
@@ -123,9 +149,11 @@ export default function Page({
           <>
             <div className="flex flex-col gap-3">
               {DIFFICULTIES.map((difficulty) => {
-                const stage = stageByDifficulty.get(difficulty);
-                const available = Boolean(stage && stage.available_count > 0);
-                const isSelected = selected === difficulty;
+                const stages = stagesByDifficulty.get(difficulty) ?? [];
+                const available = stages.some((s) => s.assigned_count > 0);
+                const isSelected = selectedDifficulty === difficulty;
+                const allCleared =
+                  stages.length > 0 && stages.every((s) => s.cleared);
 
                 return (
                   <AppButton
@@ -135,13 +163,20 @@ export default function Page({
                     }
                     size="lg"
                     disabled={!available}
-                    onClick={() => setSelected(difficulty)}
+                    onClick={() => handleSelectDifficulty(difficulty)}
                     className="flex w-full items-center justify-between px-6"
                   >
-                    <span>{difficulty}</span>
+                    <span className="flex items-center gap-2">
+                      {difficulty}
+                      {allCleared && (
+                        <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-950">
+                          🏆 クリア
+                        </span>
+                      )}
+                    </span>
                     <span className="text-xs opacity-80">
-                      {stage
-                        ? `${stage.available_count}/${stage.target_count}問`
+                      {available
+                        ? `Stage 1〜${stages.length}`
                         : "準備中"}
                     </span>
                   </AppButton>
@@ -149,10 +184,52 @@ export default function Page({
               })}
             </div>
 
+            {selectedStages && selectedStages.length > 0 && (
+              <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+                {selectedStages.map((stage) => {
+                  const playable = stage.assigned_count > 0 && !stage.locked;
+                  const isSelected = selectedStage?.id === stage.id;
+
+                  return (
+                    <AppButton
+                      key={stage.id}
+                      variant={
+                        isSelected
+                          ? "primary"
+                          : playable
+                            ? stage.is_boss
+                              ? "danger"
+                              : stage.cleared
+                                ? "secondary"
+                                : "default"
+                            : "locked"
+                      }
+                      size="lg"
+                      disabled={!playable}
+                      onClick={() => setSelectedStage(stage)}
+                      className="relative flex flex-col items-center gap-0.5 px-2"
+                    >
+                      {stage.cleared && (
+                        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white">
+                          ✓
+                        </span>
+                      )}
+                      <span>{stage.locked ? "🔒" : stage.stage_number}</span>
+                      {stage.is_boss && (
+                        <span className="text-[10px] font-bold opacity-90">
+                          BOSS
+                        </span>
+                      )}
+                    </AppButton>
+                  );
+                })}
+              </div>
+            )}
+
             <AppButton
               variant="secondary"
               size="lg"
-              disabled={!selected}
+              disabled={!selectedStage}
               onClick={handleStart}
               className="w-full"
             >
@@ -163,10 +240,22 @@ export default function Page({
       </div>
 
       {stageIntro && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-linear-to-br from-indigo-950 via-purple-900 to-indigo-950">
-          <p className="animate-stage-intro text-6xl font-extrabold text-white drop-shadow-lg">
-            STAGE {stageIntro.stage}
-          </p>
+        <div
+          className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 ${
+            stageIntro.isBoss
+              ? "bg-linear-to-br from-rose-950 via-red-900 to-rose-950"
+              : "bg-linear-to-br from-indigo-950 via-purple-900 to-indigo-950"
+          }`}
+        >
+          {stageIntro.isBoss ? (
+            <p className="animate-stage-intro text-5xl font-extrabold text-amber-300 drop-shadow-lg">
+              ⚔ BOSS STAGE ⚔
+            </p>
+          ) : (
+            <p className="animate-stage-intro text-6xl font-extrabold text-white drop-shadow-lg">
+              STAGE {stageIntro.stageNumber}
+            </p>
+          )}
           <p className="animate-stage-intro-subtitle text-lg text-white/80">
             {category?.name} ・ {stageIntro.difficulty}
           </p>

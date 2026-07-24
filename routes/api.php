@@ -5,6 +5,7 @@ use App\Models\Category;
 use App\Models\ContentItem;
 use App\Models\Country;
 use App\Models\Event;
+use App\Models\ProfileStageProgress;
 use App\Models\Question;
 use App\Models\QuestionChoice;
 use App\Models\QuestionTheme;
@@ -206,7 +207,7 @@ Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.
     ];
     $choicesValidation = [
         'prompt' => ['required', 'string'],
-        'choices' => ['required', 'array', 'size:4'],
+        'choices' => ['required', 'array', 'min:4', 'max:10'],
         'choices.*.label' => ['required', 'string', 'max:255'],
         'choices.*.is_correct' => ['required', 'boolean'],
     ];
@@ -341,7 +342,7 @@ Route::middleware(['auth:owner'])->prefix('owner/question-themes')->name('owner.
 Route::middleware(['auth:owner'])->prefix('owner/stages')->name('owner.stages.')->group(function () {
     $stageValidation = fn (?Stage $ignore = null) => [
         'category_id' => ['required', Rule::exists('categories', 'id')],
-        'difficulty' => ['required', Rule::in(array_keys(config('quiz.difficulties')))],
+        'difficulty' => ['required', Rule::in(config('quiz.difficulties'))],
         'stage_number' => [
             'required',
             'integer',
@@ -386,62 +387,159 @@ Route::middleware(['auth:owner'])->prefix('owner/stages')->name('owner.stages.')
 
         return response()->noContent();
     })->name('destroy');
+
+    Route::get('/{stage}', function (Stage $stage) {
+        return $stage->load(['category', 'questionTheme']);
+    })->name('show');
+
+    Route::get('/{stage}/questions', function (Stage $stage) {
+        return $stage->questions()
+            ->with('quiz:id,title,difficulty')
+            ->get(['questions.id', 'questions.quiz_id', 'questions.type', 'questions.prompt']);
+    })->name('questions.index');
+
+    Route::post('/{stage}/questions', function (Request $request, Stage $stage) {
+        $data = $request->validate([
+            'question_ids' => ['required', 'array'],
+            'question_ids.*' => ['integer', Rule::exists('questions', 'id')],
+        ]);
+
+        $existingIds = $stage->questions()->pluck('questions.id')->all();
+        $newIds = array_values(array_diff($data['question_ids'], $existingIds));
+
+        $nextOrder = (int) ($stage->questions()->max('stage_questions.order') ?? 0) + 1;
+
+        $attach = [];
+        foreach ($newIds as $questionId) {
+            $attach[$questionId] = ['order' => $nextOrder++];
+        }
+
+        $stage->questions()->attach($attach);
+
+        return $stage->questions()
+            ->with('quiz:id,title,difficulty')
+            ->get(['questions.id', 'questions.quiz_id', 'questions.type', 'questions.prompt']);
+    })->name('questions.store');
+
+    Route::delete('/{stage}/questions/{question}', function (Stage $stage, Question $question) {
+        $stage->questions()->detach($question->id);
+
+        return response()->noContent();
+    })->name('questions.destroy');
+
+    Route::get('/{stage}/candidate-questions', function (Stage $stage) {
+        return Question::query()
+            ->whereHas('quiz', function ($query) use ($stage) {
+                $query->where('is_published', true)
+                    ->whereHas('categories', fn ($q) => $q->where('categories.id', $stage->category_id));
+            })
+            ->whereNotIn('id', $stage->questions()->pluck('questions.id'))
+            ->with('quiz:id,title,difficulty')
+            ->get(['questions.id', 'questions.quiz_id', 'questions.type', 'questions.prompt']);
+    })->name('candidate-questions');
 });
 
 Route::middleware(['auth:sanctum'])->get('/categories', function () {
     return Category::query()->orderBy('order')->get();
 })->name('categories.index');
 
-Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', function (Category $category) {
+Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', function (Request $request, Category $category) {
+    $profileId = $request->session()->get('active_profile_id');
+
+    $clearedStageIds = $profileId
+        ? ProfileStageProgress::query()
+            ->where('user_profile_id', $profileId)
+            ->whereNotNull('cleared_at')
+            ->pluck('stage_id')
+            ->all()
+        : [];
+
+    $stagesByDifficulty = Stage::query()
+        ->where('category_id', $category->id)
+        ->withCount('questions')
+        ->orderBy('stage_number')
+        ->get()
+        ->groupBy('difficulty');
+
     return collect(config('quiz.difficulties'))
-        ->map(function (array $settings, string $difficulty) use ($category) {
-            $availableCount = Question::query()
-                ->whereHas('quiz', function ($query) use ($category, $difficulty) {
-                    $query->where('is_published', true)
-                        ->where('difficulty', $difficulty)
-                        ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id));
-                })
-                ->count();
+        ->map(function (string $difficulty) use ($stagesByDifficulty, $clearedStageIds) {
+            $stages = ($stagesByDifficulty->get($difficulty) ?? collect())->values();
+            $clearedNumbers = $stages
+                ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
+                ->pluck('stage_number')
+                ->all();
 
             return [
                 'difficulty' => $difficulty,
-                'stage_number' => $settings['stage_number'],
-                'target_count' => $settings['question_count'],
-                'available_count' => $availableCount,
+                'stages' => $stages->map(fn (Stage $stage) => [
+                    'id' => $stage->id,
+                    'stage_number' => $stage->stage_number,
+                    'is_boss' => $stage->is_boss,
+                    'title_reward' => $stage->title_reward,
+                    'question_count' => $stage->question_count,
+                    'assigned_count' => $stage->questions_count,
+                    'cleared' => in_array($stage->id, $clearedStageIds, true),
+                    'locked' => $stage->stage_number > 1
+                        && ! in_array($stage->stage_number - 1, $clearedNumbers, true),
+                ])->values(),
             ];
         })
         ->values();
 })->name('categories.stages');
 
-Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages/{difficulty}', function (Category $category, string $difficulty) {
-    abort_unless(array_key_exists($difficulty, config('quiz.difficulties')), 404);
-
-    $settings = config("quiz.difficulties.{$difficulty}");
-
-    $questions = Question::query()
-        ->whereHas('quiz', function ($query) use ($category, $difficulty) {
-            $query->where('is_published', true)
-                ->where('difficulty', $difficulty)
-                ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id));
-        })
+Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Stage $stage) {
+    $questions = $stage->questions()
         ->with('choices')
-        ->inRandomOrder()
-        ->limit($settings['question_count'])
-        ->get();
+        ->get(['questions.id', 'questions.type', 'questions.prompt'])
+        ->shuffle()
+        ->values();
 
     abort_if($questions->isEmpty(), 404);
 
     $questions->each(function (Question $question) {
+        $correct = $question->choices->firstWhere('is_correct', true);
+        $wrong = $question->choices->where('is_correct', false);
+        $display = $wrong->random(min(3, $wrong->count()));
+
+        if ($correct) {
+            $display->push($correct);
+        }
+
+        $question->setRelation('choices', $display->shuffle()->values());
         $question->choices->each->makeHidden('is_correct');
     });
 
     return [
-        'category' => $category,
-        'difficulty' => $difficulty,
-        'stage_number' => $settings['stage_number'],
+        'id' => $stage->id,
+        'category' => $stage->category,
+        'difficulty' => $stage->difficulty,
+        'stage_number' => $stage->stage_number,
+        'is_boss' => $stage->is_boss,
+        'title_reward' => $stage->title_reward,
         'questions' => $questions,
     ];
-})->name('categories.stages.show');
+})->name('stages.play');
+
+Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (Request $request, Stage $stage) {
+    $data = $request->validate([
+        'score' => ['required', 'integer', 'min:0'],
+    ]);
+
+    $profileId = $request->session()->get('active_profile_id');
+    $profile = $profileId ? UserProfile::find($profileId) : null;
+    abort_unless($profile && $profile->user_schema_id === $request->user()->schema?->id, 422);
+
+    $progress = ProfileStageProgress::query()->firstOrNew([
+        'user_profile_id' => $profile->id,
+        'stage_id' => $stage->id,
+    ]);
+    $progress->attempts = ($progress->attempts ?? 0) + 1;
+    $progress->best_score = max($progress->best_score ?? 0, $data['score']);
+    $progress->cleared_at ??= now();
+    $progress->save();
+
+    return $progress;
+})->name('stages.complete');
 
 Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', function (Request $request, Question $question) {
     $data = $request->validate([

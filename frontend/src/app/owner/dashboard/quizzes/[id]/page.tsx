@@ -2,7 +2,7 @@
 
 import { use, useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { MoreHorizontal, Plus } from "lucide-react";
+import { MoreHorizontal, Plus, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -253,6 +253,27 @@ export default function Page({
     });
     setQuestionError(null);
     setQuestionDialogOpen(true);
+  }
+
+  function addChoice() {
+    setQuestionValues((prev) =>
+      prev.choices.length >= 10
+        ? prev
+        : { ...prev, choices: [...prev.choices, ""] },
+    );
+  }
+
+  function removeChoice(index: number) {
+    setQuestionValues((prev) => {
+      if (prev.choices.length <= 4) return prev;
+
+      const choices = prev.choices.filter((_, i) => i !== index);
+      let correctIndex = Number(prev.correctIndex);
+      if (index === correctIndex) correctIndex = 0;
+      else if (index < correctIndex) correctIndex -= 1;
+
+      return { ...prev, choices, correctIndex: String(correctIndex) };
+    });
   }
 
   async function handleQuestionSubmit(e: FormEvent<HTMLFormElement>) {
@@ -584,7 +605,9 @@ export default function Page({
             </div>
 
             <div className="flex flex-col gap-2">
-              <Label>選択肢(正解を1つ選択)</Label>
+              <Label>
+                選択肢(正解を1つ選択。4〜10個、出題時はこの中から正解+ランダム3個の4択になります)
+              </Label>
               <RadioGroup
                 value={questionValues.correctIndex}
                 onValueChange={(v) =>
@@ -611,9 +634,28 @@ export default function Page({
                         }))
                       }
                     />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon-sm"
+                      disabled={questionValues.choices.length <= 4}
+                      onClick={() => removeChoice(index)}
+                    >
+                      <X />
+                    </Button>
                   </div>
                 ))}
               </RadioGroup>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={questionValues.choices.length >= 10}
+                onClick={addChoice}
+                className="self-start"
+              >
+                <Plus /> 選択肢を追加
+              </Button>
             </div>
 
             {questionError && (

@@ -22,6 +22,18 @@
 /storage/pail
 /vendor
 _ide_helper.php
+
+# frontend/public/flag は国旗素材を大量に置く作業用フォルダなので原則追跡しない。
+# アプリが実際に参照する国コード名のSVG(jp.svg など)だけ例外的に追跡する。
+frontend/public/flag/*
+!frontend/public/flag/es.svg
+!frontend/public/flag/fr.svg
+!frontend/public/flag/id.svg
+!frontend/public/flag/it.svg
+!frontend/public/flag/jp.svg
+!frontend/public/flag/pt.svg
+!frontend/public/flag/th.svg
+!frontend/public/flag/us.svg
 Homestead.json
 Homestead.yaml
 Thumbs.db
