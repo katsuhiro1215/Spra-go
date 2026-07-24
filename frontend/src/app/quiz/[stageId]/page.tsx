@@ -10,18 +10,21 @@ import { apiFetch } from "@/lib/api";
 type Choice = { id: number; label: string };
 type QuestionItem = { id: number; prompt: string; choices: Choice[] };
 type StagePlayData = {
+  id: number;
   category: { id: number; name: string };
   difficulty: string;
   stage_number: number;
+  is_boss: boolean;
+  title_reward: string | null;
   questions: QuestionItem[];
 };
 
 export default function Page({
   params,
 }: {
-  params: Promise<{ categoryId: string; difficulty: string }>;
+  params: Promise<{ stageId: string }>;
 }) {
-  const { categoryId, difficulty } = use(params);
+  const { stageId } = use(params);
   const router = useRouter();
 
   const [stage, setStage] = useState<StagePlayData | null | undefined>(
@@ -35,11 +38,10 @@ export default function Page({
   const [answered, setAnswered] = useState(false);
   const [score, setScore] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [completionSubmitted, setCompletionSubmitted] = useState(false);
 
   useEffect(() => {
-    apiFetch(
-      `/api/categories/${categoryId}/stages/${encodeURIComponent(difficulty)}`,
-    )
+    apiFetch(`/api/stages/${stageId}`)
       .then(async (res) => {
         if (res.status === 401) {
           router.replace("/login");
@@ -48,7 +50,18 @@ export default function Page({
         setStage(res.ok ? await res.json() : null);
       })
       .catch(() => setStage(null));
-  }, [categoryId, difficulty, router]);
+  }, [stageId, router]);
+
+  useEffect(() => {
+    if (!stage || completionSubmitted) return;
+    if (currentIndex < stage.questions.length) return;
+
+    setCompletionSubmitted(true);
+    apiFetch(`/api/stages/${stageId}/complete`, {
+      method: "POST",
+      body: JSON.stringify({ score }),
+    }).catch(() => {});
+  }, [stage, currentIndex, completionSubmitted, stageId, score]);
 
   if (stage === undefined) {
     return (
@@ -110,15 +123,23 @@ export default function Page({
     setCorrectChoiceId(null);
     setAnswered(false);
     setScore(0);
+    setCompletionSubmitted(false);
   }
 
   if (finished) {
+    const perfect = score === stage.questions.length;
+
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
         <h1 className="text-2xl font-bold">結果発表</h1>
         <p className="text-4xl font-bold text-primary">
           {score} / {stage.questions.length} 問正解
         </p>
+        {stage.is_boss && perfect && stage.title_reward && (
+          <p className="text-sm font-semibold text-amber-600">
+            🏆 称号「{stage.title_reward}」を獲得しました！
+          </p>
+        )}
         <div className="flex gap-3">
           <AppButton variant="primary" onClick={handleRestart}>
             もう一度
@@ -134,9 +155,16 @@ export default function Page({
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col gap-8 px-6 py-12">
       <div>
-        <p className="text-sm text-muted-foreground">
-          {stage.category.name} ・ Stage {stage.stage_number} ・ 問題{" "}
-          {currentIndex + 1} / {stage.questions.length}
+        <p className="flex items-center gap-2 text-sm text-muted-foreground">
+          {stage.category.name} ・ Stage {stage.stage_number}
+          {stage.is_boss && (
+            <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-bold text-white">
+              BOSS
+            </span>
+          )}
+          <span>
+            ・ 問題 {currentIndex + 1} / {stage.questions.length}
+          </span>
         </p>
         <h1 className="mt-2 text-xl font-bold">{question.prompt}</h1>
       </div>

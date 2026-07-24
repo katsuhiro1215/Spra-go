@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { MoreHorizontal, Plus } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -282,8 +283,11 @@ export default function Page() {
               key={stage.id}
               className="flex items-center gap-4 px-4 py-3 hover:bg-muted/50"
             >
-              <div className="flex-1">
-                <p className="text-sm font-medium">
+              <Link
+                href={`/owner/dashboard/stages/${stage.id}`}
+                className="flex-1"
+              >
+                <p className="text-sm font-medium hover:underline">
                   Stage {stage.stage_number}
                   {stage.is_boss && (
                     <Badge variant="destructive" className="ml-2">
@@ -296,7 +300,7 @@ export default function Page() {
                   {stage.question_count}問
                   {stage.title_reward ? ` ・ 称号:${stage.title_reward}` : ""}
                 </p>
-              </div>
+              </Link>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

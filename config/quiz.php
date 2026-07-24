@@ -7,15 +7,11 @@ return [
     | Stage difficulty settings
     |--------------------------------------------------------------------------
     |
-    | 各難易度がゲーム内で何番目のステージにあたるか、1ステージあたり何問出題するかを定義する。
-    | カテゴリー×難易度に紐づく公開クイズの問題をこの件数までプールして出題する。
+    | Stageが取りうる難易度の一覧。個々のStage定義(stage_number/question_countなど)は
+    | `stages`テーブルで管理する。
     |
     */
 
-    'difficulties' => [
-        '初級' => ['stage_number' => 1, 'question_count' => 10],
-        '中級' => ['stage_number' => 2, 'question_count' => 20],
-        '上級' => ['stage_number' => 3, 'question_count' => 30],
-    ],
+    'difficulties' => ['初級', '中級', '上級'],
 
 ];
