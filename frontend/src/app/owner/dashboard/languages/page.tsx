@@ -64,7 +64,9 @@ export default function Page() {
   }
 
   useEffect(() => {
-    loadLanguages();
+    (async () => {
+      loadLanguages();
+    })();
   }, []);
 
   function openCreate() {

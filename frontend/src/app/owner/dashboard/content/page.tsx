@@ -89,10 +89,12 @@ export default function Page() {
   }
 
   useEffect(() => {
-    loadItems();
-    apiFetch("/api/owner/countries").then(async (res) => {
-      if (res.ok) setCountries(await res.json());
-    });
+    (async () => {
+      loadItems();
+      apiFetch("/api/owner/countries").then(async (res) => {
+        if (res.ok) setCountries(await res.json());
+      });
+    })();
   }, []);
 
   function openCreate() {

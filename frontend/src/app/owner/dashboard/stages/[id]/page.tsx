@@ -91,9 +91,11 @@ export default function Page({
   }
 
   useEffect(() => {
-    loadStage();
-    loadAssigned();
-    loadCandidates();
+    (async () => {
+      loadStage();
+      loadAssigned();
+      loadCandidates();
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 

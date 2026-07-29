@@ -96,7 +96,9 @@ export default function Page() {
   }
 
   useEffect(() => {
-    loadItems();
+    (async () => {
+      loadItems();
+    })();
   }, []);
 
   function openCreate() {

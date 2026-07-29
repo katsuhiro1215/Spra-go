@@ -136,9 +136,11 @@ export default function Page() {
   }
 
   useEffect(() => {
-    setStages(null);
-    setError(null);
-    loadStages();
+    (async () => {
+      setStages(null);
+      setError(null);
+      loadStages();
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, difficulty]);
 
