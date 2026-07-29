@@ -7,22 +7,43 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/lib/api";
 
-const navItems = [
-  { href: "/owner/dashboard", label: "ダッシュボード" },
-  { href: "/owner/dashboard/categories", label: "カテゴリー" },
-  { href: "/owner/dashboard/countries", label: "国" },
-  { href: "/owner/dashboard/languages", label: "言語" },
-  { href: "/owner/dashboard/regions", label: "地域" },
-  { href: "/owner/dashboard/quizzes", label: "クイズ" },
-  { href: "/owner/dashboard/stages", label: "ステージ" },
-  { href: "/owner/dashboard/question-themes", label: "出題テーマ" },
-  { href: "/owner/dashboard/shop-items", label: "ショップ" },
-  { href: "/owner/dashboard/events", label: "イベント" },
-  { href: "/owner/dashboard/content", label: "コンテンツ" },
-  { href: "/owner/dashboard/ai", label: "AI生成" },
-  { href: "/owner/dashboard/system", label: "システム" },
-  { href: "/owner/dashboard/admins", label: "Admin" },
-  { href: "/owner/dashboard/users", label: "User" },
+const topNavItem = { href: "/owner/dashboard", label: "ダッシュボード" };
+
+const navGroups = [
+  {
+    label: "冒険データ",
+    items: [
+      { href: "/owner/dashboard/categories", label: "カテゴリー" },
+      { href: "/owner/dashboard/countries", label: "国" },
+      { href: "/owner/dashboard/languages", label: "言語" },
+      { href: "/owner/dashboard/regions", label: "地域" },
+    ],
+  },
+  {
+    label: "クイズ運用",
+    items: [
+      { href: "/owner/dashboard/quizzes", label: "クイズ" },
+      { href: "/owner/dashboard/stages", label: "ステージ" },
+      { href: "/owner/dashboard/question-themes", label: "出題テーマ" },
+    ],
+  },
+  {
+    label: "収益・運営",
+    items: [
+      { href: "/owner/dashboard/shop-items", label: "ショップ" },
+      { href: "/owner/dashboard/events", label: "イベント" },
+      { href: "/owner/dashboard/content", label: "コンテンツ" },
+    ],
+  },
+  {
+    label: "システム",
+    items: [
+      { href: "/owner/dashboard/ai", label: "AI生成" },
+      { href: "/owner/dashboard/system", label: "システム" },
+      { href: "/owner/dashboard/admins", label: "Admin" },
+      { href: "/owner/dashboard/users", label: "User" },
+    ],
+  },
 ];
 
 type Owner = {
@@ -83,15 +104,29 @@ export default function OwnerDashboardLayout({
         <div className="mb-6 px-3 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
           Owner
         </div>
-        <nav className="flex flex-col gap-1">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted"
-            >
-              {item.label}
-            </Link>
+        <nav className="flex flex-col gap-4">
+          <Link
+            href={topNavItem.href}
+            className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted"
+          >
+            {topNavItem.label}
+          </Link>
+
+          {navGroups.map((group) => (
+            <div key={group.label} className="flex flex-col gap-1">
+              <div className="px-3 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                {group.label}
+              </div>
+              {group.items.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           ))}
         </nav>
       </aside>
