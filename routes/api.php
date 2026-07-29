@@ -2,6 +2,7 @@
 
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\CoinPurchase;
 use App\Models\ContentItem;
 use App\Models\Country;
 use App\Models\Event;
@@ -21,6 +22,9 @@ use App\Models\UserProfileItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
+use Stripe\Exception\SignatureVerificationException;
+use Stripe\StripeClient;
+use Stripe\Webhook as StripeWebhook;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -1062,3 +1066,82 @@ Route::prefix('public')->name('public.')->group(function () {
         ];
     })->name('sample-quiz');
 });
+
+Route::middleware(['auth:sanctum'])->get('/coin-packages', function () {
+    return collect(config('coin_packages.packages'))
+        ->map(fn (array $package, string $key) => [
+            'key' => $key,
+            'coins' => $package['coins'],
+            'amount' => $package['amount'],
+            'currency' => $package['currency'],
+            'label' => $package['label'],
+        ])
+        ->values();
+})->name('coin-packages.index');
+
+Route::middleware(['auth:sanctum'])->post('/coin-purchases/checkout', function (Request $request) {
+    $data = $request->validate(['package_key' => ['required', 'string']]);
+
+    $package = config("coin_packages.packages.{$data['package_key']}");
+    abort_unless($package, 422, '不明なコインパッケージです。');
+
+    $profileId = $request->session()->get('active_profile_id');
+    $profile = $profileId ? UserProfile::find($profileId) : null;
+    abort_unless($profile && $profile->user_schema_id === $request->user()->schema?->id, 422);
+
+    abort_unless(config('services.stripe.secret_key'), 503, 'Stripeが設定されていません。');
+
+    $stripe = new StripeClient(config('services.stripe.secret_key'));
+
+    $session = $stripe->checkout->sessions->create([
+        'mode' => 'payment',
+        'line_items' => [[
+            'price_data' => [
+                'currency' => $package['currency'],
+                'product_data' => ['name' => $package['label']],
+                'unit_amount' => $package['amount'],
+            ],
+            'quantity' => 1,
+        ]],
+        'metadata' => [
+            'user_profile_id' => (string) $profile->id,
+            'package_key' => $data['package_key'],
+        ],
+        'success_url' => config('app.frontend_url').'/shop?purchase=success',
+        'cancel_url' => config('app.frontend_url').'/shop?purchase=cancel',
+    ]);
+
+    CoinPurchase::create([
+        'user_profile_id' => $profile->id,
+        'package_key' => $data['package_key'],
+        'coins' => $package['coins'],
+        'amount' => $package['amount'],
+        'currency' => $package['currency'],
+        'stripe_checkout_session_id' => $session->id,
+        'status' => 'pending',
+    ]);
+
+    return ['url' => $session->url];
+})->name('coin-purchases.checkout');
+
+// Stripeから直接叩かれる。セッション認証は使わず、署名検証だけで真正性を確認する。
+Route::post('/stripe/webhook', function (Request $request) {
+    $webhookSecret = config('services.stripe.webhook_secret');
+    abort_unless($webhookSecret, 503, 'STRIPE_WEBHOOK_SECRETが未設定です。');
+
+    try {
+        $event = StripeWebhook::constructEvent(
+            $request->getContent(),
+            $request->header('Stripe-Signature', ''),
+            $webhookSecret
+        );
+    } catch (SignatureVerificationException|\UnexpectedValueException $e) {
+        return response()->json(['error' => 'invalid signature'], 400);
+    }
+
+    if ($event->type === 'checkout.session.completed') {
+        CoinPurchase::completeFromStripeSession($event->data->object->id);
+    }
+
+    return response()->json(['received' => true]);
+})->name('stripe.webhook');

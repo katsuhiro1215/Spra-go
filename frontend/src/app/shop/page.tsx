@@ -2,12 +2,20 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button as AppButton } from "@/components/app/button";
 import { PointsBadge } from "@/components/app/points-badge";
 import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
+
+type CoinPackage = {
+  key: string;
+  coins: number;
+  amount: number;
+  currency: string;
+  label: string;
+};
 
 type ItemType = "potion" | "plane" | "background" | "character" | "title";
 
@@ -44,11 +52,18 @@ type Profile = {
 
 export default function Page() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [profile, setProfile] = useState<Profile | null | undefined>(
     undefined,
   );
   const [items, setItems] = useState<ShopItem[] | null>(null);
+  const [coinPackages, setCoinPackages] = useState<CoinPackage[] | null>(
+    null,
+  );
   const [purchasingId, setPurchasingId] = useState<number | null>(null);
+  const [purchasingPackageKey, setPurchasingPackageKey] = useState<
+    string | null
+  >(null);
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -70,7 +85,51 @@ export default function Page() {
     apiFetch("/api/shop").then(async (res) => {
       if (res.ok) setItems(await res.json());
     });
+
+    apiFetch("/api/coin-packages").then(async (res) => {
+      if (res.ok) setCoinPackages(await res.json());
+    });
   }, [router]);
+
+  useEffect(() => {
+    (async () => {
+      const purchase = searchParams.get("purchase");
+      if (purchase === "success") {
+        setMessage(
+          "コインの購入ありがとうございます！反映まで少し時間がかかる場合があります。",
+        );
+        apiFetch("/api/profiles/active").then(async (res) => {
+          if (res.ok) setProfile(await res.json());
+        });
+      } else if (purchase === "cancel") {
+        setMessage("購入をキャンセルしました。");
+      }
+    })();
+  }, [searchParams]);
+
+  async function handleCoinPurchase(pkg: CoinPackage) {
+    setPurchasingPackageKey(pkg.key);
+    setMessage(null);
+
+    try {
+      const res = await apiFetch("/api/coin-purchases/checkout", {
+        method: "POST",
+        body: JSON.stringify({ package_key: pkg.key }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.url) {
+        setMessage(data.message ?? "購入手続きの開始に失敗しました。");
+        return;
+      }
+
+      window.location.assign(data.url);
+    } catch {
+      setMessage("通信エラーが発生しました。");
+      setPurchasingPackageKey(null);
+    }
+  }
 
   async function handlePurchase(item: ShopItem) {
     setPurchasingId(item.id);
@@ -129,6 +188,43 @@ export default function Page() {
           <p className="rounded-md bg-black/30 px-4 py-2 text-sm text-white shadow">
             {message}
           </p>
+        )}
+
+        {coinPackages && coinPackages.length > 0 && (
+          <div className="flex flex-col gap-3">
+            <h2 className="text-sm font-semibold text-white/90 drop-shadow">
+              💰 コインを購入
+            </h2>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {coinPackages.map((pkg) => (
+                <div
+                  key={pkg.key}
+                  className="flex flex-col items-center gap-2 rounded-lg border border-amber-300/40 bg-black/20 p-4 text-center shadow-lg backdrop-blur-sm"
+                >
+                  <p className="text-sm font-semibold text-white">
+                    {pkg.label}
+                  </p>
+                  <p className="text-lg font-bold text-amber-300">
+                    ¥{pkg.amount.toLocaleString()}
+                  </p>
+                  <AppButton
+                    variant="warning"
+                    size="sm"
+                    disabled={purchasingPackageKey === pkg.key}
+                    onClick={() => handleCoinPurchase(pkg)}
+                    className="w-full normal-case"
+                  >
+                    {purchasingPackageKey === pkg.key
+                      ? "手続き中..."
+                      : "購入する"}
+                  </AppButton>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-white/60">
+              決済はStripeを利用します。カード情報は当サービスには保存されません。
+            </p>
+          </div>
         )}
 
         {items.length === 0 ? (

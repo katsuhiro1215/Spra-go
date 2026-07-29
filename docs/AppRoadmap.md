@@ -18,7 +18,7 @@
 
 | 機能 | 現状 | 問題 |
 |---|---|---|
-| ショップ | `potion`（回復）のみ効果あり | `plane`/`background`/`character`/`title`タイプはOwnerが作成でき、購入もできるが**購入しても何も起きない**。ユーザーが混乱する |
+| ショップ(コイン以外のアイテム) | `potion`（回復）のみ効果あり | `plane`/`background`/`character`/`title`タイプはOwnerが作成でき、購入もできるが**購入しても何も起きない**。ユーザーが混乱する |
 | プロフィール | 追加・選択のみ | 名前変更・削除ができない。作り間違えても直せない |
 | 地域階層（地方→都道府県→都市） | `Region`モデル・API・画面は実装済み | 実コンテンツは全て国レベルで作成しており、地域を使ったStageは実質0件（`docs/MainQuiz.md`が描いた「大阪だけで数百問」という深さは未着手） |
 | イベント | Owner画面でイベントの作成・管理は可能 | プレイヤー側に表示する画面・APIが存在せず、**作っても誰にも見えない** |
@@ -46,3 +46,15 @@ AI問題生成・AI先生、有料メンバーシップ、パスポート専用�
 ## 次のアクション
 
 コンボ機能から開発担当として着手する。
+
+## 追記(2026-07-29): コイン購入(Stripe)を追加
+
+Ownerが開発用Stripeアカウントを用意し、`.env`に`STRIPE_PUBLIC_KEY`/`STRIPE_SECRET_KEY`を設定。これを受けてコインの実売購入機能を実装した。`docs/MVPRequirements.md`で「MVPは無料のみで先行公開」としていた方針からの変更で、Owner指示により対応。
+
+- Stripe Checkout(決済ページはStripe側でホスト、カード情報は自社サーバーを一切通らない)
+- 価格は`config/coin_packages.php`で一元管理(フロントから送られた金額は信用しない設計)。現在は100枚/¥120・550枚/¥500・1200枚/¥1000の仮価格
+- `POST /api/coin-purchases/checkout`でCheckout Session作成 → Stripeの決済ページへ → `POST /api/stripe/webhook`(署名検証必須)で決済完了を受けてコイン付与。Webhookは`CoinPurchase.stripe_checkout_session_id`で二重付与を防止(冪等)
+- 実際の開発用Stripeテストキーで疎通確認済み(sk_test_、本番キーではない)
+- テスト7件追加(バリデーション・冪等性)。Stripe API自体は自動テストの対象外(手動確認のみ)
+
+**未完了**: `STRIPE_WEBHOOK_SECRET`が`.env`に未設定のため、実際の決済完了→コイン付与までは通しで確認できていない。`stripe listen --forward-to <APP_URL>/api/stripe/webhook`実行時に表示される値を設定すれば動作する見込み。本番運用前に実カードでのテスト（Stripeテストカード番号を使用）が必要。
