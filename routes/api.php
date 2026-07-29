@@ -1031,8 +1031,13 @@ Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->grou
 
     Route::get('/active', function (Request $request) {
         $id = $request->session()->get('active_profile_id');
+        $profile = $id ? UserProfile::find($id) : null;
 
-        return $id ? UserProfile::find($id) : null;
+        // response()->json(null) は Symfony の JsonResponse の仕様で
+        // "null" ではなく "{}" を返してしまう(空データ扱いされるため)。
+        // フロントは「アクティブなプロフィールが無い」をnullで判定しているため、
+        // 素のjson_encodeで確実にnullを返す。
+        return response(json_encode($profile), 200, ['Content-Type' => 'application/json']);
     })->name('active');
 
     Route::post('/{profile}/select', function (Request $request, UserProfile $profile) {
@@ -1045,6 +1050,36 @@ Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->grou
 
         return $profile;
     })->name('select');
+
+    Route::patch('/{profile}', function (Request $request, UserProfile $profile) {
+        abort_unless(
+            $profile->user_schema_id === $request->user()->schema?->id,
+            403
+        );
+
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+
+        $profile->update($data);
+
+        return $profile;
+    })->name('update');
+
+    Route::delete('/{profile}', function (Request $request, UserProfile $profile) {
+        abort_unless(
+            $profile->user_schema_id === $request->user()->schema?->id,
+            403
+        );
+
+        if ($request->session()->get('active_profile_id') === $profile->id) {
+            $request->session()->forget('active_profile_id');
+        }
+
+        $profile->delete();
+
+        return response()->noContent();
+    })->name('destroy');
 });
 
 // 認証不要。マーケティングサイトの国別クイズ紹介ページ(公開・SEO向け)からの利用を想定。
