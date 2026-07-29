@@ -69,3 +69,14 @@ Ownerが開発用Stripeアカウントを用意し、`.env`に`STRIPE_PUBLIC_KEY
 - テスト3件追加(全47件パス)
 
 `plane`(航空券で地域を解放する等)と`background`(レベル別背景と絡める案があるため`docs/AppRoadmap.md`の「レベルごとの背景変化」と合わせて再検討)、`character`(キャラクターアセットが無いと購入の意味がない)は引き続き未着手。
+
+## 追記(2026-07-29): プロフィールの編集・削除
+
+優先順位3番目に対応。
+
+- `PATCH /api/profiles/{profile}`(名前変更)、`DELETE /api/profiles/{profile}`(削除)を追加。どちらも所有者(自分の`UserSchema`配下)以外は403
+- 削除時、選択中のプロフィールだったらセッションの`active_profile_id`も解除
+- 関連テーブル(`profile_stage_progress`/`profile_titles`/`profile_currency_ledger`/`user_profile_items`/`coin_purchases`)は全てcascadeOnDelete設定済みだったため、削除時のマイグレーション変更は不要
+- `profiles`画面に「プロフィールを編集」トグルを追加。編集モードでプロフィールを選ぶと選択ではなく名前変更/削除ができるインライン編集に切り替わる(Netflixのプロフィール管理と同様のUX)
+- 副次的に発見: `GET /api/profiles/active`が素の`null`をそのまま返しており、Laravelの仕様(`is_array`/`Arrayable`/`Jsonable`以外はtext/htmlになる)によりアクティブなプロフィールが無い時に**JSONとして不正なレスポンス**を返す既存バグを発見・修正(素の`json_encode`で明示的にJSONを返すよう変更)
+- テスト5件追加(全52件パス)
