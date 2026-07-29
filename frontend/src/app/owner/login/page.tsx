@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
+import { Button as AppButton } from "@/components/app/button";
 import { apiFetch } from "@/lib/api";
 
 export default function Page() {
@@ -43,44 +43,60 @@ export default function Page() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-sm flex-col gap-6 p-8">
-      <h1>Owner Login</h1>
-
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="email" className="text-sm font-medium">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="h-10 rounded-md border border-zinc-300 bg-transparent px-3 text-sm dark:border-zinc-700"
-          />
+    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-slate-950 via-indigo-950 to-slate-900 px-6 py-12">
+      <div className="w-full max-w-sm rounded-2xl border border-indigo-400/20 bg-slate-900/80 p-6 shadow-xl">
+        <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-indigo-500/20 px-2.5 py-1 text-xs font-semibold text-indigo-300">
+          🛡 オーナー
         </div>
+        <h1 className="text-xl font-bold text-white">オーナーログイン</h1>
+        <p className="mt-1 text-sm text-slate-400">
+          運営者専用の管理画面です
+        </p>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="password" className="text-sm font-medium">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="h-10 rounded-md border border-zinc-300 bg-transparent px-3 text-sm dark:border-zinc-700"
-          />
-        </div>
+        <form className="mt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="email" className="text-sm font-medium text-slate-300">
+              メールアドレス
+            </label>
+            <input
+              id="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="h-10 rounded-lg border border-slate-700 bg-slate-800 px-3 text-sm text-white outline-none focus-visible:border-indigo-400"
+            />
+          </div>
 
-        {error && <p className="text-sm text-destructive">{error}</p>}
+          <div className="flex flex-col gap-1.5">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-slate-300"
+            >
+              パスワード
+            </label>
+            <input
+              id="password"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="h-10 rounded-lg border border-slate-700 bg-slate-800 px-3 text-sm text-white outline-none focus-visible:border-indigo-400"
+            />
+          </div>
 
-        <Button type="submit" disabled={submitting} className="mt-2">
-          {submitting ? "ログイン中..." : "Login"}
-        </Button>
-      </form>
+          {error && <p className="text-sm text-rose-400">{error}</p>}
+
+          <AppButton
+            type="submit"
+            variant="default"
+            disabled={submitting}
+            className="mt-2 w-full normal-case"
+          >
+            {submitting ? "ログイン中..." : "ログイン"}
+          </AppButton>
+        </form>
+      </div>
     </div>
   );
 }

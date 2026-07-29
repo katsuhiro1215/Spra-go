@@ -3,7 +3,8 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
+import { Button as AppButton } from "@/components/app/button";
+import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
 
 type Profile = {
@@ -89,61 +90,71 @@ export default function Page() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 p-8">
-      <h1 className="text-2xl font-semibold">プロフィールを選択</h1>
+    <div className="relative flex min-h-screen flex-col items-center overflow-hidden px-6 py-12">
+      <SceneBackground />
 
-      {!profiles ? (
-        <p className="text-sm text-muted-foreground">読み込み中...</p>
-      ) : (
-        <div className="flex flex-wrap items-start justify-center gap-6">
-          {profiles.map((profile, index) => (
-            <button
-              key={profile.id}
-              onClick={() => selectProfile(profile)}
-              className="flex flex-col items-center gap-2"
-            >
-              <div
-                className={`flex h-20 w-20 items-center justify-center rounded-lg text-2xl font-semibold text-white ${
-                  avatarColors[index % avatarColors.length]
-                } transition-transform hover:scale-105`}
+      <div className="relative z-10 flex w-full max-w-2xl flex-col items-center gap-8">
+        <h1 className="text-2xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
+          だれが冒険する？
+        </h1>
+
+        {!profiles ? (
+          <p className="text-sm text-white/85">読み込み中...</p>
+        ) : (
+          <div className="flex flex-wrap items-start justify-center gap-6">
+            {profiles.map((profile, index) => (
+              <button
+                key={profile.id}
+                onClick={() => selectProfile(profile)}
+                className="flex flex-col items-center gap-2 focus-visible:outline-none"
               >
-                {profile.name.slice(0, 1)}
-              </div>
-              <span className="text-sm">{profile.name}</span>
-            </button>
-          ))}
+                <div
+                  className={`flex h-20 w-20 items-center justify-center rounded-full border-4 border-white/40 text-2xl font-bold text-white shadow-lg ${
+                    avatarColors[index % avatarColors.length]
+                  } transition-transform hover:scale-110 hover:border-white/80`}
+                >
+                  {profile.name.slice(0, 1)}
+                </div>
+                <span className="text-sm font-medium text-white drop-shadow">
+                  {profile.name}
+                </span>
+              </button>
+            ))}
 
-          {profiles.length === 0 && (
-            <p className="text-sm text-muted-foreground">
-              まだプロフィールがありません。下のフォームから追加してください。
-            </p>
-          )}
-        </div>
-      )}
+            {profiles.length === 0 && (
+              <p className="text-sm text-white/85">
+                まだプレイヤーがいません。下から最初のプレイヤーを作ろう！
+              </p>
+            )}
+          </div>
+        )}
 
-      <form
-        onSubmit={handleAddProfile}
-        className="flex w-full max-w-xs flex-col gap-3"
-      >
-        <label htmlFor="new-profile" className="text-sm font-medium">
-          プロフィールを追加
-        </label>
-        <div className="flex gap-2">
-          <input
-            id="new-profile"
-            type="text"
-            required
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-            placeholder="例: お父さん"
-            className="h-10 flex-1 rounded-md border border-zinc-300 bg-transparent px-3 text-sm dark:border-zinc-700"
-          />
-          <Button type="submit" disabled={submitting}>
-            追加
-          </Button>
-        </div>
-        {error && <p className="text-sm text-destructive">{error}</p>}
-      </form>
+        <form
+          onSubmit={handleAddProfile}
+          className="flex w-full max-w-xs flex-col gap-3 rounded-2xl border border-white/30 bg-black/30 p-4 shadow-xl backdrop-blur-sm"
+        >
+          <label htmlFor="new-profile" className="text-sm font-medium text-white/90">
+            {profiles && profiles.length === 0
+              ? "最初のプレイヤーを作ろう"
+              : "プレイヤーを追加"}
+          </label>
+          <div className="flex gap-2">
+            <input
+              id="new-profile"
+              type="text"
+              required
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              placeholder="例: お父さん"
+              className="h-10 flex-1 rounded-xl border-2 border-white/40 bg-white/90 px-3 text-sm text-slate-900 outline-none focus-visible:border-sky-400"
+            />
+            <AppButton type="submit" variant="primary" disabled={submitting} className="normal-case">
+              追加
+            </AppButton>
+          </div>
+          {error && <p className="text-sm font-medium text-rose-200">{error}</p>}
+        </form>
+      </div>
     </div>
   );
 }

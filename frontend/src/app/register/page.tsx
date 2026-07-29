@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
+import { Button as AppButton } from "@/components/app/button";
+import { CharacterPlaceholder } from "@/components/app/character-placeholder";
+import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
 
 export default function Page() {
@@ -53,75 +56,106 @@ export default function Page() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-sm flex-col gap-6 p-8">
-      <h1>Register</h1>
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-12">
+      <SceneBackground />
 
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="name" className="text-sm font-medium">
-            Name
-          </label>
-          <input
-            id="name"
-            type="text"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="h-10 rounded-md border border-zinc-300 bg-transparent px-3 text-sm dark:border-zinc-700"
-          />
+      <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-4">
+        <CharacterPlaceholder className="h-24 w-24" />
+
+        <div className="w-full rounded-2xl border border-white/30 bg-black/30 p-6 shadow-xl backdrop-blur-sm">
+          <h1 className="text-center text-2xl font-bold text-white drop-shadow">
+            はじめての冒険者登録
+          </h1>
+          <p className="mt-1 text-center text-sm text-white/80">
+            世界図鑑を完成させる旅をはじめよう
+          </p>
+
+          <form className="mt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="name" className="text-sm font-medium text-white/90">
+                お名前
+              </label>
+              <input
+                id="name"
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="h-11 rounded-xl border-2 border-white/40 bg-white/90 px-3 text-sm text-slate-900 outline-none focus-visible:border-sky-400"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="email" className="text-sm font-medium text-white/90">
+                メールアドレス
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-11 rounded-xl border-2 border-white/40 bg-white/90 px-3 text-sm text-slate-900 outline-none focus-visible:border-sky-400"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium text-white/90"
+              >
+                パスワード
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="h-11 rounded-xl border-2 border-white/40 bg-white/90 px-3 text-sm text-slate-900 outline-none focus-visible:border-sky-400"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="password_confirmation"
+                className="text-sm font-medium text-white/90"
+              >
+                パスワード（確認）
+              </label>
+              <input
+                id="password_confirmation"
+                type="password"
+                required
+                value={passwordConfirmation}
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                className="h-11 rounded-xl border-2 border-white/40 bg-white/90 px-3 text-sm text-slate-900 outline-none focus-visible:border-sky-400"
+              />
+            </div>
+
+            {error && (
+              <p className="text-sm font-medium text-rose-200">{error}</p>
+            )}
+
+            <AppButton
+              type="submit"
+              variant="primary"
+              size="lg"
+              disabled={submitting}
+              className="mt-2 w-full normal-case"
+            >
+              {submitting ? "登録中..." : "冒険をはじめる"}
+            </AppButton>
+          </form>
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="email" className="text-sm font-medium">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="h-10 rounded-md border border-zinc-300 bg-transparent px-3 text-sm dark:border-zinc-700"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="password" className="text-sm font-medium">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="h-10 rounded-md border border-zinc-300 bg-transparent px-3 text-sm dark:border-zinc-700"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <label
-            htmlFor="password_confirmation"
-            className="text-sm font-medium"
-          >
-            Password (confirm)
-          </label>
-          <input
-            id="password_confirmation"
-            type="password"
-            required
-            value={passwordConfirmation}
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
-            className="h-10 rounded-md border border-zinc-300 bg-transparent px-3 text-sm dark:border-zinc-700"
-          />
-        </div>
-
-        {error && <p className="text-sm text-destructive">{error}</p>}
-
-        <Button type="submit" disabled={submitting} className="mt-2">
-          {submitting ? "登録中..." : "Register"}
-        </Button>
-      </form>
+        <Link
+          href="/login"
+          className="text-sm text-white/85 drop-shadow hover:underline"
+        >
+          すでにアカウントをお持ちの方はこちら
+        </Link>
+      </div>
     </div>
   );
 }
