@@ -962,10 +962,20 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
 })->name('questions.answer');
 
 Route::middleware(['auth:sanctum'])->get('/shop', function () {
-    return ShopItem::query()->orderBy('type')->orderBy('price')->get();
+    return ShopItem::query()
+        ->whereIn('type', config('shop.enabled_types'))
+        ->orderBy('type')
+        ->orderBy('price')
+        ->get();
 })->name('shop.index');
 
 Route::middleware(['auth:sanctum'])->post('/shop/{shopItem}/purchase', function (Request $request, ShopItem $shopItem) {
+    abort_unless(
+        in_array($shopItem->type, config('shop.enabled_types'), true),
+        422,
+        'この商品は現在準備中のため購入できません。'
+    );
+
     $profileId = $request->session()->get('active_profile_id');
     $profile = $profileId ? UserProfile::find($profileId) : null;
     abort_unless($profile && $profile->user_schema_id === $request->user()->schema?->id, 422);
@@ -976,6 +986,13 @@ Route::middleware(['auth:sanctum'])->post('/shop/{shopItem}/purchase', function 
         $deltas['hp'] = $heal;
     }
     $profile->applyEconomy($deltas, 'shop_purchase');
+
+    if ($shopItem->type === 'title') {
+        ProfileTitle::query()->firstOrCreate(
+            ['user_profile_id' => $profile->id, 'title' => $shopItem->name],
+            ['unlocked_at' => now()]
+        );
+    }
 
     UserProfileItem::create([
         'user_profile_id' => $profile->id,
