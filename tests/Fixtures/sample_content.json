@@ -1,0 +1,59 @@
+{
+  "country_name": "テスト国",
+  "country_code": "ZZ",
+  "difficulty": "初級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "この国旗はどこの国？",
+          "choices": [
+            {"label": "テスト国", "is_correct": true},
+            {"label": "ダミー国A", "is_correct": false},
+            {"label": "ダミー国B", "is_correct": false},
+            {"label": "ダミー国C", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "テスト国の国旗の色は？",
+          "choices": [
+            {"label": "赤と白", "is_correct": true},
+            {"label": "青と黄", "is_correct": false},
+            {"label": "緑と黒", "is_correct": false},
+            {"label": "紫と橙", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "テスト国博士",
+      "questions": [
+        {
+          "prompt": "テスト国のあいさつは？",
+          "choices": [
+            {"label": "テストハロー", "is_correct": true},
+            {"label": "ダミーハロー", "is_correct": false},
+            {"label": "ニセハロー", "is_correct": false},
+            {"label": "フェイクハロー", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "テスト国の「ありがとう」は？",
+          "choices": [
+            {"label": "テストサンキュー", "is_correct": true},
+            {"label": "ダミーサンキュー", "is_correct": false},
+            {"label": "ニセサンキュー", "is_correct": false},
+            {"label": "フェイクサンキュー", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}
