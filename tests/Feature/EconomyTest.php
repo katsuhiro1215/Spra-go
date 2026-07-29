@@ -211,3 +211,40 @@ it('ショップでアイテムを購入するとコインが減りHPが回復�
         'shop_item_id' => $item->id,
     ]);
 });
+
+it('ショップ一覧には効果が実装済みのタイプ(potion/title)しか出てこない', function () {
+    createActiveProfile();
+    ShopItem::create(['name' => '回復薬', 'price' => 50, 'type' => 'potion']);
+    ShopItem::create(['name' => '航空券', 'price' => 100, 'type' => 'plane']);
+    ShopItem::create(['name' => '特別な称号', 'price' => 200, 'type' => 'title']);
+
+    $response = $this->getJson('/api/shop');
+
+    $response->assertOk();
+    expect(collect($response->json())->pluck('type')->unique()->values()->all())
+        ->toBe(['potion', 'title']);
+});
+
+it('未実装タイプ(plane等)の商品は購入APIを直接叩いても422になる', function () {
+    $profile = createActiveProfile();
+    $profile->update(['coins' => 1000]);
+    $item = ShopItem::create(['name' => '航空券', 'price' => 100, 'type' => 'plane']);
+
+    $this->postJson("/api/shop/{$item->id}/purchase")->assertStatus(422);
+    expect($profile->fresh()->coins)->toBe(1000);
+});
+
+it('称号タイプの商品を購入すると称号が付与される', function () {
+    $profile = createActiveProfile();
+    $profile->update(['coins' => 300]);
+    $item = ShopItem::create(['name' => '特別な称号', 'price' => 200, 'type' => 'title']);
+
+    $response = $this->postJson("/api/shop/{$item->id}/purchase");
+
+    $response->assertOk();
+    expect($profile->fresh()->coins)->toBe(100);
+    $this->assertDatabaseHas('profile_titles', [
+        'user_profile_id' => $profile->id,
+        'title' => '特別な称号',
+    ]);
+});
