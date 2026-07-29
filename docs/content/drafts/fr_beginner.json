@@ -1,0 +1,1307 @@
+{
+  "country_name": "フランス",
+  "country_code": "FR",
+  "difficulty": "初級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "次の国旗の国名として正しいものはどれ？",
+          "choices": [
+            {
+              "label": "フランス",
+              "is_correct": true
+            },
+            {
+              "label": "イタリア",
+              "is_correct": false
+            },
+            {
+              "label": "オランダ",
+              "is_correct": false
+            },
+            {
+              "label": "ロシア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗はどこの国のものでしょう？",
+          "choices": [
+            {
+              "label": "フランス",
+              "is_correct": true
+            },
+            {
+              "label": "ベルギー",
+              "is_correct": false
+            },
+            {
+              "label": "アイルランド",
+              "is_correct": false
+            },
+            {
+              "label": "ルーマニア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "青・白・赤の縦じまが特徴のこの国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "フランス",
+              "is_correct": true
+            },
+            {
+              "label": "イタリア",
+              "is_correct": false
+            },
+            {
+              "label": "メキシコ",
+              "is_correct": false
+            },
+            {
+              "label": "ナイジェリア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗を掲げている国はどこ？",
+          "choices": [
+            {
+              "label": "フランス",
+              "is_correct": true
+            },
+            {
+              "label": "イタリア",
+              "is_correct": false
+            },
+            {
+              "label": "ドイツ",
+              "is_correct": false
+            },
+            {
+              "label": "ベルギー",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "写真の国旗の国名として正しいのは？",
+          "choices": [
+            {
+              "label": "フランス",
+              "is_correct": true
+            },
+            {
+              "label": "オランダ",
+              "is_correct": false
+            },
+            {
+              "label": "ロシア",
+              "is_correct": false
+            },
+            {
+              "label": "チェコ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「トリコロール」という愛称で呼ばれるこの国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "フランス",
+              "is_correct": true
+            },
+            {
+              "label": "イタリア",
+              "is_correct": false
+            },
+            {
+              "label": "アイルランド",
+              "is_correct": false
+            },
+            {
+              "label": "コートジボワール",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の国旗に当てはまる国名を選ぼう。",
+          "choices": [
+            {
+              "label": "フランス",
+              "is_correct": true
+            },
+            {
+              "label": "イタリア",
+              "is_correct": false
+            },
+            {
+              "label": "メキシコ",
+              "is_correct": false
+            },
+            {
+              "label": "ルーマニア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗の国はどこでしょう？",
+          "choices": [
+            {
+              "label": "フランス",
+              "is_correct": true
+            },
+            {
+              "label": "オランダ",
+              "is_correct": false
+            },
+            {
+              "label": "ロシア",
+              "is_correct": false
+            },
+            {
+              "label": "スロベニア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "表示された国旗を見て、正しい国名を選んでください。",
+          "choices": [
+            {
+              "label": "フランス",
+              "is_correct": true
+            },
+            {
+              "label": "イタリア",
+              "is_correct": false
+            },
+            {
+              "label": "アイルランド",
+              "is_correct": false
+            },
+            {
+              "label": "ベルギー",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "縦に3色の帯が並ぶデザインが特徴のこの国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "フランス",
+              "is_correct": true
+            },
+            {
+              "label": "ドイツ",
+              "is_correct": false
+            },
+            {
+              "label": "オランダ",
+              "is_correct": false
+            },
+            {
+              "label": "ロシア",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "フランスの首都はどこでしょう？",
+          "choices": [
+            {
+              "label": "パリ",
+              "is_correct": true
+            },
+            {
+              "label": "リヨン",
+              "is_correct": false
+            },
+            {
+              "label": "マルセイユ",
+              "is_correct": false
+            },
+            {
+              "label": "ニース",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "エッフェル塔がある、フランスの首都はどこ？",
+          "choices": [
+            {
+              "label": "パリ",
+              "is_correct": true
+            },
+            {
+              "label": "リヨン",
+              "is_correct": false
+            },
+            {
+              "label": "ボルドー",
+              "is_correct": false
+            },
+            {
+              "label": "トゥールーズ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次のうち、フランスの首都はどれ？",
+          "choices": [
+            {
+              "label": "パリ",
+              "is_correct": true
+            },
+            {
+              "label": "マルセイユ",
+              "is_correct": false
+            },
+            {
+              "label": "ストラスブール",
+              "is_correct": false
+            },
+            {
+              "label": "ナント",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "美術館ルーヴル美術館がある、フランスの首都はどこ？",
+          "choices": [
+            {
+              "label": "パリ",
+              "is_correct": true
+            },
+            {
+              "label": "リヨン",
+              "is_correct": false
+            },
+            {
+              "label": "ニース",
+              "is_correct": false
+            },
+            {
+              "label": "モンペリエ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスの首都として正しい都市を選んでください。",
+          "choices": [
+            {
+              "label": "パリ",
+              "is_correct": true
+            },
+            {
+              "label": "マルセイユ",
+              "is_correct": false
+            },
+            {
+              "label": "リール",
+              "is_correct": false
+            },
+            {
+              "label": "レンヌ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "セーヌ川のほとりにある、フランスの首都はどこ？",
+          "choices": [
+            {
+              "label": "パリ",
+              "is_correct": true
+            },
+            {
+              "label": "リヨン",
+              "is_correct": false
+            },
+            {
+              "label": "アヌシー",
+              "is_correct": false
+            },
+            {
+              "label": "ディジョン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスで一番人口が多い都市であり、首都でもあるのはどこ？",
+          "choices": [
+            {
+              "label": "パリ",
+              "is_correct": true
+            },
+            {
+              "label": "マルセイユ",
+              "is_correct": false
+            },
+            {
+              "label": "リヨン",
+              "is_correct": false
+            },
+            {
+              "label": "トゥールーズ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "凱旋門（がいせんもん）がある、フランスの首都はどこ？",
+          "choices": [
+            {
+              "label": "パリ",
+              "is_correct": true
+            },
+            {
+              "label": "ニース",
+              "is_correct": false
+            },
+            {
+              "label": "カンヌ",
+              "is_correct": false
+            },
+            {
+              "label": "アビニョン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の中から、フランスの首都を選んでください。",
+          "choices": [
+            {
+              "label": "パリ",
+              "is_correct": true
+            },
+            {
+              "label": "マルセイユ",
+              "is_correct": false
+            },
+            {
+              "label": "ボルドー",
+              "is_correct": false
+            },
+            {
+              "label": "ストラスブール",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "2024年にオリンピックが開催された、フランスの首都はどこ？",
+          "choices": [
+            {
+              "label": "パリ",
+              "is_correct": true
+            },
+            {
+              "label": "リヨン",
+              "is_correct": false
+            },
+            {
+              "label": "マルセイユ",
+              "is_correct": false
+            },
+            {
+              "label": "ニース",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "フランスの国旗はどれでしょう？",
+          "choices": [
+            {
+              "label": "🇫🇷",
+              "is_correct": true
+            },
+            {
+              "label": "🇮🇹",
+              "is_correct": false
+            },
+            {
+              "label": "🇳🇱",
+              "is_correct": false
+            },
+            {
+              "label": "🇷🇺",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスの国旗の特徴として正しいものはどれ？",
+          "choices": [
+            {
+              "label": "青・白・赤の縦じま3色",
+              "is_correct": true
+            },
+            {
+              "label": "星が並んだデザイン",
+              "is_correct": false
+            },
+            {
+              "label": "横じま3色",
+              "is_correct": false
+            },
+            {
+              "label": "円がひとつ描かれたデザイン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスの国旗を表す呼び名として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "トリコロール",
+              "is_correct": true
+            },
+            {
+              "label": "星条旗",
+              "is_correct": false
+            },
+            {
+              "label": "日の丸",
+              "is_correct": false
+            },
+            {
+              "label": "ユニオンジャック",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス国旗の3色に含まれないものはどれ？",
+          "choices": [
+            {
+              "label": "緑",
+              "is_correct": true
+            },
+            {
+              "label": "青",
+              "is_correct": false
+            },
+            {
+              "label": "白",
+              "is_correct": false
+            },
+            {
+              "label": "赤",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の絵文字国旗のうち、フランスのものはどれ？",
+          "choices": [
+            {
+              "label": "🇫🇷",
+              "is_correct": true
+            },
+            {
+              "label": "🇮🇹",
+              "is_correct": false
+            },
+            {
+              "label": "🇩🇪",
+              "is_correct": false
+            },
+            {
+              "label": "🇪🇸",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス国旗の縞（しま）の並び方として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "縦じま",
+              "is_correct": true
+            },
+            {
+              "label": "横じま",
+              "is_correct": false
+            },
+            {
+              "label": "斜めじま",
+              "is_correct": false
+            },
+            {
+              "label": "格子模様",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス国旗のデザインを説明したものとして正しいのはどれ？",
+          "choices": [
+            {
+              "label": "青・白・赤が縦に3等分されている",
+              "is_correct": true
+            },
+            {
+              "label": "中央に大きな星がひとつ",
+              "is_correct": false
+            },
+            {
+              "label": "十字模様が重なっている",
+              "is_correct": false
+            },
+            {
+              "label": "動物の絵が描かれている",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の中から、フランスの国旗を選んでください。",
+          "choices": [
+            {
+              "label": "🇫🇷",
+              "is_correct": true
+            },
+            {
+              "label": "🇧🇪",
+              "is_correct": false
+            },
+            {
+              "label": "🇮🇪",
+              "is_correct": false
+            },
+            {
+              "label": "🇲🇽",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス国旗の一番左（旗竿側）の色として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "青",
+              "is_correct": true
+            },
+            {
+              "label": "白",
+              "is_correct": false
+            },
+            {
+              "label": "赤",
+              "is_correct": false
+            },
+            {
+              "label": "黄",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスの国旗として正しい組み合わせはどれ？",
+          "choices": [
+            {
+              "label": "🇫🇷 青白赤の縦じま",
+              "is_correct": true
+            },
+            {
+              "label": "🇮🇹 緑白赤の縦じま",
+              "is_correct": false
+            },
+            {
+              "label": "🇩🇪 黒赤黄の横じま",
+              "is_correct": false
+            },
+            {
+              "label": "🇬🇧 十字が重なるデザイン",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "フランスはどの大陸に位置している？",
+          "choices": [
+            {
+              "label": "ヨーロッパ大陸",
+              "is_correct": true
+            },
+            {
+              "label": "アフリカ大陸",
+              "is_correct": false
+            },
+            {
+              "label": "アジア大陸",
+              "is_correct": false
+            },
+            {
+              "label": "北アメリカ大陸",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスと陸続きで国境を接していない国はどれ？",
+          "choices": [
+            {
+              "label": "イギリス",
+              "is_correct": true
+            },
+            {
+              "label": "スペイン",
+              "is_correct": false
+            },
+            {
+              "label": "イタリア",
+              "is_correct": false
+            },
+            {
+              "label": "ドイツ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスの形は、その6つの辺から何にたとえられる？",
+          "choices": [
+            {
+              "label": "六角形（レクサゴン）",
+              "is_correct": true
+            },
+            {
+              "label": "三角形",
+              "is_correct": false
+            },
+            {
+              "label": "丸",
+              "is_correct": false
+            },
+            {
+              "label": "星形",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスとイタリアの国境近くにそびえる、西ヨーロッパで最も高い山はどれ？",
+          "choices": [
+            {
+              "label": "モンブラン",
+              "is_correct": true
+            },
+            {
+              "label": "ベン・ネビス山",
+              "is_correct": false
+            },
+            {
+              "label": "富士山",
+              "is_correct": false
+            },
+            {
+              "label": "マッターホルン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "パリを流れる、フランスを代表する川はどれ？",
+          "choices": [
+            {
+              "label": "セーヌ川",
+              "is_correct": true
+            },
+            {
+              "label": "テムズ川",
+              "is_correct": false
+            },
+            {
+              "label": "ライン川",
+              "is_correct": false
+            },
+            {
+              "label": "ドナウ川",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスとスペインの国境沿いに連なる山脈はどれ？",
+          "choices": [
+            {
+              "label": "ピレネー山脈",
+              "is_correct": true
+            },
+            {
+              "label": "アルプス山脈",
+              "is_correct": false
+            },
+            {
+              "label": "ロッキー山脈",
+              "is_correct": false
+            },
+            {
+              "label": "ヒマラヤ山脈",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス領で、地中海に浮かぶ島はどれ？",
+          "choices": [
+            {
+              "label": "コルシカ島",
+              "is_correct": true
+            },
+            {
+              "label": "シチリア島",
+              "is_correct": false
+            },
+            {
+              "label": "アイルランド島",
+              "is_correct": false
+            },
+            {
+              "label": "アイスランド島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスが面している海として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "地中海と大西洋",
+              "is_correct": true
+            },
+            {
+              "label": "紅海とインド洋",
+              "is_correct": false
+            },
+            {
+              "label": "日本海と太平洋",
+              "is_correct": false
+            },
+            {
+              "label": "黒海のみ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス南東部に広がる、標高の高い山脈はどれ？",
+          "choices": [
+            {
+              "label": "アルプス山脈",
+              "is_correct": true
+            },
+            {
+              "label": "ピレネー山脈",
+              "is_correct": false
+            },
+            {
+              "label": "ウラル山脈",
+              "is_correct": false
+            },
+            {
+              "label": "アトラス山脈",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスとベルギー・ドイツなど、陸続きで国境を接している国の数として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "6か国以上",
+              "is_correct": true
+            },
+            {
+              "label": "1か国のみ",
+              "is_correct": false
+            },
+            {
+              "label": "0か国（島国）",
+              "is_correct": false
+            },
+            {
+              "label": "2か国のみ",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "フランス博士",
+      "questions": [
+        {
+          "prompt": "フランス語で「こんにちは」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Bonjour",
+              "is_correct": true
+            },
+            {
+              "label": "Merci",
+              "is_correct": false
+            },
+            {
+              "label": "Au revoir",
+              "is_correct": false
+            },
+            {
+              "label": "Pardon",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「ありがとう」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Merci",
+              "is_correct": true
+            },
+            {
+              "label": "Bonjour",
+              "is_correct": false
+            },
+            {
+              "label": "Non",
+              "is_correct": false
+            },
+            {
+              "label": "Salut",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「さようなら」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Au revoir",
+              "is_correct": true
+            },
+            {
+              "label": "Bonjour",
+              "is_correct": false
+            },
+            {
+              "label": "Merci",
+              "is_correct": false
+            },
+            {
+              "label": "Oui",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「はい」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Oui",
+              "is_correct": true
+            },
+            {
+              "label": "Non",
+              "is_correct": false
+            },
+            {
+              "label": "Merci",
+              "is_correct": false
+            },
+            {
+              "label": "Pardon",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「いいえ」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Non",
+              "is_correct": true
+            },
+            {
+              "label": "Oui",
+              "is_correct": false
+            },
+            {
+              "label": "Bonjour",
+              "is_correct": false
+            },
+            {
+              "label": "Merci",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「お願いします」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "S'il vous plaît",
+              "is_correct": true
+            },
+            {
+              "label": "Merci beaucoup",
+              "is_correct": false
+            },
+            {
+              "label": "Au revoir",
+              "is_correct": false
+            },
+            {
+              "label": "Bonsoir",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「すみません／ごめんなさい」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Pardon",
+              "is_correct": true
+            },
+            {
+              "label": "Bonjour",
+              "is_correct": false
+            },
+            {
+              "label": "Oui",
+              "is_correct": false
+            },
+            {
+              "label": "Merci",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で夜に使うあいさつはどれ？",
+          "choices": [
+            {
+              "label": "Bonsoir",
+              "is_correct": true
+            },
+            {
+              "label": "Bonjour",
+              "is_correct": false
+            },
+            {
+              "label": "Bonne nuit",
+              "is_correct": false
+            },
+            {
+              "label": "Salut",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で寝る前に使う「おやすみ」はどれ？",
+          "choices": [
+            {
+              "label": "Bonne nuit",
+              "is_correct": true
+            },
+            {
+              "label": "Bonsoir",
+              "is_correct": false
+            },
+            {
+              "label": "Bonjour",
+              "is_correct": false
+            },
+            {
+              "label": "Au revoir",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「1」はどう言う？",
+          "choices": [
+            {
+              "label": "Un",
+              "is_correct": true
+            },
+            {
+              "label": "Deux",
+              "is_correct": false
+            },
+            {
+              "label": "Trois",
+              "is_correct": false
+            },
+            {
+              "label": "Quatre",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「2」はどう言う？",
+          "choices": [
+            {
+              "label": "Deux",
+              "is_correct": true
+            },
+            {
+              "label": "Un",
+              "is_correct": false
+            },
+            {
+              "label": "Trois",
+              "is_correct": false
+            },
+            {
+              "label": "Cinq",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「3」はどう言う？",
+          "choices": [
+            {
+              "label": "Trois",
+              "is_correct": true
+            },
+            {
+              "label": "Un",
+              "is_correct": false
+            },
+            {
+              "label": "Deux",
+              "is_correct": false
+            },
+            {
+              "label": "Quatre",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で親しい人に使うカジュアルな「やあ」はどれ？",
+          "choices": [
+            {
+              "label": "Salut",
+              "is_correct": true
+            },
+            {
+              "label": "Bonsoir",
+              "is_correct": false
+            },
+            {
+              "label": "Pardon",
+              "is_correct": false
+            },
+            {
+              "label": "Merci",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「初めまして」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Enchanté(e)",
+              "is_correct": true
+            },
+            {
+              "label": "Bonne nuit",
+              "is_correct": false
+            },
+            {
+              "label": "Au revoir",
+              "is_correct": false
+            },
+            {
+              "label": "Pardon",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「どういたしまして」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "De rien",
+              "is_correct": true
+            },
+            {
+              "label": "S'il vous plaît",
+              "is_correct": false
+            },
+            {
+              "label": "Bonjour",
+              "is_correct": false
+            },
+            {
+              "label": "Non",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で自己紹介するときに使う「Je m'appelle 〜」の意味はどれ？",
+          "choices": [
+            {
+              "label": "私の名前は〜です",
+              "is_correct": true
+            },
+            {
+              "label": "私は元気です",
+              "is_correct": false
+            },
+            {
+              "label": "ありがとう",
+              "is_correct": false
+            },
+            {
+              "label": "さようなら",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語で「調子はどう？」とたずねる表現はどれ？",
+          "choices": [
+            {
+              "label": "Comment ça va ?",
+              "is_correct": true
+            },
+            {
+              "label": "Qu'est-ce que c'est ?",
+              "is_correct": false
+            },
+            {
+              "label": "Où êtes-vous ?",
+              "is_correct": false
+            },
+            {
+              "label": "Qui êtes-vous ?",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "食事の前にフランス語でよく使われる「召し上がれ」の表現はどれ？",
+          "choices": [
+            {
+              "label": "Bon appétit",
+              "is_correct": true
+            },
+            {
+              "label": "Bonne nuit",
+              "is_correct": false
+            },
+            {
+              "label": "Au revoir",
+              "is_correct": false
+            },
+            {
+              "label": "Pardon",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランス語のあいさつとして使われないものはどれ？",
+          "choices": [
+            {
+              "label": "Guten Tag",
+              "is_correct": true
+            },
+            {
+              "label": "Bonjour",
+              "is_correct": false
+            },
+            {
+              "label": "Bonsoir",
+              "is_correct": false
+            },
+            {
+              "label": "Salut",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フランスの公用語として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "フランス語",
+              "is_correct": true
+            },
+            {
+              "label": "スペイン語",
+              "is_correct": false
+            },
+            {
+              "label": "イタリア語",
+              "is_correct": false
+            },
+            {
+              "label": "ドイツ語",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
