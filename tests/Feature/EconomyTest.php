@@ -1,12 +1,8 @@
 <?php
 
 use App\Models\Category;
-use App\Models\Question;
-use App\Models\Quiz;
 use App\Models\ShopItem;
 use App\Models\Stage;
-use App\Models\User;
-use App\Models\UserProfile;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,35 +11,10 @@ use App\Models\UserProfile;
 |
 | クイズ回答・ステージクリア・ショップ購入はプレイヤーの通貨に直結するため、
 | MVPで最優先にテストする領域(docs/MVPRequirements.md参照)。
+| createActiveProfile()/createQuestionWithChoices()はtests/Pest.phpで定義
+| (単体ファイル実行時でも他のテストファイルから使えるようにするため)。
 |
 */
-
-function createActiveProfile(): UserProfile
-{
-    $user = User::factory()->create();
-    $schema = $user->schema()->create(['name' => 'テスト家族']);
-    $profile = $schema->profiles()->create(['name' => 'テストプレイヤー']);
-
-    // auth:sanctumはトークン未使用時、statefulなフロントエンドからのセッション認証(webガード)に
-    // フォールバックする(config/sanctum.php)。$request->session() を使うため、
-    // stateful判定を通すRefererヘッダーも合わせて付与する。
-    test()->actingAs($user)
-        ->withHeader('Referer', 'http://localhost')
-        ->withSession(['active_profile_id' => $profile->id]);
-
-    return $profile;
-}
-
-/** @return array{0: Question, 1: \App\Models\QuestionChoice, 2: \App\Models\QuestionChoice} */
-function createQuestionWithChoices(): array
-{
-    $quiz = Quiz::create(['title' => 'テストクイズ', 'difficulty' => '初級']);
-    $question = Question::create(['quiz_id' => $quiz->id, 'prompt' => 'テスト問題']);
-    $correct = $question->choices()->create(['label' => '正解', 'is_correct' => true, 'order' => 1]);
-    $wrong = $question->choices()->create(['label' => '不正解', 'is_correct' => false, 'order' => 2]);
-
-    return [$question, $correct, $wrong];
-}
 
 it('正解するとXPとコインが増え、HPが1減る', function () {
     $profile = createActiveProfile();

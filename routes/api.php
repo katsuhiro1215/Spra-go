@@ -626,17 +626,29 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
 
     $directStages = $allStages->whereNull('region_id');
 
+    $stagesByCategoryThenDifficulty = $directStages
+        ->groupBy('category_id')
+        ->map(fn ($stages) => $stages->groupBy('difficulty'));
+
     $groups = $directStages
         ->groupBy(fn (Stage $s) => $s->category_id.'|'.$s->difficulty)
-        ->map(function ($group) use ($clearedStageIds) {
+        ->map(function ($group) use ($clearedStageIds, $stagesByCategoryThenDifficulty) {
             $clearedNumbers = $group
                 ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
                 ->pluck('stage_number')
                 ->all();
 
+            $categoryId = $group->first()->category_id;
+            $difficulty = $group->first()->difficulty;
+
             return [
                 'category' => $group->first()->category,
-                'difficulty' => $group->first()->difficulty,
+                'difficulty' => $difficulty,
+                'locked' => Stage::isDifficultyLocked(
+                    $stagesByCategoryThenDifficulty->get($categoryId) ?? collect(),
+                    $difficulty,
+                    $clearedStageIds
+                ),
                 'stages' => $group->map(fn (Stage $s) => [
                     'id' => $s->id,
                     'stage_number' => $s->stage_number,
@@ -726,17 +738,29 @@ Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request 
     if ($children->isEmpty()) {
         $stages = Stage::query()->where('region_id', $region->id)->with('category')->orderBy('stage_number')->get();
 
+        $stagesByCategoryThenDifficulty = $stages
+            ->groupBy('category_id')
+            ->map(fn ($s) => $s->groupBy('difficulty'));
+
         $groups = $stages
             ->groupBy(fn (Stage $s) => $s->category_id.'|'.$s->difficulty)
-            ->map(function ($group) use ($clearedStageIds) {
+            ->map(function ($group) use ($clearedStageIds, $stagesByCategoryThenDifficulty) {
                 $clearedNumbers = $group
                     ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
                     ->pluck('stage_number')
                     ->all();
 
+                $categoryId = $group->first()->category_id;
+                $difficulty = $group->first()->difficulty;
+
                 return [
                     'category' => $group->first()->category,
-                    'difficulty' => $group->first()->difficulty,
+                    'difficulty' => $difficulty,
+                    'locked' => Stage::isDifficultyLocked(
+                        $stagesByCategoryThenDifficulty->get($categoryId) ?? collect(),
+                        $difficulty,
+                        $clearedStageIds
+                    ),
                     'stages' => $group->map(fn (Stage $s) => [
                         'id' => $s->id,
                         'stage_number' => $s->stage_number,
@@ -793,6 +817,7 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
 
             return [
                 'difficulty' => $difficulty,
+                'locked' => Stage::isDifficultyLocked($stagesByDifficulty, $difficulty, $clearedStageIds),
                 'stages' => $stages->map(fn (Stage $stage) => [
                     'id' => $stage->id,
                     'stage_number' => $stage->stage_number,

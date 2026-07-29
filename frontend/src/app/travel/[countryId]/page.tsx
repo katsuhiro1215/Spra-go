@@ -21,6 +21,7 @@ type StageSummary = {
 type StageGroup = {
   category: { id: number; name: string };
   difficulty: string;
+  locked: boolean;
   stages: StageSummary[];
 };
 
@@ -189,45 +190,54 @@ export default function Page({
                 key={`${group.category.id}-${group.difficulty}`}
                 className="flex flex-col gap-3"
               >
-                <h2 className="text-sm font-semibold text-white/90 drop-shadow">
+                <h2 className="flex items-center gap-2 text-sm font-semibold text-white/90 drop-shadow">
+                  {group.locked && "🔒"}
                   {group.category.name} ・ {group.difficulty}
                 </h2>
-                <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
-                  {group.stages.map((stage) => {
-                    const playable = !stage.locked;
+                {group.locked ? (
+                  <p className="text-xs text-white/70">
+                    ひとつ前の難易度をクリアすると挑戦できます。
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+                    {group.stages.map((stage) => {
+                      const playable = !stage.locked;
 
-                    return (
-                      <AppButton
-                        key={stage.id}
-                        variant={
-                          !playable
-                            ? "locked"
-                            : stage.is_boss
-                              ? "danger"
-                              : stage.cleared
-                                ? "secondary"
-                                : "default"
-                        }
-                        size="lg"
-                        disabled={!playable}
-                        onClick={() => router.push(`/quiz/${stage.id}`)}
-                        className="relative flex flex-col items-center gap-0.5 px-2"
-                      >
-                        {stage.cleared && (
-                          <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white">
-                            ✓
+                      return (
+                        <AppButton
+                          key={stage.id}
+                          variant={
+                            !playable
+                              ? "locked"
+                              : stage.is_boss
+                                ? "danger"
+                                : stage.cleared
+                                  ? "secondary"
+                                  : "default"
+                          }
+                          size="lg"
+                          disabled={!playable}
+                          onClick={() => router.push(`/quiz/${stage.id}`)}
+                          className="relative flex flex-col items-center gap-0.5 px-2"
+                        >
+                          {stage.cleared && (
+                            <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white">
+                              ✓
+                            </span>
+                          )}
+                          <span>
+                            {stage.locked ? "🔒" : stage.stage_number}
                           </span>
-                        )}
-                        <span>{stage.locked ? "🔒" : stage.stage_number}</span>
-                        {stage.is_boss && (
-                          <span className="text-[10px] font-bold opacity-90">
-                            BOSS
-                          </span>
-                        )}
-                      </AppButton>
-                    );
-                  })}
-                </div>
+                          {stage.is_boss && (
+                            <span className="text-[10px] font-bold opacity-90">
+                              BOSS
+                            </span>
+                          )}
+                        </AppButton>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             ))}
           </div>
