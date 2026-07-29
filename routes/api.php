@@ -1016,3 +1016,40 @@ Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->grou
         return $profile;
     })->name('select');
 });
+
+// 認証不要。マーケティングサイトの国別クイズ紹介ページ(公開・SEO向け)からの利用を想定。
+// 経済ロジック(HP/XP/Coin)には一切触れない、あくまで体験版。
+Route::prefix('public')->name('public.')->group(function () {
+    Route::get('/countries/{country:code}/sample-quiz', function (Country $country) {
+        $questions = Question::query()
+            ->where('country_id', $country->id)
+            ->whereHas('choices')
+            ->with('choices')
+            ->limit(50)
+            ->get()
+            ->shuffle()
+            ->take(3)
+            ->values();
+
+        $questions->each(function (Question $question) {
+            $question->choices = $question->choices->shuffle()->values();
+        });
+
+        return [
+            'country' => [
+                'code' => $country->code,
+                'name' => $country->name,
+                'mood_emoji' => $country->mood_emoji,
+            ],
+            'questions' => $questions->map(fn (Question $q) => [
+                'id' => $q->id,
+                'prompt' => $q->prompt,
+                'choices' => $q->choices->map(fn (QuestionChoice $c) => [
+                    'id' => $c->id,
+                    'label' => $c->label,
+                    'is_correct' => $c->is_correct,
+                ]),
+            ]),
+        ];
+    })->name('sample-quiz');
+});
