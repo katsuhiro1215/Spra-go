@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('languages', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->string('three_code')->unique();
-            $table->string('name')->unique();
-            $table->string('name_en')->unique();
-            $table->unsignedInteger('country_code');
-            $table->unsignedInteger('stages')->default(0);
-            $table->unsignedInteger('order')->default(0);
+            $table->string('name');
+            $table->string('name_en');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('languages');
     }
 };

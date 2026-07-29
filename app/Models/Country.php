@@ -3,8 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Country extends Model
 {
-    protected $fillable = ['code', 'name', 'language', 'stages', 'order'];
+    protected $fillable = ['code', 'name', 'stages', 'order', 'mood_emoji', 'intro_message'];
+
+    public function languages(): BelongsToMany
+    {
+        return $this->belongsToMany(Language::class, 'country_language')
+            ->withPivot('is_primary');
+    }
 }

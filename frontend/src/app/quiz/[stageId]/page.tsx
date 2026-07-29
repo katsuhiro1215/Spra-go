@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -8,7 +9,13 @@ import { Button as AppButton } from "@/components/app/button";
 import { apiFetch } from "@/lib/api";
 
 type Choice = { id: number; label: string };
-type QuestionItem = { id: number; prompt: string; choices: Choice[] };
+type Country = { id: number; code: string; name: string };
+type QuestionItem = {
+  id: number;
+  prompt: string;
+  country: Country | null;
+  choices: Choice[];
+};
 type StagePlayData = {
   id: number;
   category: { id: number; name: string };
@@ -18,6 +25,10 @@ type StagePlayData = {
   title_reward: string | null;
   questions: QuestionItem[];
 };
+
+type EconomyDelta = { hp?: number; xp?: number; coin?: number };
+
+type CompleteResult = { title_granted: boolean; title: string | null };
 
 export default function Page({
   params,
@@ -36,9 +47,14 @@ export default function Page({
   );
   const [correctChoiceId, setCorrectChoiceId] = useState<number | null>(null);
   const [answered, setAnswered] = useState(false);
+  const [lastCorrect, setLastCorrect] = useState(false);
+  const [lastDelta, setLastDelta] = useState<EconomyDelta | null>(null);
   const [score, setScore] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [completionSubmitted, setCompletionSubmitted] = useState(false);
+  const [completeResult, setCompleteResult] = useState<CompleteResult | null>(
+    null,
+  );
 
   useEffect(() => {
     apiFetch(`/api/stages/${stageId}`)
@@ -60,7 +76,16 @@ export default function Page({
     apiFetch(`/api/stages/${stageId}/complete`, {
       method: "POST",
       body: JSON.stringify({ score }),
-    }).catch(() => {});
+    })
+      .then(async (res) => {
+        if (!res.ok) return;
+        const data = await res.json();
+        setCompleteResult({
+          title_granted: Boolean(data.title_granted),
+          title: data.title ?? null,
+        });
+      })
+      .catch(() => {});
   }, [stage, currentIndex, completionSubmitted, stageId, score]);
 
   if (stage === undefined) {
@@ -104,6 +129,8 @@ export default function Page({
       setSelectedChoiceId(choiceId);
       setCorrectChoiceId(data.correct_choice_id);
       setAnswered(true);
+      setLastCorrect(Boolean(data.correct));
+      setLastDelta(data.profile?.delta ?? null);
       if (data.correct) setScore((prev) => prev + 1);
     } finally {
       setSubmitting(false);
@@ -115,6 +142,7 @@ export default function Page({
     setSelectedChoiceId(null);
     setCorrectChoiceId(null);
     setAnswered(false);
+    setLastDelta(null);
   }
 
   function handleRestart() {
@@ -122,22 +150,22 @@ export default function Page({
     setSelectedChoiceId(null);
     setCorrectChoiceId(null);
     setAnswered(false);
+    setLastDelta(null);
     setScore(0);
     setCompletionSubmitted(false);
+    setCompleteResult(null);
   }
 
   if (finished) {
-    const perfect = score === stage.questions.length;
-
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
         <h1 className="text-2xl font-bold">結果発表</h1>
         <p className="text-4xl font-bold text-primary">
           {score} / {stage.questions.length} 問正解
         </p>
-        {stage.is_boss && perfect && stage.title_reward && (
+        {completeResult?.title_granted && completeResult.title && (
           <p className="text-sm font-semibold text-amber-600">
-            🏆 称号「{stage.title_reward}」を獲得しました！
+            🏆 称号「{completeResult.title}」を獲得しました！
           </p>
         )}
         <div className="flex gap-3">
@@ -151,6 +179,10 @@ export default function Page({
       </div>
     );
   }
+
+  const correctChoiceLabel = question.choices.find(
+    (c) => c.id === correctChoiceId,
+  )?.label;
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col gap-8 px-6 py-12">
@@ -166,6 +198,16 @@ export default function Page({
             ・ 問題 {currentIndex + 1} / {stage.questions.length}
           </span>
         </p>
+        {question.country && (
+          <div className="relative mx-auto mt-4 h-28 w-44 overflow-hidden rounded-lg border border-border shadow-sm">
+            <Image
+              src={`/flag/${question.country.code}.svg`}
+              alt={question.country.name}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
         <h1 className="mt-2 text-xl font-bold">{question.prompt}</h1>
       </div>
 
@@ -195,9 +237,52 @@ export default function Page({
       </div>
 
       {answered && (
-        <div className="flex justify-end">
-          <AppButton variant="primary" onClick={handleNext}>
-            {isLastQuestion ? "結果を見る" : "次の問題へ"}
+        <div
+          className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 px-6 text-center ${
+            lastCorrect
+              ? "bg-linear-to-br from-emerald-950 via-green-900 to-emerald-950"
+              : "bg-linear-to-br from-zinc-950 via-rose-950 to-zinc-950"
+          }`}
+        >
+          {lastCorrect ? (
+            <>
+              <p className="animate-stage-intro text-6xl font-extrabold text-white drop-shadow-lg">
+                ✨ Correct!!
+              </p>
+              <p className="animate-stage-intro-subtitle flex gap-4 text-lg font-semibold text-white/90">
+                {typeof lastDelta?.xp === "number" && (
+                  <span>+{lastDelta.xp}XP</span>
+                )}
+                {typeof lastDelta?.coin === "number" && (
+                  <span>+{lastDelta.coin}Coin</span>
+                )}
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="animate-stage-intro text-5xl font-extrabold text-rose-200 drop-shadow-lg">
+                😢 Wrong...
+              </p>
+              <p className="animate-stage-intro-subtitle flex flex-col items-center gap-1 text-lg font-semibold text-white/90">
+                {typeof lastDelta?.hp === "number" && (
+                  <span>❤️{lastDelta.hp}</span>
+                )}
+                {correctChoiceLabel && (
+                  <span className="text-base font-normal text-white/80">
+                    正解: {correctChoiceLabel}
+                  </span>
+                )}
+              </p>
+            </>
+          )}
+
+          <AppButton
+            variant="primary"
+            size="lg"
+            onClick={handleNext}
+            className="mt-4"
+          >
+            {isLastQuestion ? "結果を見る ▶" : "次へ ▶"}
           </AppButton>
         </div>
       )}

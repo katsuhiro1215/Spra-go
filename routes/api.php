@@ -5,14 +5,19 @@ use App\Models\Category;
 use App\Models\ContentItem;
 use App\Models\Country;
 use App\Models\Event;
+use App\Models\Language;
 use App\Models\ProfileStageProgress;
+use App\Models\ProfileTitle;
 use App\Models\Question;
 use App\Models\QuestionChoice;
 use App\Models\QuestionTheme;
 use App\Models\Quiz;
+use App\Models\Region;
+use App\Models\ShopItem;
 use App\Models\Stage;
 use App\Models\User;
 use App\Models\UserProfile;
+use App\Models\UserProfileItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
@@ -82,45 +87,153 @@ Route::middleware(['auth:owner'])->prefix('owner/categories')->name('owner.categ
     })->name('destroy');
 });
 
-Route::middleware(['auth:owner'])->prefix('owner/countries')->name('owner.countries.')->group(function () {
-    Route::get('/', function () {
-        return Country::query()->orderBy('order')->get();
+Route::middleware(['auth:owner'])->prefix('owner/regions')->name('owner.regions.')->group(function () {
+    Route::get('/', function (Request $request) {
+        return Region::query()
+            ->when($request->query('country_id'), fn ($q, $countryId) => $q->where('country_id', $countryId))
+            ->orderBy('order')
+            ->get();
     })->name('index');
 
     Route::post('/', function (Request $request) {
         $data = $request->validate([
-            'code' => ['required', 'string', 'max:10', 'unique:countries,code'],
             'name' => ['required', 'string', 'max:255'],
-            'language' => ['required', 'string', 'max:255'],
-            'stages' => ['nullable', 'integer', 'min:0'],
+            'country_id' => ['required', Rule::exists('countries', 'id')],
+            'parent_id' => [
+                'nullable',
+                Rule::exists('regions', 'id')->where(fn ($q) => $q->where('country_id', request('country_id'))),
+            ],
         ]);
 
-        $nextOrder = Country::query()->max('order') + 1;
+        $nextOrder = Region::query()
+            ->where('country_id', $data['country_id'])
+            ->where('parent_id', $data['parent_id'] ?? null)
+            ->max('order') + 1;
 
-        return Country::create([
-            'code' => $data['code'],
+        return Region::create([
             'name' => $data['name'],
-            'language' => $data['language'],
-            'stages' => $data['stages'] ?? 0,
+            'country_id' => $data['country_id'],
+            'parent_id' => $data['parent_id'] ?? null,
             'order' => $nextOrder,
         ]);
     })->name('store');
 
-    Route::patch('/{country}', function (Request $request, Country $country) {
+    Route::patch('/{region}', function (Request $request, Region $region) {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+
+        $region->update($data);
+
+        return $region;
+    })->name('update');
+
+    Route::delete('/{region}', function (Region $region) {
+        if ($region->children()->exists()) {
+            return response()->json([
+                'message' => '子地域が存在するため削除できません。先に子地域を削除してください。',
+            ], 422);
+        }
+
+        $region->delete();
+
+        return response()->noContent();
+    })->name('destroy');
+});
+
+Route::middleware(['auth:owner'])->prefix('owner/countries')->name('owner.countries.')->group(function () {
+    $languageIdsValidation = [
+        'language_ids' => ['array'],
+        'language_ids.*' => [Rule::exists('languages', 'id')],
+        'primary_language_id' => ['nullable', Rule::exists('languages', 'id')],
+    ];
+    $syncLanguages = function (Country $country, array $data) {
+        $syncData = collect($data['language_ids'] ?? [])->mapWithKeys(fn ($id) => [
+            $id => ['is_primary' => $id == ($data['primary_language_id'] ?? null)],
+        ]);
+        $country->languages()->sync($syncData);
+    };
+
+    Route::get('/', function () {
+        return Country::query()->with('languages')->orderBy('order')->get();
+    })->name('index');
+
+    Route::post('/', function (Request $request) use ($languageIdsValidation, $syncLanguages) {
+        $data = $request->validate([
+            'code' => ['required', 'string', 'max:10', 'unique:countries,code'],
+            'name' => ['required', 'string', 'max:255'],
+            'stages' => ['nullable', 'integer', 'min:0'],
+            'mood_emoji' => ['nullable', 'string', 'max:10'],
+            'intro_message' => ['nullable', 'string'],
+            ...$languageIdsValidation,
+        ]);
+
+        $nextOrder = Country::query()->max('order') + 1;
+
+        $country = Country::create([
+            'code' => $data['code'],
+            'name' => $data['name'],
+            'stages' => $data['stages'] ?? 0,
+            'mood_emoji' => $data['mood_emoji'] ?? null,
+            'intro_message' => $data['intro_message'] ?? null,
+            'order' => $nextOrder,
+        ]);
+
+        $syncLanguages($country, $data);
+
+        return $country->load('languages');
+    })->name('store');
+
+    Route::patch('/{country}', function (Request $request, Country $country) use ($languageIdsValidation, $syncLanguages) {
         $data = $request->validate([
             'code' => ['required', 'string', 'max:10', Rule::unique('countries', 'code')->ignore($country->id)],
             'name' => ['required', 'string', 'max:255'],
-            'language' => ['required', 'string', 'max:255'],
             'stages' => ['nullable', 'integer', 'min:0'],
+            'mood_emoji' => ['nullable', 'string', 'max:10'],
+            'intro_message' => ['nullable', 'string'],
+            ...$languageIdsValidation,
         ]);
 
-        $country->update($data);
+        $country->update(collect($data)->except(['language_ids', 'primary_language_id'])->toArray());
+        $syncLanguages($country, $data);
 
-        return $country;
+        return $country->load('languages');
     })->name('update');
 
     Route::delete('/{country}', function (Country $country) {
         $country->delete();
+
+        return response()->noContent();
+    })->name('destroy');
+});
+
+Route::middleware(['auth:owner'])->prefix('owner/languages')->name('owner.languages.')->group(function () {
+    Route::get('/', function () {
+        return Language::query()->orderBy('name')->get();
+    })->name('index');
+
+    Route::post('/', function (Request $request) {
+        $data = $request->validate([
+            'code' => ['required', 'string', 'max:10', 'unique:languages,code'],
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+
+        return Language::create($data);
+    })->name('store');
+
+    Route::patch('/{language}', function (Request $request, Language $language) {
+        $data = $request->validate([
+            'code' => ['required', 'string', 'max:10', Rule::unique('languages', 'code')->ignore($language->id)],
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+
+        $language->update($data);
+
+        return $language;
+    })->name('update');
+
+    Route::delete('/{language}', function (Language $language) {
+        $language->delete();
 
         return response()->noContent();
     })->name('destroy');
@@ -207,6 +320,7 @@ Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.
     ];
     $choicesValidation = [
         'prompt' => ['required', 'string'],
+        'country_id' => ['nullable', Rule::exists('countries', 'id')],
         'choices' => ['required', 'array', 'min:4', 'max:10'],
         'choices.*.label' => ['required', 'string', 'max:255'],
         'choices.*.is_correct' => ['required', 'boolean'],
@@ -230,7 +344,7 @@ Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.
     })->name('store');
 
     Route::get('/{quiz}', function (Quiz $quiz) {
-        return $quiz->load(['country', 'categories', 'questions.choices']);
+        return $quiz->load(['country', 'categories', 'questions.choices', 'questions.country']);
     })->name('show');
 
     Route::patch('/{quiz}', function (Request $request, Quiz $quiz) use ($quizValidation) {
@@ -259,6 +373,7 @@ Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.
 
         $question = $quiz->questions()->create([
             'prompt' => $data['prompt'],
+            'country_id' => $data['country_id'] ?? null,
             'order' => $nextOrder,
         ]);
 
@@ -270,7 +385,7 @@ Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.
             ]);
         }
 
-        return $question->load('choices');
+        return $question->load(['choices', 'country']);
     })->name('questions.store');
 
     Route::patch('/{quiz}/questions/{question}', function (Request $request, Quiz $quiz, Question $question) use ($choicesValidation) {
@@ -282,7 +397,10 @@ Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.
             return response()->json(['message' => '正解は1つだけ選択してください。'], 422);
         }
 
-        $question->update(['prompt' => $data['prompt']]);
+        $question->update([
+            'prompt' => $data['prompt'],
+            'country_id' => $data['country_id'] ?? null,
+        ]);
         $question->choices()->delete();
 
         foreach ($data['choices'] as $index => $choice) {
@@ -293,7 +411,7 @@ Route::middleware(['auth:owner'])->prefix('owner/quizzes')->name('owner.quizzes.
             ]);
         }
 
-        return $question->load('choices');
+        return $question->load(['choices', 'country']);
     })->name('questions.update');
 
     Route::delete('/{quiz}/questions/{question}', function (Quiz $quiz, Question $question) {
@@ -339,6 +457,46 @@ Route::middleware(['auth:owner'])->prefix('owner/question-themes')->name('owner.
     })->name('destroy');
 });
 
+Route::middleware(['auth:owner'])->prefix('owner/shop-items')->name('owner.shop-items.')->group(function () {
+    $shopItemTypes = ['potion', 'plane', 'background', 'character', 'title'];
+
+    Route::get('/', function () {
+        return ShopItem::query()->orderBy('type')->orderBy('price')->get();
+    })->name('index');
+
+    Route::post('/', function (Request $request) use ($shopItemTypes) {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'integer', 'min:0'],
+            'type' => ['required', Rule::in($shopItemTypes)],
+            'meta' => ['nullable', 'array'],
+            'meta.heal' => ['required_if:type,potion', 'integer', 'min:1'],
+        ]);
+
+        return ShopItem::create($data);
+    })->name('store');
+
+    Route::patch('/{shopItem}', function (Request $request, ShopItem $shopItem) use ($shopItemTypes) {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'integer', 'min:0'],
+            'type' => ['required', Rule::in($shopItemTypes)],
+            'meta' => ['nullable', 'array'],
+            'meta.heal' => ['required_if:type,potion', 'integer', 'min:1'],
+        ]);
+
+        $shopItem->update($data);
+
+        return $shopItem;
+    })->name('update');
+
+    Route::delete('/{shopItem}', function (ShopItem $shopItem) {
+        $shopItem->delete();
+
+        return response()->noContent();
+    })->name('destroy');
+});
+
 Route::middleware(['auth:owner'])->prefix('owner/stages')->name('owner.stages.')->group(function () {
     $stageValidation = fn (?Stage $ignore = null) => [
         'category_id' => ['required', Rule::exists('categories', 'id')],
@@ -354,6 +512,8 @@ Route::middleware(['auth:owner'])->prefix('owner/stages')->name('owner.stages.')
                 ->ignore($ignore?->id),
         ],
         'question_theme_id' => ['nullable', Rule::exists('question_themes', 'id')],
+        'country_id' => ['nullable', Rule::exists('countries', 'id')],
+        'region_id' => ['nullable', Rule::exists('regions', 'id')],
         'question_count' => ['required', 'integer', 'min:1'],
         'is_boss' => ['boolean'],
         'title_reward' => ['nullable', 'string', 'max:255'],
@@ -363,7 +523,7 @@ Route::middleware(['auth:owner'])->prefix('owner/stages')->name('owner.stages.')
         return Stage::query()
             ->when($request->query('category_id'), fn ($q, $categoryId) => $q->where('category_id', $categoryId))
             ->when($request->query('difficulty'), fn ($q, $difficulty) => $q->where('difficulty', $difficulty))
-            ->with(['category', 'questionTheme'])
+            ->with(['category', 'questionTheme', 'country', 'region'])
             ->orderBy('stage_number')
             ->get();
     })->name('index');
@@ -371,7 +531,7 @@ Route::middleware(['auth:owner'])->prefix('owner/stages')->name('owner.stages.')
     Route::post('/', function (Request $request) use ($stageValidation) {
         $data = $request->validate($stageValidation());
 
-        return Stage::create($data)->load(['category', 'questionTheme']);
+        return Stage::create($data)->load(['category', 'questionTheme', 'country', 'region']);
     })->name('store');
 
     Route::patch('/{stage}', function (Request $request, Stage $stage) use ($stageValidation) {
@@ -379,7 +539,7 @@ Route::middleware(['auth:owner'])->prefix('owner/stages')->name('owner.stages.')
 
         $stage->update($data);
 
-        return $stage->load(['category', 'questionTheme']);
+        return $stage->load(['category', 'questionTheme', 'country', 'region']);
     })->name('update');
 
     Route::delete('/{stage}', function (Stage $stage) {
@@ -389,7 +549,7 @@ Route::middleware(['auth:owner'])->prefix('owner/stages')->name('owner.stages.')
     })->name('destroy');
 
     Route::get('/{stage}', function (Stage $stage) {
-        return $stage->load(['category', 'questionTheme']);
+        return $stage->load(['category', 'questionTheme', 'country', 'region']);
     })->name('show');
 
     Route::get('/{stage}/questions', function (Stage $stage) {
@@ -443,6 +603,168 @@ Route::middleware(['auth:sanctum'])->get('/categories', function () {
     return Category::query()->orderBy('order')->get();
 })->name('categories.index');
 
+Route::middleware(['auth:sanctum'])->get('/countries', function () {
+    return Country::query()->orderBy('order')->get();
+})->name('countries.index');
+
+Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Request $request, Country $country) {
+    $profileId = $request->session()->get('active_profile_id');
+
+    $clearedStageIds = $profileId
+        ? ProfileStageProgress::query()
+            ->where('user_profile_id', $profileId)
+            ->whereNotNull('cleared_at')
+            ->pluck('stage_id')
+            ->all()
+        : [];
+
+    $allStages = Stage::query()
+        ->where('country_id', $country->id)
+        ->with('category')
+        ->orderBy('stage_number')
+        ->get();
+
+    $directStages = $allStages->whereNull('region_id');
+
+    $groups = $directStages
+        ->groupBy(fn (Stage $s) => $s->category_id.'|'.$s->difficulty)
+        ->map(function ($group) use ($clearedStageIds) {
+            $clearedNumbers = $group
+                ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
+                ->pluck('stage_number')
+                ->all();
+
+            return [
+                'category' => $group->first()->category,
+                'difficulty' => $group->first()->difficulty,
+                'stages' => $group->map(fn (Stage $s) => [
+                    'id' => $s->id,
+                    'stage_number' => $s->stage_number,
+                    'is_boss' => $s->is_boss,
+                    'title_reward' => $s->title_reward,
+                    'cleared' => in_array($s->id, $clearedStageIds, true),
+                    'locked' => $s->stage_number > 1
+                        && ! in_array($s->stage_number - 1, $clearedNumbers, true),
+                ])->values(),
+            ];
+        })
+        ->values();
+
+    $allRegions = Region::query()->where('country_id', $country->id)->get(['id', 'parent_id', 'name']);
+
+    $regions = $allRegions->whereNull('parent_id')
+        ->map(function (Region $region) use ($allRegions, $allStages, $clearedStageIds) {
+            $descendantIds = Region::descendantIdsFrom($allRegions, $region->id);
+            $regionStages = $allStages->whereIn('region_id', $descendantIds);
+
+            return [
+                'id' => $region->id,
+                'name' => $region->name,
+                'achievement' => [
+                    'cleared' => $regionStages->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))->count(),
+                    'total' => $regionStages->count(),
+                ],
+            ];
+        })
+        ->values();
+
+    return [
+        'id' => $country->id,
+        'code' => $country->code,
+        'name' => $country->name,
+        'mood_emoji' => $country->mood_emoji,
+        'intro_message' => $country->intro_message,
+        'achievement' => [
+            'cleared' => $allStages->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))->count(),
+            'total' => $allStages->count(),
+        ],
+        'regions' => $regions,
+        'groups' => $groups,
+    ];
+})->name('countries.show');
+
+Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request $request, Region $region) {
+    $profileId = $request->session()->get('active_profile_id');
+
+    $clearedStageIds = $profileId
+        ? ProfileStageProgress::query()
+            ->where('user_profile_id', $profileId)
+            ->whereNotNull('cleared_at')
+            ->pluck('stage_id')
+            ->all()
+        : [];
+
+    $ancestors = [];
+    $current = $region->parent;
+    while ($current) {
+        array_unshift($ancestors, ['id' => $current->id, 'name' => $current->name]);
+        $current = $current->parent;
+    }
+
+    $allRegions = Region::query()->where('country_id', $region->country_id)->get(['id', 'parent_id', 'name']);
+    $descendantIds = Region::descendantIdsFrom($allRegions, $region->id);
+
+    $descendantStages = Stage::query()->whereIn('region_id', $descendantIds)->get(['id']);
+
+    $children = $allRegions->where('parent_id', $region->id)
+        ->map(function ($child) use ($allRegions, $clearedStageIds) {
+            $childDescendantIds = Region::descendantIdsFrom($allRegions, $child->id);
+            $childStages = Stage::query()->whereIn('region_id', $childDescendantIds)->get(['id']);
+
+            return [
+                'id' => $child->id,
+                'name' => $child->name,
+                'achievement' => [
+                    'cleared' => $childStages->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))->count(),
+                    'total' => $childStages->count(),
+                ],
+            ];
+        })
+        ->values();
+
+    $groups = [];
+    if ($children->isEmpty()) {
+        $stages = Stage::query()->where('region_id', $region->id)->with('category')->orderBy('stage_number')->get();
+
+        $groups = $stages
+            ->groupBy(fn (Stage $s) => $s->category_id.'|'.$s->difficulty)
+            ->map(function ($group) use ($clearedStageIds) {
+                $clearedNumbers = $group
+                    ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
+                    ->pluck('stage_number')
+                    ->all();
+
+                return [
+                    'category' => $group->first()->category,
+                    'difficulty' => $group->first()->difficulty,
+                    'stages' => $group->map(fn (Stage $s) => [
+                        'id' => $s->id,
+                        'stage_number' => $s->stage_number,
+                        'is_boss' => $s->is_boss,
+                        'title_reward' => $s->title_reward,
+                        'cleared' => in_array($s->id, $clearedStageIds, true),
+                        'locked' => $s->stage_number > 1
+                            && ! in_array($s->stage_number - 1, $clearedNumbers, true),
+                    ])->values(),
+                ];
+            })
+            ->values();
+    }
+
+    return [
+        'id' => $region->id,
+        'name' => $region->name,
+        'country' => $region->country,
+        'ancestors' => $ancestors,
+        'achievement' => [
+            'cleared' => $descendantStages->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))->count(),
+            'total' => $descendantStages->count(),
+        ],
+        'children' => $children,
+        'groups' => $groups,
+    ];
+})->name('regions.show');
+
 Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', function (Request $request, Category $category) {
     $profileId = $request->session()->get('active_profile_id');
 
@@ -489,8 +811,8 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
 
 Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Stage $stage) {
     $questions = $stage->questions()
-        ->with('choices')
-        ->get(['questions.id', 'questions.type', 'questions.prompt'])
+        ->with(['choices', 'country'])
+        ->get(['questions.id', 'questions.type', 'questions.prompt', 'questions.country_id'])
         ->shuffle()
         ->values();
 
@@ -538,7 +860,30 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $progress->cleared_at ??= now();
     $progress->save();
 
-    return $progress;
+    $profile->applyEconomy(['coin' => 100], 'stage_clear', null, $stage);
+
+    $titleGranted = false;
+    if ($stage->is_boss && $stage->title_reward && $data['score'] === $stage->questions()->count()) {
+        $title = ProfileTitle::query()->firstOrCreate(
+            ['user_profile_id' => $profile->id, 'title' => $stage->title_reward],
+            ['source_stage_id' => $stage->id, 'unlocked_at' => now()]
+        );
+        $titleGranted = $title->wasRecentlyCreated;
+    }
+
+    return [
+        'progress' => $progress,
+        'profile' => [
+            'id' => $profile->id,
+            'hp' => $profile->hp,
+            'max_hp' => $profile->max_hp,
+            'xp' => $profile->xp,
+            'coins' => $profile->coins,
+            'level' => $profile->level,
+        ],
+        'title_granted' => $titleGranted,
+        'title' => $stage->title_reward,
+    ];
 })->name('stages.complete');
 
 Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', function (Request $request, Question $question) {
@@ -551,11 +896,66 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
 
     $correctChoice = $question->choices()->where('is_correct', true)->first();
 
+    $profileId = $request->session()->get('active_profile_id');
+    $profile = $profileId ? UserProfile::find($profileId) : null;
+
+    $economy = null;
+    if ($profile && $profile->user_schema_id === $request->user()->schema?->id) {
+        $result = $choice->is_correct
+            ? $profile->applyEconomy(['hp' => -1, 'xp' => 10, 'coin' => 5], 'answer_correct', $question)
+            : $profile->applyEconomy(['hp' => -2], 'answer_wrong', $question);
+
+        $economy = [
+            'hp' => $profile->hp,
+            'max_hp' => $profile->max_hp,
+            'xp' => $profile->xp,
+            'coins' => $profile->coins,
+            'level' => $profile->level,
+            'leveled_up' => $result['leveled_up'],
+            'delta' => $result['deltas'],
+        ];
+    }
+
     return [
         'correct' => $choice->is_correct,
         'correct_choice_id' => $correctChoice?->id,
+        'profile' => $economy,
     ];
 })->name('questions.answer');
+
+Route::middleware(['auth:sanctum'])->get('/shop', function () {
+    return ShopItem::query()->orderBy('type')->orderBy('price')->get();
+})->name('shop.index');
+
+Route::middleware(['auth:sanctum'])->post('/shop/{shopItem}/purchase', function (Request $request, ShopItem $shopItem) {
+    $profileId = $request->session()->get('active_profile_id');
+    $profile = $profileId ? UserProfile::find($profileId) : null;
+    abort_unless($profile && $profile->user_schema_id === $request->user()->schema?->id, 422);
+    abort_if($profile->coins < $shopItem->price, 422, 'コインが足りません。');
+
+    $deltas = ['coin' => -$shopItem->price];
+    if ($shopItem->type === 'potion' && ($heal = $shopItem->meta['heal'] ?? null)) {
+        $deltas['hp'] = $heal;
+    }
+    $profile->applyEconomy($deltas, 'shop_purchase');
+
+    UserProfileItem::create([
+        'user_profile_id' => $profile->id,
+        'shop_item_id' => $shopItem->id,
+        'purchased_at' => now(),
+    ]);
+
+    return [
+        'profile' => [
+            'id' => $profile->id,
+            'hp' => $profile->hp,
+            'max_hp' => $profile->max_hp,
+            'xp' => $profile->xp,
+            'coins' => $profile->coins,
+            'level' => $profile->level,
+        ],
+    ];
+})->name('shop.purchase');
 
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {
     Route::get('/', function (Request $request) {

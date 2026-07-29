@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             UserSchemaSeeder::class,
             UserProfileSeeder::class,
             CategorySeeder::class,
+            LanguageSeeder::class,
             CountrySeeder::class,
             EventSeeder::class,
             ContentItemSeeder::class,

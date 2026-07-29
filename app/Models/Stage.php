@@ -10,6 +10,8 @@ class Stage extends Model
 {
     protected $fillable = [
         'category_id',
+        'country_id',
+        'region_id',
         'difficulty',
         'stage_number',
         'question_theme_id',
@@ -28,6 +30,16 @@ class Stage extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(Region::class);
     }
 
     public function questionTheme(): BelongsTo
