@@ -8,7 +8,35 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserProfile extends Model
 {
-    protected $fillable = ['name', 'hp', 'max_hp', 'xp', 'coins', 'level'];
+    protected $fillable = ['name', 'hp', 'max_hp', 'xp', 'coins', 'level', 'combo', 'best_combo'];
+
+    /**
+     * コンボ(連続正解)は経済ロジックとは別に管理する通貨ではないため、
+     * applyEconomy()とは別メソッドにしている。docs/AppInfo.mdが
+     * 「最重要要素」の1つとして挙げる要素。
+     *
+     * @return array{combo: int, best_combo: int, milestone_bonus_coin: int}
+     */
+    public function registerComboResult(bool $correct): array
+    {
+        if ($correct) {
+            $this->combo += 1;
+            $this->best_combo = max($this->best_combo, $this->combo);
+        } else {
+            $this->combo = 0;
+        }
+        $this->save();
+
+        $milestoneBonusCoin = ($correct && $this->combo > 0 && $this->combo % 5 === 0)
+            ? 20
+            : 0;
+
+        return [
+            'combo' => $this->combo,
+            'best_combo' => $this->best_combo,
+            'milestone_bonus_coin' => $milestoneBonusCoin,
+        ];
+    }
 
     public function schema(): BelongsTo
     {

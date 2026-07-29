@@ -32,6 +32,52 @@ it('正解するとXPとコインが増え、HPが1減る', function () {
     expect($profile->hp)->toBe(19);
 });
 
+it('連続正解でコンボが増える', function () {
+    $profile = createActiveProfile();
+
+    foreach (range(1, 3) as $i) {
+        [$question, $correct] = createQuestionWithChoices();
+        $response = $this->postJson("/api/questions/{$question->id}/answer", [
+            'choice_id' => $correct->id,
+        ]);
+        expect($response->json('profile.combo'))->toBe($i);
+    }
+
+    expect($profile->fresh()->best_combo)->toBe(3);
+});
+
+it('不正解するとコンボが0にリセットされる(ベストは維持)', function () {
+    $profile = createActiveProfile();
+
+    [$q1, $c1] = createQuestionWithChoices();
+    $this->postJson("/api/questions/{$q1->id}/answer", ['choice_id' => $c1->id]);
+
+    [$q2, , $wrong2] = createQuestionWithChoices();
+    $response = $this->postJson("/api/questions/{$q2->id}/answer", [
+        'choice_id' => $wrong2->id,
+    ]);
+
+    expect($response->json('profile.combo'))->toBe(0);
+    expect($profile->fresh()->best_combo)->toBe(1);
+});
+
+it('5連続正解でボーナスコインが付与される', function () {
+    $profile = createActiveProfile();
+    $lastResponse = null;
+
+    foreach (range(1, 5) as $i) {
+        [$question, $correct] = createQuestionWithChoices();
+        $lastResponse = $this->postJson("/api/questions/{$question->id}/answer", [
+            'choice_id' => $correct->id,
+        ]);
+    }
+
+    expect($lastResponse->json('profile.combo'))->toBe(5);
+    expect($lastResponse->json('profile.combo_milestone_bonus_coin'))->toBe(20);
+    // 5問 × 5コイン + 5コンボボーナス20コイン
+    expect($profile->fresh()->coins)->toBe(5 * 5 + 20);
+});
+
 it('不正解だとHPが2減り、XPとコインは増えない', function () {
     $profile = createActiveProfile();
     [$question, , $wrong] = createQuestionWithChoices();

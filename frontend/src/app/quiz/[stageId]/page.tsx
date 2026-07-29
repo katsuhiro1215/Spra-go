@@ -27,6 +27,7 @@ type StagePlayData = {
 };
 
 type EconomyDelta = { hp?: number; xp?: number; coin?: number };
+type ComboInfo = { combo: number; combo_milestone_bonus_coin: number };
 
 type CompleteResult = { title_granted: boolean; title: string | null };
 
@@ -49,6 +50,7 @@ export default function Page({
   const [answered, setAnswered] = useState(false);
   const [lastCorrect, setLastCorrect] = useState(false);
   const [lastDelta, setLastDelta] = useState<EconomyDelta | null>(null);
+  const [combo, setCombo] = useState<ComboInfo | null>(null);
   const [score, setScore] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [completionSubmitted, setCompletionSubmitted] = useState(false);
@@ -133,6 +135,15 @@ export default function Page({
       setAnswered(true);
       setLastCorrect(Boolean(data.correct));
       setLastDelta(data.profile?.delta ?? null);
+      setCombo(
+        data.profile
+          ? {
+              combo: data.profile.combo,
+              combo_milestone_bonus_coin:
+                data.profile.combo_milestone_bonus_coin,
+            }
+          : null,
+      );
       if (data.correct) setScore((prev) => prev + 1);
     } finally {
       setSubmitting(false);
@@ -153,6 +164,7 @@ export default function Page({
     setCorrectChoiceId(null);
     setAnswered(false);
     setLastDelta(null);
+    setCombo(null);
     setScore(0);
     setCompletionSubmitted(false);
     setCompleteResult(null);
@@ -259,6 +271,16 @@ export default function Page({
                   <span>+{lastDelta.coin}Coin</span>
                 )}
               </p>
+              {combo && combo.combo >= 2 && (
+                <p className="animate-stage-intro-subtitle text-lg font-bold text-amber-300">
+                  🔥 {combo.combo}コンボ！
+                </p>
+              )}
+              {combo && combo.combo_milestone_bonus_coin > 0 && (
+                <p className="animate-stage-intro-subtitle text-base font-semibold text-amber-200">
+                  ボーナス +{combo.combo_milestone_bonus_coin}Coin
+                </p>
+              )}
             </>
           ) : (
             <>
