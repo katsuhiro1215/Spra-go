@@ -1,0 +1,587 @@
+{
+  "country_name": "イギリス",
+  "country_code": "GB",
+  "difficulty": "上級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "ユニオンジャックに描かれている3つの十字は、それぞれどの国を表しているでしょう？",
+          "choices": [
+            { "label": "イングランド・スコットランド・アイルランド", "is_correct": true },
+            { "label": "イングランド・スコットランド・ウェールズ", "is_correct": false },
+            { "label": "イングランド・アイルランド・ウェールズ", "is_correct": false },
+            { "label": "スコットランド・アイルランド・ウェールズ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イングランドを表す「セント・ジョージ・クロス」のデザインとして正しいのはどれ？",
+          "choices": [
+            { "label": "白地に赤い十字", "is_correct": true },
+            { "label": "青地に白い斜め十字", "is_correct": false },
+            { "label": "白地に赤い斜め十字", "is_correct": false },
+            { "label": "赤地に白い十字", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "スコットランドを表す「セント・アンドリュー・クロス」のデザインとして正しいのはどれ？",
+          "choices": [
+            { "label": "青地に白い斜め十字（サルタイア）", "is_correct": true },
+            { "label": "白地に赤い十字", "is_correct": false },
+            { "label": "赤地に白い斜め十字", "is_correct": false },
+            { "label": "緑地に白い十字", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アイルランドを表す「セント・パトリック・クロス」のデザインとして正しいのはどれ？",
+          "choices": [
+            { "label": "白地に赤い斜め十字", "is_correct": true },
+            { "label": "青地に白い斜め十字", "is_correct": false },
+            { "label": "白地に赤い十字", "is_correct": false },
+            { "label": "緑地に金の斜め十字", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イングランドとスコットランドの十字を組み合わせた、最初のユニオン旗が作られたのは西暦何年でしょう？",
+          "choices": [
+            { "label": "1606年", "is_correct": true },
+            { "label": "1707年", "is_correct": false },
+            { "label": "1801年", "is_correct": false },
+            { "label": "1901年", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アイルランドの十字も加わり、現在の3つの十字を組み合わせたユニオンジャックが完成したのは西暦何年でしょう？",
+          "choices": [
+            { "label": "1801年", "is_correct": true },
+            { "label": "1606年", "is_correct": false },
+            { "label": "1666年", "is_correct": false },
+            { "label": "1900年", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ユニオンジャックに描かれていない国のシンボルは、次のうちどれでしょう？",
+          "choices": [
+            { "label": "ウェールズの赤いドラゴン", "is_correct": true },
+            { "label": "イングランドの赤い十字", "is_correct": false },
+            { "label": "スコットランドの白い斜め十字", "is_correct": false },
+            { "label": "アイルランドの赤い斜め十字", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ウェールズの旗がユニオンジャックに含まれていない理由として、最も正しい説明はどれでしょう？",
+          "choices": [
+            { "label": "ユニオンジャックが作られる前から、すでにイングランド王国の一部だったため", "is_correct": true },
+            { "label": "ウェールズが当時、国旗を持っていなかったため", "is_correct": false },
+            { "label": "ウェールズが連合への参加を拒否したため", "is_correct": false },
+            { "label": "ウェールズだけデザインの案がまとまらなかったため", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「ユニオンジャック」という呼び名の「ジャック」は、もともと船のどの部分に掲げる旗を指す言葉だったでしょう？",
+          "choices": [
+            { "label": "船首に立てた旗竿（ジャックスタッフ）に掲げる旗", "is_correct": true },
+            { "label": "船尾のマストに掲げる旗", "is_correct": false },
+            { "label": "甲板全体を覆う旗", "is_correct": false },
+            { "label": "船長室の窓に掲げる旗", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ユニオンジャックに使われている色の組み合わせとして正しいのはどれでしょう？",
+          "choices": [
+            { "label": "赤・白・青", "is_correct": true },
+            { "label": "赤・白・金", "is_correct": false },
+            { "label": "白・青・緑", "is_correct": false },
+            { "label": "赤・黒・白", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "ロンドンの起源となった、古代ローマ人が築いた都市の名前はどれでしょう？",
+          "choices": [
+            { "label": "ロンディニウム", "is_correct": true },
+            { "label": "ロンドニア", "is_correct": false },
+            { "label": "ブリタニア", "is_correct": false },
+            { "label": "カレドニア", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "世界で最初に地下鉄が開通した都市はどこでしょう？",
+          "choices": [
+            { "label": "ロンドン", "is_correct": true },
+            { "label": "ニューヨーク", "is_correct": false },
+            { "label": "パリ", "is_correct": false },
+            { "label": "東京", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ロンドンの中心部にある、独自の市長や行政組織を持つ歴史的な一区画は、愛称で何と呼ばれるでしょう？",
+          "choices": [
+            { "label": "スクエア・マイル", "is_correct": true },
+            { "label": "リトル・ロンドン", "is_correct": false },
+            { "label": "オールド・タウン", "is_correct": false },
+            { "label": "キングス・マイル", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「シティ・オブ・ロンドン」を治めるトップの役職名で、ロンドン市長（Mayor of London）とは別に存在する伝統的な称号はどれでしょう？",
+          "choices": [
+            { "label": "ロード・メイヤー", "is_correct": true },
+            { "label": "ハイ・シェリフ", "is_correct": false },
+            { "label": "チャンセラー", "is_correct": false },
+            { "label": "プロボスト", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ロンドンの街を東西に流れ、街の発展を支えてきた川はどれでしょう？",
+          "choices": [
+            { "label": "テムズ川", "is_correct": true },
+            { "label": "セバーン川", "is_correct": false },
+            { "label": "エイヴォン川", "is_correct": false },
+            { "label": "テイ川", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「ビッグベン」という愛称で知られているのは、実際には塔の中にある何でしょう？",
+          "choices": [
+            { "label": "大きな鐘", "is_correct": true },
+            { "label": "塔全体", "is_correct": false },
+            { "label": "時計の文字盤", "is_correct": false },
+            { "label": "塔の中の階段", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「ビッグベン」の鐘がある塔の、現在の正式名称はどれでしょう？",
+          "choices": [
+            { "label": "エリザベス・タワー", "is_correct": true },
+            { "label": "クロック・タワー", "is_correct": false },
+            { "label": "セント・スティーブンズ・タワー", "is_correct": false },
+            { "label": "ウェストミンスター・タワー", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "エリザベス・タワーという名前は、2012年に何を記念して名付けられたでしょう？",
+          "choices": [
+            { "label": "エリザベス2世の即位60周年（ダイヤモンド・ジュビリー）", "is_correct": true },
+            { "label": "エリザベス1世の戴冠式", "is_correct": false },
+            { "label": "ヴィクトリア女王の生誕200年", "is_correct": false },
+            { "label": "チャールズ3世の戴冠式", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1666年に発生し、ロンドンの大部分を焼失させた出来事は何と呼ばれているでしょう？",
+          "choices": [
+            { "label": "ロンドン大火", "is_correct": true },
+            { "label": "ロンドン大空襲", "is_correct": false },
+            { "label": "ペストの大流行", "is_correct": false },
+            { "label": "ロンドン大洪水", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ロンドン大火で焼け落ちたセント・ポール大聖堂を、新たに設計した建築家は誰でしょう？",
+          "choices": [
+            { "label": "クリストファー・レン", "is_correct": true },
+            { "label": "イニゴー・ジョーンズ", "is_correct": false },
+            { "label": "ジョン・ナッシュ", "is_correct": false },
+            { "label": "チャールズ・バリー", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "イギリスの国旗として正しいものはどれでしょう？",
+          "choices": [
+            { "label": "🇬🇧", "is_correct": true },
+            { "label": "🇺🇸", "is_correct": false },
+            { "label": "🇫🇷", "is_correct": false },
+            { "label": "🇦🇺", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "次の国旗のうち、デザインの一部（左上）に小さくユニオンジャックが描かれているのはどれでしょう？",
+          "choices": [
+            { "label": "🇦🇺", "is_correct": true },
+            { "label": "🇮🇪", "is_correct": false },
+            { "label": "🇨🇦", "is_correct": false },
+            { "label": "🇿🇦", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "次の国旗のうち、イギリスの国旗と同じく赤・白・青の3色が使われているのはどれでしょう？",
+          "choices": [
+            { "label": "🇬🇧", "is_correct": true },
+            { "label": "🇩🇪", "is_correct": false },
+            { "label": "🇮🇹", "is_correct": false },
+            { "label": "🇯🇵", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスの国旗のデザインを説明したものとして、正しいのはどれでしょう？",
+          "choices": [
+            { "label": "赤・白・青を組み合わせた、十字と斜め十字によるデザイン", "is_correct": true },
+            { "label": "青地に白い星が並ぶデザイン", "is_correct": false },
+            { "label": "赤地に白い十字がひとつだけのデザイン", "is_correct": false },
+            { "label": "緑と白の横じまに赤い竜が描かれたデザイン", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスの国旗の愛称として、正しいものはどれでしょう？",
+          "choices": [
+            { "label": "ユニオンジャック", "is_correct": true },
+            { "label": "スター・スパングルド・バナー", "is_correct": false },
+            { "label": "トリコロール", "is_correct": false },
+            { "label": "日の丸", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスを構成する国のひとつ、スコットランドの旗に描かれているデザインはどれでしょう？",
+          "choices": [
+            { "label": "青地に白い斜め十字（セント・アンドリュー・クロス）", "is_correct": true },
+            { "label": "白地に赤い十字", "is_correct": false },
+            { "label": "緑地に赤い竜", "is_correct": false },
+            { "label": "白地に赤い斜め十字", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスを構成する国のひとつ、ウェールズの旗に描かれている生き物はどれでしょう？",
+          "choices": [
+            { "label": "赤い竜（ドラゴン）", "is_correct": true },
+            { "label": "白いユニコーン", "is_correct": false },
+            { "label": "金のライオン", "is_correct": false },
+            { "label": "黒い鷲", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスを構成する国のひとつ、イングランドの旗に描かれているデザインはどれでしょう？",
+          "choices": [
+            { "label": "白地に赤い十字（セント・ジョージ・クロス）", "is_correct": true },
+            { "label": "青地に白い斜め十字", "is_correct": false },
+            { "label": "白地に赤い斜め十字", "is_correct": false },
+            { "label": "赤地に白い十字", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "次のうち、イギリスと同じ赤・白・青の3色を使いながら、横じまのデザインになっている国旗はどれでしょう？",
+          "choices": [
+            { "label": "🇳🇱", "is_correct": true },
+            { "label": "🇫🇷", "is_correct": false },
+            { "label": "🇩🇪", "is_correct": false },
+            { "label": "🇮🇹", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスの国旗に組み合わされている十字（セント・ジョージ、セント・アンドリュー、セント・パトリックの各クロス）は、全部でいくつでしょう？",
+          "choices": [
+            { "label": "3つ", "is_correct": true },
+            { "label": "2つ", "is_correct": false },
+            { "label": "4つ", "is_correct": false },
+            { "label": "5つ", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "イギリス（連合王国）を構成する4つの「カントリー」に含まれないのはどれでしょう？",
+          "choices": [
+            { "label": "アイルランド（アイルランド共和国）", "is_correct": true },
+            { "label": "イングランド", "is_correct": false },
+            { "label": "スコットランド", "is_correct": false },
+            { "label": "ウェールズ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「グレートブリテン島」という1つの島に含まれない地域はどれでしょう？",
+          "choices": [
+            { "label": "北アイルランド", "is_correct": true },
+            { "label": "イングランド", "is_correct": false },
+            { "label": "スコットランド", "is_correct": false },
+            { "label": "ウェールズ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスで最も標高が高い山、ベン・ネビスがあるのはどこでしょう？",
+          "choices": [
+            { "label": "スコットランド", "is_correct": true },
+            { "label": "イングランド", "is_correct": false },
+            { "label": "ウェールズ", "is_correct": false },
+            { "label": "北アイルランド", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ベン・ネビスの標高として、最も近いのはどれでしょう？",
+          "choices": [
+            { "label": "約1345メートル", "is_correct": true },
+            { "label": "約2345メートル", "is_correct": false },
+            { "label": "約845メートル", "is_correct": false },
+            { "label": "約545メートル", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス国内で最も長い川はどれでしょう？",
+          "choices": [
+            { "label": "セバーン川", "is_correct": true },
+            { "label": "テムズ川", "is_correct": false },
+            { "label": "エイヴォン川", "is_correct": false },
+            { "label": "トレント川", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス最長の川、セバーン川のおおよその長さとして正しいのはどれでしょう？",
+          "choices": [
+            { "label": "約354km", "is_correct": true },
+            { "label": "約150km", "is_correct": false },
+            { "label": "約550km", "is_correct": false },
+            { "label": "約1000km", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスとヨーロッパ大陸の間にある海のうち、最も幅が狭い場所は何と呼ばれているでしょう？",
+          "choices": [
+            { "label": "ドーバー海峡", "is_correct": true },
+            { "label": "北海", "is_correct": false },
+            { "label": "アイリッシュ海", "is_correct": false },
+            { "label": "ケルト海", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ドーバー海峡の最も狭い場所の幅として、最も近いのはどれでしょう？",
+          "choices": [
+            { "label": "約34km", "is_correct": true },
+            { "label": "約340km", "is_correct": false },
+            { "label": "約3.4km", "is_correct": false },
+            { "label": "約134km", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "スコットランドにある、「ネッシー」の伝説で世界的に有名な湖はどれでしょう？",
+          "choices": [
+            { "label": "ネス湖", "is_correct": true },
+            { "label": "ロッホ・ローモンド", "is_correct": false },
+            { "label": "ロッホ・モーラー", "is_correct": false },
+            { "label": "ウィンダミア湖", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ネス湖について、正しい説明はどれでしょう？",
+          "choices": [
+            { "label": "水の量（体積）がイギリスで最大の湖", "is_correct": true },
+            { "label": "面積がイギリスで一番広い湖", "is_correct": false },
+            { "label": "イギリスで最も浅い湖", "is_correct": false },
+            { "label": "海と直接つながっている湖", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "イギリスレジェンド",
+      "questions": [
+        {
+          "prompt": "「色」を表す単語について、イギリス英語での伝統的な正しいつづりはどれでしょう？",
+          "choices": [
+            { "label": "colour", "is_correct": true },
+            { "label": "color", "is_correct": false },
+            { "label": "colar", "is_correct": false },
+            { "label": "coulour", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「中心」を表す単語について、イギリス英語での伝統的な正しいつづりはどれでしょう？",
+          "choices": [
+            { "label": "centre", "is_correct": true },
+            { "label": "center", "is_correct": false },
+            { "label": "centar", "is_correct": false },
+            { "label": "cente", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「organize」はアメリカ英語でよく使われるつづりです。イギリス英語で伝統的に使われるつづりはどれでしょう？",
+          "choices": [
+            { "label": "organise", "is_correct": true },
+            { "label": "organize", "is_correct": false },
+            { "label": "orgainse", "is_correct": false },
+            { "label": "organzie", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「エレベーター」を指す単語はどれでしょう？",
+          "choices": [
+            { "label": "lift", "is_correct": true },
+            { "label": "elevator", "is_correct": false },
+            { "label": "escalator", "is_correct": false },
+            { "label": "hoist", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「アパートやマンションの一室」を指す単語はどれでしょう？",
+          "choices": [
+            { "label": "flat", "is_correct": true },
+            { "label": "apartment", "is_correct": false },
+            { "label": "condo", "is_correct": false },
+            { "label": "studio", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「ガソリン」を意味する単語はどれでしょう？",
+          "choices": [
+            { "label": "petrol", "is_correct": true },
+            { "label": "gasoline", "is_correct": false },
+            { "label": "fuel oil", "is_correct": false },
+            { "label": "diesel", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスで「chips」と言えば、主に何を指すでしょう？",
+          "choices": [
+            { "label": "太めに切ったフライドポテト", "is_correct": true },
+            { "label": "薄切りのポテトチップス（スナック菓子）", "is_correct": false },
+            { "label": "唐揚げ", "is_correct": false },
+            { "label": "ポテトサラダ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で、日本で言う「ポテトチップス」（薄い袋入りスナック）を指す単語はどれでしょう？",
+          "choices": [
+            { "label": "crisps", "is_correct": true },
+            { "label": "chips", "is_correct": false },
+            { "label": "fries", "is_correct": false },
+            { "label": "wafers", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「秋」を表す単語として、より一般的に使われるのはどれでしょう？",
+          "choices": [
+            { "label": "autumn", "is_correct": true },
+            { "label": "fall", "is_correct": false },
+            { "label": "harvest", "is_correct": false },
+            { "label": "September", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「pants」と言うと、主に何を指すでしょう？",
+          "choices": [
+            { "label": "下着", "is_correct": true },
+            { "label": "ズボン（トラウザーズ）", "is_correct": false },
+            { "label": "靴下", "is_correct": false },
+            { "label": "手袋", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「セーター」を指す代表的な単語はどれでしょう？",
+          "choices": [
+            { "label": "jumper", "is_correct": true },
+            { "label": "sweater", "is_correct": false },
+            { "label": "waistcoat", "is_correct": false },
+            { "label": "blazer", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で、車の「トランク（後部の荷物入れ）」を指す単語はどれでしょう？",
+          "choices": [
+            { "label": "boot", "is_correct": true },
+            { "label": "trunk", "is_correct": false },
+            { "label": "bonnet", "is_correct": false },
+            { "label": "hood", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「サンドイッチ」という名前は、18世紀のイギリスのある人物の称号に由来すると言われています。それは何伯爵でしょう？",
+          "choices": [
+            { "label": "サンドイッチ伯爵", "is_correct": true },
+            { "label": "ウェリントン公爵", "is_correct": false },
+            { "label": "カーディガン伯爵", "is_correct": false },
+            { "label": "ノーフォーク公爵", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "前開きの毛糸のジャケット「カーディガン」は、クリミア戦争で活躍したある伯爵の名前に由来します。それは誰でしょう？",
+          "choices": [
+            { "label": "カーディガン伯爵", "is_correct": true },
+            { "label": "サンドイッチ伯爵", "is_correct": false },
+            { "label": "ウェリントン公爵", "is_correct": false },
+            { "label": "ネルソン提督", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "長靴「ウェリントンブーツ」の名前の由来となった人物はどれでしょう？",
+          "choices": [
+            { "label": "ウェリントン公爵", "is_correct": true },
+            { "label": "ネルソン提督", "is_correct": false },
+            { "label": "サンドイッチ伯爵", "is_correct": false },
+            { "label": "ヴィクトリア女王", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ロンドン東部発祥の「コックニー・ライミング・スラング」で、「dog and bone」が意味する言葉はどれでしょう？",
+          "choices": [
+            { "label": "電話", "is_correct": true },
+            { "label": "足", "is_correct": false },
+            { "label": "頭", "is_correct": false },
+            { "label": "お金", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスで伝統的に最も標準的とされてきた話し方（アクセント）は、しばしば何と呼ばれるでしょう？",
+          "choices": [
+            { "label": "容認発音（RP）、通称「BBC英語」", "is_correct": true },
+            { "label": "コックニー", "is_correct": false },
+            { "label": "スコットランド英語", "is_correct": false },
+            { "label": "アメリカ英語", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1863年に世界で初めて開通した、ロンドンの地下鉄はイギリス英語で愛称として何と呼ばれるでしょう？",
+          "choices": [
+            { "label": "チューブ（Tube）", "is_correct": true },
+            { "label": "サブウェイ（Subway）", "is_correct": false },
+            { "label": "メトロ（Metro）", "is_correct": false },
+            { "label": "エル（El）", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "スコットランドで話される「スコットランド・ゲール語」と「スコッツ語」の関係として、正しいのはどれでしょう？",
+          "choices": [
+            { "label": "ケルト語派とゲルマン語派という、全く異なる語族に属する別の言語", "is_correct": true },
+            { "label": "同じ言語の方言どうし", "is_correct": false },
+            { "label": "スコッツ語はゲール語から枝分かれした言語", "is_correct": false },
+            { "label": "どちらも英語の古い呼び方に過ぎない", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ウェールズ語について、正しい説明はどれでしょう？",
+          "choices": [
+            { "label": "ウェールズにおいて、英語と並ぶ公的な地位を持つ言語", "is_correct": true },
+            { "label": "現在では日常的に話す人がほとんどいない言語", "is_correct": false },
+            { "label": "アイルランドで話されている言語と全く同じ言語", "is_correct": false },
+            { "label": "スコットランドの公用語", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

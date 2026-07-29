@@ -1,0 +1,587 @@
+{
+  "country_name": "日本",
+  "country_code": "JP",
+  "difficulty": "中級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "日本の国旗の正式名称は？",
+          "choices": [
+            {"label": "日章旗", "is_correct": true},
+            {"label": "太陽旗", "is_correct": false},
+            {"label": "旭日旗", "is_correct": false},
+            {"label": "光明旗", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本の国旗を法律で正式に定めている法律の名前は？",
+          "choices": [
+            {"label": "国旗及び国歌に関する法律", "is_correct": true},
+            {"label": "国旗保護法", "is_correct": false},
+            {"label": "国旗制定法", "is_correct": false},
+            {"label": "国旗基本法", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本の国旗が法律で正式に定められたのは西暦何年？",
+          "choices": [
+            {"label": "1999年", "is_correct": true},
+            {"label": "1945年", "is_correct": false},
+            {"label": "1868年", "is_correct": false},
+            {"label": "2000年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本の国旗の縦と横の比率として正しいのはどれ？",
+          "choices": [
+            {"label": "2対3", "is_correct": true},
+            {"label": "1対2", "is_correct": false},
+            {"label": "3対5", "is_correct": false},
+            {"label": "1対1", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本の国旗に描かれた赤い丸の直径は、旗の縦の長さの何分のいくつと定められている？",
+          "choices": [
+            {"label": "5分の3", "is_correct": true},
+            {"label": "2分の1", "is_correct": false},
+            {"label": "3分の1", "is_correct": false},
+            {"label": "4分の3", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "1999年の法律で、日本の国旗の赤い丸の中心の位置はどこと定められている？",
+          "choices": [
+            {"label": "旗の中央", "is_correct": true},
+            {"label": "旗竿側に大きく寄った位置", "is_correct": false},
+            {"label": "上部に寄った位置", "is_correct": false},
+            {"label": "下部に寄った位置", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本の国旗と同じく丸が描かれたバングラデシュの国旗だが、地色は何色？",
+          "choices": [
+            {"label": "緑色", "is_correct": true},
+            {"label": "白色", "is_correct": false},
+            {"label": "水色", "is_correct": false},
+            {"label": "黄色", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本の国旗のように丸が描かれたパラオの国旗の色の組み合わせとして正しいのはどれ？",
+          "choices": [
+            {"label": "水色地に黄色の丸", "is_correct": true},
+            {"label": "白地に赤の丸", "is_correct": false},
+            {"label": "緑地に白の丸", "is_correct": false},
+            {"label": "赤地に白の丸", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日章旗という名前の由来にもなっている、赤い丸が伝統的に表すとされているものは何？",
+          "choices": [
+            {"label": "太陽", "is_correct": true},
+            {"label": "月", "is_correct": false},
+            {"label": "星", "is_correct": false},
+            {"label": "花", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "オリンピックの開会式などで、日本選手団の入場行進の際に掲げられる国旗は？",
+          "choices": [
+            {"label": "日章旗", "is_correct": true},
+            {"label": "旭日旗", "is_correct": false},
+            {"label": "大漁旗", "is_correct": false},
+            {"label": "五輪旗", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「江戸」と呼ばれていた都市が「東京」に改称されたのは西暦何年？",
+          "choices": [
+            {"label": "1868年", "is_correct": true},
+            {"label": "1603年", "is_correct": false},
+            {"label": "1912年", "is_correct": false},
+            {"label": "1945年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "東京23区(特別区)の人口として、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {"label": "およそ930万人", "is_correct": true},
+            {"label": "およそ300万人", "is_correct": false},
+            {"label": "およそ1500万人", "is_correct": false},
+            {"label": "およそ500万人", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "東京23区を除いた「市」の中で、日本で最も人口が多い都市は？",
+          "choices": [
+            {"label": "横浜市", "is_correct": true},
+            {"label": "大阪市", "is_correct": false},
+            {"label": "名古屋市", "is_correct": false},
+            {"label": "福岡市", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "東京タワーの高さとして、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {"label": "約333メートル", "is_correct": true},
+            {"label": "約634メートル", "is_correct": false},
+            {"label": "約200メートル", "is_correct": false},
+            {"label": "約450メートル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "東京スカイツリーの高さとして、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {"label": "約634メートル", "is_correct": true},
+            {"label": "約333メートル", "is_correct": false},
+            {"label": "約500メートル", "is_correct": false},
+            {"label": "約800メートル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "東京スカイツリーが完成し、一般公開が始まったのは西暦何年？",
+          "choices": [
+            {"label": "2012年", "is_correct": true},
+            {"label": "2000年", "is_correct": false},
+            {"label": "2020年", "is_correct": false},
+            {"label": "1990年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "東京都庁舎(都庁)がある地区はどこ？",
+          "choices": [
+            {"label": "新宿", "is_correct": true},
+            {"label": "渋谷", "is_correct": false},
+            {"label": "池袋", "is_correct": false},
+            {"label": "品川", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "国会議事堂がある東京の地区はどこ？",
+          "choices": [
+            {"label": "永田町", "is_correct": true},
+            {"label": "丸の内", "is_correct": false},
+            {"label": "霞が関", "is_correct": false},
+            {"label": "大手町", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "東京と大阪の間を結ぶ新幹線の路線名は？",
+          "choices": [
+            {"label": "東海道新幹線", "is_correct": true},
+            {"label": "東北新幹線", "is_correct": false},
+            {"label": "山陽新幹線", "is_correct": false},
+            {"label": "上越新幹線", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "皇居がある東京の中心的な区はどこ？",
+          "choices": [
+            {"label": "千代田区", "is_correct": true},
+            {"label": "中央区", "is_correct": false},
+            {"label": "港区", "is_correct": false},
+            {"label": "新宿区", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "日本の国旗はどれでしょう？",
+          "choices": [
+            {"label": "🇯🇵", "is_correct": true},
+            {"label": "🇵🇼", "is_correct": false},
+            {"label": "🇧🇩", "is_correct": false},
+            {"label": "🇱🇦", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本の国旗のデザインとして正しいものはどれ？",
+          "choices": [
+            {"label": "白地に紅色の丸、旗の比率は2対3", "is_correct": true},
+            {"label": "水色地に黄色の丸", "is_correct": false},
+            {"label": "緑地に赤色の丸", "is_correct": false},
+            {"label": "白地に赤色の丸が2つ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "国旗の絵文字の中から、日本のものを選んでください。",
+          "choices": [
+            {"label": "🇯🇵", "is_correct": true},
+            {"label": "🇰🇷", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇻🇳", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "先進国首脳会議(G7)に参加する、アジア唯一の国の国旗はどれ？",
+          "choices": [
+            {"label": "🇯🇵", "is_correct": true},
+            {"label": "🇰🇷", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇮🇳", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "元号(令和など)を今も公式に使い続けている国の国旗はどれ？",
+          "choices": [
+            {"label": "🇯🇵", "is_correct": true},
+            {"label": "🇰🇷", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇹🇭", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "はっきりとした春夏秋冬の四季があることで知られる、この国旗の国はどこ？",
+          "choices": [
+            {"label": "🇯🇵", "is_correct": true},
+            {"label": "🇸🇬", "is_correct": false},
+            {"label": "🇮🇩", "is_correct": false},
+            {"label": "🇹🇭", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "次の中から、日本の国旗を選んでください。",
+          "choices": [
+            {"label": "🇯🇵", "is_correct": true},
+            {"label": "🇲🇾", "is_correct": false},
+            {"label": "🇱🇦", "is_correct": false},
+            {"label": "🇲🇲", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本の国旗の別名として正しいものはどれ？",
+          "choices": [
+            {"label": "日の丸", "is_correct": true},
+            {"label": "星条旗", "is_correct": false},
+            {"label": "ユニオンジャック", "is_correct": false},
+            {"label": "トリコロール", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "旗の中心に赤い丸ひとつだけが描かれた、シンプルなデザインの国旗を持つ国は？",
+          "choices": [
+            {"label": "🇯🇵", "is_correct": true},
+            {"label": "🇰🇷", "is_correct": false},
+            {"label": "🇺🇸", "is_correct": false},
+            {"label": "🇬🇧", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "四方を海に囲まれた島国であり、白地に赤い丸の国旗を持つ国は？",
+          "choices": [
+            {"label": "日本", "is_correct": true},
+            {"label": "モンゴル", "is_correct": false},
+            {"label": "スイス", "is_correct": false},
+            {"label": "オーストリア", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "次のうち、日本の8地方区分の一つとして正しいのはどれ？",
+          "choices": [
+            {"label": "中部地方", "is_correct": true},
+            {"label": "東海地方", "is_correct": false},
+            {"label": "山陰地方", "is_correct": false},
+            {"label": "首都圏地方", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "富士山に次いで、日本で2番目に高い山は？",
+          "choices": [
+            {"label": "北岳", "is_correct": true},
+            {"label": "槍ヶ岳", "is_correct": false},
+            {"label": "御嶽山", "is_correct": false},
+            {"label": "白山", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本で最も長い川は？",
+          "choices": [
+            {"label": "信濃川", "is_correct": true},
+            {"label": "利根川", "is_correct": false},
+            {"label": "石狩川", "is_correct": false},
+            {"label": "淀川", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本で最も面積が大きい湖は？",
+          "choices": [
+            {"label": "琵琶湖", "is_correct": true},
+            {"label": "霞ヶ浦", "is_correct": false},
+            {"label": "サロマ湖", "is_correct": false},
+            {"label": "猪苗代湖", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本最大の湖、琵琶湖がある都道府県は？",
+          "choices": [
+            {"label": "滋賀県", "is_correct": true},
+            {"label": "京都府", "is_correct": false},
+            {"label": "奈良県", "is_correct": false},
+            {"label": "岐阜県", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「日本アルプス」と呼ばれる高い山々が連なる地方は？",
+          "choices": [
+            {"label": "中部地方", "is_correct": true},
+            {"label": "東北地方", "is_correct": false},
+            {"label": "九州地方", "is_correct": false},
+            {"label": "四国地方", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "沖縄など南西諸島の気候として正しいのはどれ？",
+          "choices": [
+            {"label": "亜熱帯気候", "is_correct": true},
+            {"label": "亜寒帯(冷帯)気候", "is_correct": false},
+            {"label": "砂漠気候", "is_correct": false},
+            {"label": "地中海性気候", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "北海道の気候として正しいのはどれ？",
+          "choices": [
+            {"label": "亜寒帯(冷帯)気候", "is_correct": true},
+            {"label": "熱帯気候", "is_correct": false},
+            {"label": "乾燥帯気候", "is_correct": false},
+            {"label": "亜熱帯気候", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本列島の太平洋側を流れる暖流として知られる海流は？",
+          "choices": [
+            {"label": "黒潮(日本海流)", "is_correct": true},
+            {"label": "親潮(千島海流)", "is_correct": false},
+            {"label": "メキシコ湾流", "is_correct": false},
+            {"label": "リマン海流", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "都道府県の中で、面積が最も広いのは？",
+          "choices": [
+            {"label": "北海道", "is_correct": true},
+            {"label": "岩手県", "is_correct": false},
+            {"label": "福島県", "is_correct": false},
+            {"label": "長野県", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "日本マスター",
+      "questions": [
+        {
+          "prompt": "「よろしくお願いします」が主に使われる場面として正しいのはどれ？",
+          "choices": [
+            {"label": "初対面や、これから一緒に何かをするとき", "is_correct": true},
+            {"label": "食事を終えたときだけ", "is_correct": false},
+            {"label": "寝る前だけ", "is_correct": false},
+            {"label": "謝罪する場面だけ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「お疲れ様です」が使われる場面として最も自然なのはどれ？",
+          "choices": [
+            {"label": "仕事や作業を終えた人へのねぎらい", "is_correct": true},
+            {"label": "朝、初めて会ったときの挨拶", "is_correct": false},
+            {"label": "初対面のときの自己紹介", "is_correct": false},
+            {"label": "誕生日を祝うときの言葉", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「いってらっしゃい」は、誰が誰に言う言葉？",
+          "choices": [
+            {"label": "見送る人が、出かける人に言う", "is_correct": true},
+            {"label": "出かける人が、見送る人に言う", "is_correct": false},
+            {"label": "帰ってきた人が、家族に言う", "is_correct": false},
+            {"label": "寝る前に自分に言う", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「お帰りなさい」は、誰が誰に言う言葉？",
+          "choices": [
+            {"label": "家にいる人が、帰ってきた人に言う", "is_correct": true},
+            {"label": "出かける人が、家族に言う", "is_correct": false},
+            {"label": "初めて会った人に言う", "is_correct": false},
+            {"label": "食事の前に言う", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「お邪魔します」を使う場面として正しいのはどれ？",
+          "choices": [
+            {"label": "人の家に入るとき", "is_correct": true},
+            {"label": "自分の家を出るとき", "is_correct": false},
+            {"label": "電話を切るとき", "is_correct": false},
+            {"label": "食事を始めるとき", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「かしこまりました」の意味に最も近いのはどれ？",
+          "choices": [
+            {"label": "「わかりました」を丁寧に言った言葉", "is_correct": true},
+            {"label": "「いいえ」の丁寧な言い方", "is_correct": false},
+            {"label": "「ありがとう」の丁寧な言い方", "is_correct": false},
+            {"label": "「さようなら」の丁寧な言い方", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "漢字「山」を「やま」と読む読み方を何という？",
+          "choices": [
+            {"label": "訓読み", "is_correct": true},
+            {"label": "音読み", "is_correct": false},
+            {"label": "当て字", "is_correct": false},
+            {"label": "外来語読み", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "漢字「山」を「サン」と読む読み方を何という？",
+          "choices": [
+            {"label": "音読み", "is_correct": true},
+            {"label": "訓読み", "is_correct": false},
+            {"label": "当て字", "is_correct": false},
+            {"label": "外来語読み", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本語の文の基本的な語順として正しいのはどれ？",
+          "choices": [
+            {"label": "主語→目的語→動詞", "is_correct": true},
+            {"label": "主語→動詞→目的語", "is_correct": false},
+            {"label": "動詞→主語→目的語", "is_correct": false},
+            {"label": "目的語→動詞→主語", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「〜です」「〜ます」のような丁寧な話し方を何という？",
+          "choices": [
+            {"label": "丁寧語", "is_correct": true},
+            {"label": "タメ口", "is_correct": false},
+            {"label": "方言", "is_correct": false},
+            {"label": "古語", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "友達同士など親しい間柄で使う、丁寧語を使わない話し方を何という？",
+          "choices": [
+            {"label": "タメ口", "is_correct": true},
+            {"label": "敬語", "is_correct": false},
+            {"label": "謙譲語", "is_correct": false},
+            {"label": "標準語", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "数字の「4」の読み方として、日本語で使われないのはどれ？",
+          "choices": [
+            {"label": "に", "is_correct": true},
+            {"label": "よん", "is_correct": false},
+            {"label": "し", "is_correct": false},
+            {"label": "よ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "数字の「7」の読み方として、日本語で使われる組み合わせで正しいのはどれ？",
+          "choices": [
+            {"label": "しち・なな", "is_correct": true},
+            {"label": "しち・はち", "is_correct": false},
+            {"label": "なな・きゅう", "is_correct": false},
+            {"label": "ろく・なな", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「大丈夫」という言葉の意味に近いのはどれ？",
+          "choices": [
+            {"label": "問題ない、平気", "is_correct": true},
+            {"label": "とても悪い", "is_correct": false},
+            {"label": "絶対に無理", "is_correct": false},
+            {"label": "お願いします", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「頑張って」という言葉が使われる場面として正しいのはどれ？",
+          "choices": [
+            {"label": "誰かを応援するとき", "is_correct": true},
+            {"label": "誰かに謝るとき", "is_correct": false},
+            {"label": "食事の前だけ", "is_correct": false},
+            {"label": "寝るときだけ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「もちろん」という言葉の意味に近いのはどれ？",
+          "choices": [
+            {"label": "当然、そのとおりです", "is_correct": true},
+            {"label": "全然違います", "is_correct": false},
+            {"label": "たぶん", "is_correct": false},
+            {"label": "知りません", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ひらがな・カタカナ・漢字に加えて、日本語の文章で使われることがある文字は？",
+          "choices": [
+            {"label": "ローマ字", "is_correct": true},
+            {"label": "ハングル", "is_correct": false},
+            {"label": "アラビア文字", "is_correct": false},
+            {"label": "キリル文字", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「〜くん」という呼び方は、主にどのような相手に使われることが多い？",
+          "choices": [
+            {"label": "主に男の子や、年下の親しい人", "is_correct": true},
+            {"label": "目上の人だけ", "is_correct": false},
+            {"label": "初対面の年配者だけ", "is_correct": false},
+            {"label": "会社の社長だけ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「すみません」という言葉の使われ方として正しいのはどれ？",
+          "choices": [
+            {"label": "謝罪・呼びかけ・感謝など、複数の意味で使われる", "is_correct": true},
+            {"label": "謝罪の意味だけで使われる", "is_correct": false},
+            {"label": "呼びかけの意味だけで使われる", "is_correct": false},
+            {"label": "朝の挨拶としてだけ使われる", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「猫」という漢字の訓読みはどれ？",
+          "choices": [
+            {"label": "ねこ", "is_correct": true},
+            {"label": "びょう", "is_correct": false},
+            {"label": "とら", "is_correct": false},
+            {"label": "いぬ", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

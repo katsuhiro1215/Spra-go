@@ -1,0 +1,587 @@
+{
+  "country_name": "アメリカ合衆国",
+  "country_code": "US",
+  "difficulty": "中級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "アメリカの国旗に描かれている星の数は現在いくつ？",
+          "choices": [
+            {"label": "50個", "is_correct": true},
+            {"label": "48個", "is_correct": false},
+            {"label": "13個", "is_correct": false},
+            {"label": "52個", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカの国旗に描かれている縞の数は？",
+          "choices": [
+            {"label": "13本", "is_correct": true},
+            {"label": "50本", "is_correct": false},
+            {"label": "20本", "is_correct": false},
+            {"label": "8本", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカの国旗の13本の縞が表しているものは何？",
+          "choices": [
+            {"label": "独立時の13植民地", "is_correct": true},
+            {"label": "現在の州の数", "is_correct": false},
+            {"label": "歴代大統領の人数", "is_correct": false},
+            {"label": "独立記念日の日付", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカの国旗の50個の星が表しているものは何？",
+          "choices": [
+            {"label": "現在の州の数", "is_correct": true},
+            {"label": "独立時の植民地の数", "is_correct": false},
+            {"label": "歴代大統領の人数", "is_correct": false},
+            {"label": "世界の大陸の数", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "現在の「50個の星」のデザインは、どの州がアメリカに加わった翌年から使われている？",
+          "choices": [
+            {"label": "ハワイ州", "is_correct": true},
+            {"label": "アラスカ州", "is_correct": false},
+            {"label": "テキサス州", "is_correct": false},
+            {"label": "カリフォルニア州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカの国旗の愛称として知られているものはどれ？",
+          "choices": [
+            {"label": "星条旗(Stars and Stripes)", "is_correct": true},
+            {"label": "日の丸", "is_correct": false},
+            {"label": "トリコロール", "is_correct": false},
+            {"label": "ユニオンジャック", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカの国旗の縞の色として使われているのはどれ？",
+          "choices": [
+            {"label": "赤と白", "is_correct": true},
+            {"label": "青と白", "is_correct": false},
+            {"label": "緑と白", "is_correct": false},
+            {"label": "黒と白", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカの国旗の左上にある、星が集まった四角い部分の地色は？",
+          "choices": [
+            {"label": "青色", "is_correct": true},
+            {"label": "赤色", "is_correct": false},
+            {"label": "白色", "is_correct": false},
+            {"label": "黄色", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "次の絵文字国旗のうち、アメリカのものはどれ？",
+          "choices": [
+            {"label": "🇺🇸", "is_correct": true},
+            {"label": "🇬🇧", "is_correct": false},
+            {"label": "🇫🇷", "is_correct": false},
+            {"label": "🇦🇺", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「オールド・グローリー」という愛称でも呼ばれる国旗を持つ国は？",
+          "choices": [
+            {"label": "アメリカ合衆国", "is_correct": true},
+            {"label": "イギリス", "is_correct": false},
+            {"label": "カナダ", "is_correct": false},
+            {"label": "オーストラリア", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "アメリカ合衆国の首都は？",
+          "choices": [
+            {"label": "ワシントンD.C.", "is_correct": true},
+            {"label": "ニューヨーク", "is_correct": false},
+            {"label": "ロサンゼルス", "is_correct": false},
+            {"label": "シカゴ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ワシントンD.C.の「D.C.」は何の略？",
+          "choices": [
+            {"label": "District of Columbia", "is_correct": true},
+            {"label": "Diplomatic Center", "is_correct": false},
+            {"label": "Democratic Capital", "is_correct": false},
+            {"label": "District of California", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ワシントンD.C.はアメリカのどの州に属している？",
+          "choices": [
+            {"label": "どの州にも属していない(連邦直轄地)", "is_correct": true},
+            {"label": "ワシントン州", "is_correct": false},
+            {"label": "バージニア州", "is_correct": false},
+            {"label": "メリーランド州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ワシントンD.C.の名前の由来になった人物は？",
+          "choices": [
+            {"label": "ジョージ・ワシントン(初代大統領)", "is_correct": true},
+            {"label": "エイブラハム・リンカーン", "is_correct": false},
+            {"label": "トーマス・ジェファーソン", "is_correct": false},
+            {"label": "ベンジャミン・フランクリン", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカ大統領の公邸として知られる、ワシントンD.C.にある建物は？",
+          "choices": [
+            {"label": "ホワイトハウス", "is_correct": true},
+            {"label": "キャピトル(議事堂)", "is_correct": false},
+            {"label": "リンカーン記念館", "is_correct": false},
+            {"label": "ペンタゴン", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカの連邦議会が開かれる、大きなドーム型の屋根が特徴の建物は？",
+          "choices": [
+            {"label": "アメリカ合衆国議会議事堂(キャピトル)", "is_correct": true},
+            {"label": "ホワイトハウス", "is_correct": false},
+            {"label": "ペンタゴン", "is_correct": false},
+            {"label": "スミソニアン博物館", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "首都ではないが、アメリカで最も人口が多い都市は？",
+          "choices": [
+            {"label": "ニューヨーク", "is_correct": true},
+            {"label": "ロサンゼルス", "is_correct": false},
+            {"label": "シカゴ", "is_correct": false},
+            {"label": "ワシントンD.C.", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "自由の女神像がある都市は？",
+          "choices": [
+            {"label": "ニューヨーク", "is_correct": true},
+            {"label": "ワシントンD.C.", "is_correct": false},
+            {"label": "ボストン", "is_correct": false},
+            {"label": "フィラデルフィア", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "1776年にアメリカ独立宣言が採択された都市は？",
+          "choices": [
+            {"label": "フィラデルフィア", "is_correct": true},
+            {"label": "ワシントンD.C.", "is_correct": false},
+            {"label": "ボストン", "is_correct": false},
+            {"label": "ニューヨーク", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ワシントンD.C.にある、多数の博物館・美術館をまとめる複合機関は？",
+          "choices": [
+            {"label": "スミソニアン協会", "is_correct": true},
+            {"label": "メトロポリタン美術館", "is_correct": false},
+            {"label": "ルーヴル美術館", "is_correct": false},
+            {"label": "大英博物館", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "アメリカ合衆国の国旗はどれでしょう？",
+          "choices": [
+            {"label": "🇺🇸", "is_correct": true},
+            {"label": "🇬🇧", "is_correct": false},
+            {"label": "🇦🇺", "is_correct": false},
+            {"label": "🇱🇷", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "赤白の縞模様に、星が入った青地の四角形を組み合わせた国旗を持つのは？",
+          "choices": [
+            {"label": "アメリカ", "is_correct": true},
+            {"label": "フランス", "is_correct": false},
+            {"label": "イギリス", "is_correct": false},
+            {"label": "ドイツ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "50個の星が描かれた国旗を持つ国は？",
+          "choices": [
+            {"label": "アメリカ", "is_correct": true},
+            {"label": "中国", "is_correct": false},
+            {"label": "ブラジル", "is_correct": false},
+            {"label": "オーストラリア", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "13本の縞模様が特徴の国旗を持つのは？",
+          "choices": [
+            {"label": "アメリカ", "is_correct": true},
+            {"label": "イギリス", "is_correct": false},
+            {"label": "カナダ", "is_correct": false},
+            {"label": "メキシコ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「星条旗」という愛称で呼ばれる国旗を持つ国は？",
+          "choices": [
+            {"label": "アメリカ", "is_correct": true},
+            {"label": "イギリス", "is_correct": false},
+            {"label": "フランス", "is_correct": false},
+            {"label": "ロシア", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "国旗の左上に、星が集まった青い四角形(カントン)を持つ国は？",
+          "choices": [
+            {"label": "アメリカ", "is_correct": true},
+            {"label": "イギリス", "is_correct": false},
+            {"label": "フランス", "is_correct": false},
+            {"label": "日本", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "独立時の13植民地を記念する縞模様がある国旗を持つ国は？",
+          "choices": [
+            {"label": "アメリカ", "is_correct": true},
+            {"label": "カナダ", "is_correct": false},
+            {"label": "メキシコ", "is_correct": false},
+            {"label": "ブラジル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "国旗の絵文字🇺🇸が表す国は？",
+          "choices": [
+            {"label": "アメリカ", "is_correct": true},
+            {"label": "イギリス", "is_correct": false},
+            {"label": "オーストラリア", "is_correct": false},
+            {"label": "カナダ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アフリカのリベリアの国旗とデザインがよく似ていることで知られる国旗を持つ国は？",
+          "choices": [
+            {"label": "アメリカ", "is_correct": true},
+            {"label": "フランス", "is_correct": false},
+            {"label": "イギリス", "is_correct": false},
+            {"label": "ブラジル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "50の州を象徴する星が国旗に使われている、北米にある国は？",
+          "choices": [
+            {"label": "アメリカ", "is_correct": true},
+            {"label": "カナダ", "is_correct": false},
+            {"label": "メキシコ", "is_correct": false},
+            {"label": "キューバ", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "アメリカ合衆国の50州の中で、面積が最も広い州は？",
+          "choices": [
+            {"label": "アラスカ州", "is_correct": true},
+            {"label": "テキサス州", "is_correct": false},
+            {"label": "カリフォルニア州", "is_correct": false},
+            {"label": "モンタナ州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アラスカ州に次いで、面積が2番目に広いアメリカの州は？",
+          "choices": [
+            {"label": "テキサス州", "is_correct": true},
+            {"label": "カリフォルニア州", "is_correct": false},
+            {"label": "モンタナ州", "is_correct": false},
+            {"label": "ニューメキシコ州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカで人口が最も多い州は？",
+          "choices": [
+            {"label": "カリフォルニア州", "is_correct": true},
+            {"label": "テキサス州", "is_correct": false},
+            {"label": "ニューヨーク州", "is_correct": false},
+            {"label": "フロリダ州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカとカナダの国境付近に広がる、5つの大きな湖の総称は？",
+          "choices": [
+            {"label": "五大湖", "is_correct": true},
+            {"label": "大湖沼群", "is_correct": false},
+            {"label": "グレートベースン", "is_correct": false},
+            {"label": "ロッキー湖群", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカ大陸の西部を南北に走る、大きな山脈は？",
+          "choices": [
+            {"label": "ロッキー山脈", "is_correct": true},
+            {"label": "アルプス山脈", "is_correct": false},
+            {"label": "アンデス山脈", "is_correct": false},
+            {"label": "ヒマラヤ山脈", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ミネソタ州から南へ流れ、ニューオーリンズを通ってメキシコ湾に注ぐ、アメリカを代表する大河は？",
+          "choices": [
+            {"label": "ミシシッピ川", "is_correct": true},
+            {"label": "コロラド川", "is_correct": false},
+            {"label": "リオグランデ川", "is_correct": false},
+            {"label": "ハドソン川", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "大きな谷と赤い岩の地層で世界的に有名な、アリゾナ州にある国立公園は？",
+          "choices": [
+            {"label": "グランドキャニオン国立公園", "is_correct": true},
+            {"label": "イエローストーン国立公園", "is_correct": false},
+            {"label": "ナイアガラの滝", "is_correct": false},
+            {"label": "グレートバリアリーフ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカの50州の中で、面積が最も小さい州は？",
+          "choices": [
+            {"label": "ロードアイランド州", "is_correct": true},
+            {"label": "デラウェア州", "is_correct": false},
+            {"label": "コネチカット州", "is_correct": false},
+            {"label": "ハワイ州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカの州の中で、唯一島々だけから成り立っている州は？",
+          "choices": [
+            {"label": "ハワイ州", "is_correct": true},
+            {"label": "アラスカ州", "is_correct": false},
+            {"label": "フロリダ州", "is_correct": false},
+            {"label": "カリフォルニア州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカの州の中で、最後(50番目)に州として加わったのはどこ？",
+          "choices": [
+            {"label": "ハワイ州", "is_correct": true},
+            {"label": "アラスカ州", "is_correct": false},
+            {"label": "テキサス州", "is_correct": false},
+            {"label": "カリフォルニア州", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "アメリカマスター",
+      "questions": [
+        {
+          "prompt": "アメリカで最も多く話されている言語は？",
+          "choices": [
+            {"label": "英語", "is_correct": true},
+            {"label": "フランス語", "is_correct": false},
+            {"label": "スペイン語", "is_correct": false},
+            {"label": "中国語", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカ英語で「エレベーター」を意味する単語は？",
+          "choices": [
+            {"label": "elevator", "is_correct": true},
+            {"label": "lift", "is_correct": false},
+            {"label": "escalator", "is_correct": false},
+            {"label": "floor", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカ英語で「アパート」を意味する単語は？",
+          "choices": [
+            {"label": "apartment", "is_correct": true},
+            {"label": "flat", "is_correct": false},
+            {"label": "boot", "is_correct": false},
+            {"label": "lorry", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "イギリス英語の「lift」に対応する、アメリカ英語の単語は？",
+          "choices": [
+            {"label": "elevator", "is_correct": true},
+            {"label": "escalator", "is_correct": false},
+            {"label": "stair", "is_correct": false},
+            {"label": "floor", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカ英語で、車の「トランク(荷物入れ)」を指す単語は？",
+          "choices": [
+            {"label": "trunk", "is_correct": true},
+            {"label": "boot", "is_correct": false},
+            {"label": "bonnet", "is_correct": false},
+            {"label": "bumper", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「Hello, how are you?」に対する自然な返事として正しいのはどれ？",
+          "choices": [
+            {"label": "I'm fine, thank you.", "is_correct": true},
+            {"label": "Goodbye.", "is_correct": false},
+            {"label": "Yes, please.", "is_correct": false},
+            {"label": "No, thanks.", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "英語で「ありがとう」を意味する言葉は？",
+          "choices": [
+            {"label": "Thank you", "is_correct": true},
+            {"label": "Sorry", "is_correct": false},
+            {"label": "Please", "is_correct": false},
+            {"label": "Excuse me", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "英語で、人に呼びかけるときの「すみません」を意味する言葉は？",
+          "choices": [
+            {"label": "Excuse me", "is_correct": true},
+            {"label": "Thank you", "is_correct": false},
+            {"label": "Goodbye", "is_correct": false},
+            {"label": "Please", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカ英語のスペルとして正しいのはどれ？",
+          "choices": [
+            {"label": "color", "is_correct": true},
+            {"label": "colour", "is_correct": false},
+            {"label": "colur", "is_correct": false},
+            {"label": "coleur", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "イギリス英語の「colour」に対応する、アメリカ英語のスペルは？",
+          "choices": [
+            {"label": "color", "is_correct": true},
+            {"label": "colur", "is_correct": false},
+            {"label": "coloor", "is_correct": false},
+            {"label": "kolor", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "英語で「1」を表す単語は？",
+          "choices": [
+            {"label": "one", "is_correct": true},
+            {"label": "two", "is_correct": false},
+            {"label": "three", "is_correct": false},
+            {"label": "four", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "英語で「本当にありがとう」と強調して感謝を伝える表現は？",
+          "choices": [
+            {"label": "Thank you very much", "is_correct": true},
+            {"label": "No thank you", "is_correct": false},
+            {"label": "Not at all", "is_correct": false},
+            {"label": "See you", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "英語で、人と初めて会ったときに使う表現は？",
+          "choices": [
+            {"label": "Nice to meet you", "is_correct": true},
+            {"label": "See you later", "is_correct": false},
+            {"label": "Good night", "is_correct": false},
+            {"label": "Excuse me", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "英語で「お願いします」を意味する言葉は？",
+          "choices": [
+            {"label": "Please", "is_correct": true},
+            {"label": "Sorry", "is_correct": false},
+            {"label": "Thanks", "is_correct": false},
+            {"label": "Welcome", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "英語で「どういたしまして」を意味する言葉は？",
+          "choices": [
+            {"label": "You're welcome", "is_correct": true},
+            {"label": "Thank you", "is_correct": false},
+            {"label": "Excuse me", "is_correct": false},
+            {"label": "I'm sorry", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカで人気があるスポーツで、日本語でも「野球」と呼ばれる競技の英語名は？",
+          "choices": [
+            {"label": "Baseball", "is_correct": true},
+            {"label": "Soccer", "is_correct": false},
+            {"label": "Basketball", "is_correct": false},
+            {"label": "Hockey", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "英語で曜日「月曜日」を意味する単語は？",
+          "choices": [
+            {"label": "Monday", "is_correct": true},
+            {"label": "Sunday", "is_correct": false},
+            {"label": "Tuesday", "is_correct": false},
+            {"label": "Friday", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "英語で数字「10」を表す単語は？",
+          "choices": [
+            {"label": "ten", "is_correct": true},
+            {"label": "nine", "is_correct": false},
+            {"label": "eleven", "is_correct": false},
+            {"label": "twenty", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アメリカ英語で「クッキー」を意味する単語は？",
+          "choices": [
+            {"label": "cookie", "is_correct": true},
+            {"label": "biscuit", "is_correct": false},
+            {"label": "cake", "is_correct": false},
+            {"label": "candy", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "イギリス英語の「biscuit」に近い意味で、アメリカ英語で使われる単語は？",
+          "choices": [
+            {"label": "cookie", "is_correct": true},
+            {"label": "bread", "is_correct": false},
+            {"label": "pie", "is_correct": false},
+            {"label": "muffin", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}
