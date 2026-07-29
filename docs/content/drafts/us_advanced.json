@@ -1,0 +1,587 @@
+{
+  "country_name": "アメリカ合衆国",
+  "country_code": "US",
+  "difficulty": "上級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "星条旗に描かれている50個の星は何を表している？",
+          "choices": [
+            { "label": "現在の50州", "is_correct": true },
+            { "label": "最初の13植民地", "is_correct": false },
+            { "label": "独立からの経過年数", "is_correct": false },
+            { "label": "歴代大統領の人数", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "星条旗にある13本の縞は何を表している？",
+          "choices": [
+            { "label": "独立当時の13植民地", "is_correct": true },
+            { "label": "現在の50州", "is_correct": false },
+            { "label": "独立戦争の主要な戦闘の数", "is_correct": false },
+            { "label": "建国の父と呼ばれる人物の数", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカ議会が「星条旗」を正式な国旗と定める決議を採択したのは何年？",
+          "choices": [
+            { "label": "1777年", "is_correct": true },
+            { "label": "1776年", "is_correct": false },
+            { "label": "1789年", "is_correct": false },
+            { "label": "1812年", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカで「国旗の日(Flag Day)」と定められているのはいつ？",
+          "choices": [
+            { "label": "6月14日", "is_correct": true },
+            { "label": "7月4日", "is_correct": false },
+            { "label": "5月30日", "is_correct": false },
+            { "label": "11月11日", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "伝説の中で、最初の星条旗を仕立てたと語り継がれている女性は誰？",
+          "choices": [
+            { "label": "ベッツィ・ロス", "is_correct": true },
+            { "label": "ドリー・マディソン", "is_correct": false },
+            { "label": "アビゲイル・アダムズ", "is_correct": false },
+            { "label": "マーサ・ワシントン", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "現在の50個の星を持つデザインの星条旗が採用されるきっかけとなった、1959年に州へ昇格した地域はどこ？",
+          "choices": [
+            { "label": "ハワイ", "is_correct": true },
+            { "label": "アラスカ", "is_correct": false },
+            { "label": "テキサス", "is_correct": false },
+            { "label": "カリフォルニア", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "独立宣言の直後に使われていた、イギリスのユニオン旗と13本の縞を組み合わせた初期の旗は何と呼ばれる？",
+          "choices": [
+            { "label": "グランドユニオン旗", "is_correct": true },
+            { "label": "ベッツィ・ロス旗", "is_correct": false },
+            { "label": "自由の旗", "is_correct": false },
+            { "label": "初代星条旗", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカの国旗の愛称のひとつで、19世紀の船長が名付けたと伝えられる呼び名はどれ？",
+          "choices": [
+            { "label": "オールド・グローリー", "is_correct": true },
+            { "label": "スターズ・アンド・バーズ", "is_correct": false },
+            { "label": "フリーダムフラッグ", "is_correct": false },
+            { "label": "ユニオンスター", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アフリカのリベリアの国旗が星条旗によく似ているのはなぜ？",
+          "choices": [
+            { "label": "建国に関わった人々の多くが、かつてアメリカにいた解放奴隷だったから", "is_correct": true },
+            { "label": "植民地時代にアメリカの領土だったから", "is_correct": false },
+            { "label": "両国が共同で国旗デザインを開発したから", "is_correct": false },
+            { "label": "偶然、同じようなデザインになっただけ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "リベリアの国旗にある縞の本数は、星条旗の13本と比べるとどうなっている？",
+          "choices": [
+            { "label": "11本で、星条旗より少ない", "is_correct": true },
+            { "label": "13本で同じ", "is_correct": false },
+            { "label": "20本で、星条旗より多い", "is_correct": false },
+            { "label": "5本で、大きく少ない", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "アメリカ合衆国の首都はどこ？",
+          "choices": [
+            { "label": "ワシントンD.C.", "is_correct": true },
+            { "label": "ニューヨーク", "is_correct": false },
+            { "label": "ロサンゼルス", "is_correct": false },
+            { "label": "フィラデルフィア", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ワシントンD.C.の街路デザインの基本計画を手がけた、フランス生まれの技術者は誰？",
+          "choices": [
+            { "label": "ピエール・ランファン", "is_correct": true },
+            { "label": "トーマス・ジェファーソン", "is_correct": false },
+            { "label": "アレクサンダー・ハミルトン", "is_correct": false },
+            { "label": "ベンジャミン・フランクリン", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ワシントンD.C.の「D.C.」が表す正式名称は？",
+          "choices": [
+            { "label": "コロンビア特別区", "is_correct": true },
+            { "label": "デラウェア準州", "is_correct": false },
+            { "label": "中央行政区", "is_correct": false },
+            { "label": "首都特別州", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ワシントンD.C.が属している州はどこ？",
+          "choices": [
+            { "label": "どの州にも属さない、連邦直轄の特別区である", "is_correct": true },
+            { "label": "メリーランド州", "is_correct": false },
+            { "label": "バージニア州", "is_correct": false },
+            { "label": "ペンシルベニア州", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「コロンビア」という地名のもとになった人物は誰？",
+          "choices": [
+            { "label": "クリストファー・コロンブス", "is_correct": true },
+            { "label": "ジョージ・ワシントン", "is_correct": false },
+            { "label": "トーマス・ジェファーソン", "is_correct": false },
+            { "label": "ベンジャミン・フランクリン", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカ大統領が暮らし、執務も行う公邸の名前は？",
+          "choices": [
+            { "label": "ホワイトハウス", "is_correct": true },
+            { "label": "キャピトル", "is_correct": false },
+            { "label": "スミソニアン", "is_correct": false },
+            { "label": "ペンタゴン", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ワシントン記念塔の高さにもっとも近いのはどれ？",
+          "choices": [
+            { "label": "約169メートル", "is_correct": true },
+            { "label": "約69メートル", "is_correct": false },
+            { "label": "約300メートル", "is_correct": false },
+            { "label": "約100メートル", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ワシントン記念塔が今もワシントンD.C.でもっとも高い建造物であり続けている理由として正しいのは？",
+          "choices": [
+            { "label": "建物の高さを制限する法律ができる前に建てられたため", "is_correct": true },
+            { "label": "特別に頑丈な構造で造られているから", "is_correct": false },
+            { "label": "政府が意図的に一番高く設計させたから", "is_correct": false },
+            { "label": "丘の上に建てられているから", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ワシントンD.C.の住民が連邦議会に対して持つ立場として正しいのはどれ？",
+          "choices": [
+            { "label": "下院に投票権のない代表を1人送っている", "is_correct": true },
+            { "label": "上院・下院ともに正式な議員を持つ", "is_correct": false },
+            { "label": "議会に一切代表を送っていない", "is_correct": false },
+            { "label": "州として扱われ、上院議員が2人いる", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカ連邦議会の議事堂(キャピトル)の外観の大きな特徴は？",
+          "choices": [
+            { "label": "白い大きなドーム屋根", "is_correct": true },
+            { "label": "高層タワー", "is_correct": false },
+            { "label": "ピラミッド型の外観", "is_correct": false },
+            { "label": "ガラス張りの近代的な外観", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「星条旗」という愛称を持つ国旗の国は？",
+          "choices": [
+            { "label": "🇺🇸", "is_correct": true },
+            { "label": "🇱🇷", "is_correct": false },
+            { "label": "🇬🇧", "is_correct": false },
+            { "label": "🇫🇷", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "50個の星と13本の縞模様を組み合わせた国旗を持つ国は？",
+          "choices": [
+            { "label": "🇺🇸", "is_correct": true },
+            { "label": "🇲🇾", "is_correct": false },
+            { "label": "🇨🇺", "is_correct": false },
+            { "label": "🇨🇱", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「オールド・グローリー」という愛称で親しまれている国旗を持つ国は？",
+          "choices": [
+            { "label": "🇺🇸", "is_correct": true },
+            { "label": "🇬🇧", "is_correct": false },
+            { "label": "🇳🇱", "is_correct": false },
+            { "label": "🇵🇦", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "国旗のデザインが1960年7月4日に現在の形になり、ハワイの州昇格がそのきっかけとなった国は？",
+          "choices": [
+            { "label": "🇺🇸", "is_correct": true },
+            { "label": "🇯🇵", "is_correct": false },
+            { "label": "🇨🇦", "is_correct": false },
+            { "label": "🇦🇺", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1814年、要塞での激しい戦闘を耐え抜いて翻り続けた旗が、後に国歌のきっかけとなった国は？",
+          "choices": [
+            { "label": "🇺🇸", "is_correct": true },
+            { "label": "🇬🇧", "is_correct": false },
+            { "label": "🇫🇷", "is_correct": false },
+            { "label": "🇨🇦", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "独立宣言の直後、イギリスのユニオン旗を左上に組み込んだ「グランドユニオン旗」を使っていたことがある国は？",
+          "choices": [
+            { "label": "🇺🇸", "is_correct": true },
+            { "label": "🇦🇺", "is_correct": false },
+            { "label": "🇳🇿", "is_correct": false },
+            { "label": "🇨🇦", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "国旗の青色が「警戒・忍耐・正義」を表すとされている国は？",
+          "choices": [
+            { "label": "🇺🇸", "is_correct": true },
+            { "label": "🇬🇧", "is_correct": false },
+            { "label": "🇫🇷", "is_correct": false },
+            { "label": "🇷🇺", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "6月14日を「国旗の日」として祝う国は？",
+          "choices": [
+            { "label": "🇺🇸", "is_correct": true },
+            { "label": "🇨🇦", "is_correct": false },
+            { "label": "🇲🇽", "is_correct": false },
+            { "label": "🇧🇷", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "新しい州が加わるたびに、国旗の星の数を増やしてきた歴史を持つ国は？",
+          "choices": [
+            { "label": "🇺🇸", "is_correct": true },
+            { "label": "🇮🇳", "is_correct": false },
+            { "label": "🇧🇷", "is_correct": false },
+            { "label": "🇦🇺", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アフリカのリベリアが、自国の国旗デザインの手本にしたとされる国は？",
+          "choices": [
+            { "label": "🇺🇸", "is_correct": true },
+            { "label": "🇬🇧", "is_correct": false },
+            { "label": "🇫🇷", "is_correct": false },
+            { "label": "🇵🇹", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "アメリカ本土(アラスカ・ハワイを除く48州)の中で、最も標高の高い山は？",
+          "choices": [
+            { "label": "マウント・ホイットニー", "is_correct": true },
+            { "label": "デナリ", "is_correct": false },
+            { "label": "マウント・レーニア", "is_correct": false },
+            { "label": "パイクスピーク", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカ本土(アラスカ・ハワイを除く)で標高がもっとも低い場所は？",
+          "choices": [
+            { "label": "デスバレー", "is_correct": true },
+            { "label": "グランドキャニオン", "is_correct": false },
+            { "label": "ソルトレイクシティ周辺", "is_correct": false },
+            { "label": "ミシシッピデルタ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "デスバレーの最も低い地点(バッドウォーター・ベイスン)の標高は、海抜およそどのくらい？",
+          "choices": [
+            { "label": "マイナス約86メートル", "is_correct": true },
+            { "label": "マイナス約8.6メートル", "is_correct": false },
+            { "label": "マイナス約860メートル", "is_correct": false },
+            { "label": "マイナス約300メートル", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アラスカを含むアメリカ全体で最も標高が高く、北米大陸でも最高峰とされる山は？",
+          "choices": [
+            { "label": "デナリ(マッキンリー山)", "is_correct": true },
+            { "label": "マウント・ホイットニー", "is_correct": false },
+            { "label": "マウント・レーニア", "is_correct": false },
+            { "label": "マウナケア", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "北米大陸最高峰であるデナリがあるのは何州？",
+          "choices": [
+            { "label": "アラスカ州", "is_correct": true },
+            { "label": "コロラド州", "is_correct": false },
+            { "label": "ワシントン州", "is_correct": false },
+            { "label": "モンタナ州", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国の50州の中で、面積が最も広い州は？",
+          "choices": [
+            { "label": "アラスカ州", "is_correct": true },
+            { "label": "テキサス州", "is_correct": false },
+            { "label": "カリフォルニア州", "is_correct": false },
+            { "label": "モンタナ州", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国の50州の中で、面積が最も小さい州は？",
+          "choices": [
+            { "label": "ロードアイランド州", "is_correct": true },
+            { "label": "デラウェア州", "is_correct": false },
+            { "label": "コネチカット州", "is_correct": false },
+            { "label": "ハワイ州", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "現在のアメリカ合衆国を構成する州の数はいくつ？",
+          "choices": [
+            { "label": "50", "is_correct": true },
+            { "label": "48", "is_correct": false },
+            { "label": "52", "is_correct": false },
+            { "label": "13", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「五大湖」に含まれないのはどれ？",
+          "choices": [
+            { "label": "グレートソルト湖", "is_correct": true },
+            { "label": "スペリオル湖", "is_correct": false },
+            { "label": "ミシガン湖", "is_correct": false },
+            { "label": "エリー湖", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1872年、世界で最初の国立公園として指定されたアメリカの国立公園は？",
+          "choices": [
+            { "label": "イエローストーン国立公園", "is_correct": true },
+            { "label": "グランドキャニオン国立公園", "is_correct": false },
+            { "label": "ヨセミテ国立公園", "is_correct": false },
+            { "label": "グレイシャー国立公園", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "アメリカレジェンド",
+      "questions": [
+        {
+          "prompt": "「色」を意味する英単語のスペルとして、アメリカ英語で使われるのは？",
+          "choices": [
+            { "label": "color", "is_correct": true },
+            { "label": "colour", "is_correct": false },
+            { "label": "collor", "is_correct": false },
+            { "label": "coulor", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「劇場」を意味する英単語のスペルとして、アメリカ英語で使われるのは？",
+          "choices": [
+            { "label": "theater", "is_correct": true },
+            { "label": "theatre", "is_correct": false },
+            { "label": "theatar", "is_correct": false },
+            { "label": "theather", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「中心」を意味する英単語のスペルとして、アメリカ英語で使われるのは？",
+          "choices": [
+            { "label": "center", "is_correct": true },
+            { "label": "centre", "is_correct": false },
+            { "label": "centar", "is_correct": false },
+            { "label": "senter", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「気づく、実現する」を意味する英単語のスペルとして、アメリカ英語でより一般的なのは？",
+          "choices": [
+            { "label": "realize", "is_correct": true },
+            { "label": "realise", "is_correct": false },
+            { "label": "realyze", "is_correct": false },
+            { "label": "realiz", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "19世紀、colorやtheaterのようなアメリカ独自のスペルを辞書によって広めた人物は誰？",
+          "choices": [
+            { "label": "ノア・ウェブスター", "is_correct": true },
+            { "label": "ベンジャミン・フランクリン", "is_correct": false },
+            { "label": "マーク・トウェイン", "is_correct": false },
+            { "label": "トーマス・ジェファーソン", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「エレベーター」を意味する単語として、アメリカ英語で使われるのは？",
+          "choices": [
+            { "label": "elevator", "is_correct": true },
+            { "label": "lift", "is_correct": false },
+            { "label": "hoist", "is_correct": false },
+            { "label": "riser", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「アパート(集合住宅の一室)」を意味する単語として、アメリカ英語で使われるのは？",
+          "choices": [
+            { "label": "apartment", "is_correct": true },
+            { "label": "flat", "is_correct": false },
+            { "label": "suite", "is_correct": false },
+            { "label": "unit", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "自動車の後部にある荷物入れを指す単語として、アメリカ英語で使われるのは？",
+          "choices": [
+            { "label": "trunk", "is_correct": true },
+            { "label": "boot", "is_correct": false },
+            { "label": "rear", "is_correct": false },
+            { "label": "hold", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「ガソリン」を意味する単語として、アメリカ英語で日常的に使われるのは？",
+          "choices": [
+            { "label": "gas", "is_correct": true },
+            { "label": "petrol", "is_correct": false },
+            { "label": "fuel oil", "is_correct": false },
+            { "label": "benzine", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「歩道」を意味する単語として、アメリカ英語で使われるのは？",
+          "choices": [
+            { "label": "sidewalk", "is_correct": true },
+            { "label": "pavement", "is_correct": false },
+            { "label": "footway", "is_correct": false },
+            { "label": "walkline", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "丸くて甘い焼き菓子を指す単語として、アメリカ英語で使われるのは？",
+          "choices": [
+            { "label": "cookie", "is_correct": true },
+            { "label": "biscuit", "is_correct": false },
+            { "label": "scone", "is_correct": false },
+            { "label": "muffin", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「秋」を表す単語として、アメリカ英語でよく使われるのは？",
+          "choices": [
+            { "label": "fall", "is_correct": true },
+            { "label": "autumn", "is_correct": false },
+            { "label": "spring", "is_correct": false },
+            { "label": "summer", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "川の名前「ミシシッピ」は、先住民オジブワ族の言葉で主に何を意味するとされる？",
+          "choices": [
+            { "label": "「大きな川」", "is_correct": true },
+            { "label": "「静かな流れ」", "is_correct": false },
+            { "label": "「深い谷」", "is_correct": false },
+            { "label": "「曲がりくねった道」", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "都市名「シカゴ」は、先住民の言葉で主に何を意味するとされる？",
+          "choices": [
+            { "label": "野生のタマネギ(強いにおいの植物)", "is_correct": true },
+            { "label": "大きな湖", "is_correct": false },
+            { "label": "風の街", "is_correct": false },
+            { "label": "牛の街", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "州名「テキサス」は、先住民カド族の言葉で何を意味するとされる？",
+          "choices": [
+            { "label": "「友人」", "is_correct": true },
+            { "label": "「戦士」", "is_correct": false },
+            { "label": "「太陽」", "is_correct": false },
+            { "label": "「広い大地」", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "州名「コネチカット」は、先住民の言葉で何を意味するとされる？",
+          "choices": [
+            { "label": "「長い潮の川のほとりに」", "is_correct": true },
+            { "label": "「静かな森」", "is_correct": false },
+            { "label": "「大きな岩」", "is_correct": false },
+            { "label": "「速い流れ」", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "州名「マサチューセッツ」は、先住民の言葉で何に由来するとされる？",
+          "choices": [
+            { "label": "「大きな丘のそばに」", "is_correct": true },
+            { "label": "「広い海」", "is_correct": false },
+            { "label": "「多くの湖」", "is_correct": false },
+            { "label": "「深い谷」", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "世界中で使われる言葉「OK」が生まれたとされる国はどこ？",
+          "choices": [
+            { "label": "アメリカ合衆国", "is_correct": true },
+            { "label": "イギリス", "is_correct": false },
+            { "label": "フランス", "is_correct": false },
+            { "label": "カナダ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「OK」はもともと、わざと誤ったつづりで書かれたある言葉の略とされている。その言葉とは？",
+          "choices": [
+            { "label": "oll korrect(all correctのしゃれ)", "is_correct": true },
+            { "label": "only kidding", "is_correct": false },
+            { "label": "old king", "is_correct": false },
+            { "label": "open key", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカ政府や国そのものを擬人化したキャラクター「アンクル・サム」の由来として広く知られる説は？",
+          "choices": [
+            { "label": "食肉業者サミュエル・ウィルソンの愛称に由来する", "is_correct": true },
+            { "label": "初代大統領のニックネームに由来する", "is_correct": false },
+            { "label": "独立宣言起草者の別名に由来する", "is_correct": false },
+            { "label": "移民局職員の名前に由来する", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -46,6 +46,8 @@ type Difficulty = (typeof DIFFICULTIES)[number];
 
 type Category = { id: number; parent_id: number | null; name: string };
 type QuestionTheme = { id: number; key: string; label: string };
+type Country = { id: number; code: string; name: string };
+type Region = { id: number; country_id: number; parent_id: number | null; name: string };
 
 type Stage = {
   id: number;
@@ -54,6 +56,10 @@ type Stage = {
   stage_number: number;
   question_theme_id: number | null;
   question_theme: QuestionTheme | null;
+  country_id: number | null;
+  country: Country | null;
+  region_id: number | null;
+  region: Region | null;
   question_count: number;
   is_boss: boolean;
   title_reward: string | null;
@@ -62,6 +68,8 @@ type Stage = {
 type FormValues = {
   stage_number: string;
   question_theme_id: string;
+  country_id: string;
+  region_id: string;
   question_count: string;
   is_boss: boolean;
   title_reward: string;
@@ -70,6 +78,8 @@ type FormValues = {
 const emptyForm: FormValues = {
   stage_number: "1",
   question_theme_id: "",
+  country_id: "",
+  region_id: "",
   question_count: "10",
   is_boss: false,
   title_reward: "",
@@ -78,6 +88,8 @@ const emptyForm: FormValues = {
 export default function Page() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [themes, setThemes] = useState<QuestionTheme[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [regions, setRegions] = useState<Region[]>([]);
   const [categoryId, setCategoryId] = useState<string>("");
   const [difficulty, setDifficulty] = useState<Difficulty | "">("");
 
@@ -102,6 +114,12 @@ export default function Page() {
     });
     apiFetch("/api/owner/question-themes").then(async (res) => {
       if (res.ok) setThemes(await res.json());
+    });
+    apiFetch("/api/owner/countries").then(async (res) => {
+      if (res.ok) setCountries(await res.json());
+    });
+    apiFetch("/api/owner/regions").then(async (res) => {
+      if (res.ok) setRegions(await res.json());
     });
   }, []);
 
@@ -140,6 +158,8 @@ export default function Page() {
       question_theme_id: stage.question_theme_id
         ? String(stage.question_theme_id)
         : "",
+      country_id: stage.country_id ? String(stage.country_id) : "",
+      region_id: stage.region_id ? String(stage.region_id) : "",
       question_count: String(stage.question_count),
       is_boss: stage.is_boss,
       title_reward: stage.title_reward ?? "",
@@ -160,6 +180,8 @@ export default function Page() {
       question_theme_id: values.question_theme_id
         ? Number(values.question_theme_id)
         : null,
+      country_id: values.country_id ? Number(values.country_id) : null,
+      region_id: values.region_id ? Number(values.region_id) : null,
       question_count: Number(values.question_count) || 10,
       is_boss: values.is_boss,
       title_reward: values.title_reward || null,
@@ -298,6 +320,8 @@ export default function Page() {
                 <p className="text-xs text-muted-foreground">
                   {stage.question_theme?.label ?? "テーマ未設定"} ・ 全
                   {stage.question_count}問
+                  {stage.country ? ` ・ ${stage.country.name}` : ""}
+                  {stage.region ? ` (${stage.region.name})` : ""}
                   {stage.title_reward ? ` ・ 称号:${stage.title_reward}` : ""}
                 </p>
               </Link>
@@ -373,6 +397,64 @@ export default function Page() {
                 </SelectContent>
               </Select>
             </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label>国(任意。この国の達成率に合算されます)</Label>
+              <Select
+                value={values.country_id || "none"}
+                onValueChange={(v) =>
+                  setValues((prev) => ({
+                    ...prev,
+                    country_id: v === "none" ? "" : v,
+                    region_id: "",
+                  }))
+                }
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">なし</SelectItem>
+                  {countries.map((country) => (
+                    <SelectItem key={country.id} value={String(country.id)}>
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {values.country_id && (
+              <div className="flex flex-col gap-1.5">
+                <Label>地域(任意。指定した地域のページにも表示されます)</Label>
+                <Select
+                  value={values.region_id || "none"}
+                  onValueChange={(v) =>
+                    setValues((prev) => ({
+                      ...prev,
+                      region_id: v === "none" ? "" : v,
+                    }))
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">なし</SelectItem>
+                    {regions
+                      .filter(
+                        (region) =>
+                          region.country_id === Number(values.country_id),
+                      )
+                      .map((region) => (
+                        <SelectItem key={region.id} value={String(region.id)}>
+                          {region.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="stage-question-count">問題数</Label>

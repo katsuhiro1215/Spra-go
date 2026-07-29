@@ -1,0 +1,1307 @@
+{
+  "country_name": "アメリカ合衆国",
+  "country_code": "US",
+  "difficulty": "初級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "次の国旗の国名として正しいものはどれ？",
+          "choices": [
+            {
+              "label": "アメリカ合衆国",
+              "is_correct": true
+            },
+            {
+              "label": "イギリス",
+              "is_correct": false
+            },
+            {
+              "label": "オーストラリア",
+              "is_correct": false
+            },
+            {
+              "label": "カナダ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗はどこの国のものでしょう？",
+          "choices": [
+            {
+              "label": "アメリカ合衆国",
+              "is_correct": true
+            },
+            {
+              "label": "フランス",
+              "is_correct": false
+            },
+            {
+              "label": "ロシア",
+              "is_correct": false
+            },
+            {
+              "label": "ブラジル",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "星と横じまが特徴のこの国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "アメリカ合衆国",
+              "is_correct": true
+            },
+            {
+              "label": "イギリス",
+              "is_correct": false
+            },
+            {
+              "label": "リベリア",
+              "is_correct": false
+            },
+            {
+              "label": "キューバ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗を掲げている国はどこ？",
+          "choices": [
+            {
+              "label": "アメリカ合衆国",
+              "is_correct": true
+            },
+            {
+              "label": "カナダ",
+              "is_correct": false
+            },
+            {
+              "label": "メキシコ",
+              "is_correct": false
+            },
+            {
+              "label": "オーストラリア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "写真の国旗の国名として正しいのは？",
+          "choices": [
+            {
+              "label": "アメリカ合衆国",
+              "is_correct": true
+            },
+            {
+              "label": "イギリス",
+              "is_correct": false
+            },
+            {
+              "label": "パナマ",
+              "is_correct": false
+            },
+            {
+              "label": "チリ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「星条旗」と呼ばれるこの国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "アメリカ合衆国",
+              "is_correct": true
+            },
+            {
+              "label": "フランス",
+              "is_correct": false
+            },
+            {
+              "label": "オランダ",
+              "is_correct": false
+            },
+            {
+              "label": "ロシア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の国旗に当てはまる国名を選ぼう。",
+          "choices": [
+            {
+              "label": "アメリカ合衆国",
+              "is_correct": true
+            },
+            {
+              "label": "カナダ",
+              "is_correct": false
+            },
+            {
+              "label": "ドイツ",
+              "is_correct": false
+            },
+            {
+              "label": "イタリア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗の国はどこでしょう？",
+          "choices": [
+            {
+              "label": "アメリカ合衆国",
+              "is_correct": true
+            },
+            {
+              "label": "メキシコ",
+              "is_correct": false
+            },
+            {
+              "label": "スペイン",
+              "is_correct": false
+            },
+            {
+              "label": "ブラジル",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "表示された国旗を見て、正しい国名を選んでください。",
+          "choices": [
+            {
+              "label": "アメリカ合衆国",
+              "is_correct": true
+            },
+            {
+              "label": "イギリス",
+              "is_correct": false
+            },
+            {
+              "label": "オーストラリア",
+              "is_correct": false
+            },
+            {
+              "label": "ニュージーランド",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "赤・白・青の3色に星と横じまを使ったこの国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "アメリカ合衆国",
+              "is_correct": true
+            },
+            {
+              "label": "イギリス",
+              "is_correct": false
+            },
+            {
+              "label": "パナマ",
+              "is_correct": false
+            },
+            {
+              "label": "リベリア",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "アメリカ合衆国の首都はどこでしょう？",
+          "choices": [
+            {
+              "label": "ワシントンD.C.",
+              "is_correct": true
+            },
+            {
+              "label": "ニューヨーク",
+              "is_correct": false
+            },
+            {
+              "label": "ロサンゼルス",
+              "is_correct": false
+            },
+            {
+              "label": "シカゴ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカの政治の中心地で、大統領が住むホワイトハウスがある都市は？",
+          "choices": [
+            {
+              "label": "ワシントンD.C.",
+              "is_correct": true
+            },
+            {
+              "label": "ニューヨーク",
+              "is_correct": false
+            },
+            {
+              "label": "ボストン",
+              "is_correct": false
+            },
+            {
+              "label": "シアトル",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次のうち、アメリカ合衆国の首都はどれ？",
+          "choices": [
+            {
+              "label": "ワシントンD.C.",
+              "is_correct": true
+            },
+            {
+              "label": "ニューヨーク",
+              "is_correct": false
+            },
+            {
+              "label": "サンフランシスコ",
+              "is_correct": false
+            },
+            {
+              "label": "マイアミ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ議会議事堂（国会にあたる建物）がある都市はどこ？",
+          "choices": [
+            {
+              "label": "ワシントンD.C.",
+              "is_correct": true
+            },
+            {
+              "label": "ニューヨーク",
+              "is_correct": false
+            },
+            {
+              "label": "ヒューストン",
+              "is_correct": false
+            },
+            {
+              "label": "デトロイト",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国の首都として正しい都市を選んでください。",
+          "choices": [
+            {
+              "label": "ワシントンD.C.",
+              "is_correct": true
+            },
+            {
+              "label": "ロサンゼルス",
+              "is_correct": false
+            },
+            {
+              "label": "ラスベガス",
+              "is_correct": false
+            },
+            {
+              "label": "オーランド",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカで一番人口が多い都市はニューヨークですが、首都はどこ？",
+          "choices": [
+            {
+              "label": "ワシントンD.C.",
+              "is_correct": true
+            },
+            {
+              "label": "ニューヨーク",
+              "is_correct": false
+            },
+            {
+              "label": "フィラデルフィア",
+              "is_correct": false
+            },
+            {
+              "label": "アトランタ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国の首都の名前に含まれる「D.C.」とは何の略でしょう？その都市はどこ？",
+          "choices": [
+            {
+              "label": "ワシントンD.C.",
+              "is_correct": true
+            },
+            {
+              "label": "ニューヨーク",
+              "is_correct": false
+            },
+            {
+              "label": "シカゴ",
+              "is_correct": false
+            },
+            {
+              "label": "ダラス",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "州に属さない特別な連邦区にある、アメリカの首都はどこ？",
+          "choices": [
+            {
+              "label": "ワシントンD.C.",
+              "is_correct": true
+            },
+            {
+              "label": "ニューヨーク",
+              "is_correct": false
+            },
+            {
+              "label": "ボストン",
+              "is_correct": false
+            },
+            {
+              "label": "デンバー",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "初代大統領の名前にちなんで名付けられたアメリカの首都はどこ？",
+          "choices": [
+            {
+              "label": "ワシントンD.C.",
+              "is_correct": true
+            },
+            {
+              "label": "ニューヨーク",
+              "is_correct": false
+            },
+            {
+              "label": "フィラデルフィア",
+              "is_correct": false
+            },
+            {
+              "label": "シアトル",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の中から、アメリカ合衆国の首都を選んでください。",
+          "choices": [
+            {
+              "label": "ワシントンD.C.",
+              "is_correct": true
+            },
+            {
+              "label": "シカゴ",
+              "is_correct": false
+            },
+            {
+              "label": "マイアミ",
+              "is_correct": false
+            },
+            {
+              "label": "ヒューストン",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "アメリカ合衆国の国旗はどれでしょう？",
+          "choices": [
+            {
+              "label": "🇺🇸",
+              "is_correct": true
+            },
+            {
+              "label": "🇬🇧",
+              "is_correct": false
+            },
+            {
+              "label": "🇦🇺",
+              "is_correct": false
+            },
+            {
+              "label": "🇨🇦",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国の国旗の特徴として正しいものはどれ？",
+          "choices": [
+            {
+              "label": "星と赤白の横じま",
+              "is_correct": true
+            },
+            {
+              "label": "月と星",
+              "is_correct": false
+            },
+            {
+              "label": "十字マーク",
+              "is_correct": false
+            },
+            {
+              "label": "動物の絵",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカの国旗を表す呼び名として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "星条旗",
+              "is_correct": true
+            },
+            {
+              "label": "ユニオンジャック",
+              "is_correct": false
+            },
+            {
+              "label": "日の丸",
+              "is_correct": false
+            },
+            {
+              "label": "トリコロール",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ国旗の星の数が表しているものはどれ？",
+          "choices": [
+            {
+              "label": "現在の州の数",
+              "is_correct": true
+            },
+            {
+              "label": "首都の数",
+              "is_correct": false
+            },
+            {
+              "label": "大統領の数",
+              "is_correct": false
+            },
+            {
+              "label": "海の数",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の絵文字国旗のうち、アメリカ合衆国のものはどれ？",
+          "choices": [
+            {
+              "label": "🇺🇸",
+              "is_correct": true
+            },
+            {
+              "label": "🇬🇧",
+              "is_correct": false
+            },
+            {
+              "label": "🇫🇷",
+              "is_correct": false
+            },
+            {
+              "label": "🇩🇪",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ国旗の横じまの数が表しているものはどれ？",
+          "choices": [
+            {
+              "label": "独立当時の13州",
+              "is_correct": true
+            },
+            {
+              "label": "現在の州の数",
+              "is_correct": false
+            },
+            {
+              "label": "大統領の人数",
+              "is_correct": false
+            },
+            {
+              "label": "海洋の数",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ国旗のデザインを説明したものとして正しいのはどれ？",
+          "choices": [
+            {
+              "label": "左上に星、残りは赤白の横じま",
+              "is_correct": true
+            },
+            {
+              "label": "中央に大きな太陽",
+              "is_correct": false
+            },
+            {
+              "label": "全体が青一色",
+              "is_correct": false
+            },
+            {
+              "label": "緑と黄色の横じま",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の中から、アメリカ合衆国の国旗を選んでください。",
+          "choices": [
+            {
+              "label": "🇺🇸",
+              "is_correct": true
+            },
+            {
+              "label": "🇲🇽",
+              "is_correct": false
+            },
+            {
+              "label": "🇧🇷",
+              "is_correct": false
+            },
+            {
+              "label": "🇦🇷",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ国旗の星の色として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "白",
+              "is_correct": true
+            },
+            {
+              "label": "黄色",
+              "is_correct": false
+            },
+            {
+              "label": "赤",
+              "is_correct": false
+            },
+            {
+              "label": "緑",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国の国旗として正しい組み合わせはどれ？",
+          "choices": [
+            {
+              "label": "🇺🇸 星と横じま",
+              "is_correct": true
+            },
+            {
+              "label": "🇬🇧 十字の組み合わせ",
+              "is_correct": false
+            },
+            {
+              "label": "🇫🇷 縦じま3色",
+              "is_correct": false
+            },
+            {
+              "label": "🇩🇪 横じま3色",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "アメリカ合衆国はどの大陸に位置している？",
+          "choices": [
+            {
+              "label": "北アメリカ大陸",
+              "is_correct": true
+            },
+            {
+              "label": "南アメリカ大陸",
+              "is_correct": false
+            },
+            {
+              "label": "ヨーロッパ大陸",
+              "is_correct": false
+            },
+            {
+              "label": "アフリカ大陸",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国の北側で国境を接している国はどこ？",
+          "choices": [
+            {
+              "label": "カナダ",
+              "is_correct": true
+            },
+            {
+              "label": "メキシコ",
+              "is_correct": false
+            },
+            {
+              "label": "キューバ",
+              "is_correct": false
+            },
+            {
+              "label": "ブラジル",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国の南側で国境を接している国はどこ？",
+          "choices": [
+            {
+              "label": "メキシコ",
+              "is_correct": true
+            },
+            {
+              "label": "カナダ",
+              "is_correct": false
+            },
+            {
+              "label": "コロンビア",
+              "is_correct": false
+            },
+            {
+              "label": "パナマ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国はいくつの州から成り立っている？",
+          "choices": [
+            {
+              "label": "50州",
+              "is_correct": true
+            },
+            {
+              "label": "48州",
+              "is_correct": false
+            },
+            {
+              "label": "52州",
+              "is_correct": false
+            },
+            {
+              "label": "45州",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカとカナダの国境近くに広がる、5つの大きな湖の総称は？",
+          "choices": [
+            {
+              "label": "五大湖",
+              "is_correct": true
+            },
+            {
+              "label": "三大湖",
+              "is_correct": false
+            },
+            {
+              "label": "七大湖",
+              "is_correct": false
+            },
+            {
+              "label": "四大湖",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ大陸の西側を通る、南北に長い山脈はどれ？",
+          "choices": [
+            {
+              "label": "ロッキー山脈",
+              "is_correct": true
+            },
+            {
+              "label": "アルプス山脈",
+              "is_correct": false
+            },
+            {
+              "label": "ヒマラヤ山脈",
+              "is_correct": false
+            },
+            {
+              "label": "アンデス山脈",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国を流れる、国内最長級の大きな川はどれ？",
+          "choices": [
+            {
+              "label": "ミシシッピ川",
+              "is_correct": true
+            },
+            {
+              "label": "セーヌ川",
+              "is_correct": false
+            },
+            {
+              "label": "テムズ川",
+              "is_correct": false
+            },
+            {
+              "label": "ナイル川",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "巨大な渓谷として知られ、アリゾナ州にある有名な観光地はどれ？",
+          "choices": [
+            {
+              "label": "グランドキャニオン",
+              "is_correct": true
+            },
+            {
+              "label": "エッフェル塔",
+              "is_correct": false
+            },
+            {
+              "label": "ビッグベン",
+              "is_correct": false
+            },
+            {
+              "label": "モンブラン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国が面していない海洋はどれ？",
+          "choices": [
+            {
+              "label": "インド洋",
+              "is_correct": true
+            },
+            {
+              "label": "太平洋",
+              "is_correct": false
+            },
+            {
+              "label": "大西洋",
+              "is_correct": false
+            },
+            {
+              "label": "メキシコ湾",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "北極に近く、カナダと陸続きになっているアメリカの州はどれ？",
+          "choices": [
+            {
+              "label": "アラスカ州",
+              "is_correct": true
+            },
+            {
+              "label": "ハワイ州",
+              "is_correct": false
+            },
+            {
+              "label": "フロリダ州",
+              "is_correct": false
+            },
+            {
+              "label": "テキサス州",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "アメリカ合衆国博士",
+      "questions": [
+        {
+          "prompt": "英語で「こんにちは」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Hello",
+              "is_correct": true
+            },
+            {
+              "label": "Sorry",
+              "is_correct": false
+            },
+            {
+              "label": "Bye",
+              "is_correct": false
+            },
+            {
+              "label": "Please",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「ありがとう」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Thank you",
+              "is_correct": true
+            },
+            {
+              "label": "Excuse me",
+              "is_correct": false
+            },
+            {
+              "label": "Good night",
+              "is_correct": false
+            },
+            {
+              "label": "Yes",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「さようなら」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Goodbye",
+              "is_correct": true
+            },
+            {
+              "label": "Hello",
+              "is_correct": false
+            },
+            {
+              "label": "Please",
+              "is_correct": false
+            },
+            {
+              "label": "Thank you",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「はい」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Yes",
+              "is_correct": true
+            },
+            {
+              "label": "No",
+              "is_correct": false
+            },
+            {
+              "label": "Sorry",
+              "is_correct": false
+            },
+            {
+              "label": "Please",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「いいえ」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "No",
+              "is_correct": true
+            },
+            {
+              "label": "Yes",
+              "is_correct": false
+            },
+            {
+              "label": "Hello",
+              "is_correct": false
+            },
+            {
+              "label": "Thanks",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「お願いします」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Please",
+              "is_correct": true
+            },
+            {
+              "label": "Sorry",
+              "is_correct": false
+            },
+            {
+              "label": "Goodbye",
+              "is_correct": false
+            },
+            {
+              "label": "Yes",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「ごめんなさい」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Sorry",
+              "is_correct": true
+            },
+            {
+              "label": "Hello",
+              "is_correct": false
+            },
+            {
+              "label": "Please",
+              "is_correct": false
+            },
+            {
+              "label": "Thank you",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "朝に使う英語のあいさつはどれ？",
+          "choices": [
+            {
+              "label": "Good morning",
+              "is_correct": true
+            },
+            {
+              "label": "Good night",
+              "is_correct": false
+            },
+            {
+              "label": "Goodbye",
+              "is_correct": false
+            },
+            {
+              "label": "Excuse me",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "夜、寝る前に使う英語のあいさつはどれ？",
+          "choices": [
+            {
+              "label": "Good night",
+              "is_correct": true
+            },
+            {
+              "label": "Good morning",
+              "is_correct": false
+            },
+            {
+              "label": "Hello",
+              "is_correct": false
+            },
+            {
+              "label": "Thank you",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「1」はどう言う？",
+          "choices": [
+            {
+              "label": "One",
+              "is_correct": true
+            },
+            {
+              "label": "Two",
+              "is_correct": false
+            },
+            {
+              "label": "Three",
+              "is_correct": false
+            },
+            {
+              "label": "Four",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「2」はどう言う？",
+          "choices": [
+            {
+              "label": "Two",
+              "is_correct": true
+            },
+            {
+              "label": "One",
+              "is_correct": false
+            },
+            {
+              "label": "Three",
+              "is_correct": false
+            },
+            {
+              "label": "Five",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「3」はどう言う？",
+          "choices": [
+            {
+              "label": "Three",
+              "is_correct": true
+            },
+            {
+              "label": "One",
+              "is_correct": false
+            },
+            {
+              "label": "Two",
+              "is_correct": false
+            },
+            {
+              "label": "Four",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で自己紹介するときに使う「My name is 〜」の意味はどれ？",
+          "choices": [
+            {
+              "label": "私の名前は〜です",
+              "is_correct": true
+            },
+            {
+              "label": "私は元気です",
+              "is_correct": false
+            },
+            {
+              "label": "ありがとう",
+              "is_correct": false
+            },
+            {
+              "label": "はじめまして",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「初めまして」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "Nice to meet you",
+              "is_correct": true
+            },
+            {
+              "label": "Good night",
+              "is_correct": false
+            },
+            {
+              "label": "See you",
+              "is_correct": false
+            },
+            {
+              "label": "Excuse me",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "人に呼びかけたり道を空けてもらうときに使う英語はどれ？",
+          "choices": [
+            {
+              "label": "Excuse me",
+              "is_correct": true
+            },
+            {
+              "label": "Good morning",
+              "is_correct": false
+            },
+            {
+              "label": "Thank you",
+              "is_correct": false
+            },
+            {
+              "label": "Yes",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「元気ですか？」とたずねる英語の表現はどれ？",
+          "choices": [
+            {
+              "label": "How are you?",
+              "is_correct": true
+            },
+            {
+              "label": "What is this?",
+              "is_correct": false
+            },
+            {
+              "label": "Where are you?",
+              "is_correct": false
+            },
+            {
+              "label": "Who are you?",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「元気です」と答える英語の表現はどれ？",
+          "choices": [
+            {
+              "label": "I'm fine.",
+              "is_correct": true
+            },
+            {
+              "label": "I'm sorry.",
+              "is_correct": false
+            },
+            {
+              "label": "I'm here.",
+              "is_correct": false
+            },
+            {
+              "label": "I'm ten.",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語で「またね」を意味するカジュアルな言葉はどれ？",
+          "choices": [
+            {
+              "label": "See you",
+              "is_correct": true
+            },
+            {
+              "label": "Excuse me",
+              "is_correct": false
+            },
+            {
+              "label": "Please",
+              "is_correct": false
+            },
+            {
+              "label": "Sorry",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アメリカ英語で「ありがとうございます」と丁寧に言うときの表現はどれ？",
+          "choices": [
+            {
+              "label": "Thank you very much",
+              "is_correct": true
+            },
+            {
+              "label": "No, thank you",
+              "is_correct": false
+            },
+            {
+              "label": "Excuse me please",
+              "is_correct": false
+            },
+            {
+              "label": "Good night everyone",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "英語のアルファベットは全部で何文字？",
+          "choices": [
+            {
+              "label": "26文字",
+              "is_correct": true
+            },
+            {
+              "label": "24文字",
+              "is_correct": false
+            },
+            {
+              "label": "30文字",
+              "is_correct": false
+            },
+            {
+              "label": "20文字",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

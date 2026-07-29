@@ -58,7 +58,7 @@ export default function Page() {
     });
 
     if (res.ok) {
-      router.push("/dashboard");
+      router.push("/");
     }
   }
 

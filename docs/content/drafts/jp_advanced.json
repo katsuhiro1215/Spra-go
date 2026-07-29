@@ -1,0 +1,587 @@
+{
+  "country_name": "日本",
+  "country_code": "JP",
+  "difficulty": "上級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "日章旗（日の丸）が商船規則によって初めて国旗として定められたのは西暦何年？",
+          "choices": [
+            { "label": "1870年", "is_correct": true },
+            { "label": "1868年", "is_correct": false },
+            { "label": "1889年", "is_correct": false },
+            { "label": "1999年", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「国旗及び国歌に関する法律」（国旗国歌法）が制定され、日章旗が正式に法律で国旗と定められたのは何年？",
+          "choices": [
+            { "label": "1999年", "is_correct": true },
+            { "label": "1945年", "is_correct": false },
+            { "label": "1970年", "is_correct": false },
+            { "label": "1947年", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "国旗国歌法で定められた日章旗の縦横比として正しいのはどれ？",
+          "choices": [
+            { "label": "2対3", "is_correct": true },
+            { "label": "1対1", "is_correct": false },
+            { "label": "7対10", "is_correct": false },
+            { "label": "3対5", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1999年の法律制定より前、明治時代の規格で定められていた日章旗の縦横比はどれ？",
+          "choices": [
+            { "label": "7対10", "is_correct": true },
+            { "label": "2対3", "is_correct": false },
+            { "label": "1対2", "is_correct": false },
+            { "label": "5対8", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "国旗国歌法において、日章旗の太陽（日章）の色として定められているのはどれ？",
+          "choices": [
+            { "label": "紅色", "is_correct": true },
+            { "label": "朱色", "is_correct": false },
+            { "label": "茜色", "is_correct": false },
+            { "label": "ピンク色", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1999年の法律制定より前の規格では、日章旗の丸（日章）の中心はどこにあった？",
+          "choices": [
+            { "label": "旗ざお側にわずかにずれていた", "is_correct": true },
+            { "label": "常に旗の中央だった", "is_correct": false },
+            { "label": "上寄りにずれていた", "is_correct": false },
+            { "label": "下寄りにずれていた", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "日章旗（日の丸）の太陽（日章）の直径は、旗の縦の長さの何分のいくつと定められている？",
+          "choices": [
+            { "label": "5分の3", "is_correct": true },
+            { "label": "2分の1", "is_correct": false },
+            { "label": "3分の2", "is_correct": false },
+            { "label": "4分の5", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "海上自衛隊の「自衛艦旗」に描かれる、太陽から放射状に伸びる光線（旭日）の数は？",
+          "choices": [
+            { "label": "16本", "is_correct": true },
+            { "label": "8本", "is_correct": false },
+            { "label": "12本", "is_correct": false },
+            { "label": "24本", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "陸上自衛隊の「自衛隊旗」に描かれる旭日の光線の数は、海上自衛隊の自衛艦旗と比べてどうなっている？",
+          "choices": [
+            { "label": "半分の8本である", "is_correct": true },
+            { "label": "同じ16本である", "is_correct": false },
+            { "label": "倍の32本である", "is_correct": false },
+            { "label": "光線はなく丸のみである", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "日の丸と旭日旗の関係についての説明として正しいのはどれ？",
+          "choices": [
+            { "label": "日の丸は白地に赤い丸のみのデザインで、光線が放射する旭日旗とは別の旗である", "is_correct": true },
+            { "label": "日の丸と旭日旗はまったく同じ意匠の旗である", "is_correct": false },
+            { "label": "旭日旗の光線のデザインが国旗国歌法で定める日章旗の正式な形である", "is_correct": false },
+            { "label": "日の丸は明治時代に廃止され、現在は旭日旗のみが国旗として使われている", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "江戸が「東京」と改称されたのは西暦何年？",
+          "choices": [
+            { "label": "1868年", "is_correct": true },
+            { "label": "1867年", "is_correct": false },
+            { "label": "1869年", "is_correct": false },
+            { "label": "1873年", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「東京」という名称の由来として正しいのはどれ？",
+          "choices": [
+            { "label": "「東の京（みやこ）」という意味", "is_correct": true },
+            { "label": "徳川家にゆかりのある地名から", "is_correct": false },
+            { "label": "「東洋の都」を略した言葉", "is_correct": false },
+            { "label": "京都の別名をそのまま使った", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "日本の首都に関する法律上の事実として正しいのはどれ？",
+          "choices": [
+            { "label": "「東京を首都とする」と明確に定めた法律は現在存在しない", "is_correct": true },
+            { "label": "日本国憲法に東京が首都であると明記されている", "is_correct": false },
+            { "label": "現在も有効な「首都建設法」に東京が首都と定められている", "is_correct": false },
+            { "label": "皇室典範に東京を首都とする条文がある", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "東京都の「特別区」制度により、現在の23区の形が確定したのは何年？",
+          "choices": [
+            { "label": "1947年", "is_correct": true },
+            { "label": "1868年", "is_correct": false },
+            { "label": "1943年", "is_correct": false },
+            { "label": "1964年", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "東京23区（特別区）についての説明として正しいのはどれ？",
+          "choices": [
+            { "label": "それぞれが独立した基礎的な地方公共団体であり、一般の市に近い性格を持つ", "is_correct": true },
+            { "label": "23区は東京都庁の内部組織であり、独自の議会を持たない", "is_correct": false },
+            { "label": "23区は明治時代からずっと変わらず同じ境界を保っている", "is_correct": false },
+            { "label": "23区のうち区長を選挙で選べるのは一部の区に限られる", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1958年に完成し、高さ333メートルを誇る東京の電波塔は？",
+          "choices": [
+            { "label": "東京タワー", "is_correct": true },
+            { "label": "東京スカイツリー", "is_correct": false },
+            { "label": "東京都庁舎", "is_correct": false },
+            { "label": "国会議事堂", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "2012年に開業した、高さ634メートルの自立式電波塔は？",
+          "choices": [
+            { "label": "東京スカイツリー", "is_correct": true },
+            { "label": "東京タワー", "is_correct": false },
+            { "label": "東京ドーム", "is_correct": false },
+            { "label": "東京国際フォーラム", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "東京スカイツリーの高さ「634メートル」という数字が選ばれた理由として知られているのは？",
+          "choices": [
+            { "label": "旧国名「武蔵国」の語呂（むさし）に通じるため", "is_correct": true },
+            { "label": "建設に634日かかったため", "is_correct": false },
+            { "label": "634人の設計者が関わったため", "is_correct": false },
+            { "label": "634年に東京の前身の集落ができたとされるため", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1991年、東京都庁舎はどこからどこへ移転した？",
+          "choices": [
+            { "label": "丸の内（有楽町）から新宿へ", "is_correct": true },
+            { "label": "新宿から丸の内へ", "is_correct": false },
+            { "label": "渋谷から新宿へ", "is_correct": false },
+            { "label": "池袋から丸の内へ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "現在の東京都庁舎（新宿の高層ビル）を設計した建築家は誰？",
+          "choices": [
+            { "label": "丹下健三", "is_correct": true },
+            { "label": "安藤忠雄", "is_correct": false },
+            { "label": "黒川紀章", "is_correct": false },
+            { "label": "隈研吾", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "世界に2ヵ国だけ存在する、正方形（縦横比1対1）の国旗を持つ国の組み合わせとして正しいのはどれ？",
+          "choices": [
+            { "label": "スイスとバチカン市国", "is_correct": true },
+            { "label": "スイスとデンマーク", "is_correct": false },
+            { "label": "バチカン市国とネパール", "is_correct": false },
+            { "label": "デンマークとオーストリア", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "世界で唯一、長方形（四角形）ではない国旗を持つ国はどこ？",
+          "choices": [
+            { "label": "ネパール", "is_correct": true },
+            { "label": "インド", "is_correct": false },
+            { "label": "ブータン", "is_correct": false },
+            { "label": "スリランカ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカ合衆国の国旗の愛称として知られるのはどれ？",
+          "choices": [
+            { "label": "星条旗", "is_correct": true },
+            { "label": "旭日旗", "is_correct": false },
+            { "label": "トリコロール", "is_correct": false },
+            { "label": "ダンネブロ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "国旗そのものが「ユニオンジャック」と呼ばれる国はどこ？",
+          "choices": [
+            { "label": "イギリス", "is_correct": true },
+            { "label": "オーストラリア", "is_correct": false },
+            { "label": "ニュージーランド", "is_correct": false },
+            { "label": "フィジー", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "白地に赤い丸だけを描いた、非常にシンプルな国旗を持つ国はどこ？",
+          "choices": [
+            { "label": "日本", "is_correct": true },
+            { "label": "バングラデシュ", "is_correct": false },
+            { "label": "パラオ", "is_correct": false },
+            { "label": "韓国", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "大きな星ひとつと小さな星四つ、合計五つの星が国旗に描かれている国はどこ？",
+          "choices": [
+            { "label": "中国", "is_correct": true },
+            { "label": "ベトナム", "is_correct": false },
+            { "label": "北朝鮮", "is_correct": false },
+            { "label": "トルコ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "赤地にカエデの葉（メープルリーフ）が描かれた国旗を持つ国はどこ？",
+          "choices": [
+            { "label": "カナダ", "is_correct": true },
+            { "label": "アメリカ合衆国", "is_correct": false },
+            { "label": "オーストラリア", "is_correct": false },
+            { "label": "ニュージーランド", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "赤地に、剣を持った黄金のライオンが描かれた国旗を持つ国はどこ？",
+          "choices": [
+            { "label": "スリランカ", "is_correct": true },
+            { "label": "インド", "is_correct": false },
+            { "label": "タイ", "is_correct": false },
+            { "label": "ネパール", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「ダンネブロ」と呼ばれ、伝説では1219年に空から降ってきたと伝えられる国旗を持つ国はどこ？",
+          "choices": [
+            { "label": "デンマーク", "is_correct": true },
+            { "label": "スウェーデン", "is_correct": false },
+            { "label": "ノルウェー", "is_correct": false },
+            { "label": "フィンランド", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "青・白・赤の三色旗（トリコロール）を国旗とし、フランス革命ゆかりの国はどこ？",
+          "choices": [
+            { "label": "フランス", "is_correct": true },
+            { "label": "オランダ", "is_correct": false },
+            { "label": "ロシア", "is_correct": false },
+            { "label": "ルクセンブルク", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "富士山の最後の噴火「宝永大噴火」が起きたのは西暦何年？",
+          "choices": [
+            { "label": "1707年", "is_correct": true },
+            { "label": "1854年", "is_correct": false },
+            { "label": "1923年", "is_correct": false },
+            { "label": "2011年", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "富士山はどのタイプの火山に分類される？",
+          "choices": [
+            { "label": "成層火山", "is_correct": true },
+            { "label": "楯状火山", "is_correct": false },
+            { "label": "カルデラ火山", "is_correct": false },
+            { "label": "溶岩ドーム", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "富士山が世界遺産に登録された際の正式な区分はどれ？",
+          "choices": [
+            { "label": "世界文化遺産", "is_correct": true },
+            { "label": "世界自然遺産", "is_correct": false },
+            { "label": "複合遺産", "is_correct": false },
+            { "label": "無形文化遺産", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "富士山が世界遺産に登録されたのは何年？",
+          "choices": [
+            { "label": "2013年", "is_correct": true },
+            { "label": "2003年", "is_correct": false },
+            { "label": "1993年", "is_correct": false },
+            { "label": "2020年", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "日本で一番長い川はどれ？",
+          "choices": [
+            { "label": "信濃川", "is_correct": true },
+            { "label": "利根川", "is_correct": false },
+            { "label": "石狩川", "is_correct": false },
+            { "label": "北上川", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "日本で一番面積が大きい湖はどれ？",
+          "choices": [
+            { "label": "琵琶湖", "is_correct": true },
+            { "label": "霞ヶ浦", "is_correct": false },
+            { "label": "サロマ湖", "is_correct": false },
+            { "label": "猪苗代湖", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "日本で一番水深が深い湖はどれ？",
+          "choices": [
+            { "label": "田沢湖", "is_correct": true },
+            { "label": "支笏湖", "is_correct": false },
+            { "label": "十和田湖", "is_correct": false },
+            { "label": "琵琶湖", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "国土地理院が2023年に発表した、日本にある島の総数に最も近いのはどれ？",
+          "choices": [
+            { "label": "約14,125島", "is_correct": true },
+            { "label": "約6,852島", "is_correct": false },
+            { "label": "約20,000島", "is_correct": false },
+            { "label": "約3,000島", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "47都道府県の内訳として正しいものはどれ？",
+          "choices": [
+            { "label": "1都1道2府43県", "is_correct": true },
+            { "label": "1都2道2府42県", "is_correct": false },
+            { "label": "2都1道1府43県", "is_correct": false },
+            { "label": "1都1道3府42県", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "海に面していない「内陸県」は日本にいくつある？",
+          "choices": [
+            { "label": "8県", "is_correct": true },
+            { "label": "5県", "is_correct": false },
+            { "label": "10県", "is_correct": false },
+            { "label": "12県", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "日本レジェンド",
+      "questions": [
+        {
+          "prompt": "ひらがなのもとになった、漢字の音を借りて日本語の音を表記する文字を何と呼ぶ？",
+          "choices": [
+            { "label": "万葉仮名", "is_correct": true },
+            { "label": "契丹文字", "is_correct": false },
+            { "label": "甲骨文字", "is_correct": false },
+            { "label": "ハングル", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "平安時代、ひらがなは主に誰の間で使われたことから「女手」とも呼ばれた？",
+          "choices": [
+            { "label": "女性", "is_correct": true },
+            { "label": "貴族の男性", "is_correct": false },
+            { "label": "武士", "is_correct": false },
+            { "label": "僧侶", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "カタカナは主に、漢文を読むための補助記号として、誰によって作られたと考えられている？",
+          "choices": [
+            { "label": "僧侶", "is_correct": true },
+            { "label": "武士", "is_correct": false },
+            { "label": "商人", "is_correct": false },
+            { "label": "宮廷の女性", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「カタカナ（片仮名）」という名前の由来として正しいのはどれ？",
+          "choices": [
+            { "label": "漢字の一部（片方）を取って作られたことから", "is_correct": true },
+            { "label": "「固い」文字を意味することから", "is_correct": false },
+            { "label": "中国の「型」という文字が変化したことから", "is_correct": false },
+            { "label": "片手だけで書けることから", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "敬語は伝統的に「尊敬語」「謙譲語」と、もう一つ何に分けられてきた？",
+          "choices": [
+            { "label": "丁寧語", "is_correct": true },
+            { "label": "美化語", "is_correct": false },
+            { "label": "丁重語", "is_correct": false },
+            { "label": "尊重語", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "2007年の文化審議会「敬語の指針」による敬語の分類は何種類？",
+          "choices": [
+            { "label": "5種類", "is_correct": true },
+            { "label": "3種類", "is_correct": false },
+            { "label": "4種類", "is_correct": false },
+            { "label": "7種類", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "漢字の読み方のうち、中国から伝わった発音をもとにした読み方を何と呼ぶ？",
+          "choices": [
+            { "label": "音読み", "is_correct": true },
+            { "label": "訓読み", "is_correct": false },
+            { "label": "当て字", "is_correct": false },
+            { "label": "熟字訓", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "漢字の読み方のうち、その漢字の意味に対応する日本語（和語）を当てた読み方を何と呼ぶ？",
+          "choices": [
+            { "label": "訓読み", "is_correct": true },
+            { "label": "音読み", "is_correct": false },
+            { "label": "重箱読み", "is_correct": false },
+            { "label": "湯桶読み", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「山」という漢字を「やま」と読むのは何読み？",
+          "choices": [
+            { "label": "訓読み", "is_correct": true },
+            { "label": "音読み", "is_correct": false },
+            { "label": "唐音", "is_correct": false },
+            { "label": "呉音", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「山」という漢字を「サン」と読むのは何読み？",
+          "choices": [
+            { "label": "音読み", "is_correct": true },
+            { "label": "訓読み", "is_correct": false },
+            { "label": "熟字訓", "is_correct": false },
+            { "label": "当て字", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "四字熟語「温故知新」の由来となった中国の古典はどれ？",
+          "choices": [
+            { "label": "論語", "is_correct": true },
+            { "label": "孫子", "is_correct": false },
+            { "label": "荘子", "is_correct": false },
+            { "label": "史記", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "四字熟語「呉越同舟」の由来となった中国の兵法書はどれ？",
+          "choices": [
+            { "label": "孫子", "is_correct": true },
+            { "label": "論語", "is_correct": false },
+            { "label": "三国志", "is_correct": false },
+            { "label": "韓非子", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "茶道の言葉「一期一会」を四字熟語として著書に記し、世に広めたとされる江戸幕府の大老は誰？",
+          "choices": [
+            { "label": "井伊直弼", "is_correct": true },
+            { "label": "千利休", "is_correct": false },
+            { "label": "徳川家康", "is_correct": false },
+            { "label": "豊臣秀吉", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "標準語のもとになったとされる、東京の武家地を中心に発達した言葉を何と呼ぶ？",
+          "choices": [
+            { "label": "山の手言葉", "is_correct": true },
+            { "label": "下町言葉", "is_correct": false },
+            { "label": "京言葉", "is_correct": false },
+            { "label": "公家言葉", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "明治時代、「教育ある東京人の話す言葉」を標準語として提唱した言語学者は誰？",
+          "choices": [
+            { "label": "上田万年", "is_correct": true },
+            { "label": "森鴎外", "is_correct": false },
+            { "label": "夏目漱石", "is_correct": false },
+            { "label": "福沢諭吉", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "関西弁などで「いくら」「どれほど」という意味で使われる言葉はどれ？",
+          "choices": [
+            { "label": "なんぼ", "is_correct": true },
+            { "label": "なんでや", "is_correct": false },
+            { "label": "ほんまや", "is_correct": false },
+            { "label": "せやかて", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「ありがとう」という言葉のもとになった古語はどれ？",
+          "choices": [
+            { "label": "有り難し（ありがたし）", "is_correct": true },
+            { "label": "おそれいる", "is_correct": false },
+            { "label": "かたじけない", "is_correct": false },
+            { "label": "もったいない", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「起承転結」という言葉は、もともと何の構成法に由来する？",
+          "choices": [
+            { "label": "漢詩（絶句）の構成", "is_correct": true },
+            { "label": "能の舞台構成", "is_correct": false },
+            { "label": "茶道の作法の順序", "is_correct": false },
+            { "label": "論語の教えの順序", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "常用漢字の中で、画数が最も多いとされる漢字はどれ？",
+          "choices": [
+            { "label": "鬱（29画）", "is_correct": true },
+            { "label": "憂（15画）", "is_correct": false },
+            { "label": "麗（19画）", "is_correct": false },
+            { "label": "曇（16画）", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "四字熟語「半信半疑」の意味として正しいのはどれ？",
+          "choices": [
+            { "label": "半分信じ、半分疑うこと", "is_correct": true },
+            { "label": "完全に信じ切ること", "is_correct": false },
+            { "label": "まったく相手にしないこと", "is_correct": false },
+            { "label": "半分だけ理解すること", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

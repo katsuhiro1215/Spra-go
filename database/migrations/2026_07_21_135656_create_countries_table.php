@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->string('name');
-            $table->string('language');
+            $table->string('three_code')->unique();
+            $table->string('name')->unique();
+            $table->string('name_en')->unique();
+            $table->unsignedInteger('country_code');
             $table->unsignedInteger('stages')->default(0);
             $table->unsignedInteger('order')->default(0);
             $table->timestamps();

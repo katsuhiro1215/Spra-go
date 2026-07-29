@@ -5,6 +5,7 @@ import Image from "next/image";
 import { MoreHorizontal, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -30,27 +31,44 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { apiFetch } from "@/lib/api";
+
+type Language = { id: number; code: string; name: string };
 
 type Country = {
   id: number;
   code: string;
   name: string;
-  language: string;
+  languages: (Language & { pivot: { is_primary: boolean } })[];
   stages: number;
+  mood_emoji: string | null;
+  intro_message: string | null;
 };
 
 type FormValues = {
   code: string;
   name: string;
-  language: string;
+  language_ids: number[];
+  primary_language_id: string;
   stages: string;
+  mood_emoji: string;
+  intro_message: string;
 };
 
-const emptyForm: FormValues = { code: "", name: "", language: "", stages: "0" };
+const emptyForm: FormValues = {
+  code: "",
+  name: "",
+  language_ids: [],
+  primary_language_id: "",
+  stages: "0",
+  mood_emoji: "",
+  intro_message: "",
+};
 
 export default function Page() {
   const [countries, setCountries] = useState<Country[] | null>(null);
+  const [languages, setLanguages] = useState<Language[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -73,6 +91,9 @@ export default function Page() {
 
   useEffect(() => {
     loadCountries();
+    apiFetch("/api/owner/languages").then(async (res) => {
+      if (res.ok) setLanguages(await res.json());
+    });
   }, []);
 
   function openCreate() {
@@ -84,14 +105,34 @@ export default function Page() {
 
   function openEdit(country: Country) {
     setEditing(country);
+    const primary = country.languages.find((l) => l.pivot.is_primary);
     setValues({
       code: country.code,
       name: country.name,
-      language: country.language,
+      language_ids: country.languages.map((l) => l.id),
+      primary_language_id: primary ? String(primary.id) : "",
       stages: String(country.stages),
+      mood_emoji: country.mood_emoji ?? "",
+      intro_message: country.intro_message ?? "",
     });
     setFormError(null);
     setDialogOpen(true);
+  }
+
+  function toggleLanguage(languageId: number) {
+    setValues((prev) => {
+      const checked = prev.language_ids.includes(languageId);
+      const language_ids = checked
+        ? prev.language_ids.filter((id) => id !== languageId)
+        : [...prev.language_ids, languageId];
+
+      const primary_language_id =
+        checked && String(languageId) === prev.primary_language_id
+          ? ""
+          : prev.primary_language_id;
+
+      return { ...prev, language_ids, primary_language_id };
+    });
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -102,8 +143,13 @@ export default function Page() {
     const payload = {
       code: values.code,
       name: values.name,
-      language: values.language,
+      language_ids: values.language_ids,
+      primary_language_id: values.primary_language_id
+        ? Number(values.primary_language_id)
+        : null,
       stages: Number(values.stages) || 0,
+      mood_emoji: values.mood_emoji || null,
+      intro_message: values.intro_message || null,
     };
 
     try {
@@ -207,7 +253,16 @@ export default function Page() {
               <div>
                 <p className="text-sm font-medium">{country.name}</p>
                 <p className="text-xs text-muted-foreground">
-                  {country.language}
+                  {[...country.languages]
+                    .sort((a, b) =>
+                      a.pivot.is_primary === b.pivot.is_primary
+                        ? 0
+                        : a.pivot.is_primary
+                          ? -1
+                          : 1,
+                    )
+                    .map((l) => l.name)
+                    .join("、") || "言語未設定"}
                 </p>
               </div>
               <p className="text-xs text-muted-foreground">
@@ -252,13 +307,78 @@ export default function Page() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="country-language">言語</Label>
+              <Label>言語(複数選択可。1つを主要言語に設定)</Label>
+              <div className="flex flex-col gap-1.5 rounded-md border border-border p-2">
+                {languages.length === 0 && (
+                  <p className="text-xs text-muted-foreground">
+                    言語がまだ登録されていません。「言語」ページから追加してください。
+                  </p>
+                )}
+                {languages.map((language) => {
+                  const checked = values.language_ids.includes(language.id);
+                  return (
+                    <div
+                      key={language.id}
+                      className="flex items-center gap-2 text-sm"
+                    >
+                      <Checkbox
+                        checked={checked}
+                        onCheckedChange={() => toggleLanguage(language.id)}
+                      />
+                      <span className="flex-1">{language.name}</span>
+                      {checked && (
+                        <label className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <input
+                            type="radio"
+                            name="primary-language"
+                            checked={
+                              values.primary_language_id ===
+                              String(language.id)
+                            }
+                            onChange={() =>
+                              setValues((prev) => ({
+                                ...prev,
+                                primary_language_id: String(language.id),
+                              }))
+                            }
+                          />
+                          主要
+                        </label>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="country-mood-emoji">
+                雰囲気の絵文字(任意。例: 🌸)
+              </Label>
               <Input
-                id="country-language"
-                required
-                value={values.language}
+                id="country-mood-emoji"
+                value={values.mood_emoji}
                 onChange={(e) =>
-                  setValues((prev) => ({ ...prev, language: e.target.value }))
+                  setValues((prev) => ({
+                    ...prev,
+                    mood_emoji: e.target.value,
+                  }))
+                }
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="country-intro-message">
+                出迎えメッセージ(任意。例: ようこそ日本へ！)
+              </Label>
+              <Textarea
+                id="country-intro-message"
+                value={values.intro_message}
+                onChange={(e) =>
+                  setValues((prev) => ({
+                    ...prev,
+                    intro_message: e.target.value,
+                  }))
                 }
               />
             </div>

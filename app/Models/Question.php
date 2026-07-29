@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Question extends Model
 {
-    protected $fillable = ['quiz_id', 'type', 'prompt', 'order', 'meta'];
+    protected $fillable = ['quiz_id', 'country_id', 'type', 'prompt', 'order', 'meta'];
 
     protected function casts(): array
     {
@@ -20,6 +20,11 @@ class Question extends Model
     public function quiz(): BelongsTo
     {
         return $this->belongsTo(Quiz::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
     }
 
     public function choices(): HasMany

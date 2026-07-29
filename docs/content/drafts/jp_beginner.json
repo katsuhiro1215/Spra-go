@@ -1,0 +1,1307 @@
+{
+  "country_name": "日本",
+  "country_code": "JP",
+  "difficulty": "初級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "次の国旗の国名として正しいものはどれ？",
+          "choices": [
+            {
+              "label": "日本",
+              "is_correct": true
+            },
+            {
+              "label": "韓国",
+              "is_correct": false
+            },
+            {
+              "label": "タイ",
+              "is_correct": false
+            },
+            {
+              "label": "ベトナム",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗はどこの国のものでしょう？",
+          "choices": [
+            {
+              "label": "日本",
+              "is_correct": true
+            },
+            {
+              "label": "中国",
+              "is_correct": false
+            },
+            {
+              "label": "インドネシア",
+              "is_correct": false
+            },
+            {
+              "label": "フィリピン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "表示されている国旗の国名を選んでください。",
+          "choices": [
+            {
+              "label": "日本",
+              "is_correct": true
+            },
+            {
+              "label": "モンゴル",
+              "is_correct": false
+            },
+            {
+              "label": "ラオス",
+              "is_correct": false
+            },
+            {
+              "label": "ミャンマー",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗を掲げている国はどこ？",
+          "choices": [
+            {
+              "label": "日本",
+              "is_correct": true
+            },
+            {
+              "label": "韓国",
+              "is_correct": false
+            },
+            {
+              "label": "台湾",
+              "is_correct": false
+            },
+            {
+              "label": "マレーシア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "写真の国旗の国名として正しいのは？",
+          "choices": [
+            {
+              "label": "日本",
+              "is_correct": true
+            },
+            {
+              "label": "中国",
+              "is_correct": false
+            },
+            {
+              "label": "ネパール",
+              "is_correct": false
+            },
+            {
+              "label": "スリランカ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗が使われている国は？",
+          "choices": [
+            {
+              "label": "日本",
+              "is_correct": true
+            },
+            {
+              "label": "タイ",
+              "is_correct": false
+            },
+            {
+              "label": "カンボジア",
+              "is_correct": false
+            },
+            {
+              "label": "北朝鮮",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の国旗に当てはまる国名を選ぼう。",
+          "choices": [
+            {
+              "label": "日本",
+              "is_correct": true
+            },
+            {
+              "label": "韓国",
+              "is_correct": false
+            },
+            {
+              "label": "インド",
+              "is_correct": false
+            },
+            {
+              "label": "パキスタン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗の国はどこでしょう？",
+          "choices": [
+            {
+              "label": "日本",
+              "is_correct": true
+            },
+            {
+              "label": "中国",
+              "is_correct": false
+            },
+            {
+              "label": "ブータン",
+              "is_correct": false
+            },
+            {
+              "label": "バングラデシュ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "表示された国旗を見て、正しい国名を選んでください。",
+          "choices": [
+            {
+              "label": "日本",
+              "is_correct": true
+            },
+            {
+              "label": "ベトナム",
+              "is_correct": false
+            },
+            {
+              "label": "シンガポール",
+              "is_correct": false
+            },
+            {
+              "label": "フィリピン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「日の丸」という愛称を持つこの国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "日本",
+              "is_correct": true
+            },
+            {
+              "label": "韓国",
+              "is_correct": false
+            },
+            {
+              "label": "中国",
+              "is_correct": false
+            },
+            {
+              "label": "タイ",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "日本の首都はどこでしょう？",
+          "choices": [
+            {
+              "label": "東京",
+              "is_correct": true
+            },
+            {
+              "label": "大阪",
+              "is_correct": false
+            },
+            {
+              "label": "京都",
+              "is_correct": false
+            },
+            {
+              "label": "名古屋",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の政治・経済の中心となっている都市はどこ？",
+          "choices": [
+            {
+              "label": "東京",
+              "is_correct": true
+            },
+            {
+              "label": "横浜",
+              "is_correct": false
+            },
+            {
+              "label": "福岡",
+              "is_correct": false
+            },
+            {
+              "label": "札幌",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "国会議事堂がある都市はどこでしょう？",
+          "choices": [
+            {
+              "label": "東京",
+              "is_correct": true
+            },
+            {
+              "label": "京都",
+              "is_correct": false
+            },
+            {
+              "label": "神戸",
+              "is_correct": false
+            },
+            {
+              "label": "仙台",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次のうち、日本の首都はどれ？",
+          "choices": [
+            {
+              "label": "東京",
+              "is_correct": true
+            },
+            {
+              "label": "大阪",
+              "is_correct": false
+            },
+            {
+              "label": "広島",
+              "is_correct": false
+            },
+            {
+              "label": "長野",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "多くの人が働くオフィスビルや政府機関が集まる、日本の首都はどこ？",
+          "choices": [
+            {
+              "label": "東京",
+              "is_correct": true
+            },
+            {
+              "label": "京都",
+              "is_correct": false
+            },
+            {
+              "label": "名古屋",
+              "is_correct": false
+            },
+            {
+              "label": "福岡",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "かつて「江戸」と呼ばれていた、現在の日本の首都はどこ？",
+          "choices": [
+            {
+              "label": "東京",
+              "is_correct": true
+            },
+            {
+              "label": "大阪",
+              "is_correct": false
+            },
+            {
+              "label": "京都",
+              "is_correct": false
+            },
+            {
+              "label": "横浜",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本で一番人口が多い都市であり、首都でもあるのはどこ？",
+          "choices": [
+            {
+              "label": "東京",
+              "is_correct": true
+            },
+            {
+              "label": "大阪",
+              "is_correct": false
+            },
+            {
+              "label": "札幌",
+              "is_correct": false
+            },
+            {
+              "label": "神戸",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "東京タワーや東京スカイツリーがある都市はどこ？",
+          "choices": [
+            {
+              "label": "東京",
+              "is_correct": true
+            },
+            {
+              "label": "京都",
+              "is_correct": false
+            },
+            {
+              "label": "大阪",
+              "is_correct": false
+            },
+            {
+              "label": "名古屋",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の首都として正しい都市を選んでください。",
+          "choices": [
+            {
+              "label": "東京",
+              "is_correct": true
+            },
+            {
+              "label": "京都",
+              "is_correct": false
+            },
+            {
+              "label": "福岡",
+              "is_correct": false
+            },
+            {
+              "label": "広島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "外国の大使館が多く置かれている日本の都市はどこ？",
+          "choices": [
+            {
+              "label": "東京",
+              "is_correct": true
+            },
+            {
+              "label": "大阪",
+              "is_correct": false
+            },
+            {
+              "label": "京都",
+              "is_correct": false
+            },
+            {
+              "label": "横浜",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "日本の国旗はどれでしょう？",
+          "choices": [
+            {
+              "label": "🇯🇵",
+              "is_correct": true
+            },
+            {
+              "label": "🇰🇷",
+              "is_correct": false
+            },
+            {
+              "label": "🇨🇳",
+              "is_correct": false
+            },
+            {
+              "label": "🇹🇭",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の国旗の特徴として正しいものはどれ？",
+          "choices": [
+            {
+              "label": "白地に赤い丸がひとつ",
+              "is_correct": true
+            },
+            {
+              "label": "青地に白い星",
+              "is_correct": false
+            },
+            {
+              "label": "赤・白・青の縦じま",
+              "is_correct": false
+            },
+            {
+              "label": "緑と白と赤の横じま",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の国旗を表す言葉として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "日の丸",
+              "is_correct": true
+            },
+            {
+              "label": "星条旗",
+              "is_correct": false
+            },
+            {
+              "label": "ユニオンジャック",
+              "is_correct": false
+            },
+            {
+              "label": "トリコロール",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の国旗の色の組み合わせとして正しいのはどれ？",
+          "choices": [
+            {
+              "label": "白と赤",
+              "is_correct": true
+            },
+            {
+              "label": "青と黄",
+              "is_correct": false
+            },
+            {
+              "label": "緑と白",
+              "is_correct": false
+            },
+            {
+              "label": "黒と赤",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の絵文字国旗のうち、日本のものはどれ？",
+          "choices": [
+            {
+              "label": "🇯🇵",
+              "is_correct": true
+            },
+            {
+              "label": "🇻🇳",
+              "is_correct": false
+            },
+            {
+              "label": "🇮🇩",
+              "is_correct": false
+            },
+            {
+              "label": "🇵🇭",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の国旗に描かれている図形として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "円（丸）",
+              "is_correct": true
+            },
+            {
+              "label": "星",
+              "is_correct": false
+            },
+            {
+              "label": "三日月",
+              "is_correct": false
+            },
+            {
+              "label": "十字",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の国旗のデザインを説明したものとして正しいのはどれ？",
+          "choices": [
+            {
+              "label": "白い背景の中央に赤い丸",
+              "is_correct": true
+            },
+            {
+              "label": "赤い背景に白い十字",
+              "is_correct": false
+            },
+            {
+              "label": "青い背景に白い星が並ぶ",
+              "is_correct": false
+            },
+            {
+              "label": "横じま模様に星が入る",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の中から、日本の国旗を選んでください。",
+          "choices": [
+            {
+              "label": "🇯🇵",
+              "is_correct": true
+            },
+            {
+              "label": "🇲🇾",
+              "is_correct": false
+            },
+            {
+              "label": "🇱🇦",
+              "is_correct": false
+            },
+            {
+              "label": "🇲🇲",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の国旗の赤い丸は、あるものを表しているといわれています。それは何？",
+          "choices": [
+            {
+              "label": "太陽",
+              "is_correct": true
+            },
+            {
+              "label": "月",
+              "is_correct": false
+            },
+            {
+              "label": "星",
+              "is_correct": false
+            },
+            {
+              "label": "海",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の国旗として正しい組み合わせはどれ？",
+          "choices": [
+            {
+              "label": "🇯🇵 白地に赤い丸",
+              "is_correct": true
+            },
+            {
+              "label": "🇰🇷 白地に模様と四隅の記号",
+              "is_correct": false
+            },
+            {
+              "label": "🇨🇳 赤地に星",
+              "is_correct": false
+            },
+            {
+              "label": "🇹🇭 赤白青の横じま",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "日本はどの大陸の近くにある島国でしょう？",
+          "choices": [
+            {
+              "label": "アジア大陸",
+              "is_correct": true
+            },
+            {
+              "label": "ヨーロッパ大陸",
+              "is_correct": false
+            },
+            {
+              "label": "アフリカ大陸",
+              "is_correct": false
+            },
+            {
+              "label": "南アメリカ大陸",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本は陸続きの国境を持たない、何と呼ばれる国？",
+          "choices": [
+            {
+              "label": "島国",
+              "is_correct": true
+            },
+            {
+              "label": "内陸国",
+              "is_correct": false
+            },
+            {
+              "label": "半島国",
+              "is_correct": false
+            },
+            {
+              "label": "大陸国",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本で一番高い山はどれでしょう？",
+          "choices": [
+            {
+              "label": "富士山",
+              "is_correct": true
+            },
+            {
+              "label": "白山",
+              "is_correct": false
+            },
+            {
+              "label": "立山",
+              "is_correct": false
+            },
+            {
+              "label": "槍ヶ岳",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本を構成する4つの大きな島に含まれないのはどれ？",
+          "choices": [
+            {
+              "label": "台湾",
+              "is_correct": true
+            },
+            {
+              "label": "本州",
+              "is_correct": false
+            },
+            {
+              "label": "九州",
+              "is_correct": false
+            },
+            {
+              "label": "四国",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の中で一番面積が大きい島はどれでしょう？",
+          "choices": [
+            {
+              "label": "本州",
+              "is_correct": true
+            },
+            {
+              "label": "北海道",
+              "is_correct": false
+            },
+            {
+              "label": "九州",
+              "is_correct": false
+            },
+            {
+              "label": "四国",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本の東側に広がる海洋はどれでしょう？",
+          "choices": [
+            {
+              "label": "太平洋",
+              "is_correct": true
+            },
+            {
+              "label": "大西洋",
+              "is_correct": false
+            },
+            {
+              "label": "インド洋",
+              "is_correct": false
+            },
+            {
+              "label": "北極海",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本と大陸の間に広がる海の名前はどれでしょう？",
+          "choices": [
+            {
+              "label": "日本海",
+              "is_correct": true
+            },
+            {
+              "label": "東シナ海",
+              "is_correct": false
+            },
+            {
+              "label": "南シナ海",
+              "is_correct": false
+            },
+            {
+              "label": "地中海",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本にある都道府県の数はいくつでしょう？",
+          "choices": [
+            {
+              "label": "47",
+              "is_correct": true
+            },
+            {
+              "label": "43",
+              "is_correct": false
+            },
+            {
+              "label": "50",
+              "is_correct": false
+            },
+            {
+              "label": "38",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "海を挟んで日本の近くにある国として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "韓国",
+              "is_correct": true
+            },
+            {
+              "label": "インド",
+              "is_correct": false
+            },
+            {
+              "label": "オーストラリア",
+              "is_correct": false
+            },
+            {
+              "label": "エジプト",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "富士山の高さにもっとも近いのはどれでしょう？",
+          "choices": [
+            {
+              "label": "約3776メートル",
+              "is_correct": true
+            },
+            {
+              "label": "約1776メートル",
+              "is_correct": false
+            },
+            {
+              "label": "約5776メートル",
+              "is_correct": false
+            },
+            {
+              "label": "約2200メートル",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "日本博士",
+      "questions": [
+        {
+          "prompt": "日本語で使われる文字の種類として正しい組み合わせはどれ？",
+          "choices": [
+            {
+              "label": "ひらがな・カタカナ・漢字",
+              "is_correct": true
+            },
+            {
+              "label": "アルファベット・漢字のみ",
+              "is_correct": false
+            },
+            {
+              "label": "ひらがなのみ",
+              "is_correct": false
+            },
+            {
+              "label": "カタカナ・ハングル",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "朝に使うあいさつの言葉はどれ？",
+          "choices": [
+            {
+              "label": "おはよう",
+              "is_correct": true
+            },
+            {
+              "label": "こんにちは",
+              "is_correct": false
+            },
+            {
+              "label": "こんばんは",
+              "is_correct": false
+            },
+            {
+              "label": "さようなら",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "夜に使うあいさつの言葉はどれ？",
+          "choices": [
+            {
+              "label": "こんばんは",
+              "is_correct": true
+            },
+            {
+              "label": "おはよう",
+              "is_correct": false
+            },
+            {
+              "label": "こんにちは",
+              "is_correct": false
+            },
+            {
+              "label": "いってきます",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "人と別れるときに使う言葉はどれ？",
+          "choices": [
+            {
+              "label": "さようなら",
+              "is_correct": true
+            },
+            {
+              "label": "おはよう",
+              "is_correct": false
+            },
+            {
+              "label": "いただきます",
+              "is_correct": false
+            },
+            {
+              "label": "ただいま",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「ありがとう」の意味として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "感謝を伝える言葉",
+              "is_correct": true
+            },
+            {
+              "label": "謝る言葉",
+              "is_correct": false
+            },
+            {
+              "label": "挨拶（朝用）",
+              "is_correct": false
+            },
+            {
+              "label": "お願いする言葉",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "食事を始める前に言う言葉はどれ？",
+          "choices": [
+            {
+              "label": "いただきます",
+              "is_correct": true
+            },
+            {
+              "label": "ごちそうさま",
+              "is_correct": false
+            },
+            {
+              "label": "おやすみ",
+              "is_correct": false
+            },
+            {
+              "label": "おかえり",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "食事が終わったあとに言う言葉はどれ？",
+          "choices": [
+            {
+              "label": "ごちそうさまでした",
+              "is_correct": true
+            },
+            {
+              "label": "いただきます",
+              "is_correct": false
+            },
+            {
+              "label": "おはよう",
+              "is_correct": false
+            },
+            {
+              "label": "こんにちは",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "外国から日本語に入ってきた言葉を書き表すのに主に使う文字はどれ？",
+          "choices": [
+            {
+              "label": "カタカナ",
+              "is_correct": true
+            },
+            {
+              "label": "ひらがな",
+              "is_correct": false
+            },
+            {
+              "label": "アルファベット",
+              "is_correct": false
+            },
+            {
+              "label": "数字",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「はい」の意味として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "Yes（そうです）",
+              "is_correct": true
+            },
+            {
+              "label": "No（違います）",
+              "is_correct": false
+            },
+            {
+              "label": "ありがとう",
+              "is_correct": false
+            },
+            {
+              "label": "こんにちは",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「いいえ」の意味として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "No（違います）",
+              "is_correct": true
+            },
+            {
+              "label": "Yes（そうです）",
+              "is_correct": false
+            },
+            {
+              "label": "こんばんは",
+              "is_correct": false
+            },
+            {
+              "label": "さようなら",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "謝るときやお願いするときに使う便利な言葉はどれ？",
+          "choices": [
+            {
+              "label": "すみません",
+              "is_correct": true
+            },
+            {
+              "label": "おはよう",
+              "is_correct": false
+            },
+            {
+              "label": "こんにちは",
+              "is_correct": false
+            },
+            {
+              "label": "ただいま",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "漢字はもともとどこの国から伝わったといわれている？",
+          "choices": [
+            {
+              "label": "中国",
+              "is_correct": true
+            },
+            {
+              "label": "韓国",
+              "is_correct": false
+            },
+            {
+              "label": "インド",
+              "is_correct": false
+            },
+            {
+              "label": "エジプト",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "名前のあとに付けて、相手への敬意を表す言葉はどれ？",
+          "choices": [
+            {
+              "label": "〜さん",
+              "is_correct": true
+            },
+            {
+              "label": "〜だよ",
+              "is_correct": false
+            },
+            {
+              "label": "〜ね",
+              "is_correct": false
+            },
+            {
+              "label": "〜よ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "外出するときに家族に言うあいさつはどれ？",
+          "choices": [
+            {
+              "label": "いってきます",
+              "is_correct": true
+            },
+            {
+              "label": "ただいま",
+              "is_correct": false
+            },
+            {
+              "label": "おかえり",
+              "is_correct": false
+            },
+            {
+              "label": "おやすみ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "家に帰ってきたときに言うあいさつはどれ？",
+          "choices": [
+            {
+              "label": "ただいま",
+              "is_correct": true
+            },
+            {
+              "label": "いってきます",
+              "is_correct": false
+            },
+            {
+              "label": "おはよう",
+              "is_correct": false
+            },
+            {
+              "label": "こんばんは",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "寝る前に言うあいさつの言葉はどれ？",
+          "choices": [
+            {
+              "label": "おやすみなさい",
+              "is_correct": true
+            },
+            {
+              "label": "おはよう",
+              "is_correct": false
+            },
+            {
+              "label": "こんにちは",
+              "is_correct": false
+            },
+            {
+              "label": "いただきます",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "数字の「1」を日本語で読むと？",
+          "choices": [
+            {
+              "label": "いち",
+              "is_correct": true
+            },
+            {
+              "label": "に",
+              "is_correct": false
+            },
+            {
+              "label": "さん",
+              "is_correct": false
+            },
+            {
+              "label": "し",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "数字の「3」を日本語で読むと？",
+          "choices": [
+            {
+              "label": "さん",
+              "is_correct": true
+            },
+            {
+              "label": "いち",
+              "is_correct": false
+            },
+            {
+              "label": "に",
+              "is_correct": false
+            },
+            {
+              "label": "よん",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "日本のあいさつの動作として、よく知られているものはどれ？",
+          "choices": [
+            {
+              "label": "お辞儀（頭を下げる）",
+              "is_correct": true
+            },
+            {
+              "label": "握手だけをする",
+              "is_correct": false
+            },
+            {
+              "label": "ハグをする",
+              "is_correct": false
+            },
+            {
+              "label": "指を鳴らす",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "初めて会った人に自分の名前を伝えるときに使う言い方はどれ？",
+          "choices": [
+            {
+              "label": "はじめまして",
+              "is_correct": true
+            },
+            {
+              "label": "ただいま",
+              "is_correct": false
+            },
+            {
+              "label": "おかえり",
+              "is_correct": false
+            },
+            {
+              "label": "さようなら",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

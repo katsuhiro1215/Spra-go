@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\Question;
+use App\Models\Quiz;
+use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -44,7 +48,31 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+/**
+ * auth:sanctumはトークン未使用時、statefulなフロントエンドからのセッション認証(webガード)に
+ * フォールバックする(config/sanctum.php)。$request->session() を使う各エンドポイントのテストで
+ * 共通して使うため、個別のテストファイルではなくここに置く。
+ */
+function createActiveProfile(): UserProfile
 {
-    // ..
+    $user = User::factory()->create();
+    $schema = $user->schema()->create(['name' => 'テスト家族']);
+    $profile = $schema->profiles()->create(['name' => 'テストプレイヤー']);
+
+    test()->actingAs($user)
+        ->withHeader('Referer', 'http://localhost')
+        ->withSession(['active_profile_id' => $profile->id]);
+
+    return $profile;
+}
+
+/** @return array{0: Question, 1: \App\Models\QuestionChoice, 2: \App\Models\QuestionChoice} */
+function createQuestionWithChoices(): array
+{
+    $quiz = Quiz::create(['title' => 'テストクイズ', 'difficulty' => '初級']);
+    $question = Question::create(['quiz_id' => $quiz->id, 'prompt' => 'テスト問題']);
+    $correct = $question->choices()->create(['label' => '正解', 'is_correct' => true, 'order' => 1]);
+    $wrong = $question->choices()->create(['label' => '不正解', 'is_correct' => false, 'order' => 2]);
+
+    return [$question, $correct, $wrong];
 }

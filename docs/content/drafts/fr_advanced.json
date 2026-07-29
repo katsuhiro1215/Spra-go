@@ -1,0 +1,587 @@
+{
+  "country_name": "フランス",
+  "country_code": "FR",
+  "difficulty": "上級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "フランスの三色旗(トリコロール)が国旗として正式に採用されたのは、どの時代のこと？",
+          "choices": [
+            { "label": "フランス革命の時代", "is_correct": true },
+            { "label": "第一次世界大戦後", "is_correct": false },
+            { "label": "ナポレオンの皇帝即位後", "is_correct": false },
+            { "label": "第五共和政の成立後", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス国旗の青と赤の2色は、もともとどの都市の紋章の色に由来する？",
+          "choices": [
+            { "label": "パリ", "is_correct": true },
+            { "label": "マルセイユ", "is_correct": false },
+            { "label": "リヨン", "is_correct": false },
+            { "label": "ヴェルサイユ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス国旗の白色は、革命前は何を象徴する色だった？",
+          "choices": [
+            { "label": "ブルボン王家(王政)", "is_correct": true },
+            { "label": "カトリック教会", "is_correct": false },
+            { "label": "貴族院", "is_correct": false },
+            { "label": "共和政", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1789年、パリ民兵の青と赤の帽章に白いリボンを加え、三色の組み合わせを広めたとされる人物は？",
+          "choices": [
+            { "label": "ラファイエット", "is_correct": true },
+            { "label": "ナポレオン・ボナパルト", "is_correct": false },
+            { "label": "ロベスピエール", "is_correct": false },
+            { "label": "ルイ16世", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス国旗の色の並び順を、旗竿側(左)から正しく選ぶと？",
+          "choices": [
+            { "label": "青・白・赤", "is_correct": true },
+            { "label": "赤・白・青", "is_correct": false },
+            { "label": "白・青・赤", "is_correct": false },
+            { "label": "赤・青・白", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1814年から1830年の王政復古の時代、フランスで公式の国旗として使われていたのは？",
+          "choices": [
+            { "label": "白一色の旗", "is_correct": true },
+            { "label": "青一色の旗", "is_correct": false },
+            { "label": "金地に百合の紋章を描いた旗", "is_correct": false },
+            { "label": "それまでと同じ三色旗", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1830年の七月革命の後、フランスの国旗として復活したのは？",
+          "choices": [
+            { "label": "青白赤の三色旗", "is_correct": true },
+            { "label": "王政期の白一色の旗", "is_correct": false },
+            { "label": "共和政のみを表す赤一色の旗", "is_correct": false },
+            { "label": "ナポレオン専用の紋章旗", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イタリアの国旗も縦じまの三色旗だが、フランスの国旗と異なる色の組み合わせはどれ？",
+          "choices": [
+            { "label": "緑・白・赤", "is_correct": true },
+            { "label": "オレンジ・白・緑", "is_correct": false },
+            { "label": "黒・黄・赤", "is_correct": false },
+            { "label": "青・黄・赤", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス海軍の艦船旗は、市民用の国旗と異なり三色の幅が均等ではない。その理由として正しいのは？",
+          "choices": [
+            { "label": "風になびいた際、白色が実際より広く見えてしまうのを補正するため", "is_correct": true },
+            { "label": "製造コストを抑えるため", "is_correct": false },
+            { "label": "青色の染料が高価だったため", "is_correct": false },
+            { "label": "船の大きさに合わせて調整する伝統のため", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス国旗の縦横比(幅:長さ)として正しいのは？",
+          "choices": [
+            { "label": "2:3", "is_correct": true },
+            { "label": "1:2", "is_correct": false },
+            { "label": "3:5", "is_correct": false },
+            { "label": "1:1", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "パリという都市の起源となった、セーヌ川の中州にある島の名前は？",
+          "choices": [
+            { "label": "シテ島", "is_correct": true },
+            { "label": "サン・ルイ島", "is_correct": false },
+            { "label": "モンマルトルの丘", "is_correct": false },
+            { "label": "ブローニュの森", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "古代ローマ時代、現在のパリの前身として築かれた都市の名前は？",
+          "choices": [
+            { "label": "ルテティア", "is_correct": true },
+            { "label": "マッシリア", "is_correct": false },
+            { "label": "ニカイア", "is_correct": false },
+            { "label": "ルグドゥヌム", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "パリはいくつの行政区(アロンディスマン)に分かれている？",
+          "choices": [
+            { "label": "20区", "is_correct": true },
+            { "label": "12区", "is_correct": false },
+            { "label": "24区", "is_correct": false },
+            { "label": "16区", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "パリの区の番号は中心部から渦を巻くように並んでいる。この配置はある生き物の殻の形にたとえられる。それは何？",
+          "choices": [
+            { "label": "かたつむり", "is_correct": true },
+            { "label": "ハチ", "is_correct": false },
+            { "label": "クモ", "is_correct": false },
+            { "label": "アリ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "19世紀にナポレオン3世の命でパリの大改造を指揮し、現在の並木大通り(ブールバール)の街並みを作った人物は？",
+          "choices": [
+            { "label": "オスマン", "is_correct": true },
+            { "label": "エッフェル", "is_correct": false },
+            { "label": "ル・コルビュジエ", "is_correct": false },
+            { "label": "ヴォーバン", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "エッフェル塔が建設されるきっかけとなった出来事は？",
+          "choices": [
+            { "label": "1889年のパリ万国博覧会", "is_correct": true },
+            { "label": "1855年のパリ万国博覧会", "is_correct": false },
+            { "label": "1900年のパリ万国博覧会", "is_correct": false },
+            { "label": "1937年のパリ万国博覧会", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "エッフェル塔は当初、完成からおよそ何年後に解体される予定だった？",
+          "choices": [
+            { "label": "20年後", "is_correct": true },
+            { "label": "5年後", "is_correct": false },
+            { "label": "50年後", "is_correct": false },
+            { "label": "100年後", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "エッフェル塔が解体を免れた大きな理由として正しいのは？",
+          "choices": [
+            { "label": "無線通信用のアンテナとして活用されたため", "is_correct": true },
+            { "label": "市民の反対運動が起きたため", "is_correct": false },
+            { "label": "修復費用が高すぎて解体できなかったため", "is_correct": false },
+            { "label": "パリ市がすぐに買い取ったため", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "パリを流れ、街を右岸と左岸に分ける川の名前は？",
+          "choices": [
+            { "label": "セーヌ川", "is_correct": true },
+            { "label": "ロワール川", "is_correct": false },
+            { "label": "ローヌ川", "is_correct": false },
+            { "label": "ガロンヌ川", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ルーヴル美術館の中庭にあるガラスのピラミッドを設計した建築家は誰？",
+          "choices": [
+            { "label": "イオ・ミン・ペイ", "is_correct": true },
+            { "label": "グスタフ・エッフェル", "is_correct": false },
+            { "label": "ル・コルビュジエ", "is_correct": false },
+            { "label": "オスマン", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "首都パリを持つ国の国旗はどれ？",
+          "choices": [
+            { "label": "🇫🇷", "is_correct": true },
+            { "label": "🇩🇪", "is_correct": false },
+            { "label": "🇬🇧", "is_correct": false },
+            { "label": "🇪🇸", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス革命の時代に誕生した三色旗はどれ？",
+          "choices": [
+            { "label": "🇫🇷", "is_correct": true },
+            { "label": "🇺🇸", "is_correct": false },
+            { "label": "🇷🇺", "is_correct": false },
+            { "label": "🇬🇧", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "青・白・赤の縦じまで構成される国旗はどれ？",
+          "choices": [
+            { "label": "🇫🇷", "is_correct": true },
+            { "label": "🇮🇹", "is_correct": false },
+            { "label": "🇷🇴", "is_correct": false },
+            { "label": "🇮🇪", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "エッフェル塔がある国の国旗はどれ？",
+          "choices": [
+            { "label": "🇫🇷", "is_correct": true },
+            { "label": "🇮🇹", "is_correct": false },
+            { "label": "🇩🇪", "is_correct": false },
+            { "label": "🇬🇧", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1814年から1830年にかけて、王政復古により国旗が白一色になっていた国はどれ？",
+          "choices": [
+            { "label": "🇫🇷", "is_correct": true },
+            { "label": "🇮🇹", "is_correct": false },
+            { "label": "🇪🇸", "is_correct": false },
+            { "label": "🇵🇹", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "モンブランを国内に有する国の国旗はどれ？",
+          "choices": [
+            { "label": "🇫🇷", "is_correct": true },
+            { "label": "🇩🇪", "is_correct": false },
+            { "label": "🇬🇧", "is_correct": false },
+            { "label": "🇪🇸", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ロワール川が流れる国の国旗はどれ？",
+          "choices": [
+            { "label": "🇫🇷", "is_correct": true },
+            { "label": "🇪🇸", "is_correct": false },
+            { "label": "🇮🇹", "is_correct": false },
+            { "label": "🇩🇪", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "赤・白・青を使うが、オランダとは異なり「縦じま」の国旗を持つ国はどれ？",
+          "choices": [
+            { "label": "🇫🇷", "is_correct": true },
+            { "label": "🇳🇱", "is_correct": false },
+            { "label": "🇱🇺", "is_correct": false },
+            { "label": "🇷🇺", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス語の規範を定める機関「アカデミー・フランセーズ」がある国の国旗はどれ？",
+          "choices": [
+            { "label": "🇫🇷", "is_correct": true },
+            { "label": "🇮🇹", "is_correct": false },
+            { "label": "🇪🇸", "is_correct": false },
+            { "label": "🇬🇧", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「シャンパン」の名を名乗れるスパークリングワインの産地がある国の国旗はどれ？",
+          "choices": [
+            { "label": "🇫🇷", "is_correct": true },
+            { "label": "🇮🇹", "is_correct": false },
+            { "label": "🇪🇸", "is_correct": false },
+            { "label": "🇩🇪", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "西ヨーロッパで最も標高の高い山は？",
+          "choices": [
+            { "label": "モンブラン", "is_correct": true },
+            { "label": "マッターホルン", "is_correct": false },
+            { "label": "ユングフラウ", "is_correct": false },
+            { "label": "モンテ・ローザ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "モンブランの標高として、もっとも近いものはどれ？",
+          "choices": [
+            { "label": "約4,810メートル", "is_correct": true },
+            { "label": "約3,810メートル", "is_correct": false },
+            { "label": "約5,810メートル", "is_correct": false },
+            { "label": "約4,000メートル", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス国内で最も長い川は？",
+          "choices": [
+            { "label": "ロワール川", "is_correct": true },
+            { "label": "セーヌ川", "is_correct": false },
+            { "label": "ローヌ川", "is_correct": false },
+            { "label": "ガロンヌ川", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ロワール川のおおよその長さとして、もっとも近いものはどれ？",
+          "choices": [
+            { "label": "約1,000km", "is_correct": true },
+            { "label": "約500km", "is_correct": false },
+            { "label": "約1,500km", "is_correct": false },
+            { "label": "約2,000km", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス本土が陸続きで国境を接している国の数は？",
+          "choices": [
+            { "label": "8か国", "is_correct": true },
+            { "label": "5か国", "is_correct": false },
+            { "label": "6か国", "is_correct": false },
+            { "label": "10か国", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランスと最も長い陸上国境を接している国は？",
+          "choices": [
+            { "label": "スペイン", "is_correct": true },
+            { "label": "ドイツ", "is_correct": false },
+            { "label": "イタリア", "is_correct": false },
+            { "label": "ベルギー", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス本土の形にちなむ愛称「エグザゴン(六角形)」が広く定着したきっかけとして正しいのは？",
+          "choices": [
+            { "label": "19世紀後半以降、学校教育で地図が普及したため", "is_correct": true },
+            { "label": "ナポレオンが公式に命名したため", "is_correct": false },
+            { "label": "EU加盟の際に正式名称として決められたため", "is_correct": false },
+            { "label": "20世紀のテレビ番組の影響で広まったため", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "地中海に浮かぶ、ナポレオン・ボナパルトの生まれ故郷である島は？",
+          "choices": [
+            { "label": "コルシカ島", "is_correct": true },
+            { "label": "シチリア島", "is_correct": false },
+            { "label": "サルデーニャ島", "is_correct": false },
+            { "label": "マルタ島", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "南アメリカ大陸に位置する、フランスの海外県はどこ？",
+          "choices": [
+            { "label": "フランス領ギアナ", "is_correct": true },
+            { "label": "ガイアナ", "is_correct": false },
+            { "label": "スリナム", "is_correct": false },
+            { "label": "ベネズエラ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "インド洋に浮かぶ、フランスの海外県の一つはどこ？",
+          "choices": [
+            { "label": "レユニオン島", "is_correct": true },
+            { "label": "マダガスカル", "is_correct": false },
+            { "label": "モーリシャス", "is_correct": false },
+            { "label": "セーシェル", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "フランスレジェンド",
+      "questions": [
+        {
+          "prompt": "フランス語の規範を定め、公式な辞書を編纂するために作られたフランスの機関は？",
+          "choices": [
+            { "label": "アカデミー・フランセーズ", "is_correct": true },
+            { "label": "ソルボンヌ大学", "is_correct": false },
+            { "label": "パリ国立図書館", "is_correct": false },
+            { "label": "フランス文化省", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アカデミー・フランセーズが設立されたのは西暦何年？",
+          "choices": [
+            { "label": "1635年", "is_correct": true },
+            { "label": "1515年", "is_correct": false },
+            { "label": "1789年", "is_correct": false },
+            { "label": "1905年", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アカデミー・フランセーズの設立を主導した人物は？",
+          "choices": [
+            { "label": "リシュリュー枢機卿", "is_correct": true },
+            { "label": "ルイ14世", "is_correct": false },
+            { "label": "ナポレオン・ボナパルト", "is_correct": false },
+            { "label": "ヴォルテール", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アカデミー・フランセーズの会員は、フランス語で何と呼ばれる愛称を持つ？",
+          "choices": [
+            { "label": "アンモルテル(不滅の人々)", "is_correct": true },
+            { "label": "レジオン・ドヌール", "is_correct": false },
+            { "label": "ジャコバン", "is_correct": false },
+            { "label": "フィロゾフ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アカデミー・フランセーズの会員定員は何人？",
+          "choices": [
+            { "label": "40人", "is_correct": true },
+            { "label": "100人", "is_correct": false },
+            { "label": "12人", "is_correct": false },
+            { "label": "25人", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アカデミー・フランセーズが当初計画していた「辞書」「文法書」「修辞学書」のうち、実際に完成し改訂を重ねているのは？",
+          "choices": [
+            { "label": "辞書", "is_correct": true },
+            { "label": "文法書", "is_correct": false },
+            { "label": "修辞学書", "is_correct": false },
+            { "label": "すべて完成した", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス語で「librairie(リブレリー)」が意味するものは？",
+          "choices": [
+            { "label": "書店(本屋)", "is_correct": true },
+            { "label": "図書館", "is_correct": false },
+            { "label": "出版社", "is_correct": false },
+            { "label": "印刷所", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "一方、フランス語で「図書館」を意味する単語はどれ？",
+          "choices": [
+            { "label": "bibliothèque(ビブリオテック)", "is_correct": true },
+            { "label": "librairie(リブレリー)", "is_correct": false },
+            { "label": "bureau(ビュロー)", "is_correct": false },
+            { "label": "cabinet(カビネ)", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス語で「coin」が意味するものとして正しいのは？",
+          "choices": [
+            { "label": "(部屋や通りの)角・隅", "is_correct": true },
+            { "label": "硬貨", "is_correct": false },
+            { "label": "ソファ", "is_correct": false },
+            { "label": "財布", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス語で「pain」が意味するものは？",
+          "choices": [
+            { "label": "パン(食べ物)", "is_correct": true },
+            { "label": "痛み", "is_correct": false },
+            { "label": "絵の具", "is_correct": false },
+            { "label": "ズボン", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス語の「actuellement」が意味するものは？",
+          "choices": [
+            { "label": "現在は、今のところ", "is_correct": true },
+            { "label": "実際には", "is_correct": false },
+            { "label": "本当は", "is_correct": false },
+            { "label": "確かに", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス語の名詞に共通する、英語にはない大きな文法的特徴は？",
+          "choices": [
+            { "label": "すべての名詞に男性・女性の「性」があること", "is_correct": true },
+            { "label": "すべての名詞が複数形であること", "is_correct": false },
+            { "label": "名詞に7つの格変化があること", "is_correct": false },
+            { "label": "名詞の頭文字が必ず大文字になること", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス語はどの語族に属する言語？",
+          "choices": [
+            { "label": "ロマンス語派(ラテン語系の言語)", "is_correct": true },
+            { "label": "ゲルマン語派", "is_correct": false },
+            { "label": "スラブ語派", "is_correct": false },
+            { "label": "ケルト語派", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1066年のノルマン征服をきっかけに、フランス語はイングランドでどのような役割を果たすようになった？",
+          "choices": [
+            { "label": "数百年にわたり宮廷や政治の公用語として使われた", "is_correct": true },
+            { "label": "イングランドから完全に排除された", "is_correct": false },
+            { "label": "教会でのみ使われる言語になった", "is_correct": false },
+            { "label": "商人だけが使う言語になった", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "次の英単語のうち、ノルマン征服以降にフランス語から英語に入ったとされる言葉はどれ？",
+          "choices": [
+            { "label": "justice(正義・裁判)", "is_correct": true },
+            { "label": "sky(空)", "is_correct": false },
+            { "label": "egg(卵)", "is_correct": false },
+            { "label": "window(窓)", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス南部で話されている地域言語は？",
+          "choices": [
+            { "label": "オクシタン語", "is_correct": true },
+            { "label": "バスク語", "is_correct": false },
+            { "label": "ブルトン語", "is_correct": false },
+            { "label": "アルザス語", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス北西部のブルターニュ地方で話される、ケルト系の地域言語は？",
+          "choices": [
+            { "label": "ブルトン語", "is_correct": true },
+            { "label": "オクシタン語", "is_correct": false },
+            { "label": "コルシカ語", "is_correct": false },
+            { "label": "バスク語", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "1992年の憲法改正で、フランス憲法に新たに明記された内容は？",
+          "choices": [
+            { "label": "「共和国の言語はフランス語である」ということ", "is_correct": true },
+            { "label": "「共和国は王政を認めない」ということ", "is_correct": false },
+            { "label": "「地域言語をすべて廃止する」ということ", "is_correct": false },
+            { "label": "「英語を公用語に加える」ということ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス語の「jour」と「journée」はどちらも「日」に関わる単語だが、「journée」がより強調するニュアンスは？",
+          "choices": [
+            { "label": "朝から晩までの、一日の時間の流れや活動", "is_correct": true },
+            { "label": "24時間という長さそのもの", "is_correct": false },
+            { "label": "週の始まりの曜日であること", "is_correct": false },
+            { "label": "祝日であること", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フランス語で「80」を表す標準的な言い方「quatre-vingts」は、直訳すると「4×20」を意味する。この数え方の起源とされるのは？",
+          "choices": [
+            { "label": "古代のケルト系ガリア人による二十進法の伝統", "is_correct": true },
+            { "label": "ローマ帝国の税制", "is_correct": false },
+            { "label": "中世の通貨制度", "is_correct": false },
+            { "label": "天文学の暦法", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useEffect, useState, type FormEvent } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { MoreHorizontal, Plus, X } from "lucide-react";
 
@@ -59,6 +60,8 @@ type QuestionItem = {
   id: number;
   prompt: string;
   order: number;
+  country_id: number | null;
+  country: Country | null;
   choices: Choice[];
 };
 
@@ -83,12 +86,14 @@ type QuizFormValues = {
 
 type QuestionFormValues = {
   prompt: string;
+  country_id: string;
   choices: string[];
   correctIndex: string;
 };
 
 const emptyQuestionForm: QuestionFormValues = {
   prompt: "",
+  country_id: "",
   choices: ["", "", "", ""],
   correctIndex: "0",
 };
@@ -248,6 +253,7 @@ export default function Page({
     const sorted = [...question.choices].sort((a, b) => a.order - b.order);
     setQuestionValues({
       prompt: question.prompt,
+      country_id: question.country_id ? String(question.country_id) : "",
       choices: sorted.map((c) => c.label),
       correctIndex: String(sorted.findIndex((c) => c.is_correct)),
     });
@@ -283,6 +289,9 @@ export default function Page({
 
     const payload = {
       prompt: questionValues.prompt,
+      country_id: questionValues.country_id
+        ? Number(questionValues.country_id)
+        : null,
       choices: questionValues.choices.map((label, index) => ({
         label,
         is_correct: String(index) === questionValues.correctIndex,
@@ -400,6 +409,19 @@ export default function Page({
               key={question.id}
               className="flex items-center gap-4 px-4 py-3 hover:bg-muted/50"
             >
+              {question.country ? (
+                <div className="relative h-6 w-9 shrink-0 overflow-hidden rounded-sm border border-border">
+                  <Image
+                    src={`/flag/${question.country.code}.svg`}
+                    alt={question.country.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="h-6 w-9 shrink-0" />
+              )}
+
               <div className="flex-1">
                 <p className="text-sm font-medium">{question.prompt}</p>
                 <p className="text-xs text-muted-foreground">
@@ -602,6 +624,31 @@ export default function Page({
                   }))
                 }
               />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label>国(任意。「この国旗は？」のように国旗を表示したい場合に選択)</Label>
+              <Select
+                value={questionValues.country_id || "none"}
+                onValueChange={(v) =>
+                  setQuestionValues((prev) => ({
+                    ...prev,
+                    country_id: v === "none" ? "" : v,
+                  }))
+                }
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">なし</SelectItem>
+                  {countries.map((country) => (
+                    <SelectItem key={country.id} value={String(country.id)}>
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="flex flex-col gap-2">

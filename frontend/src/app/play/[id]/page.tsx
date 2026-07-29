@@ -29,6 +29,7 @@ type StageSummary = {
 
 type DifficultyGroup = {
   difficulty: Difficulty;
+  locked: boolean;
   stages: StageSummary[];
 };
 
@@ -94,10 +95,16 @@ export default function Page({
     );
   }
 
+  const groupsByDifficulty = new Map(
+    DIFFICULTIES.map((difficulty) => [
+      difficulty,
+      groups?.find((g) => g.difficulty === difficulty),
+    ]),
+  );
   const stagesByDifficulty = new Map(
     DIFFICULTIES.map((difficulty) => [
       difficulty,
-      groups?.find((g) => g.difficulty === difficulty)?.stages ?? [],
+      groupsByDifficulty.get(difficulty)?.stages ?? [],
     ]),
   );
   const hasAnyStage = (groups ?? []).some((g) =>
@@ -148,12 +155,18 @@ export default function Page({
         ) : (
           <>
             <div className="flex flex-col gap-3">
-              {DIFFICULTIES.map((difficulty) => {
+              {DIFFICULTIES.map((difficulty, index) => {
                 const stages = stagesByDifficulty.get(difficulty) ?? [];
-                const available = stages.some((s) => s.assigned_count > 0);
+                const progressionLocked =
+                  groupsByDifficulty.get(difficulty)?.locked ?? index > 0;
+                const available =
+                  stages.some((s) => s.assigned_count > 0) &&
+                  !progressionLocked;
                 const isSelected = selectedDifficulty === difficulty;
                 const allCleared =
                   stages.length > 0 && stages.every((s) => s.cleared);
+                const previousDifficulty =
+                  index > 0 ? DIFFICULTIES[index - 1] : null;
 
                 return (
                   <AppButton
@@ -167,6 +180,7 @@ export default function Page({
                     className="flex w-full items-center justify-between px-6"
                   >
                     <span className="flex items-center gap-2">
+                      {progressionLocked && "🔒"}
                       {difficulty}
                       {allCleared && (
                         <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-950">
@@ -175,9 +189,13 @@ export default function Page({
                       )}
                     </span>
                     <span className="text-xs opacity-80">
-                      {available
-                        ? `Stage 1〜${stages.length}`
-                        : "準備中"}
+                      {progressionLocked
+                        ? previousDifficulty
+                          ? `${previousDifficulty}クリアで解放`
+                          : "準備中"
+                        : stages.some((s) => s.assigned_count > 0)
+                          ? `Stage 1〜${stages.length}`
+                          : "準備中"}
                     </span>
                   </AppButton>
                 );
