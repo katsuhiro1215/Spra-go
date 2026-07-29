@@ -930,6 +930,12 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             ? $profile->applyEconomy(['hp' => -1, 'xp' => 10, 'coin' => 5], 'answer_correct', $question)
             : $profile->applyEconomy(['hp' => -2], 'answer_wrong', $question);
 
+        $combo = $profile->registerComboResult($choice->is_correct);
+
+        if ($combo['milestone_bonus_coin'] > 0) {
+            $profile->applyEconomy(['coin' => $combo['milestone_bonus_coin']], 'combo_milestone', $question);
+        }
+
         $economy = [
             'hp' => $profile->hp,
             'max_hp' => $profile->max_hp,
@@ -938,6 +944,9 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'level' => $profile->level,
             'leveled_up' => $result['leveled_up'],
             'delta' => $result['deltas'],
+            'combo' => $combo['combo'],
+            'best_combo' => $combo['best_combo'],
+            'combo_milestone_bonus_coin' => $combo['milestone_bonus_coin'],
         ];
     }
 
