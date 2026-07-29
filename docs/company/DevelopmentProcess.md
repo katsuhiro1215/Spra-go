@@ -33,6 +33,13 @@
 - 本番環境: AWS（想定）
 - コード管理: GitHub（`katsuhiro1215/Spra-go`、接続済み）
 
+## コミット前チェック
+
+型チェック自体はセキュリティ対策ではないが、AIエージェントも含めた実装の安定性を保つための最低限のコストが低い保険として、変更した側は必ず実行する。
+
+- Backend（`app/`, `routes/`, `database/` 等を変更した場合）: `php artisan test`（Sailコンテナ内で実行。例: `docker exec <laravel.testコンテナ名> php artisan test`）
+- Frontend（`frontend/` を変更した場合）: `frontend/`配下で `npm run lint` と `npm run typecheck`
+
 ## Git運用ルール
 
 - コミットメッセージは `.gitmessage` のフォーマットに従う：`<type>(日本語用途): <summary>`
