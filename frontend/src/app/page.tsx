@@ -140,6 +140,26 @@ export default function Page() {
               すでにアカウントをお持ちの方はこちら
             </Link>
           </div>
+
+          <div className="mt-2 flex flex-col items-center gap-2">
+            <p className="text-xs text-white/70">
+              登録なしでミニクイズを試す
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {[
+                { code: "jp", name: "日本" },
+                { code: "us", name: "アメリカ" },
+                { code: "gb", name: "イギリス" },
+                { code: "fr", name: "フランス" },
+              ].map((country) => (
+                <Link key={country.code} href={`/world/${country.code}`}>
+                  <AppButton variant="ghost" size="sm" className="text-white">
+                    {country.name}
+                  </AppButton>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     );
