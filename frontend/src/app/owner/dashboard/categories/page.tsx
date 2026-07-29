@@ -96,7 +96,9 @@ export default function Page() {
   }
 
   useEffect(() => {
-    loadCategories();
+    (async () => {
+      loadCategories();
+    })();
   }, []);
 
   function openCreate(parentId: number | null) {

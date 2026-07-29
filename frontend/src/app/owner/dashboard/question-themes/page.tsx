@@ -68,7 +68,9 @@ export default function Page() {
   }
 
   useEffect(() => {
-    loadThemes();
+    (async () => {
+      loadThemes();
+    })();
   }, []);
 
   function openCreate() {

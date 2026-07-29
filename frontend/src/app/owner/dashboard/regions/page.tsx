@@ -115,9 +115,11 @@ export default function Page() {
   }
 
   useEffect(() => {
-    setRegions(null);
-    setError(null);
-    loadRegions();
+    (async () => {
+      setRegions(null);
+      setError(null);
+      loadRegions();
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countryId]);
 

@@ -90,10 +90,12 @@ export default function Page() {
   }
 
   useEffect(() => {
-    loadCountries();
-    apiFetch("/api/owner/languages").then(async (res) => {
-      if (res.ok) setLanguages(await res.json());
-    });
+    (async () => {
+      loadCountries();
+      apiFetch("/api/owner/languages").then(async (res) => {
+        if (res.ok) setLanguages(await res.json());
+      });
+    })();
   }, []);
 
   function openCreate() {

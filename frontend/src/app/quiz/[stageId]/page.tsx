@@ -72,20 +72,22 @@ export default function Page({
     if (!stage || completionSubmitted) return;
     if (currentIndex < stage.questions.length) return;
 
-    setCompletionSubmitted(true);
-    apiFetch(`/api/stages/${stageId}/complete`, {
-      method: "POST",
-      body: JSON.stringify({ score }),
-    })
-      .then(async (res) => {
-        if (!res.ok) return;
-        const data = await res.json();
-        setCompleteResult({
-          title_granted: Boolean(data.title_granted),
-          title: data.title ?? null,
-        });
+    (async () => {
+      setCompletionSubmitted(true);
+      apiFetch(`/api/stages/${stageId}/complete`, {
+        method: "POST",
+        body: JSON.stringify({ score }),
       })
-      .catch(() => {});
+        .then(async (res) => {
+          if (!res.ok) return;
+          const data = await res.json();
+          setCompleteResult({
+            title_granted: Boolean(data.title_granted),
+            title: data.title ?? null,
+          });
+        })
+        .catch(() => {});
+    })();
   }, [stage, currentIndex, completionSubmitted, stageId, score]);
 
   if (stage === undefined) {

@@ -153,13 +153,15 @@ export default function Page({
   }
 
   useEffect(() => {
-    loadQuiz();
-    apiFetch("/api/owner/countries").then(async (res) => {
-      if (res.ok) setCountries(await res.json());
-    });
-    apiFetch("/api/owner/categories").then(async (res) => {
-      if (res.ok) setCategories(await res.json());
-    });
+    (async () => {
+      loadQuiz();
+      apiFetch("/api/owner/countries").then(async (res) => {
+        if (res.ok) setCountries(await res.json());
+      });
+      apiFetch("/api/owner/categories").then(async (res) => {
+        if (res.ok) setCategories(await res.json());
+      });
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
