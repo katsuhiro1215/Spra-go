@@ -957,6 +957,12 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             $profile->applyEconomy(['coin' => $combo['milestone_bonus_coin']], 'combo_milestone', $question);
         }
 
+        $streak = $profile->registerDailyStreak();
+
+        if ($streak['milestone_bonus_coin'] > 0) {
+            $profile->applyEconomy(['coin' => $streak['milestone_bonus_coin']], 'streak_milestone', $question);
+        }
+
         $economy = [
             'hp' => $profile->hp,
             'max_hp' => $profile->max_hp,
@@ -968,6 +974,10 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'combo' => $combo['combo'],
             'best_combo' => $combo['best_combo'],
             'combo_milestone_bonus_coin' => $combo['milestone_bonus_coin'],
+            'streak' => $streak['streak'],
+            'best_streak' => $streak['best_streak'],
+            'streak_extended_today' => $streak['streak_extended_today'],
+            'streak_milestone_bonus_coin' => $streak['milestone_bonus_coin'],
         ];
     }
 
