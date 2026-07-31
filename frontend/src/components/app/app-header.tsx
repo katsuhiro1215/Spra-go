@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -56,7 +57,11 @@ export function AppHeader() {
 
   return (
     <header className="relative z-30 flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/10 px-4 backdrop-blur-sm sm:px-6">
-      <Link href="/" className="text-lg font-bold text-white drop-shadow">
+      <Link
+        href="/"
+        className="flex items-center gap-2 text-lg font-bold text-white drop-shadow"
+      >
+        <Image src="/logo.svg" alt="" width={28} height={28} aria-hidden />
         SpraGo
       </Link>
 
