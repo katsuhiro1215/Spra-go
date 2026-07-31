@@ -133,14 +133,32 @@ class ImportContentCommand extends Command
     {
         $country = Country::query()->whereRaw('LOWER(code) = ?', [strtolower($data['country_code'])])->firstOrFail();
 
-        $flagCategory = Category::query()->firstOrCreate(['parent_id' => null, 'name' => '国旗']);
-        $category = Category::query()->firstOrCreate([
-            'parent_id' => $flagCategory->id,
-            'name' => $data['country_name'],
-        ]);
+        // category_root省略時は従来通り「国旗」配下に国名カテゴリーをネストする(トリビア)。
+        // 言語学習モード(SPEC.md 4-4a)等、国旗以外のルートを指定した場合はネストせず、
+        // ルートカテゴリーそのものを使う(米国・英国で「英語を学ぶ」を共有するため)。
+        $categoryRoot = $data['category_root'] ?? '国旗';
+
+        if ($categoryRoot === '国旗') {
+            $flagCategory = Category::query()->firstOrCreate(['parent_id' => null, 'name' => '国旗']);
+            $category = Category::query()->firstOrCreate([
+                'parent_id' => $flagCategory->id,
+                'name' => $data['country_name'],
+            ]);
+        } else {
+            $category = Category::query()->firstOrCreate(
+                ['parent_id' => null, 'name' => $categoryRoot],
+                ['is_language_mode' => true]
+            );
+        }
+
+        // トリビア(国旗配下)と言語学習モードで同じ国・難易度の組み合わせが重複しないよう、
+        // category_root指定時はタイトルにルート名を含める。
+        $quizTitle = $categoryRoot === '国旗'
+            ? "{$data['country_name']} {$data['difficulty']} 問題集"
+            : "{$categoryRoot} {$data['country_name']} {$data['difficulty']} 問題集";
 
         $quiz = Quiz::query()->firstOrCreate(
-            ['title' => "{$data['country_name']} {$data['difficulty']} 問題集"],
+            ['title' => $quizTitle],
             ['difficulty' => $data['difficulty'], 'country_id' => $country->id, 'is_published' => true]
         );
 

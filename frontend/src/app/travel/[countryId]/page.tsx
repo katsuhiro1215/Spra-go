@@ -3,7 +3,7 @@
 import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Furigana } from "@/components/app/furigana";
 import { SceneBackground } from "@/components/app/scene-background";
@@ -21,7 +21,7 @@ type StageSummary = {
 };
 
 type StageGroup = {
-  category: { id: number; name: string };
+  category: { id: number; name: string; is_language_mode: boolean };
   difficulty: string;
   locked: boolean;
   stages: StageSummary[];
@@ -57,8 +57,12 @@ export default function Page({
 }) {
   const { countryId } = use(params);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [country, setCountry] = useState<CountryDetail | null | undefined>(
     undefined,
+  );
+  const [mode, setMode] = useState<"trivia" | "language">(
+    searchParams.get("mode") === "language" ? "language" : "trivia",
   );
 
   useEffect(() => {
@@ -150,13 +154,41 @@ export default function Page({
           </div>
         </div>
 
+        {country.groups.some((g) => g.category.is_language_mode) && (
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setMode("trivia")}
+              className={`rounded-full px-4 py-1.5 text-xs font-semibold shadow ${
+                mode === "trivia"
+                  ? "bg-amber-400 text-amber-950"
+                  : "bg-black/25 text-white/80 hover:bg-black/35"
+              }`}
+            >
+              {country.name}について学ぶ
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("language")}
+              className={`rounded-full px-4 py-1.5 text-xs font-semibold shadow ${
+                mode === "language"
+                  ? "bg-amber-400 text-amber-950"
+                  : "bg-black/25 text-white/80 hover:bg-black/35"
+              }`}
+            >
+              {country.groups.find((g) => g.category.is_language_mode)
+                ?.category.name ?? "言語を学ぶ"}
+            </button>
+          </div>
+        )}
+
         {country.regions.length === 0 && country.groups.length === 0 ? (
           <p className="text-sm text-white/85">
             まだこの国のクイズがありません。お楽しみに。
           </p>
         ) : (
           <div className="flex flex-col gap-8">
-            {country.regions.length > 0 && (
+            {country.regions.length > 0 && mode === "trivia" && (
               <div className="flex flex-col gap-3">
                 <h2 className="text-sm font-semibold text-white/90 drop-shadow">
                   地域を選ぶ
@@ -187,31 +219,37 @@ export default function Page({
               </div>
             )}
 
-            {country.groups.map((group) => (
-              <div
-                key={`${group.category.id}-${group.difficulty}`}
-                className="flex flex-col gap-3"
-              >
-                <h2 className="flex items-center gap-2 text-sm font-semibold text-white/90 drop-shadow">
-                  {group.locked && "🔒"}
-                  {group.category.name} ・{" "}
-                  <Furigana
-                    text={group.difficulty}
-                    reading={DIFFICULTY_READINGS[group.difficulty] ?? ""}
-                  />
-                </h2>
-                {group.locked ? (
-                  <p className="text-xs text-white/70">
-                    ひとつ前の難易度をクリアすると挑戦できます。
-                  </p>
-                ) : (
-                  <StagePath
-                    stages={group.stages}
-                    onSelect={(stage) => router.push(`/quiz/${stage.id}`)}
-                  />
-                )}
-              </div>
-            ))}
+            {country.groups
+              .filter((group) =>
+                mode === "language"
+                  ? group.category.is_language_mode
+                  : !group.category.is_language_mode,
+              )
+              .map((group) => (
+                <div
+                  key={`${group.category.id}-${group.difficulty}`}
+                  className="flex flex-col gap-3"
+                >
+                  <h2 className="flex items-center gap-2 text-sm font-semibold text-white/90 drop-shadow">
+                    {group.locked && "🔒"}
+                    {group.category.name} ・{" "}
+                    <Furigana
+                      text={group.difficulty}
+                      reading={DIFFICULTY_READINGS[group.difficulty] ?? ""}
+                    />
+                  </h2>
+                  {group.locked ? (
+                    <p className="text-xs text-white/70">
+                      ひとつ前の難易度をクリアすると挑戦できます。
+                    </p>
+                  ) : (
+                    <StagePath
+                      stages={group.stages}
+                      onSelect={(stage) => router.push(`/quiz/${stage.id}`)}
+                    />
+                  )}
+                </div>
+              ))}
           </div>
         )}
       </div>

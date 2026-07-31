@@ -35,5 +35,12 @@ class CategorySeeder extends Seeder
         foreach ($countryCategories as $name) {
             Category::query()->firstOrCreate(['parent_id' => $flagCategoryId, 'name' => $name]);
         }
+
+        // 言語学習モード用のルートカテゴリー(SPEC.md 4-4a)。国について学ぶ(トリビア)とは
+        // 別軸で、is_language_modeフラグでフロント側の表示振り分けに使う。
+        Category::query()->firstOrCreate(
+            ['parent_id' => null, 'name' => '英語を学ぶ'],
+            ['is_language_mode' => true]
+        );
     }
 }

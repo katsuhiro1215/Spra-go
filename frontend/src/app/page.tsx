@@ -250,7 +250,7 @@ export default function Page() {
               {/* モバイル: グリッド表示 */}
               <div className="grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-3 md:hidden">
                 {allCountries.map((country) => (
-                  <Link key={country.id} href={`/travel/${country.id}`}>
+                  <Link key={country.id} href={`/travel/${country.id}/start`}>
                     <AppButton
                       variant="default"
                       size="lg"
@@ -287,7 +287,7 @@ export default function Page() {
                   return (
                     <Link
                       key={country.id}
-                      href={`/travel/${country.id}`}
+                      href={`/travel/${country.id}/start`}
                       className="absolute -translate-x-1/2 -translate-y-1/2"
                       style={{ left: `${x}%`, top: `${y}%` }}
                     >
