@@ -226,7 +226,7 @@ export default function Page() {
               <div className="absolute top-1 right-1">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon-sm">
+                    <Button variant="ghost" size="icon-sm" aria-label="その他の操作">
                       <MoreHorizontal />
                     </Button>
                   </DropdownMenuTrigger>

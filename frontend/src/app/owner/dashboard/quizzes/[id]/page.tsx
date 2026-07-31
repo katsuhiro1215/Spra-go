@@ -433,7 +433,7 @@ export default function Page({
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon-sm">
+                  <Button variant="ghost" size="icon-sm" aria-label="その他の操作">
                     <MoreHorizontal />
                   </Button>
                 </DropdownMenuTrigger>
@@ -687,6 +687,7 @@ export default function Page({
                       type="button"
                       variant="ghost"
                       size="icon-sm"
+                      aria-label={`選択肢${index + 1}を削除`}
                       disabled={questionValues.choices.length <= 4}
                       onClick={() => removeChoice(index)}
                     >
