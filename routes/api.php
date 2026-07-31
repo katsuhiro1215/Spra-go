@@ -607,8 +607,25 @@ Route::middleware(['auth:sanctum'])->get('/categories', function () {
     return Category::query()->orderBy('order')->get();
 })->name('categories.index');
 
-Route::middleware(['auth:sanctum'])->get('/countries', function () {
-    return Country::query()->orderBy('order')->get();
+Route::middleware(['auth:sanctum'])->get('/countries', function (Request $request) {
+    // ホーム画面向け: コンテンツが実際にある国だけを返す(190ヶ国全部を出すと選べない上、
+    // ほとんどが未実装で行き止まりになるため)。Owner管理画面は別エンドポイント
+    // (/api/owner/countries)で全件を扱う。
+    $countries = Country::query()
+        ->whereHas('stages.questions')
+        ->orderBy('order')
+        ->get();
+
+    $suggestedCode = Country::guessFromAcceptLanguage(
+        $request->header('Accept-Language'),
+        $countries->pluck('code')->all()
+    );
+
+    return $countries->map(fn (Country $country) => [
+        ...$country->toArray(),
+        'is_suggested' => $suggestedCode !== null
+            && strtolower($country->code) === $suggestedCode,
+    ])->sortByDesc('is_suggested')->values();
 })->name('countries.index');
 
 Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Request $request, Country $country) {
