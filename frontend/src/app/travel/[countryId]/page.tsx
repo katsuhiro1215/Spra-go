@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
+import { BackLink } from "@/components/app/back-link";
 import { Furigana } from "@/components/app/furigana";
 import { SceneBackground } from "@/components/app/scene-background";
 import { StagePath } from "@/components/app/stage-path";
@@ -113,12 +114,7 @@ export default function Page({
 
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-12">
         <div>
-          <Link
-            href="/"
-            className="text-sm text-white/80 drop-shadow hover:underline"
-          >
-            ← ホームに戻る
-          </Link>
+          <BackLink />
 
           <div className="mt-3 flex items-center gap-4">
             <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-md border border-white/40 shadow-lg">
