@@ -1051,6 +1051,19 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
 
     $economy = null;
     if ($profile && $profile->user_schema_id === $request->user()->schema?->id) {
+        $profile->regenerateHp();
+
+        if ($profile->hp <= 0) {
+            return response()->json([
+                'blocked' => true,
+                'profile' => [
+                    'hp' => $profile->hp,
+                    'max_hp' => $profile->max_hp,
+                    'hp_regen_seconds' => $profile->secondsUntilNextHp(),
+                ],
+            ], 409);
+        }
+
         $result = $choice->is_correct
             ? $profile->applyEconomy(['hp' => -1, 'xp' => 10, 'coin' => 5], 'answer_correct', $question)
             : $profile->applyEconomy(['hp' => -2], 'answer_wrong', $question);
@@ -1070,6 +1083,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
         $economy = [
             'hp' => $profile->hp,
             'max_hp' => $profile->max_hp,
+            'hp_regen_seconds' => $profile->secondsUntilNextHp(),
             'xp' => $profile->xp,
             'coins' => $profile->coins,
             'level' => $profile->level,
@@ -1163,12 +1177,17 @@ Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->grou
     Route::get('/active', function (Request $request) {
         $id = $request->session()->get('active_profile_id');
         $profile = $id ? UserProfile::find($id) : null;
+        $profile?->regenerateHp();
+
+        $payload = $profile
+            ? [...$profile->toArray(), 'hp_regen_seconds' => $profile->secondsUntilNextHp()]
+            : null;
 
         // response()->json(null) は Symfony の JsonResponse の仕様で
         // "null" ではなく "{}" を返してしまう(空データ扱いされるため)。
         // フロントは「アクティブなプロフィールが無い」をnullで判定しているため、
         // 素のjson_encodeで確実にnullを返す。
-        return response(json_encode($profile), 200, ['Content-Type' => 'application/json']);
+        return response(json_encode($payload), 200, ['Content-Type' => 'application/json']);
     })->name('active');
 
     Route::post('/{profile}/select', function (Request $request, UserProfile $profile) {

@@ -25,16 +25,48 @@ _ide_helper.php
 
 # frontend/public/flag は国旗素材を大量に置く作業用フォルダなので原則追跡しない。
 # アプリが実際に参照する国コード名のSVG(jp.svg など)だけ例外的に追跡する。
+# 「国名→国旗」形式のクイズ選択肢(絵文字国旗)を実画像に差し替えるため
+# 2026-07-31に追加分(content:import済みの選択肢に登場する国コード)。
 frontend/public/flag/*
+!frontend/public/flag/ar.svg
+!frontend/public/flag/au.svg
+!frontend/public/flag/bd.svg
+!frontend/public/flag/be.svg
+!frontend/public/flag/br.svg
+!frontend/public/flag/ca.svg
+!frontend/public/flag/cl.svg
+!frontend/public/flag/cn.svg
+!frontend/public/flag/cu.svg
+!frontend/public/flag/de.svg
 !frontend/public/flag/es.svg
 !frontend/public/flag/fr.svg
 !frontend/public/flag/GB.svg
 !frontend/public/flag/id.svg
+!frontend/public/flag/ie.svg
+!frontend/public/flag/in.svg
 !frontend/public/flag/it.svg
 !frontend/public/flag/jp.svg
+!frontend/public/flag/kr.svg
+!frontend/public/flag/la.svg
+!frontend/public/flag/lr.svg
+!frontend/public/flag/lu.svg
+!frontend/public/flag/mm.svg
+!frontend/public/flag/mx.svg
+!frontend/public/flag/my.svg
+!frontend/public/flag/nl.svg
+!frontend/public/flag/nz.svg
+!frontend/public/flag/pa.svg
+!frontend/public/flag/ph.svg
 !frontend/public/flag/pt.svg
+!frontend/public/flag/pw.svg
+!frontend/public/flag/ro.svg
+!frontend/public/flag/ru.svg
+!frontend/public/flag/se.svg
+!frontend/public/flag/sg.svg
 !frontend/public/flag/th.svg
 !frontend/public/flag/us.svg
+!frontend/public/flag/vn.svg
+!frontend/public/flag/za.svg
 Homestead.json
 Homestead.yaml
 Thumbs.db
