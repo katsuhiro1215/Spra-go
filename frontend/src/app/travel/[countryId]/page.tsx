@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { AppHeader } from "@/components/app/app-header";
 import { Furigana } from "@/components/app/furigana";
 import { SceneBackground } from "@/components/app/scene-background";
 import { StagePath } from "@/components/app/stage-path";
@@ -108,6 +109,7 @@ export default function Page({
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden">
       <SceneBackground />
+      <AppHeader />
 
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-12">
         <div>

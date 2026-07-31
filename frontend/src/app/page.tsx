@@ -5,32 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { AppHeader } from "@/components/app/app-header";
 import { Button as AppButton } from "@/components/app/button";
 import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 import { Furigana } from "@/components/app/furigana";
-import { HpGauge } from "@/components/app/hp-gauge";
-import { PointsBadge } from "@/components/app/points-badge";
 import { SceneBackground } from "@/components/app/scene-background";
 import { WorldMap } from "@/components/app/world-map";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { apiFetch } from "@/lib/api";
-
-type Profile = {
-  id: number;
-  name: string;
-  hp: number;
-  max_hp: number;
-  xp: number;
-  coins: number;
-  level: number;
-  current_streak: number;
-};
 
 type Category = {
   id: number;
@@ -52,9 +33,10 @@ const tileVariants = ["primary", "secondary", "warning", "danger"] as const;
 export default function Page() {
   const router = useRouter();
   const [status, setStatus] = useState<Status>("checking");
-  const [profile, setProfile] = useState<Profile | null>(null);
   const [categories, setCategories] = useState<Category[] | null>(null);
   const [countries, setCountries] = useState<Country[] | null>(null);
+  const [pickerView, setPickerView] = useState<"flags" | "map">("flags");
+  const [miniAppOpen, setMiniAppOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -77,7 +59,6 @@ export default function Page() {
           return;
         }
 
-        setProfile(activeProfile);
         setStatus("ready");
 
         const [categoriesRes, countriesRes] = await Promise.all([
@@ -100,11 +81,6 @@ export default function Page() {
       active = false;
     };
   }, [router]);
-
-  async function handleLogout() {
-    await apiFetch("/logout", { method: "POST" });
-    router.replace("/login");
-  }
 
   if (status === "checking") {
     return (
@@ -177,154 +153,196 @@ export default function Page() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden">
       <SceneBackground />
+      <AppHeader />
 
-      <header className="relative z-10 flex h-14 items-center justify-between border-b border-white/10 bg-black/10 px-4 backdrop-blur-sm sm:px-6">
-        <span className="text-lg font-bold text-white drop-shadow">
-          SpraGo
-        </span>
+      <main className="relative z-10 flex flex-1 flex-col items-center gap-8 px-6 py-10">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
+            どこから<Furigana text="冒険" reading="ぼうけん" />する？
+          </h1>
+          <p className="mt-1 text-sm text-white/85 drop-shadow">
+            好きな国を選んでね
+          </p>
+        </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          {typeof profile?.current_streak === "number" &&
-            profile.current_streak > 0 && (
-              <span
-                className="flex items-center gap-1 rounded-full border border-orange-300/40 bg-orange-500/20 px-2 py-1 text-xs font-bold text-orange-200"
-                title="連続プレイ日数"
-              >
-                🔥{profile.current_streak}日
-              </span>
-            )}
-          <PointsBadge value={profile?.coins ?? 0} />
-          <HpGauge value={profile?.hp ?? 0} max={profile?.max_hp ?? 20} />
-          <Link
-            href="/shop"
-            aria-label="ショップ"
-            className="rounded-full border border-white/30 bg-black/20 p-1.5 text-lg leading-none shadow backdrop-blur-sm hover:bg-black/30"
+        {/* 表示切替: フラッグ/地図(デスクトップ幅のみ意味を持つが、押し間違い防止に常に表示) */}
+        <div className="hidden gap-2 md:flex">
+          <button
+            type="button"
+            onClick={() => setPickerView("flags")}
+            className={`rounded-full px-4 py-1.5 text-xs font-semibold shadow ${
+              pickerView === "flags"
+                ? "bg-amber-400 text-amber-950"
+                : "bg-black/25 text-white/80 hover:bg-black/35"
+            }`}
           >
-            🛒
-          </Link>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                aria-label="プロフィールメニュー"
-                className="rounded-full outline-none ring-white/60 focus-visible:ring-2"
-              >
-                <Avatar className="border-2 border-white/50">
-                  <AvatarFallback className="bg-sky-500 font-semibold text-white">
-                    {profile?.name.slice(0, 1)}
-                  </AvatarFallback>
-                </Avatar>
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
-                <Link href="/profiles">プロフィール切替</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem variant="destructive" onClick={handleLogout}>
-                ログアウト
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </header>
-
-      <main className="relative z-10 flex flex-1 flex-col gap-10 px-6 py-10 lg:flex-row lg:items-start lg:justify-center">
-        <div className="flex flex-1 flex-col items-center gap-8">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
-              どこから<Furigana text="冒険" reading="ぼうけん" />する？
-            </h1>
-            <p className="mt-1 text-sm text-white/85 drop-shadow">
-              好きな国を選んでね
-            </p>
-          </div>
-
-          {!countries ? (
-            <p className="text-sm text-white/85">読み込み中...</p>
-          ) : allCountries.length === 0 ? (
-            <p className="text-sm text-white/85">
-              まだ国が登録されていません。お楽しみに。
-            </p>
-          ) : (
-            <>
-              {/* モバイル: グリッド表示 */}
-              <div className="grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-3 md:hidden">
-                {allCountries.map((country) => (
-                  <Link key={country.id} href={`/travel/${country.id}/start`}>
-                    <AppButton
-                      variant="default"
-                      size="lg"
-                      className="relative flex w-full items-center justify-center gap-2 shadow-lg"
-                    >
-                      {country.is_suggested && (
-                        <span className="absolute -top-2 -right-2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-bold text-amber-950 shadow">
-                          あなたの国?
-                        </span>
-                      )}
-                      <span className="relative h-4 w-6 shrink-0 overflow-hidden rounded-sm border border-white/40">
-                        <Image
-                          src={`/flag/${country.code}.svg`}
-                          alt={country.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </span>
-                      {country.name}
-                    </AppButton>
-                  </Link>
-                ))}
-              </div>
-
-              {/* デスクトップ: 世界地図から選ぶ */}
-              <div className="hidden w-full max-w-3xl md:block">
-                <WorldMap
-                  countries={allCountries}
-                  onSelect={(country) =>
-                    router.push(`/travel/${country.id}/start`)
-                  }
-                />
-                <p className="mt-2 text-center text-xs text-white/70 drop-shadow">
-                  色が付いている国をクリックしてね
-                </p>
-              </div>
-            </>
-          )}
+            🚩 フラッグ
+          </button>
+          <button
+            type="button"
+            onClick={() => setPickerView("map")}
+            className={`rounded-full px-4 py-1.5 text-xs font-semibold shadow ${
+              pickerView === "map"
+                ? "bg-amber-400 text-amber-950"
+                : "bg-black/25 text-white/80 hover:bg-black/35"
+            }`}
+          >
+            🗺 地図
+          </button>
         </div>
 
-        {/* ミニアプリ */}
-        <div className="flex w-full flex-col gap-3 lg:w-56 lg:shrink-0">
-          <h2 className="text-center text-sm font-semibold text-white/90 drop-shadow lg:text-left">
-            ミニアプリ
-          </h2>
-          {!categories ? (
-            <p className="text-center text-xs text-white/70 lg:text-left">
-              読み込み中...
-            </p>
-          ) : (
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1">
-              {rootCategories.map((category, index) => (
-                <Link key={category.id} href={`/play/${category.id}`}>
+        {!countries ? (
+          <p className="text-sm text-white/85">読み込み中...</p>
+        ) : allCountries.length === 0 ? (
+          <p className="text-sm text-white/85">
+            まだ国が登録されていません。お楽しみに。
+          </p>
+        ) : (
+          <>
+            {/* モバイル: 常にグリッド表示(タップ精度の関係で地図は非対応) */}
+            <div className="grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-3 md:hidden">
+              {allCountries.map((country) => (
+                <Link key={country.id} href={`/travel/${country.id}/start`}>
                   <AppButton
-                    variant={tileVariants[index % tileVariants.length]}
-                    size="sm"
-                    className="w-full shadow"
+                    variant="default"
+                    size="lg"
+                    className="relative flex w-full items-center justify-center gap-2 shadow-lg"
                   >
-                    {category.name}
+                    {country.is_suggested && (
+                      <span className="absolute -top-2 -right-2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-bold text-amber-950 shadow">
+                        あなたの国?
+                      </span>
+                    )}
+                    <span className="relative h-4 w-6 shrink-0 overflow-hidden rounded-sm border border-white/40">
+                      <Image
+                        src={`/flag/${country.code}.svg`}
+                        alt={country.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </span>
+                    {country.name}
                   </AppButton>
                 </Link>
               ))}
             </div>
-          )}
-        </div>
+
+            {/* デスクトップ: フラッグ(円形)または地図、切替可能 */}
+            <div className="hidden w-full max-w-3xl md:block">
+              {pickerView === "map" ? (
+                <>
+                  <WorldMap
+                    countries={allCountries}
+                    onSelect={(country) =>
+                      router.push(`/travel/${country.id}/start`)
+                    }
+                  />
+                  <p className="mt-2 text-center text-xs text-white/70 drop-shadow">
+                    色が付いている国をクリックしてね
+                  </p>
+                </>
+              ) : (
+                <div className="relative mx-auto aspect-square w-full max-w-xl">
+                  <div className="absolute top-1/2 left-1/2 h-1/3 w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 blur-2xl" />
+                  {allCountries.map((country, index) => {
+                    const angle =
+                      (2 * Math.PI * index) / allCountries.length -
+                      Math.PI / 2;
+                    const radius = 42;
+                    const x = 50 + radius * Math.cos(angle);
+                    const y = 50 + radius * Math.sin(angle);
+
+                    return (
+                      <Link
+                        key={country.id}
+                        href={`/travel/${country.id}/start`}
+                        className="absolute -translate-x-1/2 -translate-y-1/2"
+                        style={{ left: `${x}%`, top: `${y}%` }}
+                      >
+                        <AppButton
+                          variant="default"
+                          className="relative flex aspect-square h-24 w-24 flex-col items-center justify-center gap-1 rounded-full p-2 text-center text-xs leading-tight text-balance shadow-lg lg:h-28 lg:w-28 lg:text-sm"
+                        >
+                          {country.is_suggested && (
+                            <span className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap text-amber-950 shadow">
+                              あなたの国?
+                            </span>
+                          )}
+                          <span className="relative h-6 w-9 shrink-0 overflow-hidden rounded-sm border border-white/40">
+                            <Image
+                              src={`/flag/${country.code}.svg`}
+                              alt={country.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </span>
+                          {country.name}
+                        </AppButton>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </main>
 
-      <AppButton
-        variant="default"
-        aria-label="ヘルプ"
-        className="fixed right-6 bottom-6 z-20 h-12 w-12 rounded-full text-lg shadow-lg"
+      {/* ミニアプリ: 右端タブから引き出すドロワー(メインのアプリ選択を邪魔しない) */}
+      <button
+        type="button"
+        onClick={() => setMiniAppOpen(true)}
+        aria-label="ミニアプリを開く"
+        className="fixed top-1/2 right-0 z-30 -translate-y-1/2 rounded-l-lg border border-r-0 border-white/30 bg-black/30 px-2 py-3 text-xs font-semibold text-white shadow-lg backdrop-blur-sm hover:bg-black/40"
+        style={{ writingMode: "vertical-rl" }}
       >
-        ?
-      </AppButton>
+        ミニアプリ
+      </button>
+
+      {miniAppOpen && (
+        <div className="fixed inset-0 z-40 flex justify-end">
+          <button
+            type="button"
+            aria-label="ミニアプリを閉じる"
+            onClick={() => setMiniAppOpen(false)}
+            className="flex-1 bg-black/50"
+          />
+          <div className="flex w-72 max-w-[85vw] flex-col gap-3 overflow-y-auto bg-slate-900 p-4 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-white">ミニアプリ</h2>
+              <button
+                type="button"
+                onClick={() => setMiniAppOpen(false)}
+                aria-label="閉じる"
+                className="rounded-full p-1 text-white/70 hover:bg-white/10 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            {!categories ? (
+              <p className="text-xs text-white/70">読み込み中...</p>
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                {rootCategories.map((category, index) => (
+                  <Link
+                    key={category.id}
+                    href={`/play/${category.id}`}
+                    onClick={() => setMiniAppOpen(false)}
+                  >
+                    <AppButton
+                      variant={tileVariants[index % tileVariants.length]}
+                      size="sm"
+                      className="w-full shadow"
+                    >
+                      {category.name}
+                    </AppButton>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

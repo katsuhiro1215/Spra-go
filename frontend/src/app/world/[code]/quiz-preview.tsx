@@ -6,6 +6,7 @@ import Link from "next/link";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { Button as AppButton } from "@/components/app/button";
 import { CharacterPlaceholder } from "@/components/app/character-placeholder";
+import { useSound } from "@/components/app/sound-provider";
 
 type Choice = { id: number; label: string; is_correct: boolean };
 type Question = { id: number; prompt: string; choices: Choice[] };
@@ -20,6 +21,7 @@ export function QuizPreview({ data }: { data: SampleQuiz }) {
     null,
   );
   const [score, setScore] = useState(0);
+  const { play: playSound } = useSound();
 
   const { questions } = data;
   const finished = currentIndex >= questions.length;
@@ -28,6 +30,7 @@ export function QuizPreview({ data }: { data: SampleQuiz }) {
   function handleSelect(choice: Choice) {
     if (selectedChoiceId !== null) return;
     setSelectedChoiceId(choice.id);
+    playSound(choice.is_correct ? "correct" : "incorrect");
     if (choice.is_correct) setScore((prev) => prev + 1);
   }
 
