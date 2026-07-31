@@ -38,6 +38,28 @@ Route::middleware(['auth:owner'])->get('/owner/user', function (Request $request
     return $request->user('owner');
 })->name('owner.user');
 
+Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
+    $sevenDaysAgo = now()->subDays(7);
+
+    return [
+        'user_count' => User::query()->count(),
+        'profile_count' => UserProfile::query()->count(),
+        'new_users_last_7_days' => User::query()->where('created_at', '>=', $sevenDaysAgo)->count(),
+        'stage_clears_last_7_days' => ProfileStageProgress::query()
+            ->whereNotNull('cleared_at')
+            ->where('cleared_at', '>=', $sevenDaysAgo)
+            ->count(),
+        'countries_with_content' => Country::query()->whereHas('stages.questions')->count(),
+        'coin_purchases' => [
+            'completed_count' => CoinPurchase::query()->where('status', 'completed')->count(),
+            'completed_amount_this_month' => (int) CoinPurchase::query()
+                ->where('status', 'completed')
+                ->where('completed_at', '>=', now()->startOfMonth())
+                ->sum('amount'),
+        ],
+    ];
+})->name('owner.dashboard.summary');
+
 Route::middleware(['auth:owner'])->get('/owner/admins', function () {
     return Admin::query()->latest()->get();
 })->name('owner.admins');
