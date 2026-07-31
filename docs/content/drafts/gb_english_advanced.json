@@ -1,0 +1,566 @@
+{
+  "country_name": "イギリス",
+  "country_code": "GB",
+  "difficulty": "上級",
+  "category_root": "英語を学ぶ",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "イギリスの口語表現「knackered」の意味は？",
+          "choices": [
+            { "label": "へとへとに疲れた", "is_correct": true },
+            { "label": "とても嬉しい", "is_correct": false },
+            { "label": "お腹が空いた", "is_correct": false },
+            { "label": "怒っている", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスの口語表現「gutted」の意味は？",
+          "choices": [
+            { "label": "すごくがっかりした", "is_correct": true },
+            { "label": "とても嬉しい", "is_correct": false },
+            { "label": "疲れ果てた", "is_correct": false },
+            { "label": "興奮している", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスの口語表現「cheeky」の意味は？",
+          "choices": [
+            { "label": "生意気な・ちゃっかりした", "is_correct": true },
+            { "label": "礼儀正しい", "is_correct": false },
+            { "label": "怠惰な", "is_correct": false },
+            { "label": "寛大な", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「It's all sorted.」の「sorted」の意味は？",
+          "choices": [
+            { "label": "解決済み・準備万端の", "is_correct": true },
+            { "label": "混乱している", "is_correct": false },
+            { "label": "疲れている", "is_correct": false },
+            { "label": "高価な", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスの口語表現「chuffed」の意味は？",
+          "choices": [
+            { "label": "とても嬉しい・誇らしい", "is_correct": true },
+            { "label": "すごくがっかりした", "is_correct": false },
+            { "label": "疲れ果てた", "is_correct": false },
+            { "label": "怒っている", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスの口語表現「skint」の意味は？",
+          "choices": [
+            { "label": "お金がない・一文無しの", "is_correct": true },
+            { "label": "裕福な", "is_correct": false },
+            { "label": "忙しい", "is_correct": false },
+            { "label": "元気な", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "空欄に入る最も適切な関係代名詞は？ 'The woman ___ car was stolen called the police.'",
+          "choices": [
+            { "label": "whose", "is_correct": true },
+            { "label": "who", "is_correct": false },
+            { "label": "which", "is_correct": false },
+            { "label": "that", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な関係代名詞は？ 'This is the book ___ I told you about.'",
+          "choices": [
+            { "label": "that", "is_correct": true },
+            { "label": "who", "is_correct": false },
+            { "label": "whose", "is_correct": false },
+            { "label": "whom", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な関係代名詞は？（コンマで区切られた非限定用法） 'My brother, ___ lives in London, is a teacher.'",
+          "choices": [
+            { "label": "who", "is_correct": true },
+            { "label": "that", "is_correct": false },
+            { "label": "which", "is_correct": false },
+            { "label": "whose", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な関係副詞は？ 'Do you know the reason ___ he left early?'",
+          "choices": [
+            { "label": "why", "is_correct": true },
+            { "label": "which", "is_correct": false },
+            { "label": "who", "is_correct": false },
+            { "label": "whose", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な関係副詞は？ 'The place ___ we met is now a café.'",
+          "choices": [
+            { "label": "where", "is_correct": true },
+            { "label": "which", "is_correct": false },
+            { "label": "who", "is_correct": false },
+            { "label": "when", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "フォーマルな文で空欄に入る目的格の関係代名詞は？ 'To ___ did you give the letter?'",
+          "choices": [
+            { "label": "whom", "is_correct": true },
+            { "label": "who", "is_correct": false },
+            { "label": "whose", "is_correct": false },
+            { "label": "which", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "phrase",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "句動詞「sort out」の意味は？",
+          "choices": [
+            { "label": "解決する・整理する", "is_correct": true },
+            { "label": "あきらめる", "is_correct": false },
+            { "label": "探す", "is_correct": false },
+            { "label": "待つ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "句動詞「put up with」の意味は？",
+          "choices": [
+            { "label": "我慢する", "is_correct": true },
+            { "label": "応援する", "is_correct": false },
+            { "label": "提案する", "is_correct": false },
+            { "label": "延期する", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "句動詞「look forward to」の意味は？",
+          "choices": [
+            { "label": "楽しみにする", "is_correct": true },
+            { "label": "振り返る", "is_correct": false },
+            { "label": "見つける", "is_correct": false },
+            { "label": "期待外れになる", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "句動詞「come across」の意味は？",
+          "choices": [
+            { "label": "偶然出くわす・見つける", "is_correct": true },
+            { "label": "反対する", "is_correct": false },
+            { "label": "説明する", "is_correct": false },
+            { "label": "賛成する", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "句動詞「run out of」の意味は？",
+          "choices": [
+            { "label": "（物を）使い果たす・切らす", "is_correct": true },
+            { "label": "手に入れる", "is_correct": false },
+            { "label": "走り出す", "is_correct": false },
+            { "label": "逃げ出す", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "句動詞「turn down」の意味は？",
+          "choices": [
+            { "label": "（誘い・申し出を）断る", "is_correct": true },
+            { "label": "音量を上げる", "is_correct": false },
+            { "label": "承諾する", "is_correct": false },
+            { "label": "頼む", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "次の能動態の文を受動態に書き換えたとき、正しいものは？ 'They built this house in 1990.'",
+          "choices": [
+            { "label": "This house was built in 1990.", "is_correct": true },
+            { "label": "This house is built in 1990.", "is_correct": false },
+            { "label": "This house has built in 1990.", "is_correct": false },
+            { "label": "This house was building in 1990.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な形は？（受動態・過去形） 'The window ___ last night.'",
+          "choices": [
+            { "label": "was broken", "is_correct": true },
+            { "label": "broke", "is_correct": false },
+            { "label": "has broken", "is_correct": false },
+            { "label": "is breaking", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な形は？（助動詞＋受動態） 'The report ___ by Friday.'",
+          "choices": [
+            { "label": "must be submitted", "is_correct": true },
+            { "label": "must submit", "is_correct": false },
+            { "label": "must submitted", "is_correct": false },
+            { "label": "must be submit", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な形は？（現在完了・受動態） 'The email ___ already ___.'（sendの受動態）",
+          "choices": [
+            { "label": "has / been sent", "is_correct": true },
+            { "label": "has / sent", "is_correct": false },
+            { "label": "is / sending", "is_correct": false },
+            { "label": "was / send", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な前置詞は？ 'This novel was written ___ Jane Austen.'",
+          "choices": [
+            { "label": "by", "is_correct": true },
+            { "label": "from", "is_correct": false },
+            { "label": "with", "is_correct": false },
+            { "label": "at", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "次のうち、受動態の文はどれ？",
+          "choices": [
+            { "label": "The cake was eaten by the children.", "is_correct": true },
+            { "label": "The children ate the cake.", "is_correct": false },
+            { "label": "The children are eating the cake.", "is_correct": false },
+            { "label": "The children will eat the cake.", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "イギリスの口語表現「reckon」の意味は？（例: I reckon it'll rain.）",
+          "choices": [
+            { "label": "～だと思う", "is_correct": true },
+            { "label": "～を数える", "is_correct": false },
+            { "label": "～を疑う", "is_correct": false },
+            { "label": "～を後悔する", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「shambles」の意味は？（例: The meeting was a total shambles.）",
+          "choices": [
+            { "label": "大混乱・めちゃくちゃな状態", "is_correct": true },
+            { "label": "大成功", "is_correct": false },
+            { "label": "静けさ", "is_correct": false },
+            { "label": "秩序", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「posh」の意味は？",
+          "choices": [
+            { "label": "上流階級の・高級な", "is_correct": true },
+            { "label": "貧しい", "is_correct": false },
+            { "label": "田舎の", "is_correct": false },
+            { "label": "単純な", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスの口語表現「bloke」の意味は？",
+          "choices": [
+            { "label": "男・やつ（インフォーマルな言い方）", "is_correct": true },
+            { "label": "女性", "is_correct": false },
+            { "label": "子供", "is_correct": false },
+            { "label": "老人", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスの口語表現「brolly」の意味は？",
+          "choices": [
+            { "label": "傘（umbrellaのくだけた言い方）", "is_correct": true },
+            { "label": "コート", "is_correct": false },
+            { "label": "帽子", "is_correct": false },
+            { "label": "靴", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「daft」の意味は？",
+          "choices": [
+            { "label": "ばかげた・間抜けな", "is_correct": true },
+            { "label": "賢い", "is_correct": false },
+            { "label": "真剣な", "is_correct": false },
+            { "label": "穏やかな", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 6,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "空欄に入る最も適切な形は？（経験を表す現在完了） 'She has ___ Paris twice.'",
+          "choices": [
+            { "label": "been to", "is_correct": true },
+            { "label": "gone to", "is_correct": false },
+            { "label": "went to", "is_correct": false },
+            { "label": "going to", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な形は？（まだ戻っていないことを表す現在完了） 'He has ___ to the shop, so he's not here right now.'",
+          "choices": [
+            { "label": "gone to", "is_correct": true },
+            { "label": "been to", "is_correct": false },
+            { "label": "go to", "is_correct": false },
+            { "label": "going to", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な前置詞は？（起点を表す） 'I have lived in London ___ 2015.'",
+          "choices": [
+            { "label": "since", "is_correct": true },
+            { "label": "for", "is_correct": false },
+            { "label": "from", "is_correct": false },
+            { "label": "at", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な前置詞は？（期間を表す） 'They have known each other ___ ten years.'",
+          "choices": [
+            { "label": "for", "is_correct": true },
+            { "label": "since", "is_correct": false },
+            { "label": "during", "is_correct": false },
+            { "label": "at", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な形は？（継続を強調する現在完了進行形） 'I ___ for an hour.'（wait）",
+          "choices": [
+            { "label": "have been waiting", "is_correct": true },
+            { "label": "have waited", "is_correct": false },
+            { "label": "was waiting", "is_correct": false },
+            { "label": "am waiting", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な形は？（特定の過去時点を示すためには過去形を使う） 'I ___ that film yesterday.'（see）",
+          "choices": [
+            { "label": "saw", "is_correct": true },
+            { "label": "have seen", "is_correct": false },
+            { "label": "have see", "is_correct": false },
+            { "label": "was seeing", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 7,
+      "theme_key": "phrase",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "イディオム「over the moon」の意味は？",
+          "choices": [
+            { "label": "大喜びで", "is_correct": true },
+            { "label": "がっかりして", "is_correct": false },
+            { "label": "疲れ果てて", "is_correct": false },
+            { "label": "困惑して", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イディオム「take the mickey (out of someone)」の意味は？",
+          "choices": [
+            { "label": "からかう", "is_correct": true },
+            { "label": "褒める", "is_correct": false },
+            { "label": "手伝う", "is_correct": false },
+            { "label": "無視する", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イディオム「throw a spanner in the works」の意味は？",
+          "choices": [
+            { "label": "計画を台無しにする", "is_correct": true },
+            { "label": "素晴らしいアイデアを出す", "is_correct": false },
+            { "label": "大きな成功を収める", "is_correct": false },
+            { "label": "時間を節約する", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イディオム「have a chinwag」の意味は？",
+          "choices": [
+            { "label": "おしゃべりする", "is_correct": true },
+            { "label": "喧嘩する", "is_correct": false },
+            { "label": "昼寝する", "is_correct": false },
+            { "label": "引っ越す", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イディオム「give someone a bell」の意味は？",
+          "choices": [
+            { "label": "電話をかける", "is_correct": true },
+            { "label": "訪問する", "is_correct": false },
+            { "label": "メールを送る", "is_correct": false },
+            { "label": "お金を貸す", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イディオム「once in a blue moon」の意味は？",
+          "choices": [
+            { "label": "めったにない・ごくまれに", "is_correct": true },
+            { "label": "しょっちゅう", "is_correct": false },
+            { "label": "毎晩", "is_correct": false },
+            { "label": "突然", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 8,
+      "theme_key": "phrase",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "丁寧な依頼表現「Would you mind waiting a moment?」の意味は？",
+          "choices": [
+            { "label": "少しお待ちいただけますか", "is_correct": true },
+            { "label": "早く来てください", "is_correct": false },
+            { "label": "待つ必要はありません", "is_correct": false },
+            { "label": "静かにしてください", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "電話応対の表現「Could I speak to Mr. Smith, please?」の意味は？",
+          "choices": [
+            { "label": "スミスさんとお話しできますか", "is_correct": true },
+            { "label": "メッセージを残してもいいですか", "is_correct": false },
+            { "label": "電話番号を教えてください", "is_correct": false },
+            { "label": "折り返しお電話します", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "電話で自分が本人であることを伝える返答「Speaking.」の意味は？",
+          "choices": [
+            { "label": "私です（本人です）", "is_correct": true },
+            { "label": "お待ちください", "is_correct": false },
+            { "label": "もう一度お願いします", "is_correct": false },
+            { "label": "間違い電話です", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "丁寧に依頼を断る表現「I'm afraid I won't be able to make it.」の意味は？",
+          "choices": [
+            { "label": "残念ながら伺うことができません", "is_correct": true },
+            { "label": "喜んで伺います", "is_correct": false },
+            { "label": "いつ伺えばいいですか", "is_correct": false },
+            { "label": "場所を教えてください", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "意見を述べるときのフォーマルな前置き「As far as I'm concerned, ...」の意味は？",
+          "choices": [
+            { "label": "私の考えでは", "is_correct": true },
+            { "label": "あなたの意見では", "is_correct": false },
+            { "label": "みんなが言うには", "is_correct": false },
+            { "label": "誰も知らないが", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "より丁寧な依頼表現「Could you possibly send me the file by tomorrow?」の意味に近いのは？",
+          "choices": [
+            { "label": "もし可能でしたら明日までにファイルを送っていただけますか", "is_correct": true },
+            { "label": "今すぐファイルを送ってください", "is_correct": false },
+            { "label": "ファイルは要りません", "is_correct": false },
+            { "label": "明日までに返送してください", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 9,
+      "theme_key": "grammar",
+      "is_boss": true,
+      "title_reward": "イギリス英語マスター",
+      "questions": [
+        {
+          "prompt": "空欄に入る最も適切な形は？（仮定法過去・第二条件文） 'If I ___ you, I would accept the offer.'",
+          "choices": [
+            { "label": "were", "is_correct": true },
+            { "label": "am", "is_correct": false },
+            { "label": "will be", "is_correct": false },
+            { "label": "had been", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な形は？（仮定法過去完了・第三条件文） 'If I ___ known about the meeting, I would have attended.'",
+          "choices": [
+            { "label": "had", "is_correct": true },
+            { "label": "have", "is_correct": false },
+            { "label": "would have", "is_correct": false },
+            { "label": "was", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な形は？（現在の状況への願望を表す仮定法） 'I wish I ___ more time to prepare.'",
+          "choices": [
+            { "label": "had", "is_correct": true },
+            { "label": "have", "is_correct": false },
+            { "label": "will have", "is_correct": false },
+            { "label": "has", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な形は？（第三条件文の帰結節） 'If she had studied harder, she ___ passed the exam.'",
+          "choices": [
+            { "label": "would have", "is_correct": true },
+            { "label": "will have", "is_correct": false },
+            { "label": "would", "is_correct": false },
+            { "label": "had", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "空欄に入る最も適切な形は？（実現の可能性がある未来を表す第一条件文） 'If it ___ tomorrow, the match will be cancelled.'（rain）",
+          "choices": [
+            { "label": "rains", "is_correct": true },
+            { "label": "rain", "is_correct": false },
+            { "label": "will rain", "is_correct": false },
+            { "label": "rained", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「I wish I hadn't said that.」の意味は？",
+          "choices": [
+            { "label": "あんなことを言わなければよかった", "is_correct": true },
+            { "label": "あんなことを言ってよかった", "is_correct": false },
+            { "label": "これから言うつもりだ", "is_correct": false },
+            { "label": "言うべきだと思う", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,566 @@
+{
+  "country_name": "アメリカ",
+  "country_code": "US",
+  "difficulty": "上級",
+  "category_root": "英語を学ぶ",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「meticulous」の意味は？",
+          "choices": [
+            { "label": "几帳面な、細部にこだわる", "is_correct": true },
+            { "label": "怠惰な", "is_correct": false },
+            { "label": "気前の良い", "is_correct": false },
+            { "label": "無関心な", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「procrastinate」の意味は？",
+          "choices": [
+            { "label": "先延ばしにする", "is_correct": true },
+            { "label": "急いで行う", "is_correct": false },
+            { "label": "予約する", "is_correct": false },
+            { "label": "励ます", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「臨機応変な、順応性がある」を表す英単語は？",
+          "choices": [
+            { "label": "adaptable", "is_correct": true },
+            { "label": "stubborn", "is_correct": false },
+            { "label": "arrogant", "is_correct": false },
+            { "label": "naive", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「reluctant」の意味は？",
+          "choices": [
+            { "label": "気が進まない、嫌々の", "is_correct": true },
+            { "label": "熱心な", "is_correct": false },
+            { "label": "自信がある", "is_correct": false },
+            { "label": "寛大な", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「曖昧な」を表す英単語は？",
+          "choices": [
+            { "label": "ambiguous", "is_correct": true },
+            { "label": "obvious", "is_correct": false },
+            { "label": "accurate", "is_correct": false },
+            { "label": "reliable", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「diligent」の意味は？",
+          "choices": [
+            { "label": "勤勉な", "is_correct": true },
+            { "label": "無礼な", "is_correct": false },
+            { "label": "内気な", "is_correct": false },
+            { "label": "退屈な", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「look forward to」の意味は？",
+          "choices": [
+            { "label": "楽しみにする", "is_correct": true },
+            { "label": "振り返る", "is_correct": false },
+            { "label": "探し出す", "is_correct": false },
+            { "label": "見下す", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「give up on」の意味は？",
+          "choices": [
+            { "label": "～を諦める", "is_correct": true },
+            { "label": "～を応援する", "is_correct": false },
+            { "label": "～を思い出す", "is_correct": false },
+            { "label": "～を我慢する", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「（人に）偶然出会う」を表す句動詞は？",
+          "choices": [
+            { "label": "run into", "is_correct": true },
+            { "label": "look up", "is_correct": false },
+            { "label": "break down", "is_correct": false },
+            { "label": "turn down", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「put off」の意味は？",
+          "choices": [
+            { "label": "延期する", "is_correct": true },
+            { "label": "取り消す", "is_correct": false },
+            { "label": "実行する", "is_correct": false },
+            { "label": "提案する", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「figure out」の意味は？",
+          "choices": [
+            { "label": "理解する、解決する", "is_correct": true },
+            { "label": "無視する", "is_correct": false },
+            { "label": "壊す", "is_correct": false },
+            { "label": "誤解する", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「（子供）を育てる、（話題）を持ち出す」を表す句動詞は？",
+          "choices": [
+            { "label": "bring up", "is_correct": true },
+            { "label": "look up", "is_correct": false },
+            { "label": "break down", "is_correct": false },
+            { "label": "come across", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「The man ___ is standing over there is my uncle.」空欄に入る最も適切な関係代名詞は？",
+          "choices": [
+            { "label": "who", "is_correct": true },
+            { "label": "which", "is_correct": false },
+            { "label": "whose", "is_correct": false },
+            { "label": "where", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「This is the house ___ I was born.」空欄に入る最も適切な語は？",
+          "choices": [
+            { "label": "where", "is_correct": true },
+            { "label": "which", "is_correct": false },
+            { "label": "who", "is_correct": false },
+            { "label": "whose", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「She is the girl ___ father is a famous singer.」空欄に入る最も適切な関係代名詞は？",
+          "choices": [
+            { "label": "whose", "is_correct": true },
+            { "label": "who", "is_correct": false },
+            { "label": "which", "is_correct": false },
+            { "label": "where", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「The movie ___ we watched last night was boring.」空欄に入る最も適切な関係代名詞は？",
+          "choices": [
+            { "label": "which", "is_correct": true },
+            { "label": "who", "is_correct": false },
+            { "label": "whose", "is_correct": false },
+            { "label": "where", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "関係代名詞「whose」が表す役割として正しいものは？",
+          "choices": [
+            { "label": "所有格（～の）を表す", "is_correct": true },
+            { "label": "場所を表す", "is_correct": false },
+            { "label": "時間を表す", "is_correct": false },
+            { "label": "理由を表す", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「The reason ___ she was late is still unknown.」空欄に入る最も適切な語は？",
+          "choices": [
+            { "label": "why", "is_correct": true },
+            { "label": "where", "is_correct": false },
+            { "label": "who", "is_correct": false },
+            { "label": "which", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「under the weather」の意味は？",
+          "choices": [
+            { "label": "体調が悪い", "is_correct": true },
+            { "label": "とても元気だ", "is_correct": false },
+            { "label": "天気が良い", "is_correct": false },
+            { "label": "機嫌が良い", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「break the ice」の意味は？",
+          "choices": [
+            { "label": "場の緊張をほぐす", "is_correct": true },
+            { "label": "約束を破る", "is_correct": false },
+            { "label": "喧嘩を始める", "is_correct": false },
+            { "label": "計画を中止する", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「一石二鳥」に近い意味を持つ英語のイディオムは？",
+          "choices": [
+            { "label": "kill two birds with one stone", "is_correct": true },
+            { "label": "the early bird catches the worm", "is_correct": false },
+            { "label": "birds of a feather flock together", "is_correct": false },
+            { "label": "a bird in the hand is worth two in the bush", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「hit the books」の意味は？",
+          "choices": [
+            { "label": "猛勉強する", "is_correct": true },
+            { "label": "本を捨てる", "is_correct": false },
+            { "label": "図書館に行く", "is_correct": false },
+            { "label": "本を書く", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「on the tip of my tongue」の意味は？",
+          "choices": [
+            { "label": "（言葉が）喉まで出かかっている", "is_correct": true },
+            { "label": "口が達者だ", "is_correct": false },
+            { "label": "無口である", "is_correct": false },
+            { "label": "嘘をつく", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「once in a blue moon」の意味は？",
+          "choices": [
+            { "label": "めったに～ない", "is_correct": true },
+            { "label": "毎晩", "is_correct": false },
+            { "label": "月に一度必ず", "is_correct": false },
+            { "label": "突然に", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「This book was written by a famous author.」の意味は？",
+          "choices": [
+            { "label": "この本は有名な作家によって書かれた", "is_correct": true },
+            { "label": "この本は有名な作家に書かせた", "is_correct": false },
+            { "label": "この本は有名な作家が書いている最中だ", "is_correct": false },
+            { "label": "この本は有名な作家に贈られた", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「The window ___ last night.」（break）を受動態で正しく埋めると？",
+          "choices": [
+            { "label": "was broken", "is_correct": true },
+            { "label": "broke", "is_correct": false },
+            { "label": "has broken", "is_correct": false },
+            { "label": "breaks", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「They built this house in 1990.」を受動態にすると？",
+          "choices": [
+            { "label": "This house was built in 1990.", "is_correct": true },
+            { "label": "This house is built in 1990.", "is_correct": false },
+            { "label": "This house built in 1990.", "is_correct": false },
+            { "label": "This house has built in 1990.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「The report ___ by tomorrow.」受動態の未来形として正しいのは？",
+          "choices": [
+            { "label": "will be finished", "is_correct": true },
+            { "label": "will finish", "is_correct": false },
+            { "label": "is finished", "is_correct": false },
+            { "label": "was finished", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "受動態で動作主（誰によって行われたか）を示すときに使う前置詞は？",
+          "choices": [
+            { "label": "by", "is_correct": true },
+            { "label": "for", "is_correct": false },
+            { "label": "with", "is_correct": false },
+            { "label": "to", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「My car is being repaired now.」の意味は？",
+          "choices": [
+            { "label": "私の車は今修理されているところです", "is_correct": true },
+            { "label": "私の車はすでに修理されました", "is_correct": false },
+            { "label": "私は今車を修理しています", "is_correct": false },
+            { "label": "私の車は修理される予定です", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 6,
+      "theme_key": "phrase",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "電話で自分の名前を名乗るときの決まり文句として正しいのは？",
+          "choices": [
+            { "label": "This is Tom speaking.", "is_correct": true },
+            { "label": "I am Tom speaking.", "is_correct": false },
+            { "label": "Here is Tom.", "is_correct": false },
+            { "label": "Tom is this.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "電話で「少々お待ちください」を表す丁寧な表現は？",
+          "choices": [
+            { "label": "Could you hold on a moment, please?", "is_correct": true },
+            { "label": "Wait there.", "is_correct": false },
+            { "label": "Stop talking, please.", "is_correct": false },
+            { "label": "Don't hang up now.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「（電話を切ってから）かけ直します」を表す表現は？",
+          "choices": [
+            { "label": "I'll call you back.", "is_correct": true },
+            { "label": "I'll hang up on you.", "is_correct": false },
+            { "label": "I'll pick up the phone.", "is_correct": false },
+            { "label": "I'll answer the door.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「もう一度おっしゃっていただけますか？」の丁寧な表現は？",
+          "choices": [
+            { "label": "Could you say that again, please?", "is_correct": true },
+            { "label": "Say it once more, now.", "is_correct": false },
+            { "label": "What did you say?", "is_correct": false },
+            { "label": "Repeat.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「番号をお間違えのようです」を表す表現は？",
+          "choices": [
+            { "label": "You have the wrong number.", "is_correct": true },
+            { "label": "You are wrong about me.", "is_correct": false },
+            { "label": "This number is broken.", "is_correct": false },
+            { "label": "I don't know your number.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "電話で「彼は今席を外しております」に近い意味の表現は？",
+          "choices": [
+            { "label": "He's not available right now.", "is_correct": true },
+            { "label": "He's never coming back.", "is_correct": false },
+            { "label": "He doesn't work here.", "is_correct": false },
+            { "label": "He's on his way to your house.", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 7,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「I have lived in Tokyo for ten years.」の意味は？",
+          "choices": [
+            { "label": "私は東京に10年間住んでいます", "is_correct": true },
+            { "label": "私は10年前に東京に住んでいました", "is_correct": false },
+            { "label": "私は10年後に東京に住む予定です", "is_correct": false },
+            { "label": "私は東京に10回行ったことがあります", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "現在完了形の継続用法とともによく使われる語は？",
+          "choices": [
+            { "label": "since", "is_correct": true },
+            { "label": "ago", "is_correct": false },
+            { "label": "yesterday", "is_correct": false },
+            { "label": "last week", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Have you ever been to Paris?」の意味は？",
+          "choices": [
+            { "label": "今までにパリに行ったことがありますか？", "is_correct": true },
+            { "label": "パリに住んでいますか？", "is_correct": false },
+            { "label": "パリに行く予定はありますか？", "is_correct": false },
+            { "label": "パリは好きですか？", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「I have just finished my homework.」のjustが表す意味は？",
+          "choices": [
+            { "label": "ちょうど（たった今）", "is_correct": true },
+            { "label": "もうすぐ", "is_correct": false },
+            { "label": "まだ", "is_correct": false },
+            { "label": "すでにずっと前に", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "現在完了形の基本的な形として正しいのは？",
+          "choices": [
+            { "label": "have / has + 過去分詞", "is_correct": true },
+            { "label": "be動詞 + 過去分詞", "is_correct": false },
+            { "label": "will + 動詞の原形", "is_correct": false },
+            { "label": "do / does + 動詞の原形", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「She has already left.」の意味は？",
+          "choices": [
+            { "label": "彼女はすでに出発しました", "is_correct": true },
+            { "label": "彼女はまだ出発していません", "is_correct": false },
+            { "label": "彼女はこれから出発します", "is_correct": false },
+            { "label": "彼女は出発したことがありません", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 8,
+      "theme_key": "phrase",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「私の意見では」を表すフォーマルな表現は？",
+          "choices": [
+            { "label": "In my opinion, ...", "is_correct": true },
+            { "label": "By the way, ...", "is_correct": false },
+            { "label": "As a result, ...", "is_correct": false },
+            { "label": "For example, ...", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "丁寧に依頼するときに使う表現として正しいのは？",
+          "choices": [
+            { "label": "Would you mind if I opened the window?", "is_correct": true },
+            { "label": "Open the window now.", "is_correct": false },
+            { "label": "You must open the window.", "is_correct": false },
+            { "label": "I open the window.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "丁寧に誘いを断るときに使う表現として正しいのは？",
+          "choices": [
+            { "label": "I'm afraid I can't make it.", "is_correct": true },
+            { "label": "No way, I hate that.", "is_correct": false },
+            { "label": "I don't want to.", "is_correct": false },
+            { "label": "Never ask me again.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「まったくその通りだと思います（強く賛成）」に近いフォーマルな表現は？",
+          "choices": [
+            { "label": "I couldn't agree more.", "is_correct": true },
+            { "label": "I couldn't care less.", "is_correct": false },
+            { "label": "I don't think so.", "is_correct": false },
+            { "label": "That's not true at all.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「一理ありますね」に近い意味を持つ表現は？",
+          "choices": [
+            { "label": "You have a point.", "is_correct": true },
+            { "label": "You have no idea.", "is_correct": false },
+            { "label": "You are wrong.", "is_correct": false },
+            { "label": "You have a problem.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "会議などで柔らかく反対意見を述べるときに使う表現は？",
+          "choices": [
+            { "label": "I see your point, but I have a different opinion.", "is_correct": true },
+            { "label": "That's a stupid idea.", "is_correct": false },
+            { "label": "You are completely wrong.", "is_correct": false },
+            { "label": "I don't care what you think.", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 9,
+      "theme_key": "grammar",
+      "is_boss": true,
+      "title_reward": "英語マスター",
+      "questions": [
+        {
+          "prompt": "「If I were you, I would apologize.」の意味は？",
+          "choices": [
+            { "label": "もし私があなたなら、謝るでしょう", "is_correct": true },
+            { "label": "私はあなたに謝ってほしいです", "is_correct": false },
+            { "label": "私はあなたに謝りました", "is_correct": false },
+            { "label": "あなたは私に謝るべきです", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "仮定法過去の文で、主語が何であってもbe動詞として使われることが多いのは？",
+          "choices": [
+            { "label": "were", "is_correct": true },
+            { "label": "was", "is_correct": false },
+            { "label": "is", "is_correct": false },
+            { "label": "be", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「If I had known, I would have called you.」の意味は？",
+          "choices": [
+            { "label": "もし知っていたら、電話していたでしょう", "is_correct": true },
+            { "label": "知っていたので、電話しました", "is_correct": false },
+            { "label": "知らなかったので、電話しませんでした", "is_correct": false },
+            { "label": "知っていたら、電話するつもりです", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「I wish I could speak French.」の意味は？",
+          "choices": [
+            { "label": "フランス語を話せたらいいのに", "is_correct": true },
+            { "label": "フランス語を話すことができます", "is_correct": false },
+            { "label": "フランス語を勉強するつもりです", "is_correct": false },
+            { "label": "フランス語を話したくありません", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「It's high time we left.」の意味は？",
+          "choices": [
+            { "label": "もうそろそろ出発すべき時間だ", "is_correct": true },
+            { "label": "まだ出発するには早すぎる", "is_correct": false },
+            { "label": "私たちは高い場所を出発した", "is_correct": false },
+            { "label": "出発時間は決まっていない", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「as if」の意味として正しいのは？",
+          "choices": [
+            { "label": "まるで～であるかのように", "is_correct": true },
+            { "label": "～である限り", "is_correct": false },
+            { "label": "～にもかかわらず", "is_correct": false },
+            { "label": "～である場合に限り", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

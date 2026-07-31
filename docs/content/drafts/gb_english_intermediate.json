@@ -1,0 +1,566 @@
+{
+  "country_name": "イギリス",
+  "country_code": "GB",
+  "difficulty": "中級",
+  "category_root": "英語を学ぶ",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「happy」の意味は？",
+          "choices": [
+            { "label": "幸せな・うれしい", "is_correct": true },
+            { "label": "悲しい", "is_correct": false },
+            { "label": "怒っている", "is_correct": false },
+            { "label": "疲れた", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「sad」の意味は？",
+          "choices": [
+            { "label": "悲しい", "is_correct": true },
+            { "label": "うれしい", "is_correct": false },
+            { "label": "緊張した", "is_correct": false },
+            { "label": "退屈な", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「怒っている」を表す英単語は？",
+          "choices": [
+            { "label": "angry", "is_correct": true },
+            { "label": "nervous", "is_correct": false },
+            { "label": "tired", "is_correct": false },
+            { "label": "bored", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「tired」の意味は？",
+          "choices": [
+            { "label": "疲れた", "is_correct": true },
+            { "label": "元気な", "is_correct": false },
+            { "label": "怒っている", "is_correct": false },
+            { "label": "眠い（眠気）", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「退屈な」を表す英単語は？",
+          "choices": [
+            { "label": "bored", "is_correct": true },
+            { "label": "excited", "is_correct": false },
+            { "label": "nervous", "is_correct": false },
+            { "label": "angry", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「excited」の意味は？",
+          "choices": [
+            { "label": "わくわくしている", "is_correct": true },
+            { "label": "落ち込んでいる", "is_correct": false },
+            { "label": "疲れている", "is_correct": false },
+            { "label": "緊張している", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「already」の意味は？",
+          "choices": [
+            { "label": "すでに・もう", "is_correct": true },
+            { "label": "まだ", "is_correct": false },
+            { "label": "まもなく", "is_correct": false },
+            { "label": "〜前に", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Have you finished yet?」の「yet」の意味に近いものは？",
+          "choices": [
+            { "label": "もう（疑問文で使われる）", "is_correct": true },
+            { "label": "すでに", "is_correct": false },
+            { "label": "いつも", "is_correct": false },
+            { "label": "二度と", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「soon」の意味は？",
+          "choices": [
+            { "label": "まもなく・すぐに", "is_correct": true },
+            { "label": "ゆっくりと", "is_correct": false },
+            { "label": "たった今", "is_correct": false },
+            { "label": "いつか", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「あとで」を表す英単語は？",
+          "choices": [
+            { "label": "later", "is_correct": true },
+            { "label": "soon", "is_correct": false },
+            { "label": "already", "is_correct": false },
+            { "label": "ago", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「two years ago」の「ago」の意味は？",
+          "choices": [
+            { "label": "（今から）〜前に", "is_correct": true },
+            { "label": "〜後に", "is_correct": false },
+            { "label": "〜の間", "is_correct": false },
+            { "label": "〜まで", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「still」の意味は？",
+          "choices": [
+            { "label": "まだ（今も続いている）", "is_correct": true },
+            { "label": "すでに終わった", "is_correct": false },
+            { "label": "決して〜ない", "is_correct": false },
+            { "label": "まもなく", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「always」の意味は？",
+          "choices": [
+            { "label": "いつも", "is_correct": true },
+            { "label": "決して〜ない", "is_correct": false },
+            { "label": "ときどき", "is_correct": false },
+            { "label": "めったに〜ない", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「usually」の意味は？",
+          "choices": [
+            { "label": "たいてい", "is_correct": true },
+            { "label": "いつも", "is_correct": false },
+            { "label": "一度も〜ない", "is_correct": false },
+            { "label": "まれに", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「ときどき」を表す英単語は？",
+          "choices": [
+            { "label": "sometimes", "is_correct": true },
+            { "label": "always", "is_correct": false },
+            { "label": "never", "is_correct": false },
+            { "label": "usually", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「rarely」の意味は？",
+          "choices": [
+            { "label": "めったに〜ない", "is_correct": true },
+            { "label": "よく・しばしば", "is_correct": false },
+            { "label": "いつも", "is_correct": false },
+            { "label": "たった今", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「never」の意味は？",
+          "choices": [
+            { "label": "決して〜ない", "is_correct": true },
+            { "label": "いつも", "is_correct": false },
+            { "label": "たいてい", "is_correct": false },
+            { "label": "ときどき", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「よく・しばしば」を表す英単語は？",
+          "choices": [
+            { "label": "often", "is_correct": true },
+            { "label": "rarely", "is_correct": false },
+            { "label": "never", "is_correct": false },
+            { "label": "ago", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「favourite」の意味は？（イギリス英語の綴り。アメリカ英語では favorite と綴る）",
+          "choices": [
+            { "label": "お気に入りの", "is_correct": true },
+            { "label": "有名な", "is_correct": false },
+            { "label": "高価な", "is_correct": false },
+            { "label": "珍しい", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「centre」の意味は？（イギリス英語の綴り。アメリカ英語では center と綴る）",
+          "choices": [
+            { "label": "中心・センター", "is_correct": true },
+            { "label": "端・へり", "is_correct": false },
+            { "label": "入口", "is_correct": false },
+            { "label": "屋上", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「ガソリン」を表す単語は？（アメリカ英語では gasoline や gas と言う）",
+          "choices": [
+            { "label": "petrol", "is_correct": true },
+            { "label": "fuel oil", "is_correct": false },
+            { "label": "diesel only", "is_correct": false },
+            { "label": "gasoline", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「薬局」を表す単語は？（アメリカ英語では drugstore や pharmacy と言うことが多い）",
+          "choices": [
+            { "label": "chemist", "is_correct": true },
+            { "label": "hospital", "is_correct": false },
+            { "label": "clinic", "is_correct": false },
+            { "label": "grocery", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で（順番を待つ）「列」を表す単語は？（アメリカ英語では line と言うことが多い）",
+          "choices": [
+            { "label": "queue", "is_correct": true },
+            { "label": "row", "is_correct": false },
+            { "label": "rank", "is_correct": false },
+            { "label": "chain", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「trainers」の意味は？（イギリス英語。アメリカ英語では sneakers と言うことが多い）",
+          "choices": [
+            { "label": "運動靴・スニーカー", "is_correct": true },
+            { "label": "コーチ・指導者", "is_correct": false },
+            { "label": "電車", "is_correct": false },
+            { "label": "トレーニングウェア上下", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「I ___ a student.」の空欄に入る適切なbe動詞は？",
+          "choices": [
+            { "label": "am", "is_correct": true },
+            { "label": "is", "is_correct": false },
+            { "label": "are", "is_correct": false },
+            { "label": "be", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「She ___ from London.」の空欄に入る適切なbe動詞は？",
+          "choices": [
+            { "label": "is", "is_correct": true },
+            { "label": "am", "is_correct": false },
+            { "label": "are", "is_correct": false },
+            { "label": "be", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「They ___ very busy today.」の空欄に入る適切なbe動詞は？",
+          "choices": [
+            { "label": "are", "is_correct": true },
+            { "label": "is", "is_correct": false },
+            { "label": "am", "is_correct": false },
+            { "label": "be", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「___ you ready?」（あなたは準備できていますか？）の空欄に入る適切な語は？",
+          "choices": [
+            { "label": "Are", "is_correct": true },
+            { "label": "Is", "is_correct": false },
+            { "label": "Am", "is_correct": false },
+            { "label": "Do", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「He ___ not at home yesterday.」（彼は昨日家にいなかった）の空欄に入る適切な語は？",
+          "choices": [
+            { "label": "was", "is_correct": true },
+            { "label": "is", "is_correct": false },
+            { "label": "were", "is_correct": false },
+            { "label": "am", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「We ___ at the cinema last night.」（私たちは昨夜映画館にいた）の空欄に入る適切な語は？",
+          "choices": [
+            { "label": "were", "is_correct": true },
+            { "label": "was", "is_correct": false },
+            { "label": "are", "is_correct": false },
+            { "label": "is", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 6,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「___ you like tea?」（紅茶は好きですか？）の空欄に入る適切な語は？",
+          "choices": [
+            { "label": "Do", "is_correct": true },
+            { "label": "Does", "is_correct": false },
+            { "label": "Are", "is_correct": false },
+            { "label": "Is", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「She ___ like coffee.」（彼女はコーヒーが好きではない）の空欄に入る適切な語は？",
+          "choices": [
+            { "label": "doesn't", "is_correct": true },
+            { "label": "don't", "is_correct": false },
+            { "label": "isn't", "is_correct": false },
+            { "label": "aren't", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「He ___ to work every day.」（彼は毎日仕事に行く）の空欄に入る適切な語は？",
+          "choices": [
+            { "label": "goes", "is_correct": true },
+            { "label": "go", "is_correct": false },
+            { "label": "going", "is_correct": false },
+            { "label": "went", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「I am ___ a book now.」（私は今、本を読んでいる）の空欄に入る適切な語は？",
+          "choices": [
+            { "label": "reading", "is_correct": true },
+            { "label": "read", "is_correct": false },
+            { "label": "reads", "is_correct": false },
+            { "label": "readed", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "現在進行形（〜している最中）の文として正しいものはどれ？",
+          "choices": [
+            { "label": "She is cooking dinner now.", "is_correct": true },
+            { "label": "She cook dinner now.", "is_correct": false },
+            { "label": "She cooks dinner is.", "is_correct": false },
+            { "label": "She was cooking dinner now.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Look! It ___ raining.」（見て！雨が降っている！）の空欄に入る適切な語は？",
+          "choices": [
+            { "label": "is", "is_correct": true },
+            { "label": "does", "is_correct": false },
+            { "label": "has", "is_correct": false },
+            { "label": "was", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 7,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "多くの規則動詞は、過去形にするとき語尾に何をつける？",
+          "choices": [
+            { "label": "-ed", "is_correct": true },
+            { "label": "-ing", "is_correct": false },
+            { "label": "-es", "is_correct": false },
+            { "label": "-er", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「go」の過去形は？",
+          "choices": [
+            { "label": "went", "is_correct": true },
+            { "label": "goed", "is_correct": false },
+            { "label": "gone", "is_correct": false },
+            { "label": "going", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「eat」の過去形は？",
+          "choices": [
+            { "label": "ate", "is_correct": true },
+            { "label": "eated", "is_correct": false },
+            { "label": "eaten", "is_correct": false },
+            { "label": "eats", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「see」の過去形は？",
+          "choices": [
+            { "label": "saw", "is_correct": true },
+            { "label": "seed", "is_correct": false },
+            { "label": "seen", "is_correct": false },
+            { "label": "sees", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「buy」の過去形は？",
+          "choices": [
+            { "label": "bought", "is_correct": true },
+            { "label": "buyed", "is_correct": false },
+            { "label": "buys", "is_correct": false },
+            { "label": "buying", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「I ___ London last summer.」（私はこの前の夏、ロンドンを訪れた）の空欄に入る「visit」の正しい過去形は？",
+          "choices": [
+            { "label": "visited", "is_correct": true },
+            { "label": "visiting", "is_correct": false },
+            { "label": "visits", "is_correct": false },
+            { "label": "visitted", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 8,
+      "theme_key": "phrase",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "お店での「Excuse me, do you have this in a smaller size?」の意味は？",
+          "choices": [
+            { "label": "すみません、これのもっと小さいサイズはありますか？", "is_correct": true },
+            { "label": "すみません、これは返品できますか？", "is_correct": false },
+            { "label": "すみません、試着できますか？", "is_correct": false },
+            { "label": "すみません、割引はありますか？", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「How much is this, please?」の意味は？",
+          "choices": [
+            { "label": "これはいくらですか？", "is_correct": true },
+            { "label": "これはどこにありますか？", "is_correct": false },
+            { "label": "これは誰のものですか？", "is_correct": false },
+            { "label": "これはいつ買えますか？", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "レジでの「Can I pay by card?」の意味は？",
+          "choices": [
+            { "label": "カードで払えますか？", "is_correct": true },
+            { "label": "現金しか使えませんか？", "is_correct": false },
+            { "label": "分割払いはできますか？", "is_correct": false },
+            { "label": "レシートをもらえますか？", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスのお店で「レジ（会計をする場所）」を指す単語は？",
+          "choices": [
+            { "label": "till", "is_correct": true },
+            { "label": "queue", "is_correct": false },
+            { "label": "chemist", "is_correct": false },
+            { "label": "trainers", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "買い物の場面での「I'll take it.」の意味は？",
+          "choices": [
+            { "label": "それを買います（それにします）", "is_correct": true },
+            { "label": "それを持って帰っていいですか？", "is_correct": false },
+            { "label": "それを見せてください", "is_correct": false },
+            { "label": "それは要りません", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Where's the nearest chemist?」の意味は？",
+          "choices": [
+            { "label": "一番近い薬局はどこですか？", "is_correct": true },
+            { "label": "一番近い駅はどこですか？", "is_correct": false },
+            { "label": "一番近いスーパーはどこですか？", "is_correct": false },
+            { "label": "一番近いレストランはどこですか？", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 9,
+      "theme_key": "phrase",
+      "is_boss": true,
+      "title_reward": "イギリス英語中級への扉",
+      "questions": [
+        {
+          "prompt": "「Excuse me, could you tell me the way to the station?」の意味は？",
+          "choices": [
+            { "label": "すみません、駅までの道を教えていただけますか？", "is_correct": true },
+            { "label": "すみません、駅は開いていますか？", "is_correct": false },
+            { "label": "すみません、駅で待っていてもらえますか？", "is_correct": false },
+            { "label": "すみません、駅まで一緒に来てくれますか？", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Turn left at the traffic lights.」の意味は？",
+          "choices": [
+            { "label": "信号を左に曲がってください", "is_correct": true },
+            { "label": "信号を右に曲がってください", "is_correct": false },
+            { "label": "信号でまっすぐ進んでください", "is_correct": false },
+            { "label": "信号で止まってください", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "レストランで席を案内してもらう際の「A table for two, please.」の意味は？",
+          "choices": [
+            { "label": "2名でお願いします", "is_correct": true },
+            { "label": "静かな席をお願いします", "is_correct": false },
+            { "label": "予約をお願いします", "is_correct": false },
+            { "label": "テイクアウトでお願いします", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "レストランで会計をお願いするときの「Could I have the bill, please?」の意味は？（イギリス英語。アメリカ英語では check ということが多い）",
+          "choices": [
+            { "label": "お会計をお願いできますか？", "is_correct": true },
+            { "label": "メニューをもう一度見せてください", "is_correct": false },
+            { "label": "水をもう一杯もらえますか？", "is_correct": false },
+            { "label": "おすすめを教えてください", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "レストランでの「Is service included?」の意味は？",
+          "choices": [
+            { "label": "サービス料は含まれていますか？", "is_correct": true },
+            { "label": "料理はすぐに出てきますか？", "is_correct": false },
+            { "label": "予約は必要ですか？", "is_correct": false },
+            { "label": "子供用の椅子はありますか？", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "道を尋ねられたときの「It's just around the corner.」の意味は？",
+          "choices": [
+            { "label": "すぐそこの角を曲がったところです", "is_correct": true },
+            { "label": "かなり遠くにあります", "is_correct": false },
+            { "label": "今は閉まっています", "is_correct": false },
+            { "label": "バスに乗る必要があります", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}
