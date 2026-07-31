@@ -15,10 +15,7 @@ use App\Models\Quiz;
 
 function createCountryWithQuestions(string $code, int $count = 5): Country
 {
-    // countriesテーブルにはthree_code/name_en/country_codeがNOT NULL制約付きで存在するが
-    // Country::$fillableには含まれていないため、forceCreateで直接投入する
-    // (tests/Feature/ImportContentCommandTest.phpと同じ回避策)。
-    $country = Country::query()->forceCreate([
+    $country = Country::query()->create([
         'code' => $code,
         'three_code' => strtoupper($code).'X',
         'name' => $code.'国',

@@ -429,6 +429,15 @@ class CountrySeeder extends Seeder
                 ['name' => $country['name'], 'stages' => $country['stages'], 'order' => $index]
             );
 
+            // three_code/name_en/country_codeは後から追加された列(docs/AppRoadmap.md参照)。
+            // 既存行にもバックフィルするため、name/stages/orderとは別にここで更新する
+            // (Owner側で編集されうるname/stages/orderは上書きしない)。
+            $record->update([
+                'three_code' => $country['three_code'],
+                'name_en' => $country['name_en'],
+                'country_code' => $country['country_code'],
+            ]);
+
             if ($language) {
                 $record->languages()->syncWithoutDetaching([
                     $language->id => ['is_primary' => true],

@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Country extends Model
 {
-    protected $fillable = ['code', 'name', 'stages', 'order', 'mood_emoji', 'intro_message'];
+    protected $fillable = [
+        'code', 'name', 'stages', 'order', 'mood_emoji', 'intro_message',
+        'three_code', 'name_en', 'country_code',
+    ];
 
     public function languages(): BelongsToMany
     {

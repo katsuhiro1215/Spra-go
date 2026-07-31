@@ -17,9 +17,7 @@ use App\Models\Stage;
 
 function seedThemesAndCountry(): void
 {
-    // countriesテーブルにはthree_code/name_en/country_codeがNOT NULL制約付きで存在するが
-    // Country::$fillableには含まれていないため、forceCreateで直接投入する。
-    Country::query()->forceCreate([
+    Country::query()->create([
         'code' => 'ZZ',
         'three_code' => 'ZZZ',
         'name' => 'テスト国',
