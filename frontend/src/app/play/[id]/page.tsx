@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Button as AppButton } from "@/components/app/button";
+import { Furigana } from "@/components/app/furigana";
 import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
 
@@ -12,6 +13,12 @@ type Category = {
   id: number;
   parent_id: number | null;
   name: string;
+};
+
+const DIFFICULTY_READINGS: Record<string, string> = {
+  初級: "しょきゅう",
+  中級: "ちゅうきゅう",
+  上級: "じょうきゅう",
 };
 
 type Difficulty = "初級" | "中級" | "上級";
@@ -181,7 +188,10 @@ export default function Page({
                   >
                     <span className="flex items-center gap-2">
                       {progressionLocked && "🔒"}
-                      {difficulty}
+                      <Furigana
+                        text={difficulty}
+                        reading={DIFFICULTY_READINGS[difficulty] ?? ""}
+                      />
                       {allCleared && (
                         <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-950">
                           🏆 クリア
