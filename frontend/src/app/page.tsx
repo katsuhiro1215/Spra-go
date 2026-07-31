@@ -40,6 +40,7 @@ type Country = {
   id: number;
   code: string;
   name: string;
+  is_suggested?: boolean;
 };
 
 type Status = "checking" | "guest" | "ready";
@@ -240,8 +241,13 @@ export default function Page() {
                     <AppButton
                       variant="default"
                       size="lg"
-                      className="flex w-full items-center justify-center gap-2 shadow-lg"
+                      className="relative flex w-full items-center justify-center gap-2 shadow-lg"
                     >
+                      {country.is_suggested && (
+                        <span className="absolute -top-2 -right-2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-bold text-amber-950 shadow">
+                          あなたの国?
+                        </span>
+                      )}
                       <span className="relative h-4 w-6 shrink-0 overflow-hidden rounded-sm border border-white/40">
                         <Image
                           src={`/flag/${country.code}.svg`}
@@ -274,8 +280,13 @@ export default function Page() {
                     >
                       <AppButton
                         variant="default"
-                        className="flex aspect-square h-24 w-24 flex-col items-center justify-center gap-1 rounded-full p-2 text-center text-xs leading-tight text-balance shadow-lg lg:h-28 lg:w-28 lg:text-sm"
+                        className="relative flex aspect-square h-24 w-24 flex-col items-center justify-center gap-1 rounded-full p-2 text-center text-xs leading-tight text-balance shadow-lg lg:h-28 lg:w-28 lg:text-sm"
                       >
+                        {country.is_suggested && (
+                          <span className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap text-amber-950 shadow">
+                            あなたの国?
+                          </span>
+                        )}
                         <span className="relative h-6 w-9 shrink-0 overflow-hidden rounded-sm border border-white/40">
                           <Image
                             src={`/flag/${country.code}.svg`}
