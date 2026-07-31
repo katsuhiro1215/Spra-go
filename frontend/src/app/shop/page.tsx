@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
+import { BackLink } from "@/components/app/back-link";
 import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
 import { PointsBadge } from "@/components/app/points-badge";
@@ -174,12 +174,7 @@ export default function Page() {
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-12">
         <div className="flex items-center justify-between">
           <div>
-            <Link
-              href="/"
-              className="text-sm text-white/80 drop-shadow hover:underline"
-            >
-              ← ホームに戻る
-            </Link>
+            <BackLink />
             <h1 className="mt-2 text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
               🛒 ショップ
             </h1>

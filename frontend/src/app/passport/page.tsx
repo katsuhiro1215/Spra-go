@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
+import { BackLink } from "@/components/app/back-link";
 import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
 
@@ -105,6 +106,10 @@ export default function Page() {
       <AppHeader />
 
       <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-6 py-10">
+        <div>
+          <BackLink />
+        </div>
+
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
             📔 マイパスポート

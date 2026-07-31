@@ -1,10 +1,10 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
+import { BackLink } from "@/components/app/back-link";
 import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
 import { SceneBackground } from "@/components/app/scene-background";
@@ -140,12 +140,7 @@ export default function Page({
 
       <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col gap-8 px-6 py-12">
         <div>
-          <Link
-            href="/"
-            className="text-sm text-white/80 drop-shadow hover:underline"
-          >
-            ← ホームに戻る
-          </Link>
+          <BackLink />
           <h1 className="mt-2 text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
             {category?.name ?? "見つかりません"}
           </h1>
