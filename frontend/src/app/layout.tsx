@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { AccessibilityControls } from "@/components/app/accessibility-controls";
 import { AccessibilityProvider } from "@/components/app/accessibility-provider";
+import { ProfileProvider } from "@/components/app/profile-provider";
 import { SoundControls } from "@/components/app/sound-controls";
 import { SoundProvider } from "@/components/app/sound-provider";
 
@@ -35,9 +36,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <AccessibilityProvider>
           <SoundProvider>
-            {children}
-            <AccessibilityControls />
-            <SoundControls />
+            <ProfileProvider>
+              {children}
+              <AccessibilityControls />
+              <SoundControls />
+            </ProfileProvider>
           </SoundProvider>
         </AccessibilityProvider>
       </body>

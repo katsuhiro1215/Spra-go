@@ -10,9 +10,15 @@ use Illuminate\Support\Carbon;
 class UserProfile extends Model
 {
     protected $fillable = [
-        'name', 'hp', 'max_hp', 'xp', 'coins', 'level', 'combo', 'best_combo',
+        'name', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'level', 'combo', 'best_combo',
         'current_streak', 'best_streak', 'last_played_date',
     ];
+
+    /**
+     * HP自然回復の間隔(秒)。1HPあたり4.5分、フル回復(20HP)まで1.5時間となる想定
+     * (2026-07-31 Owner確認。Duolingo・Candy Crush等の他アプリ調査を踏まえた値)。
+     */
+    private const HP_REGEN_INTERVAL_SECONDS = 270;
 
     /**
      * ストリーク(継続プレイ)の日境界に使うタイムゾーン。サービスの主な利用者層に合わせて
@@ -29,7 +35,59 @@ class UserProfile extends Model
     {
         return [
             'last_played_date' => 'date',
+            'hp_updated_at' => 'datetime',
         ];
+    }
+
+    /**
+     * 時間経過によるHP自然回復を計算し、必要なら反映する(遅延評価。定期バッチは無し)。
+     * HPを参照・消費するAPI(プロフィール取得・回答API)の入り口で必ず呼ぶこと。
+     */
+    public function regenerateHp(): void
+    {
+        if ($this->hp >= $this->max_hp) {
+            if ($this->hp_updated_at !== null) {
+                $this->hp_updated_at = null;
+                $this->save();
+            }
+
+            return;
+        }
+
+        $lastUpdated = $this->hp_updated_at ?? Carbon::now();
+        $elapsedSeconds = $lastUpdated->diffInSeconds(Carbon::now());
+        $ticks = intdiv($elapsedSeconds, self::HP_REGEN_INTERVAL_SECONDS);
+
+        if ($ticks <= 0) {
+            if ($this->hp_updated_at === null) {
+                $this->hp_updated_at = Carbon::now();
+                $this->save();
+            }
+
+            return;
+        }
+
+        $healed = min($ticks, $this->max_hp - $this->hp);
+        $this->hp += $healed;
+        $this->hp_updated_at = $this->hp >= $this->max_hp
+            ? null
+            : $lastUpdated->copy()->addSeconds($healed * self::HP_REGEN_INTERVAL_SECONDS);
+
+        $this->save();
+    }
+
+    /**
+     * 次の1HP回復までの残り秒数。フルHPならnull。
+     */
+    public function secondsUntilNextHp(): ?int
+    {
+        if ($this->hp >= $this->max_hp || $this->hp_updated_at === null) {
+            return null;
+        }
+
+        $elapsed = $this->hp_updated_at->diffInSeconds(Carbon::now());
+
+        return max(0, self::HP_REGEN_INTERVAL_SECONDS - $elapsed);
     }
 
     /**
@@ -123,6 +181,11 @@ class UserProfile extends Model
                 continue;
             }
 
+            if ($type === 'hp' && $delta < 0 && $this->hp >= $this->max_hp) {
+                // フルHPから減り始めた瞬間に自然回復タイマーを起動する
+                $this->hp_updated_at = Carbon::now();
+            }
+
             match ($type) {
                 'hp' => $this->hp = max(0, min($this->max_hp, $this->hp + $delta)),
                 'coin' => $this->coins = max(0, $this->coins + $delta),
@@ -145,6 +208,7 @@ class UserProfile extends Model
                 $this->level = $newLevel;
                 $healAmount = $this->max_hp - $this->hp;
                 $this->hp = $this->max_hp;
+                $this->hp_updated_at = null;
                 $leveledUp = true;
 
                 if ($healAmount > 0) {
@@ -155,6 +219,10 @@ class UserProfile extends Model
                     ]);
                 }
             }
+        }
+
+        if ($this->hp >= $this->max_hp) {
+            $this->hp_updated_at = null;
         }
 
         $this->save();

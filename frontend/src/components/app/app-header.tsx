@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { HpGauge } from "@/components/app/hp-gauge";
 import { PointsBadge } from "@/components/app/points-badge";
+import { useProfile } from "@/components/app/profile-provider";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -16,39 +16,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { apiFetch } from "@/lib/api";
 
-type HeaderProfile = {
-  name: string;
-  hp: number;
-  max_hp: number;
-  coins: number;
-  current_streak: number;
-};
-
 /**
  * ゲーム内の全画面共通ヘッダー。以前はホーム画面のみに存在し、クイズ等の
  * 画面遷移で消えてしまっていたため、各ページで個別に読み込む共通コンポーネント
  * にした(RootLayoutに置かないのは、ログイン前/マーケティングページでは
- * 表示したくないため)。プロフィール情報は自前で取得する。
+ * 表示したくないため)。プロフィール情報は`ProfileProvider`(RootLayoutに設置、
+ * 全画面で共有)から取得する。以前は自前fetchだったため、クイズで回答して
+ * HPが変わってもヘッダーに反映されない不具合があった(2026-07-31修正)。
  */
 export function AppHeader() {
   const router = useRouter();
-  const [profile, setProfile] = useState<HeaderProfile | null>(null);
-
-  useEffect(() => {
-    let active = true;
-
-    apiFetch("/api/profiles/active")
-      .then(async (res) => {
-        if (!active || !res.ok) return;
-        const data = await res.json();
-        if (active) setProfile(data);
-      })
-      .catch(() => {});
-
-    return () => {
-      active = false;
-    };
-  }, []);
+  const { profile } = useProfile();
 
   async function handleLogout() {
     await apiFetch("/logout", { method: "POST" });
