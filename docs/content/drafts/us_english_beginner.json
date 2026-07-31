@@ -1,0 +1,530 @@
+{
+  "country_name": "アメリカ",
+  "country_code": "US",
+  "difficulty": "初級",
+  "category_root": "英語を学ぶ",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「Hello」の意味は？",
+          "choices": [
+            { "label": "こんにちは", "is_correct": true },
+            { "label": "さようなら", "is_correct": false },
+            { "label": "ありがとう", "is_correct": false },
+            { "label": "ごめんなさい", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Thank you」の意味は？",
+          "choices": [
+            { "label": "ありがとう", "is_correct": true },
+            { "label": "どういたしまして", "is_correct": false },
+            { "label": "こんにちは", "is_correct": false },
+            { "label": "はじめまして", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「one」の意味は？",
+          "choices": [
+            { "label": "1", "is_correct": true },
+            { "label": "2", "is_correct": false },
+            { "label": "3", "is_correct": false },
+            { "label": "5", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「five」の意味は？",
+          "choices": [
+            { "label": "5", "is_correct": true },
+            { "label": "4", "is_correct": false },
+            { "label": "6", "is_correct": false },
+            { "label": "9", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「7」を表す英単語は？",
+          "choices": [
+            { "label": "seven", "is_correct": true },
+            { "label": "six", "is_correct": false },
+            { "label": "eight", "is_correct": false },
+            { "label": "nine", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「nine」の意味は？",
+          "choices": [
+            { "label": "9", "is_correct": true },
+            { "label": "7", "is_correct": false },
+            { "label": "8", "is_correct": false },
+            { "label": "10", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「3」を表す英単語は？",
+          "choices": [
+            { "label": "three", "is_correct": true },
+            { "label": "two", "is_correct": false },
+            { "label": "four", "is_correct": false },
+            { "label": "thirteen", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「ten」の意味は？",
+          "choices": [
+            { "label": "10", "is_correct": true },
+            { "label": "1", "is_correct": false },
+            { "label": "100", "is_correct": false },
+            { "label": "11", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「red」の意味は？",
+          "choices": [
+            { "label": "赤", "is_correct": true },
+            { "label": "青", "is_correct": false },
+            { "label": "黄色", "is_correct": false },
+            { "label": "緑", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「blue」の意味は？",
+          "choices": [
+            { "label": "青", "is_correct": true },
+            { "label": "赤", "is_correct": false },
+            { "label": "紫", "is_correct": false },
+            { "label": "黒", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「黄色」を表す英単語は？",
+          "choices": [
+            { "label": "yellow", "is_correct": true },
+            { "label": "orange", "is_correct": false },
+            { "label": "green", "is_correct": false },
+            { "label": "brown", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「green」の意味は？",
+          "choices": [
+            { "label": "緑", "is_correct": true },
+            { "label": "黄色", "is_correct": false },
+            { "label": "青", "is_correct": false },
+            { "label": "白", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「黒」を表す英単語は？",
+          "choices": [
+            { "label": "black", "is_correct": true },
+            { "label": "white", "is_correct": false },
+            { "label": "brown", "is_correct": false },
+            { "label": "gray", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「white」の意味は？",
+          "choices": [
+            { "label": "白", "is_correct": true },
+            { "label": "黒", "is_correct": false },
+            { "label": "ピンク", "is_correct": false },
+            { "label": "紫", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「Monday」の意味は？",
+          "choices": [
+            { "label": "月曜日", "is_correct": true },
+            { "label": "火曜日", "is_correct": false },
+            { "label": "日曜日", "is_correct": false },
+            { "label": "土曜日", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「日曜日」を表す英単語は？",
+          "choices": [
+            { "label": "Sunday", "is_correct": true },
+            { "label": "Monday", "is_correct": false },
+            { "label": "Saturday", "is_correct": false },
+            { "label": "Friday", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Friday」の意味は？",
+          "choices": [
+            { "label": "金曜日", "is_correct": true },
+            { "label": "木曜日", "is_correct": false },
+            { "label": "土曜日", "is_correct": false },
+            { "label": "水曜日", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「水曜日」を表す英単語は？",
+          "choices": [
+            { "label": "Wednesday", "is_correct": true },
+            { "label": "Tuesday", "is_correct": false },
+            { "label": "Thursday", "is_correct": false },
+            { "label": "Monday", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Saturday」の意味は？",
+          "choices": [
+            { "label": "土曜日", "is_correct": true },
+            { "label": "日曜日", "is_correct": false },
+            { "label": "金曜日", "is_correct": false },
+            { "label": "月曜日", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「火曜日」を表す英単語は？",
+          "choices": [
+            { "label": "Tuesday", "is_correct": true },
+            { "label": "Thursday", "is_correct": false },
+            { "label": "Wednesday", "is_correct": false },
+            { "label": "Sunday", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「mother」の意味は？",
+          "choices": [
+            { "label": "母", "is_correct": true },
+            { "label": "父", "is_correct": false },
+            { "label": "姉・妹", "is_correct": false },
+            { "label": "祖母", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「father」の意味は？",
+          "choices": [
+            { "label": "父", "is_correct": true },
+            { "label": "母", "is_correct": false },
+            { "label": "兄・弟", "is_correct": false },
+            { "label": "祖父", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「兄・弟」を表す英単語は？",
+          "choices": [
+            { "label": "brother", "is_correct": true },
+            { "label": "sister", "is_correct": false },
+            { "label": "father", "is_correct": false },
+            { "label": "son", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「姉・妹」を表す英単語は？",
+          "choices": [
+            { "label": "sister", "is_correct": true },
+            { "label": "brother", "is_correct": false },
+            { "label": "mother", "is_correct": false },
+            { "label": "daughter", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「family」の意味は？",
+          "choices": [
+            { "label": "家族", "is_correct": true },
+            { "label": "友達", "is_correct": false },
+            { "label": "先生", "is_correct": false },
+            { "label": "仕事", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「祖母」を表す英単語は？",
+          "choices": [
+            { "label": "grandmother", "is_correct": true },
+            { "label": "grandfather", "is_correct": false },
+            { "label": "mother", "is_correct": false },
+            { "label": "aunt", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 6,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「dog」の意味は？",
+          "choices": [
+            { "label": "犬", "is_correct": true },
+            { "label": "猫", "is_correct": false },
+            { "label": "鳥", "is_correct": false },
+            { "label": "魚", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「cat」の意味は？",
+          "choices": [
+            { "label": "猫", "is_correct": true },
+            { "label": "犬", "is_correct": false },
+            { "label": "うさぎ", "is_correct": false },
+            { "label": "熊", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「鳥」を表す英単語は？",
+          "choices": [
+            { "label": "bird", "is_correct": true },
+            { "label": "fish", "is_correct": false },
+            { "label": "bear", "is_correct": false },
+            { "label": "lion", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「fish」の意味は？",
+          "choices": [
+            { "label": "魚", "is_correct": true },
+            { "label": "鳥", "is_correct": false },
+            { "label": "象", "is_correct": false },
+            { "label": "うさぎ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「うさぎ」を表す英単語は？",
+          "choices": [
+            { "label": "rabbit", "is_correct": true },
+            { "label": "lion", "is_correct": false },
+            { "label": "bear", "is_correct": false },
+            { "label": "cat", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「elephant」の意味は？",
+          "choices": [
+            { "label": "象", "is_correct": true },
+            { "label": "ライオン", "is_correct": false },
+            { "label": "熊", "is_correct": false },
+            { "label": "犬", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 7,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「apple」の意味は？",
+          "choices": [
+            { "label": "りんご", "is_correct": true },
+            { "label": "バナナ", "is_correct": false },
+            { "label": "ぶどう", "is_correct": false },
+            { "label": "みかん", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「パン」を表す英単語は？",
+          "choices": [
+            { "label": "bread", "is_correct": true },
+            { "label": "rice", "is_correct": false },
+            { "label": "egg", "is_correct": false },
+            { "label": "milk", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「rice」の意味は？",
+          "choices": [
+            { "label": "米・ご飯", "is_correct": true },
+            { "label": "パン", "is_correct": false },
+            { "label": "肉", "is_correct": false },
+            { "label": "野菜", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「water」の意味は？",
+          "choices": [
+            { "label": "水", "is_correct": true },
+            { "label": "牛乳", "is_correct": false },
+            { "label": "ジュース", "is_correct": false },
+            { "label": "お茶", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「卵」を表す英単語は？",
+          "choices": [
+            { "label": "egg", "is_correct": true },
+            { "label": "chicken", "is_correct": false },
+            { "label": "milk", "is_correct": false },
+            { "label": "cheese", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「milk」の意味は？",
+          "choices": [
+            { "label": "牛乳", "is_correct": true },
+            { "label": "水", "is_correct": false },
+            { "label": "卵", "is_correct": false },
+            { "label": "ヨーグルト", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 8,
+      "theme_key": "phrase",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "朝に人と会ったときの挨拶として正しい表現は？",
+          "choices": [
+            { "label": "Good morning", "is_correct": true },
+            { "label": "Good night", "is_correct": false },
+            { "label": "Good evening", "is_correct": false },
+            { "label": "Good afternoon", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「How are you?」の意味は？",
+          "choices": [
+            { "label": "調子はどうですか？", "is_correct": true },
+            { "label": "お名前は何ですか？", "is_correct": false },
+            { "label": "どこから来ましたか？", "is_correct": false },
+            { "label": "今何時ですか？", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "初めて会った人に言う言葉として正しい表現は？",
+          "choices": [
+            { "label": "Nice to meet you", "is_correct": true },
+            { "label": "See you", "is_correct": false },
+            { "label": "Good night", "is_correct": false },
+            { "label": "I'm sorry", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Excuse me」の意味は？",
+          "choices": [
+            { "label": "すみません（呼びかけ・失礼します）", "is_correct": true },
+            { "label": "ありがとう", "is_correct": false },
+            { "label": "こんばんは", "is_correct": false },
+            { "label": "おめでとう", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "別れるときに言う言葉として正しい表現は？",
+          "choices": [
+            { "label": "See you", "is_correct": true },
+            { "label": "Good morning", "is_correct": false },
+            { "label": "Thank you", "is_correct": false },
+            { "label": "Excuse me", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「I'm sorry」の意味は？",
+          "choices": [
+            { "label": "ごめんなさい", "is_correct": true },
+            { "label": "ありがとう", "is_correct": false },
+            { "label": "はじめまして", "is_correct": false },
+            { "label": "またね", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 9,
+      "theme_key": "phrase",
+      "is_boss": true,
+      "title_reward": "英語はじめの一歩",
+      "questions": [
+        {
+          "prompt": "「My name is Ken.」の意味は？",
+          "choices": [
+            { "label": "私の名前はケンです", "is_correct": true },
+            { "label": "私はケンが好きです", "is_correct": false },
+            { "label": "私はケンに会いたいです", "is_correct": false },
+            { "label": "私はケンから来ました", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "相手の名前を尋ねたいときに使う表現は？",
+          "choices": [
+            { "label": "What's your name?", "is_correct": true },
+            { "label": "How old are you?", "is_correct": false },
+            { "label": "Where are you from?", "is_correct": false },
+            { "label": "How are you?", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「I am from Japan.」の意味は？",
+          "choices": [
+            { "label": "私は日本出身です", "is_correct": true },
+            { "label": "私は日本が好きです", "is_correct": false },
+            { "label": "私は日本に住みたいです", "is_correct": false },
+            { "label": "私は日本語を話します", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "相手の出身地を尋ねたいときに使う表現は？",
+          "choices": [
+            { "label": "Where are you from?", "is_correct": true },
+            { "label": "What's your name?", "is_correct": false },
+            { "label": "How are you?", "is_correct": false },
+            { "label": "See you", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「I like dogs.」の意味は？",
+          "choices": [
+            { "label": "私は犬が好きです", "is_correct": true },
+            { "label": "私は犬を飼っています", "is_correct": false },
+            { "label": "私は犬が苦手です", "is_correct": false },
+            { "label": "これは私の犬です", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "自己紹介の最後に「よろしくお願いします」に近い意味で使う表現は？",
+          "choices": [
+            { "label": "Nice to meet you", "is_correct": true },
+            { "label": "See you", "is_correct": false },
+            { "label": "Excuse me", "is_correct": false },
+            { "label": "Good night", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

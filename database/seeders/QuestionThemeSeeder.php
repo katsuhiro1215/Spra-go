@@ -18,6 +18,9 @@ class QuestionThemeSeeder extends Seeder
             ['key' => 'geography', 'label' => '地理', 'description' => 'その国がどの大陸・地域にあるかを問う形式。'],
             ['key' => 'capital', 'label' => '首都', 'description' => 'その国の首都を問う形式。'],
             ['key' => 'language', 'label' => '言語・あいさつ', 'description' => 'あいさつなど、言語そのものに踏み込む形式。'],
+            ['key' => 'vocabulary', 'label' => '単語', 'description' => '言語学習モード: 単語の意味・スペルを問う形式。'],
+            ['key' => 'phrase', 'label' => 'フレーズ・表現', 'description' => '言語学習モード: 日常会話でよく使うフレーズ・言い回しを問う形式。'],
+            ['key' => 'grammar', 'label' => '文法', 'description' => '言語学習モード: 基本的な文法・文の組み立てを問う形式。'],
         ];
 
         foreach ($questionThemes as $theme) {

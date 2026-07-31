@@ -647,6 +647,10 @@ Route::middleware(['auth:sanctum'])->get('/countries', function (Request $reques
         ...$country->toArray(),
         'is_suggested' => $suggestedCode !== null
             && strtolower($country->code) === $suggestedCode,
+        'has_language_mode' => $country->stages()
+            ->whereHas('category', fn ($q) => $q->where('is_language_mode', true))
+            ->whereHas('questions')
+            ->exists(),
     ])->sortByDesc('is_suggested')->values();
 })->name('countries.index');
 

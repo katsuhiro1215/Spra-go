@@ -98,3 +98,26 @@ it('該当する国が無ければis_suggestedはすべてfalse', function () {
     expect(collect($response->json())->pluck('is_suggested')->unique()->all())
         ->toBe([false]);
 });
+
+it('言語学習モードのステージがある国だけhas_language_modeがtrue', function () {
+    createActiveProfile();
+    $us = createCountryWithStageContent('us', 'アメリカ');
+    createCountryWithStageContent('jp', '日本');
+
+    $languageCategory = Category::create(['name' => '英語を学ぶ', 'is_language_mode' => true]);
+    $stage = Stage::create([
+        'category_id' => $languageCategory->id,
+        'country_id' => $us->id,
+        'difficulty' => '初級',
+        'stage_number' => 1,
+    ]);
+    [$question] = createQuestionWithChoices();
+    $stage->questions()->attach($question->id, ['order' => 1]);
+
+    $response = $this->getJson('/api/countries');
+
+    $response->assertOk();
+    $byCode = collect($response->json())->keyBy('code');
+    expect($byCode['us']['has_language_mode'])->toBeTrue();
+    expect($byCode['jp']['has_language_mode'])->toBeFalse();
+});
