@@ -46,7 +46,7 @@ export default function Page({
 }) {
   const { stageId } = use(params);
   const router = useRouter();
-  const { play: playSound } = useSound();
+  const { play: playSound, playBgm, stopBgm } = useSound();
 
   const [stage, setStage] = useState<StagePlayData | null | undefined>(
     undefined,
@@ -81,8 +81,17 @@ export default function Page({
   }, [stageId, router]);
 
   useEffect(() => {
+    playBgm("bgm1");
+    return () => stopBgm();
+  }, [playBgm, stopBgm]);
+
+  useEffect(() => {
     if (!stage || completionSubmitted) return;
     if (currentIndex < stage.questions.length) return;
+
+    if (score === stage.questions.length) {
+      playSound("allCorrect");
+    }
 
     (async () => {
       setCompletionSubmitted(true);
@@ -100,7 +109,7 @@ export default function Page({
         })
         .catch(() => {});
     })();
-  }, [stage, currentIndex, completionSubmitted, stageId, score]);
+  }, [stage, currentIndex, completionSubmitted, stageId, score, playSound]);
 
   if (stage === undefined) {
     return (
