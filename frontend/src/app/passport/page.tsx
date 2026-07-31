@@ -1,65 +1,31 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
 import { SceneBackground } from "@/components/app/scene-background";
+import { apiFetch } from "@/lib/api";
 
-// UIモックアップ段階(2026-07-31)。実データ配線(達成状況・称号・思い出の日付)は
-// UIの方向性が固まってから /api/passport 等を新設して行う。
 type StampTier = "none" | "bronze" | "silver" | "gold";
 
 type PassportCountry = {
   code: string;
   name: string;
-  moodEmoji: string;
-  stampTier: StampTier;
-  unlockedDifficulties: string[];
-  firstClearedAt: string | null;
+  mood_emoji: string | null;
+  stamp_tier: StampTier;
+  unlocked_difficulties: string[];
+  first_cleared_at: string | null;
+};
+
+type PassportData = {
+  countries: PassportCountry[];
+  titles: string[];
+  visited_count: number;
 };
 
 const ALL_DIFFICULTIES = ["初級", "中級", "上級"];
-
-const MOCK_COUNTRIES: PassportCountry[] = [
-  {
-    code: "jp",
-    name: "日本",
-    moodEmoji: "🎌",
-    stampTier: "gold",
-    unlockedDifficulties: ["初級", "中級", "上級"],
-    firstClearedAt: "2026-07-20",
-  },
-  {
-    code: "us",
-    name: "アメリカ",
-    moodEmoji: "🗽",
-    stampTier: "silver",
-    unlockedDifficulties: ["初級", "中級"],
-    firstClearedAt: "2026-07-25",
-  },
-  {
-    code: "fr",
-    name: "フランス",
-    moodEmoji: "🥐",
-    stampTier: "bronze",
-    unlockedDifficulties: ["初級"],
-    firstClearedAt: "2026-07-28",
-  },
-  {
-    code: "gb",
-    name: "イギリス",
-    moodEmoji: "☂️",
-    stampTier: "none",
-    unlockedDifficulties: [],
-    firstClearedAt: null,
-  },
-];
-
-const MOCK_TITLES = [
-  "国旗マスター見習い",
-  "英語はじめの一歩",
-  "イギリス英語マスター見習い",
-];
 
 const STAMP_STYLES: Record<
   StampTier,
@@ -88,7 +54,50 @@ const STAMP_STYLES: Record<
 };
 
 export default function Page() {
-  const visitedCountries = MOCK_COUNTRIES.filter((c) => c.stampTier !== "none");
+  const router = useRouter();
+  const [data, setData] = useState<PassportData | null | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    let active = true;
+
+    apiFetch("/api/passport")
+      .then(async (res) => {
+        if (!active) return;
+        if (res.status === 401) {
+          router.replace("/login");
+          return;
+        }
+        setData(res.ok ? await res.json() : null);
+      })
+      .catch(() => {
+        if (active) setData(null);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [router]);
+
+  if (data === undefined) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+        読み込み中...
+      </div>
+    );
+  }
+
+  if (data === null) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+        読み込みに失敗しました。
+      </div>
+    );
+  }
+
+  const { countries, titles, visited_count: visitedCount } = data;
+  const visitedCountries = countries.filter((c) => c.stamp_tier !== "none");
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden">
@@ -109,13 +118,10 @@ export default function Page() {
         <div className="mx-auto flex flex-wrap justify-center gap-3">
           <SummaryBadge
             label="訪れた国"
-            value={`${visitedCountries.length} / ${MOCK_COUNTRIES.length}`}
+            value={`${visitedCount} / ${countries.length}`}
           />
-          <SummaryBadge label="称号" value={`${MOCK_TITLES.length}個`} />
-          <SummaryBadge
-            label="航空券"
-            value={`${visitedCountries.length}枚`}
-          />
+          <SummaryBadge label="称号" value={`${titles.length}個`} />
+          <SummaryBadge label="航空券" value={`${visitedCount}枚`} />
         </div>
 
         {/* パスポート帳本体(紙のような見た目で他画面と質感を変える) */}
@@ -125,58 +131,67 @@ export default function Page() {
             <h2 className="mb-3 text-sm font-bold tracking-wide text-amber-900/80">
               国スタンプ
             </h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {MOCK_COUNTRIES.map((country) => {
-                const stamp = STAMP_STYLES[country.stampTier];
-                return (
-                  <div
-                    key={country.code}
-                    className="flex flex-col items-center gap-2 rounded-2xl border border-amber-900/15 bg-white/60 p-3 text-center"
-                  >
+            {countries.length === 0 ? (
+              <p className="text-sm text-amber-900/60">
+                まだ国が登録されていません。
+              </p>
+            ) : (
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                {countries.map((country) => {
+                  const stamp = STAMP_STYLES[country.stamp_tier];
+                  return (
                     <div
-                      className={`relative flex h-20 w-20 items-center justify-center rounded-full border-4 bg-white ${stamp.ring} ${
-                        country.stampTier === "none"
-                          ? "grayscale"
-                          : "rotate-[-6deg]"
-                      }`}
+                      key={country.code}
+                      className="flex flex-col items-center gap-2 rounded-2xl border border-amber-900/15 bg-white/60 p-3 text-center"
                     >
-                      <div className="relative h-10 w-14 overflow-hidden rounded-sm border border-amber-900/20">
-                        <Image
-                          src={`/flag/${country.code}.svg`}
-                          alt={country.name}
-                          fill
-                          className="object-cover"
-                        />
+                      <div
+                        className={`relative flex h-20 w-20 items-center justify-center rounded-full border-4 bg-white ${stamp.ring} ${
+                          country.stamp_tier === "none"
+                            ? "grayscale"
+                            : "-rotate-6"
+                        }`}
+                      >
+                        <div className="relative h-10 w-14 overflow-hidden rounded-sm border border-amber-900/20">
+                          <Image
+                            src={`/flag/${country.code}.svg`}
+                            alt={country.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <span className="absolute -right-2 -bottom-2 text-xl drop-shadow">
+                          {stamp.icon}
+                        </span>
                       </div>
-                      <span className="absolute -right-2 -bottom-2 text-xl drop-shadow">
-                        {stamp.icon}
-                      </span>
+                      <p className="text-sm font-semibold">
+                        {country.mood_emoji ? `${country.mood_emoji} ` : ""}
+                        {country.name}
+                      </p>
+                      <p className="text-[11px] text-amber-900/60">
+                        {stamp.label}
+                      </p>
+                      <div className="flex gap-1">
+                        {ALL_DIFFICULTIES.map((difficulty) => {
+                          const unlocked =
+                            country.unlocked_difficulties.includes(
+                              difficulty,
+                            );
+                          return (
+                            <span
+                              key={difficulty}
+                              title={`${difficulty}${unlocked ? "解放済み" : "未解放"}`}
+                              className="text-xs"
+                            >
+                              {unlocked ? "🔑" : "🔒"}
+                            </span>
+                          );
+                        })}
+                      </div>
                     </div>
-                    <p className="text-sm font-semibold">
-                      {country.moodEmoji} {country.name}
-                    </p>
-                    <p className="text-[11px] text-amber-900/60">
-                      {stamp.label}
-                    </p>
-                    <div className="flex gap-1">
-                      {ALL_DIFFICULTIES.map((difficulty) => {
-                        const unlocked =
-                          country.unlockedDifficulties.includes(difficulty);
-                        return (
-                          <span
-                            key={difficulty}
-                            title={`${difficulty}${unlocked ? "解放済み" : "未解放"}`}
-                            className="text-xs"
-                          >
-                            {unlocked ? "🔑" : "🔒"}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </section>
 
           {/* 称号 */}
@@ -184,13 +199,13 @@ export default function Page() {
             <h2 className="mb-3 text-sm font-bold tracking-wide text-amber-900/80">
               獲得した称号
             </h2>
-            {MOCK_TITLES.length === 0 ? (
+            {titles.length === 0 ? (
               <p className="text-sm text-amber-900/60">
                 まだ称号を獲得していません。ボスステージをクリアしてみよう。
               </p>
             ) : (
               <div className="flex flex-wrap gap-2">
-                {MOCK_TITLES.map((title) => (
+                {titles.map((title) => (
                   <span
                     key={title}
                     className="rounded-full border border-amber-400 bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800 shadow-sm"
@@ -246,10 +261,10 @@ export default function Page() {
             ) : (
               <ul className="flex flex-col gap-2 text-sm">
                 {visitedCountries
-                  .filter((c) => c.firstClearedAt)
+                  .filter((c) => c.first_cleared_at)
                   .sort((a, b) =>
-                    (b.firstClearedAt ?? "").localeCompare(
-                      a.firstClearedAt ?? "",
+                    (b.first_cleared_at ?? "").localeCompare(
+                      a.first_cleared_at ?? "",
                     ),
                   )
                   .map((country) => (
@@ -258,10 +273,12 @@ export default function Page() {
                       className="flex items-center gap-2 border-b border-amber-900/10 pb-2"
                     >
                       <span className="text-xs text-amber-900/60">
-                        {country.firstClearedAt}
+                        {country.first_cleared_at}
                       </span>
                       <span>
-                        🎉 {country.moodEmoji} {country.name}
+                        🎉{" "}
+                        {country.mood_emoji ? `${country.mood_emoji} ` : ""}
+                        {country.name}
                         を初めて制覇した！
                       </span>
                     </li>

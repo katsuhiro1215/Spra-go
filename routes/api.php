@@ -742,6 +742,84 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
     ];
 })->name('countries.show');
 
+Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request) {
+    $profileId = $request->session()->get('active_profile_id');
+
+    $clearedProgress = $profileId
+        ? ProfileStageProgress::query()
+            ->where('user_profile_id', $profileId)
+            ->whereNotNull('cleared_at')
+            ->get(['stage_id', 'cleared_at'])
+            ->keyBy('stage_id')
+        : collect();
+
+    $difficultyOrder = config('quiz.difficulties');
+
+    $countries = Country::query()
+        ->whereHas('stages.questions')
+        ->orderBy('order')
+        ->get()
+        ->map(function (Country $country) use ($clearedProgress, $difficultyOrder) {
+            $stages = Stage::query()->where('country_id', $country->id)->get();
+            $stagesByDifficulty = $stages->groupBy('difficulty');
+
+            $unlockedDifficulties = [];
+            $stampTier = 'none';
+            $tierByDifficulty = ['初級' => 'bronze', '中級' => 'silver', '上級' => 'gold'];
+
+            foreach ($difficultyOrder as $index => $difficulty) {
+                $diffStages = $stagesByDifficulty->get($difficulty, collect());
+                if ($diffStages->isEmpty()) {
+                    continue;
+                }
+
+                if ($index === 0) {
+                    $unlockedDifficulties[] = $difficulty;
+                } else {
+                    $prevBoss = ($stagesByDifficulty->get($difficultyOrder[$index - 1]) ?? collect())
+                        ->first(fn (Stage $s) => $s->is_boss);
+                    if ($prevBoss && $clearedProgress->has($prevBoss->id)) {
+                        $unlockedDifficulties[] = $difficulty;
+                    }
+                }
+
+                $allCleared = $diffStages->every(fn (Stage $s) => $clearedProgress->has($s->id));
+                if ($allCleared) {
+                    $stampTier = $tierByDifficulty[$difficulty];
+                }
+            }
+
+            $firstClearedAt = $stages
+                ->map(fn (Stage $s) => $clearedProgress->get($s->id)?->cleared_at)
+                ->filter()
+                ->sort()
+                ->first();
+
+            return [
+                'code' => $country->code,
+                'name' => $country->name,
+                'mood_emoji' => $country->mood_emoji,
+                'stamp_tier' => $stampTier,
+                'unlocked_difficulties' => $unlockedDifficulties,
+                'first_cleared_at' => $firstClearedAt?->toDateString(),
+            ];
+        })
+        ->values();
+
+    $titles = $profileId
+        ? ProfileTitle::query()
+            ->where('user_profile_id', $profileId)
+            ->orderBy('unlocked_at')
+            ->pluck('title')
+        : collect();
+
+    return [
+        'countries' => $countries,
+        'titles' => $titles,
+        'visited_count' => $countries->filter(fn ($c) => $c['stamp_tier'] !== 'none')->count(),
+    ];
+})->name('passport');
+
 Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request $request, Region $region) {
     $profileId = $request->session()->get('active_profile_id');
 
