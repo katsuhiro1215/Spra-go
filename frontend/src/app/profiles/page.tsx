@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button as AppButton } from "@/components/app/button";
+import { Furigana } from "@/components/app/furigana";
 import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
 
@@ -159,7 +160,7 @@ export default function Page() {
       <div className="relative z-10 flex w-full max-w-2xl flex-col items-center gap-8">
         <div className="flex flex-col items-center gap-1">
           <h1 className="text-2xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
-            だれが冒険する？
+            だれが<Furigana text="冒険" reading="ぼうけん" />する？
           </h1>
           {profiles && profiles.length > 0 && (
             <button

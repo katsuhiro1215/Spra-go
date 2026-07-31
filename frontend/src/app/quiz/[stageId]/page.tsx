@@ -242,8 +242,11 @@ export default function Page({
               size="lg"
               disabled={answered || submitting}
               onClick={() => handleSelect(choice.id)}
-              className="w-full normal-case"
+              className="w-full items-center justify-center gap-2 normal-case"
             >
+              {/* 色だけに頼らず、正解/選択した不正解にはアイコンも添える(色弱配慮) */}
+              {variant === "secondary" && <span aria-hidden>✓</span>}
+              {variant === "danger" && <span aria-hidden>✕</span>}
               {choice.label}
             </AppButton>
           );

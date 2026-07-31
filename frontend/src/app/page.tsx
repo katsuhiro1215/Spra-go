@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 import { Button as AppButton } from "@/components/app/button";
 import { CharacterPlaceholder } from "@/components/app/character-placeholder";
+import { Furigana } from "@/components/app/furigana";
 import { HpGauge } from "@/components/app/hp-gauge";
 import { PointsBadge } from "@/components/app/points-badge";
 import { SceneBackground } from "@/components/app/scene-background";
@@ -217,7 +218,7 @@ export default function Page() {
         <div className="flex flex-1 flex-col items-center gap-8">
           <div className="text-center">
             <h1 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
-              どこから冒険する？
+              どこから<Furigana text="冒険" reading="ぼうけん" />する？
             </h1>
             <p className="mt-1 text-sm text-white/85 drop-shadow">
               好きな国を選んでね

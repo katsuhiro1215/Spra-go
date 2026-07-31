@@ -127,6 +127,27 @@
   html {
     @apply font-sans;
   }
+
+  /*
+   * アクセシビリティ: 文字サイズ切替(components/app/accessibility-provider.tsx が
+   * <html data-font-scale> を切り替える)。remベースのTailwindユーティリティは
+   * ルートのfont-sizeに追従するため、UI全体が比例して拡大される。
+   */
+  html[data-font-scale="lg"] {
+    font-size: 18px;
+  }
+  html[data-font-scale="xl"] {
+    font-size: 20px;
+  }
+
+  /*
+   * アクセシビリティ: ふりがな表示切替。既定では<ruby><rt>を非表示にし、
+   * data-furigana="on" のときだけ見せる(ruby自体は常にDOMに存在するので
+   * スクリーンリーダーの読み上げには影響しない)。
+   */
+  html:not([data-furigana="on"]) ruby rt {
+    display: none;
+  }
 }
 
 @layer utilities {
