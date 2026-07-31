@@ -205,7 +205,10 @@ export default function Page() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="rounded-full outline-none ring-white/60 focus-visible:ring-2">
+              <button
+                aria-label="プロフィールメニュー"
+                className="rounded-full outline-none ring-white/60 focus-visible:ring-2"
+              >
                 <Avatar className="border-2 border-white/50">
                   <AvatarFallback className="bg-sky-500 font-semibold text-white">
                     {profile?.name.slice(0, 1)}

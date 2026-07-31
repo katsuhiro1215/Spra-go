@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button as AppButton } from "@/components/app/button";
+import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 import { Furigana } from "@/components/app/furigana";
 import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
@@ -13,13 +14,15 @@ type Profile = {
   name: string;
 };
 
-const avatarColors = [
-  "bg-sky-500",
-  "bg-emerald-500",
-  "bg-amber-500",
-  "bg-rose-500",
-  "bg-violet-500",
-  "bg-indigo-500",
+// キャラクターごとの色バリエーション(本格キャラクターデザインが入るまでの暫定、
+// docs/design/ui-ux-proposal.md参照)
+const avatarPalette = [
+  { from: "#38bdf8", to: "#0ea5e9" }, // 空色
+  { from: "#34d399", to: "#059669" }, // 緑
+  { from: "#fbbf24", to: "#d97706" }, // 黄
+  { from: "#fb7185", to: "#e11d48" }, // 桃
+  { from: "#a78bfa", to: "#7c3aed" }, // 紫
+  { from: "#818cf8", to: "#4f46e5" }, // 藍
 ];
 
 export default function Page() {
@@ -224,12 +227,12 @@ export default function Page() {
                     onClick={() => selectProfile(profile)}
                     className="flex flex-col items-center gap-2 focus-visible:outline-none"
                   >
-                    <div
-                      className={`relative flex h-20 w-20 items-center justify-center rounded-full border-4 border-white/40 text-2xl font-bold text-white shadow-lg ${
-                        avatarColors[index % avatarColors.length]
-                      } transition-transform hover:scale-110 hover:border-white/80`}
-                    >
-                      {profile.name.slice(0, 1)}
+                    <div className="relative h-20 w-20 transition-transform hover:scale-110">
+                      <CharacterPlaceholder
+                        className="h-full w-full"
+                        colorFrom={avatarPalette[index % avatarPalette.length].from}
+                        colorTo={avatarPalette[index % avatarPalette.length].to}
+                      />
                       {managing && (
                         <span className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white text-sm shadow">
                           ✎

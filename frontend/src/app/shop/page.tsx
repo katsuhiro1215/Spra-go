@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button as AppButton } from "@/components/app/button";
+import { Furigana } from "@/components/app/furigana";
 import { PointsBadge } from "@/components/app/points-badge";
 import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
@@ -193,7 +194,7 @@ export default function Page() {
         {coinPackages && coinPackages.length > 0 && (
           <div className="flex flex-col gap-3">
             <h2 className="text-sm font-semibold text-white/90 drop-shadow">
-              💰 コインを購入
+              💰 コインを<Furigana text="購入" reading="こうにゅう" />
             </h2>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               {coinPackages.map((pkg) => (
