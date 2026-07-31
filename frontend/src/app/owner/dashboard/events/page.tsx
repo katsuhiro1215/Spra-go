@@ -157,6 +157,10 @@ export default function Page() {
           <p className="text-sm text-muted-foreground">
             {events ? `全${events.length}件` : "読み込み中..."}
           </p>
+          <p className="mt-1 text-xs text-amber-600">
+            ⚠
+            期間の記録のみで、プレイヤー画面への表示やボーナス効果はまだ実装されていません（企画待ち、TASKS.md参照）。
+          </p>
         </div>
         <Button onClick={openCreate}>
           <Plus /> イベントを追加
