@@ -1,0 +1,566 @@
+{
+  "country_name": "アメリカ",
+  "country_code": "US",
+  "difficulty": "中級",
+  "category_root": "英語を学ぶ",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「happy」の意味は？",
+          "choices": [
+            { "label": "幸せな・嬉しい", "is_correct": true },
+            { "label": "悲しい", "is_correct": false },
+            { "label": "怒っている", "is_correct": false },
+            { "label": "疲れた", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「sad」の意味は？",
+          "choices": [
+            { "label": "悲しい", "is_correct": true },
+            { "label": "嬉しい", "is_correct": false },
+            { "label": "驚いた", "is_correct": false },
+            { "label": "退屈な", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「angry」の意味は？",
+          "choices": [
+            { "label": "怒っている", "is_correct": true },
+            { "label": "悲しい", "is_correct": false },
+            { "label": "眠い", "is_correct": false },
+            { "label": "緊張している", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「tired」の意味は？",
+          "choices": [
+            { "label": "疲れた", "is_correct": true },
+            { "label": "元気な", "is_correct": false },
+            { "label": "眠い", "is_correct": false },
+            { "label": "忙しい", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「excited」の意味は？",
+          "choices": [
+            { "label": "わくわくしている", "is_correct": true },
+            { "label": "がっかりしている", "is_correct": false },
+            { "label": "怖がっている", "is_correct": false },
+            { "label": "退屈している", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「緊張している」を表す英単語は？",
+          "choices": [
+            { "label": "nervous", "is_correct": true },
+            { "label": "excited", "is_correct": false },
+            { "label": "angry", "is_correct": false },
+            { "label": "bored", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「yesterday」の意味は？",
+          "choices": [
+            { "label": "昨日", "is_correct": true },
+            { "label": "明日", "is_correct": false },
+            { "label": "今日", "is_correct": false },
+            { "label": "先週", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「tomorrow」の意味は？",
+          "choices": [
+            { "label": "明日", "is_correct": true },
+            { "label": "昨日", "is_correct": false },
+            { "label": "来週", "is_correct": false },
+            { "label": "今夜", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「always」の意味は？",
+          "choices": [
+            { "label": "いつも", "is_correct": true },
+            { "label": "時々", "is_correct": false },
+            { "label": "決して～ない", "is_correct": false },
+            { "label": "たまに", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「usually」の意味は？",
+          "choices": [
+            { "label": "たいてい・通常は", "is_correct": true },
+            { "label": "いつも", "is_correct": false },
+            { "label": "一度も～ない", "is_correct": false },
+            { "label": "まもなく", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「sometimes」の意味は？",
+          "choices": [
+            { "label": "時々", "is_correct": true },
+            { "label": "いつも", "is_correct": false },
+            { "label": "決して～ない", "is_correct": false },
+            { "label": "すでに", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「決して～ない」を表す頻度副詞は？",
+          "choices": [
+            { "label": "never", "is_correct": true },
+            { "label": "always", "is_correct": false },
+            { "label": "often", "is_correct": false },
+            { "label": "usually", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「bigger」の意味は？",
+          "choices": [
+            { "label": "もっと大きい", "is_correct": true },
+            { "label": "もっと小さい", "is_correct": false },
+            { "label": "同じ大きさの", "is_correct": false },
+            { "label": "一番大きい", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「faster」の意味は？",
+          "choices": [
+            { "label": "もっと速い", "is_correct": true },
+            { "label": "もっと遅い", "is_correct": false },
+            { "label": "一番速い", "is_correct": false },
+            { "label": "速くない", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「cheaper」の意味は？",
+          "choices": [
+            { "label": "もっと安い", "is_correct": true },
+            { "label": "もっと高い", "is_correct": false },
+            { "label": "一番安い", "is_correct": false },
+            { "label": "無料の", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「more expensive」の意味は？",
+          "choices": [
+            { "label": "もっと（値段が）高い", "is_correct": true },
+            { "label": "もっと安い", "is_correct": false },
+            { "label": "一番高い", "is_correct": false },
+            { "label": "高くない", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「taller」の意味は？",
+          "choices": [
+            { "label": "もっと背が高い", "is_correct": true },
+            { "label": "もっと背が低い", "is_correct": false },
+            { "label": "一番背が高い", "is_correct": false },
+            { "label": "同じ背の高さの", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「もっと良い」を表す英単語は？",
+          "choices": [
+            { "label": "better", "is_correct": true },
+            { "label": "best", "is_correct": false },
+            { "label": "gooder", "is_correct": false },
+            { "label": "worse", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「I ___ a student.」の空欄に入る正しいbe動詞は？",
+          "choices": [
+            { "label": "am", "is_correct": true },
+            { "label": "is", "is_correct": false },
+            { "label": "are", "is_correct": false },
+            { "label": "be", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「She ___ happy today.」の空欄に入る正しいbe動詞は？",
+          "choices": [
+            { "label": "is", "is_correct": true },
+            { "label": "am", "is_correct": false },
+            { "label": "are", "is_correct": false },
+            { "label": "be", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「They ___ at school now.」の空欄に入る正しいbe動詞は？",
+          "choices": [
+            { "label": "are", "is_correct": true },
+            { "label": "is", "is_correct": false },
+            { "label": "am", "is_correct": false },
+            { "label": "be", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「He ___ tired yesterday.」の空欄に入る正しい過去形のbe動詞は？",
+          "choices": [
+            { "label": "was", "is_correct": true },
+            { "label": "were", "is_correct": false },
+            { "label": "is", "is_correct": false },
+            { "label": "am", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「We ___ at the park yesterday.」の空欄に入る正しい過去形のbe動詞は？",
+          "choices": [
+            { "label": "were", "is_correct": true },
+            { "label": "was", "is_correct": false },
+            { "label": "are", "is_correct": false },
+            { "label": "is", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「It ___ not cold today.」の空欄に入る正しいbe動詞は？",
+          "choices": [
+            { "label": "is", "is_correct": true },
+            { "label": "am", "is_correct": false },
+            { "label": "are", "is_correct": false },
+            { "label": "were", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「She ___ to school every day.」の空欄に入る正しい形は？",
+          "choices": [
+            { "label": "goes", "is_correct": true },
+            { "label": "go", "is_correct": false },
+            { "label": "going", "is_correct": false },
+            { "label": "went", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「I ___ coffee every morning.」の空欄に入る正しい形は？",
+          "choices": [
+            { "label": "drink", "is_correct": true },
+            { "label": "drinks", "is_correct": false },
+            { "label": "drank", "is_correct": false },
+            { "label": "drinking", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「He ___ like vegetables.」（彼は野菜が好きではない）の空欄に入る正しい形は？",
+          "choices": [
+            { "label": "doesn't", "is_correct": true },
+            { "label": "don't", "is_correct": false },
+            { "label": "isn't", "is_correct": false },
+            { "label": "not", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「___ you like music?」（音楽は好きですか？）の空欄に入る正しい形は？",
+          "choices": [
+            { "label": "Do", "is_correct": true },
+            { "label": "Does", "is_correct": false },
+            { "label": "Are", "is_correct": false },
+            { "label": "Is", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「My sister ___ soccer on weekends.」の空欄に入る正しい形は？",
+          "choices": [
+            { "label": "plays", "is_correct": true },
+            { "label": "play", "is_correct": false },
+            { "label": "playing", "is_correct": false },
+            { "label": "played", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「They ___ not have a car.」（彼らは車を持っていない）の空欄に入る正しい形は？",
+          "choices": [
+            { "label": "do", "is_correct": true },
+            { "label": "does", "is_correct": false },
+            { "label": "is", "is_correct": false },
+            { "label": "are", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 6,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「I ___ reading a book now.」の空欄に入る正しい形は？",
+          "choices": [
+            { "label": "am", "is_correct": true },
+            { "label": "is", "is_correct": false },
+            { "label": "are", "is_correct": false },
+            { "label": "do", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「She ___ cooking dinner now.」の空欄に入る正しい形は？",
+          "choices": [
+            { "label": "is", "is_correct": true },
+            { "label": "am", "is_correct": false },
+            { "label": "are", "is_correct": false },
+            { "label": "does", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「They ___ playing soccer now.」の空欄に入る正しい形は？",
+          "choices": [
+            { "label": "are", "is_correct": true },
+            { "label": "is", "is_correct": false },
+            { "label": "am", "is_correct": false },
+            { "label": "do", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「今、雨が降っている」を正しく表す英文は？",
+          "choices": [
+            { "label": "It is raining now.", "is_correct": true },
+            { "label": "It rains now.", "is_correct": false },
+            { "label": "It rained now.", "is_correct": false },
+            { "label": "It is rain now.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「run」の-ing形（現在進行形）として正しいのは？",
+          "choices": [
+            { "label": "running", "is_correct": true },
+            { "label": "runing", "is_correct": false },
+            { "label": "runeing", "is_correct": false },
+            { "label": "runningg", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「make」の-ing形（現在進行形）として正しいのは？",
+          "choices": [
+            { "label": "making", "is_correct": true },
+            { "label": "makeing", "is_correct": false },
+            { "label": "makking", "is_correct": false },
+            { "label": "makeng", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 7,
+      "theme_key": "grammar",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「go」の過去形は？",
+          "choices": [
+            { "label": "went", "is_correct": true },
+            { "label": "goed", "is_correct": false },
+            { "label": "gone", "is_correct": false },
+            { "label": "going", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「eat」の過去形は？",
+          "choices": [
+            { "label": "ate", "is_correct": true },
+            { "label": "eated", "is_correct": false },
+            { "label": "eaten", "is_correct": false },
+            { "label": "eating", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「play」の過去形は？",
+          "choices": [
+            { "label": "played", "is_correct": true },
+            { "label": "plaied", "is_correct": false },
+            { "label": "plays", "is_correct": false },
+            { "label": "playing", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「study」の過去形は？",
+          "choices": [
+            { "label": "studied", "is_correct": true },
+            { "label": "studyed", "is_correct": false },
+            { "label": "studies", "is_correct": false },
+            { "label": "studing", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「have」の過去形は？",
+          "choices": [
+            { "label": "had", "is_correct": true },
+            { "label": "haved", "is_correct": false },
+            { "label": "haves", "is_correct": false },
+            { "label": "having", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「I ___ him yesterday.」（昨日彼に会った）の空欄に入る「see」の過去形は？",
+          "choices": [
+            { "label": "saw", "is_correct": true },
+            { "label": "seed", "is_correct": false },
+            { "label": "seen", "is_correct": false },
+            { "label": "sees", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 8,
+      "theme_key": "phrase",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "お店の店員が客に「何かお探しですか？」と尋ねるときの表現は？",
+          "choices": [
+            { "label": "Can I help you?", "is_correct": true },
+            { "label": "How much is this?", "is_correct": false },
+            { "label": "Where is the exit?", "is_correct": false },
+            { "label": "What time is it?", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「これはいくらですか？」を英語で言うと？",
+          "choices": [
+            { "label": "How much is this?", "is_correct": true },
+            { "label": "What is this?", "is_correct": false },
+            { "label": "How many is this?", "is_correct": false },
+            { "label": "Where is this?", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「駅までの行き方を教えてください」を英語で言うと？",
+          "choices": [
+            { "label": "Could you tell me how to get to the station?", "is_correct": true },
+            { "label": "Could you tell me what the station is?", "is_correct": false },
+            { "label": "Could you take me to the station?", "is_correct": false },
+            { "label": "Could you tell me when the station opens?", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "道案内で「まっすぐ行ってください」を表す英語は？",
+          "choices": [
+            { "label": "Go straight ahead.", "is_correct": true },
+            { "label": "Turn around.", "is_correct": false },
+            { "label": "Stop here.", "is_correct": false },
+            { "label": "Go back.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "試着室で「これを試着してもいいですか？」を英語で言うと？",
+          "choices": [
+            { "label": "Can I try this on?", "is_correct": true },
+            { "label": "Can I buy this?", "is_correct": false },
+            { "label": "Can I return this?", "is_correct": false },
+            { "label": "Can I see this?", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "道案内で「次の角を右に曲がってください」を表す英語は？",
+          "choices": [
+            { "label": "Turn right at the next corner.", "is_correct": true },
+            { "label": "Turn left at the next corner.", "is_correct": false },
+            { "label": "Go straight at the next corner.", "is_correct": false },
+            { "label": "Stop at the next corner.", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 9,
+      "theme_key": "phrase",
+      "is_boss": true,
+      "title_reward": "英語中級への扉",
+      "questions": [
+        {
+          "prompt": "レストランの入口で店員が「何名様ですか？」と尋ねるときの表現は？",
+          "choices": [
+            { "label": "Table for how many?", "is_correct": true },
+            { "label": "How much is the table?", "is_correct": false },
+            { "label": "What table do you like?", "is_correct": false },
+            { "label": "How long is the table?", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "レストランで「注文してもいいですか？」を英語で言うと？",
+          "choices": [
+            { "label": "Can I order, please?", "is_correct": true },
+            { "label": "Can I pay, please?", "is_correct": false },
+            { "label": "Can I sit, please?", "is_correct": false },
+            { "label": "Can I leave, please?", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "レストランで「お会計をお願いします」を英語で言うと？",
+          "choices": [
+            { "label": "Check, please.", "is_correct": true },
+            { "label": "Menu, please.", "is_correct": false },
+            { "label": "Water, please.", "is_correct": false },
+            { "label": "Table, please.", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "レストランで「おすすめは何ですか？」を英語で言うと？",
+          "choices": [
+            { "label": "What do you recommend?", "is_correct": true },
+            { "label": "What do you like?", "is_correct": false },
+            { "label": "What is this made of?", "is_correct": false },
+            { "label": "What time do you close?", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Is this seat taken?」の意味は？",
+          "choices": [
+            { "label": "この席は空いていますか？（誰か座っていますか？）", "is_correct": true },
+            { "label": "この席は予約できますか？", "is_correct": false },
+            { "label": "この席はいくらですか？", "is_correct": false },
+            { "label": "この席は禁煙ですか？", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "テイクアウトの際に「持ち帰りでお願いします」を英語で言うと？",
+          "choices": [
+            { "label": "To go, please.", "is_correct": true },
+            { "label": "For here, please.", "is_correct": false },
+            { "label": "To eat, please.", "is_correct": false },
+            { "label": "To stay, please.", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

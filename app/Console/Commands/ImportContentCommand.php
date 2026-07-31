@@ -169,14 +169,17 @@ class ImportContentCommand extends Command
         foreach ($data['stages'] as $stageData) {
             $theme = QuestionTheme::query()->where('key', $stageData['theme_key'])->firstOrFail();
 
+            // category_idだけでなくcountry_idもキーに含める。言語学習モードでは
+            // 複数国(米国・英国等)が同じカテゴリー(例:「英語を学ぶ」)を共有するため、
+            // country_idを外すと他国のインポートで既存ステージが上書きされてしまう。
             $stage = Stage::query()->updateOrCreate(
                 [
                     'category_id' => $category->id,
+                    'country_id' => $country->id,
                     'difficulty' => $data['difficulty'],
                     'stage_number' => $stageData['stage_number'],
                 ],
                 [
-                    'country_id' => $country->id,
                     'question_theme_id' => $theme->id,
                     'question_count' => count($stageData['questions']),
                     'is_boss' => $stageData['is_boss'],
