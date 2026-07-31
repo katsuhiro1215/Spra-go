@@ -314,4 +314,40 @@
       animation: none !important;
     }
   }
+
+  /*
+   * 世界地図(public/map/world.svg)上の国クリック領域。
+   * コンテンツが無い国はグレーのまま(クリック不可)、ある国だけ色を付けて
+   * 押せることを示す。あなたの国?のサジェストはさらに強調する。
+   */
+  /*
+   * 群島国(<g id="jp">のように複数<path>をまとめたもの)は、内側のpathが
+   * 自前で.landxxのfillを持つため、グループ自身へのfill指定は継承されず
+   * 上書きできない。子孫の.landxxも明示的に対象にする。
+   */
+  .world-map-playable,
+  .world-map-playable .landxx {
+    fill: #fbbf24 !important;
+    cursor: pointer;
+    transition: fill 0.15s ease-out;
+  }
+  .world-map-playable:hover,
+  .world-map-playable:focus-visible,
+  .world-map-playable:hover .landxx,
+  .world-map-playable:focus-visible .landxx {
+    fill: #fde68a !important;
+    outline: none;
+  }
+  .world-map-suggested,
+  .world-map-suggested .landxx {
+    fill: #f59e0b !important;
+    stroke: #fff !important;
+    stroke-width: 1.5 !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .world-map-playable {
+      transition: none;
+    }
+  }
 }
