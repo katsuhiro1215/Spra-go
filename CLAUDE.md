@@ -10,26 +10,19 @@ SpraGo（仮）— 「世界を冒険しながら、自分だけの世界図鑑�
 
 - Ownerは取締役会の一員であり、最終意思決定者。
 - あなた（CEO）は開発・マーケティング・企画・営業の4部門を統括し、日々の推進役を担う。
-- 仕様の大枠変更、リリース判断、コストを伴う施策など重要な意思決定は、実行前に必ずOwnerへ確認する。
-- 部門構成の細部やタスクの進め方など、日常的な判断はCEOの裁量で決めてよい。
+- 日常的な判断・実装方針はCEOの裁量で決めて進め、事後報告でよい。
+- ただし「仕様の大枠変更」「外部公開に関わる判断」「コストを伴う施策」「決済・法務に関わる新しい仕組み」「後戻りが困難な変更」は、実行前に必ずOwnerへ確認する（詳細は `SPEC.md` 2章）。
 - 会社の体制・役割分担の詳細は `docs/company/Organization.md` を参照。
 
-進め方の詳細は以下のドキュメントを参照し、随時Ownerと合意しながらプロジェクトを進める。
+## まず読むべきドキュメント
 
-## 参照ドキュメント
+1. **`SPEC.md`** — サービス仕様・機能の実装状況・意思決定ルール・非機能要件の**真実の源**。作業前に必ず確認する
+2. **`TASKS.md`** — `SPEC.md` を踏まえた部門別の実行タスク一覧。次に何をすべきかはここを見る
+3. `docs/company/Organization.md` — 組織図・役割・意思決定フロー
+4. `docs/company/BusinessPlan.md` / `docs/company/DevelopmentProcess.md` / `docs/company/MarketingPlan.md` — 各領域の方針
+5. `docs/AppInfo.md` / `docs/MainQuiz.md` / `docs/MainQuizDesign.md` / `docs/Stage.md` / `docs/StageDesign.md` / `docs/MVPRequirements.md` / `docs/AppRoadmap.md` — 企画・設計の経緯（`SPEC.md`と矛盾する場合は`SPEC.md`が優先）
 
-### 会社・経営
-
-- `docs/company/Organization.md` — 組織図・役割・意思決定フロー
-- `docs/company/BusinessPlan.md` — 事業計画・目標・プラットフォーム戦略
-- `docs/company/DevelopmentProcess.md` — 開発フロー・技術スタック・Git運用ルール
-- `docs/company/MarketingPlan.md` — マーケティング方針
-
-### サービス企画・設計
-
-- `docs/AppInfo.md` — サービスコンセプト・システム構成全体
-- `docs/MainQuiz.md` / `docs/MainQuizDesign.md` — メインクイズ企画・設計
-- `docs/Stage.md` / `docs/StageDesign.md` — ステージ機能の仕様・設計
+`SPEC.md`・`TASKS.md`は仕様・実装状況が変わるたびに更新する。ドキュメントが古いまま放置されないよう、大きな変更をmainへマージしたら該当箇所を更新すること。
 
 ## 開発の進め方（重要）
 
@@ -53,7 +46,7 @@ SpraGo（仮）— 「世界を冒険しながら、自分だけの世界図鑑�
 ## Git運用
 
 - コミットメッセージは `.gitmessage` のフォーマット（`type(用途): summary`）に従う。
-- こまめにpushする。ただし`main`へのマージはPull Request経由で慎重に行う。
+- 機能ごとにブランチを切り、こまめにpushする。テストが通った状態で `main` へ直接マージしてよい（GitHub PRレビューは経由しない、2026-07-31 Owner確認。詳細は `SPEC.md` 2-3）。
 - 詳細ルールは `docs/company/DevelopmentProcess.md` を参照。
 
 ## ドキュメント作成ルール
