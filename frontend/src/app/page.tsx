@@ -28,6 +28,7 @@ type Profile = {
   xp: number;
   coins: number;
   level: number;
+  current_streak: number;
 };
 
 type Category = {
@@ -183,6 +184,15 @@ export default function Page() {
         </span>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          {typeof profile?.current_streak === "number" &&
+            profile.current_streak > 0 && (
+              <span
+                className="flex items-center gap-1 rounded-full border border-orange-300/40 bg-orange-500/20 px-2 py-1 text-xs font-bold text-orange-200"
+                title="連続プレイ日数"
+              >
+                🔥{profile.current_streak}日
+              </span>
+            )}
           <PointsBadge value={profile?.coins ?? 0} />
           <HpGauge value={profile?.hp ?? 0} max={profile?.max_hp ?? 20} />
           <Link

@@ -28,6 +28,11 @@ type StagePlayData = {
 
 type EconomyDelta = { hp?: number; xp?: number; coin?: number };
 type ComboInfo = { combo: number; combo_milestone_bonus_coin: number };
+type StreakInfo = {
+  streak: number;
+  streak_extended_today: boolean;
+  streak_milestone_bonus_coin: number;
+};
 
 type CompleteResult = { title_granted: boolean; title: string | null };
 
@@ -51,6 +56,7 @@ export default function Page({
   const [lastCorrect, setLastCorrect] = useState(false);
   const [lastDelta, setLastDelta] = useState<EconomyDelta | null>(null);
   const [combo, setCombo] = useState<ComboInfo | null>(null);
+  const [streak, setStreak] = useState<StreakInfo | null>(null);
   const [score, setScore] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [completionSubmitted, setCompletionSubmitted] = useState(false);
@@ -144,6 +150,16 @@ export default function Page({
             }
           : null,
       );
+      setStreak(
+        data.profile
+          ? {
+              streak: data.profile.streak,
+              streak_extended_today: data.profile.streak_extended_today,
+              streak_milestone_bonus_coin:
+                data.profile.streak_milestone_bonus_coin,
+            }
+          : null,
+      );
       if (data.correct) setScore((prev) => prev + 1);
     } finally {
       setSubmitting(false);
@@ -165,6 +181,7 @@ export default function Page({
     setAnswered(false);
     setLastDelta(null);
     setCombo(null);
+    setStreak(null);
     setScore(0);
     setCompletionSubmitted(false);
     setCompleteResult(null);
@@ -282,6 +299,13 @@ export default function Page({
               {combo && combo.combo_milestone_bonus_coin > 0 && (
                 <p className="animate-stage-intro-subtitle text-base font-semibold text-amber-200">
                   ボーナス +{combo.combo_milestone_bonus_coin}Coin
+                </p>
+              )}
+              {streak?.streak_extended_today && (
+                <p className="animate-stage-intro-subtitle text-base font-semibold text-orange-200">
+                  🔥 {streak.streak}日連続プレイ！
+                  {streak.streak_milestone_bonus_coin > 0 &&
+                    ` ボーナス+${streak.streak_milestone_bonus_coin}Coin`}
                 </p>
               )}
             </>
