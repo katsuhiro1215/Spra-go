@@ -29,6 +29,8 @@ type StageGroup = {
   stages: StageSummary[];
 };
 
+const DIFFICULTY_ORDER = ["初級", "中級", "上級"];
+
 type RegionSummary = {
   id: number;
   name: string;
@@ -52,6 +54,15 @@ function regionPercent(region: RegionSummary): number {
     : 0;
 }
 
+// タブの初期選択: 遊べる中で一番易しい未クリアの難易度を優先し、
+// 無ければ最初のグループにフォールバックする
+function pickDefaultDifficulty(groups: StageGroup[]): string | null {
+  const playable = groups.find(
+    (g) => !g.locked && !g.stages.every((s) => s.cleared),
+  );
+  return (playable ?? groups[0])?.difficulty ?? null;
+}
+
 export default function Page({
   params,
 }: {
@@ -65,6 +76,9 @@ export default function Page({
   );
   const [mode, setMode] = useState<"trivia" | "language">(
     searchParams.get("mode") === "language" ? "language" : "trivia",
+  );
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(
+    null,
   );
 
   useEffect(() => {
@@ -106,6 +120,22 @@ export default function Page({
           (country.achievement.cleared / country.achievement.total) * 100,
         )
       : 0;
+
+  const filteredGroups = DIFFICULTY_ORDER.flatMap((difficulty) => {
+    const group = country.groups.find(
+      (g) =>
+        g.difficulty === difficulty &&
+        (mode === "language"
+          ? g.category.is_language_mode
+          : !g.category.is_language_mode),
+    );
+    return group ? [group] : [];
+  });
+  const activeDifficulty =
+    selectedDifficulty ?? pickDefaultDifficulty(filteredGroups);
+  const activeGroup = filteredGroups.find(
+    (g) => g.difficulty === activeDifficulty,
+  );
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden">
@@ -156,7 +186,10 @@ export default function Page({
           <div className="flex gap-2">
             <button
               type="button"
-              onClick={() => setMode("trivia")}
+              onClick={() => {
+                setMode("trivia");
+                setSelectedDifficulty(null);
+              }}
               className={`rounded-full px-4 py-1.5 text-xs font-semibold shadow ${
                 mode === "trivia"
                   ? "bg-amber-400 text-amber-950"
@@ -167,7 +200,10 @@ export default function Page({
             </button>
             <button
               type="button"
-              onClick={() => setMode("language")}
+              onClick={() => {
+                setMode("language");
+                setSelectedDifficulty(null);
+              }}
               className={`rounded-full px-4 py-1.5 text-xs font-semibold shadow ${
                 mode === "language"
                   ? "bg-amber-400 text-amber-950"
@@ -217,37 +253,54 @@ export default function Page({
               </div>
             )}
 
-            {country.groups
-              .filter((group) =>
-                mode === "language"
-                  ? group.category.is_language_mode
-                  : !group.category.is_language_mode,
-              )
-              .map((group) => (
-                <div
-                  key={`${group.category.id}-${group.difficulty}`}
-                  className="flex flex-col gap-3"
-                >
-                  <h2 className="flex items-center gap-2 text-sm font-semibold text-white/90 drop-shadow">
-                    {group.locked && "🔒"}
-                    {group.category.name} ・{" "}
-                    <Furigana
-                      text={group.difficulty}
-                      reading={DIFFICULTY_READINGS[group.difficulty] ?? ""}
-                    />
-                  </h2>
-                  {group.locked ? (
-                    <p className="text-xs text-white/70">
-                      ひとつ前の難易度をクリアすると挑戦できます。
-                    </p>
-                  ) : (
+            {filteredGroups.length > 0 && (
+              <div className="flex flex-col gap-3">
+                <div className="flex gap-2">
+                  {filteredGroups.map((group) => {
+                    const isSelected = group.difficulty === activeDifficulty;
+                    const allCleared =
+                      group.stages.length > 0 &&
+                      group.stages.every((s) => s.cleared);
+
+                    return (
+                      <button
+                        key={group.difficulty}
+                        type="button"
+                        onClick={() => setSelectedDifficulty(group.difficulty)}
+                        disabled={group.locked}
+                        className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold shadow disabled:cursor-not-allowed ${
+                          isSelected
+                            ? "bg-amber-400 text-amber-950"
+                            : group.locked
+                              ? "bg-black/15 text-white/50"
+                              : "bg-black/25 text-white/80 hover:bg-black/35"
+                        }`}
+                      >
+                        {group.locked && "🔒"}
+                        <Furigana
+                          text={group.difficulty}
+                          reading={DIFFICULTY_READINGS[group.difficulty] ?? ""}
+                        />
+                        {allCleared && "🏆"}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {activeGroup?.locked ? (
+                  <p className="text-xs text-white/70">
+                    ひとつ前の難易度をクリアすると挑戦できます。
+                  </p>
+                ) : (
+                  activeGroup && (
                     <StagePath
-                      stages={group.stages}
+                      stages={activeGroup.stages}
                       onSelect={(stage) => router.push(`/quiz/${stage.id}`)}
                     />
-                  )}
-                </div>
-              ))}
+                  )
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
