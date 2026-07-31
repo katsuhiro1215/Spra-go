@@ -1,14 +1,33 @@
+"use client";
+
+import { useId } from "react";
+
 /**
- * 仮のキャラクター表示。正式なキャラクターデザインができるまでのプレースホルダー。
+ * 仮のキャラクター表示。正式なキャラクターデザイン(本格イラストレーター起用、
+ * docs/design/ui-ux-proposal.md参照)ができるまでのプレースホルダー。
+ * colorFrom/colorToで見た目にバリエーションを持たせられる(プロフィール選択画面等、
+ * 複数人分並べる場面向け)。
  */
-export function CharacterPlaceholder({ className }: { className?: string }) {
+export function CharacterPlaceholder({
+  className,
+  colorFrom = "#38bdf8",
+  colorTo = "#0ea5e9",
+}: {
+  className?: string;
+  colorFrom?: string;
+  colorTo?: string;
+}) {
+  // SVGのgradient idはドキュメント全体で一意である必要があるため、
+  // 同じページに複数体並べても衝突しないようuseIdで生成する。
+  const gradientId = `character-body-${useId()}`;
+
   return (
     <div className={`animate-character-bounce ${className ?? ""}`}>
       <svg viewBox="0 0 120 165" className="h-full w-full drop-shadow-xl">
         <defs>
-          <linearGradient id="character-body" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#38bdf8" />
-            <stop offset="100%" stopColor="#0ea5e9" />
+          <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={colorFrom} />
+            <stop offset="100%" stopColor={colorTo} />
           </linearGradient>
         </defs>
 
@@ -27,7 +46,7 @@ export function CharacterPlaceholder({ className }: { className?: string }) {
 
         <path
           d="M60 28 C95 28 112 60 112 95 C112 132 90 152 60 152 C30 152 8 132 8 95 C8 60 25 28 60 28 Z"
-          fill="url(#character-body)"
+          fill={`url(#${gradientId})`}
         />
 
         <circle cx="38" cy="100" r="8" fill="#fca5a5" opacity="0.6" />

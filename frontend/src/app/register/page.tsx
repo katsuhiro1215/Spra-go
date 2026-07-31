@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { Button as AppButton } from "@/components/app/button";
 import { CharacterPlaceholder } from "@/components/app/character-placeholder";
+import { Furigana } from "@/components/app/furigana";
 import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
 
@@ -64,7 +65,7 @@ export default function Page() {
 
         <div className="w-full rounded-2xl border border-white/30 bg-black/30 p-6 shadow-xl backdrop-blur-sm">
           <h1 className="text-center text-2xl font-bold text-white drop-shadow">
-            はじめての冒険者登録
+            はじめての<Furigana text="冒険者登録" reading="ぼうけんしゃとうろく" />
           </h1>
           <p className="mt-1 text-center text-sm text-white/80">
             世界図鑑を完成させる旅をはじめよう
@@ -144,7 +145,13 @@ export default function Page() {
               disabled={submitting}
               className="mt-2 w-full normal-case"
             >
-              {submitting ? "登録中..." : "冒険をはじめる"}
+              {submitting ? (
+                "登録中..."
+              ) : (
+                <>
+                  <Furigana text="冒険" reading="ぼうけん" />をはじめる
+                </>
+              )}
             </AppButton>
           </form>
         </div>

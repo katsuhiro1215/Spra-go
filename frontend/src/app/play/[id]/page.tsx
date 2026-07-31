@@ -7,18 +7,14 @@ import { useRouter } from "next/navigation";
 import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
 import { SceneBackground } from "@/components/app/scene-background";
+import { StagePath } from "@/components/app/stage-path";
 import { apiFetch } from "@/lib/api";
+import { DIFFICULTY_READINGS } from "@/lib/difficulty";
 
 type Category = {
   id: number;
   parent_id: number | null;
   name: string;
-};
-
-const DIFFICULTY_READINGS: Record<string, string> = {
-  初級: "しょきゅう",
-  中級: "ちゅうきゅう",
-  上級: "じょうきゅう",
 };
 
 type Difficulty = "初級" | "中級" | "上級";
@@ -213,45 +209,15 @@ export default function Page({
             </div>
 
             {selectedStages && selectedStages.length > 0 && (
-              <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
-                {selectedStages.map((stage) => {
-                  const playable = stage.assigned_count > 0 && !stage.locked;
-                  const isSelected = selectedStage?.id === stage.id;
-
-                  return (
-                    <AppButton
-                      key={stage.id}
-                      variant={
-                        isSelected
-                          ? "primary"
-                          : playable
-                            ? stage.is_boss
-                              ? "danger"
-                              : stage.cleared
-                                ? "secondary"
-                                : "default"
-                            : "locked"
-                      }
-                      size="lg"
-                      disabled={!playable}
-                      onClick={() => setSelectedStage(stage)}
-                      className="relative flex flex-col items-center gap-0.5 px-2"
-                    >
-                      {stage.cleared && (
-                        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white">
-                          ✓
-                        </span>
-                      )}
-                      <span>{stage.locked ? "🔒" : stage.stage_number}</span>
-                      {stage.is_boss && (
-                        <span className="text-[10px] font-bold opacity-90">
-                          BOSS
-                        </span>
-                      )}
-                    </AppButton>
-                  );
-                })}
-              </div>
+              <StagePath
+                stages={selectedStages}
+                selectedId={selectedStage?.id ?? null}
+                onSelect={(stage) =>
+                  setSelectedStage(
+                    selectedStages.find((s) => s.id === stage.id) ?? null,
+                  )
+                }
+              />
             )}
 
             <AppButton
