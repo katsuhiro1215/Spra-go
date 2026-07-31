@@ -20,7 +20,7 @@ export function AccessibilityControls() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="fixed right-3 bottom-3 z-50">
+    <div className="fixed bottom-3 left-3 z-50">
       {open && (
         <div className="mb-2 flex w-56 flex-col gap-3 rounded-xl border border-border bg-background p-3 text-sm shadow-lg">
           <div>
