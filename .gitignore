@@ -28,6 +28,7 @@ _ide_helper.php
 frontend/public/flag/*
 !frontend/public/flag/es.svg
 !frontend/public/flag/fr.svg
+!frontend/public/flag/GB.svg
 !frontend/public/flag/id.svg
 !frontend/public/flag/it.svg
 !frontend/public/flag/jp.svg

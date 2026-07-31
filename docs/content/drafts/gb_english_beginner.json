@@ -1,0 +1,566 @@
+{
+  "country_name": "イギリス",
+  "country_code": "GB",
+  "difficulty": "初級",
+  "category_root": "英語を学ぶ",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「Hello」の意味は？",
+          "choices": [
+            { "label": "こんにちは", "is_correct": true },
+            { "label": "さようなら", "is_correct": false },
+            { "label": "ありがとう", "is_correct": false },
+            { "label": "ごめんなさい", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Thank you」の意味は？",
+          "choices": [
+            { "label": "ありがとう", "is_correct": true },
+            { "label": "どういたしまして", "is_correct": false },
+            { "label": "こんにちは", "is_correct": false },
+            { "label": "はじめまして", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「ありがとう」のくだけた言い方としてよく使われる単語は？",
+          "choices": [
+            { "label": "Cheers", "is_correct": true },
+            { "label": "Sorry", "is_correct": false },
+            { "label": "Please", "is_correct": false },
+            { "label": "Excuse me", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Please」の意味は？",
+          "choices": [
+            { "label": "お願いします", "is_correct": true },
+            { "label": "ありがとう", "is_correct": false },
+            { "label": "すみません", "is_correct": false },
+            { "label": "はい", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Sorry」の意味は？",
+          "choices": [
+            { "label": "ごめんなさい", "is_correct": true },
+            { "label": "ありがとう", "is_correct": false },
+            { "label": "はじめまして", "is_correct": false },
+            { "label": "またね", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスで「Bye」以外によく使われる、やや古風でくだけた別れの挨拶は？",
+          "choices": [
+            { "label": "Cheerio", "is_correct": true },
+            { "label": "Good night", "is_correct": false },
+            { "label": "Excuse me", "is_correct": false },
+            { "label": "Please", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「one」の意味は？",
+          "choices": [
+            { "label": "1", "is_correct": true },
+            { "label": "2", "is_correct": false },
+            { "label": "3", "is_correct": false },
+            { "label": "5", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「five」の意味は？",
+          "choices": [
+            { "label": "5", "is_correct": true },
+            { "label": "4", "is_correct": false },
+            { "label": "6", "is_correct": false },
+            { "label": "9", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「7」を表す英単語は？",
+          "choices": [
+            { "label": "seven", "is_correct": true },
+            { "label": "six", "is_correct": false },
+            { "label": "eight", "is_correct": false },
+            { "label": "nine", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「nine」の意味は？",
+          "choices": [
+            { "label": "9", "is_correct": true },
+            { "label": "7", "is_correct": false },
+            { "label": "8", "is_correct": false },
+            { "label": "10", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「3」を表す英単語は？",
+          "choices": [
+            { "label": "three", "is_correct": true },
+            { "label": "two", "is_correct": false },
+            { "label": "four", "is_correct": false },
+            { "label": "thirteen", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「ten」の意味は？",
+          "choices": [
+            { "label": "10", "is_correct": true },
+            { "label": "1", "is_correct": false },
+            { "label": "100", "is_correct": false },
+            { "label": "11", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「colour」の意味は？（イギリス英語の綴り。アメリカ英語では color と綴る）",
+          "choices": [
+            { "label": "色", "is_correct": true },
+            { "label": "形", "is_correct": false },
+            { "label": "光", "is_correct": false },
+            { "label": "絵", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「grey」の意味は？（イギリス英語の綴り。アメリカ英語では gray と綴ることが多い）",
+          "choices": [
+            { "label": "灰色", "is_correct": true },
+            { "label": "黒", "is_correct": false },
+            { "label": "白", "is_correct": false },
+            { "label": "茶色", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「red」の意味は？",
+          "choices": [
+            { "label": "赤", "is_correct": true },
+            { "label": "青", "is_correct": false },
+            { "label": "黄色", "is_correct": false },
+            { "label": "緑", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「黄色」を表す英単語は？",
+          "choices": [
+            { "label": "yellow", "is_correct": true },
+            { "label": "orange", "is_correct": false },
+            { "label": "green", "is_correct": false },
+            { "label": "brown", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「green」の意味は？",
+          "choices": [
+            { "label": "緑", "is_correct": true },
+            { "label": "黄色", "is_correct": false },
+            { "label": "青", "is_correct": false },
+            { "label": "白", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「紫」を表す英単語は？",
+          "choices": [
+            { "label": "purple", "is_correct": true },
+            { "label": "pink", "is_correct": false },
+            { "label": "grey", "is_correct": false },
+            { "label": "brown", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「Monday」の意味は？",
+          "choices": [
+            { "label": "月曜日", "is_correct": true },
+            { "label": "火曜日", "is_correct": false },
+            { "label": "日曜日", "is_correct": false },
+            { "label": "土曜日", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「日曜日」を表す英単語は？",
+          "choices": [
+            { "label": "Sunday", "is_correct": true },
+            { "label": "Monday", "is_correct": false },
+            { "label": "Saturday", "is_correct": false },
+            { "label": "Friday", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「autumn」の意味は？（イギリス英語。アメリカ英語では fall と言うことが多い）",
+          "choices": [
+            { "label": "秋", "is_correct": true },
+            { "label": "春", "is_correct": false },
+            { "label": "夏", "is_correct": false },
+            { "label": "冬", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「秋」を表すアメリカ英語の単語は？（イギリス英語の autumn にあたる）",
+          "choices": [
+            { "label": "fall", "is_correct": true },
+            { "label": "spring", "is_correct": false },
+            { "label": "summer", "is_correct": false },
+            { "label": "winter", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Wednesday」の意味は？",
+          "choices": [
+            { "label": "水曜日", "is_correct": true },
+            { "label": "火曜日", "is_correct": false },
+            { "label": "木曜日", "is_correct": false },
+            { "label": "月曜日", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「土曜日」を表す英単語は？",
+          "choices": [
+            { "label": "Saturday", "is_correct": true },
+            { "label": "Sunday", "is_correct": false },
+            { "label": "Friday", "is_correct": false },
+            { "label": "Monday", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「mother」の意味は？",
+          "choices": [
+            { "label": "母", "is_correct": true },
+            { "label": "父", "is_correct": false },
+            { "label": "姉・妹", "is_correct": false },
+            { "label": "祖母", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「father」の意味は？",
+          "choices": [
+            { "label": "父", "is_correct": true },
+            { "label": "母", "is_correct": false },
+            { "label": "兄・弟", "is_correct": false },
+            { "label": "祖父", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「兄・弟」を表す英単語は？",
+          "choices": [
+            { "label": "brother", "is_correct": true },
+            { "label": "sister", "is_correct": false },
+            { "label": "father", "is_correct": false },
+            { "label": "son", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「姉・妹」を表す英単語は？",
+          "choices": [
+            { "label": "sister", "is_correct": true },
+            { "label": "brother", "is_correct": false },
+            { "label": "mother", "is_correct": false },
+            { "label": "daughter", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「family」の意味は？",
+          "choices": [
+            { "label": "家族", "is_correct": true },
+            { "label": "友達", "is_correct": false },
+            { "label": "先生", "is_correct": false },
+            { "label": "仕事", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「祖母」を表す英単語は？",
+          "choices": [
+            { "label": "grandmother", "is_correct": true },
+            { "label": "grandfather", "is_correct": false },
+            { "label": "mother", "is_correct": false },
+            { "label": "aunt", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 6,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「dog」の意味は？",
+          "choices": [
+            { "label": "犬", "is_correct": true },
+            { "label": "猫", "is_correct": false },
+            { "label": "鳥", "is_correct": false },
+            { "label": "魚", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「cat」の意味は？",
+          "choices": [
+            { "label": "猫", "is_correct": true },
+            { "label": "犬", "is_correct": false },
+            { "label": "うさぎ", "is_correct": false },
+            { "label": "熊", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「鳥」を表す英単語は？",
+          "choices": [
+            { "label": "bird", "is_correct": true },
+            { "label": "fish", "is_correct": false },
+            { "label": "bear", "is_correct": false },
+            { "label": "lion", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「fish」の意味は？",
+          "choices": [
+            { "label": "魚", "is_correct": true },
+            { "label": "鳥", "is_correct": false },
+            { "label": "象", "is_correct": false },
+            { "label": "うさぎ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「うさぎ」を表す英単語は？",
+          "choices": [
+            { "label": "rabbit", "is_correct": true },
+            { "label": "lion", "is_correct": false },
+            { "label": "bear", "is_correct": false },
+            { "label": "cat", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「elephant」の意味は？",
+          "choices": [
+            { "label": "象", "is_correct": true },
+            { "label": "ライオン", "is_correct": false },
+            { "label": "熊", "is_correct": false },
+            { "label": "犬", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 7,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「biscuit」の意味は？（イギリス英語。甘い焼き菓子を指し、アメリカ英語の cookie にあたる）",
+          "choices": [
+            { "label": "クッキー・ビスケット", "is_correct": true },
+            { "label": "パン", "is_correct": false },
+            { "label": "ケーキ", "is_correct": false },
+            { "label": "アメ", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカ英語で、イギリス英語の「biscuit」と同じ意味を表す単語は？",
+          "choices": [
+            { "label": "cookie", "is_correct": true },
+            { "label": "bread", "is_correct": false },
+            { "label": "pie", "is_correct": false },
+            { "label": "candy", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「crisps」の意味は？（イギリス英語。アメリカ英語では chips と言う）",
+          "choices": [
+            { "label": "ポテトチップス", "is_correct": true },
+            { "label": "フライドポテト", "is_correct": false },
+            { "label": "クラッカー", "is_correct": false },
+            { "label": "パン", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「フライドポテト」を表す単語は？（アメリカ英語の fries にあたる）",
+          "choices": [
+            { "label": "chips", "is_correct": true },
+            { "label": "fries", "is_correct": false },
+            { "label": "crisps", "is_correct": false },
+            { "label": "wedges", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「sweets」の意味は？（イギリス英語。アメリカ英語では candy と言うことが多い）",
+          "choices": [
+            { "label": "お菓子・キャンディー類", "is_correct": true },
+            { "label": "野菜", "is_correct": false },
+            { "label": "パン", "is_correct": false },
+            { "label": "果物", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「water」の意味は？",
+          "choices": [
+            { "label": "水", "is_correct": true },
+            { "label": "牛乳", "is_correct": false },
+            { "label": "ジュース", "is_correct": false },
+            { "label": "お茶", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 8,
+      "theme_key": "vocabulary",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "イギリス英語で「アパート」を表す単語は？（アメリカ英語では apartment と言う）",
+          "choices": [
+            { "label": "flat", "is_correct": true },
+            { "label": "house", "is_correct": false },
+            { "label": "room", "is_correct": false },
+            { "label": "hall", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「トラック（貨物自動車）」を表す単語は？（アメリカ英語では truck と言う）",
+          "choices": [
+            { "label": "lorry", "is_correct": true },
+            { "label": "car", "is_correct": false },
+            { "label": "van", "is_correct": false },
+            { "label": "bus", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリスで一般的に「サッカー」を指す単語は？（アメリカでは soccer と呼ぶことが多い）",
+          "choices": [
+            { "label": "football", "is_correct": true },
+            { "label": "soccer", "is_correct": false },
+            { "label": "rugby", "is_correct": false },
+            { "label": "baseball", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「holiday」の意味は？（イギリス英語で「休暇・旅行」の意味。アメリカ英語では vacation と言うことが多い）",
+          "choices": [
+            { "label": "休暇・旅行", "is_correct": true },
+            { "label": "宿題", "is_correct": false },
+            { "label": "会議", "is_correct": false },
+            { "label": "誕生日", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "アメリカ英語で「休暇」を表す単語は？（イギリス英語の holiday にあたる）",
+          "choices": [
+            { "label": "vacation", "is_correct": true },
+            { "label": "holiday", "is_correct": false },
+            { "label": "festival", "is_correct": false },
+            { "label": "weekend", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "イギリス英語で「ズボン」を表す単語は？（注意：アメリカ英語の pants はイギリスでは「下着」の意味になる）",
+          "choices": [
+            { "label": "trousers", "is_correct": true },
+            { "label": "pants", "is_correct": false },
+            { "label": "shirt", "is_correct": false },
+            { "label": "jacket", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 9,
+      "theme_key": "phrase",
+      "is_boss": true,
+      "title_reward": "イギリス英語マスター見習い",
+      "questions": [
+        {
+          "prompt": "イギリスで日常のあいさつとしてよく使われる「Are you alright?」の意味に近いものは？",
+          "choices": [
+            { "label": "元気？というくだけたあいさつ", "is_correct": true },
+            { "label": "本当に大丈夫か本気で心配する表現", "is_correct": false },
+            { "label": "さようなら", "is_correct": false },
+            { "label": "ありがとう", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Brilliant!」の意味は？（イギリスでよく使われる感嘆表現）",
+          "choices": [
+            { "label": "すばらしい！", "is_correct": true },
+            { "label": "残念だ", "is_correct": false },
+            { "label": "ごめんなさい", "is_correct": false },
+            { "label": "疲れた", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Fancy a cup of tea?」の意味は？",
+          "choices": [
+            { "label": "お茶はいかがですか？", "is_correct": true },
+            { "label": "お茶は好きですか？", "is_correct": false },
+            { "label": "お茶を淹れてください", "is_correct": false },
+            { "label": "お茶はどこにありますか？", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "ロンドンの地下鉄でよく聞かれるアナウンス「Mind the gap」の意味は？",
+          "choices": [
+            { "label": "（電車とホームの）隙間に注意", "is_correct": true },
+            { "label": "頭上に注意", "is_correct": false },
+            { "label": "禁煙です", "is_correct": false },
+            { "label": "出口はこちらです", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "お店で買い物をしたあとなど、日常でよく使われる「Cheers」の意味は？",
+          "choices": [
+            { "label": "ありがとう（軽いお礼の表現）", "is_correct": true },
+            { "label": "乾杯のときだけ使う言葉", "is_correct": false },
+            { "label": "ごめんなさい", "is_correct": false },
+            { "label": "どういたしまして", "is_correct": false }
+          ]
+        },
+        {
+          "prompt": "「Cheerio」の意味は？",
+          "choices": [
+            { "label": "またね・さようなら", "is_correct": true },
+            { "label": "こんにちは", "is_correct": false },
+            { "label": "ありがとう", "is_correct": false },
+            { "label": "ごめんなさい", "is_correct": false }
+          ]
+        }
+      ]
+    }
+  ]
+}
