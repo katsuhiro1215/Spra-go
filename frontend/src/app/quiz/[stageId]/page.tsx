@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { AutoFurigana } from "@/components/app/auto-furigana";
 import { Button as AppButton } from "@/components/app/button";
 import { apiFetch } from "@/lib/api";
 
@@ -239,7 +240,9 @@ export default function Page({
             />
           </div>
         )}
-        <h1 className="mt-2 text-xl font-bold">{question.prompt}</h1>
+        <h1 className="mt-2 text-xl font-bold">
+          <AutoFurigana text={question.prompt} />
+        </h1>
       </div>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -264,7 +267,7 @@ export default function Page({
               {/* 色だけに頼らず、正解/選択した不正解にはアイコンも添える(色弱配慮) */}
               {variant === "secondary" && <span aria-hidden>✓</span>}
               {variant === "danger" && <span aria-hidden>✕</span>}
-              {choice.label}
+              <AutoFurigana text={choice.label} />
             </AppButton>
           );
         })}
@@ -320,7 +323,7 @@ export default function Page({
                 )}
                 {correctChoiceLabel && (
                   <span className="text-base font-normal text-white/80">
-                    正解: {correctChoiceLabel}
+                    正解: <AutoFurigana text={correctChoiceLabel} />
                   </span>
                 )}
               </p>

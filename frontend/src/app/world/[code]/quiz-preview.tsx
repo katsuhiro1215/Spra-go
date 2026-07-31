@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { AutoFurigana } from "@/components/app/auto-furigana";
 import { Button as AppButton } from "@/components/app/button";
 import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 
@@ -60,7 +61,9 @@ export function QuizPreview({ data }: { data: SampleQuiz }) {
       <p className="text-xs font-medium text-white/70">
         体験クイズ {currentIndex + 1} / {questions.length}
       </p>
-      <h2 className="text-lg font-bold text-white">{question.prompt}</h2>
+      <h2 className="text-lg font-bold text-white">
+        <AutoFurigana text={question.prompt} />
+      </h2>
 
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         {question.choices.map((choice) => {
@@ -78,7 +81,7 @@ export function QuizPreview({ data }: { data: SampleQuiz }) {
               onClick={() => handleSelect(choice)}
               className="w-full normal-case"
             >
-              {choice.label}
+              <AutoFurigana text={choice.label} />
             </AppButton>
           );
         })}
