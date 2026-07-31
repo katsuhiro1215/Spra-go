@@ -11,6 +11,7 @@ import { Furigana } from "@/components/app/furigana";
 import { HpGauge } from "@/components/app/hp-gauge";
 import { PointsBadge } from "@/components/app/points-badge";
 import { SceneBackground } from "@/components/app/scene-background";
+import { WorldMap } from "@/components/app/world-map";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -172,7 +173,6 @@ export default function Page() {
     (c) => c.parent_id === null,
   );
   const allCountries = countries ?? [];
-  const total = allCountries.length;
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden">
@@ -275,44 +275,17 @@ export default function Page() {
                 ))}
               </div>
 
-              {/* デスクトップ: 円形に配置 */}
-              <div className="relative mx-auto hidden aspect-square w-full max-w-xl md:block">
-                <div className="absolute top-1/2 left-1/2 h-1/3 w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 blur-2xl" />
-                {allCountries.map((country, index) => {
-                  const angle = (2 * Math.PI * index) / total - Math.PI / 2;
-                  const radius = 42;
-                  const x = 50 + radius * Math.cos(angle);
-                  const y = 50 + radius * Math.sin(angle);
-
-                  return (
-                    <Link
-                      key={country.id}
-                      href={`/travel/${country.id}/start`}
-                      className="absolute -translate-x-1/2 -translate-y-1/2"
-                      style={{ left: `${x}%`, top: `${y}%` }}
-                    >
-                      <AppButton
-                        variant="default"
-                        className="relative flex aspect-square h-24 w-24 flex-col items-center justify-center gap-1 rounded-full p-2 text-center text-xs leading-tight text-balance shadow-lg lg:h-28 lg:w-28 lg:text-sm"
-                      >
-                        {country.is_suggested && (
-                          <span className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap text-amber-950 shadow">
-                            あなたの国?
-                          </span>
-                        )}
-                        <span className="relative h-6 w-9 shrink-0 overflow-hidden rounded-sm border border-white/40">
-                          <Image
-                            src={`/flag/${country.code}.svg`}
-                            alt={country.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </span>
-                        {country.name}
-                      </AppButton>
-                    </Link>
-                  );
-                })}
+              {/* デスクトップ: 世界地図から選ぶ */}
+              <div className="hidden w-full max-w-3xl md:block">
+                <WorldMap
+                  countries={allCountries}
+                  onSelect={(country) =>
+                    router.push(`/travel/${country.id}/start`)
+                  }
+                />
+                <p className="mt-2 text-center text-xs text-white/70 drop-shadow">
+                  色が付いている国をクリックしてね
+                </p>
               </div>
             </>
           )}
