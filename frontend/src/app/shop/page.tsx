@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { AppHeader } from "@/components/app/app-header";
 import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
 import { PointsBadge } from "@/components/app/points-badge";
@@ -168,6 +169,7 @@ export default function Page() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden">
       <SceneBackground />
+      <AppHeader />
 
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-12">
         <div className="flex items-center justify-between">

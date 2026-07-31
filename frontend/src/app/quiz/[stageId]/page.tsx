@@ -5,8 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { Button as AppButton } from "@/components/app/button";
+import { useSound } from "@/components/app/sound-provider";
 import { apiFetch } from "@/lib/api";
 
 type Choice = { id: number; label: string };
@@ -44,6 +46,7 @@ export default function Page({
 }) {
   const { stageId } = use(params);
   const router = useRouter();
+  const { play: playSound } = useSound();
 
   const [stage, setStage] = useState<StagePlayData | null | undefined>(
     undefined,
@@ -101,21 +104,27 @@ export default function Page({
 
   if (stage === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-        読み込み中...
+      <div className="flex min-h-screen flex-col">
+        <AppHeader />
+        <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+          読み込み中...
+        </div>
       </div>
     );
   }
 
   if (stage === null || stage.questions.length === 0) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-        <p className="text-sm text-muted-foreground">
-          このステージは見つかりませんでした。
-        </p>
-        <Link href="/" className="text-sm hover:underline">
-          ホームに戻る
-        </Link>
+      <div className="flex min-h-screen flex-col">
+        <AppHeader />
+        <div className="flex flex-1 flex-col items-center justify-center gap-3">
+          <p className="text-sm text-muted-foreground">
+            このステージは見つかりませんでした。
+          </p>
+          <Link href="/" className="text-sm hover:underline">
+            ホームに戻る
+          </Link>
+        </div>
       </div>
     );
   }
@@ -141,6 +150,7 @@ export default function Page({
       setCorrectChoiceId(data.correct_choice_id);
       setAnswered(true);
       setLastCorrect(Boolean(data.correct));
+      playSound(data.correct ? "correct" : "incorrect");
       setLastDelta(data.profile?.delta ?? null);
       setCombo(
         data.profile
@@ -190,23 +200,26 @@ export default function Page({
 
   if (finished) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
-        <h1 className="text-2xl font-bold">結果発表</h1>
-        <p className="text-4xl font-bold text-primary">
-          {score} / {stage.questions.length} 問正解
-        </p>
-        {completeResult?.title_granted && completeResult.title && (
-          <p className="text-sm font-semibold text-amber-600">
-            🏆 称号「{completeResult.title}」を獲得しました！
+      <div className="flex min-h-screen flex-col">
+        <AppHeader />
+        <div className="flex flex-1 flex-col items-center justify-center gap-6 px-6 text-center">
+          <h1 className="text-2xl font-bold">結果発表</h1>
+          <p className="text-4xl font-bold text-primary">
+            {score} / {stage.questions.length} 問正解
           </p>
-        )}
-        <div className="flex gap-3">
-          <AppButton variant="primary" onClick={handleRestart}>
-            もう一度
-          </AppButton>
-          <Link href="/">
-            <AppButton variant="default">ホームに戻る</AppButton>
-          </Link>
+          {completeResult?.title_granted && completeResult.title && (
+            <p className="text-sm font-semibold text-amber-600">
+              🏆 称号「{completeResult.title}」を獲得しました！
+            </p>
+          )}
+          <div className="flex gap-3">
+            <AppButton variant="primary" onClick={handleRestart}>
+              もう一度
+            </AppButton>
+            <Link href="/">
+              <AppButton variant="default">ホームに戻る</AppButton>
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -217,129 +230,132 @@ export default function Page({
   )?.label;
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col gap-8 px-6 py-12">
-      <div>
-        <p className="flex items-center gap-2 text-sm text-muted-foreground">
-          {stage.category.name} ・ Stage {stage.stage_number}
-          {stage.is_boss && (
-            <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-bold text-white">
-              BOSS
+    <div className="flex min-h-screen flex-col">
+      <AppHeader />
+      <div className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-8 px-6 py-12">
+        <div>
+          <p className="flex items-center gap-2 text-sm text-muted-foreground">
+            {stage.category.name} ・ Stage {stage.stage_number}
+            {stage.is_boss && (
+              <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-bold text-white">
+                BOSS
+              </span>
+            )}
+            <span>
+              ・ 問題 {currentIndex + 1} / {stage.questions.length}
             </span>
+          </p>
+          {question.country && (
+            <div className="relative mx-auto mt-4 h-28 w-44 overflow-hidden rounded-lg border border-border shadow-sm">
+              <Image
+                src={`/flag/${question.country.code}.svg`}
+                alt={question.country.name}
+                fill
+                className="object-cover"
+              />
+            </div>
           )}
-          <span>
-            ・ 問題 {currentIndex + 1} / {stage.questions.length}
-          </span>
-        </p>
-        {question.country && (
-          <div className="relative mx-auto mt-4 h-28 w-44 overflow-hidden rounded-lg border border-border shadow-sm">
-            <Image
-              src={`/flag/${question.country.code}.svg`}
-              alt={question.country.name}
-              fill
-              className="object-cover"
-            />
+          <h1 className="mt-2 text-xl font-bold">
+            <AutoFurigana text={question.prompt} />
+          </h1>
+        </div>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {question.choices.map((choice) => {
+            let variant: "default" | "secondary" | "danger" | "locked" =
+              "default";
+            if (answered) {
+              if (choice.id === correctChoiceId) variant = "secondary";
+              else if (choice.id === selectedChoiceId) variant = "danger";
+              else variant = "locked";
+            }
+
+            return (
+              <AppButton
+                key={choice.id}
+                variant={variant}
+                size="lg"
+                disabled={answered || submitting}
+                onClick={() => handleSelect(choice.id)}
+                className="w-full items-center justify-center gap-2 normal-case"
+              >
+                {/* 色だけに頼らず、正解/選択した不正解にはアイコンも添える(色弱配慮) */}
+                {variant === "secondary" && <span aria-hidden>✓</span>}
+                {variant === "danger" && <span aria-hidden>✕</span>}
+                <AutoFurigana text={choice.label} />
+              </AppButton>
+            );
+          })}
+        </div>
+
+        {answered && (
+          <div
+            className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 px-6 text-center ${
+              lastCorrect
+                ? "bg-linear-to-br from-emerald-950 via-green-900 to-emerald-950"
+                : "bg-linear-to-br from-zinc-950 via-rose-950 to-zinc-950"
+            }`}
+          >
+            {lastCorrect ? (
+              <>
+                <p className="animate-stage-intro text-6xl font-extrabold text-white drop-shadow-lg">
+                  ✨ Correct!!
+                </p>
+                <p className="animate-stage-intro-subtitle flex gap-4 text-lg font-semibold text-white/90">
+                  {typeof lastDelta?.xp === "number" && (
+                    <span>+{lastDelta.xp}XP</span>
+                  )}
+                  {typeof lastDelta?.coin === "number" && (
+                    <span>+{lastDelta.coin}Coin</span>
+                  )}
+                </p>
+                {combo && combo.combo >= 2 && (
+                  <p className="animate-stage-intro-subtitle text-lg font-bold text-amber-300">
+                    🔥 {combo.combo}コンボ！
+                  </p>
+                )}
+                {combo && combo.combo_milestone_bonus_coin > 0 && (
+                  <p className="animate-stage-intro-subtitle text-base font-semibold text-amber-200">
+                    ボーナス +{combo.combo_milestone_bonus_coin}Coin
+                  </p>
+                )}
+                {streak?.streak_extended_today && (
+                  <p className="animate-stage-intro-subtitle text-base font-semibold text-orange-200">
+                    🔥 {streak.streak}日連続プレイ！
+                    {streak.streak_milestone_bonus_coin > 0 &&
+                      ` ボーナス+${streak.streak_milestone_bonus_coin}Coin`}
+                  </p>
+                )}
+              </>
+            ) : (
+              <>
+                <p className="animate-stage-intro text-5xl font-extrabold text-rose-200 drop-shadow-lg">
+                  😢 Wrong...
+                </p>
+                <p className="animate-stage-intro-subtitle flex flex-col items-center gap-1 text-lg font-semibold text-white/90">
+                  {typeof lastDelta?.hp === "number" && (
+                    <span>❤️{lastDelta.hp}</span>
+                  )}
+                  {correctChoiceLabel && (
+                    <span className="text-base font-normal text-white/80">
+                      正解: <AutoFurigana text={correctChoiceLabel} />
+                    </span>
+                  )}
+                </p>
+              </>
+            )}
+
+            <AppButton
+              variant="primary"
+              size="lg"
+              onClick={handleNext}
+              className="mt-4"
+            >
+              {isLastQuestion ? "結果を見る ▶" : "次へ ▶"}
+            </AppButton>
           </div>
         )}
-        <h1 className="mt-2 text-xl font-bold">
-          <AutoFurigana text={question.prompt} />
-        </h1>
-      </div>
-
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {question.choices.map((choice) => {
-          let variant: "default" | "secondary" | "danger" | "locked" =
-            "default";
-          if (answered) {
-            if (choice.id === correctChoiceId) variant = "secondary";
-            else if (choice.id === selectedChoiceId) variant = "danger";
-            else variant = "locked";
-          }
-
-          return (
-            <AppButton
-              key={choice.id}
-              variant={variant}
-              size="lg"
-              disabled={answered || submitting}
-              onClick={() => handleSelect(choice.id)}
-              className="w-full items-center justify-center gap-2 normal-case"
-            >
-              {/* 色だけに頼らず、正解/選択した不正解にはアイコンも添える(色弱配慮) */}
-              {variant === "secondary" && <span aria-hidden>✓</span>}
-              {variant === "danger" && <span aria-hidden>✕</span>}
-              <AutoFurigana text={choice.label} />
-            </AppButton>
-          );
-        })}
-      </div>
-
-      {answered && (
-        <div
-          className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 px-6 text-center ${
-            lastCorrect
-              ? "bg-linear-to-br from-emerald-950 via-green-900 to-emerald-950"
-              : "bg-linear-to-br from-zinc-950 via-rose-950 to-zinc-950"
-          }`}
-        >
-          {lastCorrect ? (
-            <>
-              <p className="animate-stage-intro text-6xl font-extrabold text-white drop-shadow-lg">
-                ✨ Correct!!
-              </p>
-              <p className="animate-stage-intro-subtitle flex gap-4 text-lg font-semibold text-white/90">
-                {typeof lastDelta?.xp === "number" && (
-                  <span>+{lastDelta.xp}XP</span>
-                )}
-                {typeof lastDelta?.coin === "number" && (
-                  <span>+{lastDelta.coin}Coin</span>
-                )}
-              </p>
-              {combo && combo.combo >= 2 && (
-                <p className="animate-stage-intro-subtitle text-lg font-bold text-amber-300">
-                  🔥 {combo.combo}コンボ！
-                </p>
-              )}
-              {combo && combo.combo_milestone_bonus_coin > 0 && (
-                <p className="animate-stage-intro-subtitle text-base font-semibold text-amber-200">
-                  ボーナス +{combo.combo_milestone_bonus_coin}Coin
-                </p>
-              )}
-              {streak?.streak_extended_today && (
-                <p className="animate-stage-intro-subtitle text-base font-semibold text-orange-200">
-                  🔥 {streak.streak}日連続プレイ！
-                  {streak.streak_milestone_bonus_coin > 0 &&
-                    ` ボーナス+${streak.streak_milestone_bonus_coin}Coin`}
-                </p>
-              )}
-            </>
-          ) : (
-            <>
-              <p className="animate-stage-intro text-5xl font-extrabold text-rose-200 drop-shadow-lg">
-                😢 Wrong...
-              </p>
-              <p className="animate-stage-intro-subtitle flex flex-col items-center gap-1 text-lg font-semibold text-white/90">
-                {typeof lastDelta?.hp === "number" && (
-                  <span>❤️{lastDelta.hp}</span>
-                )}
-                {correctChoiceLabel && (
-                  <span className="text-base font-normal text-white/80">
-                    正解: <AutoFurigana text={correctChoiceLabel} />
-                  </span>
-                )}
-              </p>
-            </>
-          )}
-
-          <AppButton
-            variant="primary"
-            size="lg"
-            onClick={handleNext}
-            className="mt-4"
-          >
-            {isLastQuestion ? "結果を見る ▶" : "次へ ▶"}
-          </AppButton>
         </div>
-      )}
-    </div>
+      </div>
   );
 }

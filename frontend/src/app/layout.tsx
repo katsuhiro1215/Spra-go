@@ -4,6 +4,8 @@ import "./globals.css";
 
 import { AccessibilityControls } from "@/components/app/accessibility-controls";
 import { AccessibilityProvider } from "@/components/app/accessibility-provider";
+import { SoundControls } from "@/components/app/sound-controls";
+import { SoundProvider } from "@/components/app/sound-provider";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -32,8 +34,11 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <AccessibilityProvider>
-          {children}
-          <AccessibilityControls />
+          <SoundProvider>
+            {children}
+            <AccessibilityControls />
+            <SoundControls />
+          </SoundProvider>
         </AccessibilityProvider>
       </body>
     </html>
