@@ -360,7 +360,7 @@ function RegionRow({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon-sm">
+            <Button variant="ghost" size="icon-sm" aria-label="その他の操作">
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
