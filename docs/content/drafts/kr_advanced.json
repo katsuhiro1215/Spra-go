@@ -1,0 +1,587 @@
+{
+  "country_name": "韓国",
+  "country_code": "KR",
+  "difficulty": "上級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "太極旗を考案し、1882年に日本へ向かう船上で初めて使用したとされる朝鮮の政治家は誰？",
+          "choices": [
+            {"label": "朴泳孝（パク・ヨンヒョ）", "is_correct": true},
+            {"label": "金玉均", "is_correct": false},
+            {"label": "徐載弼", "is_correct": false},
+            {"label": "李承晩", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗が朝鮮王朝の高宗によって正式な国旗として公布されたのは西暦何年？",
+          "choices": [
+            {"label": "1883年", "is_correct": true},
+            {"label": "1876年", "is_correct": false},
+            {"label": "1897年", "is_correct": false},
+            {"label": "1910年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗のデザイン（配色・寸法など）が法令によって初めて統一されたのは西暦何年？",
+          "choices": [
+            {"label": "1949年", "is_correct": true},
+            {"label": "1883年", "is_correct": false},
+            {"label": "1919年", "is_correct": false},
+            {"label": "2007年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の意匠・寸法・掲揚方法などを定める現行の法律「大韓民国国旗法」が制定されたのは何年？",
+          "choices": [
+            {"label": "2007年", "is_correct": true},
+            {"label": "1949年", "is_correct": false},
+            {"label": "1984年", "is_correct": false},
+            {"label": "1997年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の四卦のうち、「坎（かん）」が象徴するものは？",
+          "choices": [
+            {"label": "水", "is_correct": true},
+            {"label": "天", "is_correct": false},
+            {"label": "地", "is_correct": false},
+            {"label": "火", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の四卦のうち、「離（り）」が象徴するものは？",
+          "choices": [
+            {"label": "火", "is_correct": true},
+            {"label": "水", "is_correct": false},
+            {"label": "天", "is_correct": false},
+            {"label": "地", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の四卦（乾坤坎離）は、中国古典のどの書物に由来する？",
+          "choices": [
+            {"label": "易経", "is_correct": true},
+            {"label": "論語", "is_correct": false},
+            {"label": "孫子", "is_correct": false},
+            {"label": "詩経", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "大韓帝国時代（1897年〜1910年）における太極旗の扱いとして正しいのは？",
+          "choices": [
+            {"label": "大韓帝国の正式な国旗として引き続き使用された", "is_correct": true},
+            {"label": "廃止され新しい旗に変わった", "is_correct": false},
+            {"label": "皇室専用の旗となり国旗ではなくなった", "is_correct": false},
+            {"label": "日章旗に置き換えられた", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本統治時代（1910年〜1945年）における朝鮮での太極旗の扱いとして正しいのは？",
+          "choices": [
+            {"label": "公的な使用が禁止され、独立運動の象徴として掲げられた", "is_correct": true},
+            {"label": "引き続き公式の国旗として使用された", "is_correct": false},
+            {"label": "学校教育で推奨された", "is_correct": false},
+            {"label": "日章旗と並んで公認された", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "1948年の大韓民国政府樹立に伴い、太極旗はどうなった？",
+          "choices": [
+            {"label": "大韓民国の正式な国旗として採用された", "is_correct": true},
+            {"label": "一時的に使用が停止された", "is_correct": false},
+            {"label": "デザインが全く新しいものに変更された", "is_correct": false},
+            {"label": "北朝鮮と共通の旗になった", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "ソウルの旧称の一つで、朝鮮王朝時代に使われていた名称は？",
+          "choices": [
+            {"label": "漢城（ハンソン）", "is_correct": true},
+            {"label": "開城", "is_correct": false},
+            {"label": "平壌", "is_correct": false},
+            {"label": "慶州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "かつて高麗の都であった都市で、現在は北朝鮮に位置するのは？",
+          "choices": [
+            {"label": "開城", "is_correct": true},
+            {"label": "平壌", "is_correct": false},
+            {"label": "漢城", "is_correct": false},
+            {"label": "慶州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "朝鮮王朝が漢城（現ソウル）に都を定めたのはいつ頃？",
+          "choices": [
+            {"label": "14世紀末（1394年）", "is_correct": true},
+            {"label": "10世紀頃", "is_correct": false},
+            {"label": "16世紀頃", "is_correct": false},
+            {"label": "18世紀頃", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "朝鮮王朝を建国し、漢城への遷都を行った初代国王は？",
+          "choices": [
+            {"label": "李成桂（太祖）", "is_correct": true},
+            {"label": "世宗", "is_correct": false},
+            {"label": "高宗", "is_correct": false},
+            {"label": "正祖", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ソウルにある朝鮮王朝の正宮（法宮）で、1395年に創建された宮殿は？",
+          "choices": [
+            {"label": "景福宮", "is_correct": true},
+            {"label": "昌徳宮", "is_correct": false},
+            {"label": "徳寿宮", "is_correct": false},
+            {"label": "慶熙宮", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "1997年にユネスコ世界文化遺産に登録された、ソウルの宮殿は？",
+          "choices": [
+            {"label": "昌徳宮", "is_correct": true},
+            {"label": "景福宮", "is_correct": false},
+            {"label": "徳寿宮", "is_correct": false},
+            {"label": "昌慶宮", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "朝鮮戦争（1950〜1953年）の際、一時的に韓国の臨時首都となった都市は？",
+          "choices": [
+            {"label": "釜山", "is_correct": true},
+            {"label": "大邱", "is_correct": false},
+            {"label": "光州", "is_correct": false},
+            {"label": "済州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "2012年から公式に業務を開始した、行政機能の一部を担う韓国の行政中心複合都市は？",
+          "choices": [
+            {"label": "世宗市", "is_correct": true},
+            {"label": "大田市", "is_correct": false},
+            {"label": "清州市", "is_correct": false},
+            {"label": "天安市", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "2022年、韓国大統領府（旧・青瓦台）が移転した先のソウルの地区は？",
+          "choices": [
+            {"label": "龍山", "is_correct": true},
+            {"label": "光化門", "is_correct": false},
+            {"label": "汝矣島", "is_correct": false},
+            {"label": "江南", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ソウル特別市の行政区（区）の数として正しいのはどれ？",
+          "choices": [
+            {"label": "25区", "is_correct": true},
+            {"label": "15区", "is_correct": false},
+            {"label": "30区", "is_correct": false},
+            {"label": "20区", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "東アジアの国旗の中で、唯一「陰陽思想」に基づく太極文様を国旗の中心に据えているのはどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇻🇳", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "1948年に政府が樹立され、それ以前の1883年から意匠の原型が使われ続けている国旗はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇰🇵", "is_correct": false},
+            {"label": "🇹🇼", "is_correct": false},
+            {"label": "🇲🇳", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "分断国家の南側を代表する国旗として、国際連合に加盟している国はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇰🇵", "is_correct": false},
+            {"label": "🇩🇪", "is_correct": false},
+            {"label": "🇻🇳", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "G20サミットに参加する、東アジアの太極旗を国旗とする国はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇹🇭", "is_correct": false},
+            {"label": "🇮🇩", "is_correct": false},
+            {"label": "🇵🇭", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "OECD加盟国であり、太極旗を国旗とする東アジアの国はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇻🇳", "is_correct": false},
+            {"label": "🇲🇾", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "1988年に夏季オリンピックを首都で開催した、この国旗の国はどこ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇹🇭", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "2018年に冬季オリンピックを平昌（ピョンチャン）で開催した国の国旗はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇰🇵", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "半導体産業やIT・ブロードバンド普及率の高さで知られる、太極旗の国はどこ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇸🇬", "is_correct": false},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇹🇼", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "板門店を挟んで北朝鮮と国境を接する国の国旗はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇷🇺", "is_correct": false},
+            {"label": "🇯🇵", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "国旗中央の太極文様が「陰陽の調和」を象徴するとされる、この国旗の国は？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇲🇳", "is_correct": false},
+            {"label": "🇳🇵", "is_correct": false},
+            {"label": "🇧🇹", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "板門店で朝鮮戦争の休戦協定が結ばれたのは西暦何年？",
+          "choices": [
+            {"label": "1953年", "is_correct": true},
+            {"label": "1950年", "is_correct": false},
+            {"label": "1945年", "is_correct": false},
+            {"label": "1965年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国と北朝鮮が同時に国際連合へ加盟したのは西暦何年？",
+          "choices": [
+            {"label": "1991年", "is_correct": true},
+            {"label": "1948年", "is_correct": false},
+            {"label": "1953年", "is_correct": false},
+            {"label": "1961年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の行政区画で、済州島に指定されている特別な行政単位の正式名称は？",
+          "choices": [
+            {"label": "済州特別自治道", "is_correct": true},
+            {"label": "済州広域市", "is_correct": false},
+            {"label": "済州特別市", "is_correct": false},
+            {"label": "済州道", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "大韓民国の国土面積として、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {"label": "約10万平方キロメートル", "is_correct": true},
+            {"label": "約38万平方キロメートル", "is_correct": false},
+            {"label": "約5万平方キロメートル", "is_correct": false},
+            {"label": "約100万平方キロメートル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の総人口として、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {"label": "約5100万人", "is_correct": true},
+            {"label": "約1億人", "is_correct": false},
+            {"label": "約2500万人", "is_correct": false},
+            {"label": "約7000万人", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "済州島の漢拏山周辺が2007年にユネスコ世界自然遺産として登録された際の正式名称に近いものはどれ？",
+          "choices": [
+            {"label": "済州火山島と溶岩洞窟群", "is_correct": true},
+            {"label": "済州民俗村", "is_correct": false},
+            {"label": "漢拏山国立公園", "is_correct": false},
+            {"label": "城山日出峰", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国国内で最も高い山、漢拏山の標高として正しいのはどれ？",
+          "choices": [
+            {"label": "1,947メートル", "is_correct": true},
+            {"label": "1,708メートル", "is_correct": false},
+            {"label": "2,744メートル", "is_correct": false},
+            {"label": "1,500メートル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国国内（大韓民国領域内）で最長の川、洛東江の全長として正しいのはどれ？",
+          "choices": [
+            {"label": "約525キロメートル", "is_correct": true},
+            {"label": "約1,300キロメートル", "is_correct": false},
+            {"label": "約200キロメートル", "is_correct": false},
+            {"label": "約700キロメートル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ソウルを流れる漢江（ハンガン）の全長として、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {"label": "約494キロメートル", "is_correct": true},
+            {"label": "約100キロメートル", "is_correct": false},
+            {"label": "約1,000キロメートル", "is_correct": false},
+            {"label": "約250キロメートル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国と日本の間で領有権を巡る問題がある、日本海に浮かぶ島（韓国名：独島）は？",
+          "choices": [
+            {"label": "竹島", "is_correct": true},
+            {"label": "対馬", "is_correct": false},
+            {"label": "済州島", "is_correct": false},
+            {"label": "鬱陵島", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "韓国レジェンド",
+      "questions": [
+        {
+          "prompt": "ハングルが多くの言語学者から「合理的で科学的な文字体系」と評価される理由の一つは？",
+          "choices": [
+            {"label": "発音する際の発音器官の形を象形化して子音字を作ったため", "is_correct": true},
+            {"label": "アルファベットをそのまま借用したため", "is_correct": false},
+            {"label": "漢字の画数を単純化しただけのため", "is_correct": false},
+            {"label": "絵文字を起源とするため", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ハングルの子音字「ㄱ」は、発音する際の何の形を象ったとされる？",
+          "choices": [
+            {"label": "舌根が喉を塞ぐ形", "is_correct": true},
+            {"label": "唇の形", "is_correct": false},
+            {"label": "歯の形", "is_correct": false},
+            {"label": "声帯の形", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「訓民正音解例本」がユネスコ「世界の記憶」に登録されたのは西暦何年？",
+          "choices": [
+            {"label": "1997年", "is_correct": true},
+            {"label": "1990年", "is_correct": false},
+            {"label": "2007年", "is_correct": false},
+            {"label": "1945年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "朝鮮王朝時代、ハングルは公文書では軽んじられ「諺文（オンムン）」と呼ばれ、主に誰が使う文字とされていた？",
+          "choices": [
+            {"label": "女性や庶民", "is_correct": true},
+            {"label": "王族の男性のみ", "is_correct": false},
+            {"label": "外国の使節のみ", "is_correct": false},
+            {"label": "僧侶のみ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "日本統治時代の朝鮮語教育について正しいのはどれ？",
+          "choices": [
+            {"label": "1930年代後半以降、学校教育での朝鮮語使用が制限・禁止されていった", "is_correct": true},
+            {"label": "朝鮮語教育がむしろ推奨され普及した", "is_correct": false},
+            {"label": "朝鮮語のみで教育が行われた", "is_correct": false},
+            {"label": "ハングルが日本によって新たに作られた", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語の敬語体系のうち、話し手が自分の行動をへりくだって言う言い方を何という？",
+          "choices": [
+            {"label": "謙譲語", "is_correct": true},
+            {"label": "尊敬語", "is_correct": false},
+            {"label": "丁寧語", "is_correct": false},
+            {"label": "命令形", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で、目上の人の動作に付ける尊敬の接尾辞はどれ？",
+          "choices": [
+            {"label": "シ（시）", "is_correct": true},
+            {"label": "ヨ（요）", "is_correct": false},
+            {"label": "ダ（다）", "is_correct": false},
+            {"label": "ゲッ（겠）", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語の固有数詞は99までしか使われず、100以上では主にどの数詞体系が使われる？",
+          "choices": [
+            {"label": "漢数詞", "is_correct": true},
+            {"label": "固有数詞のまま拡張して使う", "is_correct": false},
+            {"label": "英語の数詞", "is_correct": false},
+            {"label": "使われない", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "現代韓国（大韓民国）の標準語は、どの地域の言葉を基準に定められている？",
+          "choices": [
+            {"label": "ソウルの言葉", "is_correct": true},
+            {"label": "釜山の言葉", "is_correct": false},
+            {"label": "平壌の言葉", "is_correct": false},
+            {"label": "済州島の言葉", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "北朝鮮の標準語（文化語）は、どの都市の言葉を基準としている？",
+          "choices": [
+            {"label": "平壌の言葉", "is_correct": true},
+            {"label": "ソウルの言葉", "is_correct": false},
+            {"label": "開城の言葉", "is_correct": false},
+            {"label": "元山の言葉", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語と日本語に共通する文法的特徴として正しいのはどれ？",
+          "choices": [
+            {"label": "助詞を使い、語順がSOV型である", "is_correct": true},
+            {"label": "主語を必ず文頭に置かない", "is_correct": false},
+            {"label": "動詞の活用がない", "is_correct": false},
+            {"label": "声調言語である", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語の漢字語の発音は日本語の音読みと似ている単語が多い。これは両言語がともに何に由来する発音を取り入れたため？",
+          "choices": [
+            {"label": "古代中国語の発音", "is_correct": true},
+            {"label": "古代モンゴル語の発音", "is_correct": false},
+            {"label": "サンスクリット語の発音", "is_correct": false},
+            {"label": "満州語の発音", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国で1970年前後に本格化した、学校教育や公文書でのハングル使用を進める政策を何という？",
+          "choices": [
+            {"label": "ハングル専用政策", "is_correct": true},
+            {"label": "国漢文混用政策", "is_correct": false},
+            {"label": "訓民正音復興運動", "is_correct": false},
+            {"label": "諺文廃止令", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "現在の韓国の新聞・公文書における漢字使用について正しいのはどれ？",
+          "choices": [
+            {"label": "ほとんどハングルのみで表記され、漢字は補助的にしか使われない", "is_correct": true},
+            {"label": "日本と同様に日常的に漢字が多用されている", "is_correct": false},
+            {"label": "漢字は完全に法律で禁止されている", "is_correct": false},
+            {"label": "英語表記が漢字に取って代わった", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「ハングル」という名称を提唱したとされる、日本統治時代の朝鮮語学者は誰？",
+          "choices": [
+            {"label": "周時経（チュ・シギョン）", "is_correct": true},
+            {"label": "世宗大王", "is_correct": false},
+            {"label": "朴泳孝", "is_correct": false},
+            {"label": "李承晩", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語の慣用句「ヌンチが速い（눈치가 빠르다）」の意味として近いのはどれ？",
+          "choices": [
+            {"label": "空気を読むのが早い、察しが良い", "is_correct": true},
+            {"label": "目が良い", "is_correct": false},
+            {"label": "歩くのが速い", "is_correct": false},
+            {"label": "お金の計算が得意", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で「情（정）」という言葉が表す文化的概念の説明として近いのはどれ？",
+          "choices": [
+            {"label": "長い時間をかけて育まれる、人と人との深い愛着や絆", "is_correct": true},
+            {"label": "一瞬で燃え上がる激しい恋愛感情", "is_correct": false},
+            {"label": "契約に基づく義務的な関係", "is_correct": false},
+            {"label": "見知らぬ人への警戒心", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国でも日常的に使われる漢字由来の四字熟語（故事成語）の多くは、どの言語圏の古典に由来する？",
+          "choices": [
+            {"label": "中国の古典", "is_correct": true},
+            {"label": "インドの古典", "is_correct": false},
+            {"label": "日本の古典", "is_correct": false},
+            {"label": "モンゴルの古典", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語能力試験（TOPIK）は、主に何を測定するための試験？",
+          "choices": [
+            {"label": "韓国語を母語としない人の韓国語能力", "is_correct": true},
+            {"label": "韓国人の国語力", "is_correct": false},
+            {"label": "韓国の歴史知識", "is_correct": false},
+            {"label": "韓国の地理知識", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "世宗大王の業績として、ハングル創製以外に知られているものはどれ？",
+          "choices": [
+            {"label": "測雨器や日時計など科学技術の発展を奨励した", "is_correct": true},
+            {"label": "朝鮮半島を初めて統一した", "is_correct": false},
+            {"label": "仏教を国教に定めた", "is_correct": false},
+            {"label": "日本と初めて国交を樹立した", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}
