@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
 import { BackLink } from "@/components/app/back-link";
+import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
 import { PointsBadge } from "@/components/app/points-badge";
@@ -171,7 +172,7 @@ export default function Page() {
       <SceneBackground />
       <AppHeader />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-12">
+      <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-12 pb-24">
         <div className="flex items-center justify-between">
           <div>
             <BackLink />
@@ -271,6 +272,8 @@ export default function Page() {
           </div>
         )}
       </div>
+
+      <BottomNav />
     </div>
   );
 }

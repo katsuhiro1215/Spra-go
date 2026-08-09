@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
 import { BackLink } from "@/components/app/back-link";
+import { BottomNav } from "@/components/app/bottom-nav";
 import { Furigana } from "@/components/app/furigana";
 import { SceneBackground } from "@/components/app/scene-background";
 import { StagePath } from "@/components/app/stage-path";
@@ -142,7 +143,7 @@ export default function Page({
       <SceneBackground />
       <AppHeader />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-12">
+      <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-12 pb-24">
         <div>
           <BackLink />
 
@@ -304,6 +305,8 @@ export default function Page({
           </div>
         )}
       </div>
+
+      <BottomNav />
     </div>
   );
 }

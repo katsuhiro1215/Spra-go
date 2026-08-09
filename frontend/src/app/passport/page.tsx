@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
 import { BackLink } from "@/components/app/back-link";
+import { BottomNav } from "@/components/app/bottom-nav";
 import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
 
@@ -105,7 +106,7 @@ export default function Page() {
       <SceneBackground />
       <AppHeader />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-6 py-10">
+      <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-6 py-10 pb-24">
         <div>
           <BackLink />
         </div>
@@ -293,6 +294,8 @@ export default function Page() {
           </section>
         </div>
       </div>
+
+      <BottomNav />
     </div>
   );
 }

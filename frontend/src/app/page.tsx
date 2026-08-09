@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
+import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 import { Furigana } from "@/components/app/furigana";
@@ -155,7 +156,7 @@ export default function Page() {
       <SceneBackground />
       <AppHeader />
 
-      <main className="relative z-10 flex flex-1 flex-col items-center gap-8 px-6 py-10">
+      <main className="relative z-10 flex flex-1 flex-col items-center gap-8 px-6 py-10 pb-24">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
             どこから<Furigana text="冒険" reading="ぼうけん" />する？
@@ -343,6 +344,8 @@ export default function Page() {
           </div>
         </div>
       )}
+
+      <BottomNav />
     </div>
   );
 }
