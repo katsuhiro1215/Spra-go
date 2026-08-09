@@ -1,0 +1,1307 @@
+{
+  "country_name": "インドネシア",
+  "country_code": "ID",
+  "difficulty": "初級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "次の国旗の国名として正しいものはどれ？",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "マレーシア",
+              "is_correct": false
+            },
+            {
+              "label": "フィリピン",
+              "is_correct": false
+            },
+            {
+              "label": "ベトナム",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗はどこの国のものでしょう？",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "タイ",
+              "is_correct": false
+            },
+            {
+              "label": "シンガポール",
+              "is_correct": false
+            },
+            {
+              "label": "ブルネイ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "表示されている国旗の国名を選んでください。",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "モナコ",
+              "is_correct": false
+            },
+            {
+              "label": "ポーランド",
+              "is_correct": false
+            },
+            {
+              "label": "ラオス",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗を掲げている国はどこ？",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "日本",
+              "is_correct": false
+            },
+            {
+              "label": "韓国",
+              "is_correct": false
+            },
+            {
+              "label": "中国",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "写真の国旗の国名として正しいのは？",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "マレーシア",
+              "is_correct": false
+            },
+            {
+              "label": "インド",
+              "is_correct": false
+            },
+            {
+              "label": "スリランカ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗が使われている国は？",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "カンボジア",
+              "is_correct": false
+            },
+            {
+              "label": "ミャンマー",
+              "is_correct": false
+            },
+            {
+              "label": "ネパール",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の国旗に当てはまる国名を選ぼう。",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "フィリピン",
+              "is_correct": false
+            },
+            {
+              "label": "ベトナム",
+              "is_correct": false
+            },
+            {
+              "label": "パキスタン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "この国旗の国はどこでしょう？",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "タイ",
+              "is_correct": false
+            },
+            {
+              "label": "モナコ",
+              "is_correct": false
+            },
+            {
+              "label": "ブータン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "表示された国旗を見て、正しい国名を選んでください。",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "シンガポール",
+              "is_correct": false
+            },
+            {
+              "label": "マレーシア",
+              "is_correct": false
+            },
+            {
+              "label": "東ティモール",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "赤と白の2色でできたシンプルな国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "ポーランド",
+              "is_correct": false
+            },
+            {
+              "label": "モナコ",
+              "is_correct": false
+            },
+            {
+              "label": "日本",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "インドネシアの首都はどこでしょう？",
+          "choices": [
+            {
+              "label": "ジャカルタ",
+              "is_correct": true
+            },
+            {
+              "label": "バリ",
+              "is_correct": false
+            },
+            {
+              "label": "スラバヤ",
+              "is_correct": false
+            },
+            {
+              "label": "バンドン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの首都があるのはどの島？",
+          "choices": [
+            {
+              "label": "ジャワ島",
+              "is_correct": true
+            },
+            {
+              "label": "バリ島",
+              "is_correct": false
+            },
+            {
+              "label": "スマトラ島",
+              "is_correct": false
+            },
+            {
+              "label": "カリマンタン島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次のうち、インドネシアの首都はどれ？",
+          "choices": [
+            {
+              "label": "ジャカルタ",
+              "is_correct": true
+            },
+            {
+              "label": "バンコク",
+              "is_correct": false
+            },
+            {
+              "label": "マニラ",
+              "is_correct": false
+            },
+            {
+              "label": "ハノイ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "たくさんの高いビルや会社が集まる、インドネシアの首都はどこ？",
+          "choices": [
+            {
+              "label": "ジャカルタ",
+              "is_correct": true
+            },
+            {
+              "label": "バリ",
+              "is_correct": false
+            },
+            {
+              "label": "ジョグジャカルタ",
+              "is_correct": false
+            },
+            {
+              "label": "スラバヤ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの政治・経済の中心となっている都市はどこ？",
+          "choices": [
+            {
+              "label": "ジャカルタ",
+              "is_correct": true
+            },
+            {
+              "label": "メダン",
+              "is_correct": false
+            },
+            {
+              "label": "スマラン",
+              "is_correct": false
+            },
+            {
+              "label": "マカッサル",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの首都として正しい都市を選んでください。",
+          "choices": [
+            {
+              "label": "ジャカルタ",
+              "is_correct": true
+            },
+            {
+              "label": "スラバヤ",
+              "is_correct": false
+            },
+            {
+              "label": "バンドン",
+              "is_correct": false
+            },
+            {
+              "label": "バリ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "観光地として有名な「バリ島」は、インドネシアの首都ではありません。では首都はどこ？",
+          "choices": [
+            {
+              "label": "ジャカルタ",
+              "is_correct": true
+            },
+            {
+              "label": "デンパサール",
+              "is_correct": false
+            },
+            {
+              "label": "ウブド",
+              "is_correct": false
+            },
+            {
+              "label": "クタ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアでいちばん人口が多い都市はどこ？",
+          "choices": [
+            {
+              "label": "ジャカルタ",
+              "is_correct": true
+            },
+            {
+              "label": "スラバヤ",
+              "is_correct": false
+            },
+            {
+              "label": "バンドン",
+              "is_correct": false
+            },
+            {
+              "label": "メダン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "外国の大使館が多く置かれている、インドネシアの都市はどこ？",
+          "choices": [
+            {
+              "label": "ジャカルタ",
+              "is_correct": true
+            },
+            {
+              "label": "バリ",
+              "is_correct": false
+            },
+            {
+              "label": "スラバヤ",
+              "is_correct": false
+            },
+            {
+              "label": "ジョグジャカルタ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの首都はどこの海に面した港町でしょう？",
+          "choices": [
+            {
+              "label": "ジャワ海",
+              "is_correct": true
+            },
+            {
+              "label": "日本海",
+              "is_correct": false
+            },
+            {
+              "label": "紅海",
+              "is_correct": false
+            },
+            {
+              "label": "地中海",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "インドネシアの国旗はどれでしょう？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇲🇾",
+              "is_correct": false
+            },
+            {
+              "label": "🇵🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇻🇳",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗を選んでください。",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇹🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇸🇬",
+              "is_correct": false
+            },
+            {
+              "label": "🇧🇳",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の中から、インドネシアの国旗を選ぼう。",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇰🇷",
+              "is_correct": false
+            },
+            {
+              "label": "🇨🇳",
+              "is_correct": false
+            },
+            {
+              "label": "🇮🇳",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "赤と白の横じま2色でできた国旗はどれ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇯🇵",
+              "is_correct": false
+            },
+            {
+              "label": "🇰🇷",
+              "is_correct": false
+            },
+            {
+              "label": "🇹🇭",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の国旗のうち、インドネシアのものはどれ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇱🇦",
+              "is_correct": false
+            },
+            {
+              "label": "🇲🇲",
+              "is_correct": false
+            },
+            {
+              "label": "🇰🇭",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "表示された国旗の中から、インドネシアを選んでください。",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇳🇵",
+              "is_correct": false
+            },
+            {
+              "label": "🇱🇰",
+              "is_correct": false
+            },
+            {
+              "label": "🇧🇩",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗として正しいものはどれ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇵🇱",
+              "is_correct": false
+            },
+            {
+              "label": "🇲🇨",
+              "is_correct": false
+            },
+            {
+              "label": "🇦🇹",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次のうち、インドネシアの国旗を選んでください。",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇹🇱",
+              "is_correct": false
+            },
+            {
+              "label": "🇵🇬",
+              "is_correct": false
+            },
+            {
+              "label": "🇧🇳",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "上が赤、下が白の国旗はどれでしょう？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇯🇵",
+              "is_correct": false
+            },
+            {
+              "label": "🇻🇳",
+              "is_correct": false
+            },
+            {
+              "label": "🇸🇬",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次の国旗の中から、インドネシアのものを選ぼう。",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇲🇾",
+              "is_correct": false
+            },
+            {
+              "label": "🇹🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇵🇭",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "インドネシアはどの大陸にある国でしょう？",
+          "choices": [
+            {
+              "label": "アジア大陸",
+              "is_correct": true
+            },
+            {
+              "label": "ヨーロッパ大陸",
+              "is_correct": false
+            },
+            {
+              "label": "アフリカ大陸",
+              "is_correct": false
+            },
+            {
+              "label": "南アメリカ大陸",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアはたくさんの何が集まってできた国でしょう？",
+          "choices": [
+            {
+              "label": "島",
+              "is_correct": true
+            },
+            {
+              "label": "山",
+              "is_correct": false
+            },
+            {
+              "label": "湖",
+              "is_correct": false
+            },
+            {
+              "label": "砂漠",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "世界で一番多くの島からなる国といわれているのはどこ？",
+          "choices": [
+            {
+              "label": "インドネシア",
+              "is_correct": true
+            },
+            {
+              "label": "フィリピン",
+              "is_correct": false
+            },
+            {
+              "label": "ノルウェー",
+              "is_correct": false
+            },
+            {
+              "label": "ギリシャ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国土を通っている、地球を横に一周する線は何？",
+          "choices": [
+            {
+              "label": "赤道",
+              "is_correct": true
+            },
+            {
+              "label": "北極線",
+              "is_correct": false
+            },
+            {
+              "label": "経線",
+              "is_correct": false
+            },
+            {
+              "label": "国境線",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアで一番人口が多い島はどこ？",
+          "choices": [
+            {
+              "label": "ジャワ島",
+              "is_correct": true
+            },
+            {
+              "label": "バリ島",
+              "is_correct": false
+            },
+            {
+              "label": "スマトラ島",
+              "is_correct": false
+            },
+            {
+              "label": "パプア島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "観光地として世界的に有名な、インドネシアのリゾート島はどこ？",
+          "choices": [
+            {
+              "label": "バリ島",
+              "is_correct": true
+            },
+            {
+              "label": "ジャワ島",
+              "is_correct": false
+            },
+            {
+              "label": "スマトラ島",
+              "is_correct": false
+            },
+            {
+              "label": "スラウェシ島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "コモドオオトカゲが生息していることで有名なインドネシアの島は？",
+          "choices": [
+            {
+              "label": "コモド島",
+              "is_correct": true
+            },
+            {
+              "label": "バリ島",
+              "is_correct": false
+            },
+            {
+              "label": "ジャワ島",
+              "is_correct": false
+            },
+            {
+              "label": "ロンボク島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアが位置する地域として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "東南アジア",
+              "is_correct": true
+            },
+            {
+              "label": "東アジア",
+              "is_correct": false
+            },
+            {
+              "label": "南アジア",
+              "is_correct": false
+            },
+            {
+              "label": "西アジア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "世界最大級の仏教遺跡「ボロブドゥール」があるインドネシアの島はどこ？",
+          "choices": [
+            {
+              "label": "ジャワ島",
+              "is_correct": true
+            },
+            {
+              "label": "バリ島",
+              "is_correct": false
+            },
+            {
+              "label": "スマトラ島",
+              "is_correct": false
+            },
+            {
+              "label": "カリマンタン島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国土の多くを占める気候はどれ？",
+          "choices": [
+            {
+              "label": "熱帯気候",
+              "is_correct": true
+            },
+            {
+              "label": "寒帯気候",
+              "is_correct": false
+            },
+            {
+              "label": "乾燥帯気候",
+              "is_correct": false
+            },
+            {
+              "label": "亜寒帯気候",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "インドネシア博士",
+      "questions": [
+        {
+          "prompt": "インドネシアの公用語は何語でしょう？",
+          "choices": [
+            {
+              "label": "インドネシア語",
+              "is_correct": true
+            },
+            {
+              "label": "中国語",
+              "is_correct": false
+            },
+            {
+              "label": "ヒンディー語",
+              "is_correct": false
+            },
+            {
+              "label": "アラビア語",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「おはよう」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "スラマットパギ",
+              "is_correct": true
+            },
+            {
+              "label": "スラマットマラム",
+              "is_correct": false
+            },
+            {
+              "label": "テリマカシ",
+              "is_correct": false
+            },
+            {
+              "label": "サンパイジュンパ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「ありがとう」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "テリマカシ",
+              "is_correct": true
+            },
+            {
+              "label": "スラマットパギ",
+              "is_correct": false
+            },
+            {
+              "label": "マアフ",
+              "is_correct": false
+            },
+            {
+              "label": "アパカバール",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「こんばんは」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "スラマットマラム",
+              "is_correct": true
+            },
+            {
+              "label": "スラマットパギ",
+              "is_correct": false
+            },
+            {
+              "label": "スラマットシアン",
+              "is_correct": false
+            },
+            {
+              "label": "テリマカシ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「昼のこんにちは」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "スラマットシアン",
+              "is_correct": true
+            },
+            {
+              "label": "スラマットパギ",
+              "is_correct": false
+            },
+            {
+              "label": "スラマットマラム",
+              "is_correct": false
+            },
+            {
+              "label": "サンパイジュンパ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「はい」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "ヤー",
+              "is_correct": true
+            },
+            {
+              "label": "ティダック",
+              "is_correct": false
+            },
+            {
+              "label": "マアフ",
+              "is_correct": false
+            },
+            {
+              "label": "テリマカシ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「いいえ」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "ティダック",
+              "is_correct": true
+            },
+            {
+              "label": "ヤー",
+              "is_correct": false
+            },
+            {
+              "label": "テリマカシ",
+              "is_correct": false
+            },
+            {
+              "label": "アパカバール",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「すみません・ごめんなさい」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "マアフ",
+              "is_correct": true
+            },
+            {
+              "label": "ヤー",
+              "is_correct": false
+            },
+            {
+              "label": "テリマカシ",
+              "is_correct": false
+            },
+            {
+              "label": "スラマットパギ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「お元気ですか？」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "アパカバール",
+              "is_correct": true
+            },
+            {
+              "label": "テリマカシ",
+              "is_correct": false
+            },
+            {
+              "label": "マアフ",
+              "is_correct": false
+            },
+            {
+              "label": "サンパイジュンパ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「さようなら」を意味する言葉はどれ？",
+          "choices": [
+            {
+              "label": "サンパイジュンパ",
+              "is_correct": true
+            },
+            {
+              "label": "スラマットパギ",
+              "is_correct": false
+            },
+            {
+              "label": "アパカバール",
+              "is_correct": false
+            },
+            {
+              "label": "マアフ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で数字の「1」を表す言葉はどれ？",
+          "choices": [
+            {
+              "label": "サトゥ",
+              "is_correct": true
+            },
+            {
+              "label": "ドゥア",
+              "is_correct": false
+            },
+            {
+              "label": "ティガ",
+              "is_correct": false
+            },
+            {
+              "label": "エンパット",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で数字の「2」を表す言葉はどれ？",
+          "choices": [
+            {
+              "label": "ドゥア",
+              "is_correct": true
+            },
+            {
+              "label": "サトゥ",
+              "is_correct": false
+            },
+            {
+              "label": "ティガ",
+              "is_correct": false
+            },
+            {
+              "label": "リマ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で数字の「3」を表す言葉はどれ？",
+          "choices": [
+            {
+              "label": "ティガ",
+              "is_correct": true
+            },
+            {
+              "label": "サトゥ",
+              "is_correct": false
+            },
+            {
+              "label": "ドゥア",
+              "is_correct": false
+            },
+            {
+              "label": "エンパット",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語のアルファベットとして使われている文字はどれ？",
+          "choices": [
+            {
+              "label": "ローマ字（アルファベット）",
+              "is_correct": true
+            },
+            {
+              "label": "漢字",
+              "is_correct": false
+            },
+            {
+              "label": "ハングル",
+              "is_correct": false
+            },
+            {
+              "label": "タイ文字",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "多くの民族が暮らすインドネシアで、共通語として使われている言葉は？",
+          "choices": [
+            {
+              "label": "インドネシア語",
+              "is_correct": true
+            },
+            {
+              "label": "ジャワ語",
+              "is_correct": false
+            },
+            {
+              "label": "英語",
+              "is_correct": false
+            },
+            {
+              "label": "オランダ語",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアで一番多くの人が信仰している宗教はどれ？",
+          "choices": [
+            {
+              "label": "イスラム教",
+              "is_correct": true
+            },
+            {
+              "label": "仏教",
+              "is_correct": false
+            },
+            {
+              "label": "ヒンドゥー教",
+              "is_correct": false
+            },
+            {
+              "label": "キリスト教",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "バリ島で多くの人が信仰している宗教はどれ？",
+          "choices": [
+            {
+              "label": "ヒンドゥー教",
+              "is_correct": true
+            },
+            {
+              "label": "イスラム教",
+              "is_correct": false
+            },
+            {
+              "label": "仏教",
+              "is_correct": false
+            },
+            {
+              "label": "神道",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国章に描かれている伝説の鳥は何？",
+          "choices": [
+            {
+              "label": "ガルーダ",
+              "is_correct": true
+            },
+            {
+              "label": "フェニックス",
+              "is_correct": false
+            },
+            {
+              "label": "鳳凰",
+              "is_correct": false
+            },
+            {
+              "label": "白鳥",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「多様性の中の統一」を意味する、インドネシアの国是（モットー）はどれ？",
+          "choices": [
+            {
+              "label": "ビネカ・トゥンガル・イカ",
+              "is_correct": true
+            },
+            {
+              "label": "メルデカ",
+              "is_correct": false
+            },
+            {
+              "label": "パンチャシラ",
+              "is_correct": false
+            },
+            {
+              "label": "ガルーダ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアで使われている通貨の単位はどれ？",
+          "choices": [
+            {
+              "label": "ルピア",
+              "is_correct": true
+            },
+            {
+              "label": "ドル",
+              "is_correct": false
+            },
+            {
+              "label": "リンギット",
+              "is_correct": false
+            },
+            {
+              "label": "バーツ",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

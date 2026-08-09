@@ -1,0 +1,1307 @@
+{
+  "country_name": "インドネシア",
+  "country_code": "ID",
+  "difficulty": "上級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "インドネシア独立宣言の際、初めて「紅白旗」を縫い上げたとされる人物は誰？",
+          "choices": [
+            {
+              "label": "ファトマワティ（スカルノ初代大統領夫人）",
+              "is_correct": true
+            },
+            {
+              "label": "メガワティ・スカルノプトゥリ",
+              "is_correct": false
+            },
+            {
+              "label": "カルティニ",
+              "is_correct": false
+            },
+            {
+              "label": "チュト・ニャ・ディエン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "1945年8月17日、独立宣言とともに最初に掲げられた「聖なる旗（プサカ旗）」は、現在どうなっている？",
+          "choices": [
+            {
+              "label": "劣化のため博物館などで保管され、現在は複製が式典で使用されている",
+              "is_correct": true
+            },
+            {
+              "label": "今も毎年の式典で実物が掲げられている",
+              "is_correct": false
+            },
+            {
+              "label": "独立戦争中に焼失し現存しない",
+              "is_correct": false
+            },
+            {
+              "label": "オランダに返還された",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗を法律で正式に規定している法律はどれ？",
+          "choices": [
+            {
+              "label": "2009年制定の法律第24号（国旗・言語・国章・国歌法）",
+              "is_correct": true
+            },
+            {
+              "label": "1945年憲法本文",
+              "is_correct": false
+            },
+            {
+              "label": "1999年国旗基本法",
+              "is_correct": false
+            },
+            {
+              "label": "1950年臨時憲法付則",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗と配色が酷似するモナコの国旗との違いとして正しいのはどれ？",
+          "choices": [
+            {
+              "label": "縦横比が異なる（モナコは4対5、インドネシアは2対3）",
+              "is_correct": true
+            },
+            {
+              "label": "色の並び順が上下逆",
+              "is_correct": false
+            },
+            {
+              "label": "モナコの旗には紋章が入る",
+              "is_correct": false
+            },
+            {
+              "label": "赤の色調以外に違いはない",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗と上下の色が逆になっている、ヨーロッパの国の国旗は？",
+          "choices": [
+            {
+              "label": "ポーランド",
+              "is_correct": true
+            },
+            {
+              "label": "モナコ",
+              "is_correct": false
+            },
+            {
+              "label": "オーストリア",
+              "is_correct": false
+            },
+            {
+              "label": "ラトビア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "独立以前、オランダ植民地時代にインドネシアで紅白旗を掲げることが法律で禁止されていた理由として正しいのは？",
+          "choices": [
+            {
+              "label": "民族主義・独立運動の象徴とみなされたため",
+              "is_correct": true
+            },
+            {
+              "label": "宗教的な意味合いを持つとされたため",
+              "is_correct": false
+            },
+            {
+              "label": "国際法上の規定に反したため",
+              "is_correct": false
+            },
+            {
+              "label": "色の組み合わせが不吉とされたため",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "2009年の法律で、国旗を破損・汚損した状態で掲げることに対して定められている扱いはどれ？",
+          "choices": [
+            {
+              "label": "禁止行為として罰則の対象になり得る",
+              "is_correct": true
+            },
+            {
+              "label": "特に規定がなく自由",
+              "is_correct": false
+            },
+            {
+              "label": "軍関係者のみ罰則の対象",
+              "is_correct": false
+            },
+            {
+              "label": "外国人にのみ罰則が適用される",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗の色の起源とされるマジャパヒト王国が最盛期を迎えたのはおよそ何世紀？",
+          "choices": [
+            {
+              "label": "14世紀",
+              "is_correct": true
+            },
+            {
+              "label": "10世紀",
+              "is_correct": false
+            },
+            {
+              "label": "17世紀",
+              "is_correct": false
+            },
+            {
+              "label": "19世紀",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア独立戦争中の1948年、国旗をめぐる象徴的な出来事として、オランダ軍に接収された都市はどこ？",
+          "choices": [
+            {
+              "label": "ジョグジャカルタ（臨時首都）",
+              "is_correct": true
+            },
+            {
+              "label": "バンドン",
+              "is_correct": false
+            },
+            {
+              "label": "スラバヤ",
+              "is_correct": false
+            },
+            {
+              "label": "メダン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗と、独立時に対抗したオランダの国旗（赤・白・青の三色旗）に共通して含まれる色は？",
+          "choices": [
+            {
+              "label": "赤と白",
+              "is_correct": true
+            },
+            {
+              "label": "白と青のみ",
+              "is_correct": false
+            },
+            {
+              "label": "赤と青のみ",
+              "is_correct": false
+            },
+            {
+              "label": "共通の色はない",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "ジャカルタの旧称のうち、最も古い時代（港町だった頃）の名称として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "スンダクラパ",
+              "is_correct": true
+            },
+            {
+              "label": "ジャヤカルタ",
+              "is_correct": false
+            },
+            {
+              "label": "バタヴィア",
+              "is_correct": false
+            },
+            {
+              "label": "ジャヤプラ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "スンダクラパを占領したイスラム勢力が1527年に改称した都市名は？",
+          "choices": [
+            {
+              "label": "ジャヤカルタ",
+              "is_correct": true
+            },
+            {
+              "label": "バタヴィア",
+              "is_correct": false
+            },
+            {
+              "label": "スラバヤ",
+              "is_correct": false
+            },
+            {
+              "label": "メダン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "1619年、ジャヤカルタを占領したオランダ東インド会社（VOC）が改称した都市名は？",
+          "choices": [
+            {
+              "label": "バタヴィア",
+              "is_correct": true
+            },
+            {
+              "label": "ジャヤカルタ",
+              "is_correct": false
+            },
+            {
+              "label": "スンダクラパ",
+              "is_correct": false
+            },
+            {
+              "label": "ジャカルタ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "バタヴィアが現在の「ジャカルタ」という名称に改められたのはいつ？",
+          "choices": [
+            {
+              "label": "日本占領期（1942年）",
+              "is_correct": true
+            },
+            {
+              "label": "独立宣言時（1945年）",
+              "is_correct": false
+            },
+            {
+              "label": "オランダ承認時（1949年）",
+              "is_correct": false
+            },
+            {
+              "label": "スハルト政権発足時（1967年）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "新首都「ヌサンタラ（IKN）」の建設地を定めた法律（首都法）が制定されたのは何年？",
+          "choices": [
+            {
+              "label": "2022年",
+              "is_correct": true
+            },
+            {
+              "label": "2019年",
+              "is_correct": false
+            },
+            {
+              "label": "2024年",
+              "is_correct": false
+            },
+            {
+              "label": "2014年",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "新首都ヌサンタラが建設される東カリマンタン州の位置は、ジャカルタからどの方角にあたる？",
+          "choices": [
+            {
+              "label": "北東",
+              "is_correct": true
+            },
+            {
+              "label": "南西",
+              "is_correct": false
+            },
+            {
+              "label": "真北",
+              "is_correct": false
+            },
+            {
+              "label": "南東",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "2028年にヌサンタラでの執務開始を目指す意向を示した、インドネシアの現大統領は誰？",
+          "choices": [
+            {
+              "label": "プラボウォ・スビアント",
+              "is_correct": true
+            },
+            {
+              "label": "ジョコ・ウィドド",
+              "is_correct": false
+            },
+            {
+              "label": "スシロ・バンバン・ユドヨノ",
+              "is_correct": false
+            },
+            {
+              "label": "メガワティ・スカルノプトゥリ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ジャカルタを含む首都圏の広域都市名として使われる、周辺都市の頭文字をつなげた呼称は？",
+          "choices": [
+            {
+              "label": "ジャボデタベック（Jabodetabek）",
+              "is_correct": true
+            },
+            {
+              "label": "ジャボタベック",
+              "is_correct": false
+            },
+            {
+              "label": "メガシティ・ジャワ",
+              "is_correct": false
+            },
+            {
+              "label": "グレーター・バタヴィア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ジャカルタが抱える深刻な環境問題として知られ、首都移転の一因ともされているのはどれ？",
+          "choices": [
+            {
+              "label": "地盤沈下（地下水の過剰くみ上げによる）",
+              "is_correct": true
+            },
+            {
+              "label": "恒常的な干ばつ",
+              "is_correct": false
+            },
+            {
+              "label": "深刻な寒冷化",
+              "is_correct": false
+            },
+            {
+              "label": "火山噴火の頻発",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ジャカルタにある独立記念塔「モナス」の頂上を飾る、金箔で覆われた炎の像の名称は？",
+          "choices": [
+            {
+              "label": "チポ・アピ（自由の炎）",
+              "is_correct": true
+            },
+            {
+              "label": "ガルーダの像",
+              "is_correct": false
+            },
+            {
+              "label": "スカルノ像",
+              "is_correct": false
+            },
+            {
+              "label": "独立の鐘",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "縦横比2対3、上が赤・下が白の紅白旗を国旗とする、世界最大の群島国家はどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇵🇱",
+              "is_correct": false
+            },
+            {
+              "label": "🇲🇨",
+              "is_correct": false
+            },
+            {
+              "label": "🇲🇾",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "上下が逆の配色（上が白・下が赤）である点でインドネシアの国旗と対比されることが多い、中央ヨーロッパの国はどこ？",
+          "choices": [
+            {
+              "label": "🇵🇱",
+              "is_correct": true
+            },
+            {
+              "label": "🇮🇩",
+              "is_correct": false
+            },
+            {
+              "label": "🇦🇹",
+              "is_correct": false
+            },
+            {
+              "label": "🇱🇻",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗と配色は同じだが、縦横比が4対5と定められている西ヨーロッパの小国はどこ？",
+          "choices": [
+            {
+              "label": "🇲🇨",
+              "is_correct": true
+            },
+            {
+              "label": "🇮🇩",
+              "is_correct": false
+            },
+            {
+              "label": "🇵🇱",
+              "is_correct": false
+            },
+            {
+              "label": "🇱🇮",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "国旗法（2009年法律第24号）により紅白旗の規格が定められている、東南アジア最大の人口を持つ国はどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇻🇳",
+              "is_correct": false
+            },
+            {
+              "label": "🇵🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇹🇭",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "独立戦争中の1948年、臨時首都ジョグジャカルタがオランダ軍に接収される歴史を経験した、この国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇲🇾",
+              "is_correct": false
+            },
+            {
+              "label": "🇸🇬",
+              "is_correct": false
+            },
+            {
+              "label": "🇹🇱",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "国章「ガルーダ・パンチャシラ」を持つが、国旗そのものには紋章が描かれていないこの国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇲🇲",
+              "is_correct": false
+            },
+            {
+              "label": "🇱🇦",
+              "is_correct": false
+            },
+            {
+              "label": "🇰🇭",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "独立宣言時の「プサカ旗（聖なる旗）」が今も保存・継承されている、この国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇵🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇮🇳",
+              "is_correct": false
+            },
+            {
+              "label": "🇧🇩",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "マジャパヒト王国以来の伝統色とされる紅白を国旗に採用し、隣国パプアニューギニアと国境を接するこの国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇵🇬",
+              "is_correct": false
+            },
+            {
+              "label": "🇹🇱",
+              "is_correct": false
+            },
+            {
+              "label": "🇦🇺",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ASEAN原加盟国のうち、紅白二色の最もシンプルな国旗デザインを持つのはどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇹🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇻🇳",
+              "is_correct": false
+            },
+            {
+              "label": "🇸🇬",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "植民地時代、独立運動の象徴として掲揚が禁じられた歴史を持つ紅白旗を、現在正式な国旗としているのはどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇲🇾",
+              "is_correct": false
+            },
+            {
+              "label": "🇧🇳",
+              "is_correct": false
+            },
+            {
+              "label": "🇱🇰",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "インドネシア最高峰であり、オセアニア大陸の最高峰（セブンサミットの一つ）にも数えられる山は？",
+          "choices": [
+            {
+              "label": "プンチャック・ジャヤ（カルステンツ・ピラミッド）",
+              "is_correct": true
+            },
+            {
+              "label": "スメル山",
+              "is_correct": false
+            },
+            {
+              "label": "ムラピ山",
+              "is_correct": false
+            },
+            {
+              "label": "リンジャニ山",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "プンチャック・ジャヤの標高として、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {
+              "label": "約4,884メートル",
+              "is_correct": true
+            },
+            {
+              "label": "約3,676メートル",
+              "is_correct": false
+            },
+            {
+              "label": "約5,895メートル",
+              "is_correct": false
+            },
+            {
+              "label": "約6,190メートル",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "1815年に人類史上最大級の噴火を起こし、翌年「夏のない年」を世界にもたらしたインドネシアの火山は？",
+          "choices": [
+            {
+              "label": "タンボラ山",
+              "is_correct": true
+            },
+            {
+              "label": "クラカタウ",
+              "is_correct": false
+            },
+            {
+              "label": "ムラピ山",
+              "is_correct": false
+            },
+            {
+              "label": "ブロモ山",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "動物地理区の境界線として知られ、インドネシアの島々を横切る「ウォレス線」を提唱した学者は誰？",
+          "choices": [
+            {
+              "label": "アルフレッド・ラッセル・ウォレス",
+              "is_correct": true
+            },
+            {
+              "label": "チャールズ・ダーウィン",
+              "is_correct": false
+            },
+            {
+              "label": "アルフレッド・ウェゲナー",
+              "is_correct": false
+            },
+            {
+              "label": "ジェームズ・クック",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "スマトラ島にある、超巨大噴火（スーパーエラプション）の痕跡として知られるカルデラ湖は？",
+          "choices": [
+            {
+              "label": "トバ湖",
+              "is_correct": true
+            },
+            {
+              "label": "マニンジャウ湖",
+              "is_correct": false
+            },
+            {
+              "label": "トンダノ湖",
+              "is_correct": false
+            },
+            {
+              "label": "ポソ湖",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "2004年、スマトラ島沖を震源として発生し、インド洋沿岸諸国に甚大な被害をもたらした災害は？",
+          "choices": [
+            {
+              "label": "スマトラ島沖地震・インド洋大津波",
+              "is_correct": true
+            },
+            {
+              "label": "クラカタウ大噴火",
+              "is_correct": false
+            },
+            {
+              "label": "ジョグジャカルタ地震",
+              "is_correct": false
+            },
+            {
+              "label": "スラウェシ地震",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "2022年時点で、インドネシアの地方行政区として正式に区分される州の数は？",
+          "choices": [
+            {
+              "label": "38州",
+              "is_correct": true
+            },
+            {
+              "label": "34州",
+              "is_correct": false
+            },
+            {
+              "label": "27州",
+              "is_correct": false
+            },
+            {
+              "label": "42州",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "パプア州の分割再編により、2022年に新たに設置された州に含まれないのはどれ？",
+          "choices": [
+            {
+              "label": "西カリマンタン州",
+              "is_correct": true
+            },
+            {
+              "label": "中部パプア州",
+              "is_correct": false
+            },
+            {
+              "label": "南パプア州",
+              "is_correct": false
+            },
+            {
+              "label": "山岳パプア州",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアで海に面していない内陸の県（内陸行政区）が事実上ほとんど存在しない理由として最も適切なのは？",
+          "choices": [
+            {
+              "label": "国土のほぼ全域が島で構成される群島国家のため",
+              "is_correct": true
+            },
+            {
+              "label": "国全体が一つの巨大な砂漠のため",
+              "is_correct": false
+            },
+            {
+              "label": "山岳地帯がまったく存在しないため",
+              "is_correct": false
+            },
+            {
+              "label": "法律で内陸県の設置が禁止されているため",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国土のうち、赤道が通過する主な島の組み合わせとして正しいのはどれ？",
+          "choices": [
+            {
+              "label": "スマトラ島・カリマンタン島・スラウェシ島",
+              "is_correct": true
+            },
+            {
+              "label": "ジャワ島・バリ島",
+              "is_correct": false
+            },
+            {
+              "label": "ニューギニア島のみ",
+              "is_correct": false
+            },
+            {
+              "label": "ロンボク島・フローレス島",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "インドネシアレジェンド",
+      "questions": [
+        {
+          "prompt": "インドネシア語の起源となる古マレー語の最古級の碑文のひとつ「ケドゥカン・ブキット碑文」が発見された場所は？",
+          "choices": [
+            {
+              "label": "スマトラ島（パレンバン付近）",
+              "is_correct": true
+            },
+            {
+              "label": "ジャワ島",
+              "is_correct": false
+            },
+            {
+              "label": "カリマンタン島",
+              "is_correct": false
+            },
+            {
+              "label": "バリ島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア国是「ビネカ・トゥンガル・イカ」の出典とされる、14世紀の古ジャワ語文献は？",
+          "choices": [
+            {
+              "label": "スタソマ（ムプ・タントゥラル作）",
+              "is_correct": true
+            },
+            {
+              "label": "ラーマーヤナ",
+              "is_correct": false
+            },
+            {
+              "label": "マハーバーラタ",
+              "is_correct": false
+            },
+            {
+              "label": "ネガラケルタガマ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語の綴りを整備・統一した「完全化された綴り（EYD）」への正書法改革が実施されたのは何年？",
+          "choices": [
+            {
+              "label": "1972年",
+              "is_correct": true
+            },
+            {
+              "label": "1945年",
+              "is_correct": false
+            },
+            {
+              "label": "1928年",
+              "is_correct": false
+            },
+            {
+              "label": "1999年",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "1972年の綴り改革で、インドネシア語とマレーシア語（マレー語）の表記が近づいた背景にある協定は？",
+          "choices": [
+            {
+              "label": "インドネシア・マレーシア共同綴り協定",
+              "is_correct": true
+            },
+            {
+              "label": "バンドン会議",
+              "is_correct": false
+            },
+            {
+              "label": "ASEAN憲章",
+              "is_correct": false
+            },
+            {
+              "label": "ジャカルタ協定",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアで話されている言語の総数（地方語を含む）として、公的な調査に近いのはどれ？",
+          "choices": [
+            {
+              "label": "700以上",
+              "is_correct": true
+            },
+            {
+              "label": "約50",
+              "is_correct": false
+            },
+            {
+              "label": "約150",
+              "is_correct": false
+            },
+            {
+              "label": "約1,000",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語の人称接辞のうち、動詞に付いて能動態を作る接頭辞は？",
+          "choices": [
+            {
+              "label": "meN-",
+              "is_correct": true
+            },
+            {
+              "label": "di-",
+              "is_correct": false
+            },
+            {
+              "label": "ber-",
+              "is_correct": false
+            },
+            {
+              "label": "ke-",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語の動詞に付いて受動態を作る接頭辞は？",
+          "choices": [
+            {
+              "label": "di-",
+              "is_correct": true
+            },
+            {
+              "label": "meN-",
+              "is_correct": false
+            },
+            {
+              "label": "ber-",
+              "is_correct": false
+            },
+            {
+              "label": "ter-",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「〜することができる」という可能を表す助動詞的な語は？",
+          "choices": [
+            {
+              "label": "ビサ（bisa）",
+              "is_correct": true
+            },
+            {
+              "label": "ハルス（harus）",
+              "is_correct": false
+            },
+            {
+              "label": "マウ（mau）",
+              "is_correct": false
+            },
+            {
+              "label": "スダー（sudah）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「〜しなければならない」という義務を表す語は？",
+          "choices": [
+            {
+              "label": "ハルス（harus）",
+              "is_correct": true
+            },
+            {
+              "label": "ビサ（bisa）",
+              "is_correct": false
+            },
+            {
+              "label": "ボレ（boleh）",
+              "is_correct": false
+            },
+            {
+              "label": "スカ（suka）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で完了・既了を表す副詞「もう、すでに」を意味する語は？",
+          "choices": [
+            {
+              "label": "スダー（sudah）",
+              "is_correct": true
+            },
+            {
+              "label": "ブルム（belum）",
+              "is_correct": false
+            },
+            {
+              "label": "マシ（masih）",
+              "is_correct": false
+            },
+            {
+              "label": "アカン（akan）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で未来を表す「〜するだろう」を意味する語は？",
+          "choices": [
+            {
+              "label": "アカン（akan）",
+              "is_correct": true
+            },
+            {
+              "label": "スダー（sudah）",
+              "is_correct": false
+            },
+            {
+              "label": "ブルム（belum）",
+              "is_correct": false
+            },
+            {
+              "label": "スダン（sedang）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ジャワ語の敬語体系で、目上の人に対して使う最も丁寧なレベルを何と呼ぶ？",
+          "choices": [
+            {
+              "label": "クロモ（krama）",
+              "is_correct": true
+            },
+            {
+              "label": "ンゴコ（ngoko）",
+              "is_correct": false
+            },
+            {
+              "label": "マディヤ（madya）",
+              "is_correct": false
+            },
+            {
+              "label": "バサ（basa）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ジャワ語の敬語体系で、親しい間柄・目下の相手に使うくだけたレベルを何と呼ぶ？",
+          "choices": [
+            {
+              "label": "ンゴコ（ngoko）",
+              "is_correct": true
+            },
+            {
+              "label": "クロモ（krama）",
+              "is_correct": false
+            },
+            {
+              "label": "マディヤ（madya）",
+              "is_correct": false
+            },
+            {
+              "label": "バサ・インダー（basa indah）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "オランダ統治時代の名残で、インドネシア語に取り入れられたオランダ語由来の単語はどれ？",
+          "choices": [
+            {
+              "label": "カントル（kantor／オフィスの意）",
+              "is_correct": true
+            },
+            {
+              "label": "マカン（makan）",
+              "is_correct": false
+            },
+            {
+              "label": "オラン（orang）",
+              "is_correct": false
+            },
+            {
+              "label": "ジャラン（jalan）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "サンスクリット語由来とされるインドネシア語の単語はどれ？",
+          "choices": [
+            {
+              "label": "バハサ（bahasa／言語の意）",
+              "is_correct": true
+            },
+            {
+              "label": "カントル（kantor）",
+              "is_correct": false
+            },
+            {
+              "label": "セパトゥ（sepatu）",
+              "is_correct": false
+            },
+            {
+              "label": "メジャ（meja）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "アラビア語由来とされるインドネシア語の単語はどれ？",
+          "choices": [
+            {
+              "label": "ワクトゥ（waktu／時間の意）",
+              "is_correct": true
+            },
+            {
+              "label": "バハサ（bahasa）",
+              "is_correct": false
+            },
+            {
+              "label": "カントル（kantor）",
+              "is_correct": false
+            },
+            {
+              "label": "グドゥン（gedung）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国是を定めた文献の作者、ムプ・タントゥラルが仕えたとされる王朝は？",
+          "choices": [
+            {
+              "label": "マジャパヒト王国",
+              "is_correct": true
+            },
+            {
+              "label": "マタラム・イスラム王国",
+              "is_correct": false
+            },
+            {
+              "label": "シュリーヴィジャヤ王国",
+              "is_correct": false
+            },
+            {
+              "label": "クディリ王国",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語の文法的特徴として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "名詞に文法上の性（男性・女性）の区別がない",
+              "is_correct": true
+            },
+            {
+              "label": "すべての名詞に男性・女性の区別がある",
+              "is_correct": false
+            },
+            {
+              "label": "動詞が主語の人称によって変化する",
+              "is_correct": false
+            },
+            {
+              "label": "冠詞（a/theに相当）が必須である",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "スマトラ島西部を中心に話される、母系社会の慣習で知られる少数民族の言語は？",
+          "choices": [
+            {
+              "label": "ミナンカバウ語",
+              "is_correct": true
+            },
+            {
+              "label": "バタック語",
+              "is_correct": false
+            },
+            {
+              "label": "アチェ語",
+              "is_correct": false
+            },
+            {
+              "label": "ランプン語",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "バリ島で日常的に話される、インドネシア語とは異なる系統の地方語は？",
+          "choices": [
+            {
+              "label": "バリ語",
+              "is_correct": true
+            },
+            {
+              "label": "ブギス語",
+              "is_correct": false
+            },
+            {
+              "label": "マカッサル語",
+              "is_correct": false
+            },
+            {
+              "label": "ダヤク語",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

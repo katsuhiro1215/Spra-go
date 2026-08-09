@@ -1,0 +1,587 @@
+{
+  "country_name": "韓国",
+  "country_code": "KR",
+  "difficulty": "中級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "韓国の国旗の正式名称は？",
+          "choices": [
+            {"label": "太極旗（テグッキ）", "is_correct": true},
+            {"label": "日章旗", "is_correct": false},
+            {"label": "星条旗", "is_correct": false},
+            {"label": "五星紅旗", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗が朝鮮の公式な国旗として初めて公布されたのは西暦何年？",
+          "choices": [
+            {"label": "1883年", "is_correct": true},
+            {"label": "1945年", "is_correct": false},
+            {"label": "1948年", "is_correct": false},
+            {"label": "1919年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の縦横比として正しいのはどれ？",
+          "choices": [
+            {"label": "2対3", "is_correct": true},
+            {"label": "1対1", "is_correct": false},
+            {"label": "3対5", "is_correct": false},
+            {"label": "1対2", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の中央に描かれている、赤と青の巴形の文様を何と呼ぶ？",
+          "choices": [
+            {"label": "太極文様", "is_correct": true},
+            {"label": "卍文様", "is_correct": false},
+            {"label": "巴文様", "is_correct": false},
+            {"label": "陰陽紋", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の太極文様で、上側の赤色が表すものは？",
+          "choices": [
+            {"label": "陽", "is_correct": true},
+            {"label": "陰", "is_correct": false},
+            {"label": "天", "is_correct": false},
+            {"label": "地", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の太極文様で、下側の青色が表すものは？",
+          "choices": [
+            {"label": "陰", "is_correct": true},
+            {"label": "陽", "is_correct": false},
+            {"label": "火", "is_correct": false},
+            {"label": "水", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の四隅に描かれた、棒状の記号を何と呼ぶ？",
+          "choices": [
+            {"label": "四卦（四つの卦）", "is_correct": true},
+            {"label": "四神", "is_correct": false},
+            {"label": "四天王", "is_correct": false},
+            {"label": "四霊", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の四卦のうち、四本とも実線（陽爻）で「天」を象徴するのはどれ？",
+          "choices": [
+            {"label": "乾", "is_correct": true},
+            {"label": "坤", "is_correct": false},
+            {"label": "坎", "is_correct": false},
+            {"label": "離", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の四卦のうち、四本とも破線（陰爻）で「地」を象徴するのはどれ？",
+          "choices": [
+            {"label": "坤", "is_correct": true},
+            {"label": "乾", "is_correct": false},
+            {"label": "坎", "is_correct": false},
+            {"label": "離", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "太極旗の白い背景が伝統的に象徴するとされているものは？",
+          "choices": [
+            {"label": "明るさ・純粋さ・平和を愛する民族性", "is_correct": true},
+            {"label": "王家の権威", "is_correct": false},
+            {"label": "雪国であること", "is_correct": false},
+            {"label": "仏教の教え", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "ソウル特別市の人口として、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {"label": "およそ940万人", "is_correct": true},
+            {"label": "およそ300万人", "is_correct": false},
+            {"label": "およそ1500万人", "is_correct": false},
+            {"label": "およそ500万人", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ソウルを含む首都圏には、韓国の総人口のおよそどれくらいが集中しているといわれる？",
+          "choices": [
+            {"label": "約5割", "is_correct": true},
+            {"label": "約1割", "is_correct": false},
+            {"label": "約2割", "is_correct": false},
+            {"label": "約8割", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ソウルの中心部を流れる、韓国を代表する川は？",
+          "choices": [
+            {"label": "漢江（ハンガン）", "is_correct": true},
+            {"label": "洛東江", "is_correct": false},
+            {"label": "錦江", "is_correct": false},
+            {"label": "大同江", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "朝鮮王朝の王宮で、ソウルにある最大の宮殿は？",
+          "choices": [
+            {"label": "景福宮", "is_correct": true},
+            {"label": "昌徳宮", "is_correct": false},
+            {"label": "徳寿宮", "is_correct": false},
+            {"label": "昌慶宮", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ソウルにある朝鮮王朝の宮殿のうち、ユネスコ世界文化遺産に登録されているのは？",
+          "choices": [
+            {"label": "昌徳宮", "is_correct": true},
+            {"label": "景福宮", "is_correct": false},
+            {"label": "徳寿宮", "is_correct": false},
+            {"label": "昌慶宮", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ソウルのランドマークで、韓国一の高さを誇る超高層ビルは？",
+          "choices": [
+            {"label": "ロッテワールドタワー", "is_correct": true},
+            {"label": "Nソウルタワー", "is_correct": false},
+            {"label": "63ビル", "is_correct": false},
+            {"label": "東大門デザインプラザ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ロッテワールドタワーの高さとして、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {"label": "約555メートル", "is_correct": true},
+            {"label": "約333メートル", "is_correct": false},
+            {"label": "約634メートル", "is_correct": false},
+            {"label": "約450メートル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ソウルにある、若者に人気のショッピング・カフェ街として知られる地区は？",
+          "choices": [
+            {"label": "弘大（ホンデ）", "is_correct": true},
+            {"label": "板門店", "is_correct": false},
+            {"label": "慶州", "is_correct": false},
+            {"label": "全州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "2022年に韓国大統領府（旧・青瓦台）が移転した先の、ソウルの地区は？",
+          "choices": [
+            {"label": "龍山", "is_correct": true},
+            {"label": "光化門", "is_correct": false},
+            {"label": "汝矣島", "is_correct": false},
+            {"label": "江南", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国政府が行政首都機能の一部を移転させる目的で建設した都市は？",
+          "choices": [
+            {"label": "世宗市", "is_correct": true},
+            {"label": "大田市", "is_correct": false},
+            {"label": "清州市", "is_correct": false},
+            {"label": "天安市", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "太極旗という別名を持つ国旗はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇻🇳", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "白地に赤・青の太極文様と四卦が描かれた国旗はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇵🇼", "is_correct": false},
+            {"label": "🇧🇩", "is_correct": false},
+            {"label": "🇱🇦", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "縦横比2対3で、中央に陰陽の文様が描かれた国旗はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇰🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇻🇳", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "1883年に公式な国旗として公布された旗を、現在も使い続けている国はどこ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇹🇭", "is_correct": false},
+            {"label": "🇲🇾", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "朝鮮半島の南半分を治める国の国旗はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇰🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇲🇳", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "国旗に、易経に由来する四卦（乾坤坎離）が描かれている国はどこ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇮🇳", "is_correct": false},
+            {"label": "🇳🇵", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "IT産業やK-POPで世界的に知られる、太極旗を国旗とする国はどこ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇸🇬", "is_correct": false},
+            {"label": "🇹🇼", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "次の中から、韓国の国旗を選んでください。",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇰🇵", "is_correct": false},
+            {"label": "🇲🇳", "is_correct": false},
+            {"label": "🇧🇹", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "白・赤・青の3色のみで構成される、太極旗の色の組み合わせと同じ国旗はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇹🇭", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "オリンピックの入場行進で「KOREA」として表示される国の国旗はどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇰🇵", "is_correct": false},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "韓国の広域行政区分「道（ド）」に含まれないのはどれ？",
+          "choices": [
+            {"label": "関東道", "is_correct": true},
+            {"label": "京畿道", "is_correct": false},
+            {"label": "全羅道", "is_correct": false},
+            {"label": "慶尚道", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国最高峰であり、済州島にある火山は？",
+          "choices": [
+            {"label": "漢拏山（ハルラサン）", "is_correct": true},
+            {"label": "智異山", "is_correct": false},
+            {"label": "雪岳山", "is_correct": false},
+            {"label": "北漢山", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "漢拏山の標高として、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {"label": "約1947メートル", "is_correct": true},
+            {"label": "約1200メートル", "is_correct": false},
+            {"label": "約2500メートル", "is_correct": false},
+            {"label": "約900メートル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国国内（大韓民国の領域内）を流れる川の中で最も長いのはどれ？",
+          "choices": [
+            {"label": "洛東江", "is_correct": true},
+            {"label": "漢江", "is_correct": false},
+            {"label": "錦江", "is_correct": false},
+            {"label": "蟾津江", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "洛東江の全長として、実際の数字に最も近いのはどれ？",
+          "choices": [
+            {"label": "約525キロメートル", "is_correct": true},
+            {"label": "約200キロメートル", "is_correct": false},
+            {"label": "約1000キロメートル", "is_correct": false},
+            {"label": "約50キロメートル", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国第2の都市で、大きな港湾都市として知られるのは？",
+          "choices": [
+            {"label": "釜山", "is_correct": true},
+            {"label": "大邱", "is_correct": false},
+            {"label": "仁川", "is_correct": false},
+            {"label": "光州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国と北朝鮮を隔てる軍事境界線は、おおむね北緯何度線に沿っている？",
+          "choices": [
+            {"label": "北緯38度線", "is_correct": true},
+            {"label": "北緯20度線", "is_correct": false},
+            {"label": "北緯45度線", "is_correct": false},
+            {"label": "北緯30度線", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "南北の会談などに使われる板門店（パンムンジョム）がある地帯は何と呼ばれる？",
+          "choices": [
+            {"label": "非武装地帯（DMZ）", "is_correct": true},
+            {"label": "経済特区", "is_correct": false},
+            {"label": "免税地帯", "is_correct": false},
+            {"label": "自由貿易地帯", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "済州島が世界自然遺産に登録された際の正式名称に近いものはどれ？",
+          "choices": [
+            {"label": "済州火山島と溶岩洞窟群", "is_correct": true},
+            {"label": "済州の伝統家屋群", "is_correct": false},
+            {"label": "済州の水中遺跡", "is_correct": false},
+            {"label": "済州の古墳群", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の気候の特徴として正しいのはどれ？",
+          "choices": [
+            {"label": "温帯モンスーン気候で四季がはっきりしている", "is_correct": true},
+            {"label": "一年中高温多湿の熱帯気候", "is_correct": false},
+            {"label": "年間を通じて降水量がほぼない砂漠気候", "is_correct": false},
+            {"label": "一年中氷点下が続く寒帯気候", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "韓国マスター",
+      "questions": [
+        {
+          "prompt": "韓国語の文字「ハングル」が作られた当時の正式名称は？",
+          "choices": [
+            {"label": "訓民正音", "is_correct": true},
+            {"label": "諺文", "is_correct": false},
+            {"label": "吏読", "is_correct": false},
+            {"label": "郷札", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「訓民正音」という言葉の意味に最も近いのはどれ？",
+          "choices": [
+            {"label": "民に教える正しい音", "is_correct": true},
+            {"label": "王を敬う言葉", "is_correct": false},
+            {"label": "天を祀る文字", "is_correct": false},
+            {"label": "外国の文字", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ハングルが完成したとされるのは西暦何年？",
+          "choices": [
+            {"label": "1443年", "is_correct": true},
+            {"label": "1392年", "is_correct": false},
+            {"label": "1897年", "is_correct": false},
+            {"label": "1910年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「訓民正音」として世に公布されたのは西暦何年？",
+          "choices": [
+            {"label": "1446年", "is_correct": true},
+            {"label": "1443年", "is_correct": false},
+            {"label": "1500年", "is_correct": false},
+            {"label": "1400年", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ハングルを制定した朝鮮王朝の王は？",
+          "choices": [
+            {"label": "世宗大王", "is_correct": true},
+            {"label": "太祖", "is_correct": false},
+            {"label": "正祖", "is_correct": false},
+            {"label": "高宗", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国で「ハングルの日」として祝日になっているのは何月何日？",
+          "choices": [
+            {"label": "10月9日", "is_correct": true},
+            {"label": "1月1日", "is_correct": false},
+            {"label": "3月1日", "is_correct": false},
+            {"label": "8月15日", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ハングルが作られる前、朝鮮の知識層が主に使っていた文字は？",
+          "choices": [
+            {"label": "漢字", "is_correct": true},
+            {"label": "アルファベット", "is_correct": false},
+            {"label": "ひらがな", "is_correct": false},
+            {"label": "キリル文字", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ハングルの子音・母音の書き方の特徴として正しいのはどれ？",
+          "choices": [
+            {"label": "子音と母音を組み合わせて一つの音節としてブロック状に書く", "is_correct": true},
+            {"label": "常に横一列に一文字ずつ並べる", "is_correct": false},
+            {"label": "子音だけで単語を作る", "is_correct": false},
+            {"label": "母音は文字化しない", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語の基本的な語順として正しいのはどれ？",
+          "choices": [
+            {"label": "主語→目的語→動詞", "is_correct": true},
+            {"label": "主語→動詞→目的語", "is_correct": false},
+            {"label": "動詞→主語→目的語", "is_correct": false},
+            {"label": "目的語→動詞→主語", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語でもっとも格式の高い丁寧な言い方で使われる語尾はどれ？",
+          "choices": [
+            {"label": "〜ムニダ（습니다）", "is_correct": true},
+            {"label": "〜ヘ（반말）", "is_correct": false},
+            {"label": "〜ダ（다）", "is_correct": false},
+            {"label": "〜ニャ（냐）", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「アンニョンハセヨ」よりもさらに丁寧な、フォーマルな場でのあいさつはどれ？",
+          "choices": [
+            {"label": "アンニョンハシムニカ", "is_correct": true},
+            {"label": "アンニョン", "is_correct": false},
+            {"label": "チョアヨ", "is_correct": false},
+            {"label": "コマウォ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で目上の人の名前の後につける敬称「ニム（님）」の意味に近いのは？",
+          "choices": [
+            {"label": "様・先生のような敬称", "is_correct": true},
+            {"label": "くん・ちゃんのような愛称", "is_correct": false},
+            {"label": "呼び捨て", "is_correct": false},
+            {"label": "苗字を隠す言葉", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語の数詞のうち、年号や電話番号などによく使われる漢数詞系はどの言語に由来する？",
+          "choices": [
+            {"label": "中国語（漢字）", "is_correct": true},
+            {"label": "固有の韓国語", "is_correct": false},
+            {"label": "日本語", "is_correct": false},
+            {"label": "英語", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語の固有数詞（ハナ・トゥル・セッ…）が主に使われる場面はどれ？",
+          "choices": [
+            {"label": "年齢や個数を数えるとき", "is_correct": true},
+            {"label": "年号や電話番号を言うとき", "is_correct": false},
+            {"label": "数学の計算をするとき", "is_correct": false},
+            {"label": "住所を言うとき", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で「先輩」を意味し、上下関係を重視する文化を象徴する言葉はどれ？",
+          "choices": [
+            {"label": "ソンベ", "is_correct": true},
+            {"label": "フベ", "is_correct": false},
+            {"label": "チング", "is_correct": false},
+            {"label": "オンニ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で年上の女性を、女性側から親しみを込めて呼ぶ言葉はどれ？",
+          "choices": [
+            {"label": "オンニ", "is_correct": true},
+            {"label": "ヌナ", "is_correct": false},
+            {"label": "オッパ", "is_correct": false},
+            {"label": "ヒョン", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で年上の女性を、男性側から親しみを込めて呼ぶ言葉はどれ？",
+          "choices": [
+            {"label": "ヌナ", "is_correct": true},
+            {"label": "オンニ", "is_correct": false},
+            {"label": "オッパ", "is_correct": false},
+            {"label": "ヒョン", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で年上の男性を、男性側から呼ぶときに使う言葉はどれ？",
+          "choices": [
+            {"label": "ヒョン", "is_correct": true},
+            {"label": "オッパ", "is_correct": false},
+            {"label": "ヌナ", "is_correct": false},
+            {"label": "オンニ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で年上の男性を、女性側から呼ぶときに使う言葉はどれ？",
+          "choices": [
+            {"label": "オッパ", "is_correct": true},
+            {"label": "ヒョン", "is_correct": false},
+            {"label": "ヌナ", "is_correct": false},
+            {"label": "オンニ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語の「パルリパルリ（빨리빨리）」文化が象徴するとされる社会の特徴は？",
+          "choices": [
+            {"label": "スピード・迅速さを重視する気質", "is_correct": true},
+            {"label": "のんびりした気質", "is_correct": false},
+            {"label": "集団より個人を優先する気質", "is_correct": false},
+            {"label": "沈黙を尊ぶ気質", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

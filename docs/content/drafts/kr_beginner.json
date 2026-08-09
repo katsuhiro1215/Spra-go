@@ -1,0 +1,587 @@
+{
+  "country_name": "韓国",
+  "country_code": "KR",
+  "difficulty": "初級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "次の国旗の国名として正しいものはどれ？",
+          "choices": [
+            {"label": "韓国", "is_correct": true},
+            {"label": "日本", "is_correct": false},
+            {"label": "中国", "is_correct": false},
+            {"label": "タイ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "この国旗はどこの国のものでしょう？",
+          "choices": [
+            {"label": "韓国", "is_correct": true},
+            {"label": "北朝鮮", "is_correct": false},
+            {"label": "ベトナム", "is_correct": false},
+            {"label": "フィリピン", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "表示されている国旗の国名を選んでください。",
+          "choices": [
+            {"label": "韓国", "is_correct": true},
+            {"label": "モンゴル", "is_correct": false},
+            {"label": "ラオス", "is_correct": false},
+            {"label": "ミャンマー", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "この国旗を掲げている国はどこ？",
+          "choices": [
+            {"label": "韓国", "is_correct": true},
+            {"label": "台湾", "is_correct": false},
+            {"label": "マレーシア", "is_correct": false},
+            {"label": "インドネシア", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "写真の国旗の国名として正しいのは？",
+          "choices": [
+            {"label": "韓国", "is_correct": true},
+            {"label": "中国", "is_correct": false},
+            {"label": "ネパール", "is_correct": false},
+            {"label": "スリランカ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "この国旗が使われている国は？",
+          "choices": [
+            {"label": "韓国", "is_correct": true},
+            {"label": "タイ", "is_correct": false},
+            {"label": "カンボジア", "is_correct": false},
+            {"label": "北朝鮮", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "次の国旗に当てはまる国名を選ぼう。",
+          "choices": [
+            {"label": "韓国", "is_correct": true},
+            {"label": "日本", "is_correct": false},
+            {"label": "インド", "is_correct": false},
+            {"label": "パキスタン", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "この国旗の国はどこでしょう？",
+          "choices": [
+            {"label": "韓国", "is_correct": true},
+            {"label": "中国", "is_correct": false},
+            {"label": "ブータン", "is_correct": false},
+            {"label": "バングラデシュ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "表示された国旗を見て、正しい国名を選んでください。",
+          "choices": [
+            {"label": "韓国", "is_correct": true},
+            {"label": "ベトナム", "is_correct": false},
+            {"label": "シンガポール", "is_correct": false},
+            {"label": "フィリピン", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「太極旗（テグッキ）」という愛称を持つこの国旗の国はどこ？",
+          "choices": [
+            {"label": "韓国", "is_correct": true},
+            {"label": "日本", "is_correct": false},
+            {"label": "中国", "is_correct": false},
+            {"label": "タイ", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "韓国の首都はどこでしょう？",
+          "choices": [
+            {"label": "ソウル", "is_correct": true},
+            {"label": "釜山", "is_correct": false},
+            {"label": "仁川", "is_correct": false},
+            {"label": "大邱", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の政治・経済の中心となっている都市はどこ？",
+          "choices": [
+            {"label": "ソウル", "is_correct": true},
+            {"label": "光州", "is_correct": false},
+            {"label": "大田", "is_correct": false},
+            {"label": "蔚山", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の大統領府がある都市はどこでしょう？",
+          "choices": [
+            {"label": "ソウル", "is_correct": true},
+            {"label": "釜山", "is_correct": false},
+            {"label": "平壌", "is_correct": false},
+            {"label": "済州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "次のうち、韓国の首都はどれ？",
+          "choices": [
+            {"label": "ソウル", "is_correct": true},
+            {"label": "釜山", "is_correct": false},
+            {"label": "慶州", "is_correct": false},
+            {"label": "全州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "多くの企業の本社やオフィスが集まる、韓国の首都はどこ？",
+          "choices": [
+            {"label": "ソウル", "is_correct": true},
+            {"label": "大邱", "is_correct": false},
+            {"label": "仁川", "is_correct": false},
+            {"label": "光州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国で一番人口が多い都市であり、首都でもあるのはどこ？",
+          "choices": [
+            {"label": "ソウル", "is_correct": true},
+            {"label": "釜山", "is_correct": false},
+            {"label": "仁川", "is_correct": false},
+            {"label": "大邱", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "漢江（ハンガン）という大きな川が流れる、韓国の首都はどこ？",
+          "choices": [
+            {"label": "ソウル", "is_correct": true},
+            {"label": "釜山", "is_correct": false},
+            {"label": "大田", "is_correct": false},
+            {"label": "光州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "景福宮（キョンボックン）などの古い王宮がある都市はどこ？",
+          "choices": [
+            {"label": "ソウル", "is_correct": true},
+            {"label": "釜山", "is_correct": false},
+            {"label": "済州", "is_correct": false},
+            {"label": "全州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の首都として正しい都市を選んでください。",
+          "choices": [
+            {"label": "ソウル", "is_correct": true},
+            {"label": "釜山", "is_correct": false},
+            {"label": "大邱", "is_correct": false},
+            {"label": "光州", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "外国の大使館が多く置かれている韓国の都市はどこ？",
+          "choices": [
+            {"label": "ソウル", "is_correct": true},
+            {"label": "釜山", "is_correct": false},
+            {"label": "仁川", "is_correct": false},
+            {"label": "大田", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "韓国の国旗はどれでしょう？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇹🇭", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "次の中から、韓国の国旗を選んでください。",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇻🇳", "is_correct": false},
+            {"label": "🇮🇩", "is_correct": false},
+            {"label": "🇵🇭", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "表示された国旗の中で、韓国のものはどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇲🇾", "is_correct": false},
+            {"label": "🇱🇦", "is_correct": false},
+            {"label": "🇲🇲", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の国旗として正しいのはどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇰🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false},
+            {"label": "🇹🇼", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "国旗の絵文字の中から、韓国のものを選んでください。",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇸🇬", "is_correct": false},
+            {"label": "🇮🇳", "is_correct": false},
+            {"label": "🇺🇸", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "次の国旗のうち、韓国のものはどれ？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇬🇧", "is_correct": false},
+            {"label": "🇫🇷", "is_correct": false},
+            {"label": "🇩🇪", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国を表す国旗はどれでしょう？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇲🇳", "is_correct": false},
+            {"label": "🇳🇵", "is_correct": false},
+            {"label": "🇧🇹", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "表示されている国旗を見て、韓国を選んでください。",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇧🇩", "is_correct": false},
+            {"label": "🇱🇰", "is_correct": false},
+            {"label": "🇵🇰", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "この中から、韓国の国旗を選んでください。",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇰🇵", "is_correct": false},
+            {"label": "🇯🇵", "is_correct": false},
+            {"label": "🇨🇳", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の国旗はどの絵文字でしょう？",
+          "choices": [
+            {"label": "🇰🇷", "is_correct": true},
+            {"label": "🇹🇭", "is_correct": false},
+            {"label": "🇻🇳", "is_correct": false},
+            {"label": "🇮🇩", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "韓国はどの大陸にある国でしょう？",
+          "choices": [
+            {"label": "アジア大陸", "is_correct": true},
+            {"label": "ヨーロッパ大陸", "is_correct": false},
+            {"label": "アフリカ大陸", "is_correct": false},
+            {"label": "南アメリカ大陸", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国が位置する半島の名前は？",
+          "choices": [
+            {"label": "朝鮮半島", "is_correct": true},
+            {"label": "マレー半島", "is_correct": false},
+            {"label": "インドシナ半島", "is_correct": false},
+            {"label": "アラビア半島", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国（大韓民国）と陸続きで国境を接している国はどこ？",
+          "choices": [
+            {"label": "北朝鮮", "is_correct": true},
+            {"label": "日本", "is_correct": false},
+            {"label": "中国", "is_correct": false},
+            {"label": "ロシア", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の首都ソウルを流れる大きな川は？",
+          "choices": [
+            {"label": "漢江（ハンガン）", "is_correct": true},
+            {"label": "洛東江", "is_correct": false},
+            {"label": "錦江", "is_correct": false},
+            {"label": "大同江", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国最大の島で、リゾート地としても人気なのは？",
+          "choices": [
+            {"label": "済州島", "is_correct": true},
+            {"label": "鬱陵島", "is_correct": false},
+            {"label": "巨済島", "is_correct": false},
+            {"label": "江華島", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の東側に広がる海の名前は？",
+          "choices": [
+            {"label": "東海（日本海）", "is_correct": true},
+            {"label": "黄海", "is_correct": false},
+            {"label": "南シナ海", "is_correct": false},
+            {"label": "地中海", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の西側に広がる海の名前は？",
+          "choices": [
+            {"label": "黄海", "is_correct": true},
+            {"label": "東海（日本海）", "is_correct": false},
+            {"label": "南シナ海", "is_correct": false},
+            {"label": "インド洋", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国と日本の間にある海峡の名前は？",
+          "choices": [
+            {"label": "対馬海峡", "is_correct": true},
+            {"label": "マラッカ海峡", "is_correct": false},
+            {"label": "ドーバー海峡", "is_correct": false},
+            {"label": "ベーリング海峡", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国と北朝鮮を隔てる、軍事境界線の周辺の地帯を何と呼ぶ？",
+          "choices": [
+            {"label": "非武装地帯（DMZ）", "is_correct": true},
+            {"label": "万里の長城", "is_correct": false},
+            {"label": "国境検問所", "is_correct": false},
+            {"label": "中立海域", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国の気候として正しいのはどれ？",
+          "choices": [
+            {"label": "四季がはっきりしている", "is_correct": true},
+            {"label": "一年中真夏日が続く熱帯気候", "is_correct": false},
+            {"label": "一年中雪が降る極寒地帯", "is_correct": false},
+            {"label": "雨がほとんど降らない砂漠気候", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "韓国博士",
+      "questions": [
+        {
+          "prompt": "韓国で話されている言語は何語？",
+          "choices": [
+            {"label": "韓国語", "is_correct": true},
+            {"label": "中国語", "is_correct": false},
+            {"label": "モンゴル語", "is_correct": false},
+            {"label": "タイ語", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語を書き表す文字を何という？",
+          "choices": [
+            {"label": "ハングル", "is_correct": true},
+            {"label": "漢字", "is_correct": false},
+            {"label": "ひらがな", "is_correct": false},
+            {"label": "キリル文字", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "あいさつの言葉「アンニョンハセヨ」の意味に近いのはどれ？",
+          "choices": [
+            {"label": "こんにちは", "is_correct": true},
+            {"label": "さようなら", "is_correct": false},
+            {"label": "ありがとう", "is_correct": false},
+            {"label": "すみません", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「カムサハムニダ」の意味として正しいのは？",
+          "choices": [
+            {"label": "ありがとうございます", "is_correct": true},
+            {"label": "こんにちは", "is_correct": false},
+            {"label": "さようなら", "is_correct": false},
+            {"label": "すみません", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "その場に残る人が、去っていく人に言う「アンニョンヒ ガセヨ」の意味に近いのはどれ？",
+          "choices": [
+            {"label": "さようなら（気をつけて行ってください）", "is_correct": true},
+            {"label": "おはよう", "is_correct": false},
+            {"label": "いただきます", "is_correct": false},
+            {"label": "ごめんなさい", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "食事を始める前に言う「チャル モッケッスムニダ」の意味に近いのはどれ？",
+          "choices": [
+            {"label": "いただきます", "is_correct": true},
+            {"label": "ごちそうさま", "is_correct": false},
+            {"label": "おやすみ", "is_correct": false},
+            {"label": "こんばんは", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「ネ」という韓国語の返事の意味は？",
+          "choices": [
+            {"label": "はい", "is_correct": true},
+            {"label": "いいえ", "is_correct": false},
+            {"label": "ありがとう", "is_correct": false},
+            {"label": "こんにちは", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「アニヨ」という韓国語の意味は？",
+          "choices": [
+            {"label": "いいえ", "is_correct": true},
+            {"label": "はい", "is_correct": false},
+            {"label": "さようなら", "is_correct": false},
+            {"label": "すみません", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ハングルを作ったとされる朝鮮王朝の王様は誰？",
+          "choices": [
+            {"label": "世宗大王", "is_correct": true},
+            {"label": "太祖", "is_correct": false},
+            {"label": "高宗", "is_correct": false},
+            {"label": "純祖", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ハングルが作られる前、朝鮮で主に文字として使われていたのは何？",
+          "choices": [
+            {"label": "漢字", "is_correct": true},
+            {"label": "ひらがな", "is_correct": false},
+            {"label": "アルファベット", "is_correct": false},
+            {"label": "キリル文字", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で数字の「1」を意味する固有語はどれ？",
+          "choices": [
+            {"label": "ハナ", "is_correct": true},
+            {"label": "トゥル", "is_correct": false},
+            {"label": "セッ", "is_correct": false},
+            {"label": "ネッ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で数字の「2」を意味する固有語はどれ？",
+          "choices": [
+            {"label": "トゥル", "is_correct": true},
+            {"label": "ハナ", "is_correct": false},
+            {"label": "セッ", "is_correct": false},
+            {"label": "ネッ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "初めて会った人への自己紹介「チョウム ペプケッスムニダ」の意味は？",
+          "choices": [
+            {"label": "はじめまして", "is_correct": true},
+            {"label": "お久しぶりです", "is_correct": false},
+            {"label": "お元気ですか", "is_correct": false},
+            {"label": "いってきます", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語で「ごめんなさい」を意味する言葉はどれ？",
+          "choices": [
+            {"label": "ミアネヨ", "is_correct": true},
+            {"label": "コマウォヨ", "is_correct": false},
+            {"label": "チョアヨ", "is_correct": false},
+            {"label": "パンガウォヨ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国のあいさつの動作として、よく知られているものはどれ？",
+          "choices": [
+            {"label": "軽くお辞儀をする", "is_correct": true},
+            {"label": "ハグをする", "is_correct": false},
+            {"label": "握手だけをする", "is_correct": false},
+            {"label": "指を鳴らす", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「お元気ですか」に近い意味の韓国語はどれ？",
+          "choices": [
+            {"label": "チャル チネセヨ", "is_correct": true},
+            {"label": "アンニョンヒ ガセヨ", "is_correct": false},
+            {"label": "ミアネヨ", "is_correct": false},
+            {"label": "カムサハムニダ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国語の敬語表現で、名前や役職のあとによく付けられる言葉はどれ？",
+          "choices": [
+            {"label": "〜ニム（님）", "is_correct": true},
+            {"label": "〜チャン", "is_correct": false},
+            {"label": "〜クン", "is_correct": false},
+            {"label": "〜ヨ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国のドラマや映画でよく耳にする「オンマ」の意味はどれ？",
+          "choices": [
+            {"label": "お母さん", "is_correct": true},
+            {"label": "お父さん", "is_correct": false},
+            {"label": "お兄さん", "is_correct": false},
+            {"label": "おばあさん", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "韓国のドラマや映画でよく耳にする「アッパ」の意味はどれ？",
+          "choices": [
+            {"label": "お父さん", "is_correct": true},
+            {"label": "お母さん", "is_correct": false},
+            {"label": "お姉さん", "is_correct": false},
+            {"label": "おじいさん", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「サランヘヨ」という言葉の意味として正しいのはどれ？",
+          "choices": [
+            {"label": "愛しています", "is_correct": true},
+            {"label": "ありがとう", "is_correct": false},
+            {"label": "こんにちは", "is_correct": false},
+            {"label": "すみません", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

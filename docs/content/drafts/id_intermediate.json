@@ -1,0 +1,1307 @@
+{
+  "country_name": "インドネシア",
+  "country_code": "ID",
+  "difficulty": "中級",
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "flag_to_country",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "インドネシアの国旗の愛称は？",
+          "choices": [
+            {
+              "label": "サン・メラ・プティ（紅白旗）",
+              "is_correct": true
+            },
+            {
+              "label": "日の丸",
+              "is_correct": false
+            },
+            {
+              "label": "星条旗",
+              "is_correct": false
+            },
+            {
+              "label": "トリコロール",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗の色の組み合わせとして正しいのはどれ？",
+          "choices": [
+            {
+              "label": "上が赤、下が白の二色旗",
+              "is_correct": true
+            },
+            {
+              "label": "上が白、下が赤の二色旗",
+              "is_correct": false
+            },
+            {
+              "label": "赤・白・青の三色旗",
+              "is_correct": false
+            },
+            {
+              "label": "赤地に白い星",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗の縦横比として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "2対3",
+              "is_correct": true
+            },
+            {
+              "label": "1対2",
+              "is_correct": false
+            },
+            {
+              "label": "1対1",
+              "is_correct": false
+            },
+            {
+              "label": "3対5",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗が独立宣言とともに掲げられたのは西暦何年？",
+          "choices": [
+            {
+              "label": "1945年",
+              "is_correct": true
+            },
+            {
+              "label": "1949年",
+              "is_correct": false
+            },
+            {
+              "label": "1928年",
+              "is_correct": false
+            },
+            {
+              "label": "1965年",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗の色の由来とされる、13〜16世紀にジャワ島を中心に栄えた王国は？",
+          "choices": [
+            {
+              "label": "マジャパヒト王国",
+              "is_correct": true
+            },
+            {
+              "label": "シュリーヴィジャヤ王国",
+              "is_correct": false
+            },
+            {
+              "label": "マタラム王国",
+              "is_correct": false
+            },
+            {
+              "label": "アチェ王国",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗で、赤色が象徴するとされているものは？",
+          "choices": [
+            {
+              "label": "勇気",
+              "is_correct": true
+            },
+            {
+              "label": "純潔",
+              "is_correct": false
+            },
+            {
+              "label": "繁栄",
+              "is_correct": false
+            },
+            {
+              "label": "平和",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗で、白色が象徴するとされているものは？",
+          "choices": [
+            {
+              "label": "純潔・正義",
+              "is_correct": true
+            },
+            {
+              "label": "勇気",
+              "is_correct": false
+            },
+            {
+              "label": "情熱",
+              "is_correct": false
+            },
+            {
+              "label": "豊かさ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗とよく似た配色（上下に色分け）だが、上下が逆になっている国旗を持つ国はどこ？",
+          "choices": [
+            {
+              "label": "ポーランド",
+              "is_correct": true
+            },
+            {
+              "label": "モナコ",
+              "is_correct": false
+            },
+            {
+              "label": "シンガポール",
+              "is_correct": false
+            },
+            {
+              "label": "マレーシア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国旗とほぼ同じ配色だが、旗の縦横比が異なる国はどこ？",
+          "choices": [
+            {
+              "label": "モナコ",
+              "is_correct": true
+            },
+            {
+              "label": "ポーランド",
+              "is_correct": false
+            },
+            {
+              "label": "オーストリア",
+              "is_correct": false
+            },
+            {
+              "label": "スイス",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア独立戦争を経て、オランダがインドネシアの独立を正式に承認したのは西暦何年？",
+          "choices": [
+            {
+              "label": "1949年",
+              "is_correct": true
+            },
+            {
+              "label": "1945年",
+              "is_correct": false
+            },
+            {
+              "label": "1942年",
+              "is_correct": false
+            },
+            {
+              "label": "1955年",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "capital",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "インドネシアの首都ジャカルタがある島はどこ？",
+          "choices": [
+            {
+              "label": "ジャワ島",
+              "is_correct": true
+            },
+            {
+              "label": "スマトラ島",
+              "is_correct": false
+            },
+            {
+              "label": "カリマンタン島",
+              "is_correct": false
+            },
+            {
+              "label": "バリ島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ジャカルタは、オランダ植民地時代には何と呼ばれていた？",
+          "choices": [
+            {
+              "label": "バタヴィア",
+              "is_correct": true
+            },
+            {
+              "label": "ジャヤカルタ",
+              "is_correct": false
+            },
+            {
+              "label": "スンダクラパ",
+              "is_correct": false
+            },
+            {
+              "label": "サバン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "首都圏を含む「ジャボデタベック」に含まれない都市はどれ？",
+          "choices": [
+            {
+              "label": "バンドン",
+              "is_correct": true
+            },
+            {
+              "label": "ボゴール",
+              "is_correct": false
+            },
+            {
+              "label": "デポック",
+              "is_correct": false
+            },
+            {
+              "label": "タンゲラン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ジャカルタの人口として、実際の数字に最も近いのはどれ（ジャカルタ都単体）？",
+          "choices": [
+            {
+              "label": "およそ1,000万人",
+              "is_correct": true
+            },
+            {
+              "label": "およそ300万人",
+              "is_correct": false
+            },
+            {
+              "label": "およそ2,500万人",
+              "is_correct": false
+            },
+            {
+              "label": "およそ500万人",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア政府が新首都として建設を進めている都市の名前は？",
+          "choices": [
+            {
+              "label": "ヌサンタラ",
+              "is_correct": true
+            },
+            {
+              "label": "バタヴィア",
+              "is_correct": false
+            },
+            {
+              "label": "パレンバン",
+              "is_correct": false
+            },
+            {
+              "label": "スラバヤ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "新首都「ヌサンタラ」が建設されているのはどの島？",
+          "choices": [
+            {
+              "label": "カリマンタン島（ボルネオ島）",
+              "is_correct": true
+            },
+            {
+              "label": "スマトラ島",
+              "is_correct": false
+            },
+            {
+              "label": "スラウェシ島",
+              "is_correct": false
+            },
+            {
+              "label": "ジャワ島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「ヌサンタラ」という言葉のもとになった意味として正しいのはどれ？",
+          "choices": [
+            {
+              "label": "群島（多くの島々）",
+              "is_correct": true
+            },
+            {
+              "label": "新しい太陽",
+              "is_correct": false
+            },
+            {
+              "label": "統一",
+              "is_correct": false
+            },
+            {
+              "label": "自由",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ジャカルタにある、インドネシア独立を記念する巨大なモニュメントの名前は？",
+          "choices": [
+            {
+              "label": "モナス（独立記念塔）",
+              "is_correct": true
+            },
+            {
+              "label": "ボロブドゥール",
+              "is_correct": false
+            },
+            {
+              "label": "ガルーダ・ウィスヌ・ケンチャナ",
+              "is_correct": false
+            },
+            {
+              "label": "プランバナン",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ジャカルタが位置する島の中で最も人口が多い、インドネシア最大の政治・経済の中心地域は？",
+          "choices": [
+            {
+              "label": "ジャワ島",
+              "is_correct": true
+            },
+            {
+              "label": "バリ島",
+              "is_correct": false
+            },
+            {
+              "label": "スマトラ島",
+              "is_correct": false
+            },
+            {
+              "label": "パプア島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの旧首都バタヴィア（現ジャカルタ）を拠点にアジア交易を支配したオランダの会社は？",
+          "choices": [
+            {
+              "label": "オランダ東インド会社",
+              "is_correct": true
+            },
+            {
+              "label": "イギリス東インド会社",
+              "is_correct": false
+            },
+            {
+              "label": "ハドソン湾会社",
+              "is_correct": false
+            },
+            {
+              "label": "オランダ西インド会社",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "country_to_flag",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "インドネシアの国旗はどれでしょう？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇵🇱",
+              "is_correct": false
+            },
+            {
+              "label": "🇲🇨",
+              "is_correct": false
+            },
+            {
+              "label": "🇲🇾",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "世界最大の群島国家（島国）といわれる、この国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇵🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇯🇵",
+              "is_correct": false
+            },
+            {
+              "label": "🇳🇿",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "赤道が国土を通る、東南アジア最大の国土面積を持つこの国旗の国は？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇹🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇻🇳",
+              "is_correct": false
+            },
+            {
+              "label": "🇲🇲",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ASEAN（東南アジア諸国連合）の原加盟国のひとつであるこの国旗の国は？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇹🇱",
+              "is_correct": false
+            },
+            {
+              "label": "🇵🇬",
+              "is_correct": false
+            },
+            {
+              "label": "🇧🇳",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "首都をジャカルタから新都市ヌサンタラへ移転する計画を進めているこの国旗の国は？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇲🇾",
+              "is_correct": false
+            },
+            {
+              "label": "🇵🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇹🇭",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "世界で最もイスラム教徒の人口が多い国として知られる、この国旗の国は？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇸🇦",
+              "is_correct": false
+            },
+            {
+              "label": "🇵🇰",
+              "is_correct": false
+            },
+            {
+              "label": "🇹🇷",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "次のうち、インドネシアの国旗はどれ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇸🇬",
+              "is_correct": false
+            },
+            {
+              "label": "🇰🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇱🇦",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "上下二色でシンプルなデザインの国旗を持つ、東南アジア最大の人口を抱えるこの国旗の国は？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇸🇬",
+              "is_correct": false
+            },
+            {
+              "label": "🇹🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇻🇳",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "コモドオオトカゲの生息地として知られる島国、この国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇹🇱",
+              "is_correct": false
+            },
+            {
+              "label": "🇦🇺",
+              "is_correct": false
+            },
+            {
+              "label": "🇵🇬",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "世界的な仏教遺跡ボロブドゥールがある、この国旗の国はどこ？",
+          "choices": [
+            {
+              "label": "🇮🇩",
+              "is_correct": true
+            },
+            {
+              "label": "🇰🇭",
+              "is_correct": false
+            },
+            {
+              "label": "🇲🇲",
+              "is_correct": false
+            },
+            {
+              "label": "🇱🇰",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 4,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "インドネシアの島の数は、公的な統計でおよそいくつとされている？",
+          "choices": [
+            {
+              "label": "1万7千以上",
+              "is_correct": true
+            },
+            {
+              "label": "約3,000",
+              "is_correct": false
+            },
+            {
+              "label": "約500",
+              "is_correct": false
+            },
+            {
+              "label": "約30万",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア国内で最も面積が大きい島はどこ？（ニューギニア島のインドネシア領部分を除く）",
+          "choices": [
+            {
+              "label": "カリマンタン島（ボルネオ島）",
+              "is_correct": true
+            },
+            {
+              "label": "ジャワ島",
+              "is_correct": false
+            },
+            {
+              "label": "スマトラ島",
+              "is_correct": false
+            },
+            {
+              "label": "スラウェシ島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア最大の島であるカリマンタン島（ボルネオ島）を共有していない国はどこ？",
+          "choices": [
+            {
+              "label": "フィリピン",
+              "is_correct": true
+            },
+            {
+              "label": "マレーシア",
+              "is_correct": false
+            },
+            {
+              "label": "ブルネイ",
+              "is_correct": false
+            },
+            {
+              "label": "インドネシア",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアで人口が最も多い島はどこ？",
+          "choices": [
+            {
+              "label": "ジャワ島",
+              "is_correct": true
+            },
+            {
+              "label": "スマトラ島",
+              "is_correct": false
+            },
+            {
+              "label": "カリマンタン島",
+              "is_correct": false
+            },
+            {
+              "label": "スラウェシ島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア東部にあり、パプアニューギニアと国境を接する島は？",
+          "choices": [
+            {
+              "label": "ニューギニア島",
+              "is_correct": true
+            },
+            {
+              "label": "スラウェシ島",
+              "is_correct": false
+            },
+            {
+              "label": "ハルマヘラ島",
+              "is_correct": false
+            },
+            {
+              "label": "ティモール島",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアが加盟する東南アジアの地域協力機構はどれ？",
+          "choices": [
+            {
+              "label": "ASEAN",
+              "is_correct": true
+            },
+            {
+              "label": "APEC",
+              "is_correct": false
+            },
+            {
+              "label": "EU",
+              "is_correct": false
+            },
+            {
+              "label": "OPEC",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "1883年に大噴火を起こし、世界的な被害をもたらしたインドネシアの火山島は？",
+          "choices": [
+            {
+              "label": "クラカタウ",
+              "is_correct": true
+            },
+            {
+              "label": "ブロモ山",
+              "is_correct": false
+            },
+            {
+              "label": "メラピ山",
+              "is_correct": false
+            },
+            {
+              "label": "タンボラ山",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアが位置する「環太平洋火山帯」の通称は？",
+          "choices": [
+            {
+              "label": "環太平洋火山帯（リング・オブ・ファイア）",
+              "is_correct": true
+            },
+            {
+              "label": "アルプス・ヒマラヤ造山帯",
+              "is_correct": false
+            },
+            {
+              "label": "大西洋中央海嶺",
+              "is_correct": false
+            },
+            {
+              "label": "グレートリフトバレー",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの通貨単位は？",
+          "choices": [
+            {
+              "label": "ルピア",
+              "is_correct": true
+            },
+            {
+              "label": "リンギット",
+              "is_correct": false
+            },
+            {
+              "label": "バーツ",
+              "is_correct": false
+            },
+            {
+              "label": "ペソ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国土面積は、日本のおよそ何倍とされる？",
+          "choices": [
+            {
+              "label": "約5倍",
+              "is_correct": true
+            },
+            {
+              "label": "約2倍",
+              "is_correct": false
+            },
+            {
+              "label": "約10倍",
+              "is_correct": false
+            },
+            {
+              "label": "同じくらい",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 5,
+      "theme_key": "language",
+      "is_boss": true,
+      "title_reward": "インドネシアマスター",
+      "questions": [
+        {
+          "prompt": "インドネシア語（バハサ・インドネシア）のもとになったとされる言語はどれ？",
+          "choices": [
+            {
+              "label": "マレー語（リアウ方言）",
+              "is_correct": true
+            },
+            {
+              "label": "ジャワ語",
+              "is_correct": false
+            },
+            {
+              "label": "オランダ語",
+              "is_correct": false
+            },
+            {
+              "label": "サンスクリット語",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語の文字表記に主に使われるのはどれ？",
+          "choices": [
+            {
+              "label": "ローマ字（ラテン文字）",
+              "is_correct": true
+            },
+            {
+              "label": "アラビア文字",
+              "is_correct": false
+            },
+            {
+              "label": "デーヴァナーガリー文字",
+              "is_correct": false
+            },
+            {
+              "label": "ジャワ文字",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "多くの民族と数百の言語が存在するインドネシアで、公用語・共通語として機能しているのは？",
+          "choices": [
+            {
+              "label": "インドネシア語",
+              "is_correct": true
+            },
+            {
+              "label": "ジャワ語",
+              "is_correct": false
+            },
+            {
+              "label": "オランダ語",
+              "is_correct": false
+            },
+            {
+              "label": "英語",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアで話者数が最も多いとされる、ジャワ島の地方言語は？",
+          "choices": [
+            {
+              "label": "ジャワ語",
+              "is_correct": true
+            },
+            {
+              "label": "スンダ語",
+              "is_correct": false
+            },
+            {
+              "label": "バリ語",
+              "is_correct": false
+            },
+            {
+              "label": "マドゥラ語",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "1928年、独立運動の若者たちが「一つの国、一つの民族、一つの言語」を誓った宣言を何という？",
+          "choices": [
+            {
+              "label": "青年の誓い（スンパ・プムダ）",
+              "is_correct": true
+            },
+            {
+              "label": "独立宣言",
+              "is_correct": false
+            },
+            {
+              "label": "バンドン会議",
+              "is_correct": false
+            },
+            {
+              "label": "ムルデカ宣言",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシアの国是（モットー）「ビネカ・トゥンガル・イカ」の意味として正しいのは？",
+          "choices": [
+            {
+              "label": "多様性の中の統一",
+              "is_correct": true
+            },
+            {
+              "label": "独立か死か",
+              "is_correct": false
+            },
+            {
+              "label": "自由・平等・博愛",
+              "is_correct": false
+            },
+            {
+              "label": "神の恵み",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「独立」を意味する、独立運動のスローガンにも使われた言葉は？",
+          "choices": [
+            {
+              "label": "ムルデカ",
+              "is_correct": true
+            },
+            {
+              "label": "ビネカ",
+              "is_correct": false
+            },
+            {
+              "label": "パンチャシラ",
+              "is_correct": false
+            },
+            {
+              "label": "ガルーダ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア建国五原則を意味する言葉「パンチャシラ」の由来となった言語はどれ？",
+          "choices": [
+            {
+              "label": "サンスクリット語",
+              "is_correct": true
+            },
+            {
+              "label": "アラビア語",
+              "is_correct": false
+            },
+            {
+              "label": "オランダ語",
+              "is_correct": false
+            },
+            {
+              "label": "中国語",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で目上の男性への敬称として使われる言葉は？",
+          "choices": [
+            {
+              "label": "バパ（バパック）",
+              "is_correct": true
+            },
+            {
+              "label": "イブ",
+              "is_correct": false
+            },
+            {
+              "label": "サウダラ",
+              "is_correct": false
+            },
+            {
+              "label": "アダ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で目上の女性への敬称として使われる言葉は？",
+          "choices": [
+            {
+              "label": "イブ",
+              "is_correct": true
+            },
+            {
+              "label": "バパ",
+              "is_correct": false
+            },
+            {
+              "label": "サウダラ",
+              "is_correct": false
+            },
+            {
+              "label": "アダ",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語の複数形の作り方として一般的なのはどれ？",
+          "choices": [
+            {
+              "label": "単語を2回くり返す（例：orang-orang）",
+              "is_correct": true
+            },
+            {
+              "label": "語尾にsをつける",
+              "is_correct": false
+            },
+            {
+              "label": "語頭にtheをつける",
+              "is_correct": false
+            },
+            {
+              "label": "数詞を必ず前に置く",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「人」を意味する単語はどれ？",
+          "choices": [
+            {
+              "label": "オラン（orang）",
+              "is_correct": true
+            },
+            {
+              "label": "ルマー（rumah）",
+              "is_correct": false
+            },
+            {
+              "label": "マカン（makan）",
+              "is_correct": false
+            },
+            {
+              "label": "アイル（air）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「家」を意味する単語はどれ？",
+          "choices": [
+            {
+              "label": "ルマー（rumah）",
+              "is_correct": true
+            },
+            {
+              "label": "オラン（orang）",
+              "is_correct": false
+            },
+            {
+              "label": "マカン（makan）",
+              "is_correct": false
+            },
+            {
+              "label": "ジャラン（jalan）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語には基本的に存在しない、多くのヨーロッパ言語に見られる文法要素はどれ？",
+          "choices": [
+            {
+              "label": "動詞の時制変化（活用）",
+              "is_correct": true
+            },
+            {
+              "label": "名詞",
+              "is_correct": false
+            },
+            {
+              "label": "形容詞",
+              "is_correct": false
+            },
+            {
+              "label": "疑問文",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "イスラム教徒が多いインドネシアで、アラビア語由来の挨拶として使われる言葉はどれ？",
+          "choices": [
+            {
+              "label": "アッサラームアライクム",
+              "is_correct": true
+            },
+            {
+              "label": "スラマットパギ",
+              "is_correct": false
+            },
+            {
+              "label": "テリマカシ",
+              "is_correct": false
+            },
+            {
+              "label": "アパカバール",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「食べる」を意味する単語はどれ？",
+          "choices": [
+            {
+              "label": "マカン（makan）",
+              "is_correct": true
+            },
+            {
+              "label": "ミヌム（minum）",
+              "is_correct": false
+            },
+            {
+              "label": "ティドゥル（tidur）",
+              "is_correct": false
+            },
+            {
+              "label": "ジャラン（jalan）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「飲む」を意味する単語はどれ？",
+          "choices": [
+            {
+              "label": "ミヌム（minum）",
+              "is_correct": true
+            },
+            {
+              "label": "マカン（makan）",
+              "is_correct": false
+            },
+            {
+              "label": "ティドゥル（tidur）",
+              "is_correct": false
+            },
+            {
+              "label": "ラリ（lari）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語の人称代名詞のうち、親しい間柄で「私」を意味するくだけた言い方は？",
+          "choices": [
+            {
+              "label": "ガ（gue）",
+              "is_correct": true
+            },
+            {
+              "label": "サヤ（saya）",
+              "is_correct": false
+            },
+            {
+              "label": "アンダ（Anda）",
+              "is_correct": false
+            },
+            {
+              "label": "カミ（kami）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "フォーマルな場面で「私」を意味するインドネシア語はどれ？",
+          "choices": [
+            {
+              "label": "サヤ（saya）",
+              "is_correct": true
+            },
+            {
+              "label": "ガ（gue）",
+              "is_correct": false
+            },
+            {
+              "label": "アンダ（Anda）",
+              "is_correct": false
+            },
+            {
+              "label": "ムレカ（mereka）",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "インドネシア語で「あなた」を意味する、丁寧な言い方はどれ？",
+          "choices": [
+            {
+              "label": "アンダ（Anda）",
+              "is_correct": true
+            },
+            {
+              "label": "サヤ（saya）",
+              "is_correct": false
+            },
+            {
+              "label": "ムレカ（mereka）",
+              "is_correct": false
+            },
+            {
+              "label": "キタ（kita）",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
