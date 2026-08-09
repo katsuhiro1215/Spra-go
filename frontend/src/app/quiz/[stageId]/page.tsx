@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { useProfile } from "@/components/app/profile-provider";
 import { SceneBackground } from "@/components/app/scene-background";
@@ -221,6 +222,7 @@ export default function Page({
         <div className="relative z-10 flex flex-1 items-center justify-center text-sm text-white/85 drop-shadow">
           読み込み中...
         </div>
+        <BottomNav />
       </div>
     );
   }
@@ -238,6 +240,7 @@ export default function Page({
             ホームに戻る
           </Link>
         </div>
+        <BottomNav />
       </div>
     );
   }
@@ -268,6 +271,7 @@ export default function Page({
             </Link>
           </div>
         </div>
+        <BottomNav />
       </div>
     );
   }
@@ -388,6 +392,7 @@ export default function Page({
             </div>
           </div>
         </div>
+        <BottomNav />
       </div>
     );
   }

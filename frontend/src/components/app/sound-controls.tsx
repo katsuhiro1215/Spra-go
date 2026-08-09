@@ -15,7 +15,7 @@ export function SoundControls() {
       onClick={toggleEnabled}
       aria-pressed={enabled}
       aria-label={enabled ? "効果音をオフにする" : "効果音をオンにする"}
-      className="fixed right-3 bottom-20 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background text-lg shadow-lg hover:bg-muted"
+      className="fixed right-3 bottom-36 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background text-lg shadow-lg hover:bg-muted"
     >
       {enabled ? "🔊" : "🔇"}
     </button>

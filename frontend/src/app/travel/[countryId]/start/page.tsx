@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
+import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { SceneBackground } from "@/components/app/scene-background";
 import { apiFetch } from "@/lib/api";
@@ -72,7 +73,7 @@ export default function Page({
       <SceneBackground />
       <AppHeader />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-6 px-6 py-12 text-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-6 px-6 py-12 pb-24 text-center">
         <div className="animate-stage-intro relative h-28 w-44 overflow-hidden rounded-lg border border-white/40 shadow-xl">
           <Image
             src={`/flag/${country.code}.svg`}
@@ -126,6 +127,8 @@ export default function Page({
           </Link>
         </div>
       </div>
+
+      <BottomNav />
     </div>
   );
 }
