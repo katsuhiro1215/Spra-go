@@ -294,10 +294,9 @@ export default function Page() {
         type="button"
         onClick={() => setMiniAppOpen(true)}
         aria-label="ミニアプリを開く"
-        className="fixed top-1/2 right-0 z-30 -translate-y-1/2 rounded-l-lg border border-r-0 border-white/30 bg-black/30 px-2 py-3 text-xs font-semibold text-white shadow-lg backdrop-blur-sm hover:bg-black/40"
-        style={{ writingMode: "vertical-rl" }}
+        className="fixed top-1/2 right-0 z-30 -translate-y-1/2 rounded-l-lg border border-r-0 border-white/30 bg-black/30 px-2 py-3 text-white shadow-lg backdrop-blur-sm hover:bg-black/40"
       >
-        ミニアプリ
+        ◀
       </button>
 
       {miniAppOpen && (
