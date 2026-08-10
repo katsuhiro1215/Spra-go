@@ -55,20 +55,6 @@ export function AppHeader() {
           )}
         <PointsBadge value={profile?.coins ?? 0} />
         <HpGauge value={profile?.hp ?? 0} max={profile?.max_hp ?? 20} />
-        <Link
-          href="/passport"
-          aria-label="マイパスポート"
-          className="rounded-full border border-white/30 bg-black/20 p-1.5 text-lg leading-none shadow backdrop-blur-sm hover:bg-black/30"
-        >
-          📔
-        </Link>
-        <Link
-          href="/shop"
-          aria-label="ショップ"
-          className="rounded-full border border-white/30 bg-black/20 p-1.5 text-lg leading-none shadow backdrop-blur-sm hover:bg-black/30"
-        >
-          🛒
-        </Link>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
