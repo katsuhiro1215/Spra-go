@@ -105,6 +105,38 @@ function createOrderingQuestionWithChoices(array $labelsInCorrectOrder): array
 }
 
 /**
+ * 仕分け(カゴ分け)問題を作る。$baskets は ['カゴid' => 'カゴ名']、
+ * $itemToBasket は ['アイテムid' => '正解のカゴid'] の連想配列。
+ * マッチングと異なり1つのカゴに複数アイテムが入りうるため、正解の対応は
+ * question_choicesではなくquestions.meta(サーバー内部でのみ保持)に持たせる。
+ *
+ * @param  array<string, string>  $baskets
+ * @param  array<string, string>  $itemToBasket
+ * @return Question
+ */
+function createSortingQuestion(array $baskets, array $itemToBasket): Question
+{
+    $quiz = Quiz::create(['title' => 'テスト仕分けクイズ', 'difficulty' => '初級']);
+
+    return Question::create([
+        'quiz_id' => $quiz->id,
+        'type' => 'sorting',
+        'prompt' => 'アジアかヨーロッパかで仕分けよう',
+        'meta' => [
+            'items' => collect($itemToBasket)->map(fn (string $basketId, string $itemId) => [
+                'id' => $itemId,
+                'image' => "/flag/{$itemId}.svg",
+                'correct_basket_id' => $basketId,
+            ])->values()->all(),
+            'baskets' => collect($baskets)->map(fn (string $label, string $basketId) => [
+                'id' => $basketId,
+                'label' => $label,
+            ])->values()->all(),
+        ],
+    ]);
+}
+
+/**
  * マッチング(1対1)問題を作る。$pairs は ['アイテムid' => 'ラベル名'] の連想配列。
  *
  * @param  array<string, string>  $pairs

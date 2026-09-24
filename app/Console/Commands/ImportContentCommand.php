@@ -153,6 +153,50 @@ class ImportContentCommand extends Command
                     continue;
                 }
 
+                if ($type === 'sorting') {
+                    $baskets = $question['baskets'] ?? [];
+                    $items = $question['items'] ?? [];
+
+                    if (count($baskets) < 2) {
+                        $errors[] = "{$qLabel}: type=sorting の baskets は2件以上必要です（実際: ".count($baskets).'件）。';
+                    }
+
+                    foreach (['id', 'label'] as $basketKey) {
+                        foreach ($baskets as $k => $basket) {
+                            if (empty($basket[$basketKey] ?? null)) {
+                                $errors[] = "{$qLabel}.baskets[{$k}]: `{$basketKey}` が空です。";
+                            }
+                        }
+                    }
+
+                    $basketIds = collect($baskets)->pluck('id')->filter();
+
+                    if (count($items) < 2) {
+                        $errors[] = "{$qLabel}: type=sorting の items は2件以上必要です（実際: ".count($items).'件）。';
+                    }
+
+                    foreach (['id', 'image', 'correct_basket_id'] as $itemKey) {
+                        foreach ($items as $k => $item) {
+                            if (empty($item[$itemKey] ?? null)) {
+                                $errors[] = "{$qLabel}.items[{$k}]: `{$itemKey}` が空です。";
+                            }
+                        }
+                    }
+
+                    foreach ($items as $k => $item) {
+                        if (isset($item['correct_basket_id']) && ! $basketIds->contains($item['correct_basket_id'])) {
+                            $errors[] = "{$qLabel}.items[{$k}]: correct_basket_id `{$item['correct_basket_id']}` は baskets に存在しません。";
+                        }
+                    }
+
+                    $itemIds = collect($items)->pluck('id')->filter();
+                    if ($itemIds->unique()->count() !== $itemIds->count()) {
+                        $errors[] = "{$qLabel}: items の id が重複しています。";
+                    }
+
+                    continue;
+                }
+
                 $choices = $question['choices'] ?? [];
 
                 // true_false(○×)は選択肢2件、それ以外(multiple_choice)は4件で固定する。
@@ -251,12 +295,19 @@ class ImportContentCommand extends Command
                         'type' => $type,
                         'prompt' => $questionData['prompt'],
                         'order' => $index,
-                        'meta' => $type === 'matching'
-                            ? ['items' => collect($questionData['items'])->map(fn ($item) => [
+                        'meta' => match ($type) {
+                            'matching' => ['items' => collect($questionData['items'])->map(fn ($item) => [
                                 'id' => $item['id'],
                                 'image' => $item['image'],
-                            ])->all()]
-                            : null,
+                            ])->all()],
+                            // sortingはcorrect_basket_idを含めたまま保存する(サーバー内部でのみ使い、
+                            // ステージ取得APIを返す際に取り除く。QuestionAnswerResolver::sortingも参照)。
+                            'sorting' => [
+                                'items' => $questionData['items'],
+                                'baskets' => $questionData['baskets'],
+                            ],
+                            default => null,
+                        },
                     ]);
 
                     if ($type === 'matching') {
@@ -278,6 +329,8 @@ class ImportContentCommand extends Command
                                 'order' => $choiceIndex + 1,
                             ]);
                         }
+                    } elseif ($type === 'sorting') {
+                        // sortingはquestion_choicesを使わず、meta(items/baskets)だけで完結する。
                     } else {
                         foreach ($questionData['choices'] as $choiceIndex => $choiceData) {
                             $question->choices()->create([

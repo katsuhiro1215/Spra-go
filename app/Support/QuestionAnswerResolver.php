@@ -99,4 +99,37 @@ class QuestionAnswerResolver
             'correct' => $data['answer_order'] === $correctOrderIds,
         ];
     }
+
+    /**
+     * @return array{correct: bool}
+     */
+    public static function sorting(Request $request, Question $question): array
+    {
+        $items = collect($question->meta['items'] ?? []);
+        $basketIds = collect($question->meta['baskets'] ?? [])->pluck('id')->all();
+        $itemIds = $items->pluck('id')->all();
+
+        $data = $request->validate([
+            'assignments' => ['required', 'array', 'size:'.count($itemIds)],
+            'assignments.*.item_id' => ['required', Rule::in($itemIds)],
+            'assignments.*.basket_id' => ['required', Rule::in($basketIds)],
+        ]);
+
+        $submittedItemIds = collect($data['assignments'])->pluck('item_id');
+        if ($submittedItemIds->unique()->count() !== count($itemIds)) {
+            throw ValidationException::withMessages([
+                'assignments' => 'すべてのアイテムに1回ずつ回答してください。',
+            ]);
+        }
+
+        $correctBasketByItemId = $items->keyBy('id')->map(fn (array $item) => $item['correct_basket_id']);
+
+        $allCorrect = collect($data['assignments'])->every(
+            fn (array $a) => $correctBasketByItemId->get($a['item_id']) === $a['basket_id'],
+        );
+
+        return [
+            'correct' => $allCorrect,
+        ];
+    }
 }

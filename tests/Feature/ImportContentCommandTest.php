@@ -259,3 +259,53 @@ it('type:orderingでchoicesが1件しかない問題があると取り込みは�
     $this->artisan('content:import', ['file' => $path])->assertExitCode(1);
     expect(\App\Models\Question::count())->toBe(0);
 });
+
+it('type:sortingの問題原稿を取り込むとitems/baskets付きのQuestionが作成される', function () {
+    seedThemesAndCountry();
+
+    $path = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][] = [
+            'prompt' => 'アジアかヨーロッパかで仕分けよう',
+            'type' => 'sorting',
+            'baskets' => [
+                ['id' => 'asia', 'label' => 'アジア'],
+                ['id' => 'europe', 'label' => 'ヨーロッパ'],
+            ],
+            'items' => [
+                ['id' => 'jp', 'image' => '/flag/jp.svg', 'correct_basket_id' => 'asia'],
+                ['id' => 'fr', 'image' => '/flag/fr.svg', 'correct_basket_id' => 'europe'],
+            ],
+        ];
+    });
+
+    $this->artisan('content:import', ['file' => $path])->assertExitCode(0);
+
+    $question = \App\Models\Question::query()->where('prompt', 'アジアかヨーロッパかで仕分けよう')->first();
+    expect($question)->not->toBeNull();
+    expect($question->type)->toBe('sorting');
+    expect($question->meta['baskets'])->toHaveCount(2);
+    expect($question->meta['items'])->toHaveCount(2);
+    expect($question->choices()->count())->toBe(0);
+});
+
+it('type:sortingでcorrect_basket_idがbasketsに存在しないと取り込みは失敗する', function () {
+    seedThemesAndCountry();
+
+    $path = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][] = [
+            'prompt' => 'アジアかヨーロッパかで仕分けよう(不正)',
+            'type' => 'sorting',
+            'baskets' => [
+                ['id' => 'asia', 'label' => 'アジア'],
+                ['id' => 'europe', 'label' => 'ヨーロッパ'],
+            ],
+            'items' => [
+                ['id' => 'jp', 'image' => '/flag/jp.svg', 'correct_basket_id' => 'africa'],
+                ['id' => 'fr', 'image' => '/flag/fr.svg', 'correct_basket_id' => 'europe'],
+            ],
+        ];
+    });
+
+    $this->artisan('content:import', ['file' => $path])->assertExitCode(1);
+    expect(\App\Models\Question::count())->toBe(0);
+});
