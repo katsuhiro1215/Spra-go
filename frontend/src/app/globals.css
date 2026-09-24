@@ -226,6 +226,23 @@
       transform: skewY(4deg);
     }
   }
+  @keyframes scene-fall {
+    0% {
+      transform: translateY(-8vh) translateX(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.9;
+    }
+    90% {
+      opacity: 0.9;
+    }
+    100% {
+      transform: translateY(108vh) translateX(var(--drift, 20px))
+        rotate(var(--spin, 90deg));
+      opacity: 0;
+    }
+  }
 
   .animate-scene-drift {
     animation: scene-drift linear infinite;
@@ -252,6 +269,9 @@
   .animate-scene-flag {
     animation: scene-flag ease-in-out infinite;
     transform-origin: left center;
+  }
+  .animate-scene-fall {
+    animation: scene-fall linear infinite;
   }
 
   @keyframes character-bounce {
@@ -308,6 +328,7 @@
     .animate-scene-fly,
     .animate-scene-sail,
     .animate-scene-flag,
+    .animate-scene-fall,
     .animate-character-bounce,
     .animate-stage-intro,
     .animate-stage-intro-subtitle {
