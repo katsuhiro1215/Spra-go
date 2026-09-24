@@ -1,0 +1,47 @@
+{
+  "country_name": "フランス",
+  "country_code": "FR",
+  "difficulty": "初級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "フランス王が暮らした、この豪華な宮殿の名前は？",
+          "image": "/heritage/fr/versailles.jpg",
+          "choices": [
+            {"label": "ヴェルサイユ宮殿", "is_correct": true},
+            {"label": "ルーヴル宮殿", "is_correct": false},
+            {"label": "フォンテーヌブロー宮殿", "is_correct": false},
+            {"label": "シャンボール城", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "潮が満ちると島になる、この修道院の名前は？",
+          "image": "/heritage/fr/mont-saint-michel.jpg",
+          "choices": [
+            {"label": "モン・サン=ミッシェル", "is_correct": true},
+            {"label": "ノートルダム大聖堂", "is_correct": false},
+            {"label": "サント=シャペル", "is_correct": false},
+            {"label": "ランス大聖堂", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "美しいステンドグラスで知られる、この大聖堂の名前は？",
+          "image": "/heritage/fr/chartres.jpg",
+          "choices": [
+            {"label": "シャルトル大聖堂", "is_correct": true},
+            {"label": "ノートルダム大聖堂", "is_correct": false},
+            {"label": "ストラスブール大聖堂", "is_correct": false},
+            {"label": "アミアン大聖堂", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

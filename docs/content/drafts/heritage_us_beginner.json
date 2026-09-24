@@ -1,0 +1,47 @@
+{
+  "country_name": "アメリカ",
+  "country_code": "US",
+  "difficulty": "初級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "ニューヨーク湾に立つこの像の名前は？",
+          "image": "/heritage/us/statue-of-liberty.jpg",
+          "choices": [
+            {"label": "自由の女神像", "is_correct": true},
+            {"label": "リンカーン記念像", "is_correct": false},
+            {"label": "キリスト像(コルコバードのキリスト)", "is_correct": false},
+            {"label": "平和の女神像", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "アリゾナ州にある、この巨大な渓谷の世界遺産の名前は？",
+          "image": "/heritage/us/grand-canyon.jpg",
+          "choices": [
+            {"label": "グランドキャニオン国立公園", "is_correct": true},
+            {"label": "ヨセミテ国立公園", "is_correct": false},
+            {"label": "デスバレー国立公園", "is_correct": false},
+            {"label": "セコイア国立公園", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "間欠泉が有名な、この世界遺産の名前は？",
+          "image": "/heritage/us/yellowstone.jpg",
+          "choices": [
+            {"label": "イエローストーン国立公園", "is_correct": true},
+            {"label": "グレイシャー国立公園", "is_correct": false},
+            {"label": "ロッキーマウンテン国立公園", "is_correct": false},
+            {"label": "オリンピック国立公園", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

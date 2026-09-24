@@ -1,0 +1,47 @@
+{
+  "country_name": "イギリス",
+  "country_code": "GB",
+  "difficulty": "初級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "巨大な石が円形に並ぶ、この古代遺跡の名前は？",
+          "image": "/heritage/uk/stonehenge.jpg",
+          "choices": [
+            {"label": "ストーンヘンジ", "is_correct": true},
+            {"label": "エイヴベリー", "is_correct": false},
+            {"label": "ニューグレンジ", "is_correct": false},
+            {"label": "カルナック列石", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "テムズ川のほとりに立つ、この歴史的な城塞の名前は？",
+          "image": "/heritage/uk/tower-of-london.jpg",
+          "choices": [
+            {"label": "ロンドン塔", "is_correct": true},
+            {"label": "ウィンザー城", "is_correct": false},
+            {"label": "バッキンガム宮殿", "is_correct": false},
+            {"label": "エディンバラ城", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "スコットランドの首都にそびえる、この城の名前は？",
+          "image": "/heritage/uk/edinburgh-castle.jpg",
+          "choices": [
+            {"label": "エディンバラ城", "is_correct": true},
+            {"label": "スターリング城", "is_correct": false},
+            {"label": "ロンドン塔", "is_correct": false},
+            {"label": "カーディフ城", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

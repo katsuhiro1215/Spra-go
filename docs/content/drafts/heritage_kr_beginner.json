@@ -1,0 +1,47 @@
+{
+  "country_name": "韓国",
+  "country_code": "KR",
+  "difficulty": "初級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "ソウルにある、美しい庭園「後苑」で知られるこの宮殿の名前は？",
+          "image": "/heritage/kr/changdeokgung.jpg",
+          "choices": [
+            {"label": "昌徳宮", "is_correct": true},
+            {"label": "景福宮", "is_correct": false},
+            {"label": "徳寿宮", "is_correct": false},
+            {"label": "昌慶宮", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "慶州(キョンジュ)にある、この仏教寺院の名前は？",
+          "image": "/heritage/kr/bulguksa.jpg",
+          "choices": [
+            {"label": "仏国寺", "is_correct": true},
+            {"label": "海印寺", "is_correct": false},
+            {"label": "通度寺", "is_correct": false},
+            {"label": "松広寺", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "済州島(チェジュド)にある、この火山の名前は？",
+          "image": "/heritage/kr/seongsan-ilchulbong.jpg",
+          "choices": [
+            {"label": "城山日出峰", "is_correct": true},
+            {"label": "漢拏山", "is_correct": false},
+            {"label": "牛島", "is_correct": false},
+            {"label": "山房山", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "country_name": "インドネシア",
+  "country_code": "ID",
+  "difficulty": "初級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "世界最大級の仏教遺跡、この寺院の名前は？",
+          "image": "/heritage/id/borobudur.jpg",
+          "choices": [
+            {"label": "ボロブドゥール寺院", "is_correct": true},
+            {"label": "プランバナン寺院", "is_correct": false},
+            {"label": "アンコールワット", "is_correct": false},
+            {"label": "タナロット寺院", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "とがった塔がいくつも並ぶ、このヒンドゥー教寺院群の名前は？",
+          "image": "/heritage/id/prambanan.jpg",
+          "choices": [
+            {"label": "プランバナン寺院群", "is_correct": true},
+            {"label": "ボロブドゥール寺院", "is_correct": false},
+            {"label": "ウルワツ寺院", "is_correct": false},
+            {"label": "タナロット寺院", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "世界最大のトカゲが暮らす、この国立公園の名前は？",
+          "image": "/heritage/id/komodo.jpg",
+          "choices": [
+            {"label": "コモド国立公園", "is_correct": true},
+            {"label": "ロレンツ国立公園", "is_correct": false},
+            {"label": "ウジュンクロン国立公園", "is_correct": false},
+            {"label": "バリ島国立公園", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

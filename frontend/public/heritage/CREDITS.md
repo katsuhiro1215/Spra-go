@@ -35,4 +35,49 @@
 - `gunkanjima.jpg` — 端島(軍艦島、明治日本の産業革命遺産)。撮影: kntrty(Flickr)。ライセンス: CC BY 2.0。
   https://commons.wikimedia.org/wiki/File:Battle-Ship_Island_Nagasaki_Japan.jpg
 
+## アメリカ (us/)
+
+- `statue-of-liberty.jpg` — 自由の女神像。撮影: William Warby。ライセンス: CC BY 2.0。
+  https://commons.wikimedia.org/wiki/File:Statue_of_Liberty,_NY.jpg
+- `grand-canyon.jpg` — グランドキャニオン国立公園(サウスリム、夕景)。撮影: Mgimelfarb。ライセンス: CC0(パブリックドメイン)。
+  https://commons.wikimedia.org/wiki/File:Grand_Canyon_South_Rim_at_Sunset.jpg
+- `yellowstone.jpg` — イエローストーン国立公園 オールド・フェイスフル間欠泉。撮影: Colin.faulkingham。ライセンス: パブリックドメイン。
+  https://commons.wikimedia.org/wiki/File:Old_Faithful_Geyser_Yellowstone_National_Park.jpg
+
+## イギリス (uk/)
+
+- `stonehenge.jpg` — ストーンヘンジ(北東より)。撮影: Matthew Brennan。ライセンス: パブリックドメイン。
+  https://commons.wikimedia.org/wiki/File:S7300095.JPG
+- `tower-of-london.jpg` — ロンドン塔(テムズ川対岸より)。撮影: Jon Sullivan。ライセンス: パブリックドメイン。
+  https://commons.wikimedia.org/wiki/File:Tower_of_London_England_from_across_the_river_Thames.jpg
+- `edinburgh-castle.jpg` — エディンバラ城。撮影: Suicasmo。ライセンス: CC BY-SA 4.0。
+  https://commons.wikimedia.org/wiki/File:Edinburgh_Castle_20140320.jpg
+
+## フランス (fr/)
+
+- `versailles.jpg` — ヴェルサイユ宮殿。撮影: Jorge Láscar。ライセンス: CC BY 2.0。
+  https://commons.wikimedia.org/wiki/File:The_Palace_of_Versailles_(24302589765).jpg
+- `mont-saint-michel.jpg` — モン・サン=ミッシェル。撮影: b3rny。ライセンス: CC BY-SA 3.0。
+  https://commons.wikimedia.org/wiki/File:Mont_Saint-Michel_France.jpg
+- `chartres.jpg` — シャルトル大聖堂(南東より)。撮影: User:TTaylor。ライセンス: パブリックドメイン。
+  https://commons.wikimedia.org/wiki/File:Chartres_Cathedral_000.JPG
+
+## インドネシア (id/)
+
+- `borobudur.jpg` — ボロブドゥール寺院(ウェーサク祭)。撮影: Aditya Suseno。ライセンス: CC0(パブリックドメイン)。
+  https://commons.wikimedia.org/wiki/File:Borobudur_Temple_on_Vesak_Day_2015.jpg
+- `prambanan.jpg` — プランバナン寺院群。撮影: CEphoto, Uwe Aranas。ライセンス: CC BY-SA 3.0。
+  https://commons.wikimedia.org/wiki/File:Yogyakarta_Indonesia_Prambanan-temple-complex-02.jpg
+- `komodo.jpg` — コモド国立公園のコモドオオトカゲ。撮影: Adhi Rachdian。ライセンス: CC BY 2.0。
+  https://commons.wikimedia.org/wiki/File:Komodo_dragon_at_Komodo_National_Park.jpg
+
+## 韓国 (kr/)
+
+- `changdeokgung.jpg` — 昌徳宮(チャンドックン)。撮影: Diego Manrique。ライセンス: CC BY-SA 4.0。
+  https://commons.wikimedia.org/wiki/File:Changdeokgung_Palace.jpg
+- `bulguksa.jpg` — 仏国寺 極楽殿。撮影: Bernard Gagnon。ライセンス: CC0(パブリックドメイン)。
+  https://commons.wikimedia.org/wiki/File:Geungnakjeon,_Bulguksa_01.jpg
+- `seongsan-ilchulbong.jpg` — 城山日出峰(済州島)。撮影: Bernard Gagnon。ライセンス: CC0(パブリックドメイン)。
+  https://commons.wikimedia.org/wiki/File:Seongsan_Ilchulbong_01.jpg
+
 すべてリサイズ・再圧縮のみ実施(内容の改変なし)。CC BY-SA画像はライセンス上、再配布時も同ライセンスでの提供・帰属表示が必要。
