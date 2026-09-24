@@ -75,4 +75,28 @@ class QuestionAnswerResolver
             'results' => $results->all(),
         ];
     }
+
+    /**
+     * @return array{correct: bool}
+     */
+    public static function ordering(Request $request, Question $question): array
+    {
+        $choiceCount = $question->choices()->count();
+
+        $data = $request->validate([
+            'answer_order' => ['required', 'array', 'size:'.$choiceCount],
+            'answer_order.*' => ['required', 'distinct', Rule::exists('question_choices', 'id')],
+        ]);
+
+        foreach ($data['answer_order'] as $choiceId) {
+            $choice = QuestionChoice::query()->findOrFail($choiceId);
+            abort_unless($choice->question_id === $question->id, 422);
+        }
+
+        $correctOrderIds = $question->choices()->orderBy('order')->pluck('id')->all();
+
+        return [
+            'correct' => $data['answer_order'] === $correctOrderIds,
+        ];
+    }
 }

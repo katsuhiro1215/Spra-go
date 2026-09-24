@@ -979,6 +979,15 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Stage $sta
             return;
         }
 
+        if ($question->type === 'ordering') {
+            // 並べ替えはorder列を「正解の順序」として使うため、シャッフルして出し、
+            // 手がかりになるorder/is_correctを隠す。
+            $question->setRelation('choices', $question->choices->shuffle()->values());
+            $question->choices->each->makeHidden(['is_correct', 'order']);
+
+            return;
+        }
+
         $correct = $question->choices->firstWhere('is_correct', true);
         $wrong = $question->choices->where('is_correct', false);
         $display = $wrong->random(min(3, $wrong->count()));
@@ -1047,9 +1056,11 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
 })->name('stages.complete');
 
 Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', function (Request $request, Question $question) {
-    $result = $question->type === 'matching'
-        ? QuestionAnswerResolver::matching($request, $question)
-        : QuestionAnswerResolver::multipleChoice($request, $question);
+    $result = match ($question->type) {
+        'matching' => QuestionAnswerResolver::matching($request, $question),
+        'ordering' => QuestionAnswerResolver::ordering($request, $question),
+        default => QuestionAnswerResolver::multipleChoice($request, $question),
+    };
 
     $isCorrect = $result['correct'];
 

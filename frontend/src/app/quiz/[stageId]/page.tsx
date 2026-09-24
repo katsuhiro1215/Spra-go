@@ -14,6 +14,7 @@ import {
   type MatchingItem,
   type MatchingResult,
 } from "@/components/app/matching-question";
+import { OrderingQuestion } from "@/components/app/ordering-question";
 import { useProfile } from "@/components/app/profile-provider";
 import { SceneBackground } from "@/components/app/scene-background";
 import { useSound } from "@/components/app/sound-provider";
@@ -23,7 +24,7 @@ type Choice = { id: number; label: string };
 type Country = { id: number; code: string; name: string };
 type QuestionItem = {
   id: number;
-  type: "multiple_choice" | "matching";
+  type: "multiple_choice" | "matching" | "ordering" | "true_false";
   prompt: string;
   country: Country | null;
   choices: Choice[];
@@ -366,6 +367,10 @@ export default function Page({
     await submitAnswer({ answers });
   }
 
+  async function handleOrderingSubmit(answerOrder: number[]) {
+    await submitAnswer({ answer_order: answerOrder });
+  }
+
   function handleNext() {
     setCurrentIndex((prev) => prev + 1);
     setSelectedChoiceId(null);
@@ -465,6 +470,13 @@ export default function Page({
               results={matchingResults}
               submitting={submitting}
               onSubmit={handleMatchingSubmit}
+            />
+          ) : question.type === "ordering" ? (
+            <OrderingQuestion
+              choices={question.choices}
+              answered={answered}
+              submitting={submitting}
+              onSubmit={handleOrderingSubmit}
             />
           ) : (
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">

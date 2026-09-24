@@ -137,6 +137,22 @@ class ImportContentCommand extends Command
                     continue;
                 }
 
+                if ($type === 'ordering') {
+                    $choices = $question['choices'] ?? [];
+
+                    if (count($choices) < 2) {
+                        $errors[] = "{$qLabel}: type=ordering の choices は2件以上必要です（実際: ".count($choices).'件）。';
+                    }
+
+                    foreach ($choices as $k => $choice) {
+                        if (empty($choice['label'] ?? null)) {
+                            $errors[] = "{$qLabel}.choices[{$k}]: label が空です。";
+                        }
+                    }
+
+                    continue;
+                }
+
                 $choices = $question['choices'] ?? [];
 
                 // true_false(○×)は選択肢2件、それ以外(multiple_choice)は4件で固定する。
@@ -250,6 +266,16 @@ class ImportContentCommand extends Command
                                 'is_correct' => true,
                                 'order' => $itemIndex,
                                 'meta' => ['item_id' => $item['id']],
+                            ]);
+                        }
+                    } elseif ($type === 'ordering') {
+                        // choices配列の並び順=正解の順序。orderは表示側でシャッフルする前提のため、
+                        // 単なる連番(1始まり)として保存する。
+                        foreach ($questionData['choices'] as $choiceIndex => $choiceData) {
+                            $question->choices()->create([
+                                'label' => $choiceData['label'],
+                                'is_correct' => true,
+                                'order' => $choiceIndex + 1,
                             ]);
                         }
                     } else {
