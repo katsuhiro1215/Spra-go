@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class QuestionChoice extends Model
 {
-    protected $fillable = ['question_id', 'label', 'is_correct', 'order'];
+    protected $fillable = ['question_id', 'label', 'is_correct', 'order', 'meta'];
 
     protected function casts(): array
     {
         return [
             'is_correct' => 'boolean',
+            'meta' => 'array',
         ];
     }
 

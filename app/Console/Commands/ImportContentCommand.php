@@ -112,6 +112,31 @@ class ImportContentCommand extends Command
                     $errors[] = "{$qLabel}: prompt が空です。";
                 }
 
+                $type = $question['type'] ?? 'multiple_choice';
+
+                if ($type === 'matching') {
+                    $items = $question['items'] ?? [];
+
+                    if (count($items) < 2) {
+                        $errors[] = "{$qLabel}: type=matching の items は2件以上必要です（実際: ".count($items).'件）。';
+                    }
+
+                    foreach (['id', 'image', 'label'] as $itemKey) {
+                        foreach ($items as $k => $item) {
+                            if (empty($item[$itemKey] ?? null)) {
+                                $errors[] = "{$qLabel}.items[{$k}]: `{$itemKey}` が空です。";
+                            }
+                        }
+                    }
+
+                    $ids = collect($items)->pluck('id')->filter();
+                    if ($ids->unique()->count() !== $ids->count()) {
+                        $errors[] = "{$qLabel}: items の id が重複しています。";
+                    }
+
+                    continue;
+                }
+
                 $choices = $question['choices'] ?? [];
 
                 if (count($choices) !== 4) {
@@ -197,19 +222,39 @@ class ImportContentCommand extends Command
                 if ($question) {
                     $questionsSkipped++;
                 } else {
+                    $type = $questionData['type'] ?? 'multiple_choice';
+
                     $question = Question::query()->create([
                         'quiz_id' => $quiz->id,
                         'country_id' => $country->id,
+                        'type' => $type,
                         'prompt' => $questionData['prompt'],
                         'order' => $index,
+                        'meta' => $type === 'matching'
+                            ? ['items' => collect($questionData['items'])->map(fn ($item) => [
+                                'id' => $item['id'],
+                                'image' => $item['image'],
+                            ])->all()]
+                            : null,
                     ]);
 
-                    foreach ($questionData['choices'] as $choiceIndex => $choiceData) {
-                        $question->choices()->create([
-                            'label' => $choiceData['label'],
-                            'is_correct' => $choiceData['is_correct'],
-                            'order' => $choiceIndex,
-                        ]);
+                    if ($type === 'matching') {
+                        foreach ($questionData['items'] as $itemIndex => $item) {
+                            $question->choices()->create([
+                                'label' => $item['label'],
+                                'is_correct' => true,
+                                'order' => $itemIndex,
+                                'meta' => ['item_id' => $item['id']],
+                            ]);
+                        }
+                    } else {
+                        foreach ($questionData['choices'] as $choiceIndex => $choiceData) {
+                            $question->choices()->create([
+                                'label' => $choiceData['label'],
+                                'is_correct' => $choiceData['is_correct'],
+                                'order' => $choiceIndex,
+                            ]);
+                        }
                     }
 
                     $questionsCreated++;

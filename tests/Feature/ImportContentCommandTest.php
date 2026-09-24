@@ -133,3 +133,46 @@ it('ファイルが存在しない場合は失敗する', function () {
     $this->artisan('content:import', ['file' => '/tmp/does-not-exist-sprago.json'])
         ->assertExitCode(1);
 });
+
+it('type:matchingの問題原稿を取り込むとitems付きのQuestion/Choiceが作成される', function () {
+    seedThemesAndCountry();
+
+    $path = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][] = [
+            'prompt' => '国旗と国名を合わせよう',
+            'type' => 'matching',
+            'items' => [
+                ['id' => 'jp', 'image' => '/flag/jp.svg', 'label' => '日本'],
+                ['id' => 'fr', 'image' => '/flag/fr.svg', 'label' => 'フランス'],
+                ['id' => 'us', 'image' => '/flag/us.svg', 'label' => 'アメリカ'],
+            ],
+        ];
+    });
+
+    $this->artisan('content:import', ['file' => $path])->assertExitCode(0);
+
+    $question = \App\Models\Question::query()->where('prompt', '国旗と国名を合わせよう')->first();
+    expect($question)->not->toBeNull();
+    expect($question->type)->toBe('matching');
+    expect($question->meta['items'])->toHaveCount(3);
+    expect($question->choices()->count())->toBe(3);
+    $jpChoice = $question->choices()->get()->first(fn ($c) => $c->meta['item_id'] === 'jp');
+    expect($jpChoice->label)->toBe('日本');
+});
+
+it('type:matchingでitemsが1件しかない問題があると取り込みは失敗する', function () {
+    seedThemesAndCountry();
+
+    $path = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][] = [
+            'prompt' => '国旗と国名を合わせよう(不正)',
+            'type' => 'matching',
+            'items' => [
+                ['id' => 'jp', 'image' => '/flag/jp.svg', 'label' => '日本'],
+            ],
+        ];
+    });
+
+    $this->artisan('content:import', ['file' => $path])->assertExitCode(1);
+    expect(\App\Models\Question::count())->toBe(0);
+});

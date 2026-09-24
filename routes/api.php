@@ -19,6 +19,7 @@ use App\Models\Stage;
 use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserProfileItem;
+use App\Support\QuestionAnswerResolver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
@@ -962,13 +963,22 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
 Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Stage $stage) {
     $questions = $stage->questions()
         ->with(['choices', 'country'])
-        ->get(['questions.id', 'questions.type', 'questions.prompt', 'questions.country_id'])
+        ->get(['questions.id', 'questions.type', 'questions.prompt', 'questions.country_id', 'questions.meta'])
         ->shuffle()
         ->values();
 
     abort_if($questions->isEmpty(), 404);
 
     $questions->each(function (Question $question) {
+        if ($question->type === 'matching') {
+            // マッチングは全ペア分の選択肢をそのまま出す(is_correctの単一正解という概念がないため)。
+            // meta.item_idを返すと正解の組み合わせが漏れるので隠す。
+            $question->setRelation('choices', $question->choices->shuffle()->values());
+            $question->choices->each->makeHidden(['is_correct', 'meta']);
+
+            return;
+        }
+
         $correct = $question->choices->firstWhere('is_correct', true);
         $wrong = $question->choices->where('is_correct', false);
         $display = $wrong->random(min(3, $wrong->count()));
@@ -1037,14 +1047,11 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
 })->name('stages.complete');
 
 Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', function (Request $request, Question $question) {
-    $data = $request->validate([
-        'choice_id' => ['required', Rule::exists('question_choices', 'id')],
-    ]);
+    $result = $question->type === 'matching'
+        ? QuestionAnswerResolver::matching($request, $question)
+        : QuestionAnswerResolver::multipleChoice($request, $question);
 
-    $choice = QuestionChoice::query()->findOrFail($data['choice_id']);
-    abort_unless($choice->question_id === $question->id, 422);
-
-    $correctChoice = $question->choices()->where('is_correct', true)->first();
+    $isCorrect = $result['correct'];
 
     $profileId = $request->session()->get('active_profile_id');
     $profile = $profileId ? UserProfile::find($profileId) : null;
@@ -1064,11 +1071,11 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             ], 409);
         }
 
-        $result = $choice->is_correct
+        $economyResult = $isCorrect
             ? $profile->applyEconomy(['hp' => -1, 'xp' => 10, 'coin' => 5], 'answer_correct', $question)
             : $profile->applyEconomy(['hp' => -2], 'answer_wrong', $question);
 
-        $combo = $profile->registerComboResult($choice->is_correct);
+        $combo = $profile->registerComboResult($isCorrect);
 
         if ($combo['milestone_bonus_coin'] > 0) {
             $profile->applyEconomy(['coin' => $combo['milestone_bonus_coin']], 'combo_milestone', $question);
@@ -1087,8 +1094,8 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'xp' => $profile->xp,
             'coins' => $profile->coins,
             'level' => $profile->level,
-            'leveled_up' => $result['leveled_up'],
-            'delta' => $result['deltas'],
+            'leveled_up' => $economyResult['leveled_up'],
+            'delta' => $economyResult['deltas'],
             'combo' => $combo['combo'],
             'best_combo' => $combo['best_combo'],
             'combo_milestone_bonus_coin' => $combo['milestone_bonus_coin'],
@@ -1100,8 +1107,9 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
     }
 
     return [
-        'correct' => $choice->is_correct,
-        'correct_choice_id' => $correctChoice?->id,
+        'correct' => $isCorrect,
+        'correct_choice_id' => $result['correct_choice_id'] ?? null,
+        'results' => $result['results'] ?? null,
         'profile' => $economy,
     ];
 })->name('questions.answer');
