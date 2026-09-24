@@ -1,0 +1,47 @@
+{
+  "country_name": "日本",
+  "country_code": "JP",
+  "difficulty": "上級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "世界最大級の木造建築とされる大仏殿があるお寺の名前は？",
+          "image": "/heritage/jp/todaiji.jpg",
+          "choices": [
+            {"label": "東大寺", "is_correct": true},
+            {"label": "興福寺", "is_correct": false},
+            {"label": "薬師寺", "is_correct": false},
+            {"label": "唐招提寺", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "金色に輝くお堂を風雪から守るための建物がある、このお寺の名前は？",
+          "image": "/heritage/jp/chusonji.jpg",
+          "choices": [
+            {"label": "中尊寺", "is_correct": true},
+            {"label": "毛越寺", "is_correct": false},
+            {"label": "瑞巌寺", "is_correct": false},
+            {"label": "立石寺", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "かつて海底炭鉱の島として栄えた、通称「軍艦島」と呼ばれるこの島の正式名称は？",
+          "image": "/heritage/jp/gunkanjima.jpg",
+          "choices": [
+            {"label": "端島", "is_correct": true},
+            {"label": "池島", "is_correct": false},
+            {"label": "高島", "is_correct": false},
+            {"label": "伊王島", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

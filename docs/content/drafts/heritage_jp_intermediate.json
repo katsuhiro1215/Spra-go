@@ -1,0 +1,47 @@
+{
+  "country_name": "日本",
+  "country_code": "JP",
+  "difficulty": "中級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "巨大な石が積まれたこの古墳の名前は？(2026年に世界遺産登録された「飛鳥・藤原の宮都」の構成資産)",
+          "image": "/heritage/jp/ishibutai.jpg",
+          "choices": [
+            {"label": "石舞台古墳", "is_correct": true},
+            {"label": "大仙古墳", "is_correct": false},
+            {"label": "五色塚古墳", "is_correct": false},
+            {"label": "箸墓古墳", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "秋にコスモス畑で有名な、かつての都の跡地の名前は？",
+          "image": "/heritage/jp/fujiwara-kyo.jpg",
+          "choices": [
+            {"label": "藤原宮跡", "is_correct": true},
+            {"label": "平城宮跡", "is_correct": false},
+            {"label": "大宰府跡", "is_correct": false},
+            {"label": "多賀城跡", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "美しい壁画が発見されたことで知られる、この古墳の名前は？",
+          "image": "/heritage/jp/takamatsuzuka.jpg",
+          "choices": [
+            {"label": "高松塚古墳", "is_correct": true},
+            {"label": "キトラ古墳", "is_correct": false},
+            {"label": "藤ノ木古墳", "is_correct": false},
+            {"label": "牽牛子塚古墳", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}
