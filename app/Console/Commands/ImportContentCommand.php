@@ -224,14 +224,17 @@ class ImportContentCommand extends Command
         $country = Country::query()->whereRaw('LOWER(code) = ?', [strtolower($data['country_code'])])->firstOrFail();
 
         // category_root省略時は従来通り「国旗」配下に国名カテゴリーをネストする(トリビア)。
-        // 言語学習モード(SPEC.md 4-4a)等、国旗以外のルートを指定した場合はネストせず、
-        // ルートカテゴリーそのものを使う(米国・英国で「英語を学ぶ」を共有するため)。
+        // 世界遺産・動物・食べ物のように国ごとにコンテンツが分かれるジャンルは、
+        // nest_by_country:true を指定して同様に「ルート > 国名」構造にする。
+        // 言語学習モード(SPEC.md 4-4a)のように複数国(米国・英国等)で1つのルートを
+        // 共有する場合は、nest_by_countryを指定せずルートカテゴリーそのものを使う。
         $categoryRoot = $data['category_root'] ?? '国旗';
+        $nestByCountry = $data['nest_by_country'] ?? ($categoryRoot === '国旗');
 
-        if ($categoryRoot === '国旗') {
-            $flagCategory = Category::query()->firstOrCreate(['parent_id' => null, 'name' => '国旗']);
+        if ($nestByCountry) {
+            $rootCategory = Category::query()->firstOrCreate(['parent_id' => null, 'name' => $categoryRoot]);
             $category = Category::query()->firstOrCreate([
-                'parent_id' => $flagCategory->id,
+                'parent_id' => $rootCategory->id,
                 'name' => $data['country_name'],
             ]);
         } else {
@@ -306,7 +309,11 @@ class ImportContentCommand extends Command
                                 'items' => $questionData['items'],
                                 'baskets' => $questionData['baskets'],
                             ],
-                            default => null,
+                            // 世界遺産・動物・食べ物など、国旗以外の写真を見せたい問題用。
+                            // 未指定なら従来通りquestion.countryの国旗が表示される。
+                            default => isset($questionData['image'])
+                                ? ['image' => $questionData['image']]
+                                : null,
                         },
                     ]);
 

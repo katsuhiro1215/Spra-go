@@ -288,6 +288,36 @@ it('type:sortingの問題原稿を取り込むとitems/baskets付きのQuestion�
     expect($question->choices()->count())->toBe(0);
 });
 
+it('nest_by_country:trueを指定すると国旗以外のルートでも「ルート>国名」構造でカテゴリーが作られる', function () {
+    seedThemesAndCountry();
+
+    $path = writeTempFixture(function (&$data) {
+        $data['category_root'] = '世界遺産';
+        $data['nest_by_country'] = true;
+    });
+
+    $this->artisan('content:import', ['file' => $path])->assertExitCode(0);
+
+    $root = \App\Models\Category::query()->where('name', '世界遺産')->whereNull('parent_id')->first();
+    expect($root)->not->toBeNull();
+    expect($root->is_language_mode)->toBeFalse();
+    $child = \App\Models\Category::query()->where('name', 'テスト国')->where('parent_id', $root->id)->first();
+    expect($child)->not->toBeNull();
+});
+
+it('問題に image を指定するとmetaに保存され、国旗の代わりに表示できる', function () {
+    seedThemesAndCountry();
+
+    $path = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][0]['image'] = '/heritage/jp/mt-fuji.jpg';
+    });
+
+    $this->artisan('content:import', ['file' => $path])->assertExitCode(0);
+
+    $question = \App\Models\Question::query()->where('prompt', 'この国旗はどこの国？')->first();
+    expect($question->meta['image'])->toBe('/heritage/jp/mt-fuji.jpg');
+});
+
 it('type:sortingでcorrect_basket_idがbasketsに存在しないと取り込みは失敗する', function () {
     seedThemesAndCountry();
 

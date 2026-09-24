@@ -21,6 +21,7 @@ class QuestionThemeSeeder extends Seeder
             ['key' => 'vocabulary', 'label' => '単語', 'description' => '言語学習モード: 単語の意味・スペルを問う形式。'],
             ['key' => 'phrase', 'label' => 'フレーズ・表現', 'description' => '言語学習モード: 日常会話でよく使うフレーズ・言い回しを問う形式。'],
             ['key' => 'grammar', 'label' => '文法', 'description' => '言語学習モード: 基本的な文法・文の組み立てを問う形式。'],
+            ['key' => 'heritage', 'label' => '世界遺産', 'description' => 'その国の世界遺産の写真を見て名前などを答える形式。'],
         ];
 
         foreach ($questionThemes as $theme) {
