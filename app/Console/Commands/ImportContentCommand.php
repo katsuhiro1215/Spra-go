@@ -139,8 +139,13 @@ class ImportContentCommand extends Command
 
                 $choices = $question['choices'] ?? [];
 
-                if (count($choices) !== 4) {
-                    $errors[] = "{$qLabel}: choices は4件である必要があります（実際: ".count($choices).'件）。';
+                // true_false(○×)は選択肢2件、それ以外(multiple_choice)は4件で固定する。
+                // 表示側(stages.play)・回答側(questions.answer)は選択肢の件数に依存しない
+                // 実装のため、コード変更なくコンテンツ側の工夫だけで追加できる形式。
+                $expectedChoiceCount = $type === 'true_false' ? 2 : 4;
+
+                if (count($choices) !== $expectedChoiceCount) {
+                    $errors[] = "{$qLabel}: choices は{$expectedChoiceCount}件である必要があります（実際: ".count($choices).'件）。';
                 }
 
                 $correctCount = collect($choices)->where('is_correct', true)->count();
