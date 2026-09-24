@@ -141,7 +141,112 @@ function seededRandom(seed: number) {
   return x - Math.floor(x);
 }
 
-export function SceneBackground() {
+function Petal({ style }: { style?: React.CSSProperties }) {
+  return (
+    <div
+      className="animate-scene-fall absolute top-0 rounded-tl-full rounded-br-full rounded-tr-sm rounded-bl-sm bg-pink-300 shadow-[0_0_4px_rgba(244,114,182,0.6)]"
+      style={style}
+    />
+  );
+}
+
+function Snowflake({ style }: { style?: React.CSSProperties }) {
+  return (
+    <div
+      className="animate-scene-fall absolute top-0 rounded-full bg-white shadow-[0_0_5px_rgba(255,255,255,0.9)]"
+      style={style}
+    />
+  );
+}
+
+function Leaf({ style }: { style?: React.CSSProperties }) {
+  return (
+    <div
+      className="animate-scene-fall absolute top-0 rounded-tl-full rounded-br-full bg-orange-400 shadow-[0_0_4px_rgba(251,146,60,0.6)]"
+      style={style}
+    />
+  );
+}
+
+export type SceneTheme = "dusk" | "spring" | "summer" | "autumn" | "winter";
+
+type ThemeConfig = {
+  sky: string;
+  mountainFar: string;
+  mountainNear: string;
+  showMoon: boolean;
+  showSun: boolean;
+  showStars: boolean;
+  particle: "ember" | "petal" | "leaf" | "snow" | null;
+};
+
+const THEME_CONFIG: Record<SceneTheme, ThemeConfig> = {
+  dusk: {
+    sky: "from-[#1e1b4b] via-[#7c3aed] via-40% to-[#fb923c]",
+    mountainFar: "#4c3f78",
+    mountainNear: "#332a56",
+    showMoon: true,
+    showSun: true,
+    showStars: true,
+    particle: "ember",
+  },
+  spring: {
+    sky: "from-[#7dd3fc] via-[#bae6fd] to-[#fef3c7]",
+    mountainFar: "#86efac",
+    mountainNear: "#4ade80",
+    showMoon: false,
+    showSun: true,
+    showStars: false,
+    particle: "petal",
+  },
+  summer: {
+    sky: "from-[#0ea5e9] via-[#38bdf8] to-[#e0f2fe]",
+    mountainFar: "#15803d",
+    mountainNear: "#166534",
+    showMoon: false,
+    showSun: true,
+    showStars: false,
+    particle: null,
+  },
+  autumn: {
+    sky: "from-[#fb923c] via-[#fdba74] to-[#fef3c7]",
+    mountainFar: "#b45309",
+    mountainNear: "#92400e",
+    showMoon: false,
+    showSun: true,
+    showStars: false,
+    particle: "leaf",
+  },
+  winter: {
+    sky: "from-[#bfdbfe] via-[#e0f2fe] to-[#f8fafc]",
+    mountainFar: "#94a3b8",
+    mountainNear: "#64748b",
+    showMoon: false,
+    showSun: true,
+    showStars: false,
+    particle: "snow",
+  },
+};
+
+// 実際の暦月から季節テーマを判定する(気象学上の四季区分: 3-5月=春, 6-8月=夏, 9-11月=秋, 12-2月=冬)。
+// themeを明示的に渡さないSceneBackgroundは、この関数の結果を既定値として使う。
+export function getSeasonalTheme(date: Date = new Date()): SceneTheme {
+  const month = date.getMonth() + 1;
+
+  if (month >= 3 && month <= 5) return "spring";
+  if (month >= 6 && month <= 8) return "summer";
+  if (month >= 9 && month <= 11) return "autumn";
+
+  return "winter";
+}
+
+export function SceneBackground({
+  theme = getSeasonalTheme(),
+}: {
+  theme?: SceneTheme;
+}) {
+  const config = THEME_CONFIG[theme];
+
   const stars = useMemo(
     () =>
       Array.from({ length: 28 }, (_, i) => ({
@@ -166,35 +271,54 @@ export function SceneBackground() {
     [],
   );
 
+  // 季節演出(花びら/雪/落ち葉)。ゲームの邪魔にならないよう控えめな数・低い不透明度にする。
+  const fallingItems = useMemo(
+    () =>
+      Array.from({ length: 18 }, (_, i) => ({
+        left: seededRandom(i + 1000) * 100,
+        duration: 7 + seededRandom(i + 1100) * 7,
+        delay: seededRandom(i + 1200) * 8,
+        drift: seededRandom(i + 1300) * 60 - 30,
+        spin: seededRandom(i + 1400) * 360,
+        size: 7 + seededRandom(i + 1500) * 5,
+      })),
+    [],
+  );
+
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-linear-to-b from-[#1e1b4b] via-[#7c3aed] via-40% to-[#fb923c]"
+      className={`pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-linear-to-b ${config.sky}`}
     >
       {/* stars */}
-      {stars.map((star, i) => (
-        <div
-          key={i}
-          className="animate-scene-twinkle absolute rounded-full bg-white"
-          style={{
-            top: `${star.top}%`,
-            left: `${star.left}%`,
-            width: star.size,
-            height: star.size,
-            animationDuration: `${star.duration}s`,
-            animationDelay: `${star.delay}s`,
-          }}
-        />
-      ))}
+      {config.showStars &&
+        stars.map((star, i) => (
+          <div
+            key={i}
+            className="animate-scene-twinkle absolute rounded-full bg-white"
+            style={{
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              width: star.size,
+              height: star.size,
+              animationDuration: `${star.duration}s`,
+              animationDelay: `${star.delay}s`,
+            }}
+          />
+        ))}
 
       {/* moon */}
-      <div className="absolute top-[8%] left-[10%] h-14 w-14 rounded-full bg-linear-to-br from-slate-100 to-slate-300 shadow-[0_0_40px_12px_rgba(226,232,240,0.35)]">
-        <div className="absolute top-3 left-4 h-2 w-2 rounded-full bg-slate-400/50" />
-        <div className="absolute top-7 left-8 h-2.5 w-2.5 rounded-full bg-slate-400/40" />
-      </div>
+      {config.showMoon && (
+        <div className="absolute top-[8%] left-[10%] h-14 w-14 rounded-full bg-linear-to-br from-slate-100 to-slate-300 shadow-[0_0_40px_12px_rgba(226,232,240,0.35)]">
+          <div className="absolute top-3 left-4 h-2 w-2 rounded-full bg-slate-400/50" />
+          <div className="absolute top-7 left-8 h-2.5 w-2.5 rounded-full bg-slate-400/40" />
+        </div>
+      )}
 
       {/* sun */}
-      <div className="absolute top-[38%] right-[12%] h-20 w-20 rounded-full bg-linear-to-br from-yellow-200 to-orange-400 shadow-[0_0_70px_24px_rgba(251,191,36,0.45)]" />
+      {config.showSun && (
+        <div className="absolute top-[38%] right-[12%] h-20 w-20 rounded-full bg-linear-to-br from-yellow-200 to-orange-400 shadow-[0_0_70px_24px_rgba(251,191,36,0.45)]" />
+      )}
 
       {/* plane */}
       <Plane className="animate-scene-fly absolute top-[18%] left-0 w-14 [animation-duration:26s]" />
@@ -215,7 +339,7 @@ export function SceneBackground() {
 
       {/* far mountains */}
       <Mountains
-        color="#4c3f78"
+        color={config.mountainFar}
         className="absolute bottom-[16%] h-[30%] w-full opacity-80"
         points="0,320 0,200 120,140 240,200 360,120 480,190 600,110 720,180 840,130 960,210 1080,140 1200,200 1320,150 1440,210 1440,320"
       />
@@ -225,7 +349,7 @@ export function SceneBackground() {
 
       {/* near mountains */}
       <Mountains
-        color="#332a56"
+        color={config.mountainNear}
         className="absolute bottom-[12%] h-[26%] w-full"
         points="0,320 0,240 160,160 320,230 480,150 640,220 800,160 960,230 1120,170 1280,230 1440,180 1440,320"
       />
@@ -278,23 +402,64 @@ export function SceneBackground() {
         style={{ animationDirection: "reverse" }}
       />
 
-      {/* floating particles */}
-      {particles.map((particle, i) => (
-        <div
-          key={i}
-          className="animate-scene-float absolute bottom-[14%] rounded-full bg-yellow-100 shadow-[0_0_6px_2px_rgba(254,240,138,0.8)]"
-          style={
-            {
-              left: `${particle.left}%`,
-              width: particle.size,
-              height: particle.size,
-              animationDuration: `${particle.duration}s`,
-              animationDelay: `${particle.delay}s`,
-              "--drift": `${particle.drift}px`,
-            } as React.CSSProperties
+      {/* floating embers(夕景のみ) */}
+      {config.particle === "ember" &&
+        particles.map((particle, i) => (
+          <div
+            key={i}
+            className="animate-scene-float absolute bottom-[14%] rounded-full bg-yellow-100 shadow-[0_0_6px_2px_rgba(254,240,138,0.8)]"
+            style={
+              {
+                left: `${particle.left}%`,
+                width: particle.size,
+                height: particle.size,
+                animationDuration: `${particle.duration}s`,
+                animationDelay: `${particle.delay}s`,
+                "--drift": `${particle.drift}px`,
+              } as React.CSSProperties
+            }
+          />
+        ))}
+
+      {/* 季節の降下演出(花びら/落ち葉/雪)。ゲーム操作の邪魔にならないよう控えめな量・不透明度にする */}
+      {config.particle &&
+        config.particle !== "ember" &&
+        fallingItems.map((item, i) => {
+          const style = {
+            left: `${item.left}%`,
+            animationDuration: `${item.duration}s`,
+            animationDelay: `${item.delay}s`,
+            "--drift": `${item.drift}px`,
+            "--spin": `${item.spin}deg`,
+          } as React.CSSProperties;
+
+          if (config.particle === "petal") {
+            return (
+              <Petal
+                key={i}
+                style={{ ...style, width: item.size, height: item.size }}
+              />
+            );
           }
-        />
-      ))}
+          if (config.particle === "leaf") {
+            return (
+              <Leaf
+                key={i}
+                style={{ ...style, width: item.size, height: item.size }}
+              />
+            );
+          }
+          return (
+            <Snowflake
+              key={i}
+              style={{
+                ...style,
+                width: item.size * 0.7,
+                height: item.size * 0.7,
+              }}
+            />
+          );
+        })}
     </div>
   );
 }
