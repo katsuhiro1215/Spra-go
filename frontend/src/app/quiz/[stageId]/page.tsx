@@ -17,6 +17,10 @@ import {
 import { OrderingQuestion } from "@/components/app/ordering-question";
 import { useProfile } from "@/components/app/profile-provider";
 import { SceneBackground } from "@/components/app/scene-background";
+import {
+  SortingQuestion,
+  type SortingBasket,
+} from "@/components/app/sorting-question";
 import { useSound } from "@/components/app/sound-provider";
 import { apiFetch } from "@/lib/api";
 
@@ -24,11 +28,11 @@ type Choice = { id: number; label: string };
 type Country = { id: number; code: string; name: string };
 type QuestionItem = {
   id: number;
-  type: "multiple_choice" | "matching" | "ordering" | "true_false";
+  type: "multiple_choice" | "matching" | "ordering" | "true_false" | "sorting";
   prompt: string;
   country: Country | null;
   choices: Choice[];
-  meta: { items?: MatchingItem[] } | null;
+  meta: { items?: MatchingItem[]; baskets?: SortingBasket[] } | null;
 };
 type StagePlayData = {
   id: number;
@@ -371,6 +375,12 @@ export default function Page({
     await submitAnswer({ answer_order: answerOrder });
   }
 
+  async function handleSortingSubmit(
+    assignments: { item_id: string; basket_id: string }[],
+  ) {
+    await submitAnswer({ assignments });
+  }
+
   function handleNext() {
     setCurrentIndex((prev) => prev + 1);
     setSelectedChoiceId(null);
@@ -477,6 +487,14 @@ export default function Page({
               answered={answered}
               submitting={submitting}
               onSubmit={handleOrderingSubmit}
+            />
+          ) : question.type === "sorting" ? (
+            <SortingQuestion
+              items={question.meta?.items ?? []}
+              baskets={question.meta?.baskets ?? []}
+              answered={answered}
+              submitting={submitting}
+              onSubmit={handleSortingSubmit}
             />
           ) : (
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">

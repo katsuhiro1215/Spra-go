@@ -988,6 +988,19 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Stage $sta
             return;
         }
 
+        if ($question->type === 'sorting') {
+            // 仕分けはquestion_choicesを使わずmeta(items/baskets)だけで完結する。
+            // items内のcorrect_basket_idは正解の手がかりになるため取り除いて返す。
+            $question->meta = [
+                'items' => collect($question->meta['items'] ?? [])
+                    ->map(fn (array $item) => ['id' => $item['id'], 'image' => $item['image']])
+                    ->all(),
+                'baskets' => $question->meta['baskets'] ?? [],
+            ];
+
+            return;
+        }
+
         $correct = $question->choices->firstWhere('is_correct', true);
         $wrong = $question->choices->where('is_correct', false);
         $display = $wrong->random(min(3, $wrong->count()));
@@ -1059,6 +1072,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
     $result = match ($question->type) {
         'matching' => QuestionAnswerResolver::matching($request, $question),
         'ordering' => QuestionAnswerResolver::ordering($request, $question),
+        'sorting' => QuestionAnswerResolver::sorting($request, $question),
         default => QuestionAnswerResolver::multipleChoice($request, $question),
     };
 
