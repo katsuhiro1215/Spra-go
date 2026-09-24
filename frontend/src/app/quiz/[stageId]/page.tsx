@@ -32,7 +32,11 @@ type QuestionItem = {
   prompt: string;
   country: Country | null;
   choices: Choice[];
-  meta: { items?: MatchingItem[]; baskets?: SortingBasket[] } | null;
+  meta: {
+    items?: MatchingItem[];
+    baskets?: SortingBasket[];
+    image?: string;
+  } | null;
 };
 type StagePlayData = {
   id: number;
@@ -457,15 +461,26 @@ export default function Page({
                 ・ 問題 {currentIndex + 1} / {stage.questions.length}
               </span>
             </p>
-            {question.country && (
-              <div className="relative mx-auto mt-4 h-28 w-44 overflow-hidden rounded-lg border border-border shadow-sm">
+            {question.meta?.image ? (
+              <div className="relative mx-auto mt-4 h-32 w-52 overflow-hidden rounded-lg border border-border shadow-sm">
                 <Image
-                  src={`/flag/${question.country.code}.svg`}
-                  alt={question.country.name}
+                  src={question.meta.image}
+                  alt=""
                   fill
                   className="object-cover"
                 />
               </div>
+            ) : (
+              question.country && (
+                <div className="relative mx-auto mt-4 h-28 w-44 overflow-hidden rounded-lg border border-border shadow-sm">
+                  <Image
+                    src={`/flag/${question.country.code}.svg`}
+                    alt={question.country.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )
             )}
             <h1 className="mt-2 text-xl font-bold">
               <AutoFurigana text={question.prompt} />

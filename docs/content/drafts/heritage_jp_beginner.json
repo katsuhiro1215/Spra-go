@@ -1,0 +1,47 @@
+{
+  "country_name": "日本",
+  "country_code": "JP",
+  "difficulty": "初級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "この写真の世界遺産の名前は？",
+          "image": "/heritage/jp/mt-fuji.jpg",
+          "choices": [
+            {"label": "富士山", "is_correct": true},
+            {"label": "桜島", "is_correct": false},
+            {"label": "浅間山", "is_correct": false},
+            {"label": "阿蘇山", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "この写真に写っている世界遺産は何でしょう？",
+          "image": "/heritage/jp/itsukushima.jpg",
+          "choices": [
+            {"label": "厳島神社", "is_correct": true},
+            {"label": "出雲大社", "is_correct": false},
+            {"label": "伏見稲荷大社", "is_correct": false},
+            {"label": "明治神宮", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "この世界遺産の名前として正しいものは？",
+          "image": "/heritage/jp/himeji-castle.jpg",
+          "choices": [
+            {"label": "姫路城", "is_correct": true},
+            {"label": "大阪城", "is_correct": false},
+            {"label": "名古屋城", "is_correct": false},
+            {"label": "熊本城", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}
