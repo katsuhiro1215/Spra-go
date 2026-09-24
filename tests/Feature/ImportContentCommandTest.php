@@ -176,3 +176,45 @@ it('type:matchingでitemsが1件しかない問題があると取り込みは失
     $this->artisan('content:import', ['file' => $path])->assertExitCode(1);
     expect(\App\Models\Question::count())->toBe(0);
 });
+
+it('type:true_falseの問題原稿(選択肢2件)を取り込める', function () {
+    seedThemesAndCountry();
+
+    $path = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][] = [
+            'prompt' => 'この国旗は日本のものである',
+            'type' => 'true_false',
+            'choices' => [
+                ['label' => '○', 'is_correct' => true],
+                ['label' => '×', 'is_correct' => false],
+            ],
+        ];
+    });
+
+    $this->artisan('content:import', ['file' => $path])->assertExitCode(0);
+
+    $question = \App\Models\Question::query()->where('prompt', 'この国旗は日本のものである')->first();
+    expect($question)->not->toBeNull();
+    expect($question->type)->toBe('true_false');
+    expect($question->choices()->count())->toBe(2);
+});
+
+it('type:true_falseで選択肢が4件あると取り込みは失敗する(2件固定のため)', function () {
+    seedThemesAndCountry();
+
+    $path = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][] = [
+            'prompt' => 'この国旗は日本のものである(不正)',
+            'type' => 'true_false',
+            'choices' => [
+                ['label' => '○', 'is_correct' => true],
+                ['label' => '×', 'is_correct' => false],
+                ['label' => 'ダミー', 'is_correct' => false],
+                ['label' => 'ダミー2', 'is_correct' => false],
+            ],
+        ];
+    });
+
+    $this->artisan('content:import', ['file' => $path])->assertExitCode(1);
+    expect(\App\Models\Question::count())->toBe(0);
+});
