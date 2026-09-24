@@ -76,3 +76,39 @@ function createQuestionWithChoices(): array
 
     return [$question, $correct, $wrong];
 }
+
+/**
+ * マッチング(1対1)問題を作る。$pairs は ['アイテムid' => 'ラベル名'] の連想配列。
+ *
+ * @param  array<string, string>  $pairs
+ * @return array{0: Question, 1: array<string, \App\Models\QuestionChoice>}
+ */
+function createMatchingQuestionWithPairs(array $pairs): array
+{
+    $quiz = Quiz::create(['title' => 'テストマッチングクイズ', 'difficulty' => '初級']);
+    $question = Question::create([
+        'quiz_id' => $quiz->id,
+        'type' => 'matching',
+        'prompt' => '国旗と国名を合わせよう',
+        'meta' => [
+            'items' => collect($pairs)->keys()->map(fn ($itemId) => [
+                'id' => $itemId,
+                'image' => "/flag/{$itemId}.svg",
+            ])->all(),
+        ],
+    ]);
+
+    $choicesByItemId = [];
+    $order = 1;
+
+    foreach ($pairs as $itemId => $label) {
+        $choicesByItemId[$itemId] = $question->choices()->create([
+            'label' => $label,
+            'is_correct' => true,
+            'order' => $order++,
+            'meta' => ['item_id' => $itemId],
+        ]);
+    }
+
+    return [$question, $choicesByItemId];
+}

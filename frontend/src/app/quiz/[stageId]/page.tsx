@@ -9,6 +9,11 @@ import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
+import {
+  MatchingQuestion,
+  type MatchingItem,
+  type MatchingResult,
+} from "@/components/app/matching-question";
 import { useProfile } from "@/components/app/profile-provider";
 import { SceneBackground } from "@/components/app/scene-background";
 import { useSound } from "@/components/app/sound-provider";
@@ -18,9 +23,11 @@ type Choice = { id: number; label: string };
 type Country = { id: number; code: string; name: string };
 type QuestionItem = {
   id: number;
+  type: "multiple_choice" | "matching";
   prompt: string;
   country: Country | null;
   choices: Choice[];
+  meta: { items?: MatchingItem[] } | null;
 };
 type StagePlayData = {
   id: number;
@@ -118,6 +125,9 @@ export default function Page({
     null,
   );
   const [correctChoiceId, setCorrectChoiceId] = useState<number | null>(null);
+  const [matchingResults, setMatchingResults] = useState<
+    MatchingResult[] | null
+  >(null);
   const [answered, setAnswered] = useState(false);
   const [lastCorrect, setLastCorrect] = useState(false);
   const [lastDelta, setLastDelta] = useState<EconomyDelta | null>(null);
@@ -280,14 +290,14 @@ export default function Page({
   const isLastQuestion = currentIndex === stage.questions.length - 1;
   const finished = currentIndex >= stage.questions.length;
 
-  async function handleSelect(choiceId: number) {
+  async function submitAnswer(body: Record<string, unknown>) {
     if (answered || submitting) return;
     setSubmitting(true);
 
     try {
       const res = await apiFetch(`/api/questions/${question.id}/answer`, {
         method: "POST",
-        body: JSON.stringify({ choice_id: choiceId }),
+        body: JSON.stringify(body),
       });
 
       if (res.status === 409) {
@@ -303,8 +313,8 @@ export default function Page({
       if (!res.ok) return;
 
       const data = await res.json();
-      setSelectedChoiceId(choiceId);
-      setCorrectChoiceId(data.correct_choice_id);
+      setCorrectChoiceId(data.correct_choice_id ?? null);
+      setMatchingResults(data.results ?? null);
       setAnswered(true);
       setLastCorrect(Boolean(data.correct));
       playSound(data.correct ? "correct" : "incorrect");
@@ -345,10 +355,22 @@ export default function Page({
     }
   }
 
+  async function handleSelect(choiceId: number) {
+    setSelectedChoiceId(choiceId);
+    await submitAnswer({ choice_id: choiceId });
+  }
+
+  async function handleMatchingSubmit(
+    answers: { item_id: string; choice_id: number }[],
+  ) {
+    await submitAnswer({ answers });
+  }
+
   function handleNext() {
     setCurrentIndex((prev) => prev + 1);
     setSelectedChoiceId(null);
     setCorrectChoiceId(null);
+    setMatchingResults(null);
     setAnswered(false);
     setLastDelta(null);
   }
@@ -357,6 +379,7 @@ export default function Page({
     setCurrentIndex(0);
     setSelectedChoiceId(null);
     setCorrectChoiceId(null);
+    setMatchingResults(null);
     setAnswered(false);
     setLastDelta(null);
     setCombo(null);
@@ -434,33 +457,44 @@ export default function Page({
             </h1>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {question.choices.map((choice) => {
-              let variant: "default" | "secondary" | "danger" | "locked" =
-                "default";
-              if (answered) {
-                if (choice.id === correctChoiceId) variant = "secondary";
-                else if (choice.id === selectedChoiceId) variant = "danger";
-                else variant = "locked";
-              }
+          {question.type === "matching" ? (
+            <MatchingQuestion
+              items={question.meta?.items ?? []}
+              choices={question.choices}
+              answered={answered}
+              results={matchingResults}
+              submitting={submitting}
+              onSubmit={handleMatchingSubmit}
+            />
+          ) : (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {question.choices.map((choice) => {
+                let variant: "default" | "secondary" | "danger" | "locked" =
+                  "default";
+                if (answered) {
+                  if (choice.id === correctChoiceId) variant = "secondary";
+                  else if (choice.id === selectedChoiceId) variant = "danger";
+                  else variant = "locked";
+                }
 
-              return (
-                <AppButton
-                  key={choice.id}
-                  variant={variant}
-                  size="lg"
-                  disabled={answered || submitting}
-                  onClick={() => handleSelect(choice.id)}
-                  className="h-auto min-h-12 w-full items-center justify-center gap-2 py-3 text-center leading-snug whitespace-normal normal-case"
-                >
-                  {/* 色だけに頼らず、正解/選択した不正解にはアイコンも添える(色弱配慮) */}
-                  {variant === "secondary" && <span aria-hidden>✓</span>}
-                  {variant === "danger" && <span aria-hidden>✕</span>}
-                  <ChoiceLabel label={choice.label} />
-                </AppButton>
-              );
-            })}
-          </div>
+                return (
+                  <AppButton
+                    key={choice.id}
+                    variant={variant}
+                    size="lg"
+                    disabled={answered || submitting}
+                    onClick={() => handleSelect(choice.id)}
+                    className="h-auto min-h-12 w-full items-center justify-center gap-2 py-3 text-center leading-snug whitespace-normal normal-case"
+                  >
+                    {/* 色だけに頼らず、正解/選択した不正解にはアイコンも添える(色弱配慮) */}
+                    {variant === "secondary" && <span aria-hidden>✓</span>}
+                    {variant === "danger" && <span aria-hidden>✕</span>}
+                    <ChoiceLabel label={choice.label} />
+                  </AppButton>
+                );
+              })}
+            </div>
+          )}
 
           {answered && (
             <div
