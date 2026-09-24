@@ -78,6 +78,33 @@ function createQuestionWithChoices(): array
 }
 
 /**
+ * 並べ替え問題を作る。$labelsInCorrectOrder は正解順に並んだラベルの配列。
+ * question_choices.order を「正解の順序」として使う(表示側でシャッフルする)。
+ *
+ * @param  list<string>  $labelsInCorrectOrder
+ * @return array{0: Question, 1: list<\App\Models\QuestionChoice>}
+ */
+function createOrderingQuestionWithChoices(array $labelsInCorrectOrder): array
+{
+    $quiz = Quiz::create(['title' => 'テスト並べ替えクイズ', 'difficulty' => '初級']);
+    $question = Question::create([
+        'quiz_id' => $quiz->id,
+        'type' => 'ordering',
+        'prompt' => '小さい順に並べよう',
+    ]);
+
+    $choices = collect($labelsInCorrectOrder)->map(
+        fn (string $label, int $index) => $question->choices()->create([
+            'label' => $label,
+            'is_correct' => true,
+            'order' => $index + 1,
+        ]),
+    )->all();
+
+    return [$question, $choices];
+}
+
+/**
  * マッチング(1対1)問題を作る。$pairs は ['アイテムid' => 'ラベル名'] の連想配列。
  *
  * @param  array<string, string>  $pairs

@@ -218,3 +218,44 @@ it('type:true_falseで選択肢が4件あると取り込みは失敗する(2件�
     $this->artisan('content:import', ['file' => $path])->assertExitCode(1);
     expect(\App\Models\Question::count())->toBe(0);
 });
+
+it('type:orderingの問題原稿(choices配列の並び順=正解順)を取り込める', function () {
+    seedThemesAndCountry();
+
+    $path = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][] = [
+            'prompt' => '面積が小さい順に並べよう',
+            'type' => 'ordering',
+            'choices' => [
+                ['label' => 'バチカン市国'],
+                ['label' => 'モナコ'],
+                ['label' => '日本'],
+            ],
+        ];
+    });
+
+    $this->artisan('content:import', ['file' => $path])->assertExitCode(0);
+
+    $question = \App\Models\Question::query()->where('prompt', '面積が小さい順に並べよう')->first();
+    expect($question)->not->toBeNull();
+    expect($question->type)->toBe('ordering');
+    $orderedLabels = $question->choices()->orderBy('order')->pluck('label')->all();
+    expect($orderedLabels)->toBe(['バチカン市国', 'モナコ', '日本']);
+});
+
+it('type:orderingでchoicesが1件しかない問題があると取り込みは失敗する', function () {
+    seedThemesAndCountry();
+
+    $path = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][] = [
+            'prompt' => '面積が小さい順に並べよう(不正)',
+            'type' => 'ordering',
+            'choices' => [
+                ['label' => 'バチカン市国'],
+            ],
+        ];
+    });
+
+    $this->artisan('content:import', ['file' => $path])->assertExitCode(1);
+    expect(\App\Models\Question::count())->toBe(0);
+});
