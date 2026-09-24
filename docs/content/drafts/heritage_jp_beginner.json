@@ -42,6 +42,82 @@
           ]
         }
       ]
+    },
+    {
+      "stage_number": 2,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "この五重塔がある世界遺産の名前は？",
+          "image": "/heritage/jp/horyuji.jpg",
+          "choices": [
+            {"label": "法隆寺", "is_correct": true},
+            {"label": "東大寺", "is_correct": false},
+            {"label": "興福寺", "is_correct": false},
+            {"label": "薬師寺", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "この茅葺き屋根の集落がある世界遺産の名前は？",
+          "image": "/heritage/jp/shirakawago.jpg",
+          "choices": [
+            {"label": "白川郷", "is_correct": true},
+            {"label": "大内宿", "is_correct": false},
+            {"label": "妻籠宿", "is_correct": false},
+            {"label": "美山かやぶきの里", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "この鳥居がある世界遺産の名前は？",
+          "image": "/heritage/jp/nikko-toshogu.jpg",
+          "choices": [
+            {"label": "日光東照宮", "is_correct": true},
+            {"label": "伊勢神宮", "is_correct": false},
+            {"label": "出雲大社", "is_correct": false},
+            {"label": "明治神宮", "is_correct": false}
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 3,
+      "theme_key": "heritage",
+      "is_boss": true,
+      "title_reward": "日本世界遺産マスター",
+      "questions": [
+        {
+          "prompt": "戦争の惨禍を伝えるこの世界遺産の名前は？",
+          "image": "/heritage/jp/genbaku-dome.jpg",
+          "choices": [
+            {"label": "原爆ドーム", "is_correct": true},
+            {"label": "長崎平和記念像", "is_correct": false},
+            {"label": "沖縄平和祈念堂", "is_correct": false},
+            {"label": "国会議事堂", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "苔むした森で知られるこの世界遺産の名前は？",
+          "image": "/heritage/jp/yakushima.jpg",
+          "choices": [
+            {"label": "屋久島", "is_correct": true},
+            {"label": "白神山地", "is_correct": false},
+            {"label": "小笠原諸島", "is_correct": false},
+            {"label": "知床", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "「清水の舞台」で知られるこの世界遺産の名前は？",
+          "image": "/heritage/jp/kiyomizudera.jpg",
+          "choices": [
+            {"label": "清水寺", "is_correct": true},
+            {"label": "金閣寺", "is_correct": false},
+            {"label": "銀閣寺", "is_correct": false},
+            {"label": "平等院", "is_correct": false}
+          ]
+        }
+      ]
     }
   ]
 }
