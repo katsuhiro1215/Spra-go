@@ -43,6 +43,18 @@
   https://commons.wikimedia.org/wiki/File:Grand_Canyon_South_Rim_at_Sunset.jpg
 - `yellowstone.jpg` — イエローストーン国立公園 オールド・フェイスフル間欠泉。撮影: Colin.faulkingham。ライセンス: パブリックドメイン。
   https://commons.wikimedia.org/wiki/File:Old_Faithful_Geyser_Yellowstone_National_Park.jpg
+- `independence-hall.jpg` — 独立記念館(フィラデルフィア)。撮影: Farragutful。ライセンス: CC BY-SA 4.0。
+  https://commons.wikimedia.org/wiki/File:2015_Independence_Hall_-_Philadelphia_01.JPG
+- `mesa-verde.jpg` — メサ・ヴェルデ国立公園 クリフ・パレス。撮影: Warren LeMay。ライセンス: CC0(パブリックドメイン)。
+  https://commons.wikimedia.org/wiki/File:Cliff_Palace,_Mesa_Verde_National_Park,_Mancos,_CO_-_28221021198.jpg
+- `yosemite.jpg` — ヨセミテ国立公園 エル・キャピタン。撮影: adrian(aows)。ライセンス: CC0(パブリックドメイン)。
+  https://commons.wikimedia.org/wiki/File:Sunrise_at_Yosemite_(Unsplash).jpg
+- `mammoth-cave.jpg` — マンモスケーブ国立公園。撮影: Beatrice M。ライセンス: CC BY 2.0。
+  https://commons.wikimedia.org/wiki/File:Mammoth_Cave_National_Park_001.jpg
+- `chaco-culture.jpg` — チャコ文化国立歴史公園。撮影: National Park Service。ライセンス: パブリックドメイン(米国政府職員制作物)。
+  https://commons.wikimedia.org/wiki/File:Chaco_Culture_National_Historical_Park_CHCU2676.jpg
+- `hawaii-volcanoes.jpg` — ハワイ火山国立公園 キラウエアの噴火。撮影: C. Heliker(USGS)。ライセンス: パブリックドメイン(米国政府機関制作物)。
+  https://commons.wikimedia.org/wiki/File:Lava_fountain_at_Kilauea.jpg
 
 ## イギリス (uk/)
 
@@ -52,6 +64,18 @@
   https://commons.wikimedia.org/wiki/File:Tower_of_London_England_from_across_the_river_Thames.jpg
 - `edinburgh-castle.jpg` — エディンバラ城。撮影: Suicasmo。ライセンス: CC BY-SA 4.0。
   https://commons.wikimedia.org/wiki/File:Edinburgh_Castle_20140320.jpg
+- `bath.jpg` — バース市街 ローマ浴場跡。撮影: Adrian Pingstone。ライセンス: パブリックドメイン。
+  https://commons.wikimedia.org/wiki/File:Roman.baths.at.bath.exterior.arp.jpg
+- `hadrians-wall.jpg` — ハドリアヌスの長城。撮影: quisnovus。ライセンス: CC BY 2.0。
+  https://commons.wikimedia.org/wiki/File:Section_of_Hadrian's_Wall_1.jpg
+- `canterbury-cathedral.jpg` — カンタベリー大聖堂。撮影: Rafa Esteve。ライセンス: CC BY-SA 4.0。
+  https://commons.wikimedia.org/wiki/File:Canterbury_Cathedral_-_Front.jpg
+- `giants-causeway.jpg` — ジャイアンツ・コーズウェー。撮影: David Dixon。ライセンス: CC BY-SA 2.0。
+  https://commons.wikimedia.org/wiki/File:Basalt_Columns_at_Giant's_Causeway_in_Northern_Ireland_-_geograph_5571889.jpg
+- `durham-cathedral.jpg` — ダラム城と大聖堂(空撮)。撮影: Vik Walker。ライセンス: CC BY 2.0。
+  https://commons.wikimedia.org/wiki/File:Durham_Cathedral_and_Castle.jpg
+- `blenheim-palace.jpg` — ブレナム宮殿。撮影: gailf548。ライセンス: CC BY 2.0。
+  https://commons.wikimedia.org/wiki/File:Blenheim_Palace_cropped.jpg
 
 ## フランス (fr/)
 
@@ -61,6 +85,18 @@
   https://commons.wikimedia.org/wiki/File:Mont_Saint-Michel_France.jpg
 - `chartres.jpg` — シャルトル大聖堂(南東より)。撮影: User:TTaylor。ライセンス: パブリックドメイン。
   https://commons.wikimedia.org/wiki/File:Chartres_Cathedral_000.JPG
+- `carcassonne.jpg` — カルカソンヌ城壁都市。撮影: Janmad。ライセンス: CC BY 3.0。
+  https://commons.wikimedia.org/wiki/File:Carcassonne_walls_of_the_medieval_city.JPG
+- `pont-du-gard.jpg` — ポン・デュ・ガール。原撮影: Clément RAOUX。ライセンス: CC0(パブリックドメイン)。
+  https://commons.wikimedia.org/wiki/File:WV_banner_Remoulins_Pont_du_Gard.jpg
+- `fontainebleau.jpg` — フォンテーヌブロー宮殿(オノール中庭側ファサード)。撮影: Eusebius。ライセンス: CC BY 3.0。
+  https://commons.wikimedia.org/wiki/File:Ch%C3%A2teau_de_Fontainebleau_-_pano_fa%C3%A7ade.jpg
+- `avignon-palace.jpg` — 教皇庁宮殿(アヴィニョン)。撮影: Djngsf。ライセンス: CC BY-SA 4.0。
+  https://commons.wikimedia.org/wiki/File:Avignon_France_Palace_of_the_Popes_-_Palais_des_Papes.jpg
+- `chambord-castle.jpg` — シャンボール城。撮影: W. Bulach。ライセンス: CC BY-SA 4.0。
+  https://commons.wikimedia.org/wiki/File:00_0881_Chambord_Castle_(Ch%C3%A2teau_Chambord).jpg
+- `lascaux.jpg` — ラスコー洞窟壁画(レプリカ)。撮影: JoJan。ライセンス: CC BY 4.0。
+  https://commons.wikimedia.org/wiki/File:Lascaux_001.jpg
 
 ## インドネシア (id/)
 
@@ -70,6 +106,18 @@
   https://commons.wikimedia.org/wiki/File:Yogyakarta_Indonesia_Prambanan-temple-complex-02.jpg
 - `komodo.jpg` — コモド国立公園のコモドオオトカゲ。撮影: Adhi Rachdian。ライセンス: CC BY 2.0。
   https://commons.wikimedia.org/wiki/File:Komodo_dragon_at_Komodo_National_Park.jpg
+- `tegalalang-rice-terrace.jpg` — テガラランの棚田(バリの文化的景観)。撮影: Philip Nalangan。ライセンス: CC BY 4.0。
+  https://commons.wikimedia.org/wiki/File:Tegallalang_Rice_Terraces_Bali_1.jpg
+- `sangiran.jpg` — サンギラン初期人類遺跡。撮影: Midori。ライセンス: CC BY 3.0。
+  https://commons.wikimedia.org/wiki/File:Sangiran_Early_Man_Site_2.JPG
+- `sumatra-orangutan.jpg` — スマトラオランウータン(スマトラの熱帯雨林遺産)。撮影: Dave59。ライセンス: CC BY-SA 3.0。
+  https://commons.wikimedia.org/wiki/File:Man_of_the_woods.JPG
+- `ujung-kulon.jpg` — ウジュン・クロン国立公園。撮影: Achmad Soerio Hutomo。ライセンス: CC BY 2.0。
+  https://commons.wikimedia.org/wiki/File:Ujung_Kulon_National_Park,_2014.jpg
+- `lorentz.jpg` — ロレンツ国立公園(パプア)。撮影: Ganjarmustika1904。ライセンス: CC BY-SA 4.0。
+  https://commons.wikimedia.org/wiki/File:Taman_Nasional_Lorentz_Papua.jpg
+- `ombilin-coal-mine.jpg` — サワルントのオンビリン炭鉱遺産(選炭場と積込場)。出典: Tropenmuseum(オランダ国立世界文化博物館)。ライセンス: CC BY-SA 3.0。
+  https://commons.wikimedia.org/wiki/File:COLLECTIE_TROPENMUSEUM_Spoorwegemplacement_met_een_zeefhuis_en_een_laadplaats_bij_de_Ombilin_steenkoolmijnen_in_Sawahloento_TMnr_60042500.jpg
 
 ## 韓国 (kr/)
 
@@ -79,5 +127,17 @@
   https://commons.wikimedia.org/wiki/File:Geungnakjeon,_Bulguksa_01.jpg
 - `seongsan-ilchulbong.jpg` — 城山日出峰(済州島)。撮影: Bernard Gagnon。ライセンス: CC0(パブリックドメイン)。
   https://commons.wikimedia.org/wiki/File:Seongsan_Ilchulbong_01.jpg
+- `jongmyo.jpg` — 宗廟。撮影: Bernard Gagnon。ライセンス: CC0(パブリックドメイン)。
+  https://commons.wikimedia.org/wiki/File:Jongmyo_Shrine_01.jpg
+- `hwaseong-fortress.jpg` — 水原華城。撮影: Bernard Gagnon。ライセンス: CC0(パブリックドメイン)。
+  https://commons.wikimedia.org/wiki/File:Hwaseong_Fortress_01.jpg
+- `haeinsa-tripitaka.jpg` — 海印寺 大蔵経板殿。撮影: Bernard Gagnon。ライセンス: CC0(パブリックドメイン)。
+  https://commons.wikimedia.org/wiki/File:Tripitaka_Koreana_02.jpg
+- `seokguram.jpg` — 石窟庵の本尊仏坐像。撮影: Richardfabi。ライセンス: CC BY-SA 3.0。
+  https://commons.wikimedia.org/wiki/File:Seokguram_Buddha.JPG
+- `gochang-dolmen.jpg` — 高敞(コチャン)の支石墓群。撮影: Steve46814。ライセンス: CC BY-SA 3.0。
+  https://commons.wikimedia.org/wiki/File:Korea-Gwangju-Gochang_Dolmens_Gochang_Dolmens_5325-06.JPG
+- `namhansanseong.jpg` — 南漢山城。撮影: Jeon Han(Korea.net)。ライセンス: CC BY-SA 2.0。
+  https://commons.wikimedia.org/wiki/File:Korea_Namhansanseong_Fortress_50_(14163381383).jpg
 
 すべてリサイズ・再圧縮のみ実施(内容の改変なし)。CC BY-SA画像はライセンス上、再配布時も同ライセンスでの提供・帰属表示が必要。

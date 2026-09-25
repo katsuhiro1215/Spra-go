@@ -1,0 +1,47 @@
+{
+  "country_name": "アメリカ",
+  "country_code": "US",
+  "difficulty": "中級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "アメリカ独立宣言が採択された、この建物の名前は？",
+          "image": "/heritage/us/independence-hall.jpg",
+          "choices": [
+            {"label": "独立記念館(インディペンデンス・ホール)", "is_correct": true},
+            {"label": "ホワイトハウス", "is_correct": false},
+            {"label": "国会議事堂", "is_correct": false},
+            {"label": "自由の鐘記念館", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "断崖に築かれた古代の住居跡で知られる、この世界遺産の名前は？",
+          "image": "/heritage/us/mesa-verde.jpg",
+          "choices": [
+            {"label": "メサ・ヴェルデ国立公園", "is_correct": true},
+            {"label": "チャコ文化国立歴史公園", "is_correct": false},
+            {"label": "モニュメント・バレー", "is_correct": false},
+            {"label": "キャニオン・デ・シェイ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "巨大な花崗岩の絶壁「エル・キャピタン」で有名な、この世界遺産の名前は？",
+          "image": "/heritage/us/yosemite.jpg",
+          "choices": [
+            {"label": "ヨセミテ国立公園", "is_correct": true},
+            {"label": "セコイア国立公園", "is_correct": false},
+            {"label": "グレイシャー国立公園", "is_correct": false},
+            {"label": "ロッキーマウンテン国立公園", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

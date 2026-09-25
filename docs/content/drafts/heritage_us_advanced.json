@@ -1,0 +1,47 @@
+{
+  "country_name": "アメリカ",
+  "country_code": "US",
+  "difficulty": "上級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "世界最長の洞窟として知られる、この世界遺産の名前は？",
+          "image": "/heritage/us/mammoth-cave.jpg",
+          "choices": [
+            {"label": "マンモスケーブ国立公園", "is_correct": true},
+            {"label": "カールスバッド洞窟群国立公園", "is_correct": false},
+            {"label": "ウィンド洞窟国立公園", "is_correct": false},
+            {"label": "オレゴン洞窟", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "古代プエブロ族の大規模な集落跡が残る、この世界遺産の名前は？",
+          "image": "/heritage/us/chaco-culture.jpg",
+          "choices": [
+            {"label": "チャコ文化国立歴史公園", "is_correct": true},
+            {"label": "メサ・ヴェルデ国立公園", "is_correct": false},
+            {"label": "タオス・プエブロ", "is_correct": false},
+            {"label": "ホホカム・ピマ国定記念物", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "活火山キラウエアがある、この世界遺産の名前は？",
+          "image": "/heritage/us/hawaii-volcanoes.jpg",
+          "choices": [
+            {"label": "ハワイ火山国立公園", "is_correct": true},
+            {"label": "イエローストーン国立公園", "is_correct": false},
+            {"label": "レーニア山国立公園", "is_correct": false},
+            {"label": "クレーターレイク国立公園", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "country_name": "イギリス",
+  "country_code": "GB",
+  "difficulty": "中級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "古代ローマ人が造った温泉施設が残る、このイギリスの都市の世界遺産の名前は？",
+          "image": "/heritage/uk/bath.jpg",
+          "choices": [
+            {"label": "バース市街", "is_correct": true},
+            {"label": "ロンドン塔", "is_correct": false},
+            {"label": "エディンバラ旧市街・新市街", "is_correct": false},
+            {"label": "グリニッジ海事都市", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "古代ローマ帝国の北の国境として築かれた、この長い壁の名前は？",
+          "image": "/heritage/uk/hadrians-wall.jpg",
+          "choices": [
+            {"label": "ハドリアヌスの長城", "is_correct": true},
+            {"label": "万里の長城", "is_correct": false},
+            {"label": "オファの防塁", "is_correct": false},
+            {"label": "アントニヌスの長城", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "イギリス国教会の総本山であり、大司教座がある、この大聖堂の名前は？",
+          "image": "/heritage/uk/canterbury-cathedral.jpg",
+          "choices": [
+            {"label": "カンタベリー大聖堂", "is_correct": true},
+            {"label": "ウェストミンスター寺院", "is_correct": false},
+            {"label": "セント・ポール大聖堂", "is_correct": false},
+            {"label": "ヨーク・ミンスター", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

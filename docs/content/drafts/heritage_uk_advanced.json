@@ -1,0 +1,47 @@
+{
+  "country_name": "イギリス",
+  "country_code": "GB",
+  "difficulty": "上級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "無数の六角形の石柱が海岸に並ぶ、北アイルランドのこの世界遺産の名前は？",
+          "image": "/heritage/uk/giants-causeway.jpg",
+          "choices": [
+            {"label": "ジャイアンツ・コーズウェー", "is_correct": true},
+            {"label": "ドーバーの白い崖", "is_correct": false},
+            {"label": "ジュラシック・コースト", "is_correct": false},
+            {"label": "セント・キルダ島", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ウィア川を見下ろす丘の上に城と並んで建つ、この大聖堂の名前は？",
+          "image": "/heritage/uk/durham-cathedral.jpg",
+          "choices": [
+            {"label": "ダラム城と大聖堂", "is_correct": true},
+            {"label": "カンタベリー大聖堂", "is_correct": false},
+            {"label": "リンカーン大聖堂", "is_correct": false},
+            {"label": "ヨーク・ミンスター", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "イギリスの首相ウィンストン・チャーチルの生家としても知られる、この宮殿の名前は？",
+          "image": "/heritage/uk/blenheim-palace.jpg",
+          "choices": [
+            {"label": "ブレナム宮殿", "is_correct": true},
+            {"label": "バッキンガム宮殿", "is_correct": false},
+            {"label": "ハンプトン・コート宮殿", "is_correct": false},
+            {"label": "ウィンザー城", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}
