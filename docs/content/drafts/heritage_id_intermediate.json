@@ -1,0 +1,47 @@
+{
+  "country_name": "インドネシア",
+  "country_code": "ID",
+  "difficulty": "中級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "バリ島に広がる、伝統的な「スバック」という水利システムで作られたこの棚田の名前は？",
+          "image": "/heritage/id/tegalalang-rice-terrace.jpg",
+          "choices": [
+            {"label": "テガラランの棚田(バリの文化的景観)", "is_correct": true},
+            {"label": "バナウエの棚田", "is_correct": false},
+            {"label": "紅河ハニ族の棚田", "is_correct": false},
+            {"label": "武夷山の棚田", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "100万年以上前の原人の化石が発見された、この遺跡の名前は？",
+          "image": "/heritage/id/sangiran.jpg",
+          "choices": [
+            {"label": "サンギラン初期人類遺跡", "is_correct": true},
+            {"label": "ボロブドゥール寺院", "is_correct": false},
+            {"label": "トラジャの伝統集落", "is_correct": false},
+            {"label": "ニアー洞窟遺跡", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "スマトラ島の熱帯雨林にすむ、この絶滅危惧種の動物は？",
+          "image": "/heritage/id/sumatra-orangutan.jpg",
+          "choices": [
+            {"label": "スマトラオランウータン", "is_correct": true},
+            {"label": "スマトラトラ", "is_correct": false},
+            {"label": "テングザル", "is_correct": false},
+            {"label": "マレーグマ", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

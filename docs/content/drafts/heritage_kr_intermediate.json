@@ -1,0 +1,47 @@
+{
+  "country_name": "韓国",
+  "country_code": "KR",
+  "difficulty": "中級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "朝鮮王朝の歴代国王・王妃の位牌を祀る、この霊廟の名前は？",
+          "image": "/heritage/kr/jongmyo.jpg",
+          "choices": [
+            {"label": "宗廟", "is_correct": true},
+            {"label": "景福宮", "is_correct": false},
+            {"label": "宗親府", "is_correct": false},
+            {"label": "社稷壇", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "水原(スウォン)にある、18世紀に築かれたこの城郭の名前は？",
+          "image": "/heritage/kr/hwaseong-fortress.jpg",
+          "choices": [
+            {"label": "水原華城", "is_correct": true},
+            {"label": "南漢山城", "is_correct": false},
+            {"label": "晋州城", "is_correct": false},
+            {"label": "公山城", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "8万枚以上の木版に彫られた大蔵経を納める、この寺院の名前は？",
+          "image": "/heritage/kr/haeinsa-tripitaka.jpg",
+          "choices": [
+            {"label": "海印寺(大蔵経板殿)", "is_correct": true},
+            {"label": "仏国寺", "is_correct": false},
+            {"label": "通度寺", "is_correct": false},
+            {"label": "松広寺", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

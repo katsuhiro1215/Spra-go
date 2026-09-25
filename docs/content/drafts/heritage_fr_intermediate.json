@@ -1,0 +1,47 @@
+{
+  "country_name": "フランス",
+  "country_code": "FR",
+  "difficulty": "中級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "二重の城壁に囲まれた中世そのままの姿を残す、この城塞都市の名前は？",
+          "image": "/heritage/fr/carcassonne.jpg",
+          "choices": [
+            {"label": "カルカソンヌ", "is_correct": true},
+            {"label": "モン・サン=ミッシェル", "is_correct": false},
+            {"label": "アヴィニョン", "is_correct": false},
+            {"label": "サン=マロ", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "古代ローマ人が建てた、水道橋としても使われたこの橋の名前は？",
+          "image": "/heritage/fr/pont-du-gard.jpg",
+          "choices": [
+            {"label": "ポン・デュ・ガール", "is_correct": true},
+            {"label": "アヴィニョン橋", "is_correct": false},
+            {"label": "アレクサンドル3世橋", "is_correct": false},
+            {"label": "ミヨー橋", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "多くのフランス王が暮らした、この宮殿の名前は？",
+          "image": "/heritage/fr/fontainebleau.jpg",
+          "choices": [
+            {"label": "フォンテーヌブロー宮殿", "is_correct": true},
+            {"label": "ヴェルサイユ宮殿", "is_correct": false},
+            {"label": "ルーヴル宮殿", "is_correct": false},
+            {"label": "シャンボール城", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "country_name": "韓国",
+  "country_code": "KR",
+  "difficulty": "上級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "花崗岩に彫られた本尊仏坐像で知られる、この石窟寺院の名前は？",
+          "image": "/heritage/kr/seokguram.jpg",
+          "choices": [
+            {"label": "石窟庵", "is_correct": true},
+            {"label": "仏国寺", "is_correct": false},
+            {"label": "海印寺", "is_correct": false},
+            {"label": "浮石寺", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "古代の墓制を伝える巨石(ドルメン)が数多く残る、この遺跡群がある地域は？",
+          "image": "/heritage/kr/gochang-dolmen.jpg",
+          "choices": [
+            {"label": "高敞(コチャン)の支石墓群", "is_correct": true},
+            {"label": "慶州(キョンジュ)歴史地域", "is_correct": false},
+            {"label": "百済歴史地域", "is_correct": false},
+            {"label": "済州島の溶岩洞窟", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "朝鮮時代に非常時の都として築かれた、この山城の名前は？",
+          "image": "/heritage/kr/namhansanseong.jpg",
+          "choices": [
+            {"label": "南漢山城", "is_correct": true},
+            {"label": "水原華城", "is_correct": false},
+            {"label": "北漢山城", "is_correct": false},
+            {"label": "晋州城", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

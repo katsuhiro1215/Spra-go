@@ -1,0 +1,47 @@
+{
+  "country_name": "フランス",
+  "country_code": "FR",
+  "difficulty": "上級",
+  "category_root": "世界遺産",
+  "nest_by_country": true,
+  "stages": [
+    {
+      "stage_number": 1,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "かつて教皇が住んだ、この巨大な宮殿の名前は？",
+          "image": "/heritage/fr/avignon-palace.jpg",
+          "choices": [
+            {"label": "教皇庁宮殿(アヴィニョン)", "is_correct": true},
+            {"label": "フォンテーヌブロー宮殿", "is_correct": false},
+            {"label": "ヴェルサイユ宮殿", "is_correct": false},
+            {"label": "リヨン大司教館", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "ロワール渓谷にある、らせん階段が有名なこの城の名前は？",
+          "image": "/heritage/fr/chambord-castle.jpg",
+          "choices": [
+            {"label": "シャンボール城", "is_correct": true},
+            {"label": "シュノンソー城", "is_correct": false},
+            {"label": "アンボワーズ城", "is_correct": false},
+            {"label": "ブロワ城", "is_correct": false}
+          ]
+        },
+        {
+          "prompt": "旧石器時代の人々が描いた牛や馬の壁画で知られる、この洞窟の名前は？",
+          "image": "/heritage/fr/lascaux.jpg",
+          "choices": [
+            {"label": "ラスコー洞窟", "is_correct": true},
+            {"label": "ショーヴェ洞窟", "is_correct": false},
+            {"label": "ニオー洞窟", "is_correct": false},
+            {"label": "アルタミラ洞窟", "is_correct": false}
+          ]
+        }
+      ]
+    }
+  ]
+}
