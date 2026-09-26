@@ -169,6 +169,11 @@ class UserProfile extends Model
         return $this->hasMany(ProfileCurrencyLedger::class);
     }
 
+    public function worldItems(): HasMany
+    {
+        return $this->hasMany(ProfileWorldItem::class);
+    }
+
     /**
      * @param  array<string,int>  $deltas  type(hp/coin/xp/point) => delta
      * @return array{leveled_up: bool, deltas: array<string,int>}

@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             QuestionSeeder::class,
             QuestionChoiceSeeder::class,
             StageSeeder::class,
+            WorldItemSeeder::class,
         ]);
     }
 }

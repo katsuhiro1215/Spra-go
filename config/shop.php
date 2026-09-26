@@ -12,9 +12,10 @@ return [
     | plane/background/characterは「買っても何も起きない」状態だったため
     | (docs/AppRoadmap.md参照)、実装が追いつくまでプレイヤー向けの一覧・購入
     | からは外す。Owner側の新規作成もこの一覧のタイプのみに制限する。
+    | decoration(町に置くアイテム、学習ポイント払い)は購入するとバッグに入る。
     |
     */
 
-    'enabled_types' => ['potion', 'title'],
+    'enabled_types' => ['potion', 'title', 'decoration'],
 
 ];
