@@ -18,6 +18,7 @@ export type Profile = {
   max_hp: number;
   hp_regen_seconds: number | null;
   coins: number;
+  points: number;
   xp: number;
   level: number;
   current_streak: number;

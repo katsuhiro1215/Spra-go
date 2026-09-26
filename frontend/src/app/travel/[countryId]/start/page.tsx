@@ -120,7 +120,7 @@ export default function Page({
             </AppButton>
           )}
           <Link
-            href="/"
+            href="/learn"
             className="text-xs text-white/75 drop-shadow hover:underline"
           >
             ← 別の国を選ぶ

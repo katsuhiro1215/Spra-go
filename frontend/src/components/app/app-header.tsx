@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { HpGauge } from "@/components/app/hp-gauge";
+import { LearnPointsBadge } from "@/components/app/learn-points-badge";
 import { PointsBadge } from "@/components/app/points-badge";
 import { useProfile } from "@/components/app/profile-provider";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -53,6 +54,7 @@ export function AppHeader() {
               🔥{profile.current_streak}日
             </span>
           )}
+        <LearnPointsBadge value={profile?.points ?? 0} />
         <PointsBadge value={profile?.coins ?? 0} />
         <HpGauge value={profile?.hp ?? 0} max={profile?.max_hp ?? 20} />
 
