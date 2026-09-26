@@ -151,7 +151,8 @@ export function WorldScene({
               />
             );
           })
-        : placed.map((item) => {
+        : // 押せる範囲は上に伸びて奥のアイテムと重なるため、絵と同じく奥から順に並べて手前のボタンを上にする
+          [...placed].sort((a, b) => a.x + a.y - (b.x + b.y) || a.x - b.x).map((item) => {
             const { sx, sy } = tileCenter(item.x, item.y);
             return (
               <button
