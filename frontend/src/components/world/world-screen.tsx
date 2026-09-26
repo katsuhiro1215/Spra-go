@@ -15,7 +15,8 @@ import { apiFetch } from "@/lib/api";
 import { tileKey } from "./iso";
 import { ItemActionSheet } from "./item-action-sheet";
 import { PlacementBar } from "./placement-bar";
-import { getTimeOfDay, isSpruSleepTime } from "./time-of-day";
+import { Ambience, TIME_THEME } from "./ambience";
+import { getSeason, getTimeOfDay, isSpruSleepTime } from "./time-of-day";
 import type { ShopListItem, WorldData, WorldItem } from "./types";
 import { WelcomeGift } from "./welcome-gift";
 import { WorldHud } from "./world-hud";
@@ -193,6 +194,7 @@ export function WorldScreen() {
   }
 
   const timeOfDay = getTimeOfDay(new Date(now));
+  const season = getSeason(new Date(now));
 
   if (!world) {
     return (
@@ -209,7 +211,12 @@ export function WorldScreen() {
   const continueHref = world.continue_stage_id ? `/quiz/${world.continue_stage_id}` : "/learn";
 
   return (
-    <div className="min-h-screen bg-[#8fd4e9]" onPointerDown={handleInteraction} onKeyDown={handleInteraction}>
+    <div
+      className="min-h-screen transition-[background] duration-700"
+      style={{ background: TIME_THEME[timeOfDay].background }}
+      onPointerDown={handleInteraction}
+      onKeyDown={handleInteraction}
+    >
       <div className="relative mx-auto flex min-h-screen w-full max-w-[480px] flex-col pb-28 text-[#3b3226]">
         <WorldHud name={sharedProfile?.name ?? ""} profile={world.profile} nextUnlock={nextUnlock} />
 
@@ -238,6 +245,7 @@ export function WorldScreen() {
             timeOfDay={timeOfDay}
             poppedItemId={poppedItemId}
           />
+          <Ambience timeOfDay={timeOfDay} season={season} />
         </div>
 
         {!placingItem && (

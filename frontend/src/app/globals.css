@@ -386,6 +386,62 @@
     transform-origin: 50% 90%;
   }
 
+  @keyframes season-fall {
+    0% {
+      transform: translate3d(0, -12px, 0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(28px, 460px, 0) rotate(220deg);
+      opacity: 0;
+    }
+  }
+  .season-fall {
+    animation: season-fall 10s linear infinite both;
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .animate-twinkle,
+  .season-sparkle {
+    animation: twinkle 2.4s ease-in-out infinite both;
+  }
+
+  @keyframes stage-start {
+    0% {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    15% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .animate-stage-start {
+    animation: stage-start 2s ease-out both;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-scene-drift,
     .animate-scene-twinkle,
@@ -402,8 +458,15 @@
     .animate-spru-hop,
     .animate-tile-pulse,
     .animate-pop-in,
+    .animate-twinkle,
+    .animate-stage-start,
     .animate-stage-intro-subtitle {
       animation: none !important;
+    }
+    /* 舞うものは止めると画面に散らばって見えるため、出さない */
+    .season-fall,
+    .season-sparkle {
+      display: none;
     }
   }
 

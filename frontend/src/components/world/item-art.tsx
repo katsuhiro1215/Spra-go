@@ -119,6 +119,11 @@ const ART: Record<string, ReactNode> = {
 };
 
 // 絵が未登録のキーでも画面が壊れないようにする代わりの絵(プレゼント箱)
+// 夜に光るアイテムの光の輪(原点=マスの中心)。絵を差し替えるときは位置も合わせて直す
+export const ITEM_LIGHTS: Record<string, { cx: number; cy: number; r: number }> = {
+  chochin: { cx: 9, cy: -20, r: 15 },
+};
+
 const FALLBACK: ReactNode = (
   <g>
     <ellipse cx={0} cy={2} rx={13} ry={5} fill="#2f5d2a" opacity={0.15} />

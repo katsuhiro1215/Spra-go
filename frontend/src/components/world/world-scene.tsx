@@ -5,8 +5,9 @@ import type { SpruView } from "@/components/spru/mood";
 import { SPRU_IMAGES, SPRU_STAND_HEIGHT } from "@/components/spru/spru-assets";
 import { SpruFace } from "@/components/spru/spru-figure";
 
+import { TIME_THEME } from "./ambience";
 import { HALF_H, HALF_W, LAND_THICKNESS, sceneViewBox, tileCenter, tileKey, tilePoints, toPercent } from "./iso";
-import { ItemArt } from "./item-art";
+import { ITEM_LIGHTS, ItemArt } from "./item-art";
 import { LandmarkArt } from "./landmark-art";
 import type { TimeOfDay } from "./time-of-day";
 import type { WorldItem, WorldLand } from "./types";
@@ -42,7 +43,9 @@ export function WorldScene({
   timeOfDay: TimeOfDay;
   poppedItemId: number | null;
 }) {
-  void timeOfDay;
+  const theme = TIME_THEME[timeOfDay];
+  // 夜は物を少し暗くする(明かりは暗くしない)
+  const artStyle = theme.dimObjects ? { filter: "brightness(0.78) saturate(0.85)" } : undefined;
   const vb = sceneViewBox(land.size);
   const n = land.size;
   const pathSet = new Set(land.paths.map(([x, y]) => tileKey(x, y)));
@@ -113,6 +116,14 @@ export function WorldScene({
           return <polygon key={key} points={tilePoints(x, y)} fill={fill} />;
         })}
 
+        {theme.groundTint && (
+          <polygon
+            points={`0,0 ${right.x},${right.y} ${right.x},${right.y + LAND_THICKNESS} ${bottom.x},${bottom.y + LAND_THICKNESS} ${left.x},${left.y + LAND_THICKNESS} ${left.x},${left.y}`}
+            fill={theme.groundTint.color}
+            opacity={theme.groundTint.opacity}
+          />
+        )}
+
         {placing &&
           [...validTiles].map((key) => {
             const [x, y] = key.split(",").map(Number);
@@ -132,10 +143,25 @@ export function WorldScene({
           const { sx, sy } = tileCenter(o.x, o.y);
           return (
             <g key={o.id} transform={`translate(${sx} ${sy})`}>
-              {o.kind === "landmark" && <LandmarkArt landmarkKey={o.landmarkKey} />}
+              {o.kind === "landmark" && (
+                <g style={artStyle}>
+                  <LandmarkArt landmarkKey={o.landmarkKey} lit={theme.lit} />
+                </g>
+              )}
               {o.kind === "item" && (
                 <g className={o.item.id === poppedItemId ? "animate-pop-in" : undefined}>
-                  <ItemArt assetKey={o.item.asset_key} />
+                  <g style={artStyle}>
+                    <ItemArt assetKey={o.item.asset_key} />
+                  </g>
+                  {theme.lit && o.item.asset_key && ITEM_LIGHTS[o.item.asset_key] && (
+                    <circle
+                      cx={ITEM_LIGHTS[o.item.asset_key].cx}
+                      cy={ITEM_LIGHTS[o.item.asset_key].cy}
+                      r={ITEM_LIGHTS[o.item.asset_key].r}
+                      fill="#ffd98a"
+                      opacity={0.5}
+                    />
+                  )}
                 </g>
               )}
               {o.kind === "spru" && (
