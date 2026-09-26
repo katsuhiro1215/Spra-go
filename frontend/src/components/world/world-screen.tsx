@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BookOpen } from "lucide-react";
@@ -8,20 +8,22 @@ import { BookOpen } from "lucide-react";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { useProfile } from "@/components/app/profile-provider";
 import { useSound } from "@/components/app/sound-provider";
+import { pickTownHint } from "@/components/spru/hint";
+import { pickTownMood, type TownEvent } from "@/components/spru/mood";
 import { apiFetch } from "@/lib/api";
 
 import { tileKey } from "./iso";
 import { ItemActionSheet } from "./item-action-sheet";
 import { PlacementBar } from "./placement-bar";
+import { Ambience, TIME_THEME } from "./ambience";
+import { getSeason, getTimeOfDay, isSpruSleepTime } from "./time-of-day";
 import type { ShopListItem, WorldData, WorldItem } from "./types";
 import { WelcomeGift } from "./welcome-gift";
 import { WorldHud } from "./world-hud";
 import { WorldScene } from "./world-scene";
 
 const WELCOME_AMOUNT = 100;
-const DEFAULT_LINE = "もうすぐ旅に出られそう！ 学んでポイントをためよう";
-
-type SpruState = { mood: "idle" | "joy"; line: string };
+const TAP_IMAGES = ["shy", "laugh", "cheer"] as const;
 
 export function WorldScreen() {
   const router = useRouter();
@@ -36,18 +38,16 @@ export function WorldScreen() {
   const { profile: sharedProfile, applyPartial, refresh: refreshProfile } = useProfile();
   const [world, setWorld] = useState<WorldData | null>(null);
   const [shop, setShop] = useState<ShopListItem[]>([]);
-  const [spru, setSpru] = useState<SpruState>({ mood: "idle", line: DEFAULT_LINE });
   const [welcomeBusy, setWelcomeBusy] = useState(false);
-  const joyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // スプルの出し分け(components/spru/mood.ts)に渡す状態。時刻は1秒ごとに進める
+  const [now, setNow] = useState(() => Date.now());
+  const [lastInteractionAt, setLastInteractionAt] = useState(() => Date.now());
+  const [event, setEvent] = useState<TownEvent | null>(null);
+  const [nightWokenAt, setNightWokenAt] = useState<number | null>(null);
 
-  const cheer = useCallback((line: string) => {
-    if (joyTimer.current) clearTimeout(joyTimer.current);
-    setSpru({ mood: "joy", line });
-    joyTimer.current = setTimeout(() => setSpru((prev) => ({ ...prev, mood: "idle" })), 2600);
-  }, []);
-
-  useEffect(() => () => {
-    if (joyTimer.current) clearTimeout(joyTimer.current);
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -66,6 +66,7 @@ export function WorldScreen() {
         const data: WorldData = await res.json();
         setWorld(data);
         applyPartial({ points: data.profile.points });
+        setEvent({ kind: "greet", at: Date.now() });
 
         // ショップやバッグから /?place=ID で来たら、そのアイテムの配置モードにする。
         // 自分のアイテムでないIDや存在しないIDは無視して普通に表示する
@@ -104,6 +105,33 @@ export function WorldScreen() {
     return tiles;
   }, [world, placingId]);
 
+  const mood = pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing: placingItem !== null });
+
+  // スプル以外をさわったとき。昼に座って・寝ていたら起きる(夜の眠りはスプルをタップしたときだけ起きる)
+  function handleInteraction(e: { target: EventTarget }) {
+    if (e.target instanceof Element && e.target.closest("[data-spru]")) return;
+    const at = Date.now();
+    if (mood.sleeping && !isSpruSleepTime(new Date(at))) setEvent({ kind: "woke", at });
+    setLastInteractionAt(at);
+  }
+
+  function handleSpruTap() {
+    if (!world) return;
+    const at = Date.now();
+    setLastInteractionAt(at);
+    if (mood.sleeping) {
+      if (isSpruSleepTime(new Date(at))) setNightWokenAt(at);
+      setEvent({ kind: "woke", at });
+      return;
+    }
+    setEvent({
+      kind: "tap",
+      at,
+      image: TAP_IMAGES[Math.floor(Math.random() * TAP_IMAGES.length)],
+      hint: pickTownHint({ bag: world.bag, points: world.profile.points, level: world.profile.level, shop }),
+    });
+  }
+
   // 画面を先に更新し、APIが失敗したら元に戻す
   async function moveItem(item: WorldItem, x: number | null, y: number | null): Promise<boolean> {
     if (!world) return false;
@@ -125,6 +153,7 @@ export function WorldScreen() {
       const data = res ? await res.json().catch(() => ({})) : {};
       setWorld(previous);
       setMessage(data.message ?? "通信エラーが発生しました。");
+      setEvent({ kind: "error", at: Date.now() });
       return false;
     }
     return true;
@@ -138,7 +167,7 @@ export function WorldScreen() {
     if (await moveItem(item, x, y)) {
       play("correct");
       setPoppedItemId(item.id);
-      cheer(`${item.name}を置いたよ！ 町がにぎやかになったね`);
+      setEvent({ kind: "placed", at: Date.now(), itemName: item.name });
     }
   }
 
@@ -146,7 +175,7 @@ export function WorldScreen() {
     setSelected(null);
     setMessage(null);
     if (await moveItem(item, null, null)) {
-      cheer(`${item.name}をバッグにしまったよ`);
+      setEvent({ kind: "stored", at: Date.now(), itemName: item.name });
     }
   }
 
@@ -158,11 +187,14 @@ export function WorldScreen() {
       const data: { granted: boolean; points: number } = await res.json();
       setWorld((prev) => (prev ? { ...prev, welcome_available: false, profile: { ...prev.profile, points: data.points } } : prev));
       applyPartial({ points: data.points });
-      cheer("ポイントでショップのアイテムを買ってみよう！");
+      setEvent({ kind: "welcome", at: Date.now() });
     } finally {
       setWelcomeBusy(false);
     }
   }
+
+  const timeOfDay = getTimeOfDay(new Date(now));
+  const season = getSeason(new Date(now));
 
   if (!world) {
     return (
@@ -179,7 +211,12 @@ export function WorldScreen() {
   const continueHref = world.continue_stage_id ? `/quiz/${world.continue_stage_id}` : "/learn";
 
   return (
-    <div className="min-h-screen bg-[#8fd4e9]">
+    <div
+      className="min-h-screen transition-[background] duration-700"
+      style={{ background: TIME_THEME[timeOfDay].background }}
+      onPointerDown={handleInteraction}
+      onKeyDown={handleInteraction}
+    >
       <div className="relative mx-auto flex min-h-screen w-full max-w-[480px] flex-col pb-28 text-[#3b3226]">
         <WorldHud name={sharedProfile?.name ?? ""} profile={world.profile} nextUnlock={nextUnlock} />
 
@@ -195,7 +232,7 @@ export function WorldScreen() {
           日本 · はじまりの町
         </p>
 
-        <div className="mt-2 px-1">
+        <div className="relative mt-2 px-1">
           <WorldScene
             land={world.land}
             items={world.items}
@@ -203,10 +240,12 @@ export function WorldScreen() {
             placing={placingItem !== null}
             onTileTap={placeAt}
             onItemTap={setSelected}
-            spruMood={spru.mood}
-            spruLine={spru.line}
+            spru={mood}
+            onSpruTap={handleSpruTap}
+            timeOfDay={timeOfDay}
             poppedItemId={poppedItemId}
           />
+          <Ambience timeOfDay={timeOfDay} season={season} />
         </div>
 
         {!placingItem && (

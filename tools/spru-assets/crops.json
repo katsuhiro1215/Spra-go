@@ -1,0 +1,36 @@
+{
+  "sources": {
+    "m4": "mascot-4.png",
+    "m6": "mascot-6.png",
+    "logo": "mascot-logo.png"
+  },
+  "figures": [
+    { "key": "front", "group": "basic", "source": "m6", "box": [30, 48, 158, 258] },
+    { "key": "three-quarter", "group": "basic", "source": "m6", "box": [174, 54, 288, 258] },
+    { "key": "normal", "group": "expressions", "source": "m6", "box": [32, 342, 160, 520] },
+    { "key": "smile", "group": "expressions", "source": "m6", "box": [180, 328, 308, 520] },
+    { "key": "laugh", "group": "expressions", "source": "m6", "box": [330, 328, 460, 522] },
+    { "key": "surprised", "group": "expressions", "source": "m6", "box": [480, 330, 608, 520] },
+    { "key": "think", "group": "expressions", "source": "m6", "box": [634, 324, 764, 522] },
+    { "key": "effort", "group": "expressions", "source": "m6", "box": [786, 328, 916, 524] },
+    { "key": "happy", "group": "expressions", "source": "m6", "box": [942, 328, 1076, 524] },
+    { "key": "sad", "group": "expressions", "source": "m6", "box": [1100, 334, 1222, 524] },
+    { "key": "cry", "group": "expressions", "source": "m6", "box": [1246, 330, 1374, 522] },
+    { "key": "shy", "group": "expressions", "source": "m6", "box": [1394, 320, 1516, 522] },
+    { "key": "excited", "group": "expressions", "source": "m4", "box": [351, 46, 490, 264], "scale": 0.82 },
+    { "key": "walk", "group": "actions", "source": "m6", "box": [40, 592, 140, 758] },
+    { "key": "run", "group": "actions", "source": "m6", "box": [176, 594, 270, 758] },
+    { "key": "jump", "group": "actions", "source": "m6", "box": [290, 576, 404, 748] },
+    { "key": "wave", "group": "actions", "source": "m6", "box": [464, 576, 574, 758] },
+    { "key": "sit", "group": "actions", "source": "m6", "box": [624, 594, 734, 764] },
+    { "key": "sleep", "group": "actions", "source": "m6", "box": [770, 654, 904, 760] },
+    { "key": "startled", "group": "actions", "source": "m6", "box": [952, 590, 1058, 760] },
+    { "key": "cheer", "group": "actions", "source": "m6", "box": [1094, 590, 1212, 758] },
+    { "key": "dash", "group": "actions", "source": "m6", "box": [1256, 604, 1358, 754] },
+    { "key": "palms", "group": "actions", "source": "m6", "box": [1406, 584, 1506, 756] }
+  ],
+  "scenes": [
+    { "key": "challenge", "source": "logo", "box": [284, 930, 502, 1098] },
+    { "key": "grow", "source": "logo", "box": [750, 925, 930, 1100] }
+  ]
+}

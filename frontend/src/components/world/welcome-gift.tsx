@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
-
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { SpruFigure } from "@/components/spru/spru-figure";
 
 export function WelcomeGift({ amount, busy, onReceive }: { amount: number; busy: boolean; onReceive: () => void }) {
   return (
@@ -13,7 +12,7 @@ export function WelcomeGift({ amount, busy, onReceive }: { amount: number; busy:
         aria-labelledby="welcome-gift-title"
         className="flex w-full max-w-[322px] flex-col items-center gap-2.5 rounded-3xl bg-[#fffaf0] px-5 pt-5 pb-5 text-center text-[#3b3226] shadow-[0_16px_36px_rgba(0,0,0,0.22)]"
       >
-        <Image src="/spru/joy.png" alt="よろこぶSpru" width={110} height={106} className="animate-spru-hop" />
+        <SpruFigure image="jump" standHeight={120} alt="よろこぶスプル" className="animate-spru-hop" />
         <h2 id="welcome-gift-title" className="text-2xl font-black text-[#2e6b1c]">
           <AutoFurigana text="ようこそ、自分の町へ！" />
         </h2>

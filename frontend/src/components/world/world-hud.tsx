@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart, Sprout } from "lucide-react";
 
+import { SPRU_FACES } from "@/components/spru/spru-assets";
+
 import type { WorldProfile } from "./types";
 
 export function WorldHud({
@@ -39,7 +41,7 @@ export function WorldHud({
       </div>
       <div className="mt-2 flex items-center gap-2.5">
         <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full border-2 border-[#7cc35a] bg-[#e3f3d6]">
-          <Image src="/spru/front.png" alt="" width={40} height={40} className="h-10 w-10 object-cover object-[50%_40%]" />
+          <Image src={SPRU_FACES.normal.src} alt="" width={40} height={40} className="h-10 w-10 object-cover" />
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <div className="flex items-center gap-1.5">

@@ -1,11 +1,19 @@
 "use client";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import type { SpruView } from "@/components/spru/mood";
+import { SPRU_IMAGES, SPRU_STAND_HEIGHT } from "@/components/spru/spru-assets";
+import { SpruFace } from "@/components/spru/spru-figure";
 
+import { TIME_THEME } from "./ambience";
 import { HALF_H, HALF_W, LAND_THICKNESS, sceneViewBox, tileCenter, tileKey, tilePoints, toPercent } from "./iso";
-import { ItemArt } from "./item-art";
+import { ITEM_LIGHTS, ItemArt } from "./item-art";
 import { LandmarkArt } from "./landmark-art";
+import type { TimeOfDay } from "./time-of-day";
 import type { WorldItem, WorldLand } from "./types";
+
+// 町の中のスプルの立ち姿の高さ(SVGの単位)。座る・寝るは素材集の縮尺どおりにそろえる
+const TOWN_STAND_HEIGHT = 58;
 
 type SceneObject =
   | { kind: "landmark"; id: string; x: number; y: number; landmarkKey: string }
@@ -19,8 +27,9 @@ export function WorldScene({
   placing,
   onTileTap,
   onItemTap,
-  spruMood,
-  spruLine,
+  spru,
+  onSpruTap,
+  timeOfDay,
   poppedItemId,
 }: {
   land: WorldLand;
@@ -29,10 +38,14 @@ export function WorldScene({
   placing: boolean;
   onTileTap: (x: number, y: number) => void;
   onItemTap: (item: WorldItem) => void;
-  spruMood: "idle" | "joy";
-  spruLine: string;
+  spru: SpruView;
+  onSpruTap: () => void;
+  timeOfDay: TimeOfDay;
   poppedItemId: number | null;
 }) {
+  const theme = TIME_THEME[timeOfDay];
+  // 夜は物を少し暗くする(明かりは暗くしない)
+  const artStyle = theme.dimObjects ? { filter: "brightness(0.78) saturate(0.85)" } : undefined;
   const vb = sceneViewBox(land.size);
   const n = land.size;
   const pathSet = new Set(land.paths.map(([x, y]) => tileKey(x, y)));
@@ -53,8 +66,14 @@ export function WorldScene({
   const left = { x: -n * HALF_W, y: n * HALF_H };
   const bottom = { x: 0, y: n * HALF_H * 2 };
   const right = { x: n * HALF_W, y: n * HALF_H };
-  const spru = tileCenter(land.spru.x, land.spru.y);
-  const bubble = toPercent(spru.sx, spru.sy - 60, vb);
+  const spruCenter = tileCenter(land.spru.x, land.spru.y);
+  const bubble = toPercent(spruCenter.sx, spruCenter.sy - 60, vb);
+
+  const spruAsset = SPRU_IMAGES[spru.image];
+  const spruScale = TOWN_STAND_HEIGHT / SPRU_STAND_HEIGHT;
+  const spruW = spruAsset.width * spruScale;
+  const spruH = spruAsset.height * spruScale;
+  const spruMotion = spru.sleeping ? undefined : spru.image === "jump" ? "animate-spru-hop" : "animate-spru-bob";
 
   const boxStyle = (sx: number, sy: number, halfWidth: number, up: number, down: number) => {
     const topLeft = toPercent(sx - halfWidth, sy - up, vb);
@@ -97,6 +116,14 @@ export function WorldScene({
           return <polygon key={key} points={tilePoints(x, y)} fill={fill} />;
         })}
 
+        {theme.groundTint && (
+          <polygon
+            points={`0,0 ${right.x},${right.y} ${right.x},${right.y + LAND_THICKNESS} ${bottom.x},${bottom.y + LAND_THICKNESS} ${left.x},${left.y + LAND_THICKNESS} ${left.x},${left.y}`}
+            fill={theme.groundTint.color}
+            opacity={theme.groundTint.opacity}
+          />
+        )}
+
         {placing &&
           [...validTiles].map((key) => {
             const [x, y] = key.split(",").map(Number);
@@ -116,18 +143,38 @@ export function WorldScene({
           const { sx, sy } = tileCenter(o.x, o.y);
           return (
             <g key={o.id} transform={`translate(${sx} ${sy})`}>
-              {o.kind === "landmark" && <LandmarkArt landmarkKey={o.landmarkKey} />}
-              {o.kind === "item" && (
-                <g className={o.item.id === poppedItemId ? "animate-pop-in" : undefined}>
-                  <ItemArt assetKey={o.item.asset_key} />
+              {o.kind === "landmark" && (
+                <g style={artStyle}>
+                  <LandmarkArt landmarkKey={o.landmarkKey} lit={theme.lit} />
                 </g>
               )}
-              {o.kind === "spru" &&
-                (spruMood === "joy" ? (
-                  <image href="/spru/joy.png" x={-32} y={-60} width={64} height={62} className="animate-spru-hop" />
-                ) : (
-                  <image href="/spru/idle.png" x={-16} y={-55} width={31} height={55} className="animate-spru-bob" />
-                ))}
+              {o.kind === "item" && (
+                <g className={o.item.id === poppedItemId ? "animate-pop-in" : undefined}>
+                  <g style={artStyle}>
+                    <ItemArt assetKey={o.item.asset_key} />
+                  </g>
+                  {theme.lit && o.item.asset_key && ITEM_LIGHTS[o.item.asset_key] && (
+                    <circle
+                      cx={ITEM_LIGHTS[o.item.asset_key].cx}
+                      cy={ITEM_LIGHTS[o.item.asset_key].cy}
+                      r={ITEM_LIGHTS[o.item.asset_key].r}
+                      fill="#ffd98a"
+                      opacity={0.5}
+                    />
+                  )}
+                </g>
+              )}
+              {o.kind === "spru" && (
+                <image
+                  key={spru.image}
+                  href={spruAsset.src}
+                  x={-spruW / 2}
+                  y={-spruH + 2}
+                  width={spruW}
+                  height={spruH}
+                  className={spruMotion}
+                />
+              )}
             </g>
           );
         })}
@@ -166,12 +213,25 @@ export function WorldScene({
             );
           })}
 
+      <button
+        type="button"
+        data-spru
+        aria-label="スプル"
+        disabled={placing}
+        onClick={onSpruTap}
+        className="absolute rounded-full focus-visible:outline-3 focus-visible:outline-[#f2b632] disabled:pointer-events-none"
+        style={boxStyle(spruCenter.sx, spruCenter.sy, 20, 60, 6)}
+      />
+
       <div
-        className="pointer-events-none absolute max-w-[62%] -translate-x-[18%] -translate-y-full rounded-2xl bg-white px-3 py-2 text-[12.5px] leading-relaxed font-bold text-[#3b3226] shadow-[0_3px_10px_rgba(59,50,38,0.16)]"
+        className="pointer-events-none absolute flex max-w-[66%] -translate-x-[18%] -translate-y-full items-center gap-2 rounded-2xl bg-white py-1.5 pr-3 pl-1.5 text-[12.5px] leading-relaxed font-bold text-[#3b3226] shadow-[0_3px_10px_rgba(59,50,38,0.16)]"
         style={{ left: `${bubble.left}%`, top: `${bubble.top}%` }}
         aria-live="polite"
       >
-        <AutoFurigana text={spruLine} />
+        <SpruFace face={spru.face} size={28} />
+        <span>
+          <AutoFurigana text={spru.line} />
+        </span>
         <span className="absolute -bottom-1.5 left-[18%] h-3 w-3 -translate-x-1/2 rotate-45 bg-white" />
       </div>
     </div>
