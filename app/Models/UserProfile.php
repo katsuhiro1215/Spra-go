@@ -10,8 +10,8 @@ use Illuminate\Support\Carbon;
 class UserProfile extends Model
 {
     protected $fillable = [
-        'name', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'level', 'combo', 'best_combo',
-        'current_streak', 'best_streak', 'last_played_date',
+        'name', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'points', 'world_welcomed_at',
+        'level', 'combo', 'best_combo', 'current_streak', 'best_streak', 'last_played_date',
     ];
 
     /**
@@ -36,6 +36,7 @@ class UserProfile extends Model
         return [
             'last_played_date' => 'date',
             'hp_updated_at' => 'datetime',
+            'world_welcomed_at' => 'datetime',
         ];
     }
 
@@ -168,8 +169,13 @@ class UserProfile extends Model
         return $this->hasMany(ProfileCurrencyLedger::class);
     }
 
+    public function worldItems(): HasMany
+    {
+        return $this->hasMany(ProfileWorldItem::class);
+    }
+
     /**
-     * @param  array<string,int>  $deltas  type(hp/coin/xp) => delta
+     * @param  array<string,int>  $deltas  type(hp/coin/xp/point) => delta
      * @return array{leveled_up: bool, deltas: array<string,int>}
      */
     public function applyEconomy(array $deltas, string $reason, ?Question $question = null, ?Stage $stage = null): array
@@ -190,6 +196,7 @@ class UserProfile extends Model
                 'hp' => $this->hp = max(0, min($this->max_hp, $this->hp + $delta)),
                 'coin' => $this->coins = max(0, $this->coins + $delta),
                 'xp' => $this->xp = max(0, $this->xp + $delta),
+                'point' => $this->points = max(0, $this->points + $delta),
             };
 
             $this->currencyLedger()->create([

@@ -2,6 +2,7 @@
 
 use App\Models\Question;
 use App\Models\Quiz;
+use App\Models\ShopItem;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -170,4 +171,17 @@ function createMatchingQuestionWithPairs(array $pairs): array
     }
 
     return [$question, $choicesByItemId];
+}
+
+/** 町に置くアイテム(学習ポイント払い)を作る。町関連のテストで共通に使う */
+function createDecoration(array $overrides = []): ShopItem
+{
+    return ShopItem::create(array_merge([
+        'name' => 'ベンチ',
+        'price' => 30,
+        'type' => 'decoration',
+        'currency' => 'point',
+        'min_level' => 1,
+        'meta' => ['asset_key' => 'bench'],
+    ], $overrides));
 }

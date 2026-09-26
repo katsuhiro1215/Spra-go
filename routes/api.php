@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\Language;
 use App\Models\ProfileStageProgress;
 use App\Models\ProfileTitle;
+use App\Models\ProfileWorldItem;
 use App\Models\Question;
 use App\Models\QuestionChoice;
 use App\Models\QuestionTheme;
@@ -19,8 +20,13 @@ use App\Models\Stage;
 use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserProfileItem;
+use App\Support\ActiveProfile;
+use App\Support\ContinueStage;
 use App\Support\QuestionAnswerResolver;
+use App\Support\WorldLand;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
 use Stripe\Exception\SignatureVerificationException;
@@ -485,39 +491,47 @@ Route::middleware(['auth:owner'])->prefix('owner/question-themes')->name('owner.
 });
 
 Route::middleware(['auth:owner'])->prefix('owner/shop-items')->name('owner.shop-items.')->group(function () {
-    $shopItemTypes = ['potion', 'plane', 'background', 'character', 'title'];
+    $shopItemTypes = ['potion', 'plane', 'background', 'character', 'title', 'decoration'];
+
+    $rules = fn () => [
+        'name' => ['required', 'string', 'max:255'],
+        'price' => ['required', 'integer', 'min:0'],
+        'type' => ['required', Rule::in($shopItemTypes)],
+        'min_level' => ['nullable', 'integer', 'min:1', 'max:99'],
+        'meta' => ['nullable', 'array'],
+        'meta.heal' => ['required_if:type,potion', 'integer', 'min:1'],
+        'meta.asset_key' => ['required_if:type,decoration', 'string', Rule::in(config('world.asset_keys'))],
+    ];
+
+    // 町のアイテムは学習ポイント払い、それ以外はコイン払いに固定する(Ownerが通貨を選び間違えないようにするため)
+    $normalize = function (array $data): array {
+        $data['currency'] = $data['type'] === 'decoration' ? 'point' : 'coin';
+        $data['min_level'] = $data['min_level'] ?? 1;
+
+        return $data;
+    };
 
     Route::get('/', function () {
         return ShopItem::query()->orderBy('type')->orderBy('price')->get();
     })->name('index');
 
-    Route::post('/', function (Request $request) use ($shopItemTypes) {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'integer', 'min:0'],
-            'type' => ['required', Rule::in($shopItemTypes)],
-            'meta' => ['nullable', 'array'],
-            'meta.heal' => ['required_if:type,potion', 'integer', 'min:1'],
-        ]);
-
-        return ShopItem::create($data);
+    Route::post('/', function (Request $request) use ($rules, $normalize) {
+        return ShopItem::create($normalize($request->validate($rules())));
     })->name('store');
 
-    Route::patch('/{shopItem}', function (Request $request, ShopItem $shopItem) use ($shopItemTypes) {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'integer', 'min:0'],
-            'type' => ['required', Rule::in($shopItemTypes)],
-            'meta' => ['nullable', 'array'],
-            'meta.heal' => ['required_if:type,potion', 'integer', 'min:1'],
-        ]);
-
-        $shopItem->update($data);
+    Route::patch('/{shopItem}', function (Request $request, ShopItem $shopItem) use ($rules, $normalize) {
+        $shopItem->update($normalize($request->validate($rules())));
 
         return $shopItem;
     })->name('update');
 
     Route::delete('/{shopItem}', function (ShopItem $shopItem) {
+        abort_if(
+            ProfileWorldItem::query()->where('shop_item_id', $shopItem->id)->exists(),
+            422,
+            'プレイヤーが持っているアイテムのため削除できません。'
+        );
+
         $shopItem->delete();
 
         return response()->noContent();
@@ -1042,7 +1056,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $progress->cleared_at ??= now();
     $progress->save();
 
-    $profile->applyEconomy(['coin' => 100], 'stage_clear', null, $stage);
+    $profile->applyEconomy(['coin' => 100, 'point' => config('world.rewards.stage_clear')], 'stage_clear', null, $stage);
 
     $titleGranted = false;
     if ($stage->is_boss && $stage->title_reward && $data['score'] === $stage->questions()->count()) {
@@ -1061,6 +1075,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
             'max_hp' => $profile->max_hp,
             'xp' => $profile->xp,
             'coins' => $profile->coins,
+            'points' => $profile->points,
             'level' => $profile->level,
         ],
         'title_granted' => $titleGranted,
@@ -1097,7 +1112,12 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
         }
 
         $economyResult = $isCorrect
-            ? $profile->applyEconomy(['hp' => -1, 'xp' => 10, 'coin' => 5], 'answer_correct', $question)
+            ? $profile->applyEconomy([
+                'hp' => -1,
+                'xp' => 10,
+                'coin' => 5,
+                'point' => config('world.rewards.answer_correct'),
+            ], 'answer_correct', $question)
             : $profile->applyEconomy(['hp' => -2], 'answer_wrong', $question);
 
         $combo = $profile->registerComboResult($isCorrect);
@@ -1118,6 +1138,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'hp_regen_seconds' => $profile->secondsUntilNextHp(),
             'xp' => $profile->xp,
             'coins' => $profile->coins,
+            'points' => $profile->points,
             'level' => $profile->level,
             'leveled_up' => $economyResult['leveled_up'],
             'delta' => $economyResult['deltas'],
@@ -1139,12 +1160,20 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
     ];
 })->name('questions.answer');
 
-Route::middleware(['auth:sanctum'])->get('/shop', function () {
+Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
+    $level = ActiveProfile::find($request)?->level ?? 1;
+
     return ShopItem::query()
         ->whereIn('type', config('shop.enabled_types'))
         ->orderBy('type')
+        ->orderBy('min_level')
         ->orderBy('price')
-        ->get();
+        ->get()
+        ->map(fn (ShopItem $item) => [
+            ...$item->toArray(),
+            'asset_key' => $item->assetKey(),
+            'locked' => $level < $item->min_level,
+        ]);
 })->name('shop.index');
 
 Route::middleware(['auth:sanctum'])->post('/shop/{shopItem}/purchase', function (Request $request, ShopItem $shopItem) {
@@ -1154,41 +1183,128 @@ Route::middleware(['auth:sanctum'])->post('/shop/{shopItem}/purchase', function 
         'この商品は現在準備中のため購入できません。'
     );
 
-    $profileId = $request->session()->get('active_profile_id');
-    $profile = $profileId ? UserProfile::find($profileId) : null;
-    abort_unless($profile && $profile->user_schema_id === $request->user()->schema?->id, 422);
-    abort_if($profile->coins < $shopItem->price, 422, 'コインが足りません。');
+    $activeProfile = ActiveProfile::require($request);
 
-    $deltas = ['coin' => -$shopItem->price];
-    if ($shopItem->type === 'potion' && ($heal = $shopItem->meta['heal'] ?? null)) {
-        $deltas['hp'] = $heal;
-    }
-    $profile->applyEconomy($deltas, 'shop_purchase');
+    return DB::transaction(function () use ($activeProfile, $shopItem) {
+        $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
 
-    if ($shopItem->type === 'title') {
-        ProfileTitle::query()->firstOrCreate(
-            ['user_profile_id' => $profile->id, 'title' => $shopItem->name],
-            ['unlocked_at' => now()]
-        );
-    }
+        if ($shopItem->currency === 'point') {
+            abort_if($profile->level < $shopItem->min_level, 422, 'レベルが足りません。');
+            abort_if($profile->points < $shopItem->price, 422, 'ポイントが足りません。');
+            $profile->applyEconomy(['point' => -$shopItem->price], 'shop_purchase');
+        } else {
+            abort_if($profile->coins < $shopItem->price, 422, 'コインが足りません。');
+            $deltas = ['coin' => -$shopItem->price];
+            if ($shopItem->type === 'potion' && ($heal = $shopItem->meta['heal'] ?? null)) {
+                $deltas['hp'] = $heal;
+            }
+            $profile->applyEconomy($deltas, 'shop_purchase');
+        }
 
-    UserProfileItem::create([
-        'user_profile_id' => $profile->id,
-        'shop_item_id' => $shopItem->id,
-        'purchased_at' => now(),
-    ]);
+        if ($shopItem->type === 'title') {
+            ProfileTitle::query()->firstOrCreate(
+                ['user_profile_id' => $profile->id, 'title' => $shopItem->name],
+                ['unlocked_at' => now()]
+            );
+        }
 
-    return [
-        'profile' => [
-            'id' => $profile->id,
-            'hp' => $profile->hp,
-            'max_hp' => $profile->max_hp,
-            'xp' => $profile->xp,
-            'coins' => $profile->coins,
-            'level' => $profile->level,
-        ],
-    ];
+        $worldItem = $shopItem->type === 'decoration'
+            ? $profile->worldItems()->create(['shop_item_id' => $shopItem->id])
+            : null;
+
+        UserProfileItem::create([
+            'user_profile_id' => $profile->id,
+            'shop_item_id' => $shopItem->id,
+            'purchased_at' => now(),
+        ]);
+
+        return [
+            'profile' => [
+                'id' => $profile->id,
+                'hp' => $profile->hp,
+                'max_hp' => $profile->max_hp,
+                'xp' => $profile->xp,
+                'coins' => $profile->coins,
+                'points' => $profile->points,
+                'level' => $profile->level,
+            ],
+            'world_item' => $worldItem?->load('shopItem')->toWorldArray(),
+        ];
+    });
 })->name('shop.purchase');
+
+Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(function () {
+    Route::get('/', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $profile->regenerateHp();
+        $items = $profile->worldItems()->with('shopItem')->orderBy('id')->get();
+
+        return [
+            'land' => WorldLand::toArray(),
+            'items' => $items->filter->isPlaced()->values()->map->toWorldArray(),
+            'bag' => $items->reject->isPlaced()->values()->map->toWorldArray(),
+            'profile' => [
+                'id' => $profile->id,
+                'points' => $profile->points,
+                'level' => $profile->level,
+                'xp' => $profile->xp,
+                'hp' => $profile->hp,
+                'max_hp' => $profile->max_hp,
+                'coins' => $profile->coins,
+            ],
+            'welcome_available' => $profile->world_welcomed_at === null,
+            'continue_stage_id' => ContinueStage::resolveId($profile),
+        ];
+    })->name('show');
+
+    Route::post('/welcome', function (Request $request) {
+        $activeProfile = ActiveProfile::require($request);
+
+        return DB::transaction(function () use ($activeProfile) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+            if ($profile->world_welcomed_at !== null) {
+                return ['granted' => false, 'points' => $profile->points];
+            }
+
+            $profile->world_welcomed_at = now();
+            $profile->applyEconomy(['point' => config('world.rewards.welcome')], 'world_welcome');
+
+            return ['granted' => true, 'points' => $profile->points];
+        });
+    })->name('welcome');
+
+    Route::patch('/items/{profileWorldItem}', function (Request $request, ProfileWorldItem $profileWorldItem) {
+        $profile = ActiveProfile::require($request);
+        abort_unless($profileWorldItem->user_profile_id === $profile->id, 404);
+
+        $data = $request->validate([
+            'x' => ['present', 'nullable', 'integer', 'required_with:y'],
+            'y' => ['present', 'nullable', 'integer', 'required_with:x'],
+        ]);
+        $x = $data['x'] === null ? null : (int) $data['x'];
+        $y = $data['y'] === null ? null : (int) $data['y'];
+
+        if ($x !== null) {
+            abort_unless(WorldLand::inBounds($x, $y), 422, '土地の外には置けません。');
+            abort_if(WorldLand::isBlocked($x, $y), 422, 'そこには置けません。');
+            abort_if(
+                $profile->worldItems()->where('x', $x)->where('y', $y)->whereKeyNot($profileWorldItem->id)->exists(),
+                422,
+                'そこにはもう置いてあります。'
+            );
+        }
+
+        try {
+            $profileWorldItem->update(['x' => $x, 'y' => $y]);
+        } catch (UniqueConstraintViolationException) {
+            // 事前チェックと保存の間に同じマスへ置かれた場合(同時操作)
+            abort(422, 'そこにはもう置いてあります。');
+        }
+
+        return $profileWorldItem->load('shopItem')->toWorldArray();
+    })->name('items.update');
+});
 
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {
     Route::get('/', function (Request $request) {

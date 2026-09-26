@@ -48,7 +48,7 @@ type StagePlayData = {
   questions: QuestionItem[];
 };
 
-type EconomyDelta = { hp?: number; xp?: number; coin?: number };
+type EconomyDelta = { hp?: number; xp?: number; coin?: number; point?: number };
 type ComboInfo = { combo: number; combo_milestone_bonus_coin: number };
 type StreakInfo = {
   streak: number;
@@ -224,6 +224,8 @@ export default function Page({
         .then(async (res) => {
           if (!res.ok) return;
           const data = await res.json();
+          // ステージクリアのコイン+100・学習ポイント+50をヘッダーにも反映する
+          applyPartial({ coins: data.profile.coins, points: data.profile.points });
           setCompleteResult({
             title_granted: Boolean(data.title_granted),
             title: data.title ?? null,
@@ -231,7 +233,7 @@ export default function Page({
         })
         .catch(() => {});
     })();
-  }, [stage, currentIndex, completionSubmitted, stageId, score, playSound]);
+  }, [stage, currentIndex, completionSubmitted, stageId, score, playSound, applyPartial]);
 
   if (stage === undefined) {
     return (
@@ -334,6 +336,7 @@ export default function Page({
           max_hp: data.profile.max_hp,
           hp_regen_seconds: data.profile.hp_regen_seconds,
           coins: data.profile.coins,
+          points: data.profile.points,
           xp: data.profile.xp,
           level: data.profile.level,
           current_streak: data.profile.streak,
@@ -560,6 +563,9 @@ export default function Page({
                     )}
                     {typeof lastDelta?.coin === "number" && (
                       <span>+{lastDelta.coin}Coin</span>
+                    )}
+                    {typeof lastDelta?.point === "number" && (
+                      <span>+{lastDelta.point}pt</span>
                     )}
                   </p>
                   {combo && combo.combo >= 2 && (

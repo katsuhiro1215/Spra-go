@@ -19,7 +19,8 @@ export function HpGauge({
       className={`flex items-center gap-1.5 rounded-full border border-white/30 bg-black/20 py-1 pr-3 pl-1.5 backdrop-blur-sm ${className ?? ""}`}
     >
       <Heart className="h-4 w-4 shrink-0 fill-rose-500 text-rose-500" />
-      <div className="h-2.5 w-16 overflow-hidden rounded-full bg-white/20 sm:w-24">
+      {/* スマホ幅ではヘッダーに収まらないため、バーを省いてハートと数値だけにする */}
+      <div className="hidden h-2.5 w-24 overflow-hidden rounded-full bg-white/20 sm:block">
         <div
           className="h-full rounded-full bg-linear-to-r from-rose-500 to-rose-400 transition-[width]"
           style={{ width: `${percent}%` }}
