@@ -22,6 +22,11 @@ import {
   type SortingBasket,
 } from "@/components/app/sorting-question";
 import { useSound } from "@/components/app/sound-provider";
+import { LevelUpOverlay } from "@/components/quiz/level-up-overlay";
+import { StageStartCard } from "@/components/quiz/stage-start-card";
+import { pickAnswerImage, pickResult } from "@/components/spru/mood";
+import { SpruFigure } from "@/components/spru/spru-figure";
+import type { ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
 
 type Choice = { id: number; label: string };
@@ -148,6 +153,11 @@ export default function Page({
   const [completeResult, setCompleteResult] = useState<CompleteResult | null>(
     null,
   );
+  const [levelUp, setLevelUp] = useState<{ level: number; previousLevel: number } | null>(null);
+  const [levelUpOpen, setLevelUpOpen] = useState(false);
+  const [shopItems, setShopItems] = useState<ShopListItem[]>([]);
+  // 「もう一度」のたびに増やし、ステージ開始のカードを出し直す
+  const [runId, setRunId] = useState(0);
 
   useEffect(() => {
     apiFetch(`/api/stages/${stageId}`)
@@ -159,6 +169,10 @@ export default function Page({
         setStage(res.ok ? await res.json() : null);
       })
       .catch(() => setStage(null));
+    // レベルアップの演出で「新しく買えるようになったアイテム」を見せるため
+    apiFetch("/api/shop").then(async (res) => {
+      if (res.ok) setShopItems(await res.json());
+    });
   }, [stageId, router]);
 
   useEffect(() => {
@@ -273,10 +287,10 @@ export default function Page({
         <AppHeader />
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
           <div className="flex flex-col items-center gap-4 rounded-2xl bg-white/90 p-8 shadow-xl backdrop-blur-sm">
-            <p className="text-5xl">💤</p>
+            <SpruFigure image="sleep" standHeight={96} />
             <h1 className="text-xl font-bold">これ以上続けられません</h1>
             <p className="text-sm text-muted-foreground">
-              ハートがなくなっちゃった。もう少し待とう。
+              スプルもひと休み。HPが回復したらまた遊ぼう
             </p>
             {hpBlockedSecondsLeft > 0 ? (
               <p className="text-3xl font-bold text-primary">
@@ -341,6 +355,9 @@ export default function Page({
           level: data.profile.level,
           current_streak: data.profile.streak,
         });
+        if (data.profile.leveled_up) {
+          setLevelUp({ level: data.profile.level, previousLevel: profile?.level ?? data.profile.level - 1 });
+        }
       }
       setCombo(
         data.profile
@@ -388,13 +405,29 @@ export default function Page({
     await submitAnswer({ assignments });
   }
 
-  function handleNext() {
+  function advance() {
     setCurrentIndex((prev) => prev + 1);
     setSelectedChoiceId(null);
     setCorrectChoiceId(null);
     setMatchingResults(null);
     setAnswered(false);
     setLastDelta(null);
+  }
+
+  function handleNext() {
+    // レベルが上がったときは、次の問題(最後なら結果画面)の前にお祝いを挟む
+    if (levelUp && !levelUpOpen) {
+      setLevelUpOpen(true);
+      playSound("allCorrect");
+      return;
+    }
+    advance();
+  }
+
+  function handleLevelUpContinue() {
+    setLevelUp(null);
+    setLevelUpOpen(false);
+    advance();
   }
 
   function handleRestart() {
@@ -409,19 +442,25 @@ export default function Page({
     setScore(0);
     setCompletionSubmitted(false);
     setCompleteResult(null);
+    setLevelUp(null);
+    setLevelUpOpen(false);
+    setRunId((prev) => prev + 1);
   }
 
   if (finished) {
+    const result = pickResult(score, stage.questions.length);
     return (
       <div className="relative flex min-h-screen flex-col overflow-hidden">
         <SceneBackground />
         <AppHeader />
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-6 px-6 text-center">
           <div className="flex flex-col items-center gap-6 rounded-2xl bg-white/90 p-8 shadow-xl backdrop-blur-sm">
+            <SpruFigure image={result.image} standHeight={96} className={result.image === "jump" ? "animate-spru-hop" : undefined} />
             <h1 className="text-2xl font-bold">結果発表</h1>
             <p className="text-4xl font-bold text-primary">
               {score} / {stage.questions.length} 問正解
             </p>
+            {result.line && <p className="text-sm font-semibold text-muted-foreground">{result.line}</p>}
             {completeResult?.title_granted && completeResult.title && (
               <p className="text-sm font-semibold text-amber-600">
                 🏆 称号「{completeResult.title}」を獲得しました！
@@ -450,6 +489,7 @@ export default function Page({
     <div className="relative flex min-h-screen flex-col overflow-hidden">
       <SceneBackground />
       <AppHeader />
+      {currentIndex === 0 && <StageStartCard key={runId} stageNumber={stage.stage_number} />}
       <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12">
         <div className="flex flex-col gap-8 rounded-2xl bg-white/90 p-6 shadow-xl backdrop-blur-sm">
           <div>
@@ -552,10 +592,20 @@ export default function Page({
                   : "bg-linear-to-br from-zinc-950 via-rose-950 to-zinc-950"
               }`}
             >
+              <SpruFigure
+                key={currentIndex}
+                image={pickAnswerImage({
+                  correct: lastCorrect,
+                  combo: combo?.combo ?? 0,
+                  comboBonus: combo?.combo_milestone_bonus_coin ?? 0,
+                })}
+                standHeight={100}
+                className="animate-pop-in"
+              />
               {lastCorrect ? (
                 <>
                   <p className="animate-stage-intro text-6xl font-extrabold text-white drop-shadow-lg">
-                    ✨ Correct!!
+                    Correct!!
                   </p>
                   <p className="animate-stage-intro-subtitle flex gap-4 text-lg font-semibold text-white/90">
                     {typeof lastDelta?.xp === "number" && (
@@ -589,7 +639,7 @@ export default function Page({
               ) : (
                 <>
                   <p className="animate-stage-intro text-5xl font-extrabold text-rose-200 drop-shadow-lg">
-                    😢 Wrong...
+                    Wrong...
                   </p>
                   <p className="animate-stage-intro-subtitle flex flex-col items-center gap-1 text-lg font-semibold text-white/90">
                     {typeof lastDelta?.hp === "number" && (
@@ -616,6 +666,16 @@ export default function Page({
           )}
         </div>
       </div>
+      {levelUpOpen && levelUp && (
+        <LevelUpOverlay
+          level={levelUp.level}
+          unlocked={shopItems.filter(
+            (item) =>
+              item.type === "decoration" && item.min_level > levelUp.previousLevel && item.min_level <= levelUp.level,
+          )}
+          onContinue={handleLevelUpContinue}
+        />
+      )}
     </div>
   );
 }
