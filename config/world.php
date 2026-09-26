@@ -25,4 +25,25 @@ return [
 
     'asset_keys' => ['bench', 'flowerbed', 'chochin', 'tree', 'sakura', 'vending', 'bicycle', 'stall'],
 
+    /*
+    | 土地(7×7固定)。x,yは0始まり。目印と道のマスには置けない。
+    | 全員同じ町のためDBに持たない(サブプロジェクト②で土地が広がる際に拡張する)。
+    */
+
+    'land' => [
+        'size' => 7,
+        'landmarks' => [
+            ['key' => 'stone_lantern', 'x' => 2, 'y' => 0],
+            ['key' => 'torii', 'x' => 3, 'y' => 0],
+            ['key' => 'stone_lantern', 'x' => 4, 'y' => 0],
+            ['key' => 'spru_house', 'x' => 1, 'y' => 1],
+        ],
+        'paths' => [
+            [3, 1], [3, 2],
+            [0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3], [6, 3],
+        ],
+        // Spruが立っている道のマス(道なのでアイテムと重ならない)
+        'spru' => ['x' => 1, 'y' => 3],
+    ],
+
 ];

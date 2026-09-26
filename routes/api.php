@@ -21,7 +21,9 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
+use App\Support\ContinueStage;
 use App\Support\QuestionAnswerResolver;
+use App\Support\WorldLand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -1229,6 +1231,48 @@ Route::middleware(['auth:sanctum'])->post('/shop/{shopItem}/purchase', function 
         ];
     });
 })->name('shop.purchase');
+
+Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(function () {
+    Route::get('/', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $profile->regenerateHp();
+        $items = $profile->worldItems()->with('shopItem')->orderBy('id')->get();
+
+        return [
+            'land' => WorldLand::toArray(),
+            'items' => $items->filter->isPlaced()->values()->map->toWorldArray(),
+            'bag' => $items->reject->isPlaced()->values()->map->toWorldArray(),
+            'profile' => [
+                'id' => $profile->id,
+                'points' => $profile->points,
+                'level' => $profile->level,
+                'xp' => $profile->xp,
+                'hp' => $profile->hp,
+                'max_hp' => $profile->max_hp,
+                'coins' => $profile->coins,
+            ],
+            'welcome_available' => $profile->world_welcomed_at === null,
+            'continue_stage_id' => ContinueStage::resolveId($profile),
+        ];
+    })->name('show');
+
+    Route::post('/welcome', function (Request $request) {
+        $activeProfile = ActiveProfile::require($request);
+
+        return DB::transaction(function () use ($activeProfile) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+            if ($profile->world_welcomed_at !== null) {
+                return ['granted' => false, 'points' => $profile->points];
+            }
+
+            $profile->world_welcomed_at = now();
+            $profile->applyEconomy(['point' => config('world.rewards.welcome')], 'world_welcome');
+
+            return ['granted' => true, 'points' => $profile->points];
+        });
+    })->name('welcome');
+});
 
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {
     Route::get('/', function (Request $request) {
