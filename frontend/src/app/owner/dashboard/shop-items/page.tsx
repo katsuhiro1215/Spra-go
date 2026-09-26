@@ -44,6 +44,19 @@ const TYPES = [
   { value: "background", label: "背景" },
   { value: "character", label: "キャラクター" },
   { value: "title", label: "称号" },
+  { value: "decoration", label: "町のアイテム" },
+] as const;
+
+// config/world.php の asset_keys と一致させる
+const ASSET_KEYS = [
+  { value: "bench", label: "ベンチ" },
+  { value: "flowerbed", label: "花だん" },
+  { value: "chochin", label: "ちょうちん" },
+  { value: "tree", label: "木" },
+  { value: "sakura", label: "桜の木" },
+  { value: "vending", label: "自動販売機" },
+  { value: "bicycle", label: "自転車" },
+  { value: "stall", label: "屋台" },
 ] as const;
 type ItemType = (typeof TYPES)[number]["value"];
 
@@ -56,7 +69,8 @@ type ShopItem = {
   name: string;
   price: number;
   type: ItemType;
-  meta: { heal?: number } | null;
+  min_level: number;
+  meta: { heal?: number; asset_key?: string } | null;
 };
 
 type FormValues = {
@@ -64,6 +78,8 @@ type FormValues = {
   price: string;
   type: ItemType;
   heal: string;
+  minLevel: string;
+  assetKey: string;
 };
 
 const emptyForm: FormValues = {
@@ -71,6 +87,8 @@ const emptyForm: FormValues = {
   price: "0",
   type: "potion",
   heal: "",
+  minLevel: "1",
+  assetKey: "bench",
 };
 
 export default function Page() {
@@ -115,6 +133,8 @@ export default function Page() {
       price: String(item.price),
       type: item.type,
       heal: item.meta?.heal ? String(item.meta.heal) : "",
+      minLevel: String(item.min_level ?? 1),
+      assetKey: item.meta?.asset_key ?? "bench",
     });
     setFormError(null);
     setDialogOpen(true);
@@ -129,10 +149,13 @@ export default function Page() {
       name: values.name,
       price: Number(values.price) || 0,
       type: values.type,
+      min_level: Number(values.minLevel) || 1,
       meta:
         values.type === "potion" && values.heal
           ? { heal: Number(values.heal) }
-          : null,
+          : values.type === "decoration"
+            ? { asset_key: values.assetKey }
+            : null,
     };
 
     try {
@@ -173,10 +196,15 @@ export default function Page() {
     });
 
     if (!res.ok) {
-      setDeleteError("削除に失敗しました。");
+      // 確認ダイアログは押した時点で閉じるため、一覧側にも理由(プレイヤーが持っている等)を出す
+      const data = await res.json().catch(() => ({}));
+      const message = data.message ?? "削除に失敗しました。";
+      setDeleteError(message);
+      setError(message);
       return;
     }
 
+    setError(null);
     setDeleteTarget(null);
     await loadItems();
   }
@@ -207,8 +235,10 @@ export default function Page() {
               <div className="flex-1">
                 <p className="text-sm font-medium">{item.name}</p>
                 <p className="text-xs text-muted-foreground">
-                  {typeLabel(item.type)} ・ {item.price}Coin
+                  {typeLabel(item.type)} ・ {item.price}
+                  {item.type === "decoration" ? "pt" : "Coin"}
                   {item.meta?.heal ? ` ・ 回復量:${item.meta.heal}` : ""}
+                  {item.type === "decoration" ? ` ・ Lv.${item.min_level}〜` : ""}
                 </p>
               </div>
 
@@ -278,7 +308,9 @@ export default function Page() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="item-price">価格(Coin)</Label>
+              <Label htmlFor="item-price">
+                {values.type === "decoration" ? "価格(学習ポイント)" : "価格(Coin)"}
+              </Label>
               <Input
                 id="item-price"
                 type="number"
@@ -305,6 +337,41 @@ export default function Page() {
                   }
                 />
               </div>
+            )}
+
+            {values.type === "decoration" && (
+              <>
+                <div className="flex flex-col gap-1.5">
+                  <Label htmlFor="item-min-level">必要レベル</Label>
+                  <Input
+                    id="item-min-level"
+                    type="number"
+                    min={1}
+                    max={99}
+                    required
+                    value={values.minLevel}
+                    onChange={(e) => setValues((prev) => ({ ...prev, minLevel: e.target.value }))}
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <Label htmlFor="item-asset-key">絵</Label>
+                  <Select
+                    value={values.assetKey}
+                    onValueChange={(value) => setValues((prev) => ({ ...prev, assetKey: value }))}
+                  >
+                    <SelectTrigger id="item-asset-key" className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ASSET_KEYS.map((a) => (
+                        <SelectItem key={a.value} value={a.value}>
+                          {a.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </>
             )}
 
             {formError && (
