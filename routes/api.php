@@ -24,6 +24,7 @@ use App\Support\ActiveProfile;
 use App\Support\ContinueStage;
 use App\Support\QuestionAnswerResolver;
 use App\Support\WorldLand;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -1272,6 +1273,37 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             return ['granted' => true, 'points' => $profile->points];
         });
     })->name('welcome');
+
+    Route::patch('/items/{profileWorldItem}', function (Request $request, ProfileWorldItem $profileWorldItem) {
+        $profile = ActiveProfile::require($request);
+        abort_unless($profileWorldItem->user_profile_id === $profile->id, 404);
+
+        $data = $request->validate([
+            'x' => ['present', 'nullable', 'integer', 'required_with:y'],
+            'y' => ['present', 'nullable', 'integer', 'required_with:x'],
+        ]);
+        $x = $data['x'] === null ? null : (int) $data['x'];
+        $y = $data['y'] === null ? null : (int) $data['y'];
+
+        if ($x !== null) {
+            abort_unless(WorldLand::inBounds($x, $y), 422, '土地の外には置けません。');
+            abort_if(WorldLand::isBlocked($x, $y), 422, 'そこには置けません。');
+            abort_if(
+                $profile->worldItems()->where('x', $x)->where('y', $y)->whereKeyNot($profileWorldItem->id)->exists(),
+                422,
+                'そこにはもう置いてあります。'
+            );
+        }
+
+        try {
+            $profileWorldItem->update(['x' => $x, 'y' => $y]);
+        } catch (UniqueConstraintViolationException) {
+            // 事前チェックと保存の間に同じマスへ置かれた場合(同時操作)
+            abort(422, 'そこにはもう置いてあります。');
+        }
+
+        return $profileWorldItem->load('shopItem')->toWorldArray();
+    })->name('items.update');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {
