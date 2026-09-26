@@ -224,6 +224,8 @@ export default function Page({
         .then(async (res) => {
           if (!res.ok) return;
           const data = await res.json();
+          // ステージクリアのコイン+100・学習ポイント+50をヘッダーにも反映する
+          applyPartial({ coins: data.profile.coins, points: data.profile.points });
           setCompleteResult({
             title_granted: Boolean(data.title_granted),
             title: data.title ?? null,
@@ -231,7 +233,7 @@ export default function Page({
         })
         .catch(() => {});
     })();
-  }, [stage, currentIndex, completionSubmitted, stageId, score, playSound]);
+  }, [stage, currentIndex, completionSubmitted, stageId, score, playSound, applyPartial]);
 
   if (stage === undefined) {
     return (

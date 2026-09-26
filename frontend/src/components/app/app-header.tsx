@@ -38,17 +38,19 @@ export function AppHeader() {
     <header className="relative z-30 flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/10 px-4 backdrop-blur-sm sm:px-6">
       <Link
         href="/"
-        className="flex items-center gap-2 text-lg font-bold text-white drop-shadow"
+        className="flex shrink-0 items-center gap-2 text-lg font-bold text-white drop-shadow"
+        aria-label="SpraGo"
       >
         <Image src="/logo.svg" alt="" width={28} height={28} aria-hidden />
-        SpraGo
+        {/* 学習ポイントの表示を足したため、スマホ幅では文字を省いてアバター(プロフィール切替・ログアウト)が押し出されないようにする */}
+        <span className="hidden sm:inline">SpraGo</span>
       </Link>
 
-      <div className="flex items-center gap-2 sm:gap-3">
+      <div className="flex items-center gap-1.5 sm:gap-3">
         {typeof profile?.current_streak === "number" &&
           profile.current_streak > 0 && (
             <span
-              className="flex items-center gap-1 rounded-full border border-orange-300/40 bg-orange-500/20 px-2 py-1 text-xs font-bold text-orange-200"
+              className="flex items-center gap-1 rounded-full border border-orange-300/40 bg-orange-500/20 px-2 py-1 text-xs font-bold whitespace-nowrap text-orange-200"
               title="連続プレイ日数"
             >
               🔥{profile.current_streak}日

@@ -33,7 +33,7 @@ export function WorldScreen() {
   const [selected, setSelected] = useState<WorldItem | null>(null);
   const [poppedItemId, setPoppedItemId] = useState<number | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const { profile: sharedProfile, applyPartial } = useProfile();
+  const { profile: sharedProfile, applyPartial, refresh: refreshProfile } = useProfile();
   const [world, setWorld] = useState<WorldData | null>(null);
   const [shop, setShop] = useState<ShopListItem[]>([]);
   const [spru, setSpru] = useState<SpruState>({ mood: "idle", line: DEFAULT_LINE });
@@ -51,6 +51,8 @@ export function WorldScreen() {
   }, []);
 
   useEffect(() => {
+    // プロフィール選択直後はここに来るため、アプリ起動時(未選択)のままの共有プロフィールを取り直す
+    refreshProfile();
     apiFetch("/api/world").then(async (res) => {
       if (res.status === 401) {
         router.replace("/login");
@@ -79,7 +81,7 @@ export function WorldScreen() {
     apiFetch("/api/shop").then(async (res) => {
       if (res.ok) setShop(await res.json());
     });
-  }, [router, applyPartial]);
+  }, [router, applyPartial, refreshProfile]);
 
   const placingItem = useMemo(
     () => (world && placingId !== null ? [...world.items, ...world.bag].find((item) => item.id === placingId) ?? null : null),
