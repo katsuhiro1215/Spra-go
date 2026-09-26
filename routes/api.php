@@ -1042,7 +1042,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $progress->cleared_at ??= now();
     $progress->save();
 
-    $profile->applyEconomy(['coin' => 100], 'stage_clear', null, $stage);
+    $profile->applyEconomy(['coin' => 100, 'point' => config('world.rewards.stage_clear')], 'stage_clear', null, $stage);
 
     $titleGranted = false;
     if ($stage->is_boss && $stage->title_reward && $data['score'] === $stage->questions()->count()) {
@@ -1061,6 +1061,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
             'max_hp' => $profile->max_hp,
             'xp' => $profile->xp,
             'coins' => $profile->coins,
+            'points' => $profile->points,
             'level' => $profile->level,
         ],
         'title_granted' => $titleGranted,
@@ -1097,7 +1098,12 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
         }
 
         $economyResult = $isCorrect
-            ? $profile->applyEconomy(['hp' => -1, 'xp' => 10, 'coin' => 5], 'answer_correct', $question)
+            ? $profile->applyEconomy([
+                'hp' => -1,
+                'xp' => 10,
+                'coin' => 5,
+                'point' => config('world.rewards.answer_correct'),
+            ], 'answer_correct', $question)
             : $profile->applyEconomy(['hp' => -2], 'answer_wrong', $question);
 
         $combo = $profile->registerComboResult($isCorrect);
@@ -1118,6 +1124,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'hp_regen_seconds' => $profile->secondsUntilNextHp(),
             'xp' => $profile->xp,
             'coins' => $profile->coins,
+            'points' => $profile->points,
             'level' => $profile->level,
             'leveled_up' => $economyResult['leveled_up'],
             'delta' => $economyResult['deltas'],
