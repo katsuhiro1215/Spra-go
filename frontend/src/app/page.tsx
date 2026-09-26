@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { GuestLanding } from "@/components/app/guest-landing";
+import { WorldScreen } from "@/components/world/world-screen";
 import { apiFetch } from "@/lib/api";
 
 type Status = "checking" | "guest" | "ready";
@@ -42,15 +43,20 @@ export default function Page() {
     };
   }, [router]);
 
-  useEffect(() => {
-    if (status === "ready") router.replace("/learn");
-  }, [status, router]);
-
   if (status === "guest") return <GuestLanding />;
 
-  return (
+  const loading = (
     <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
       読み込み中...
     </div>
+  );
+
+  if (status === "checking") return loading;
+
+  // WorldScreen は ?place= を読むため(useSearchParams)、本番ビルドの要件どおり Suspense で囲む
+  return (
+    <Suspense fallback={loading}>
+      <WorldScreen />
+    </Suspense>
   );
 }
