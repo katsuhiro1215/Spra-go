@@ -2,13 +2,16 @@
 
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Lock, Trophy } from "lucide-react";
 
 import { AppHeader } from "@/components/app/app-header";
 import { BackLink } from "@/components/app/back-link";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
-import { SceneBackground } from "@/components/app/scene-background";
+import { BadgeImage } from "@/components/app/badge-image";
+import { difficultyBadge } from "@/components/app/palette";
+import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { StagePath } from "@/components/app/stage-path";
 import { apiFetch } from "@/lib/api";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
@@ -94,7 +97,7 @@ export default function Page({
 
   if (category === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
         読み込み中...
       </div>
     );
@@ -135,24 +138,23 @@ export default function Page({
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden">
-      <SceneBackground />
+    <SkyPage>
       <AppHeader />
 
       <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col gap-8 px-6 py-12 pb-24">
         <div>
           <BackLink />
-          <h1 className="mt-2 text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
-            {category?.name ?? "見つかりません"}
-          </h1>
+          <SkyTitle className="mt-2 text-3xl">{category?.name ?? "見つかりません"}</SkyTitle>
         </div>
 
         {groups === null ? (
-          <p className="text-sm text-white/85">読み込み中...</p>
+          <SkyText muted className="text-sm">
+            読み込み中...
+          </SkyText>
         ) : !hasAnyStage ? (
-          <p className="text-sm text-white/85">
+          <SkyText muted className="text-sm">
             まだクイズがありません。お楽しみに。
-          </p>
+          </SkyText>
         ) : (
           <>
             <div className="flex flex-col gap-3">
@@ -168,6 +170,7 @@ export default function Page({
                   stages.length > 0 && stages.every((s) => s.cleared);
                 const previousDifficulty =
                   index > 0 ? DIFFICULTIES[index - 1] : null;
+                const badge = difficultyBadge(difficulty);
 
                 return (
                   <AppButton
@@ -181,14 +184,16 @@ export default function Page({
                     className="flex w-full items-center justify-between px-6"
                   >
                     <span className="flex items-center gap-2">
-                      {progressionLocked && "🔒"}
+                      {progressionLocked && <Lock aria-hidden className="h-4 w-4" />}
+                      {badge && <BadgeImage badge={badge} size={22} />}
                       <Furigana
                         text={difficulty}
                         reading={DIFFICULTY_READINGS[difficulty] ?? ""}
                       />
                       {allCleared && (
-                        <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-amber-950">
-                          🏆 クリア
+                        <span className="flex items-center gap-1 rounded-full bg-[#f2b632] px-2 py-0.5 text-[10px] font-black text-[#3b3226]">
+                          <Trophy aria-hidden className="h-3 w-3" />
+                          クリア
                         </span>
                       )}
                     </span>
@@ -207,15 +212,18 @@ export default function Page({
             </div>
 
             {selectedStages && selectedStages.length > 0 && (
-              <StagePath
-                stages={selectedStages}
-                selectedId={selectedStage?.id ?? null}
-                onSelect={(stage) =>
-                  setSelectedStage(
-                    selectedStages.find((s) => s.id === stage.id) ?? null,
-                  )
-                }
-              />
+              // 次に遊ぶステージの「START」の吹き出しが難易度のボタンに重ならないよう、上をあける
+              <div className="pt-6">
+                <StagePath
+                  stages={selectedStages}
+                  selectedId={selectedStage?.id ?? null}
+                  onSelect={(stage) =>
+                    setSelectedStage(
+                      selectedStages.find((s) => s.id === stage.id) ?? null,
+                    )
+                  }
+                />
+              </div>
             )}
 
             <AppButton
@@ -232,29 +240,24 @@ export default function Page({
       </div>
 
       {stageIntro && (
-        <div
-          className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 ${
-            stageIntro.isBoss
-              ? "bg-linear-to-br from-rose-950 via-red-900 to-rose-950"
-              : "bg-linear-to-br from-indigo-950 via-purple-900 to-indigo-950"
-          }`}
-        >
-          {stageIntro.isBoss ? (
-            <p className="animate-stage-intro text-5xl font-extrabold text-amber-300 drop-shadow-lg">
-              ⚔ BOSS STAGE ⚔
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(143,212,233,0.7)] px-4">
+          <div className="flex flex-col items-center gap-2 rounded-3xl bg-[#fffaf0] px-8 py-6 text-center shadow-[0_16px_36px_rgba(0,0,0,0.2)]">
+            {stageIntro.isBoss ? (
+              <>
+                <BadgeImage badge="boss-battle" size={96} className="animate-stage-intro" />
+                <p className="animate-stage-intro text-4xl font-black text-[#b4472c]">BOSS STAGE</p>
+              </>
+            ) : (
+              <p className="animate-stage-intro text-5xl font-black text-[#2b6fa3]">STAGE {stageIntro.stageNumber}</p>
+            )}
+            <p className="animate-stage-intro-subtitle text-base font-bold text-[#6b5d45]">
+              {category?.name} ・ {stageIntro.difficulty}
             </p>
-          ) : (
-            <p className="animate-stage-intro text-6xl font-extrabold text-white drop-shadow-lg">
-              STAGE {stageIntro.stageNumber}
-            </p>
-          )}
-          <p className="animate-stage-intro-subtitle text-lg text-white/80">
-            {category?.name} ・ {stageIntro.difficulty}
-          </p>
+          </div>
         </div>
       )}
 
       <BottomNav />
-    </div>
+    </SkyPage>
   );
 }
