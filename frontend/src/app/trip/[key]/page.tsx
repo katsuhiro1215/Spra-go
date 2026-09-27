@@ -112,7 +112,10 @@ export default function Page({ params }: { params: Promise<{ key: string }> }) {
             <AutoFurigana text={`${destination.name}で学ぶ(初級)`} />
           </h2>
           {group ? (
-            <StagePath stages={group.stages} onSelect={(stage) => router.push(`/quiz/${stage.id}`)} />
+            // 次に遊ぶステージの「START」の吹き出しが見出しに重ならないよう、上をあける
+            <div className="pt-6">
+              <StagePath stages={group.stages} onSelect={(stage) => router.push(`/quiz/${stage.id}`)} />
+            </div>
           ) : (
             <p className="text-sm text-white/85">
               <AutoFurigana text={country || destination.country_id === null ? "まだこの国のステージがありません。" : "読み込み中..."} />

@@ -96,7 +96,9 @@ export function DestinationSheet({
                     size={52}
                     className={souvenir.met || souvenir.received ? "" : "opacity-40 grayscale"}
                   />
-                  <span className="text-xs font-black">{souvenir.name}</span>
+                  <span className="text-xs font-black">
+                    <AutoFurigana text={souvenir.name} />
+                  </span>
                   <span className="text-[11px] font-bold text-[#6b5d45]">
                     <AutoFurigana
                       text={souvenir.received ? "受け取りずみ" : souvenir.met ? "受け取れるよ！" : `${souvenir.condition_label}しよう`}

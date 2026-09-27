@@ -36,7 +36,9 @@ export function SouvenirStand({
                 </span>
               )}
             </div>
-            <p className="text-sm font-black">{souvenir.name}</p>
+            <p className="text-sm font-black">
+              <AutoFurigana text={souvenir.name} />
+            </p>
             {souvenir.received ? (
               <p className="text-xs font-black text-[#3b7f26]">
                 <AutoFurigana text="受け取りずみ" />
