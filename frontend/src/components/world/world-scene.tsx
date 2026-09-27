@@ -355,8 +355,9 @@ export function WorldScene({
         style={boxStyle(spruCenter.sx, spruCenter.sy, 20, 60, 6)}
       />
 
+      {/* 吹き出しは、上に重ねるにぎやか度の飾りや季節の舞うものより手前に出す */}
       <div
-        className="pointer-events-none absolute flex max-w-[66%] -translate-x-[18%] -translate-y-full items-center gap-2 rounded-2xl bg-white py-1.5 pr-3 pl-1.5 text-[12.5px] leading-relaxed font-bold text-[#3b3226] shadow-[0_3px_10px_rgba(59,50,38,0.16)]"
+        className="pointer-events-none absolute z-10 flex max-w-[66%] -translate-x-[18%] -translate-y-full items-center gap-2 rounded-2xl bg-white py-1.5 pr-3 pl-1.5 text-[12.5px] leading-relaxed font-bold text-[#3b3226] shadow-[0_3px_10px_rgba(59,50,38,0.16)]"
         style={{ left: `${bubble.left}%`, top: `${bubble.top}%` }}
         aria-live="polite"
       >
@@ -370,7 +371,7 @@ export function WorldScene({
       {/* 仲間の吹き出しは、隣に立つスプルの吹き出しより手前に出す */}
       {talking && talkPos && companionTalk && (
         <div
-          className="pointer-events-none absolute w-max max-w-[48%] -translate-x-1/2 -translate-y-full rounded-xl bg-white px-2.5 py-1 text-[11.5px] leading-snug font-bold text-[#3b3226] shadow-[0_2px_8px_rgba(59,50,38,0.16)]"
+          className="pointer-events-none absolute z-10 w-max max-w-[48%] -translate-x-1/2 -translate-y-full rounded-xl bg-white px-2.5 py-1 text-[11.5px] leading-snug font-bold text-[#3b3226] shadow-[0_2px_8px_rgba(59,50,38,0.16)]"
           style={{ left: `${talkPos.left}%`, top: `${talkPos.top}%` }}
           aria-live="polite"
         >
