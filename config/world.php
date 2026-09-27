@@ -40,11 +40,21 @@ return [
     'level_curve' => ['base' => 100, 'step' => 20, 'max' => 300],
 
     /*
-    | 町のアイテムの絵として用意済みのキー。フロントの components/world/item-art.tsx と
-    | 必ず一致させる(Ownerが絵の無いアイテムを登録できないようにするため)。
+    | 町のアイテムの絵として用意済みのキー。フロントの components/world/art-keys.ts と
+    | 必ず一致させる(Ownerが絵の無いアイテムを登録できないようにするため。art-keys.test.ts で確かめる)。
     */
 
-    'asset_keys' => ['bench', 'flowerbed', 'chochin', 'tree', 'sakura', 'vending', 'bicycle', 'stall'],
+    'asset_keys' => [
+        'bench', 'flowerbed', 'chochin', 'tree', 'sakura', 'vending', 'bicycle', 'stall',
+        'stone_lantern', 'bamboo', 'fountain', 'palm', 'parasol', 'pagoda', 'castle', 'tower',
+    ],
+
+    /*
+    | 2×2マス使う絵(docs/design/2026-09-27-spru-wave-e-design.md 3-4)。書いていない絵は1マス。
+    | Ownerがアイテムごとに大きさを変えられないよう、絵で決める。フロントの art-keys.ts の BIG_ASSETS と必ず一致させる
+    */
+
+    'asset_footprints' => ['fountain' => 2, 'pagoda' => 2, 'castle' => 2, 'tower' => 2],
 
     /*
     | 土地(docs/design/2026-09-27-spru-wave-e-design.md 3-1)。x,yは0始まり。地図は区画を並べたもの(今は12×12)で、
