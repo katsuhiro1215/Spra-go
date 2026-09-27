@@ -22,6 +22,7 @@ use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\ContinueStage;
+use App\Support\Garden;
 use App\Support\LevelCurve;
 use App\Support\QuestionAnswerResolver;
 use App\Support\WorldLand;
@@ -1112,6 +1113,11 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             ], 409);
         }
 
+        if ($isCorrect) {
+            // その日に水やりできるかに使う(applyEconomy の保存で一緒に保存される)
+            $profile->last_correct_on = Garden::today();
+        }
+
         $economyResult = $isCorrect
             ? $profile->applyEconomy([
                 'hp' => -1,
@@ -1151,6 +1157,8 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'streak_extended_today' => $streak['streak_extended_today'],
             'streak_milestone_bonus_coin' => $streak['milestone_bonus_coin'],
             'level_xp' => LevelCurve::progress($profile->level),
+            'spru_growth' => Garden::growth($profile),
+            'garden_busy' => Garden::activeSeed($profile) !== null,
         ];
     }
 
@@ -1257,6 +1265,9 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             ],
             'welcome_available' => $profile->world_welcomed_at === null,
             'continue_stage_id' => ContinueStage::resolveId($profile),
+            'spru' => ['growth' => Garden::growth($profile)],
+            'garden' => Garden::state($profile),
+            'companions' => Garden::companions($profile),
         ];
     })->name('show');
 
