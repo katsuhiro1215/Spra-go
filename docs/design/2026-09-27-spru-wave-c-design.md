@@ -165,8 +165,8 @@ A〜Eの5回で作る「仲間と成長」の3回目（A回の設計書1章の�
     - `next_heart_bond` は次のハートに必要ななかよし度（ハート5つならnull）
     - 並び順は、相棒が先頭、ほかは生まれた順
   - `review`: `{ available, count, giver: { kind: "companion"|"spru", key, name } }`（`count` は出す問題数で最大5。スプルなら `key` は null、`name` は「スプル」）
-- `PATCH /api/world/companions/{key}`: `{ nickname }` で名前を変え、その仲間を返す。まだ生まれていない仲間は404。前後の空白を取って9文字以上・制御文字を含むと422。空文字・空白だけ・nullは元の名前に戻す
-- `POST /api/world/partner`: `{ key }` で相棒を替え、`{ companions }`（並び直した一覧）を返す。まだ生まれていない仲間なら422（「まだ生まれていない仲間だよ」）
+- `PATCH /api/world/companions/{key}`: `{ nickname }` で名前を変え、`{ companions, review }` を返す（復習を出す人の名前も変わるため）。まだ生まれていない仲間は404。前後の空白（全角の空白も）を取って9文字以上・制御文字を含むと422。空文字・空白だけ・nullは元の名前に戻す
+- `POST /api/world/partner`: `{ key }` で相棒を替え、`{ companions, review }`（並び直した一覧と、出す人が替わった復習）を返す。まだ生まれていない仲間なら422（「まだ生まれていない仲間だよ」）
 - `GET /api/review`: `{ giver, questions }` を返す。`questions` はステージの出題APIと同じ形（`PlayableQuestion` で正解を隠す）で、まちがえたのが古い順。今日すでにやりきっていれば422（「今日の復習はもう終わったよ。また明日ね」）、出す問題が無ければ422（「復習する問題はないよ」）
 - `POST /api/review/complete`: 今日のやりきった記録を付け、相棒に+5して `{ bond_gained, partner }` を返す（`partner` は下の相棒の形、相棒がいなければ `bond_gained` 0・`partner` null）。今日すでにやりきっていれば422。最後の問題に正解して出す問題が0になった直後でも受け付ける
   - 答えずに送られても増えるのはなかよし度+5だけなので、「問題を解いたか」は確かめない
@@ -174,7 +174,7 @@ A〜Eの5回で作る「仲間と成長」の3回目（A回の設計書1章の�
   - `practice: true`（やり直し）: 正解かどうか（`correct`・`correct_choice_id`・`results`）だけを返し、`profile` は null。記録・HP・XPなどは何も変えない。HPが0でも答えられる
   - ふつうの回答: `profile.partner` を足す。相棒がいれば `{ key, name, hearts, heart_label, hearts_up, new_line }`、いなければ null。正解ならなかよし度+1してから返す。`hearts_up` はこの回答でハートが増えたか、`new_line` は増えたときの新しいひとこと（増えていなければ null）
 - 水やりAPIの `born`（仲間）: 仲間の一覧と同じ形に `kind: "companion"` を付けたものにする（`line` の代わりに `lines`、`is_partner` で自動で相棒になったかが分かる）
-- 相棒の変更・名前の変更・復習のやりきり・なかよし度の加算は、種まきと同じくトランザクションの中でプロフィールを `lockForUpdate` してから行う（二重に押しても+5が2回にならない）
+- 相棒の変更・名前の変更・復習のやりきりは、種まきと同じくトランザクションの中でプロフィールを `lockForUpdate` してから行う（二重に押しても+5が2回にならない）。回答でのなかよし度+1は、DBの上で足す（`increment`。続けて答えても取りこぼさない）
 
 ## 5. 画面
 
