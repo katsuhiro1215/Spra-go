@@ -16,15 +16,31 @@ import { apiFetch } from "@/lib/api";
 import { Ambience, TIME_THEME } from "./ambience";
 import { BornOverlay } from "./born-overlay";
 import { CompanionSheet } from "./companion-sheet";
-import { pickLine, pickSpruTap, reviewGiverKey, reviewPrompt } from "./companions";
-import { gardenPrompt, pickGardenTap } from "./garden";
+import { pickLine, pickSpruTap, reviewGiverKey } from "./companions";
+import { ErrandReturn } from "./errand-return";
+import { ErrandSheet } from "./errand-sheet";
+import { errandGo, townPrompt } from "./errands";
+import { pickGardenTap } from "./garden";
 import { tileKey } from "./iso";
 import { ItemActionSheet } from "./item-action-sheet";
+import { liveliness } from "./liveliness";
+import { LivelinessCard } from "./liveliness-card";
 import { NicknameDialog } from "./nickname-dialog";
 import { PlacementBar } from "./placement-bar";
 import { ReviewCard } from "./review-card";
 import { getSeason, getTimeOfDay, isSpruSleepTime } from "./time-of-day";
-import type { BornResult, ShopListItem, WorldCompanion, WorldData, WorldGarden, WorldItem, WorldReview } from "./types";
+import { TownButtons } from "./town-buttons";
+import type {
+  BornResult,
+  ErrandClaimResult,
+  ShopListItem,
+  WorldCompanion,
+  WorldData,
+  WorldErrand,
+  WorldGarden,
+  WorldItem,
+  WorldReview,
+} from "./types";
 import { WelcomeGift } from "./welcome-gift";
 import { WorldHud } from "./world-hud";
 import { WorldScene } from "./world-scene";
@@ -65,6 +81,11 @@ export function WorldScreen() {
   const [naming, setNaming] = useState<WorldCompanion | null>(null);
   // 相棒の変更の通信中は、続けて押しても送らない
   const [partnerBusy, setPartnerBusy] = useState(false);
+  // おつかいのカード・受け取りの通信中の番号・受け取りの場面、にぎやか度のカード
+  const [errandsOpen, setErrandsOpen] = useState(false);
+  const [claimingSlot, setClaimingSlot] = useState<number | null>(null);
+  const [errandReturn, setErrandReturn] = useState<{ errand: WorldErrand; result: ErrandClaimResult } | null>(null);
+  const [livelinessOpen, setLivelinessOpen] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -128,7 +149,7 @@ export function WorldScreen() {
 
   const placing = placingItem !== null;
   const growth = world?.spru.growth ?? 0;
-  const prompt = world && !placing ? (gardenPrompt(world.garden) ?? reviewPrompt(world.review)) : null;
+  const prompt = world && !placing ? townPrompt({ errands: world.errands, garden: world.garden, review: world.review }) : null;
   const mood = pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing, prompt });
   const talk = companionTalk && now - companionTalk.at < COMPANION_TALK_MS ? companionTalk : null;
 
@@ -223,6 +244,56 @@ export function WorldScreen() {
     } finally {
       setPartnerBusy(false);
     }
+  }
+
+  // 日付が変わった後の受け取りなど、おつかいだけを読み直す
+  async function reloadErrands() {
+    const res = await apiFetch("/api/world").catch(() => null);
+    if (!res || !res.ok) return;
+    const data: WorldData = await res.json();
+    setWorld((prev) => (prev ? { ...prev, errands: data.errands } : prev));
+  }
+
+  async function claimErrand(errand: WorldErrand) {
+    if (claimingSlot !== null) return;
+    setClaimingSlot(errand.slot);
+    try {
+      const res = await apiFetch(`/api/errands/${errand.slot}/claim`, { method: "POST" }).catch(() => null);
+      const data = res ? await res.json().catch(() => ({})) : {};
+      if (!res || !res.ok) {
+        setErrandsOpen(false);
+        setMessage(data.message ?? "通信エラーが発生しました。");
+        setEvent({ kind: "error", at: Date.now() });
+        reloadErrands();
+        return;
+      }
+      const result: ErrandClaimResult = data;
+      setWorld((prev) => (prev ? { ...prev, errands: result.errands, profile: { ...prev.profile, points: result.points } } : prev));
+      applyPartial({ points: result.points });
+      setMessage(null);
+      setErrandsOpen(false);
+      play("correct");
+      setErrandReturn({ errand, result });
+      // 相棒のなかよし度が変わると、仲間のカードのハートも変わる
+      if (result.partner) reloadCompanions();
+    } finally {
+      setClaimingSlot(null);
+    }
+  }
+
+  function goErrand(errand: WorldErrand) {
+    if (!world) return;
+    const go = errandGo(errand, {
+      continueHref: world.continue_stage_id ? `/quiz/${world.continue_stage_id}` : "/learn",
+      learnedToday: world.garden.learned_today,
+      bagCount: world.bag.length,
+    });
+    if (go.kind === "link") {
+      router.push(go.href);
+      return;
+    }
+    setErrandsOpen(false);
+    setEvent({ kind: "say", at: Date.now(), image: "think", line: go.line });
   }
 
   function startReview() {
@@ -375,6 +446,7 @@ export function WorldScreen() {
   const nextUnlock = nextLocked ? `Lv.${nextLocked.min_level}で ${nextLocked.name}` : null;
   const continueHref = world.continue_stage_id ? `/quiz/${world.continue_stage_id}` : "/learn";
   const sheetCompanion = sheetKey ? (world.companions.find((c) => c.key === sheetKey) ?? null) : null;
+  const lively = liveliness(world.items, world.companions.length);
 
   return (
     <div
@@ -397,6 +469,16 @@ export function WorldScreen() {
         <p className="mx-auto mt-3 rounded-full bg-[rgba(255,250,240,0.94)] px-3 py-1 text-[12.5px] font-black shadow-[0_2px_6px_rgba(59,50,38,0.12)]">
           日本 · はじまりの町
         </p>
+
+        {!placingItem && (
+          <TownButtons
+            errands={world.errands}
+            lively={lively}
+            familyCount={world.family_count}
+            onErrands={() => setErrandsOpen(true)}
+            onLiveliness={() => setLivelinessOpen(true)}
+          />
+        )}
 
         <div className="relative mt-2 px-1">
           <WorldScene
@@ -462,6 +544,22 @@ export function WorldScreen() {
       {reviewCardOpen && world.review.available && (
         <ReviewCard count={world.review.count} onStart={startReview} onClose={() => setReviewCardOpen(false)} />
       )}
+
+      {errandsOpen && (
+        <ErrandSheet
+          errands={world.errands}
+          busy={claimingSlot !== null}
+          onClaim={claimErrand}
+          onGo={goErrand}
+          onClose={() => setErrandsOpen(false)}
+        />
+      )}
+
+      {errandReturn && (
+        <ErrandReturn errand={errandReturn.errand} result={errandReturn.result} onClose={() => setErrandReturn(null)} />
+      )}
+
+      {livelinessOpen && <LivelinessCard lively={lively} onClose={() => setLivelinessOpen(false)} />}
 
       {world.welcome_available && (
         <WelcomeGift amount={WELCOME_AMOUNT} busy={welcomeBusy} onReceive={receiveWelcome} />

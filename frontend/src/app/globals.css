@@ -442,6 +442,130 @@
     animation: stage-start 2s ease-out both;
   }
 
+  /* D回: おつかい・お出かけの場面、季節のあいさつ、にぎやか度の飾り */
+  @keyframes outing-run-in {
+    0% {
+      transform: translateX(-180%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  .animate-outing-run-in {
+    animation: outing-run-in 0.8s ease-out both;
+  }
+
+  @keyframes outing-run-across {
+    0% {
+      transform: translateX(-70vw);
+    }
+    100% {
+      transform: translateX(70vw);
+    }
+  }
+  .animate-outing-run-across {
+    animation: outing-run-across 1s linear both;
+  }
+
+  @keyframes outing-walk-away {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-40px) scale(0.45);
+      opacity: 0;
+    }
+  }
+  .animate-outing-walk-away {
+    animation: outing-walk-away 1s ease-in both;
+  }
+
+  @keyframes season-card {
+    0% {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    10% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    88% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .animate-season-card {
+    animation: season-card 3s ease-out both;
+  }
+
+  @keyframes festive-fly {
+    0% {
+      left: -8%;
+    }
+    100% {
+      left: 108%;
+    }
+  }
+  .festive-fly {
+    animation: festive-fly 16s linear infinite both;
+  }
+
+  @keyframes festive-flutter {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(10px, -8px);
+    }
+    50% {
+      transform: translate(20px, 0);
+    }
+    75% {
+      transform: translate(10px, 6px);
+    }
+  }
+  .festive-flutter {
+    animation: festive-flutter 5s ease-in-out infinite both;
+  }
+
+  @keyframes festive-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+  .festive-float {
+    animation: festive-float 4s ease-in-out infinite both;
+  }
+
+  @keyframes festive-firework {
+    0% {
+      transform: scale(0.2);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    70% {
+      transform: scale(1);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1.1);
+      opacity: 0;
+    }
+  }
+  .festive-firework {
+    animation: festive-firework 3.2s ease-out infinite both;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-scene-drift,
     .animate-scene-twinkle,
@@ -460,12 +584,20 @@
     .animate-pop-in,
     .animate-twinkle,
     .animate-stage-start,
-    .animate-stage-intro-subtitle {
+    .animate-stage-intro-subtitle,
+    .animate-outing-run-in,
+    .animate-outing-run-across,
+    .animate-outing-walk-away,
+    .animate-season-card,
+    .festive-float {
       animation: none !important;
     }
     /* 舞うものは止めると画面に散らばって見えるため、出さない */
     .season-fall,
-    .season-sparkle {
+    .season-sparkle,
+    .festive-fly,
+    .festive-flutter,
+    .festive-firework {
       display: none;
     }
   }
