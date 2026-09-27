@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
+import { BadgeImage } from "@/components/app/badge-image";
+import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { DepartureScene } from "@/components/travel/departure-scene";
 import { DestinationSheet } from "@/components/travel/destination-sheet";
 import { hubLine } from "@/components/travel/travel";
@@ -68,19 +70,25 @@ export default function Page() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden bg-[#8fd3f0]">
+    <SkyPage>
       <AppHeader />
       <main className="relative z-10 mx-auto flex w-full max-w-[480px] flex-1 flex-col gap-3 px-4 pt-4 pb-28">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
+          <SkyTitle className="text-2xl">
             <AutoFurigana text="旅する" />
-          </h1>
-          <Link href="/passport" className="rounded-full bg-white/85 px-3 py-1.5 text-xs font-black text-[#2b5d7a] shadow">
+          </SkyTitle>
+          <Link
+            href="/passport"
+            className="flex items-center gap-1 rounded-full bg-[#fffaf0] py-1 pr-3 pl-2 text-xs font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
+          >
+            <BadgeImage badge="passport" size={20} />
             パスポート
           </Link>
         </div>
         {!travel ? (
-          <p className="text-sm text-white">読み込み中...</p>
+          <SkyText muted className="text-sm">
+            読み込み中...
+          </SkyText>
         ) : (
           <TravelMap
             destinations={travel.destinations}
@@ -105,6 +113,6 @@ export default function Page() {
       )}
       {departing && <DepartureScene destination={departing.destination} reduced={departing.reduced} onDone={handleArrived} />}
       <BottomNav />
-    </div>
+    </SkyPage>
   );
 }

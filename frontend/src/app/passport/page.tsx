@@ -3,14 +3,15 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { CircleHelp, KeyRound, Lock, PartyPopper, Plane, Trophy } from "lucide-react";
 
 import { AppHeader } from "@/components/app/app-header";
 import { BackLink } from "@/components/app/back-link";
 import { BottomNav } from "@/components/app/bottom-nav";
-import { SceneBackground } from "@/components/app/scene-background";
+import { BadgeImage } from "@/components/app/badge-image";
+import { stampBadge, type StampTier } from "@/components/app/palette";
+import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { apiFetch } from "@/lib/api";
-
-type StampTier = "none" | "bronze" | "silver" | "gold";
 
 type PassportCountry = {
   code: string;
@@ -28,32 +29,6 @@ type PassportData = {
 };
 
 const ALL_DIFFICULTIES = ["初級", "中級", "上級"];
-
-const STAMP_STYLES: Record<
-  StampTier,
-  { icon: string; ring: string; label: string }
-> = {
-  gold: {
-    icon: "🥇",
-    ring: "border-amber-400 shadow-[0_0_0_3px_rgba(251,191,36,0.35)]",
-    label: "全難易度クリア",
-  },
-  silver: {
-    icon: "🥈",
-    ring: "border-slate-300 shadow-[0_0_0_3px_rgba(203,213,225,0.3)]",
-    label: "中級までクリア",
-  },
-  bronze: {
-    icon: "🥉",
-    ring: "border-orange-400 shadow-[0_0_0_3px_rgba(251,146,60,0.3)]",
-    label: "初級クリア",
-  },
-  none: {
-    icon: "❔",
-    ring: "border-white/20",
-    label: "未訪問",
-  },
-};
 
 export default function Page() {
   const router = useRouter();
@@ -84,7 +59,7 @@ export default function Page() {
 
   if (data === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
         読み込み中...
       </div>
     );
@@ -92,7 +67,7 @@ export default function Page() {
 
   if (data === null) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
         読み込みに失敗しました。
       </div>
     );
@@ -102,8 +77,7 @@ export default function Page() {
   const visitedCountries = countries.filter((c) => c.stamp_tier !== "none");
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden">
-      <SceneBackground />
+    <SkyPage>
       <AppHeader />
 
       <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-6 py-10 pb-24">
@@ -112,12 +86,13 @@ export default function Page() {
         </div>
 
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
-            📔 マイパスポート
-          </h1>
-          <p className="mt-1 text-sm text-white/85 drop-shadow">
+          <SkyTitle className="flex items-center justify-center gap-2 text-3xl">
+            <BadgeImage badge="passport" size={36} />
+            マイパスポート
+          </SkyTitle>
+          <SkyText muted className="mt-1 text-sm">
             旅の成果がすべて残る場所
-          </p>
+          </SkyText>
         </div>
 
         {/* サマリー */}
@@ -131,24 +106,24 @@ export default function Page() {
         </div>
 
         {/* パスポート帳本体(紙のような見た目で他画面と質感を変える) */}
-        <div className="rounded-3xl border-4 border-amber-900/30 bg-[#faf3e3] p-6 text-amber-950 shadow-2xl sm:p-8">
+        <div className="rounded-3xl border-4 border-[#e8dfcf] bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)] sm:p-8">
           {/* スタンプ一覧 */}
           <section>
-            <h2 className="mb-3 text-sm font-bold tracking-wide text-amber-900/80">
+            <h2 className="mb-3 text-sm font-bold tracking-wide text-[#6b5d45]">
               国スタンプ
             </h2>
             {countries.length === 0 ? (
-              <p className="text-sm text-amber-900/60">
+              <p className="text-sm text-[#8a7a5a]">
                 まだ国が登録されていません。
               </p>
             ) : (
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {countries.map((country) => {
-                  const stamp = STAMP_STYLES[country.stamp_tier];
+                  const stamp = stampBadge(country.stamp_tier);
                   return (
                     <div
                       key={country.code}
-                      className="flex flex-col items-center gap-2 rounded-2xl border border-amber-900/15 bg-white/60 p-3 text-center"
+                      className="flex flex-col items-center gap-2 rounded-2xl border border-[#efe5cf] bg-white p-3 text-center"
                     >
                       <div
                         className={`relative flex h-20 w-20 items-center justify-center rounded-full border-4 bg-white ${stamp.ring} ${
@@ -157,7 +132,7 @@ export default function Page() {
                             : "-rotate-6"
                         }`}
                       >
-                        <div className="relative h-10 w-14 overflow-hidden rounded-sm border border-amber-900/20">
+                        <div className="relative h-10 w-14 overflow-hidden rounded-sm border border-[#efe5cf]">
                           <Image
                             src={`/flag/${country.code}.svg`}
                             alt={country.name}
@@ -165,15 +140,21 @@ export default function Page() {
                             className="object-cover"
                           />
                         </div>
-                        <span className="absolute -right-2 -bottom-2 text-xl drop-shadow">
-                          {stamp.icon}
+                        <span className="absolute -right-4 -bottom-3">
+                          {stamp.badge ? (
+                            <BadgeImage badge={stamp.badge} size={40} />
+                          ) : (
+                            <span className="flex rounded-full bg-white p-0.5 shadow">
+                              <CircleHelp aria-hidden className="h-6 w-6 text-[#b9ad96]" />
+                            </span>
+                          )}
                         </span>
                       </div>
-                      <p className="text-sm font-semibold">
+                      <p className="text-sm font-black">
                         {country.mood_emoji ? `${country.mood_emoji} ` : ""}
                         {country.name}
                       </p>
-                      <p className="text-[11px] text-amber-900/60">
+                      <p className="text-[11px] font-bold text-[#8a7a5a]">
                         {stamp.label}
                       </p>
                       <div className="flex gap-1">
@@ -188,7 +169,12 @@ export default function Page() {
                               title={`${difficulty}${unlocked ? "解放済み" : "未解放"}`}
                               className="text-xs"
                             >
-                              {unlocked ? "🔑" : "🔒"}
+                              {unlocked ? (
+                                <KeyRound aria-hidden className="h-3.5 w-3.5 text-[#c98f12]" />
+                              ) : (
+                                <Lock aria-hidden className="h-3.5 w-3.5 text-[#b9ad96]" />
+                              )}
+                              <span className="sr-only">{`${difficulty}${unlocked ? "解放済み" : "未解放"}`}</span>
                             </span>
                           );
                         })}
@@ -202,11 +188,12 @@ export default function Page() {
 
           {/* 称号 */}
           <section className="mt-8">
-            <h2 className="mb-3 text-sm font-bold tracking-wide text-amber-900/80">
+            <h2 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-wide text-[#6b5d45]">
+              <BadgeImage badge="crown" size={32} />
               獲得した称号
             </h2>
             {titles.length === 0 ? (
-              <p className="text-sm text-amber-900/60">
+              <p className="text-sm text-[#8a7a5a]">
                 まだ称号を獲得していません。ボスステージをクリアしてみよう。
               </p>
             ) : (
@@ -214,9 +201,10 @@ export default function Page() {
                 {titles.map((title) => (
                   <span
                     key={title}
-                    className="rounded-full border border-amber-400 bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800 shadow-sm"
+                    className="rounded-full border border-[#f2b632] bg-[#fff4d6] px-3 py-1 text-xs font-semibold text-[#7a5a0e] shadow-sm"
                   >
-                    🏆 {title}
+                    <Trophy aria-hidden className="mr-1 inline h-3.5 w-3.5" />
+                    {title}
                   </span>
                 ))}
               </div>
@@ -225,11 +213,11 @@ export default function Page() {
 
           {/* 航空券 */}
           <section className="mt-8">
-            <h2 className="mb-3 text-sm font-bold tracking-wide text-amber-900/80">
+            <h2 className="mb-3 text-sm font-bold tracking-wide text-[#6b5d45]">
               集めた航空券
             </h2>
             {visitedCountries.length === 0 ? (
-              <p className="text-sm text-amber-900/60">
+              <p className="text-sm text-[#8a7a5a]">
                 国をクリアすると航空券がもらえます。
               </p>
             ) : (
@@ -237,10 +225,10 @@ export default function Page() {
                 {visitedCountries.map((country) => (
                   <div
                     key={country.code}
-                    className="flex items-center gap-2 rounded-lg border-2 border-dashed border-amber-900/30 bg-white/70 px-3 py-2 text-xs font-semibold"
+                    className="flex items-center gap-2 rounded-lg border-2 border-dashed border-[#d9cdb4] bg-white px-3 py-2 text-xs font-semibold"
                   >
-                    <span>✈️</span>
-                    <span className="relative h-4 w-6 shrink-0 overflow-hidden rounded-sm border border-amber-900/20">
+                    <Plane aria-hidden className="h-3.5 w-3.5 text-[#2b6fa3]" />
+                    <span className="relative h-4 w-6 shrink-0 overflow-hidden rounded-sm border border-[#efe5cf]">
                       <Image
                         src={`/flag/${country.code}.svg`}
                         alt={country.name}
@@ -257,11 +245,11 @@ export default function Page() {
 
           {/* 旅の思い出 */}
           <section className="mt-8">
-            <h2 className="mb-3 text-sm font-bold tracking-wide text-amber-900/80">
+            <h2 className="mb-3 text-sm font-bold tracking-wide text-[#6b5d45]">
               旅の思い出
             </h2>
             {visitedCountries.length === 0 ? (
-              <p className="text-sm text-amber-900/60">
+              <p className="text-sm text-[#8a7a5a]">
                 まだ思い出がありません。
               </p>
             ) : (
@@ -276,13 +264,13 @@ export default function Page() {
                   .map((country) => (
                     <li
                       key={country.code}
-                      className="flex items-center gap-2 border-b border-amber-900/10 pb-2"
+                      className="flex items-center gap-2 border-b border-[#efe5cf] pb-2"
                     >
-                      <span className="text-xs text-amber-900/60">
+                      <span className="text-xs text-[#8a7a5a]">
                         {country.first_cleared_at}
                       </span>
                       <span>
-                        🎉{" "}
+                        <PartyPopper aria-hidden className="mr-1 inline h-4 w-4 text-[#c98f12]" />
                         {country.mood_emoji ? `${country.mood_emoji} ` : ""}
                         {country.name}
                         を初めて制覇した！
@@ -296,15 +284,15 @@ export default function Page() {
       </div>
 
       <BottomNav />
-    </div>
+    </SkyPage>
   );
 }
 
 function SummaryBadge({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col items-center rounded-xl border border-white/30 bg-black/20 px-4 py-2 text-white backdrop-blur-sm">
-      <span className="text-[10px] text-white/70">{label}</span>
-      <span className="text-lg font-bold">{value}</span>
+    <div className="flex flex-col items-center rounded-2xl bg-[#fffaf0] px-4 py-2 text-[#3b3226] shadow-[0_2px_6px_rgba(59,50,38,0.15)]">
+      <span className="text-[10px] font-bold text-[#6b5d45]">{label}</span>
+      <span className="text-lg font-black">{value}</span>
     </div>
   );
 }

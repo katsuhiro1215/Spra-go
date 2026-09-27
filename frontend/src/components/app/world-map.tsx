@@ -92,7 +92,7 @@ export function WorldMap({ countries, onSelect }: Props) {
 
   if (!svgText) {
     return (
-      <div className="flex aspect-[2754/1398] w-full items-center justify-center text-sm text-white/70">
+      <div className="flex aspect-[2754/1398] w-full items-center justify-center text-sm text-[#6b5d45]">
         地図を読み込み中...
       </div>
     );
@@ -101,7 +101,7 @@ export function WorldMap({ countries, onSelect }: Props) {
   return (
     <div
       ref={containerRef}
-      className="world-map w-full [&_path[id]]:stroke-white/40"
+      className="world-map w-full [&_path[id]]:stroke-[#fffaf0]"
       dangerouslySetInnerHTML={{ __html: svgText }}
     />
   );

@@ -1,10 +1,12 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, type ReactNode } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Award, FlaskConical, Image as ImageIcon, Plane, Store, User } from "lucide-react";
 
 import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { BadgeImage } from "@/components/app/badge-image";
 import { BackLink } from "@/components/app/back-link";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
@@ -12,7 +14,7 @@ import { Furigana } from "@/components/app/furigana";
 import { LearnPointsBadge } from "@/components/app/learn-points-badge";
 import { PointsBadge } from "@/components/app/points-badge";
 import { useProfile } from "@/components/app/profile-provider";
-import { SceneBackground } from "@/components/app/scene-background";
+import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { ItemIcon } from "@/components/world/item-art";
 import type { ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
@@ -28,12 +30,12 @@ type CoinPackage = {
 type ItemType = "potion" | "plane" | "background" | "character" | "title" | "decoration";
 
 // 町のアイテム(decoration)は絵文字ではなく ItemIcon で描くため含めない
-const TYPE_ICON: Record<Exclude<ItemType, "decoration">, string> = {
-  potion: "🧪",
-  plane: "✈️",
-  background: "🖼️",
-  character: "🧑",
-  title: "🏅",
+const TYPE_ICON: Record<Exclude<ItemType, "decoration">, ReactNode> = {
+  potion: <FlaskConical aria-hidden className="h-7 w-7 text-[#e5533f]" />,
+  plane: <Plane aria-hidden className="h-7 w-7 text-[#2b6fa3]" />,
+  background: <ImageIcon aria-hidden className="h-7 w-7 text-[#3b7f26]" />,
+  character: <User aria-hidden className="h-7 w-7 text-[#6b5d45]" />,
+  title: <Award aria-hidden className="h-7 w-7 text-[#c98f12]" />,
 };
 
 const TYPE_LABEL: Record<Exclude<ItemType, "decoration">, string> = {
@@ -185,7 +187,7 @@ function ShopContent() {
 
   if (profile === undefined || items === null) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
         読み込み中...
       </div>
     );
@@ -195,17 +197,17 @@ function ShopContent() {
   const coinItems = items.filter((item) => item.type !== "decoration");
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden">
-      <SceneBackground />
+    <SkyPage>
       <AppHeader />
 
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-12 pb-24">
         <div className="flex items-center justify-between">
           <div>
             <BackLink />
-            <h1 className="mt-2 text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
-              🛒 ショップ
-            </h1>
+            <SkyTitle className="mt-2 flex items-center gap-2 text-3xl">
+              <Store aria-hidden className="h-7 w-7" />
+              ショップ
+            </SkyTitle>
           </div>
           <div className="flex items-center gap-2">
             <LearnPointsBadge value={profile?.points ?? 0} />
@@ -214,15 +216,17 @@ function ShopContent() {
         </div>
 
         {message && (
-          <p className="rounded-md bg-black/30 px-4 py-2 text-sm text-white shadow">
+          <p className="rounded-2xl bg-[#fffaf0] px-4 py-2 text-sm font-bold text-[#3b3226] shadow">
             {message}
           </p>
         )}
 
         {decorations.length > 0 && (
           <section className="flex flex-col gap-3" aria-labelledby="shop-decorations">
-            <h2 id="shop-decorations" className="text-sm font-semibold text-white/90 drop-shadow">
-              <AutoFurigana text="町のアイテム(学習ポイントで買う)" />
+            <h2 id="shop-decorations">
+              <SkyText as="span" className="text-sm">
+                <AutoFurigana text="町のアイテム(学習ポイントで買う)" />
+              </SkyText>
             </h2>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {decorations.map((item) => {
@@ -273,13 +277,15 @@ function ShopContent() {
         )}
 
         <section className="flex flex-col gap-3" aria-labelledby="shop-coin-items">
-          <h2 id="shop-coin-items" className="text-sm font-semibold text-white/90 drop-shadow">
-            <AutoFurigana text="べんりアイテム(コインで買う)" />
+          <h2 id="shop-coin-items">
+            <SkyText as="span" className="text-sm">
+              <AutoFurigana text="べんりアイテム(コインで買う)" />
+            </SkyText>
           </h2>
           {coinItems.length === 0 ? (
-            <p className="text-sm text-white/85">
+            <SkyText muted className="text-sm">
               まだアイテムがありません。お楽しみに。
-            </p>
+            </SkyText>
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {coinItems.map((item) => {
@@ -288,15 +294,15 @@ function ShopContent() {
                 return (
                   <div
                     key={item.id}
-                    className="flex flex-col gap-3 rounded-lg border border-white/30 bg-black/20 p-4 shadow-lg backdrop-blur-sm"
+                    className="flex flex-col gap-3 rounded-2xl bg-[#fffaf0] p-4 text-[#3b3226] shadow-lg"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl">{TYPE_ICON[item.type as Exclude<ItemType, "decoration">]}</span>
+                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#f5efe1]">{TYPE_ICON[item.type as Exclude<ItemType, "decoration">]}</span>
                       <div>
-                        <p className="text-sm font-semibold text-white">
+                        <p className="text-sm font-black text-[#3b3226]">
                           {item.name}
                         </p>
-                        <p className="text-xs text-white/70">
+                        <p className="text-xs font-bold text-[#6b5d45]">
                           {TYPE_LABEL[item.type as Exclude<ItemType, "decoration">]}
                           {item.meta?.heal ? ` ・ HP+${item.meta.heal}` : ""}
                         </p>
@@ -304,7 +310,7 @@ function ShopContent() {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-amber-300">
+                      <span className="text-sm font-black text-[#7a5a0e]">
                         {item.price} Coin
                       </span>
                       <AppButton
@@ -325,19 +331,22 @@ function ShopContent() {
 
         {coinPackages && coinPackages.length > 0 && (
           <div className="flex flex-col gap-3">
-            <h2 className="text-sm font-semibold text-white/90 drop-shadow">
-              💰 コインを<Furigana text="購入" reading="こうにゅう" />
+            <h2>
+              <SkyText as="span" className="inline-flex items-center gap-1 text-sm">
+                <BadgeImage badge="coins" size={22} />
+                コインを<Furigana text="購入" reading="こうにゅう" />
+              </SkyText>
             </h2>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               {coinPackages.map((pkg) => (
                 <div
                   key={pkg.key}
-                  className="flex flex-col items-center gap-2 rounded-lg border border-amber-300/40 bg-black/20 p-4 text-center shadow-lg backdrop-blur-sm"
+                  className="flex flex-col items-center gap-2 rounded-2xl bg-[#fffaf0] p-4 text-center text-[#3b3226] shadow-lg"
                 >
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-black text-[#3b3226]">
                     {pkg.label}
                   </p>
-                  <p className="text-lg font-bold text-amber-300">
+                  <p className="text-lg font-black text-[#7a5a0e]">
                     ¥{pkg.amount.toLocaleString()}
                   </p>
                   <AppButton
@@ -354,15 +363,15 @@ function ShopContent() {
                 </div>
               ))}
             </div>
-            <p className="text-xs text-white/60">
+            <SkyText muted className="text-xs">
               決済はStripeを利用します。カード情報は当サービスには保存されません。
-            </p>
+            </SkyText>
           </div>
         )}
       </div>
 
       <BottomNav />
-    </div>
+    </SkyPage>
   );
 }
 
@@ -370,7 +379,7 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+        <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
           読み込み中...
         </div>
       }

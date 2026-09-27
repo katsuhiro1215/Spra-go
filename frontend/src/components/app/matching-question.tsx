@@ -87,16 +87,16 @@ export function MatchingQuestion({
               className={cn(
                 "flex flex-col items-center gap-2 rounded-xl border-2 border-b-4 bg-white p-3 transition-colors disabled:pointer-events-none",
                 activeItemId === item.id
-                  ? "border-sky-400 bg-sky-50"
-                  : "border-slate-200",
-                answered && result?.correct && "border-green-500 bg-green-50",
-                answered && result && !result.correct && "border-rose-500 bg-rose-50",
+                  ? "border-[#2b6fa3] bg-[#e6f1f9]"
+                  : "border-[#e8dfcf]",
+                answered && result?.correct && "border-[#3b7f26] bg-[#e5f4dc]",
+                answered && result && !result.correct && "border-[#c9573b] bg-[#fde6de]",
               )}
             >
-              <div className="relative h-14 w-20 overflow-hidden rounded-sm border border-border">
+              <div className="relative h-14 w-20 overflow-hidden rounded-sm border border-[#e8dfcf]">
                 <Image src={item.image} alt="" fill className="object-cover" />
               </div>
-              <span className="min-h-5 text-xs font-medium text-slate-600">
+              <span className="min-h-5 text-xs font-medium text-[#6b5d45]">
                 {assignedLabel ? <AutoFurigana text={assignedLabel} /> : "？"}
               </span>
               {answered && result && (

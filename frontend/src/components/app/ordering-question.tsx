@@ -55,20 +55,20 @@ export function OrderingQuestion({
               onClick={() => handleTap(choice.id)}
               className={cn(
                 "flex items-center gap-3 rounded-xl border-2 border-b-4 bg-white p-3 text-left transition-colors disabled:pointer-events-none",
-                isSelected ? "border-sky-400 bg-sky-50" : "border-slate-200",
+                isSelected ? "border-[#2b6fa3] bg-[#e6f1f9]" : "border-[#e8dfcf]",
               )}
             >
               <span
                 className={cn(
                   "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold",
                   isSelected
-                    ? "bg-sky-400 text-white"
-                    : "bg-slate-100 text-slate-400",
+                    ? "bg-[#2b6fa3] text-white"
+                    : "bg-[#f5efe1] text-[#8a7a5a]",
                 )}
               >
                 {isSelected ? position + 1 : ""}
               </span>
-              <span className="text-sm font-medium text-slate-700">
+              <span className="text-sm font-medium text-[#3b3226]">
                 <AutoFurigana text={choice.label} />
               </span>
             </button>

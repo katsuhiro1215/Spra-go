@@ -83,6 +83,24 @@ export const COSTUME_IMAGES = {
   "summer": { src: "/spru/costumes/summer.webp", width: 143, height: 250 },
 } as const satisfies Record<string, SpruImage>;
 
+export const BADGE_IMAGES = {
+  "streak": { src: "/spru/badges/streak.webp", width: 88, height: 99 },
+  "points": { src: "/spru/badges/points.webp", width: 104, height: 98 },
+  "coins": { src: "/spru/badges/coins.webp", width: 108, height: 101 },
+  "hp": { src: "/spru/badges/hp.webp", width: 135, height: 111 },
+  "trophy": { src: "/spru/badges/trophy.webp", width: 134, height: 163 },
+  "crown": { src: "/spru/badges/crown.webp", width: 149, height: 143 },
+  "medal-bronze": { src: "/spru/badges/medal-bronze.webp", width: 79, height: 80 },
+  "medal-silver": { src: "/spru/badges/medal-silver.webp", width: 80, height: 80 },
+  "medal-gold": { src: "/spru/badges/medal-gold.webp", width: 83, height: 83 },
+  "passport": { src: "/spru/badges/passport.webp", width: 49, height: 69 },
+  "beginner": { src: "/spru/badges/beginner.webp", width: 82, height: 80 },
+  "intermediate": { src: "/spru/badges/intermediate.webp", width: 83, height: 80 },
+  "advanced": { src: "/spru/badges/advanced.webp", width: 85, height: 84 },
+  "boss": { src: "/spru/badges/boss.webp", width: 94, height: 83 },
+  "boss-battle": { src: "/spru/badges/boss-battle.webp", width: 130, height: 132 },
+} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
@@ -91,6 +109,7 @@ export type GardenImageKey = keyof typeof GARDEN_IMAGES;
 export type CompanionKey = keyof typeof COMPANION_IMAGES;
 export type OutingKey = keyof typeof OUTING_IMAGES;
 export type CostumeKey = keyof typeof COSTUME_IMAGES;
+export type BadgeKey = keyof typeof BADGE_IMAGES;
 
 /** 立ち姿(3/4)の元画像の高さ。ほかの画像はこれとの比で大きさをそろえる(素材集の中で縮尺が同じため) */
 export const SPRU_STAND_HEIGHT = 208;

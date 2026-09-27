@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
-import { SceneBackground } from "@/components/app/scene-background";
+import { SkyPage, SkyText } from "@/components/app/sky-page";
 import { StagePath, type StagePathNode } from "@/components/app/stage-path";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { Flag } from "@/components/travel/flag";
@@ -77,17 +77,16 @@ export default function Page({ params }: { params: Promise<{ key: string }> }) {
   }
 
   if (!destination) {
-    return <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">読み込み中...</div>;
+    return <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">読み込み中...</div>;
   }
 
   const group = country ? pickBeginnerGroup(country.groups) : null;
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden">
-      <SceneBackground />
+    <SkyPage>
       <AppHeader />
       <main className="relative z-10 mx-auto flex w-full max-w-[480px] flex-1 flex-col gap-4 px-4 pt-4 pb-28">
-        <Link href="/trip" className="self-start rounded-full bg-white/85 px-3 py-1.5 text-xs font-black text-[#2b5d7a] shadow">
+        <Link href="/trip" className="self-start rounded-full bg-[#fffaf0] px-3 py-1.5 text-xs font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white">
           <AutoFurigana text="旅の地図へ戻る" />
         </Link>
 
@@ -108,8 +107,10 @@ export default function Page({ params }: { params: Promise<{ key: string }> }) {
         <SouvenirStand destination={destination} busyKey={busyKey} message={message} onReceive={receive} />
 
         <section aria-labelledby="trip-stages-title" className="flex flex-col gap-2">
-          <h2 id="trip-stages-title" className="text-sm font-black text-white drop-shadow">
-            <AutoFurigana text={`${destination.name}で学ぶ(初級)`} />
+          <h2 id="trip-stages-title">
+            <SkyText as="span" className="text-sm">
+              <AutoFurigana text={`${destination.name}で学ぶ(初級)`} />
+            </SkyText>
           </h2>
           {group ? (
             // 次に遊ぶステージの「START」の吹き出しが見出しに重ならないよう、上をあける
@@ -117,14 +118,14 @@ export default function Page({ params }: { params: Promise<{ key: string }> }) {
               <StagePath stages={group.stages} onSelect={(stage) => router.push(`/quiz/${stage.id}`)} />
             </div>
           ) : (
-            <p className="text-sm text-white/85">
+            <SkyText muted className="text-sm">
               <AutoFurigana text={country || destination.country_id === null ? "まだこの国のステージがありません。" : "読み込み中..."} />
-            </p>
+            </SkyText>
           )}
           {destination.country_id !== null && (
             <Link
               href={`/travel/${destination.country_id}`}
-              className="self-center rounded-full bg-white/85 px-4 py-2 text-sm font-black text-[#2b5d7a] shadow"
+              className="self-center rounded-full bg-[#fffaf0] px-4 py-2 text-sm font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
             >
               <AutoFurigana text="もっと学ぶ(中級・上級)" />
             </Link>
@@ -132,6 +133,6 @@ export default function Page({ params }: { params: Promise<{ key: string }> }) {
         </section>
       </main>
       <BottomNav />
-    </div>
+    </SkyPage>
   );
 }

@@ -2,11 +2,12 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { Pencil } from "lucide-react";
 
 import { Button as AppButton } from "@/components/app/button";
 import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 import { Furigana } from "@/components/app/furigana";
-import { SceneBackground } from "@/components/app/scene-background";
+import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { apiFetch } from "@/lib/api";
 
 type Profile = {
@@ -157,21 +158,20 @@ export default function Page() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center overflow-hidden px-6 py-12">
-      <SceneBackground />
+    <SkyPage className="items-center px-6 py-12">
 
       <div className="relative z-10 flex w-full max-w-2xl flex-col items-center gap-8">
         <div className="flex flex-col items-center gap-1">
-          <h1 className="text-2xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
+          <SkyTitle className="text-2xl">
             だれが<Furigana text="冒険" reading="ぼうけん" />する？
-          </h1>
+          </SkyTitle>
           {profiles && profiles.length > 0 && (
             <button
               onClick={() => {
                 setManaging((prev) => !prev);
                 cancelEdit();
               }}
-              className="text-xs text-white/70 underline underline-offset-2 hover:text-white"
+              className="rounded-full bg-[#fffaf0] px-3 py-1.5 text-xs font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
             >
               {managing ? "完了" : "プロフィールを編集"}
             </button>
@@ -179,18 +179,20 @@ export default function Page() {
         </div>
 
         {!profiles ? (
-          <p className="text-sm text-white/85">読み込み中...</p>
+          <SkyText muted className="text-sm">
+            読み込み中...
+          </SkyText>
         ) : (
           <div className="flex flex-wrap items-start justify-center gap-6">
             {profiles.map((profile, index) => (
               <div key={profile.id} className="flex flex-col items-center gap-2">
                 {editingId === profile.id ? (
-                  <div className="flex w-28 flex-col items-center gap-1.5">
+                  <div className="flex w-32 flex-col items-center gap-1.5 rounded-2xl bg-[#fffaf0] p-2 shadow">
                     <input
                       autoFocus
                       value={editingName}
                       onChange={(e) => setEditingName(e.target.value)}
-                      className="w-full rounded-lg border-2 border-white/40 bg-white/90 px-2 py-1 text-center text-sm text-slate-900 outline-none focus-visible:border-sky-400"
+                      className="w-full rounded-lg border-2 border-[#e8dfcf] bg-white px-2 py-1 text-center text-sm text-[#3b3226] outline-none focus-visible:border-[#2b6fa3]"
                     />
                     <div className="flex gap-1">
                       <AppButton
@@ -204,7 +206,7 @@ export default function Page() {
                       <AppButton
                         variant="ghost"
                         size="sm"
-                        className="text-white normal-case"
+                        className="normal-case"
                         onClick={cancelEdit}
                       >
                         取消
@@ -212,12 +214,12 @@ export default function Page() {
                     </div>
                     <button
                       onClick={() => deleteProfile(profile)}
-                      className="text-xs text-rose-200 underline underline-offset-2 hover:text-rose-100"
+                      className="text-xs text-[#c2402c] underline underline-offset-2 hover:text-[#a33a22]"
                     >
                       このプロフィールを削除
                     </button>
                     {editError && (
-                      <p className="text-xs font-medium text-rose-200">
+                      <p className="text-xs font-medium text-[#c2402c]">
                         {editError}
                       </p>
                     )}
@@ -235,31 +237,31 @@ export default function Page() {
                       />
                       {managing && (
                         <span className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white text-sm shadow">
-                          ✎
+                          <Pencil aria-hidden className="h-3.5 w-3.5 text-[#3b3226]" />
                         </span>
                       )}
                     </div>
-                    <span className="text-sm font-medium text-white drop-shadow">
+                    <SkyText as="span" className="text-sm">
                       {profile.name}
-                    </span>
+                    </SkyText>
                   </button>
                 )}
               </div>
             ))}
 
             {profiles.length === 0 && (
-              <p className="text-sm text-white/85">
+              <SkyText muted className="text-sm">
                 まだプレイヤーがいません。下から最初のプレイヤーを作ろう！
-              </p>
+              </SkyText>
             )}
           </div>
         )}
 
         <form
           onSubmit={handleAddProfile}
-          className="flex w-full max-w-xs flex-col gap-3 rounded-2xl border border-white/30 bg-black/30 p-4 shadow-xl backdrop-blur-sm"
+          className="flex w-full max-w-xs flex-col gap-3 rounded-3xl bg-[#fffaf0] p-4 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]"
         >
-          <label htmlFor="new-profile" className="text-sm font-medium text-white/90">
+          <label htmlFor="new-profile" className="text-sm font-black text-[#3b3226]">
             {profiles && profiles.length === 0
               ? "最初のプレイヤーを作ろう"
               : "プレイヤーを追加"}
@@ -272,15 +274,15 @@ export default function Page() {
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="例: お父さん"
-              className="h-10 flex-1 rounded-xl border-2 border-white/40 bg-white/90 px-3 text-sm text-slate-900 outline-none focus-visible:border-sky-400"
+              className="h-10 flex-1 rounded-xl border-2 border-[#e8dfcf] bg-white px-3 text-sm text-[#3b3226] outline-none focus-visible:border-[#2b6fa3]"
             />
             <AppButton type="submit" variant="primary" disabled={submitting} className="normal-case">
               追加
             </AppButton>
           </div>
-          {error && <p className="text-sm font-medium text-rose-200">{error}</p>}
+          {error && <p className="text-sm font-medium text-[#c2402c]">{error}</p>}
         </form>
       </div>
-    </div>
+    </SkyPage>
   );
 }

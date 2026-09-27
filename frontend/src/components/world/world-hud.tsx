@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Sprout } from "lucide-react";
 
+import { BadgeImage } from "@/components/app/badge-image";
 import { SPRU_FACES } from "@/components/spru/spru-assets";
 
 import { growthLabel } from "./garden";
@@ -31,12 +31,12 @@ export function WorldHud({
         </Link>
         <div className="flex items-center gap-1.5">
           <span className="flex items-center gap-1 rounded-full bg-[#fdecea] px-2.5 py-1 text-sm font-semibold text-[#8a2c22]">
-            <Heart className="h-4 w-4 fill-[#e5533f] text-[#e5533f]" aria-hidden />
+            <BadgeImage badge="hp" size={18} />
             <span className="sr-only">HP</span>
             {profile.hp}/{profile.max_hp}
           </span>
           <span className="flex items-center gap-1 rounded-full bg-[#eef7e6] px-2.5 py-1 text-[15px] font-bold text-[#2e6b1c]">
-            <Sprout className="h-4 w-4" aria-hidden />
+            <BadgeImage badge="points" size={18} />
             <span className="sr-only">学習ポイント</span>
             {profile.points.toLocaleString()}
             <span className="text-[11px]">pt</span>

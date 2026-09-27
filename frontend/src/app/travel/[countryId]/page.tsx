@@ -4,13 +4,17 @@ import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Lock, Trophy } from "lucide-react";
 
 import { AppHeader } from "@/components/app/app-header";
 import { BackLink } from "@/components/app/back-link";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Furigana } from "@/components/app/furigana";
-import { SceneBackground } from "@/components/app/scene-background";
+import { Panel } from "@/components/app/panel";
+import { SkyPage, SkyText } from "@/components/app/sky-page";
 import { StagePath } from "@/components/app/stage-path";
+import { BadgeImage } from "@/components/app/badge-image";
+import { difficultyBadge } from "@/components/app/palette";
 import { apiFetch } from "@/lib/api";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
 
@@ -96,7 +100,7 @@ export default function Page({
 
   if (country === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
         読み込み中...
       </div>
     );
@@ -104,11 +108,11 @@ export default function Page({
 
   if (country === null) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-        <p className="text-sm text-muted-foreground">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#8fd4e9] text-[#3b3226]">
+        <p className="text-sm">
           この国は見つかりませんでした。
         </p>
-        <Link href="/" className="text-sm hover:underline">
+        <Link href="/" className="text-sm text-[#2b5d7a] underline">
           ホームに戻る
         </Link>
       </div>
@@ -139,48 +143,35 @@ export default function Page({
   );
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden">
-      <SceneBackground />
+    <SkyPage>
       <AppHeader />
 
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-12 pb-24">
         <div>
           <BackLink />
 
-          <div className="mt-3 flex items-center gap-4">
-            <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-md border border-white/40 shadow-lg">
-              <Image
-                src={`/flag/${country.code}.svg`}
-                alt={country.name}
-                fill
-                className="object-cover"
-              />
+          <Panel className="mt-3 flex flex-col gap-3">
+            <div className="flex items-center gap-4">
+              <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-md border border-[#e8dfcf] shadow">
+                <Image src={`/flag/${country.code}.svg`} alt={country.name} fill className="object-cover" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-black">
+                  {country.mood_emoji ? `${country.mood_emoji} ` : ""}
+                  {country.name}
+                </h1>
+                {country.intro_message && <p className="mt-1 text-sm font-bold text-[#6b5d45]">{country.intro_message}</p>}
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
-                {country.mood_emoji ? `${country.mood_emoji} ` : ""}
-                {country.name}
-              </h1>
-              {country.intro_message && (
-                <p className="mt-1 text-sm text-white/85 drop-shadow">
-                  {country.intro_message}
-                </p>
-              )}
+            <div className="flex items-center gap-3">
+              <div className="h-2.5 w-full max-w-xs overflow-hidden rounded-full bg-[#efe5cf]">
+                <div className="h-full rounded-full bg-[#5bb33e]" style={{ width: `${percent}%` }} />
+              </div>
+              <span className="text-xs font-bold whitespace-nowrap text-[#6b5d45]">
+                達成率 {percent}%({country.achievement.cleared}/{country.achievement.total})
+              </span>
             </div>
-          </div>
-
-          <div className="mt-4 flex items-center gap-3">
-            <div className="h-2.5 w-full max-w-xs overflow-hidden rounded-full bg-white/20">
-              <div
-                className="h-full rounded-full bg-linear-to-r from-amber-400 to-amber-300"
-                style={{ width: `${percent}%` }}
-              />
-            </div>
-            <span className="text-xs font-medium whitespace-nowrap text-white/85 drop-shadow">
-              達成率 {percent}%({country.achievement.cleared}/
-              {country.achievement.total})
-            </span>
-          </div>
+          </Panel>
         </div>
 
         {country.groups.some((g) => g.category.is_language_mode) && (
@@ -193,8 +184,8 @@ export default function Page({
               }}
               className={`rounded-full px-4 py-1.5 text-xs font-semibold shadow ${
                 mode === "trivia"
-                  ? "bg-amber-400 text-amber-950"
-                  : "bg-black/25 text-white/80 hover:bg-black/35"
+                  ? "bg-[#3b7f26] text-white"
+                  : "bg-[#fffaf0] text-[#3b3226] hover:bg-white"
               }`}
             >
               {country.name}について学ぶ
@@ -207,8 +198,8 @@ export default function Page({
               }}
               className={`rounded-full px-4 py-1.5 text-xs font-semibold shadow ${
                 mode === "language"
-                  ? "bg-amber-400 text-amber-950"
-                  : "bg-black/25 text-white/80 hover:bg-black/35"
+                  ? "bg-[#3b7f26] text-white"
+                  : "bg-[#fffaf0] text-[#3b3226] hover:bg-white"
               }`}
             >
               {country.groups.find((g) => g.category.is_language_mode)
@@ -218,15 +209,17 @@ export default function Page({
         )}
 
         {country.regions.length === 0 && country.groups.length === 0 ? (
-          <p className="text-sm text-white/85">
+          <SkyText muted className="text-sm">
             まだこの国のクイズがありません。お楽しみに。
-          </p>
+          </SkyText>
         ) : (
           <div className="flex flex-col gap-8">
             {country.regions.length > 0 && mode === "trivia" && (
               <div className="flex flex-col gap-3">
-                <h2 className="text-sm font-semibold text-white/90 drop-shadow">
-                  地域を選ぶ
+                <h2>
+                  <SkyText as="span" className="text-sm">
+                    地域を選ぶ
+                  </SkyText>
                 </h2>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {country.regions.map((region) => (
@@ -234,17 +227,17 @@ export default function Page({
                       key={region.id}
                       href={`/travel/${countryId}/region/${region.id}`}
                     >
-                      <div className="flex flex-col gap-2 rounded-lg border border-white/30 bg-black/20 p-4 shadow-lg backdrop-blur-sm hover:bg-black/30">
-                        <p className="text-sm font-medium text-white">
+                      <div className="flex flex-col gap-2 rounded-2xl border-2 border-b-4 border-[#e8dfcf] bg-white p-4 text-[#3b3226] hover:bg-[#fffaf0]">
+                        <p className="text-sm font-black text-[#3b3226]">
                           {region.name}
                         </p>
-                        <div className="h-2 w-full overflow-hidden rounded-full bg-white/20">
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-[#efe5cf]">
                           <div
-                            className="h-full rounded-full bg-linear-to-r from-amber-400 to-amber-300"
+                            className="h-full rounded-full bg-[#5bb33e]"
                             style={{ width: `${regionPercent(region)}%` }}
                           />
                         </div>
-                        <span className="text-xs text-white/80">
+                        <span className="text-xs font-bold text-[#6b5d45]">
                           達成率 {regionPercent(region)}%
                         </span>
                       </div>
@@ -262,6 +255,7 @@ export default function Page({
                     const allCleared =
                       group.stages.length > 0 &&
                       group.stages.every((s) => s.cleared);
+                    const badge = difficultyBadge(group.difficulty);
 
                     return (
                       <button
@@ -271,33 +265,37 @@ export default function Page({
                         disabled={group.locked}
                         className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold shadow disabled:cursor-not-allowed ${
                           isSelected
-                            ? "bg-amber-400 text-amber-950"
+                            ? "bg-[#3b7f26] text-white"
                             : group.locked
-                              ? "bg-black/15 text-white/50"
-                              : "bg-black/25 text-white/80 hover:bg-black/35"
+                              ? "bg-[#efe5cf] text-[#8a7a5a]"
+                              : "bg-[#fffaf0] text-[#3b3226] hover:bg-white"
                         }`}
                       >
-                        {group.locked && "🔒"}
+                        {group.locked && <Lock aria-hidden className="h-3.5 w-3.5" />}
+                        {badge && <BadgeImage badge={badge} size={20} />}
                         <Furigana
                           text={group.difficulty}
                           reading={DIFFICULTY_READINGS[group.difficulty] ?? ""}
                         />
-                        {allCleared && "🏆"}
+                        {allCleared && <Trophy aria-hidden className="h-3.5 w-3.5 text-[#c98f12]" />}
                       </button>
                     );
                   })}
                 </div>
 
                 {activeGroup?.locked ? (
-                  <p className="text-xs text-white/70">
+                  <SkyText muted className="text-xs">
                     ひとつ前の難易度をクリアすると挑戦できます。
-                  </p>
+                  </SkyText>
                 ) : (
                   activeGroup && (
-                    <StagePath
-                      stages={activeGroup.stages}
-                      onSelect={(stage) => router.push(`/quiz/${stage.id}`)}
-                    />
+                    // 次に遊ぶステージの「START」の吹き出しがタブに重ならないよう、上をあける
+                    <div className="pt-6">
+                      <StagePath
+                        stages={activeGroup.stages}
+                        onSelect={(stage) => router.push(`/quiz/${stage.id}`)}
+                      />
+                    </div>
                   )
                 )}
               </div>
@@ -307,6 +305,6 @@ export default function Page({
       </div>
 
       <BottomNav />
-    </div>
+    </SkyPage>
   );
 }

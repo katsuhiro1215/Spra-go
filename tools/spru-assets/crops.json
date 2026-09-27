@@ -5,7 +5,10 @@
     "m6": "mascot-6.png",
     "logo": "mascot-logo.png",
     "m7": "mascot-7.png",
-    "m8": "mascot-8.png"
+    "m8": "mascot-8.png",
+    "m9": "mascot-9.png",
+    "m10": "mascot-10.png",
+    "m11": "mascot-11.png"
   },
   "figures": [
     { "key": "front", "group": "basic", "source": "m6", "box": [30, 48, 158, 258] },
@@ -67,5 +70,22 @@
     { "key": "christmas", "source": "m8", "box": [426, 246, 776, 866], "scale": 0.4 },
     { "key": "valentine", "source": "m8", "box": [812, 238, 1114, 864], "scale": 0.4 },
     { "key": "summer", "source": "m8", "box": [1136, 234, 1490, 852], "scale": 0.4 }
+  ],
+  "badges": [
+    { "key": "streak", "source": "m10", "box": [88, 260, 260, 456], "scale": 0.5 },
+    { "key": "points", "source": "m10", "box": [348, 264, 556, 456], "scale": 0.5 },
+    { "key": "coins", "source": "m10", "box": [936, 276, 1148, 472], "scale": 0.5 },
+    { "key": "hp", "source": "m10", "box": [1212, 24, 1476, 244], "scale": 0.5 },
+    { "key": "trophy", "source": "m9", "box": [644, 16, 864, 284], "scale": 0.6 },
+    { "key": "crown", "source": "m9", "box": [1244, 556, 1492, 788], "scale": 0.6 },
+    { "key": "medal-bronze", "source": "m11", "box": [484, 860, 612, 992], "scale": 0.6 },
+    { "key": "medal-silver", "source": "m11", "box": [624, 860, 752, 992], "scale": 0.6 },
+    { "key": "medal-gold", "source": "m11", "box": [764, 856, 900, 992], "scale": 0.6 },
+    { "key": "passport", "source": "m11", "box": [1032, 856, 1124, 988], "scale": 0.5 },
+    { "key": "beginner", "source": "m11", "box": [764, 84, 924, 240], "scale": 0.5 },
+    { "key": "intermediate", "source": "m11", "box": [948, 84, 1108, 240], "scale": 0.5 },
+    { "key": "advanced", "source": "m11", "box": [1136, 76, 1300, 236], "scale": 0.5 },
+    { "key": "boss", "source": "m11", "box": [244, 280, 428, 440], "scale": 0.5 },
+    { "key": "boss-battle", "source": "m11", "box": [1000, 272, 1180, 456], "scale": 0.7 }
   ]
 }

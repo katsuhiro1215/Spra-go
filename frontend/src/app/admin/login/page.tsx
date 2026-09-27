@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-import { Button as AppButton } from "@/components/app/button";
+import { Button as AppButton } from "@/components/app/classic-button";
 import { apiFetch } from "@/lib/api";
 
 export default function Page() {

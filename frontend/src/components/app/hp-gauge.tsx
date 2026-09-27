@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import { BadgeImage } from "@/components/app/badge-image";
 
 /**
  * 体力ゲージのUI。減少・回復のロジックは未実装で、表示のみ。
@@ -16,17 +16,17 @@ export function HpGauge({
 
   return (
     <div
-      className={`flex items-center gap-1.5 rounded-full border border-white/30 bg-black/20 py-1 pr-3 pl-1.5 backdrop-blur-sm ${className ?? ""}`}
+      className={`flex items-center gap-1.5 rounded-full bg-[#fffaf0] py-1 pr-3 pl-1.5 shadow-[0_2px_6px_rgba(59,50,38,0.15)] ${className ?? ""}`}
     >
-      <Heart className="h-4 w-4 shrink-0 fill-rose-500 text-rose-500" />
+      <BadgeImage badge="hp" size={20} />
       {/* スマホ幅ではヘッダーに収まらないため、バーを省いてハートと数値だけにする */}
-      <div className="hidden h-2.5 w-24 overflow-hidden rounded-full bg-white/20 sm:block">
+      <div className="hidden h-2.5 w-24 overflow-hidden rounded-full bg-[#efe5cf] sm:block">
         <div
-          className="h-full rounded-full bg-linear-to-r from-rose-500 to-rose-400 transition-[width]"
+          className="h-full rounded-full bg-[#e5533f] transition-[width]"
           style={{ width: `${percent}%` }}
         />
       </div>
-      <span className="text-xs font-medium text-white drop-shadow">
+      <span className="text-xs font-black text-[#3b3226]">
         {value}/{max}
       </span>
     </div>

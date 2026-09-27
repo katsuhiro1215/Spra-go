@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Flag, Map as MapIcon } from "lucide-react";
 
 import { AppHeader } from "@/components/app/app-header";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
-import { SceneBackground } from "@/components/app/scene-background";
+import { Panel } from "@/components/app/panel";
+import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { WorldMap } from "@/components/app/world-map";
 import { apiFetch } from "@/lib/api";
 
@@ -84,7 +86,7 @@ export default function Page() {
 
   if (status === "checking") {
     return (
-      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
         読み込み中...
       </div>
     );
@@ -96,18 +98,17 @@ export default function Page() {
   const allCountries = countries ?? [];
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden">
-      <SceneBackground />
+    <SkyPage>
       <AppHeader />
 
       <main className="relative z-10 flex flex-1 flex-col items-center gap-8 px-6 py-10 pb-24">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
+          <SkyTitle className="text-3xl">
             どこから<Furigana text="冒険" reading="ぼうけん" />する？
-          </h1>
-          <p className="mt-1 text-sm text-white/85 drop-shadow">
+          </SkyTitle>
+          <SkyText muted className="mt-1 text-sm">
             好きな国を選んでね
-          </p>
+          </SkyText>
         </div>
 
         {/* 表示切替: フラッグ/地図(デスクトップ幅のみ意味を持つが、押し間違い防止に常に表示) */}
@@ -117,31 +118,35 @@ export default function Page() {
             onClick={() => setPickerView("flags")}
             className={`rounded-full px-4 py-1.5 text-xs font-semibold shadow ${
               pickerView === "flags"
-                ? "bg-amber-400 text-amber-950"
-                : "bg-black/25 text-white/80 hover:bg-black/35"
+                ? "bg-[#3b7f26] text-white"
+                : "bg-[#fffaf0] text-[#3b3226] hover:bg-white"
             }`}
           >
-            🚩 フラッグ
+            <Flag aria-hidden className="mr-1 inline h-3.5 w-3.5" />
+            フラッグ
           </button>
           <button
             type="button"
             onClick={() => setPickerView("map")}
             className={`rounded-full px-4 py-1.5 text-xs font-semibold shadow ${
               pickerView === "map"
-                ? "bg-amber-400 text-amber-950"
-                : "bg-black/25 text-white/80 hover:bg-black/35"
+                ? "bg-[#3b7f26] text-white"
+                : "bg-[#fffaf0] text-[#3b3226] hover:bg-white"
             }`}
           >
-            🗺 地図
+            <MapIcon aria-hidden className="mr-1 inline h-3.5 w-3.5" />
+            地図
           </button>
         </div>
 
         {!countries ? (
-          <p className="text-sm text-white/85">読み込み中...</p>
+          <SkyText muted className="text-sm">
+            読み込み中...
+          </SkyText>
         ) : allCountries.length === 0 ? (
-          <p className="text-sm text-white/85">
+          <SkyText muted className="text-sm">
             まだ国が登録されていません。お楽しみに。
-          </p>
+          </SkyText>
         ) : (
           <>
             {/* モバイル: 常にグリッド表示(タップ精度の関係で地図は非対応) */}
@@ -154,11 +159,11 @@ export default function Page() {
                     className="relative flex w-full items-center justify-center gap-2 shadow-lg"
                   >
                     {country.is_suggested && (
-                      <span className="absolute -top-2 -right-2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-bold text-amber-950 shadow">
+                      <span className="absolute -top-2 -right-2 rounded-full bg-[#f2b632] px-1.5 py-0.5 text-[9px] font-bold text-[#3b3226] shadow">
                         あなたの国?
                       </span>
                     )}
-                    <span className="relative h-4 w-6 shrink-0 overflow-hidden rounded-sm border border-white/40">
+                    <span className="relative h-4 w-6 shrink-0 overflow-hidden rounded-sm border border-[#e8dfcf]">
                       <Image
                         src={`/flag/${country.code}.svg`}
                         alt={country.name}
@@ -176,15 +181,17 @@ export default function Page() {
             <div className="hidden w-full max-w-3xl md:block">
               {pickerView === "map" ? (
                 <>
-                  <WorldMap
-                    countries={allCountries}
-                    onSelect={(country) =>
-                      router.push(`/travel/${country.id}/start`)
-                    }
-                  />
-                  <p className="mt-2 text-center text-xs text-white/70 drop-shadow">
+                  <Panel className="p-3">
+                    <WorldMap
+                      countries={allCountries}
+                      onSelect={(country) =>
+                        router.push(`/travel/${country.id}/start`)
+                      }
+                    />
+                  </Panel>
+                  <SkyText muted className="mt-2 text-center text-xs">
                     色が付いている国をクリックしてね
-                  </p>
+                  </SkyText>
                 </>
               ) : (
                 <div className="relative mx-auto aspect-square w-full max-w-xl">
@@ -209,11 +216,11 @@ export default function Page() {
                           className="relative flex aspect-square h-24 w-24 flex-col items-center justify-center gap-1 rounded-full p-2 text-center text-xs leading-tight text-balance shadow-lg lg:h-28 lg:w-28 lg:text-sm"
                         >
                           {country.is_suggested && (
-                            <span className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap text-amber-950 shadow">
+                            <span className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-full bg-[#f2b632] px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap text-[#3b3226] shadow">
                               あなたの国?
                             </span>
                           )}
-                          <span className="relative h-6 w-9 shrink-0 overflow-hidden rounded-sm border border-white/40">
+                          <span className="relative h-6 w-9 shrink-0 overflow-hidden rounded-sm border border-[#e8dfcf]">
                             <Image
                               src={`/flag/${country.code}.svg`}
                               alt={country.name}
@@ -238,7 +245,7 @@ export default function Page() {
         type="button"
         onClick={() => setMiniAppOpen(true)}
         aria-label="ミニアプリを開く"
-        className="fixed top-1/2 right-0 z-30 -translate-y-1/2 rounded-l-lg border border-r-0 border-white/30 bg-black/30 px-2 py-3 text-white shadow-lg backdrop-blur-sm hover:bg-black/40"
+        className="fixed top-1/2 right-0 z-30 -translate-y-1/2 rounded-l-xl bg-[#fffaf0] px-2 py-3 text-[#3b3226] shadow-[0_4px_14px_rgba(59,50,38,0.2)] hover:bg-white"
       >
         ◀
       </button>
@@ -249,22 +256,22 @@ export default function Page() {
             type="button"
             aria-label="ミニアプリを閉じる"
             onClick={() => setMiniAppOpen(false)}
-            className="flex-1 bg-black/50"
+            className="flex-1 bg-[rgba(38,48,28,0.38)]"
           />
-          <div className="flex w-72 max-w-[85vw] flex-col gap-3 overflow-y-auto bg-slate-900 p-4 shadow-2xl">
+          <div className="flex w-72 max-w-[85vw] flex-col gap-3 overflow-y-auto bg-[#fffaf0] p-4 shadow-2xl">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-white">ミニアプリ</h2>
+              <h2 className="text-sm font-black text-[#3b3226]">ミニアプリ</h2>
               <button
                 type="button"
                 onClick={() => setMiniAppOpen(false)}
                 aria-label="閉じる"
-                className="rounded-full p-1 text-white/70 hover:bg-white/10 hover:text-white"
+                className="rounded-full p-1 text-[#6b5d45] hover:bg-[#f5efe1]"
               >
                 ✕
               </button>
             </div>
             {!categories ? (
-              <p className="text-xs text-white/70">読み込み中...</p>
+              <p className="text-xs text-[#6b5d45]">読み込み中...</p>
             ) : (
               <div className="grid grid-cols-2 gap-2">
                 {rootCategories.map((category, index) => (
@@ -289,6 +296,6 @@ export default function Page() {
       )}
 
       <BottomNav />
-    </div>
+    </SkyPage>
   );
 }

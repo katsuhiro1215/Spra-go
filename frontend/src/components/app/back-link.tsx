@@ -17,7 +17,7 @@ export function BackLink({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center gap-1 rounded-full border border-white/30 bg-black/20 px-3 py-1.5 text-sm font-semibold text-white shadow backdrop-blur-sm hover:bg-black/30 ${className ?? ""}`}
+      className={`inline-flex items-center gap-1 rounded-full bg-[#fffaf0] px-3 py-1.5 text-sm font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white ${className ?? ""}`}
     >
       ← {label}
     </Link>
