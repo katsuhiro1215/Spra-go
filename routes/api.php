@@ -1151,6 +1151,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
 
 Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
     $level = ActiveProfile::find($request)?->level ?? 1;
+    $gear = Travel::gearAssetKeys();
 
     return ShopItem::query()
         ->whereIn('type', config('shop.enabled_types'))
@@ -1158,13 +1159,14 @@ Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
         ->orderBy('min_level')
         ->orderBy('price')
         ->get()
-        // 種から咲く「スプルの花」などの非売品は出さない
+        // 種から咲く「スプルの花」・旅のおみやげなどの非売品は出さない
         ->reject(fn (ShopItem $item) => $item->meta['not_for_sale'] ?? false)
         ->values()
         ->map(fn (ShopItem $item) => [
             ...$item->toArray(),
             'asset_key' => $item->assetKey(),
             'footprint' => $item->footprint(),
+            'travel_gear' => in_array($item->assetKey(), $gear, true),
             'locked' => $level < $item->min_level,
         ]);
 })->name('shop.index');
@@ -1257,6 +1259,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'greetings' => Family::unseenGreetings($profile),
             'family_count' => Family::others($profile)->count(),
             'plots_new' => WorldLand::newPlotKeys($profile->level, $profile->world_plots_seen ?? []),
+            'travel_ready' => Travel::ready($profile),
         ];
     })->name('show');
 
@@ -1427,6 +1430,26 @@ Route::middleware(['auth:sanctum'])->prefix('travel')->name('travel.')->group(fu
 
         return $destination;
     })->name('show');
+
+    Route::post('/{key}/depart', function (Request $request, string $key) {
+        $activeProfile = ActiveProfile::require($request);
+
+        return DB::transaction(function () use ($activeProfile, $key) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+            return Travel::depart($profile, $key);
+        });
+    })->name('depart');
+
+    Route::post('/{key}/souvenirs/{souvenir}', function (Request $request, string $key, string $souvenir) {
+        $activeProfile = ActiveProfile::require($request);
+
+        return DB::transaction(function () use ($activeProfile, $key, $souvenir) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+            return Travel::receive($profile, $key, $souvenir);
+        });
+    })->name('souvenirs.receive');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('family')->name('family.')->group(function () {

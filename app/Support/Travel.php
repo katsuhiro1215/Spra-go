@@ -45,9 +45,10 @@ class Travel
         $destinations = self::destinations();
         $next = self::nextIndex($context['visited']);
 
-        return collect($destinations)
-            ->map(fn (array $destination, int $index) => self::present($destinations, $index, $next, $context))
-            ->all();
+        return array_map(
+            fn (int $index) => self::present($destinations, $index, $next, $context),
+            array_keys($destinations),
+        );
     }
 
     /** @return array<string, mixed>|null */
@@ -56,6 +57,70 @@ class Travel
         $index = self::indexOf($key);
 
         return $index === null ? null : self::state($profile)[$index];
+    }
+
+    /** 出発する(プロフィールはロック済みで呼ぶ)。着いたことのある国なら何もしない @return array{first: bool, destination: array<string, mixed>} */
+    public static function depart(UserProfile $profile, string $key): array
+    {
+        $index = self::indexOf($key);
+        abort_if($index === null, 404);
+
+        $destination = self::state($profile)[$index];
+        if ($destination['state'] === 'visited') {
+            return ['first' => false, 'destination' => $destination];
+        }
+        abort_unless($destination['state'] === 'next', 422, 'まだこの国には行けません。');
+        abort_unless($destination['ready'], 422, '旅のじゅんびがそろっていません。');
+
+        $profile->trips()->create(['destination' => $key, 'arrived_at' => now()]);
+
+        return ['first' => true, 'destination' => self::state($profile)[$index]];
+    }
+
+    /** おみやげを受け取ってバッグに入れる(プロフィールはロック済みで呼ぶ) @return array{world_item: array<string, mixed>, destination: array<string, mixed>} */
+    public static function receive(UserProfile $profile, string $key, string $souvenirKey): array
+    {
+        $index = self::indexOf($key);
+        abort_if($index === null, 404);
+        $config = self::destinations()[$index];
+        $souvenirConfig = collect($config['souvenirs'])->firstWhere('key', $souvenirKey);
+        abort_if($souvenirConfig === null, 404);
+
+        $destination = self::state($profile)[$index];
+        abort_unless($destination['state'] === 'visited', 422, 'まだこの国に着いていません。');
+        $souvenir = collect($destination['souvenirs'])->firstWhere('key', $souvenirKey);
+        abort_unless($souvenir['met'], 422, 'まだ受け取れません。');
+        abort_if($souvenir['received'], 422, 'もう受け取っています。');
+
+        $profile->souvenirs()->create(['souvenir' => $souvenirKey, 'received_at' => now()]);
+        $worldItem = $profile->worldItems()->create(['shop_item_id' => self::souvenirShopItem($config, $souvenirConfig)->id]);
+
+        return [
+            'world_item' => $worldItem->load('shopItem')->toWorldArray(),
+            'destination' => self::state($profile)[$index],
+        ];
+    }
+
+    /** 町の「旅のじゅんびがそろったよ」に使う。次の行き先のじゅんびがそろっていればその国 @return array{key: string, name: string}|null */
+    public static function ready(UserProfile $profile): ?array
+    {
+        $next = collect(self::state($profile))->firstWhere('state', 'next');
+
+        return $next && $next['ready'] ? ['key' => $next['key'], 'name' => $next['name']] : null;
+    }
+
+    /** おみやげの町のアイテム(非売品)。そのおみやげを初めてだれかが受け取ったときに作る(スプルの花と同じ) */
+    private static function souvenirShopItem(array $destination, array $souvenir): ShopItem
+    {
+        return ShopItem::query()->firstOrCreate(
+            ['type' => 'decoration', 'name' => $souvenir['name']],
+            [
+                'price' => 0,
+                'currency' => 'point',
+                'min_level' => 1,
+                'meta' => ['asset_key' => $souvenir['key'], 'not_for_sale' => true, 'souvenir_of' => $destination['name']],
+            ],
+        );
     }
 
     /** まだ着いていない国のうち、いちばん順の早い国(全部着いていれば null) */
