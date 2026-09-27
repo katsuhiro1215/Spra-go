@@ -172,7 +172,7 @@ class Garden
             'key' => $key,
             'name' => $def['name'] ?? $key,
             'trait' => $def['trait'] ?? '',
-            'line' => $def['line'] ?? '',
+            'line' => $def['lines'][0] ?? '',
             'x' => $spot[0] ?? null,
             'y' => $spot[1] ?? null,
         ];

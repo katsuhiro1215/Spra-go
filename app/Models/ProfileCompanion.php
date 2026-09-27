@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProfileCompanion extends Model
 {
-    protected $fillable = ['companion_key'];
+    protected $fillable = ['companion_key', 'nickname', 'bond'];
+
+    protected function casts(): array
+    {
+        return [
+            'bond' => 'integer',
+        ];
+    }
 
     public function profile(): BelongsTo
     {

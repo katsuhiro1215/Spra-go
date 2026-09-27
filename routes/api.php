@@ -21,6 +21,7 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
+use App\Support\Bond;
 use App\Support\ContinueStage;
 use App\Support\Garden;
 use App\Support\LevelCurve;
@@ -1161,6 +1162,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'level_xp' => LevelCurve::progress($profile->level),
             'spru_growth' => Garden::growth($profile),
             'garden_busy' => Garden::activeSeed($profile) !== null,
+            'partner' => Bond::addToPartner($profile, $isCorrect ? config('companions.bond_per_correct') : 0),
         ];
     }
 
