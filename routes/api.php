@@ -33,6 +33,7 @@ use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\StripeClient;
@@ -1288,6 +1289,47 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             return ['garden' => Garden::state($profile), 'born' => $born];
         });
     })->name('garden.water');
+
+    Route::patch('/companions/{key}', function (Request $request, string $key) {
+        $activeProfile = ActiveProfile::require($request);
+        $nickname = $request->input('nickname');
+        // 前後の空白(全角の空白も)を取り、空なら元の名前に戻す(設計書3-2)
+        $nickname = is_string($nickname) ? preg_replace('/^[\s\x{3000}]+|[\s\x{3000}]+$/u', '', $nickname) : $nickname;
+        $nickname = $nickname === '' ? null : $nickname;
+        $max = config('companions.nickname_max');
+        Validator::make(
+            ['nickname' => $nickname],
+            ['nickname' => ['nullable', 'string', "max:{$max}", 'regex:/^[^\p{Cc}]*$/u']],
+            [
+                'nickname.string' => '名前は文字で入れてね',
+                'nickname.max' => "{$max}文字までにしてね",
+                'nickname.regex' => '使えない文字が入っているよ',
+            ],
+        )->validate();
+
+        return DB::transaction(function () use ($activeProfile, $key, $nickname) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+            $companion = $profile->companions()->where('companion_key', $key)->first();
+            abort_unless($companion, 404);
+            $companion->update(['nickname' => $nickname]);
+
+            return ['companions' => Garden::companions($profile), 'review' => Review::state($profile)];
+        });
+    })->name('companions.update');
+
+    Route::post('/partner', function (Request $request) {
+        $activeProfile = ActiveProfile::require($request);
+        $data = $request->validate(['key' => ['required', 'string']]);
+
+        return DB::transaction(function () use ($activeProfile, $data) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+            abort_unless($profile->companions()->where('companion_key', $data['key'])->exists(), 422, 'まだ生まれていない仲間だよ');
+            $profile->partner_companion_key = $data['key'];
+            $profile->save();
+
+            return ['companions' => Garden::companions($profile), 'review' => Review::state($profile)];
+        });
+    })->name('partner');
 
     Route::patch('/items/{profileWorldItem}', function (Request $request, ProfileWorldItem $profileWorldItem) {
         $profile = ActiveProfile::require($request);
