@@ -3,7 +3,9 @@
 import Image from "next/image";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import type { Bloom } from "@/components/spru/bloom";
 import { SPRU_SCENES } from "@/components/spru/spru-assets";
+import { SpruFigure } from "@/components/spru/spru-figure";
 import { ItemIcon } from "@/components/world/item-art";
 import type { ShopListItem } from "@/components/world/types";
 
@@ -12,10 +14,14 @@ export function LevelUpOverlay({
   level,
   unlocked,
   onContinue,
+  growthLine = null,
+  bloom = null,
 }: {
   level: number;
   unlocked: ShopListItem[];
   onContinue: () => void;
+  growthLine?: string | null;
+  bloom?: Bloom | null;
 }) {
   const scene = SPRU_SCENES.grow;
   return (
@@ -39,6 +45,14 @@ export function LevelUpOverlay({
         <p className="text-sm font-bold text-[#6b5d45]">
           <AutoFurigana text="HPが全回復したよ" />
         </p>
+        {growthLine && (
+          <div className="flex w-full items-center gap-2 rounded-2xl bg-[#eef7e6] px-3 py-2 text-left">
+            <SpruFigure image="three-quarter" standHeight={56} bloom={bloom} />
+            <span className="text-sm font-black text-[#2e6b1c]">
+              <AutoFurigana text={growthLine} />
+            </span>
+          </div>
+        )}
         {unlocked.length > 0 && (
           <div className="flex w-full flex-col gap-2 rounded-2xl bg-[#f5efe1] p-3">
             {unlocked.map((item) => (
