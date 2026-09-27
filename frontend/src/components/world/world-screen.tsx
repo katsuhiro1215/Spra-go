@@ -12,6 +12,7 @@ import { bloomOf } from "@/components/spru/bloom";
 import { pickTownHint } from "@/components/spru/hint";
 import { pickTownMood, type TownEvent } from "@/components/spru/mood";
 import { apiFetch } from "@/lib/api";
+import { prefersReducedMotion } from "@/lib/motion";
 
 import { Ambience, TIME_THEME } from "./ambience";
 import { BornOverlay } from "./born-overlay";
@@ -24,11 +25,13 @@ import { Festive } from "./festive";
 import { pickGardenTap } from "./garden";
 import { GreetingsCard } from "./greetings-card";
 import { ItemActionSheet } from "./item-action-sheet";
-import { cloudLine, validAnchors } from "./land";
+import { cloudLine, hasAnchorsOutside, openedLine, unlockFocus, validAnchors } from "./land";
 import { liveliness, livelinessUpLine } from "./liveliness";
 import { LivelinessCard } from "./liveliness-card";
+import { homePlot } from "./map-view";
 import { NicknameDialog } from "./nickname-dialog";
 import { PlacementBar } from "./placement-bar";
+import { PlotUnlockCard } from "./plot-unlock-card";
 import { ReviewCard } from "./review-card";
 import {
   readSeasonShown,
@@ -64,6 +67,9 @@ const TAP_IMAGES = ["shy", "laugh", "cheer"] as const;
 const COMPANION_TALK_MS = 3_000;
 // 3回目の水やりで生まれたとき、水やりの動きを見せてからお祝いを出す
 const BORN_DELAY_MS = 1_600;
+// 区画のお祝い: 地図を区画へ動かす時間と、雲が散る時間(設計書5-2)
+const FOCUS_MS = 600;
+const CLEAR_MS = 1_200;
 
 export function WorldScreen() {
   const router = useRouter();
@@ -102,6 +108,11 @@ export function WorldScreen() {
   // 家族から届いたあいさつ(閉じるまで出す)と、今日まだ出していない季節のあいさつ
   const [greetings, setGreetings] = useState<WorldGreeting[]>([]);
   const [season, setSeason] = useState<SeasonGreeting | null>(null);
+  // 区画のお祝いで地図を動かす先と、散らしている雲(お祝いの途中は null でない)
+  const [focus, setFocus] = useState<{ plot: WorldPlot; at: number } | null>(null);
+  const [clearing, setClearing] = useState<{ keys: string[]; fading: boolean } | null>(null);
+  // 2×2の建物の下見(奥のマス)
+  const [preview, setPreview] = useState<{ x: number; y: number } | null>(null);
   const profileId = world?.profile.id ?? null;
   // 町は1秒ごとに描き直すので、季節のカードのタイマーがやり直しにならないよう固定する
   const closeSeason = useCallback(() => {
@@ -449,6 +460,54 @@ export function WorldScreen() {
     }
   }
 
+  // 2×2の建物は、光るマスを押すと下見になり、［ここに建てる］で決まる(設計書3-4・5-3)
+  function handleTileTap(x: number, y: number) {
+    if (!placingItem) return;
+    if (placingItem.footprint > 1) {
+      setPreview({ x, y });
+      return;
+    }
+    placeAt(x, y);
+  }
+
+  function confirmBuild() {
+    if (!preview) return;
+    const { x, y } = preview;
+    setPreview(null);
+    placeAt(x, y);
+  }
+
+  function cancelPlacing() {
+    setPlacingId(null);
+    setPreview(null);
+  }
+
+  // ［見に行く］: カードを閉じ、地図を区画へ動かしてから雲を散らし、終わったら祝った印を送る(設計書3-2・5-2)
+  function viewNewPlots() {
+    if (!world) return;
+    const plots = world.land.plots.filter((plot) => world.plots_new.includes(plot.key));
+    if (plots.length === 0) return;
+    const keys = plots.map((plot) => plot.key);
+    const target = unlockFocus(plots);
+    const reduced = prefersReducedMotion();
+    setWorld((prev) => (prev ? { ...prev, plots_new: [] } : prev));
+    setFocus({ plot: target, at: Date.now() });
+    setClearing(reduced ? null : { keys, fading: false });
+    const finish = () => {
+      setClearing(null);
+      play("correct");
+      setEvent({ kind: "say", at: Date.now(), image: "cheer", line: openedLine(target) });
+      // 失敗しても、次に町を開いたときにもう一度祝うだけ
+      apiFetch("/api/world/plots/seen", { method: "POST", body: JSON.stringify({ keys }) }).catch(() => null);
+    };
+    if (reduced) {
+      finish();
+      return;
+    }
+    setTimeout(() => setClearing({ keys, fading: true }), FOCUS_MS);
+    setTimeout(finish, FOCUS_MS + CLEAR_MS);
+  }
+
   async function putAway(item: WorldItem) {
     setSelected(null);
     setMessage(null);
@@ -489,6 +548,11 @@ export function WorldScreen() {
   const continueHref = world.continue_stage_id ? `/quiz/${world.continue_stage_id}` : "/learn";
   const sheetCompanion = sheetKey ? (world.companions.find((c) => c.key === sheetKey) ?? null) : null;
   const lively = liveliness(world.items, world.companions.length);
+  const newPlots = world.land.plots.filter((plot) => world.plots_new.includes(plot.key));
+  // 開いたばかりの区画は、お祝いが終わるまで雲で隠しておく
+  const veil = world.plots_new.length > 0 ? { keys: world.plots_new, fading: false } : clearing;
+  // 区画のお祝い(雲の演出を含む)が終わるまで、家族・季節のあいさつは出さない
+  const calm = !world.welcome_available && world.plots_new.length === 0 && clearing === null;
 
   return (
     <div
@@ -500,7 +564,15 @@ export function WorldScreen() {
       <div className="relative mx-auto flex min-h-screen w-full max-w-[480px] flex-col pb-28 text-[#3b3226]">
         <WorldHud name={sharedProfile?.name ?? ""} profile={world.profile} growth={growth} nextUnlock={nextUnlock} />
 
-        {placingItem && <PlacementBar item={placingItem} onCancel={() => setPlacingId(null)} />}
+        {placingItem && (
+          <PlacementBar
+            item={placingItem}
+            previewing={preview !== null}
+            hint={hasAnchorsOutside(validTiles, homePlot(world.land)) ? "地図を動かすと、ほかの場所も見られるよ" : null}
+            onConfirm={confirmBuild}
+            onCancel={cancelPlacing}
+          />
+        )}
 
         {message && (
           <p role="alert" className="mx-4 mt-3 rounded-xl bg-[#fdebe5] px-3 py-2 text-sm font-bold text-[#a33a22]">
@@ -523,13 +595,13 @@ export function WorldScreen() {
         )}
 
         <div className="relative mt-2 px-1">
-          <TownMap land={world.land} focus={null}>
+          <TownMap land={world.land} focus={focus}>
             <WorldScene
               land={world.land}
               items={world.items}
               validTiles={validTiles}
               placing={placing}
-              onTileTap={placeAt}
+              onTileTap={handleTileTap}
               onItemTap={setSelected}
               spru={mood}
               bloom={bloomOf(growth)}
@@ -544,6 +616,8 @@ export function WorldScreen() {
               reviewGiver={placing ? null : reviewGiverKey(world.review)}
               quiet={isSpruSleepTime(new Date(now))}
               onCloudTap={handleCloudTap}
+              veil={veil}
+              preview={preview && placingItem ? { ...preview, item: placingItem } : null}
             />
           </TownMap>
           {/* 空の飾りは地図と一緒に動かさず、見えている枠の上に重ねる(設計書3-3) */}
@@ -569,6 +643,7 @@ export function WorldScreen() {
           item={selected}
           onMove={() => {
             setPlacingId(selected.id);
+            setPreview(null);
             setSelected(null);
           }}
           onPutAway={() => putAway(selected)}
@@ -612,12 +687,12 @@ export function WorldScreen() {
         <WelcomeGift amount={WELCOME_AMOUNT} busy={welcomeBusy} onReceive={receiveWelcome} />
       )}
 
-      {/* はじめてのプレゼント → 家族のあいさつ → 季節のあいさつ の順に1つずつ出す */}
-      {!world.welcome_available && greetings.length > 0 && <GreetingsCard greetings={greetings} onClose={closeGreetings} />}
+      {/* はじめてのプレゼント → 区画のお祝い → 家族のあいさつ → 季節のあいさつ の順に1つずつ出す(雲の演出の間は次を待つ) */}
+      {!world.welcome_available && newPlots.length > 0 && <PlotUnlockCard plots={newPlots} onView={viewNewPlots} />}
 
-      {!world.welcome_available && greetings.length === 0 && season && (
-        <SeasonGreetingCard greeting={season} onDone={closeSeason} />
-      )}
+      {calm && greetings.length > 0 && <GreetingsCard greetings={greetings} onClose={closeGreetings} />}
+
+      {calm && greetings.length === 0 && season && <SeasonGreetingCard greeting={season} onDone={closeSeason} />}
 
       {born && <BornOverlay born={born} onClose={handleBornClose} />}
 
