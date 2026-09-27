@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 class UserProfile extends Model
 {
     protected $fillable = [
-        'name', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'points', 'world_welcomed_at',
+        'name', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'points', 'world_welcomed_at', 'world_plots_seen',
         'level', 'combo', 'best_combo', 'current_streak', 'best_streak', 'last_played_date',
         'bloom_base_level', 'last_correct_on', 'partner_companion_key', 'last_review_on',
     ];
@@ -39,6 +39,7 @@ class UserProfile extends Model
             'last_played_date' => 'date',
             'hp_updated_at' => 'datetime',
             'world_welcomed_at' => 'datetime',
+            'world_plots_seen' => 'array',
             'bloom_base_level' => 'integer',
             'last_correct_on' => 'date',
             'last_review_on' => 'date',

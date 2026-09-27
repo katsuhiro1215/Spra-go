@@ -57,8 +57,8 @@ it('土地の外には置けない', function (int $x, int $y) {
 
     expect($item->fresh()->isPlaced())->toBeFalse();
 })->with([
-    'xが7' => [7, 0],
-    'yが7' => [0, 7],
+    'xが12' => [12, 0],
+    'yが12' => [0, 12],
     'xが負' => [-1, 2],
 ]);
 

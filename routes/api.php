@@ -1231,7 +1231,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
         $items = $profile->worldItems()->with('shopItem')->orderBy('id')->get();
 
         return [
-            'land' => WorldLand::toArray(),
+            'land' => WorldLand::toArray($profile->level),
             'items' => $items->filter->isPlaced()->values()->map->toWorldArray(),
             'bag' => $items->reject->isPlaced()->values()->map->toWorldArray(),
             'profile' => [
@@ -1253,6 +1253,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'errands' => Errands::state($profile),
             'greetings' => Family::unseenGreetings($profile),
             'family_count' => Family::others($profile)->count(),
+            'plots_new' => WorldLand::newPlotKeys($profile->level, $profile->world_plots_seen ?? []),
         ];
     })->name('show');
 
@@ -1344,6 +1345,23 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
         return ['greetings' => Family::unseenGreetings($profile)];
     })->name('greetings.seen');
 
+    // 開いた区画を祝った印(設計書3-2)。雲の区画・知らないキーは記録しない
+    Route::post('/plots/seen', function (Request $request) {
+        $activeProfile = ActiveProfile::require($request);
+        $data = $request->validate(['keys' => ['required', 'array'], 'keys.*' => ['string']]);
+
+        return DB::transaction(function () use ($activeProfile, $data) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+            $seen = array_values(array_unique([
+                ...($profile->world_plots_seen ?? []),
+                ...array_values(array_intersect($data['keys'], WorldLand::openPlotKeys($profile->level))),
+            ]));
+            $profile->update(['world_plots_seen' => $seen]);
+
+            return ['plots_new' => WorldLand::newPlotKeys($profile->level, $seen)];
+        });
+    })->name('plots.seen');
+
     Route::patch('/items/{profileWorldItem}', function (Request $request, ProfileWorldItem $profileWorldItem) {
         $profile = ActiveProfile::require($request);
         abort_unless($profileWorldItem->user_profile_id === $profile->id, 404);
@@ -1357,6 +1375,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
 
         if ($x !== null) {
             abort_unless(WorldLand::inBounds($x, $y), 422, '土地の外には置けません。');
+            abort_unless(WorldLand::isOpen($x, $y, $profile->level), 422, 'まだ雲に隠れているよ。');
             abort_if(WorldLand::isBlocked($x, $y), 422, 'そこには置けません。');
             abort_if(
                 $profile->worldItems()->where('x', $x)->where('y', $y)->whereKeyNot($profileWorldItem->id)->exists(),
