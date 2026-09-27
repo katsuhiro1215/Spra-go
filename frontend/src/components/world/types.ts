@@ -13,6 +13,8 @@ export type WorldItem = {
   asset_key: string | null;
   /** 使うマスの一辺。2なら (x, y) を奥のマスにして2×2(設計書3-4) */
   footprint: number;
+  /** 旅のおみやげか(F回の設計書4-4) */
+  souvenir: boolean;
   x: number | null;
   y: number | null;
 };
@@ -70,6 +72,8 @@ export type WorldData = {
   family_count: number;
   /** 開いたが、まだ祝っていない区画のキー(必要レベルの低い順) */
   plots_new: string[];
+  /** 次の行き先のじゅんびがそろっていれば、その国(F回) */
+  travel_ready: { key: string; name: string } | null;
 };
 
 export type ShopListItem = {
@@ -81,6 +85,8 @@ export type ShopListItem = {
   min_level: number;
   asset_key: string | null;
   footprint: number;
+  /** 旅のじゅんびに使うアイテム(ショップの「旅じたく」の札) */
+  travel_gear: boolean;
   locked: boolean;
   meta: { heal?: number; asset_key?: string } | null;
 };

@@ -13,10 +13,11 @@ const item = (name: string, price: number, minLevel: number, id = price * 100 + 
   min_level: minLevel,
   asset_key: "bench",
   footprint: 1,
+  travel_gear: false,
   locked: false,
   meta: { asset_key: "bench" },
 });
-const bagItem = (name: string): WorldItem => ({ id: 1, shop_item_id: 1, name, asset_key: "bench", footprint: 1, x: null, y: null });
+const bagItem = (name: string): WorldItem => ({ id: 1, shop_item_id: 1, name, asset_key: "bench", footprint: 1, souvenir: false, x: null, y: null });
 const shop = [item("ベンチ", 30, 1), item("花だん", 20, 1), item("木", 30, 2)];
 
 describe("pickTownHint", () => {
@@ -24,6 +25,14 @@ describe("pickTownHint", () => {
     expect(pickTownHint({ bag: [bagItem("ちょうちん")], points: 500, level: 1, shop, canWater: true })).toBe(
       "畑に水をあげよう！",
     );
+  });
+
+  it("旅のじゅんびがそろっていれば、水やりの次に出発をすすめる", () => {
+    const travelReady = { key: "id", name: "インドネシア" };
+    expect(pickTownHint({ bag: [bagItem("ちょうちん")], points: 500, level: 7, shop, travelReady })).toBe(
+      "旅のじゅんびがそろったよ！『旅する』からインドネシアへ出発しよう",
+    );
+    expect(pickTownHint({ bag: [], points: 500, level: 7, shop, canWater: true, travelReady })).toBe("畑に水をあげよう！");
   });
 
   it("バッグにアイテムがあれば、置くようにすすめる", () => {

@@ -31,6 +31,9 @@ class WorldItemSeeder extends Seeder
             ['name' => '五重塔', 'price' => 300, 'min_level' => 9, 'asset_key' => 'pagoda'],
             ['name' => 'お城', 'price' => 400, 'min_level' => 10, 'asset_key' => 'castle'],
             ['name' => 'タワー', 'price' => 500, 'min_level' => 12, 'asset_key' => 'tower'],
+            // F回(docs/design/2026-09-27-spru-wave-f-design.md 3-3)。旅じたく。インドネシア・アメリカへの旅に使う
+            ['name' => '小さな船', 'price' => 200, 'min_level' => 7, 'asset_key' => 'boat_small'],
+            ['name' => '大きな船', 'price' => 450, 'min_level' => 11, 'asset_key' => 'boat_large'],
         ];
 
         foreach ($items as $item) {

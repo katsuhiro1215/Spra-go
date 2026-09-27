@@ -205,6 +205,16 @@ class UserProfile extends Model
         return $this->hasMany(ProfileErrand::class);
     }
 
+    public function trips(): HasMany
+    {
+        return $this->hasMany(ProfileTrip::class);
+    }
+
+    public function souvenirs(): HasMany
+    {
+        return $this->hasMany(ProfileSouvenir::class);
+    }
+
     /**
      * @param  array<string,int>  $deltas  type(hp/coin/xp/point) => delta
      * @return array{leveled_up: bool, deltas: array<string,int>}

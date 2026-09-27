@@ -1,8 +1,13 @@
 <?php
 
+use App\Models\Category;
+use App\Models\Country;
+use App\Models\ProfileStageProgress;
+use App\Models\ProfileWorldItem;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\ShopItem;
+use App\Models\Stage;
 use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserSchema;
@@ -191,4 +196,58 @@ function createDecoration(array $overrides = []): ShopItem
         'min_level' => 1,
         'meta' => ['asset_key' => 'bench'],
     ], $overrides));
+}
+
+/** 旅の行き先になる国を作る。初級のふつうのステージ・初級のボス・中級のボスを1つずつ持つ(旅のテストで共通に使う) */
+function createTravelCountry(string $code, string $name): Country
+{
+    $country = Country::create([
+        'code' => $code,
+        'three_code' => strtoupper($code).'X',
+        'name' => $name,
+        'name_en' => $name,
+        'country_code' => random_int(100, 999),
+    ]);
+    $category = Category::create(['name' => $name.'カテゴリ']);
+
+    foreach ([['初級', 1, false], ['初級', 2, true], ['中級', 1, true]] as [$difficulty, $number, $boss]) {
+        Stage::create([
+            'category_id' => $category->id,
+            'country_id' => $country->id,
+            'difficulty' => $difficulty,
+            'stage_number' => $number,
+            'is_boss' => $boss,
+        ]);
+    }
+
+    return $country;
+}
+
+/** その国の、指定した難易度・ボスかどうかのステージをクリアしたことにする */
+function clearCountryStage(UserProfile $profile, Country $country, string $difficulty, bool $boss): void
+{
+    $stage = Stage::query()
+        ->where('country_id', $country->id)
+        ->where('difficulty', $difficulty)
+        ->where('is_boss', $boss)
+        ->firstOrFail();
+
+    ProfileStageProgress::create(['user_profile_id' => $profile->id, 'stage_id' => $stage->id, 'cleared_at' => now()]);
+}
+
+/** その絵のアイテムを持たせる($placed なら町に置いた状態、そうでなければバッグ) */
+function giveWorldItem(UserProfile $profile, string $assetKey, bool $placed = false): ProfileWorldItem
+{
+    $shopItem = createDecoration(['name' => $assetKey, 'meta' => ['asset_key' => $assetKey]]);
+
+    return $profile->worldItems()->create([
+        'shop_item_id' => $shopItem->id,
+        'x' => $placed ? 3 : null,
+        'y' => $placed ? 5 : null,
+    ]);
+}
+
+function setProfileLevel(UserProfile $profile, int $level): void
+{
+    $profile->update(['level' => $level]);
 }

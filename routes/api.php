@@ -30,6 +30,7 @@ use App\Support\LevelCurve;
 use App\Support\PlayableQuestion;
 use App\Support\QuestionAnswerResolver;
 use App\Support\Review;
+use App\Support\Travel;
 use App\Support\WorldLand;
 use App\Support\WorldPlacement;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -1150,6 +1151,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
 
 Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
     $level = ActiveProfile::find($request)?->level ?? 1;
+    $gear = Travel::gearAssetKeys();
 
     return ShopItem::query()
         ->whereIn('type', config('shop.enabled_types'))
@@ -1157,13 +1159,14 @@ Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
         ->orderBy('min_level')
         ->orderBy('price')
         ->get()
-        // 種から咲く「スプルの花」などの非売品は出さない
+        // 種から咲く「スプルの花」・旅のおみやげなどの非売品は出さない
         ->reject(fn (ShopItem $item) => $item->meta['not_for_sale'] ?? false)
         ->values()
         ->map(fn (ShopItem $item) => [
             ...$item->toArray(),
             'asset_key' => $item->assetKey(),
             'footprint' => $item->footprint(),
+            'travel_gear' => in_array($item->assetKey(), $gear, true),
             'locked' => $level < $item->min_level,
         ]);
 })->name('shop.index');
@@ -1256,6 +1259,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'greetings' => Family::unseenGreetings($profile),
             'family_count' => Family::others($profile)->count(),
             'plots_new' => WorldLand::newPlotKeys($profile->level, $profile->world_plots_seen ?? []),
+            'travel_ready' => Travel::ready($profile),
         ];
     })->name('show');
 
@@ -1410,6 +1414,42 @@ Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(fu
             return Review::complete($profile);
         });
     })->name('complete');
+});
+
+Route::middleware(['auth:sanctum'])->prefix('travel')->name('travel.')->group(function () {
+    Route::get('/', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+
+        return ['level' => $profile->level, 'destinations' => Travel::state($profile)];
+    })->name('index');
+
+    Route::get('/{key}', function (Request $request, string $key) {
+        $destination = Travel::show(ActiveProfile::require($request), $key);
+        abort_unless($destination, 404);
+        abort_unless($destination['state'] === 'visited', 422, 'まだこの国に着いていません。');
+
+        return $destination;
+    })->name('show');
+
+    Route::post('/{key}/depart', function (Request $request, string $key) {
+        $activeProfile = ActiveProfile::require($request);
+
+        return DB::transaction(function () use ($activeProfile, $key) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+            return Travel::depart($profile, $key);
+        });
+    })->name('depart');
+
+    Route::post('/{key}/souvenirs/{souvenir}', function (Request $request, string $key, string $souvenir) {
+        $activeProfile = ActiveProfile::require($request);
+
+        return DB::transaction(function () use ($activeProfile, $key, $souvenir) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+            return Travel::receive($profile, $key, $souvenir);
+        });
+    })->name('souvenirs.receive');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('family')->name('family.')->group(function () {

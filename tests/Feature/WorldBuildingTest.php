@@ -160,14 +160,14 @@ it('町のAPIのバッグのアイテムにも大きさが付く', function () {
     $this->getJson('/api/world')->assertOk()->assertJsonPath('bag.0.footprint', 2);
 });
 
-it('品ぞろえのシーダーで大きな建物4つを含む16種類がそろい、2回実行しても増えない', function () {
+it('品ぞろえのシーダーで大きな建物5つ(F回の大きな船を含む)を含む18種類がそろい、2回実行しても増えない', function () {
     $this->seed(WorldItemSeeder::class);
     $this->seed(WorldItemSeeder::class);
 
     $items = ShopItem::query()->where('type', 'decoration')->get();
 
-    expect($items)->toHaveCount(16)
+    expect($items)->toHaveCount(18)
         ->and($items->filter(fn (ShopItem $item) => $item->footprint() === 2)->pluck('name')->sort()->values()->all())
-        ->toBe(['お城', 'タワー', '五重塔', '噴水'])
+        ->toBe(['お城', 'タワー', '五重塔', '噴水', '大きな船'])
         ->and($items->firstWhere('name', 'タワー')->only(['price', 'min_level']))->toBe(['price' => 500, 'min_level' => 12]);
 });

@@ -66,6 +66,11 @@ export default function Page() {
                       2×2マス
                     </span>
                   )}
+                  {item.souvenir && (
+                    <span className="absolute -right-4 -bottom-1 rounded-full bg-[#d8352a] px-1.5 py-0.5 text-[10px] leading-none font-black whitespace-nowrap text-white">
+                      おみやげ
+                    </span>
+                  )}
                 </div>
                 <span className="text-sm font-black">{item.name}</span>
                 <Link

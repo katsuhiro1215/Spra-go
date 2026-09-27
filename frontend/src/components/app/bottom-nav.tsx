@@ -27,7 +27,7 @@ const ITEMS: { href: string; label: string; icon: ReactNode }[] = [
     ),
   },
   {
-    href: "/passport",
+    href: "/trip",
     label: "旅する",
     icon: (
       <svg {...ICON_PROPS}>
