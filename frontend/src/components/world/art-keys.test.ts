@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
-import { BIG_ASSETS, ITEM_ART_KEYS, isBigAsset } from "./art-keys";
+import { BIG_ASSETS, ITEM_ART_KEYS, ITEM_ART_LABELS, isBigAsset } from "./art-keys";
 
 // サーバーの設定(Ownerがショップに登録できる絵のキー)と、画面の絵の一覧がずれていないか確かめる
 const config = readFileSync(fileURLToPath(new URL("../../../../config/world.php", import.meta.url)), "utf8");
@@ -23,6 +23,10 @@ describe("町のアイテムの絵のキー", () => {
   it("2×2の絵は config/world.php の asset_footprints と同じ", () => {
     const big = [...phpArray("asset_footprints").matchAll(/'([a-z_]+)'\s*=>\s*2/g)].map((m) => m[1]);
     expect([...BIG_ASSETS].sort()).toEqual(big.sort());
+  });
+
+  it("管理画面(ショップ編集)の絵の選択肢の名前が、すべての絵にある", () => {
+    expect(Object.keys(ITEM_ART_LABELS).sort()).toEqual([...ITEM_ART_KEYS].sort());
   });
 
   it("2×2の絵かどうかを返す", () => {

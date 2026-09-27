@@ -36,6 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ITEM_ART_KEYS, ITEM_ART_LABELS } from "@/components/world/art-keys";
 import { apiFetch } from "@/lib/api";
 
 const TYPES = [
@@ -47,17 +48,8 @@ const TYPES = [
   { value: "decoration", label: "町のアイテム" },
 ] as const;
 
-// config/world.php の asset_keys と一致させる
-const ASSET_KEYS = [
-  { value: "bench", label: "ベンチ" },
-  { value: "flowerbed", label: "花だん" },
-  { value: "chochin", label: "ちょうちん" },
-  { value: "tree", label: "木" },
-  { value: "sakura", label: "桜の木" },
-  { value: "vending", label: "自動販売機" },
-  { value: "bicycle", label: "自転車" },
-  { value: "stall", label: "屋台" },
-] as const;
+// 絵の一覧は config/world.php の asset_keys と同じ(components/world/art-keys.test.ts で確かめている)
+const ASSET_KEYS = ITEM_ART_KEYS.map((value) => ({ value, label: ITEM_ART_LABELS[value] }));
 type ItemType = (typeof TYPES)[number]["value"];
 
 function typeLabel(type: string): string {
