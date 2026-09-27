@@ -15,12 +15,16 @@ import { apiFetch } from "@/lib/api";
 
 import { Ambience, TIME_THEME } from "./ambience";
 import { BornOverlay } from "./born-overlay";
+import { CompanionSheet } from "./companion-sheet";
+import { pickLine, pickSpruTap, reviewGiverKey, reviewPrompt } from "./companions";
 import { gardenPrompt, pickGardenTap } from "./garden";
 import { tileKey } from "./iso";
 import { ItemActionSheet } from "./item-action-sheet";
+import { NicknameDialog } from "./nickname-dialog";
 import { PlacementBar } from "./placement-bar";
+import { ReviewCard } from "./review-card";
 import { getSeason, getTimeOfDay, isSpruSleepTime } from "./time-of-day";
-import type { BornResult, ShopListItem, WorldData, WorldGarden, WorldItem } from "./types";
+import type { BornResult, ShopListItem, WorldCompanion, WorldData, WorldGarden, WorldItem, WorldReview } from "./types";
 import { WelcomeGift } from "./welcome-gift";
 import { WorldHud } from "./world-hud";
 import { WorldScene } from "./world-scene";
@@ -51,10 +55,16 @@ export function WorldScreen() {
   const [lastInteractionAt, setLastInteractionAt] = useState(() => Date.now());
   const [event, setEvent] = useState<TownEvent | null>(null);
   const [nightWokenAt, setNightWokenAt] = useState<number | null>(null);
-  const [companionTalk, setCompanionTalk] = useState<{ key: string; at: number } | null>(null);
+  const [companionTalk, setCompanionTalk] = useState<{ key: string; at: number; line: string } | null>(null);
   const [born, setBorn] = useState<BornResult | null>(null);
   // 種まき・水やりの通信中は、続けて押しても送らない
   const [gardenBusy, setGardenBusy] = useState(false);
+  // 開いている仲間のカード(仲間のキー)・スプルの復習カード・最初の仲間の名前付け
+  const [sheetKey, setSheetKey] = useState<string | null>(null);
+  const [reviewCardOpen, setReviewCardOpen] = useState(false);
+  const [naming, setNaming] = useState<WorldCompanion | null>(null);
+  // 相棒の変更の通信中は、続けて押しても送らない
+  const [partnerBusy, setPartnerBusy] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -118,7 +128,7 @@ export function WorldScreen() {
 
   const placing = placingItem !== null;
   const growth = world?.spru.growth ?? 0;
-  const prompt = world && !placing ? gardenPrompt(world.garden) : null;
+  const prompt = world && !placing ? (gardenPrompt(world.garden) ?? reviewPrompt(world.review)) : null;
   const mood = pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing, prompt });
   const talk = companionTalk && now - companionTalk.at < COMPANION_TALK_MS ? companionTalk : null;
 
@@ -170,6 +180,55 @@ export function WorldScreen() {
     }
   }
 
+  // 相棒・名前が変わると、並び・立ち位置・復習を出す人も変わる
+  function applyCompanions(data: { companions: WorldCompanion[]; review: WorldReview }) {
+    setWorld((prev) => (prev ? { ...prev, companions: data.companions, review: data.review } : prev));
+  }
+
+  // 仲間が生まれた後は、相棒・立ち位置・復習を出す人が変わるため読み直す
+  async function reloadCompanions() {
+    const res = await apiFetch("/api/world").catch(() => null);
+    if (!res || !res.ok) return;
+    const data: WorldData = await res.json();
+    applyCompanions(data);
+  }
+
+  async function renameCompanion(key: string, nickname: string | null): Promise<string | null> {
+    const res = await apiFetch(`/api/world/companions/${key}`, {
+      method: "PATCH",
+      body: JSON.stringify({ nickname }),
+    }).catch(() => null);
+    const data = res ? await res.json().catch(() => ({})) : {};
+    if (!res || !res.ok) return data.errors?.nickname?.[0] ?? data.message ?? "通信エラーが発生しました。";
+    applyCompanions(data);
+    return null;
+  }
+
+  async function makePartner(key: string) {
+    if (partnerBusy) return;
+    setPartnerBusy(true);
+    try {
+      const res = await apiFetch("/api/world/partner", { method: "POST", body: JSON.stringify({ key }) }).catch(() => null);
+      const data = res ? await res.json().catch(() => ({})) : {};
+      if (!res || !res.ok) {
+        setMessage(data.message ?? "通信エラーが発生しました。");
+        setEvent({ kind: "error", at: Date.now() });
+        return;
+      }
+      applyCompanions(data);
+      setMessage(null);
+      play("correct");
+      const partner = (data.companions as WorldCompanion[]).find((c) => c.key === key);
+      if (partner) setCompanionTalk({ key, at: Date.now(), line: pickLine(partner.lines, Math.random()) });
+    } finally {
+      setPartnerBusy(false);
+    }
+  }
+
+  function startReview() {
+    router.push("/review");
+  }
+
   // スプル以外をさわったとき。昼に座って・寝ていたら起きる(夜の眠りはスプルをタップしたときだけ起きる)
   function handleInteraction(e: { target: EventTarget }) {
     if (e.target instanceof Element && e.target.closest("[data-spru]")) return;
@@ -187,8 +246,13 @@ export function WorldScreen() {
       setEvent({ kind: "woke", at });
       return;
     }
-    if (world.garden.can_sow) {
+    const tap = pickSpruTap({ canSow: world.garden.can_sow, review: world.review });
+    if (tap === "sow") {
       sow();
+      return;
+    }
+    if (tap === "review") {
+      setReviewCardOpen(true);
       return;
     }
     setEvent({
@@ -214,7 +278,10 @@ export function WorldScreen() {
   }
 
   function handleCompanionTap(key: string) {
-    setCompanionTalk({ key, at: Date.now() });
+    const companion = world?.companions.find((c) => c.key === key);
+    if (!companion) return;
+    setCompanionTalk({ key, at: Date.now(), line: pickLine(companion.lines, Math.random()) });
+    setSheetKey(key);
   }
 
   function handleBornClose() {
@@ -225,8 +292,9 @@ export function WorldScreen() {
       setWorld((prev) => (prev ? { ...prev, bag: [...prev.bag, result.world_item] } : prev));
       return;
     }
-    setWorld((prev) => (prev ? { ...prev, companions: [...prev.companions, result] } : prev));
-    setCompanionTalk({ key: result.key, at: Date.now() });
+    reloadCompanions();
+    setCompanionTalk({ key: result.key, at: Date.now(), line: result.lines[0] ?? "" });
+    if (result.is_partner) setNaming(result);
   }
 
   // 画面を先に更新し、APIが失敗したら元に戻す
@@ -306,6 +374,7 @@ export function WorldScreen() {
     .sort((a, b) => a.min_level - b.min_level)[0];
   const nextUnlock = nextLocked ? `Lv.${nextLocked.min_level}で ${nextLocked.name}` : null;
   const continueHref = world.continue_stage_id ? `/quiz/${world.continue_stage_id}` : "/learn";
+  const sheetCompanion = sheetKey ? (world.companions.find((c) => c.key === sheetKey) ?? null) : null;
 
   return (
     <div
@@ -347,6 +416,7 @@ export function WorldScreen() {
             companions={world.companions}
             onCompanionTap={handleCompanionTap}
             companionTalk={talk}
+            reviewGiver={placing ? null : reviewGiverKey(world.review)}
             quiet={isSpruSleepTime(new Date(now))}
           />
           <Ambience timeOfDay={timeOfDay} season={season} />
@@ -377,11 +447,39 @@ export function WorldScreen() {
         />
       )}
 
+      {sheetCompanion && (
+        <CompanionSheet
+          companion={sheetCompanion}
+          reviewCount={world.review.available && world.review.giver.key === sheetCompanion.key ? world.review.count : null}
+          busy={partnerBusy}
+          onStartReview={startReview}
+          onMakePartner={() => makePartner(sheetCompanion.key)}
+          onRename={(nickname) => renameCompanion(sheetCompanion.key, nickname)}
+          onClose={() => setSheetKey(null)}
+        />
+      )}
+
+      {reviewCardOpen && world.review.available && (
+        <ReviewCard count={world.review.count} onStart={startReview} onClose={() => setReviewCardOpen(false)} />
+      )}
+
       {world.welcome_available && (
         <WelcomeGift amount={WELCOME_AMOUNT} busy={welcomeBusy} onReceive={receiveWelcome} />
       )}
 
       {born && <BornOverlay born={born} onClose={handleBornClose} />}
+
+      {naming && (
+        <NicknameDialog
+          companion={naming}
+          onSubmit={async (nickname) => {
+            const error = await renameCompanion(naming.key, nickname);
+            if (error === null) setNaming(null);
+            return error;
+          }}
+          onSkip={() => setNaming(null)}
+        />
+      )}
     </div>
   );
 }

@@ -67,6 +67,7 @@ export function WorldScene({
   companions,
   onCompanionTap,
   companionTalk,
+  reviewGiver,
   quiet,
 }: {
   land: WorldLand;
@@ -84,7 +85,8 @@ export function WorldScene({
   onGardenTap: () => void;
   companions: WorldCompanion[];
   onCompanionTap: (key: string) => void;
-  companionTalk: { key: string; at: number } | null;
+  companionTalk: { key: string; at: number; line: string } | null;
+  reviewGiver: string | null;
   quiet: boolean;
 }) {
   const theme = TIME_THEME[timeOfDay];
@@ -276,21 +278,26 @@ export function WorldScene({
                   delay={o.index * 0.5}
                   quiet={quiet}
                   hopping={hopping}
+                  partner={o.companion.is_partner}
+                  review={reviewGiver === o.companion.key}
                 />
               )}
               {o.kind === "spru" && (
-                <g key={spru.image} className={spruMotion}>
-                  <image href={spruAsset.src} x={spruX} y={spruY} width={spruW} height={spruH} />
-                  {bloom && spruBloom && (
-                    <image
-                      href={SPRU_BLOOM[bloom].src}
-                      x={spruX + spruBloom.x * TOWN_SCALE}
-                      y={spruY + spruBloom.y * TOWN_SCALE}
-                      width={spruBloom.width * TOWN_SCALE}
-                      height={spruBloom.height * TOWN_SCALE}
-                    />
-                  )}
-                </g>
+                <>
+                  <g key={spru.image} className={spruMotion}>
+                    <image href={spruAsset.src} x={spruX} y={spruY} width={spruW} height={spruH} />
+                    {bloom && spruBloom && (
+                      <image
+                        href={SPRU_BLOOM[bloom].src}
+                        x={spruX + spruBloom.x * TOWN_SCALE}
+                        y={spruY + spruBloom.y * TOWN_SCALE}
+                        width={spruBloom.width * TOWN_SCALE}
+                        height={spruBloom.height * TOWN_SCALE}
+                      />
+                    )}
+                  </g>
+                  {reviewGiver === "spru" && <ReviewMark x={spruX + spruW - 4} y={spruY + 8} quiet={quiet} />}
+                </>
               )}
             </g>
           );
@@ -353,14 +360,14 @@ export function WorldScene({
       </div>
 
       {/* 仲間の吹き出しは、隣に立つスプルの吹き出しより手前に出す */}
-      {talking && talkPos && (
+      {talking && talkPos && companionTalk && (
         <div
           className="pointer-events-none absolute w-max max-w-[48%] -translate-x-1/2 -translate-y-full rounded-xl bg-white px-2.5 py-1 text-[11.5px] leading-snug font-bold text-[#3b3226] shadow-[0_2px_8px_rgba(59,50,38,0.16)]"
           style={{ left: `${talkPos.left}%`, top: `${talkPos.top}%` }}
           aria-live="polite"
         >
           <span className="mr-1 text-[#2e6b1c]">{talking.name}</span>
-          <AutoFurigana text={talking.lines[0] ?? ""} />
+          <AutoFurigana text={companionTalk.line} />
         </div>
       )}
     </div>
@@ -373,22 +380,56 @@ function CompanionFigure({
   delay,
   quiet,
   hopping,
+  partner,
+  review,
 }: {
   companionKey: CompanionKey;
   delay: number;
   quiet: boolean;
   hopping: boolean;
+  partner: boolean;
+  review: boolean;
 }) {
   const asset = COMPANION_IMAGES[companionKey];
   const width = asset.width * TOWN_SCALE;
   const height = asset.height * TOWN_SCALE;
   const motion = hopping ? "animate-spru-hop" : quiet ? undefined : "animate-spru-bob";
   return (
-    <g
-      className={motion}
-      style={motion === "animate-spru-bob" ? { animationDuration: "3.2s", animationDelay: `${delay}s` } : undefined}
-    >
-      <image href={asset.src} x={-width / 2} y={-height + 2} width={width} height={height} />
+    <>
+      <g
+        className={motion}
+        style={motion === "animate-spru-bob" ? { animationDuration: "3.2s", animationDelay: `${delay}s` } : undefined}
+      >
+        <image href={asset.src} x={-width / 2} y={-height + 2} width={width} height={height} />
+      </g>
+      {partner && <PartnerTag />}
+      {review && <ReviewMark x={width / 2 - 2} y={-height + 10} quiet={quiet} />}
+    </>
+  );
+}
+
+// 相棒の足元の札(設計書5-1)
+function PartnerTag() {
+  return (
+    <g transform="translate(0 7)">
+      <rect x={-13} y={-5.5} width={26} height={11} rx={5.5} fill="#3b7f26" stroke="#fff" strokeWidth={1} />
+      <text y={3} textAnchor="middle" fontSize={7.5} fontWeight={900} fill="#fff">
+        相棒
+      </text>
+    </g>
+  );
+}
+
+// 復習を出す人の頭の上の「！」。CSSの動きがtransform属性を上書きしないよう、位置と動きの<g>を分ける
+function ReviewMark({ x, y, quiet }: { x: number; y: number; quiet: boolean }) {
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <g className={quiet ? undefined : "animate-spru-bob"} style={quiet ? undefined : { animationDuration: "1.2s" }}>
+        <circle r={7.5} fill="#f28c28" stroke="#fff" strokeWidth={1.5} />
+        <text y={3.8} textAnchor="middle" fontSize={11} fontWeight={900} fill="#fff">
+          !
+        </text>
+      </g>
     </g>
   );
 }
