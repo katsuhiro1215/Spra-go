@@ -64,4 +64,18 @@ return [
 
     'companion_spots' => [[0, 3], [3, 2], [4, 3], [5, 3], [6, 3]],
 
+    /*
+    | 家族の町のあいさつ。自由には書けず、この3つから選ぶ(docs/design/2026-09-27-spru-wave-d-design.md 3-4)。
+    | 画面の components/family/greet-panel.tsx と必ず一致させる
+    */
+
+    'greeting_stamps' => [
+        'hello' => 'やっほー！',
+        'nice_town' => 'すてきな町だね！',
+        'cheer' => 'いっしょにがんばろう！',
+    ],
+
+    // 町を開いたときに出す、まだ見ていないあいさつの数の上限
+    'greetings_shown' => 10,
+
 ];
