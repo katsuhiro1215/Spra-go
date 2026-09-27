@@ -38,8 +38,13 @@ export function BornOverlay({ born, onClose }: { born: BornResult; onClose: () =
               <AutoFurigana text={companion.trait} />
             </p>
             <p className="text-sm font-bold text-[#6b5d45]">
-              <AutoFurigana text={`「${companion.line}」`} />
+              <AutoFurigana text={`「${companion.lines[0] ?? ""}」`} />
             </p>
+            {!companion.is_partner && (
+              <p className="text-xs font-bold text-[#8a7a5c]">
+                <AutoFurigana text="町でタップすると、相棒にできるよ" />
+              </p>
+            )}
           </>
         ) : (
           <p className="text-sm font-bold text-[#6b5d45]">

@@ -9,7 +9,7 @@ use App\Models\UserProfile;
 use Illuminate\Support\Carbon;
 
 /**
- * スプルの育ち具合と、畑・仲間(docs/design/2026-09-27-spru-wave-b-design.md 3〜4章)。
+ * スプルの育ち具合と、畑・仲間(docs/design/2026-09-27-spru-wave-b-design.md 3〜4章、C回の相棒は 2026-09-27-spru-wave-c-design.md)。
  * 育ち具合は保存せず、レベルと「前に種をまいたときのレベル」の差から決める。
  */
 class Garden
@@ -63,13 +63,21 @@ class Garden
         ];
     }
 
-    /** @return list<array{key:string, name:string, trait:string, line:string, x:?int, y:?int}> 生まれた順 */
+    /**
+     * 生まれた仲間。相棒を先頭に、ほかは生まれた順(docs/design/2026-09-27-spru-wave-c-design.md 3-1)。
+     * 立ち位置(config/world.php の companion_spots)はこの順に前から使う。
+     *
+     * @return list<array<string, mixed>>
+     */
     public static function companions(UserProfile $profile): array
     {
         $spots = config('world.companion_spots');
+        $partnerKey = $profile->partner_companion_key;
 
-        return $profile->companions()->orderBy('id')->get()->values()
-            ->map(fn (ProfileCompanion $companion, int $i) => self::companionArray($companion->companion_key, $spots[$i] ?? null))
+        return $profile->companions()->orderBy('id')->get()
+            ->sortBy(fn (ProfileCompanion $companion) => $companion->companion_key === $partnerKey ? 0 : 1)
+            ->values()
+            ->map(fn (ProfileCompanion $companion, int $i) => self::companionArray($companion, $partnerKey, $spots[$i] ?? null))
             ->all();
     }
 
@@ -158,21 +166,34 @@ class Garden
         }
 
         $profile->companions()->firstOrCreate(['companion_key' => $resultKey]);
-        $index = $profile->companions()->orderBy('id')->pluck('companion_key')->search($resultKey);
+        if ($profile->partner_companion_key === null) {
+            // 最初の仲間は自動で相棒になる(C回、設計書3-1)
+            $profile->partner_companion_key = $resultKey;
+            $profile->save();
+        }
 
-        return ['kind' => 'companion', ...self::companionArray($resultKey, config('world.companion_spots')[$index] ?? null)];
+        return ['kind' => 'companion', ...collect(self::companions($profile))->firstWhere('key', $resultKey)];
     }
 
     /** @param  array{0: int, 1: int}|null  $spot */
-    private static function companionArray(string $key, ?array $spot): array
+    private static function companionArray(ProfileCompanion $companion, ?string $partnerKey, ?array $spot): array
     {
+        $key = $companion->companion_key;
         $def = config("companions.list.{$key}", []);
+        $hearts = Bond::hearts($companion->bond);
 
         return [
             'key' => $key,
-            'name' => $def['name'] ?? $key,
+            'name' => Bond::displayName($companion),
+            'official_name' => $def['name'] ?? $key,
+            'nickname' => $companion->nickname,
             'trait' => $def['trait'] ?? '',
-            'line' => $def['line'] ?? '',
+            'lines' => Bond::lines($key, $hearts),
+            'hearts' => $hearts,
+            'heart_label' => Bond::label($hearts),
+            'bond' => $companion->bond,
+            'next_heart_bond' => Bond::nextHeartBond($companion->bond),
+            'is_partner' => $key === $partnerKey,
             'x' => $spot[0] ?? null,
             'y' => $spot[1] ?? null,
         ];

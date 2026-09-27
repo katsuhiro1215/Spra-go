@@ -44,6 +44,7 @@ export type WorldData = {
   spru: { growth: number };
   garden: WorldGarden;
   companions: WorldCompanion[];
+  review: WorldReview;
 };
 
 export type ShopListItem = {
@@ -74,10 +75,33 @@ export type WorldGarden = {
 export type WorldCompanion = {
   key: string;
   name: string;
+  official_name: string;
+  nickname: string | null;
   trait: string;
-  line: string;
+  lines: string[];
+  hearts: number;
+  heart_label: string;
+  bond: number;
+  next_heart_bond: number | null;
+  is_partner: boolean;
   x: number | null;
   y: number | null;
+};
+
+export type WorldReview = {
+  available: boolean;
+  count: number;
+  giver: { kind: "companion" | "spru"; key: string | null; name: string };
+};
+
+/** 回答APIが返す相棒(設計書4-4) */
+export type AnswerPartner = {
+  key: string;
+  name: string;
+  hearts: number;
+  heart_label: string;
+  hearts_up: boolean;
+  new_line: string | null;
 };
 
 export type BornResult = ({ kind: "companion" } & WorldCompanion) | { kind: "item"; world_item: WorldItem };

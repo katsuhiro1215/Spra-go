@@ -130,7 +130,9 @@ it('3回目の水やりで仲間が生まれ、道に並ぶ', function () {
     $this->postJson('/api/world/garden/water')
         ->assertOk()
         ->assertJsonPath('born', [
-            'kind' => 'companion', 'key' => 'momo', 'name' => 'Momo', 'trait' => '花・やさしさ', 'line' => 'お花、きれいだね', 'x' => 0, 'y' => 3,
+            'kind' => 'companion', 'key' => 'momo', 'name' => 'Momo', 'official_name' => 'Momo', 'nickname' => null,
+            'trait' => '花・やさしさ', 'lines' => ['お花、きれいだね'], 'hearts' => 1, 'heart_label' => 'はじめまして',
+            'bond' => 0, 'next_heart_bond' => 20, 'is_partner' => true, 'x' => 0, 'y' => 3,
         ])
         ->assertJsonPath('garden.state', 'empty');
 

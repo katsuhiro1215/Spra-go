@@ -21,15 +21,19 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
+use App\Support\Bond;
 use App\Support\ContinueStage;
 use App\Support\Garden;
 use App\Support\LevelCurve;
+use App\Support\PlayableQuestion;
 use App\Support\QuestionAnswerResolver;
+use App\Support\Review;
 use App\Support\WorldLand;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\StripeClient;
@@ -987,49 +991,7 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Stage $sta
 
     abort_if($questions->isEmpty(), 404);
 
-    $questions->each(function (Question $question) {
-        if ($question->type === 'matching') {
-            // マッチングは全ペア分の選択肢をそのまま出す(is_correctの単一正解という概念がないため)。
-            // meta.item_idを返すと正解の組み合わせが漏れるので隠す。
-            $question->setRelation('choices', $question->choices->shuffle()->values());
-            $question->choices->each->makeHidden(['is_correct', 'meta']);
-
-            return;
-        }
-
-        if ($question->type === 'ordering') {
-            // 並べ替えはorder列を「正解の順序」として使うため、シャッフルして出し、
-            // 手がかりになるorder/is_correctを隠す。
-            $question->setRelation('choices', $question->choices->shuffle()->values());
-            $question->choices->each->makeHidden(['is_correct', 'order']);
-
-            return;
-        }
-
-        if ($question->type === 'sorting') {
-            // 仕分けはquestion_choicesを使わずmeta(items/baskets)だけで完結する。
-            // items内のcorrect_basket_idは正解の手がかりになるため取り除いて返す。
-            $question->meta = [
-                'items' => collect($question->meta['items'] ?? [])
-                    ->map(fn (array $item) => ['id' => $item['id'], 'image' => $item['image']])
-                    ->all(),
-                'baskets' => $question->meta['baskets'] ?? [],
-            ];
-
-            return;
-        }
-
-        $correct = $question->choices->firstWhere('is_correct', true);
-        $wrong = $question->choices->where('is_correct', false);
-        $display = $wrong->random(min(3, $wrong->count()));
-
-        if ($correct) {
-            $display->push($correct);
-        }
-
-        $question->setRelation('choices', $display->shuffle()->values());
-        $question->choices->each->makeHidden('is_correct');
-    });
+    PlayableQuestion::present($questions);
 
     return [
         'id' => $stage->id,
@@ -1097,6 +1059,16 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
 
     $isCorrect = $result['correct'];
 
+    // 解いた直後のやり直しは練習なので、正解かどうかだけを返し何も記録しない(設計書3-7)
+    if ($request->boolean('practice')) {
+        return [
+            'correct' => $isCorrect,
+            'correct_choice_id' => $result['correct_choice_id'] ?? null,
+            'results' => $result['results'] ?? null,
+            'profile' => null,
+        ];
+    }
+
     $profileId = $request->session()->get('active_profile_id');
     $profile = $profileId ? UserProfile::find($profileId) : null;
 
@@ -1161,6 +1133,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'level_xp' => LevelCurve::progress($profile->level),
             'spru_growth' => Garden::growth($profile),
             'garden_busy' => Garden::activeSeed($profile) !== null,
+            'partner' => Bond::addToPartner($profile, $isCorrect ? config('companions.bond_per_correct') : 0),
         ];
     }
 
@@ -1274,6 +1247,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'spru' => ['growth' => Garden::growth($profile)],
             'garden' => Garden::state($profile),
             'companions' => Garden::companions($profile),
+            'review' => Review::state($profile),
         ];
     })->name('show');
 
@@ -1316,6 +1290,47 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
         });
     })->name('garden.water');
 
+    Route::patch('/companions/{key}', function (Request $request, string $key) {
+        $activeProfile = ActiveProfile::require($request);
+        $nickname = $request->input('nickname');
+        // 前後の空白(全角の空白も)を取り、空なら元の名前に戻す(設計書3-2)
+        $nickname = is_string($nickname) ? preg_replace('/^[\s\x{3000}]+|[\s\x{3000}]+$/u', '', $nickname) : $nickname;
+        $nickname = $nickname === '' ? null : $nickname;
+        $max = config('companions.nickname_max');
+        Validator::make(
+            ['nickname' => $nickname],
+            ['nickname' => ['nullable', 'string', "max:{$max}", 'regex:/^[^\p{Cc}]*$/u']],
+            [
+                'nickname.string' => '名前は文字で入れてね',
+                'nickname.max' => "{$max}文字までにしてね",
+                'nickname.regex' => '使えない文字が入っているよ',
+            ],
+        )->validate();
+
+        return DB::transaction(function () use ($activeProfile, $key, $nickname) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+            $companion = $profile->companions()->where('companion_key', $key)->first();
+            abort_unless($companion, 404);
+            $companion->update(['nickname' => $nickname]);
+
+            return ['companions' => Garden::companions($profile), 'review' => Review::state($profile)];
+        });
+    })->name('companions.update');
+
+    Route::post('/partner', function (Request $request) {
+        $activeProfile = ActiveProfile::require($request);
+        $data = $request->validate(['key' => ['required', 'string']]);
+
+        return DB::transaction(function () use ($activeProfile, $data) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+            abort_unless($profile->companions()->where('companion_key', $data['key'])->exists(), 422, 'まだ生まれていない仲間だよ');
+            $profile->partner_companion_key = $data['key'];
+            $profile->save();
+
+            return ['companions' => Garden::companions($profile), 'review' => Review::state($profile)];
+        });
+    })->name('partner');
+
     Route::patch('/items/{profileWorldItem}', function (Request $request, ProfileWorldItem $profileWorldItem) {
         $profile = ActiveProfile::require($request);
         abort_unless($profileWorldItem->user_profile_id === $profile->id, 404);
@@ -1346,6 +1361,24 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
 
         return $profileWorldItem->load('shopItem')->toWorldArray();
     })->name('items.update');
+});
+
+Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(function () {
+    Route::get('/', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+
+        return ['giver' => Review::giver($profile), 'questions' => Review::questions($profile)];
+    })->name('show');
+
+    Route::post('/complete', function (Request $request) {
+        $activeProfile = ActiveProfile::require($request);
+
+        return DB::transaction(function () use ($activeProfile) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+            return Review::complete($profile);
+        });
+    })->name('complete');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {
