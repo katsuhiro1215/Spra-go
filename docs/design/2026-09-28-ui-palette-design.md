@@ -21,6 +21,7 @@
 | 作り方 | **共通部品を先に作り、画面ごとに差し替える**（A案）。色に名前を付けて町の画面まで書き直すことはしない |
 | 空の上の見出しの色 | **朝・昼・夕方はこげ茶、夜は白**（白い文字は昼の水色の空ではコントラストが足りないため） |
 | アイコン | 見出しやボタンの絵文字は、町と同じ線のアイコン（lucide）に替える。国の `mood_emoji` など中身として登録してある絵文字は残す |
+| バッジ（2026-09-28追加） | Ownerが用意したバッジの素材集を使う。**小さい所（20〜24px）はシンプルな mascot-10、大きい所（40〜72px）はスプル入りの mascot-9**（mascot-9は小さいと顔や小物がつぶれるため。4-2の表） |
 | 文言 | 変えない。**例外は答えのあとの見出しだけ**で、モックアップ（案A）のとおり「Correct!!」→「せいかい！」、「Wrong...」→「おしい！」、「正解: 〇〇」→「こたえは「〇〇」」にする |
 
 ## 3. 配色のきまり
@@ -40,7 +41,6 @@
 | 正解 | 明るい緑 `#5bb33e`（ふち `#3b7f26`）、見出しの文字は `#2e6b1c`、✓を添える |
 | 不正解 | やわらかい朱色 `#f28b6d`（ふち `#c9573b`）、見出しの文字は `#b4472c`、✕を添える |
 | エラーの文字 | `#c2402c` |
-| メダル | 金 `#d4a72c`・銀 `#9aa3ab`・銅 `#c47a45` |
 
 ## 4. 共通部品
 
@@ -50,10 +50,29 @@
 | `SkyTitle`（新規、同じファイル） | 空の上に直接置く見出し。`useSkyTime()` の時間帯で、朝・昼・夕方はこげ茶、夜は白にする |
 | `Panel`（新規、`components/app/panel.tsx`） | クリーム色のカード（3章の色・角・影） |
 | `AppButton`（`components/app/button.tsx`） | 色の種類を新配色に置き換える（名前はそのまま、使っている画面はそのまま新しい色になる）。`default`＝白・こげ茶の文字、`primary`＝緑、`secondary`＝明るい緑（正解）、`warning`＝山吹 `#f2b632`（下の厚み `#c98f12`、こげ茶の文字）、`danger`＝やわらかい朱色（不正解）、`ghost`＝透明・こげ茶の文字、`locked`＝ベージュ `#efe5cf`・弱い補足の文字。英字向けの `uppercase`・`tracking-wide` はやめ、文字は太め（`font-black`） |
-| `AppHeader`（`components/app/app-header.tsx`） | 黒い半透明の帯をやめ、背景は空のまま。ロゴ・学習ポイント・コイン・HP・アバターを、クリーム色の丸い札にする（町の上の段に近づける） |
+| `AppHeader`（`components/app/app-header.tsx`） | 黒い半透明の帯をやめ、背景は空のまま。ロゴ・学習ポイント・コイン・HP・アバターを、クリーム色の丸い札にする（町の上の段に近づける）。札の絵は4-2のバッジ（`points`・`coins`・`hp`・連続プレイは `streak`） |
 | `BackLink`（`components/app/back-link.tsx`） | クリーム色の丸い札（旅先の国の画面の「旅の地図へ戻る」と同じ形） |
 | `StagePath`（`components/app/stage-path.tsx`） | 次に遊ぶ＝山吹と星、クリア＝明るい緑と✓、ボス＝朱色 `#e5664a` と王冠、ロック＝ベージュと鍵、選択中＝青のふち。アイコンは lucide（`Star`・`Check`・`Crown`・`Lock`）。「START」の吹き出しはクリーム色に青の文字 |
 | `SceneBackground` | 未ログインのLP（`guest-landing.tsx`）だけに残す。ほかの画面からは外す |
+
+### 4-2. バッジ（mascot-9・mascot-10）
+
+素材集 `company/mascot/assets/mascot-9.png`（スプル入りのバッジ20個）・`mascot-10.png`（シンプルなバッジ26個）から、使うものだけを切り抜く。切り抜きは今のスプルの画像と同じ道具（`tools/spru-assets/crops.json`・`extract.py`）に「badges」の組として足し、光のふちを落とした透過のwebp（`public/spru/badges/`）にする。画面では `BadgeImage`（新規）で出す。
+
+| キー | 素材 | 絵 | 使う場所 |
+|---|---|---|---|
+| `streak` | mascot-10 | 炎 | ヘッダーの連続プレイの札、答えのあとのカードのコンボ・連続プレイ |
+| `points` | mascot-10 | 葉 | ヘッダーの学習ポイントの札、町の上の段の学習ポイント |
+| `coins` | mascot-10 | 宝箱 | ヘッダーのコインの札、ショップの「コインを購入」の見出し |
+| `hp` | mascot-10 | ハート | ヘッダーのHPの札、町の上の段のHP、答えのあとのカードのHPが減ったとき |
+| `star` | mascot-9 | 星 | パスポートの国スタンプ（初級クリア） |
+| `medal` | mascot-9 | 金メダル | パスポートの国スタンプ（中級までクリア） |
+| `trophy` | mascot-9 | トロフィー | パスポートの国スタンプ（全難易度クリア）、クイズの結果（全問正解のときだけスプルの横に） |
+| `crown` | mascot-9 | 王冠と翼 | クイズの結果の「称号「〇〇」を獲得しました！」、パスポートの「獲得した称号」の見出し |
+
+- パスポートのスタンプは、mascot-9に銀・銅のメダルがないため、段が上がるほど豪華なバッジ（星 → 金メダル → トロフィー）にする。未訪問は今の「?」のアイコンのまま
+- 16px以下の小さなアイコン（タブの鍵・トロフィーなど）は、つぶれるので線のアイコン（lucide）のまま
+- 使わないバッジは今は切り抜かない（図鑑・実績を作るときに使う）
 
 ### 計算だけの部品（Vitestでテストする）
 
@@ -63,7 +82,7 @@
 - `choiceTone({ answered, isCorrect, isSelected })`: 選択肢のボタンの色の種類（答える前＝`default`、正解＝`secondary`、選んだ不正解＝`danger`、ほか＝`locked`）。今の `quiz-session.tsx` の中の決め方を切り出す
 - `answerHeadline(correct: boolean)`: 「せいかい！」か「おしい！」
 - `correctAnswerLine(label: string)`: 「こたえは「〇〇」」
-- `stampMedal(tier)`: パスポートのスタンプの段位（`gold`・`silver`・`bronze`・`none`）から、メダルの色と文言（「全難易度クリア」など今の文言）を返す
+- `stampBadge(tier)`: パスポートのスタンプの段位（`gold`・`silver`・`bronze`・`none`）から、バッジ（`trophy`・`medal`・`star`・なし）・丸のふちの色・文言（「全難易度クリア」など今の文言）を返す
 
 ## 5. 画面ごとの変え方
 
@@ -74,13 +93,14 @@
 | 学ぶ（国選び） | `app/learn/page.tsx`、`components/app/world-map.tsx` | 国のボタンは国旗付きの白いボタン。「あなたの国?」の札は残す。PCの「フラッグ／地図」の切り替え（🚩🗺 → lucide `Flag`・`Map`）とミニアプリの引き出しもクリーム色。世界地図の国の色を新配色に寄せる |
 | 国の詳しい画面 | `app/travel/[countryId]/page.tsx` | 国旗・国名・紹介・達成率を上の段の `Panel` にまとめる。「〇〇について学ぶ／英語を学ぶ」と難易度のタブは、選ばれたもの＝緑、ほか＝白、ロック＝ベージュ（🔒🏆 → lucide）。地域のカードは白 |
 | 出発前の画面・地域の画面 | `app/travel/[countryId]/start/page.tsx`、`app/travel/[countryId]/region/[regionId]/page.tsx` | 同じきまり |
-| クイズ（ステージ・復習） | `app/quiz/[stageId]/page.tsx`、`app/review/page.tsx`、`components/quiz/quiz-session.tsx`、`stage-start-card.tsx`、`level-up-overlay.tsx` | 問題は `Panel`、選択肢は `choiceTone` で色を決めた `AppButton`。答えのあとは空の上にクリーム色のカードを出す（2章の見出し、ポイント・XP・コイン、コンボ・連続プレイ（🔥 → lucide `Flame`）、相棒のハート、HP（❤️ → lucide `Heart`）、正しい答えをカードの中に並べる）。開始・結果・HPがなくなったとき・レベルアップもクリーム色のカード |
+| クイズ（ステージ・復習） | `app/quiz/[stageId]/page.tsx`、`app/review/page.tsx`、`components/quiz/quiz-session.tsx`、`stage-start-card.tsx`、`level-up-overlay.tsx` | 問題は `Panel`、選択肢は `choiceTone` で色を決めた `AppButton`。答えのあとは空の上にクリーム色のカードを出す（2章の見出し、ポイント・XP・コイン、コンボ・連続プレイ（🔥 → lucide `Flame`）、相棒のハート、HP（❤️ → lucide `Heart`）、正しい答えをカードの中に並べる。コンボ・連続プレイは `streak`、HPは `hp` のバッジ）。結果は全問正解のときだけスプルの横に `trophy`、称号の知らせに `crown` のバッジ。開始・結果・HPがなくなったとき・レベルアップもクリーム色のカード |
 | 並べ替え・仕分け・マッチング | `components/app/ordering-question.tsx`、`sorting-question.tsx`、`matching-question.tsx` | 選択肢と同じボタンの見た目（白・下の厚み）、正解・不正解の色は3章 |
 | ミニアプリ | `app/play/[id]/page.tsx` | 見出しは `SkyTitle`、カテゴリーのボタン・ロック・トロフィーは新配色と lucide |
-| パスポート | `app/passport/page.tsx` | スタンプの🥇🥈🥉❔は `stampMedal` の色の lucide `Medal`（未訪問は `CircleHelp`）。鍵・称号・航空券（✈️ → `Plane`）・思い出の欄は `Panel` |
+| パスポート | `app/passport/page.tsx` | スタンプの🥇🥈🥉は `stampBadge` のバッジ（4-2）、❔は lucide `CircleHelp`。「獲得した称号」の見出しに `crown` のバッジ。鍵・称号・航空券（✈️ → `Plane`）・思い出の欄は `Panel` |
 | プロフィール選び・ログイン・登録 | `app/profiles/page.tsx`、`app/login/page.tsx`、`app/register/page.tsx` | 入力欄とボタンは白いカードの中。「ぼうけんへ出発」などの見出しは `SkyTitle` |
-| ショップ | `app/shop/page.tsx` | 「🛒 ショップ」の見出しは `SkyTitle`（絵文字 → lucide `Store`）。「べんりアイテム（コイン）」「コインを購入」の欄を町のアイテムの欄と同じカードに。✈️ → `Plane` |
+| ショップ | `app/shop/page.tsx` | 「🛒 ショップ」の見出しは `SkyTitle`（絵文字 → lucide `Store`）。「べんりアイテム（コイン）」「コインを購入」の欄を町のアイテムの欄と同じカードに。「コインを購入」の見出しに `coins` のバッジ。✈️ → `Plane` |
 | バッグ・旅先の国の画面 | `app/bag/page.tsx`、`app/trip/[key]/page.tsx` | カードはすでに新配色。背景を `SkyPage` に、見出しを `SkyTitle` に替える |
+| 町の上の段 | `components/world/world-hud.tsx` | HPと学習ポイントの札の絵を、ヘッダーとそろえて4-2のバッジ（`hp`・`points`）にする。色・形は今のまま |
 | 旅のハブ | `app/trip/page.tsx` | 見出し「旅する」を `SkyTitle` に替える（今は白い文字） |
 
 - 画面の流れ・ボタンの位置・機能は変えない
@@ -90,7 +110,7 @@
 
 ### フロントエンド（Vitest）
 
-- `components/app/palette.ts`: 4章の5つの関数（見出しの色が夜だけ白、選択肢の色の4つの場合、見出しの文言、正しい答えの行、スタンプのメダルの4段位）
+- `components/app/palette.ts`: 4章の関数（見出しの色が夜だけ白、選択肢の色の4つの場合、見出しの文言、正しい答えの行、スタンプのバッジの4段位）
 - 既存のテストはすべて通る
 
 ### バックエンド
@@ -100,6 +120,7 @@
 ### ブラウザでの確認（Playwright、390px と 1280px）
 
 - 5章の画面を1つずつ開き、崩れ・読みにくさがない
+- バッジ（4-2）が決めた場所に出て、つぶれずに見える（小さい所は mascot-10）
 - 朝・昼・夕方・夜の4つの時間帯（時計をずらして確かめる）で、背景と見出しの色が変わる
 - クイズ: 正解・不正解のカード、並べ替え・仕分け・マッチング、結果、HPがなくなったとき、レベルアップ
 - ふりがなを付けたとき・動きを減らす設定のとき
