@@ -21,6 +21,18 @@ return [
     ],
 
     /*
+    | 今日のおつかい(docs/design/2026-09-27-spru-wave-d-design.md 3-1)。1日で最大 reward×3＋bonus
+    */
+
+    'errands' => [
+        'first_target' => 5,     // 1つ目「問題に5問正解する」
+        'fallback_target' => 10, // 候補が足りない日の「問題に10問正解する」
+        'reward' => 20,          // 1つにつき
+        'bonus' => 30,           // 3つそろったおまけ
+        'partner_bond' => 3,     // 相棒のおつかいのなかよし度
+    ],
+
+    /*
     | レベルの上がり方: 次のレベルまでに必要なXP = min(base + step × (今のレベル − 1), max)。
     | 最初は上がりやすく、続けるほど上がりにくい(docs/design/2026-09-27-spru-wave-b-design.md 3-6)。
     */

@@ -23,6 +23,7 @@ use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\Bond;
 use App\Support\ContinueStage;
+use App\Support\Errands;
 use App\Support\Family;
 use App\Support\Garden;
 use App\Support\LevelCurve;
@@ -1249,6 +1250,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'garden' => Garden::state($profile),
             'companions' => Garden::companions($profile),
             'review' => Review::state($profile),
+            'errands' => Errands::state($profile),
             'greetings' => Family::unseenGreetings($profile),
             'family_count' => Family::others($profile)->count(),
         ];
@@ -1411,6 +1413,17 @@ Route::middleware(['auth:sanctum'])->prefix('family')->name('family.')->group(fu
         return ['greeted_today' => true];
     })->whereNumber('profile')->name('greet');
 });
+
+Route::middleware(['auth:sanctum'])->post('/errands/{slot}/claim', function (Request $request, int $slot) {
+    $activeProfile = ActiveProfile::require($request);
+
+    // 二重に押しても1回分だけになるよう、プロフィールをロックしてから渡す
+    return DB::transaction(function () use ($activeProfile, $slot) {
+        $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+        return Errands::claim($profile, $slot);
+    });
+})->whereNumber('slot')->name('errands.claim');
 
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {
     Route::get('/', function (Request $request) {
