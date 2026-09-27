@@ -68,14 +68,14 @@ export function SortingQuestion({
               className={cn(
                 "flex flex-col items-center gap-1 rounded-xl border-2 border-b-4 bg-white p-2 transition-colors disabled:pointer-events-none",
                 activeItemId === item.id
-                  ? "border-sky-400 bg-sky-50"
-                  : "border-slate-200",
+                  ? "border-[#2b6fa3] bg-[#e6f1f9]"
+                  : "border-[#e8dfcf]",
               )}
             >
-              <div className="relative h-12 w-16 overflow-hidden rounded-sm border border-border">
+              <div className="relative h-12 w-16 overflow-hidden rounded-sm border border-[#e8dfcf]">
                 <Image src={item.image} alt="" fill className="object-cover" />
               </div>
-              <span className="min-h-4 text-[10px] font-medium text-slate-600">
+              <span className="min-h-4 text-[10px] font-medium text-[#6b5d45]">
                 {basketLabel ?? "？"}
               </span>
             </button>

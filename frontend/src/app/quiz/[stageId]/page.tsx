@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 import { AppHeader } from "@/components/app/app-header";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { useProfile } from "@/components/app/profile-provider";
-import { SceneBackground } from "@/components/app/scene-background";
+import { BadgeImage } from "@/components/app/badge-image";
+import { SkyPage, SkyText } from "@/components/app/sky-page";
 import { QuizSession } from "@/components/quiz/quiz-session";
 import type { QuizQuestion } from "@/components/quiz/types";
 import { apiFetch } from "@/lib/api";
@@ -56,40 +57,41 @@ export default function Page({
     // ステージクリアのコイン+100・学習ポイント+50をヘッダーにも反映する
     applyPartial({ coins: data.profile.coins, points: data.profile.points });
     return data.title_granted && data.title ? (
-      <p className="text-sm font-semibold text-amber-600">
-        🏆 称号「{data.title}」を獲得しました！
+      <p className="flex items-center justify-center gap-2 text-sm font-black text-[#7a5a0e]">
+        <BadgeImage badge="crown" size={44} />
+        称号「{data.title}」を獲得しました！
       </p>
     ) : null;
   }
 
   if (stage === undefined) {
     return (
-      <div className="relative flex min-h-screen flex-col overflow-hidden">
-        <SceneBackground />
+      <SkyPage>
         <AppHeader />
-        <div className="relative z-10 flex flex-1 items-center justify-center text-sm text-white/85 drop-shadow">
-          読み込み中...
+        <div className="relative z-10 flex flex-1 items-center justify-center">
+          <SkyText muted className="text-sm">
+            読み込み中...
+          </SkyText>
         </div>
         <BottomNav />
-      </div>
+      </SkyPage>
     );
   }
 
   if (stage === null || stage.questions.length === 0) {
     return (
-      <div className="relative flex min-h-screen flex-col overflow-hidden">
-        <SceneBackground />
+      <SkyPage>
         <AppHeader />
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-3">
-          <p className="text-sm text-white/85 drop-shadow">
+          <SkyText muted className="text-sm">
             このステージは見つかりませんでした。
-          </p>
-          <Link href="/" className="text-sm text-white/85 hover:underline">
+          </SkyText>
+          <Link href="/" className="rounded-full bg-[#fffaf0] px-3 py-1.5 text-sm font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white">
             ホームに戻る
           </Link>
         </div>
         <BottomNav />
-      </div>
+      </SkyPage>
     );
   }
 
@@ -101,7 +103,8 @@ export default function Page({
         <>
           {stage.category.name} ・ Stage {stage.stage_number}
           {stage.is_boss && (
-            <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-bold text-white">
+            <span className="flex items-center gap-0.5 rounded-full bg-[#e5664a] py-0.5 pr-2 pl-1 text-[10px] font-bold text-white">
+              <BadgeImage badge="boss" size={16} />
               BOSS
             </span>
           )}

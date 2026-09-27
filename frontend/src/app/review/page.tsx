@@ -8,7 +8,7 @@ import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
-import { SceneBackground } from "@/components/app/scene-background";
+import { SkyPage, SkyText } from "@/components/app/sky-page";
 import { QuizSession } from "@/components/quiz/quiz-session";
 import type { QuizQuestion } from "@/components/quiz/types";
 import { SpruFigure } from "@/components/spru/spru-figure";
@@ -66,24 +66,24 @@ export default function ReviewPage() {
 
   if (state === undefined) {
     return (
-      <div className="relative flex min-h-screen flex-col overflow-hidden">
-        <SceneBackground />
+      <SkyPage>
         <AppHeader />
-        <div className="relative z-10 flex flex-1 items-center justify-center text-sm text-white/85 drop-shadow">
-          読み込み中...
+        <div className="relative z-10 flex flex-1 items-center justify-center">
+          <SkyText muted className="text-sm">
+            読み込み中...
+          </SkyText>
         </div>
         <BottomNav />
-      </div>
+      </SkyPage>
     );
   }
 
   if (state.kind === "closed") {
     return (
-      <div className="relative flex min-h-screen flex-col overflow-hidden">
-        <SceneBackground />
+      <SkyPage>
         <AppHeader />
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 text-center">
-          <div className="flex flex-col items-center gap-4 rounded-2xl bg-white/90 p-8 shadow-xl backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-4 rounded-3xl bg-[#fffaf0] p-8 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
             <SpruFigure image="smile" standHeight={96} />
             <p className="text-base font-bold">
               <AutoFurigana text={state.message} />
@@ -94,7 +94,7 @@ export default function ReviewPage() {
           </div>
         </div>
         <BottomNav />
-      </div>
+      </SkyPage>
     );
   }
 

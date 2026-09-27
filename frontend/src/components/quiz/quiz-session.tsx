@@ -6,12 +6,14 @@ import Link from "next/link";
 
 import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { BadgeImage } from "@/components/app/badge-image";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { MatchingQuestion, type MatchingResult } from "@/components/app/matching-question";
 import { OrderingQuestion } from "@/components/app/ordering-question";
+import { answerHeadline, choiceTone } from "@/components/app/palette";
 import { useProfile } from "@/components/app/profile-provider";
-import { SceneBackground } from "@/components/app/scene-background";
+import { SkyPage } from "@/components/app/sky-page";
 import { SortingQuestion } from "@/components/app/sorting-question";
 import { useSound } from "@/components/app/sound-provider";
 import { bloomOf, type Bloom } from "@/components/spru/bloom";
@@ -86,7 +88,7 @@ function ChoiceLabel({ label }: { label: string }) {
     <img
       src={`/flag/${flagCode}.svg`}
       alt={label}
-      className="h-9 w-12 rounded-sm border border-border object-cover"
+      className="h-9 w-12 rounded-sm border border-[#e8dfcf] object-cover"
       onError={() => setImageFailed(true)}
     />
   );
@@ -232,22 +234,21 @@ export function QuizSession({
   // やり直しは練習なのでHPが0でも遊べる
   if (hpBlocked && !practice && !finished && !answered) {
     return (
-      <div className="relative flex min-h-screen flex-col overflow-hidden">
-        <SceneBackground />
+      <SkyPage>
         <AppHeader />
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
-          <div className="flex flex-col items-center gap-4 rounded-2xl bg-white/90 p-8 shadow-xl backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-4 rounded-3xl bg-[#fffaf0] p-8 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
             <SpruFigure image="sleep" standHeight={96} />
-            <h1 className="text-xl font-bold">これ以上続けられません</h1>
-            <p className="text-sm text-muted-foreground">
+            <h1 className="text-xl font-black">これ以上続けられません</h1>
+            <p className="text-sm text-[#6b5d45]">
               スプルもひと休み。HPが回復したらまた遊ぼう
             </p>
             {hpBlockedSecondsLeft > 0 ? (
-              <p className="text-3xl font-bold text-primary">
+              <p className="text-3xl font-bold text-[#2e6b1c]">
                 {formatMinutesSeconds(hpBlockedSecondsLeft)}
               </p>
             ) : (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-[#6b5d45]">
                 確認しています...
               </p>
             )}
@@ -257,7 +258,7 @@ export function QuizSession({
           </div>
         </div>
         <BottomNav />
-      </div>
+      </SkyPage>
     );
   }
 
@@ -427,20 +428,20 @@ export function QuizSession({
     const result = pickResult(score, round.length);
     const missedCount = missedIds.length;
     return (
-      <div className="relative flex min-h-screen flex-col overflow-hidden">
-        <SceneBackground />
+      <SkyPage>
         <AppHeader />
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-6 px-6 text-center">
-          <div className="flex flex-col items-center gap-6 rounded-2xl bg-white/90 p-8 shadow-xl backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-6 rounded-3xl bg-[#fffaf0] p-8 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
             <div className="flex items-end gap-3">
               <SpruFigure image={result.image} standHeight={96} bloom={bloomOf(spruGrowth)} className={result.image === "jump" ? "animate-spru-hop" : undefined} />
               {partner && <CompanionImage companionKey={partner.key} standHeight={96} />}
+              {!practice && score === round.length && <BadgeImage badge="trophy" size={72} alt="全問正解のトロフィー" />}
             </div>
-            <h1 className="text-2xl font-bold">{practice ? "もう一度チャレンジ" : "結果発表"}</h1>
-            <p className="text-4xl font-bold text-primary">
+            <h1 className="text-2xl font-black">{practice ? "もう一度チャレンジ" : "結果発表"}</h1>
+            <p className="text-4xl font-bold text-[#2e6b1c]">
               {score} / {round.length} 問正解
             </p>
-            {result.line && <p className="text-sm font-semibold text-muted-foreground">{result.line}</p>}
+            {result.line && <p className="text-sm font-semibold text-[#6b5d45]">{result.line}</p>}
             {!practice && finishNote}
             <div className="flex flex-wrap justify-center gap-3">
               {missedCount > 0 && (
@@ -460,7 +461,7 @@ export function QuizSession({
           </div>
         </div>
         <BottomNav />
-      </div>
+      </SkyPage>
     );
   }
 
@@ -469,21 +470,20 @@ export function QuizSession({
   )?.label;
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden">
-      <SceneBackground />
+    <SkyPage>
       <AppHeader />
       {currentIndex === 0 && !practice && stageNumber !== null && <StageStartCard key={runId} stageNumber={stageNumber} />}
       <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12">
-        <div className="flex flex-col gap-8 rounded-2xl bg-white/90 p-6 shadow-xl backdrop-blur-sm">
+        <div className="flex flex-col gap-8 rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
           <div>
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
+            <p className="flex items-center gap-2 text-sm text-[#6b5d45]">
               {practice ? "もう一度チャレンジ" : title}
               <span>
                 ・ 問題 {currentIndex + 1} / {round.length}
               </span>
             </p>
             {question.meta?.image ? (
-              <div className="relative mx-auto mt-4 h-32 w-52 overflow-hidden rounded-lg border border-border shadow-sm">
+              <div className="relative mx-auto mt-4 h-32 w-52 overflow-hidden rounded-lg border border-[#e8dfcf] shadow-sm">
                 <Image
                   src={question.meta.image}
                   alt=""
@@ -493,7 +493,7 @@ export function QuizSession({
               </div>
             ) : (
               question.country && (
-                <div className="relative mx-auto mt-4 h-28 w-44 overflow-hidden rounded-lg border border-border shadow-sm">
+                <div className="relative mx-auto mt-4 h-28 w-44 overflow-hidden rounded-lg border border-[#e8dfcf] shadow-sm">
                   <Image
                     src={`/flag/${question.country.code}.svg`}
                     alt={question.country.name}
@@ -503,7 +503,7 @@ export function QuizSession({
                 </div>
               )
             )}
-            <h1 className="mt-2 text-xl font-bold">
+            <h1 className="mt-2 text-xl font-black">
               <AutoFurigana text={question.prompt} />
             </h1>
           </div>
@@ -535,13 +535,11 @@ export function QuizSession({
           ) : (
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {question.choices.map((choice) => {
-                let variant: "default" | "secondary" | "danger" | "locked" =
-                  "default";
-                if (answered) {
-                  if (choice.id === correctChoiceId) variant = "secondary";
-                  else if (choice.id === selectedChoiceId) variant = "danger";
-                  else variant = "locked";
-                }
+                const variant = choiceTone({
+                  answered,
+                  isCorrect: choice.id === correctChoiceId,
+                  isSelected: choice.id === selectedChoiceId,
+                });
 
                 return (
                   <AppButton
@@ -564,111 +562,98 @@ export function QuizSession({
 
         </div>
       </div>
-      {/* 正解・不正解の画面。カードの backdrop-blur が fixed の基準になって画面いっぱいに広がらないため、カードの外に置く */}
+      {/* 正解・不正解のカード(設計書2章の案A)。空は明るいまま、クリーム色のカードで知らせる。fixed の基準がずれないよう、問題のカードの外に置く */}
       {answered && (
-        <div
-          className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 px-6 text-center ${
-            lastCorrect
-              ? "bg-linear-to-br from-emerald-950 via-green-900 to-emerald-950"
-              : "bg-linear-to-br from-zinc-950 via-rose-950 to-zinc-950"
-          }`}
-        >
-          <div className="flex items-end gap-3">
-            <SpruFigure
-              key={currentIndex}
-              image={pickAnswerImage({
-                correct: lastCorrect,
-                combo: combo?.combo ?? 0,
-                comboBonus: combo?.combo_milestone_bonus_coin ?? 0,
-              })}
-              standHeight={100}
-              bloom={bloomOf(spruGrowth)}
-              className="animate-pop-in"
-            />
-            {partner && (
-              <CompanionImage
-                key={`partner-${currentIndex}`}
-                companionKey={partner.key}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(143,212,233,0.55)] px-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="answer-headline"
+            className="animate-pop-in flex max-h-[90vh] w-full max-w-[360px] flex-col items-center gap-3 overflow-y-auto rounded-3xl bg-[#fffaf0] px-5 pt-5 pb-5 text-center text-[#3b3226] shadow-[0_16px_36px_rgba(0,0,0,0.2)]"
+          >
+            <div className="flex items-end gap-3">
+              <SpruFigure
+                key={currentIndex}
+                image={pickAnswerImage({
+                  correct: lastCorrect,
+                  combo: combo?.combo ?? 0,
+                  comboBonus: combo?.combo_milestone_bonus_coin ?? 0,
+                })}
                 standHeight={100}
+                bloom={bloomOf(spruGrowth)}
                 className="animate-pop-in"
               />
-            )}
-          </div>
-          {lastCorrect ? (
-            <>
-              <p className="animate-stage-intro text-6xl font-extrabold text-white drop-shadow-lg">
-                Correct!!
-              </p>
-              <p className="animate-stage-intro-subtitle flex gap-4 text-lg font-semibold text-white/90">
-                {typeof lastDelta?.xp === "number" && (
-                  <span>+{lastDelta.xp}XP</span>
-                )}
-                {typeof lastDelta?.coin === "number" && (
-                  <span>+{lastDelta.coin}Coin</span>
-                )}
-                {typeof lastDelta?.point === "number" && (
-                  <span>+{lastDelta.point}pt</span>
-                )}
-              </p>
-              {combo && combo.combo >= 2 && (
-                <p className="animate-stage-intro-subtitle text-lg font-bold text-amber-300">
-                  🔥 {combo.combo}コンボ！
-                </p>
+              {partner && (
+                <CompanionImage
+                  key={`partner-${currentIndex}`}
+                  companionKey={partner.key}
+                  standHeight={100}
+                  className="animate-pop-in"
+                />
               )}
-              {combo && combo.combo_milestone_bonus_coin > 0 && (
-                <p className="animate-stage-intro-subtitle text-base font-semibold text-amber-200">
-                  ボーナス +{combo.combo_milestone_bonus_coin}Coin
+            </div>
+            <p id="answer-headline" className={`text-4xl font-black ${lastCorrect ? "text-[#2e6b1c]" : "text-[#b4472c]"}`}>
+              {answerHeadline(lastCorrect)}
+            </p>
+            {lastCorrect ? (
+              <>
+                <p className="flex gap-4 text-base font-black text-[#2e6b1c]">
+                  {typeof lastDelta?.xp === "number" && <span>+{lastDelta.xp}XP</span>}
+                  {typeof lastDelta?.coin === "number" && <span>+{lastDelta.coin}Coin</span>}
+                  {typeof lastDelta?.point === "number" && <span>+{lastDelta.point}pt</span>}
                 </p>
-              )}
-              {streak?.streak_extended_today && (
-                <p className="animate-stage-intro-subtitle text-base font-semibold text-orange-200">
-                  🔥 {streak.streak}日連続プレイ！
-                  {streak.streak_milestone_bonus_coin > 0 &&
-                    ` ボーナス+${streak.streak_milestone_bonus_coin}Coin`}
-                </p>
-              )}
-              {partnerUp && (
-                <div className="animate-stage-intro-subtitle flex flex-col items-center gap-1 rounded-2xl bg-white/15 px-4 py-2 text-white">
-                  <p className="text-base font-black text-pink-200">
-                    <AutoFurigana text={`${partnerUp.name}とのなかよし度が上がった！`} />
+                {combo && combo.combo >= 2 && (
+                  <p className="flex items-center gap-1 text-base font-black text-[#c2402c]">
+                    <BadgeImage badge="streak" size={22} />
+                    {combo.combo}コンボ！
                   </p>
-                  <p className="text-lg tracking-widest text-pink-300" aria-label={`ハート${partnerUp.hearts}つ`}>
-                    {heartsText(partnerUp.hearts)}
+                )}
+                {combo && combo.combo_milestone_bonus_coin > 0 && (
+                  <p className="text-sm font-bold text-[#7a5a0e]">ボーナス +{combo.combo_milestone_bonus_coin}Coin</p>
+                )}
+                {streak?.streak_extended_today && (
+                  <p className="flex items-center gap-1 text-sm font-bold text-[#c2402c]">
+                    <BadgeImage badge="streak" size={20} />
+                    {streak.streak}日連続プレイ！
+                    {streak.streak_milestone_bonus_coin > 0 && ` ボーナス+${streak.streak_milestone_bonus_coin}Coin`}
                   </p>
-                  {partnerUp.new_line && (
-                    <p className="text-sm font-bold">
-                      <AutoFurigana text={`「${partnerUp.new_line}」`} />
+                )}
+                {partnerUp && (
+                  <div className="flex w-full flex-col items-center gap-1 rounded-2xl bg-[#fdeef2] px-4 py-2">
+                    <p className="text-sm font-black text-[#b03a64]">
+                      <AutoFurigana text={`${partnerUp.name}とのなかよし度が上がった！`} />
                     </p>
-                  )}
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              <p className="animate-stage-intro text-5xl font-extrabold text-rose-200 drop-shadow-lg">
-                Wrong...
-              </p>
-              <p className="animate-stage-intro-subtitle flex flex-col items-center gap-1 text-lg font-semibold text-white/90">
-                {typeof lastDelta?.hp === "number" && (
-                  <span>❤️{lastDelta.hp}</span>
+                    <p className="text-lg tracking-widest text-[#d9467a]" aria-label={`ハート${partnerUp.hearts}つ`}>
+                      {heartsText(partnerUp.hearts)}
+                    </p>
+                    {partnerUp.new_line && (
+                      <p className="text-sm font-bold">
+                        <AutoFurigana text={`「${partnerUp.new_line}」`} />
+                      </p>
+                    )}
+                  </div>
                 )}
-                {correctChoiceLabel && (
-                  <span className="flex items-center gap-1 text-base font-normal text-white/80">
-                    正解: <ChoiceLabel label={correctChoiceLabel} />
+              </>
+            ) : (
+              <div className="flex flex-col items-center gap-1 text-base font-bold text-[#6b5d45]">
+                {typeof lastDelta?.hp === "number" && (
+                  <span className="flex items-center gap-1 text-[#c2402c]">
+                    <BadgeImage badge="hp" size={22} />
+                    {lastDelta.hp}
                   </span>
                 )}
-              </p>
-            </>
-          )}
+                {correctChoiceLabel && (
+                  <span className="flex items-center gap-1">
+                    こたえは「<ChoiceLabel label={correctChoiceLabel} />」
+                  </span>
+                )}
+              </div>
+            )}
 
-          <AppButton
-            variant="primary"
-            size="lg"
-            onClick={handleNext}
-            className="mt-4"
-          >
-            {isLastQuestion ? "結果を見る ▶" : "次へ ▶"}
-          </AppButton>
+            <AppButton variant="primary" size="lg" onClick={handleNext} className="mt-1 w-full">
+              {isLastQuestion ? "結果を見る ▶" : "次へ ▶"}
+            </AppButton>
+          </div>
         </div>
       )}
       {levelUpOpen && levelUp && (
@@ -683,6 +668,6 @@ export function QuizSession({
           onContinue={handleLevelUpContinue}
         />
       )}
-    </div>
+    </SkyPage>
   );
 }
