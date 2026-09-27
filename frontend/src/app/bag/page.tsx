@@ -59,7 +59,14 @@ export default function Page() {
                 key={item.id}
                 className="flex flex-col items-center gap-2 rounded-2xl bg-[#fffaf0] p-3 text-[#3b3226] shadow-lg"
               >
-                <ItemIcon assetKey={item.asset_key} size={64} />
+                <div className="relative">
+                  <ItemIcon assetKey={item.asset_key} size={64} />
+                  {item.footprint > 1 && (
+                    <span className="absolute -top-1 -left-4 rounded-full bg-[#3b7f26] px-1.5 py-0.5 text-[10px] leading-none font-black whitespace-nowrap text-white">
+                      2×2マス
+                    </span>
+                  )}
+                </div>
                 <span className="text-sm font-black">{item.name}</span>
                 <Link
                   href={`/?place=${item.id}`}

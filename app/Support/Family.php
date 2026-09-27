@@ -61,7 +61,7 @@ class Family
 
         return [
             'profile' => ['id' => $other->id, 'name' => $other->name, 'level' => $other->level],
-            'land' => WorldLand::toArray(),
+            'land' => WorldLand::toArray($other->level),
             'items' => $other->worldItems()->with('shopItem')->whereNotNull('x')->whereNotNull('y')->orderBy('id')->get()
                 ->map->toWorldArray()->values()->all(),
             'spru' => ['growth' => Garden::growth($other)],

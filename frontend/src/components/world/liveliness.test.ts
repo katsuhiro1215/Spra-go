@@ -16,6 +16,11 @@ describe("にぎやか度の数え方", () => {
   it("仲間は1人+3", () => {
     expect(livelinessScore([item(1)], 2)).toBe(3 + 6);
   });
+
+  it("2×2の建物は2倍で数える(1つ目+6、2つ目から+2)", () => {
+    const castle = { ...item(9), footprint: 2 };
+    expect(livelinessScore([castle, castle, item(1)], 0)).toBe(6 + 2 + 3);
+  });
 });
 
 describe("にぎやか度の段階", () => {

@@ -244,6 +244,11 @@ function ShopContent() {
                           <span>{affordable ? "ポイントはOK / レベルが足りない" : "レベルとポイントが必要"}</span>
                         </div>
                       )}
+                      {item.footprint > 1 && (
+                        <span className="absolute top-1 left-1 rounded-full bg-[#3b7f26] px-1.5 py-0.5 text-[10px] leading-none font-black text-white">
+                          2×2マス
+                        </span>
+                      )}
                     </div>
                     <p className="text-[13.5px] font-black">{item.name}</p>
                     <p className="-mt-1 text-sm font-bold text-[#2e6b1c]">{item.price}pt</p>

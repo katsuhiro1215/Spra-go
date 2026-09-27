@@ -1,7 +1,7 @@
 export type Tile = [number, number];
 
 export type Landmark = {
-  key: "spru_house" | "torii" | "stone_lantern" | "garden";
+  key: "spru_house" | "torii" | "stone_lantern" | "garden" | "bamboo_grove" | "pier";
   x: number;
   y: number;
 };
@@ -11,12 +11,32 @@ export type WorldItem = {
   shop_item_id: number;
   name: string;
   asset_key: string | null;
+  /** 使うマスの一辺。2なら (x, y) を奥のマスにして2×2(設計書3-4) */
+  footprint: number;
   x: number | null;
   y: number | null;
 };
 
+export type Ground = "grass" | "bamboo" | "sand" | "hill";
+
+/** 土地の区画(設計書3-1)。unlocked はこの人のレベルで開いているか */
+export type WorldPlot = {
+  key: string;
+  name: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  min_level: number;
+  ground: Ground;
+  unlocked: boolean;
+};
+
 export type WorldLand = {
-  size: number;
+  width: number;
+  height: number;
+  plots: WorldPlot[];
+  /** landmarks・paths・blocked は開いている区画のものだけ */
   landmarks: Landmark[];
   paths: Tile[];
   blocked: Tile[];
@@ -48,6 +68,8 @@ export type WorldData = {
   errands: WorldErrands;
   greetings: WorldGreeting[];
   family_count: number;
+  /** 開いたが、まだ祝っていない区画のキー(必要レベルの低い順) */
+  plots_new: string[];
 };
 
 export type ShopListItem = {
@@ -58,6 +80,7 @@ export type ShopListItem = {
   currency: "coin" | "point";
   min_level: number;
   asset_key: string | null;
+  footprint: number;
   locked: boolean;
   meta: { heal?: number; asset_key?: string } | null;
 };

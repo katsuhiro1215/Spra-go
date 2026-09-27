@@ -32,7 +32,7 @@ class ProfileWorldItem extends Model
         return $this->x !== null && $this->y !== null;
     }
 
-    /** @return array{id: int, shop_item_id: int, name: string, asset_key: ?string, x: ?int, y: ?int} */
+    /** @return array{id: int, shop_item_id: int, name: string, asset_key: ?string, footprint: int, x: ?int, y: ?int} */
     public function toWorldArray(): array
     {
         return [
@@ -40,6 +40,7 @@ class ProfileWorldItem extends Model
             'shop_item_id' => $this->shop_item_id,
             'name' => $this->shopItem->name,
             'asset_key' => $this->shopItem->assetKey(),
+            'footprint' => $this->shopItem->footprint(),
             'x' => $this->x,
             'y' => $this->y,
         ];

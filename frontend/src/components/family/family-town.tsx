@@ -14,6 +14,7 @@ import { pickLine } from "@/components/world/companions";
 import { Festive } from "@/components/world/festive";
 import { liveliness, livelinessStars } from "@/components/world/liveliness";
 import { getSeason, getTimeOfDay, isSpruSleepTime, type TimeOfDay } from "@/components/world/time-of-day";
+import { TownMap } from "@/components/world/town-map";
 import type { FamilyTown as FamilyTownData, WorldGarden } from "@/components/world/types";
 import { WorldScene } from "@/components/world/world-scene";
 import { apiFetch } from "@/lib/api";
@@ -209,27 +210,29 @@ function ReadyTown({
       </header>
 
       <div className="relative mt-3 px-1">
-        <WorldScene
-          readOnly
-          land={town.land}
-          items={town.items}
-          validTiles={NO_TILES}
-          placing={false}
-          onTileTap={noop}
-          onItemTap={noop}
-          spru={mood}
-          bloom={bloomOf(town.spru.growth)}
-          onSpruTap={onSpruTap}
-          timeOfDay={timeOfDay}
-          poppedItemId={null}
-          garden={garden}
-          onGardenTap={noop}
-          companions={town.companions}
-          onCompanionTap={onCompanionTap}
-          companionTalk={talk}
-          reviewGiver={null}
-          quiet={quiet}
-        />
+        <TownMap land={town.land} focus={null}>
+          <WorldScene
+            readOnly
+            land={town.land}
+            items={town.items}
+            validTiles={NO_TILES}
+            placing={false}
+            onTileTap={noop}
+            onItemTap={noop}
+            spru={mood}
+            bloom={bloomOf(town.spru.growth)}
+            onSpruTap={onSpruTap}
+            timeOfDay={timeOfDay}
+            poppedItemId={null}
+            garden={garden}
+            onGardenTap={noop}
+            companions={town.companions}
+            onCompanionTap={onCompanionTap}
+            companionTalk={talk}
+            reviewGiver={null}
+            quiet={quiet}
+          />
+        </TownMap>
         <Festive level={lively.level} timeOfDay={timeOfDay} quiet={quiet} />
         <Ambience timeOfDay={timeOfDay} season={getSeason(new Date(now))} />
       </div>
