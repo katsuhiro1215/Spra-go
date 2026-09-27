@@ -1,7 +1,19 @@
 import type { ReactNode } from "react";
 
+import { SPRU_BLOOM } from "@/components/spru/spru-assets";
+
 // 原点(0,0)がマスの中心(地面に接する点)。Blender製の画像に差し替えるときはこのファイルだけ直す
 const ART: Record<string, ReactNode> = {
+  // 種から咲いた「スプルの花」(非売品)。花は素材集の切り抜き
+  spru_flower: (
+    <g>
+      <ellipse cx={0} cy={2} rx={11} ry={4.5} fill="#2f5d2a" opacity={0.15} />
+      <path d="M0 2 C-1.5 -8 1.5 -14 0 -22" stroke="#5a9e3a" strokeWidth={2.2} fill="none" strokeLinecap="round" />
+      <ellipse cx={-5} cy={-9} rx={5} ry={2.4} fill="#74b35d" transform="rotate(-25 -5 -9)" />
+      <ellipse cx={5} cy={-14} rx={5} ry={2.4} fill="#86c56d" transform="rotate(25 5 -14)" />
+      <image href={SPRU_BLOOM.flower.src} x={-11} y={-36} width={22} height={26} />
+    </g>
+  ),
   bench: (
     <g transform="translate(-32 -52)">
       <ellipse cx={33} cy={55} rx={19} ry={5} fill="#2f5d2a" opacity={0.15} />
@@ -118,12 +130,12 @@ const ART: Record<string, ReactNode> = {
   ),
 };
 
-// 絵が未登録のキーでも画面が壊れないようにする代わりの絵(プレゼント箱)
 // 夜に光るアイテムの光の輪(原点=マスの中心)。絵を差し替えるときは位置も合わせて直す
 export const ITEM_LIGHTS: Record<string, { cx: number; cy: number; r: number }> = {
   chochin: { cx: 9, cy: -20, r: 15 },
 };
 
+// 絵が未登録のキーでも画面が壊れないようにする代わりの絵(プレゼント箱)
 const FALLBACK: ReactNode = (
   <g>
     <ellipse cx={0} cy={2} rx={13} ry={5} fill="#2f5d2a" opacity={0.15} />

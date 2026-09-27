@@ -8,22 +8,29 @@ import { BookOpen } from "lucide-react";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { useProfile } from "@/components/app/profile-provider";
 import { useSound } from "@/components/app/sound-provider";
+import { bloomOf } from "@/components/spru/bloom";
 import { pickTownHint } from "@/components/spru/hint";
 import { pickTownMood, type TownEvent } from "@/components/spru/mood";
 import { apiFetch } from "@/lib/api";
 
+import { Ambience, TIME_THEME } from "./ambience";
+import { BornOverlay } from "./born-overlay";
+import { gardenPrompt, pickGardenTap } from "./garden";
 import { tileKey } from "./iso";
 import { ItemActionSheet } from "./item-action-sheet";
 import { PlacementBar } from "./placement-bar";
-import { Ambience, TIME_THEME } from "./ambience";
 import { getSeason, getTimeOfDay, isSpruSleepTime } from "./time-of-day";
-import type { ShopListItem, WorldData, WorldItem } from "./types";
+import type { BornResult, ShopListItem, WorldCompanion, WorldData, WorldGarden, WorldItem } from "./types";
 import { WelcomeGift } from "./welcome-gift";
 import { WorldHud } from "./world-hud";
 import { WorldScene } from "./world-scene";
 
 const WELCOME_AMOUNT = 100;
 const TAP_IMAGES = ["shy", "laugh", "cheer"] as const;
+// 仲間をタップしたときの吹き出しを出しておく時間
+const COMPANION_TALK_MS = 3_000;
+// 3回目の水やりで生まれたとき、水やりの動きを見せてからお祝いを出す
+const BORN_DELAY_MS = 1_600;
 
 export function WorldScreen() {
   const router = useRouter();
@@ -44,6 +51,10 @@ export function WorldScreen() {
   const [lastInteractionAt, setLastInteractionAt] = useState(() => Date.now());
   const [event, setEvent] = useState<TownEvent | null>(null);
   const [nightWokenAt, setNightWokenAt] = useState<number | null>(null);
+  const [companionTalk, setCompanionTalk] = useState<{ key: string; at: number } | null>(null);
+  const [born, setBorn] = useState<BornResult | null>(null);
+  // 種まき・水やりの通信中は、続けて押しても送らない
+  const [gardenBusy, setGardenBusy] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -105,7 +116,59 @@ export function WorldScreen() {
     return tiles;
   }, [world, placingId]);
 
-  const mood = pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing: placingItem !== null });
+  const placing = placingItem !== null;
+  const growth = world?.spru.growth ?? 0;
+  const prompt = world && !placing ? gardenPrompt(world.garden) : null;
+  const mood = pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing, prompt });
+  const talk = companionTalk && now - companionTalk.at < COMPANION_TALK_MS ? companionTalk : null;
+
+  async function sow() {
+    if (gardenBusy) return;
+    setGardenBusy(true);
+    try {
+      const res = await apiFetch("/api/world/garden/sow", { method: "POST" }).catch(() => null);
+      const data = res ? await res.json().catch(() => ({})) : {};
+      if (!res || !res.ok) {
+        setMessage(data.message ?? "通信エラーが発生しました。");
+        setEvent({ kind: "error", at: Date.now() });
+        return;
+      }
+      const next: { spru: { growth: number }; garden: WorldGarden } = data;
+      setWorld((prev) => (prev ? { ...prev, spru: next.spru, garden: next.garden } : prev));
+      setMessage(null);
+      play("correct");
+      setEvent({ kind: "sow", at: Date.now() });
+    } finally {
+      setGardenBusy(false);
+    }
+  }
+
+  async function water() {
+    if (gardenBusy) return;
+    setGardenBusy(true);
+    try {
+      const res = await apiFetch("/api/world/garden/water", { method: "POST" }).catch(() => null);
+      const data = res ? await res.json().catch(() => ({})) : {};
+      if (!res || !res.ok) {
+        setMessage(data.message ?? "通信エラーが発生しました。");
+        setEvent({ kind: "error", at: Date.now() });
+        return;
+      }
+      const next: { garden: WorldGarden; born: BornResult | null } = data;
+      setWorld((prev) => (prev ? { ...prev, garden: next.garden } : prev));
+      setMessage(null);
+      setEvent({ kind: "water", at: Date.now() });
+      const result = next.born;
+      if (result) {
+        setTimeout(() => {
+          play("allCorrect");
+          setBorn(result);
+        }, BORN_DELAY_MS);
+      }
+    } finally {
+      setGardenBusy(false);
+    }
+  }
 
   // スプル以外をさわったとき。昼に座って・寝ていたら起きる(夜の眠りはスプルをタップしたときだけ起きる)
   function handleInteraction(e: { target: EventTarget }) {
@@ -124,12 +187,54 @@ export function WorldScreen() {
       setEvent({ kind: "woke", at });
       return;
     }
+    if (world.garden.can_sow) {
+      sow();
+      return;
+    }
     setEvent({
       kind: "tap",
       at,
       image: TAP_IMAGES[Math.floor(Math.random() * TAP_IMAGES.length)],
-      hint: pickTownHint({ bag: world.bag, points: world.profile.points, level: world.profile.level, shop }),
+      hint: pickTownHint({
+        bag: world.bag,
+        points: world.profile.points,
+        level: world.profile.level,
+        shop,
+        canWater: world.garden.can_water,
+      }),
     });
+  }
+
+  function handleGardenTap() {
+    if (!world || gardenBusy) return;
+    const tap = pickGardenTap(world.garden);
+    if (tap.action === "sow") sow();
+    else if (tap.action === "water") water();
+    else setEvent({ kind: "say", at: Date.now(), image: tap.image, line: tap.line });
+  }
+
+  function handleCompanionTap(key: string) {
+    setCompanionTalk({ key, at: Date.now() });
+  }
+
+  function handleBornClose() {
+    if (!born) return;
+    const result = born;
+    setBorn(null);
+    if (result.kind === "item") {
+      setWorld((prev) => (prev ? { ...prev, bag: [...prev.bag, result.world_item] } : prev));
+      return;
+    }
+    const companion: WorldCompanion = {
+      key: result.key,
+      name: result.name,
+      trait: result.trait,
+      line: result.line,
+      x: result.x,
+      y: result.y,
+    };
+    setWorld((prev) => (prev ? { ...prev, companions: [...prev.companions, companion] } : prev));
+    setCompanionTalk({ key: companion.key, at: Date.now() });
   }
 
   // 画面を先に更新し、APIが失敗したら元に戻す
@@ -218,7 +323,7 @@ export function WorldScreen() {
       onKeyDown={handleInteraction}
     >
       <div className="relative mx-auto flex min-h-screen w-full max-w-[480px] flex-col pb-28 text-[#3b3226]">
-        <WorldHud name={sharedProfile?.name ?? ""} profile={world.profile} nextUnlock={nextUnlock} />
+        <WorldHud name={sharedProfile?.name ?? ""} profile={world.profile} growth={growth} nextUnlock={nextUnlock} />
 
         {placingItem && <PlacementBar item={placingItem} onCancel={() => setPlacingId(null)} />}
 
@@ -237,13 +342,20 @@ export function WorldScreen() {
             land={world.land}
             items={world.items}
             validTiles={validTiles}
-            placing={placingItem !== null}
+            placing={placing}
             onTileTap={placeAt}
             onItemTap={setSelected}
             spru={mood}
+            bloom={bloomOf(growth)}
             onSpruTap={handleSpruTap}
             timeOfDay={timeOfDay}
             poppedItemId={poppedItemId}
+            garden={world.garden}
+            onGardenTap={handleGardenTap}
+            companions={world.companions}
+            onCompanionTap={handleCompanionTap}
+            companionTalk={talk}
+            quiet={isSpruSleepTime(new Date(now))}
           />
           <Ambience timeOfDay={timeOfDay} season={season} />
         </div>
@@ -276,6 +388,8 @@ export function WorldScreen() {
       {world.welcome_available && (
         <WelcomeGift amount={WELCOME_AMOUNT} busy={welcomeBusy} onReceive={receiveWelcome} />
       )}
+
+      {born && <BornOverlay born={born} onClose={handleBornClose} />}
     </div>
   );
 }

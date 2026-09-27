@@ -25,6 +25,9 @@ export const SPRU_IMAGES = {
   "cheer": { src: "/spru/actions/cheer.webp", width: 124, height: 171 },
   "dash": { src: "/spru/actions/dash.webp", width: 106, height: 155 },
   "palms": { src: "/spru/actions/palms.webp", width: 104, height: 176 },
+  "water": { src: "/spru/actions/water.webp", width: 138, height: 212 },
+  "sow-shake": { src: "/spru/actions/sow-shake.webp", width: 98, height: 161 },
+  "sow-fly": { src: "/spru/actions/sow-fly.webp", width: 93, height: 147 },
 } as const satisfies Record<string, SpruImage>;
 
 export const SPRU_FACES = {
@@ -46,9 +49,58 @@ export const SPRU_SCENES = {
   "grow": { src: "/spru/scenes/grow.webp", width: 180, height: 175 },
 } as const satisfies Record<string, SpruImage>;
 
+export const SPRU_BLOOM = {
+  "flower": { src: "/spru/bloom/flower.webp", width: 45, height: 53 },
+  "bud": { src: "/spru/bloom/bud.webp", width: 25, height: 29 },
+} as const satisfies Record<string, SpruImage>;
+
+export const GARDEN_IMAGES = {
+  "seed": { src: "/spru/garden/seed.webp", width: 65, height: 112 },
+  "sprout": { src: "/spru/garden/sprout.webp", width: 62, height: 120 },
+} as const satisfies Record<string, SpruImage>;
+
+export const COMPANION_IMAGES = {
+  "lumi": { src: "/spru/companions/lumi.webp", width: 86, height: 144 },
+  "momo": { src: "/spru/companions/momo.webp", width: 85, height: 142 },
+  "kuru": { src: "/spru/companions/kuru.webp", width: 88, height: 154 },
+  "piko": { src: "/spru/companions/piko.webp", width: 85, height: 147 },
+  "ruru": { src: "/spru/companions/ruru.webp", width: 82, height: 153 },
+} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
+export type SpruBloomKey = keyof typeof SPRU_BLOOM;
+export type GardenImageKey = keyof typeof GARDEN_IMAGES;
+export type CompanionKey = keyof typeof COMPANION_IMAGES;
 
 /** 立ち姿(3/4)の元画像の高さ。ほかの画像はこれとの比で大きさをそろえる(素材集の中で縮尺が同じため) */
 export const SPRU_STAND_HEIGHT = 208;
+
+/** 各画像の中のSの先の位置(つぼみ・花を重ねる)。種まきの画像は花が描かれているので無い */
+export const SPRU_TIPS: Partial<Record<SpruImageKey, { x: number; y: number }>> = {
+  "front": { x: 90, y: 0 },
+  "three-quarter": { x: 65, y: 1 },
+  "normal": { x: 53, y: 0 },
+  "smile": { x: 72, y: 0 },
+  "laugh": { x: 72, y: 1 },
+  "surprised": { x: 74, y: 1 },
+  "think": { x: 78, y: 0 },
+  "effort": { x: 79, y: 2 },
+  "happy": { x: 76, y: 1 },
+  "sad": { x: 68, y: 1 },
+  "cry": { x: 75, y: 1 },
+  "shy": { x: 73, y: 1 },
+  "excited": { x: 69, y: 0 },
+  "walk": { x: 73, y: 0 },
+  "run": { x: 58, y: 2 },
+  "jump": { x: 42, y: 1 },
+  "wave": { x: 46, y: 1 },
+  "sit": { x: 86, y: 1 },
+  "sleep": { x: 60, y: 1 },
+  "startled": { x: 63, y: 2 },
+  "cheer": { x: 49, y: 1 },
+  "dash": { x: 52, y: 1 },
+  "palms": { x: 64, y: 1 },
+  "water": { x: 82, y: 1 },
+};

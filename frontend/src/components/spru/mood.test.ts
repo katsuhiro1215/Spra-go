@@ -137,6 +137,47 @@ describe("pickTownMood", () => {
       pickTownMood(input({ now: night, lastInteractionAt: night, event: { kind: "placed", at: night, itemName: "木" } })),
     ).toMatchObject({ image: "jump", sleeping: false });
   });
+
+  it("種をまくと、頭を振ってから種が飛び、種まきのひとことを言う", () => {
+    const event = { kind: "sow" as const, at: t(12) };
+    expect(pickTownMood(input({ event, now: t(12) + 500 }))).toMatchObject({
+      image: "sow-shake",
+      face: "happy",
+      line: "種をまいたよ！毎日水をあげて育てよう",
+    });
+    expect(pickTownMood(input({ event, now: t(12) + 1_500 }))).toMatchObject({ image: "sow-fly", face: "laugh" });
+    expect(pickTownMood(input({ event, now: t(12) + 2_400 })).image).toBe("three-quarter");
+  });
+
+  it("水やりは水やりの絵で「大きくなあれ！」", () => {
+    expect(pickTownMood(input({ event: { kind: "water", at: t(12) } }))).toEqual({
+      image: "water",
+      face: "smile",
+      line: "大きくなあれ！",
+      sleeping: false,
+    });
+  });
+
+  it("畑の案内は、指定された画像とひとことを出す", () => {
+    const event = { kind: "say" as const, at: t(12), image: "think" as const, line: "今日1問正解したら、水をあげられるよ" };
+    expect(pickTownMood(input({ event }))).toMatchObject({
+      image: "think",
+      face: "think",
+      line: "今日1問正解したら、水をあげられるよ",
+    });
+  });
+
+  it("畑の案内があれば、時間帯のあいさつの代わりに言う", () => {
+    expect(pickTownMood(input({ prompt: "芽に水をあげよう！" })).line).toBe("芽に水をあげよう！");
+  });
+
+  it("できごとの言葉と、座る・寝るは、畑の案内より優先される", () => {
+    const event = { kind: "stored" as const, at: t(12), itemName: "ベンチ" };
+    expect(pickTownMood(input({ prompt: "芽に水をあげよう！", event, now: t(12) + 5_000 })).line).toBe(
+      "ベンチをバッグにしまったよ",
+    );
+    expect(pickTownMood(input({ prompt: "芽に水をあげよう！", now: t(12) + IDLE_SIT_MS })).line).toBe("ひと休み…");
+  });
 });
 
 describe("pickAnswerImage", () => {

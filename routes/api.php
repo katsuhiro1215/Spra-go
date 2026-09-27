@@ -22,6 +22,8 @@ use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\ContinueStage;
+use App\Support\Garden;
+use App\Support\LevelCurve;
 use App\Support\QuestionAnswerResolver;
 use App\Support\WorldLand;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -520,6 +522,8 @@ Route::middleware(['auth:owner'])->prefix('owner/shop-items')->name('owner.shop-
     })->name('store');
 
     Route::patch('/{shopItem}', function (Request $request, ShopItem $shopItem) use ($rules, $normalize) {
+        abort_if($shopItem->meta['not_for_sale'] ?? false, 422, '非売品のアイテムは編集できません。');
+
         $shopItem->update($normalize($request->validate($rules())));
 
         return $shopItem;
@@ -1111,10 +1115,15 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             ], 409);
         }
 
+        if ($isCorrect) {
+            // その日に水やりできるかに使う(applyEconomy の保存で一緒に保存される)
+            $profile->last_correct_on = Garden::today();
+        }
+
         $economyResult = $isCorrect
             ? $profile->applyEconomy([
                 'hp' => -1,
-                'xp' => 10,
+                'xp' => config('world.rewards.xp_by_difficulty')[$question->quiz?->difficulty] ?? 10,
                 'coin' => 5,
                 'point' => config('world.rewards.answer_correct'),
             ], 'answer_correct', $question)
@@ -1149,6 +1158,9 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'best_streak' => $streak['best_streak'],
             'streak_extended_today' => $streak['streak_extended_today'],
             'streak_milestone_bonus_coin' => $streak['milestone_bonus_coin'],
+            'level_xp' => LevelCurve::progress($profile->level),
+            'spru_growth' => Garden::growth($profile),
+            'garden_busy' => Garden::activeSeed($profile) !== null,
         ];
     }
 
@@ -1169,6 +1181,9 @@ Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
         ->orderBy('min_level')
         ->orderBy('price')
         ->get()
+        // 種から咲く「スプルの花」などの非売品は出さない
+        ->reject(fn (ShopItem $item) => $item->meta['not_for_sale'] ?? false)
+        ->values()
         ->map(fn (ShopItem $item) => [
             ...$item->toArray(),
             'asset_key' => $item->assetKey(),
@@ -1182,6 +1197,7 @@ Route::middleware(['auth:sanctum'])->post('/shop/{shopItem}/purchase', function 
         422,
         'この商品は現在準備中のため購入できません。'
     );
+    abort_if($shopItem->meta['not_for_sale'] ?? false, 422, 'このアイテムは買えません。');
 
     $activeProfile = ActiveProfile::require($request);
 
@@ -1251,9 +1267,13 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
                 'hp' => $profile->hp,
                 'max_hp' => $profile->max_hp,
                 'coins' => $profile->coins,
+                'level_xp' => LevelCurve::progress($profile->level),
             ],
             'welcome_available' => $profile->world_welcomed_at === null,
             'continue_stage_id' => ContinueStage::resolveId($profile),
+            'spru' => ['growth' => Garden::growth($profile)],
+            'garden' => Garden::state($profile),
+            'companions' => Garden::companions($profile),
         ];
     })->name('show');
 
@@ -1273,6 +1293,28 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             return ['granted' => true, 'points' => $profile->points];
         });
     })->name('welcome');
+
+    Route::post('/garden/sow', function (Request $request) {
+        $activeProfile = ActiveProfile::require($request);
+
+        return DB::transaction(function () use ($activeProfile) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+            Garden::sow($profile);
+
+            return ['spru' => ['growth' => Garden::growth($profile)], 'garden' => Garden::state($profile)];
+        });
+    })->name('garden.sow');
+
+    Route::post('/garden/water', function (Request $request) {
+        $activeProfile = ActiveProfile::require($request);
+
+        return DB::transaction(function () use ($activeProfile) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+            $born = Garden::water($profile);
+
+            return ['garden' => Garden::state($profile), 'born' => $born];
+        });
+    })->name('garden.water');
 
     Route::patch('/items/{profileWorldItem}', function (Request $request, ProfileWorldItem $profileWorldItem) {
         $profile = ActiveProfile::require($request);

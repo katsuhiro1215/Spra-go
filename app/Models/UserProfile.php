@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\LevelCurve;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +13,7 @@ class UserProfile extends Model
     protected $fillable = [
         'name', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'points', 'world_welcomed_at',
         'level', 'combo', 'best_combo', 'current_streak', 'best_streak', 'last_played_date',
+        'bloom_base_level', 'last_correct_on',
     ];
 
     /**
@@ -37,6 +39,8 @@ class UserProfile extends Model
             'last_played_date' => 'date',
             'hp_updated_at' => 'datetime',
             'world_welcomed_at' => 'datetime',
+            'bloom_base_level' => 'integer',
+            'last_correct_on' => 'date',
         ];
     }
 
@@ -174,6 +178,16 @@ class UserProfile extends Model
         return $this->hasMany(ProfileWorldItem::class);
     }
 
+    public function seeds(): HasMany
+    {
+        return $this->hasMany(ProfileSeed::class);
+    }
+
+    public function companions(): HasMany
+    {
+        return $this->hasMany(ProfileCompanion::class);
+    }
+
     /**
      * @param  array<string,int>  $deltas  type(hp/coin/xp/point) => delta
      * @return array{leveled_up: bool, deltas: array<string,int>}
@@ -209,7 +223,7 @@ class UserProfile extends Model
         }
 
         if (isset($deltas['xp'])) {
-            $newLevel = intdiv($this->xp, 100) + 1;
+            $newLevel = LevelCurve::levelForXp($this->xp);
 
             if ($newLevel > $this->level) {
                 $this->level = $newLevel;

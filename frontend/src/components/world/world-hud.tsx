@@ -4,19 +4,23 @@ import { Heart, Sprout } from "lucide-react";
 
 import { SPRU_FACES } from "@/components/spru/spru-assets";
 
+import { growthLabel } from "./garden";
 import type { WorldProfile } from "./types";
 
 export function WorldHud({
   name,
   profile,
+  growth,
   nextUnlock,
 }: {
   name: string;
   profile: WorldProfile;
+  growth: number;
   nextUnlock: string | null;
 }) {
-  // レベルはXP100ごとに上がる(UserProfile::applyEconomy)
-  const xpInLevel = profile.xp % 100;
+  // レベルの上がり方はサーバーが計算する(app/Support/LevelCurve.php)
+  const { floor, next } = profile.level_xp;
+  const progress = Math.min(100, Math.max(0, Math.round(((profile.xp - floor) / Math.max(1, next - floor)) * 100)));
 
   return (
     <header className="rounded-b-[22px] bg-[#fffaf0] px-3.5 pt-2.5 pb-2.5 text-[#3b3226] shadow-[0_4px_14px_rgba(59,50,38,0.14)]">
@@ -51,16 +55,16 @@ export function WorldHud({
           <div
             className="h-2 overflow-hidden rounded-full bg-[#efe5cf]"
             role="progressbar"
-            aria-label="次のレベルまで"
+            aria-label="次に育つまで"
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-valuenow={xpInLevel}
+            aria-valuenow={progress}
           >
-            <div className="h-2 rounded-full bg-[#5bb33e] transition-[width] duration-500" style={{ width: `${xpInLevel}%` }} />
+            <div className="h-2 rounded-full bg-[#5bb33e] transition-[width] duration-500" style={{ width: `${progress}%` }} />
           </div>
           <div className="flex justify-between gap-2 text-[11.5px] font-bold text-[#6b5d45]">
             <span className="truncate">{nextUnlock ?? ""}</span>
-            <span className="shrink-0">あと {100 - xpInLevel} XP</span>
+            <span className="shrink-0">{growthLabel(growth, profile.xp, profile.level_xp)}</span>
           </div>
         </div>
       </div>

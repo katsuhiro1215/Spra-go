@@ -24,8 +24,10 @@ import {
 import { useSound } from "@/components/app/sound-provider";
 import { LevelUpOverlay } from "@/components/quiz/level-up-overlay";
 import { StageStartCard } from "@/components/quiz/stage-start-card";
+import { bloomOf, type Bloom } from "@/components/spru/bloom";
 import { pickAnswerImage, pickResult } from "@/components/spru/mood";
 import { SpruFigure } from "@/components/spru/spru-figure";
+import { levelUpGrowthLine } from "@/components/world/garden";
 import type { ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
 
@@ -153,7 +155,14 @@ export default function Page({
   const [completeResult, setCompleteResult] = useState<CompleteResult | null>(
     null,
   );
-  const [levelUp, setLevelUp] = useState<{ level: number; previousLevel: number } | null>(null);
+  const [levelUp, setLevelUp] = useState<{
+    level: number;
+    previousLevel: number;
+    growthLine: string | null;
+    bloom: Bloom | null;
+  } | null>(null);
+  // スプルの育ち具合(回答APIが返す)。正解・不正解・結果のスプルにつぼみ・花を付ける
+  const [spruGrowth, setSpruGrowth] = useState(0);
   const [levelUpOpen, setLevelUpOpen] = useState(false);
   const [shopItems, setShopItems] = useState<ShopListItem[]>([]);
   // 「もう一度」のたびに増やし、ステージ開始のカードを出し直す
@@ -355,8 +364,15 @@ export default function Page({
           level: data.profile.level,
           current_streak: data.profile.streak,
         });
+        const growth: number = data.profile.spru_growth ?? 0;
+        setSpruGrowth(growth);
         if (data.profile.leveled_up) {
-          setLevelUp({ level: data.profile.level, previousLevel: profile?.level ?? data.profile.level - 1 });
+          setLevelUp({
+            level: data.profile.level,
+            previousLevel: profile?.level ?? data.profile.level - 1,
+            growthLine: levelUpGrowthLine(growth, Boolean(data.profile.garden_busy)),
+            bloom: bloomOf(growth),
+          });
         }
       }
       setCombo(
@@ -455,7 +471,7 @@ export default function Page({
         <AppHeader />
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-6 px-6 text-center">
           <div className="flex flex-col items-center gap-6 rounded-2xl bg-white/90 p-8 shadow-xl backdrop-blur-sm">
-            <SpruFigure image={result.image} standHeight={96} className={result.image === "jump" ? "animate-spru-hop" : undefined} />
+            <SpruFigure image={result.image} standHeight={96} bloom={bloomOf(spruGrowth)} className={result.image === "jump" ? "animate-spru-hop" : undefined} />
             <h1 className="text-2xl font-bold">結果発表</h1>
             <p className="text-4xl font-bold text-primary">
               {score} / {stage.questions.length} 問正解
@@ -600,6 +616,7 @@ export default function Page({
                   comboBonus: combo?.combo_milestone_bonus_coin ?? 0,
                 })}
                 standHeight={100}
+                bloom={bloomOf(spruGrowth)}
                 className="animate-pop-in"
               />
               {lastCorrect ? (
@@ -673,6 +690,8 @@ export default function Page({
             (item) =>
               item.type === "decoration" && item.min_level > levelUp.previousLevel && item.min_level <= levelUp.level,
           )}
+          growthLine={levelUp.growthLine}
+          bloom={levelUp.bloom}
           onContinue={handleLevelUpContinue}
         />
       )}

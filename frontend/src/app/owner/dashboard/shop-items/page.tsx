@@ -70,7 +70,7 @@ type ShopItem = {
   price: number;
   type: ItemType;
   min_level: number;
-  meta: { heal?: number; asset_key?: string } | null;
+  meta: { heal?: number; asset_key?: string; not_for_sale?: boolean } | null;
 };
 
 type FormValues = {
@@ -239,6 +239,7 @@ export default function Page() {
                   {item.type === "decoration" ? "pt" : "Coin"}
                   {item.meta?.heal ? ` ・ 回復量:${item.meta.heal}` : ""}
                   {item.type === "decoration" ? ` ・ Lv.${item.min_level}〜` : ""}
+                  {item.meta?.not_for_sale ? " ・ 非売品(種から咲く)" : ""}
                 </p>
               </div>
 
@@ -249,9 +250,11 @@ export default function Page() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => openEdit(item)}>
-                    編集
-                  </DropdownMenuItem>
+                  {!item.meta?.not_for_sale && (
+                    <DropdownMenuItem onClick={() => openEdit(item)}>
+                      編集
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem
                     variant="destructive"
                     onClick={() => setDeleteTarget(item)}
