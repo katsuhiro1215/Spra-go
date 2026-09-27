@@ -38,7 +38,7 @@ export function BornOverlay({ born, onClose }: { born: BornResult; onClose: () =
               <AutoFurigana text={companion.trait} />
             </p>
             <p className="text-sm font-bold text-[#6b5d45]">
-              <AutoFurigana text={`「${companion.line}」`} />
+              <AutoFurigana text={`「${companion.lines[0] ?? ""}」`} />
             </p>
           </>
         ) : (

@@ -360,7 +360,7 @@ export function WorldScene({
           aria-live="polite"
         >
           <span className="mr-1 text-[#2e6b1c]">{talking.name}</span>
-          <AutoFurigana text={talking.line} />
+          <AutoFurigana text={talking.lines[0] ?? ""} />
         </div>
       )}
     </div>

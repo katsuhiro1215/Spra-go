@@ -20,7 +20,7 @@ import { tileKey } from "./iso";
 import { ItemActionSheet } from "./item-action-sheet";
 import { PlacementBar } from "./placement-bar";
 import { getSeason, getTimeOfDay, isSpruSleepTime } from "./time-of-day";
-import type { BornResult, ShopListItem, WorldCompanion, WorldData, WorldGarden, WorldItem } from "./types";
+import type { BornResult, ShopListItem, WorldData, WorldGarden, WorldItem } from "./types";
 import { WelcomeGift } from "./welcome-gift";
 import { WorldHud } from "./world-hud";
 import { WorldScene } from "./world-scene";
@@ -225,16 +225,8 @@ export function WorldScreen() {
       setWorld((prev) => (prev ? { ...prev, bag: [...prev.bag, result.world_item] } : prev));
       return;
     }
-    const companion: WorldCompanion = {
-      key: result.key,
-      name: result.name,
-      trait: result.trait,
-      line: result.line,
-      x: result.x,
-      y: result.y,
-    };
-    setWorld((prev) => (prev ? { ...prev, companions: [...prev.companions, companion] } : prev));
-    setCompanionTalk({ key: companion.key, at: Date.now() });
+    setWorld((prev) => (prev ? { ...prev, companions: [...prev.companions, result] } : prev));
+    setCompanionTalk({ key: result.key, at: Date.now() });
   }
 
   // 画面を先に更新し、APIが失敗したら元に戻す
