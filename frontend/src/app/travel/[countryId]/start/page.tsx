@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { AppHeader } from "@/components/app/app-header";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
-import { SceneBackground } from "@/components/app/scene-background";
+import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { apiFetch } from "@/lib/api";
 
 type CountryStart = {
@@ -45,7 +45,7 @@ export default function Page({
 
   if (country === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
+      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
         読み込み中...
       </div>
     );
@@ -53,11 +53,11 @@ export default function Page({
 
   if (country === null) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-        <p className="text-sm text-muted-foreground">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#8fd4e9] text-[#3b3226]">
+        <p className="text-sm">
           この国は見つかりませんでした。
         </p>
-        <Link href="/" className="text-sm hover:underline">
+        <Link href="/" className="text-sm text-[#2b5d7a] underline">
           ホームに戻る
         </Link>
       </div>
@@ -69,12 +69,11 @@ export default function Page({
   );
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden">
-      <SceneBackground />
+    <SkyPage>
       <AppHeader />
 
       <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-6 px-6 py-12 pb-24 text-center">
-        <div className="animate-stage-intro relative h-28 w-44 overflow-hidden rounded-lg border border-white/40 shadow-xl">
+        <div className="animate-stage-intro relative h-28 w-44 overflow-hidden rounded-lg border-4 border-[#fffaf0] shadow-xl">
           <Image
             src={`/flag/${country.code}.svg`}
             alt={country.name}
@@ -84,21 +83,21 @@ export default function Page({
         </div>
 
         <div className="animate-stage-intro-subtitle flex flex-col gap-2">
-          <h1 className="text-3xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
+          <SkyTitle className="text-3xl">
             {country.mood_emoji ? `${country.mood_emoji} ` : ""}
             {country.name}
-          </h1>
+          </SkyTitle>
           {country.intro_message && (
-            <p className="text-sm text-white/85 drop-shadow">
+            <SkyText muted className="text-sm">
               {country.intro_message}
-            </p>
+            </SkyText>
           )}
         </div>
 
         <div className="animate-stage-intro-subtitle flex w-full flex-col gap-3">
-          <p className="text-sm font-semibold text-white/90 drop-shadow">
+          <SkyText muted className="text-sm">
             ゲームを開始しますか？
-          </p>
+          </SkyText>
           <AppButton
             variant="primary"
             size="lg"
@@ -121,7 +120,7 @@ export default function Page({
           )}
           <Link
             href="/learn"
-            className="text-xs text-white/75 drop-shadow hover:underline"
+            className="self-center rounded-full bg-[#fffaf0] px-3 py-1.5 text-sm font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
           >
             ← 別の国を選ぶ
           </Link>
@@ -129,6 +128,6 @@ export default function Page({
       </div>
 
       <BottomNav />
-    </div>
+    </SkyPage>
   );
 }

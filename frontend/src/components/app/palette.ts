@@ -51,3 +51,14 @@ const STAMP_BADGES: Record<StampTier, StampBadge> = {
 export function stampBadge(tier: StampTier): StampBadge {
   return STAMP_BADGES[tier];
 }
+
+const DIFFICULTY_BADGES: Record<string, "beginner" | "intermediate" | "advanced"> = {
+  初級: "beginner",
+  中級: "intermediate",
+  上級: "advanced",
+};
+
+/** 難易度のバッジ(芽・つぼみ・花、設計書4-2)。知らない難易度は出さない */
+export function difficultyBadge(difficulty: string): "beginner" | "intermediate" | "advanced" | null {
+  return DIFFICULTY_BADGES[difficulty] ?? null;
+}

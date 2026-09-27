@@ -649,7 +649,7 @@
    */
   .world-map-playable,
   .world-map-playable .landxx {
-    fill: #fbbf24 !important;
+    fill: #5bb33e !important;
     cursor: pointer;
     transition: fill 0.15s ease-out;
   }
@@ -657,12 +657,12 @@
   .world-map-playable:focus-visible,
   .world-map-playable:hover .landxx,
   .world-map-playable:focus-visible .landxx {
-    fill: #fde68a !important;
+    fill: #7cc26a !important;
     outline: none;
   }
   .world-map-suggested,
   .world-map-suggested .landxx {
-    fill: #f59e0b !important;
+    fill: #3b7f26 !important;
     stroke: #fff !important;
     stroke-width: 1.5 !important;
   }

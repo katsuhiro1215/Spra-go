@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { answerHeadline, choiceTone, skyInk, skyTextClass, stampBadge } from "./palette";
+import { answerHeadline, choiceTone, difficultyBadge, skyInk, skyTextClass, stampBadge } from "./palette";
 
 describe("空の上の文字の色", () => {
   it("夜だけ白、朝・昼・夕方はこげ茶", () => {
@@ -52,5 +52,14 @@ describe("パスポートのスタンプのバッジ", () => {
 
   it("未訪問はバッジなし", () => {
     expect(stampBadge("none")).toEqual({ badge: null, ring: "border-[#e8dfcf]", label: "未訪問" });
+  });
+});
+
+describe("難易度のバッジ", () => {
+  it("初級・中級・上級は芽・つぼみ・花、ほかはなし", () => {
+    expect(difficultyBadge("初級")).toBe("beginner");
+    expect(difficultyBadge("中級")).toBe("intermediate");
+    expect(difficultyBadge("上級")).toBe("advanced");
+    expect(difficultyBadge("超級")).toBeNull();
   });
 });
