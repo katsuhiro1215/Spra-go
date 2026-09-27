@@ -1,6 +1,6 @@
 import type { WorldItem } from "./types";
 
-/** にぎやか度の段階(設計書3-2)。E回で土地が広がったら見直す */
+/** にぎやか度の段階(設計書3-2)。E回で土地が広がったときに見直し、据え置いた(E回の設計書3-6) */
 export const LIVELINESS_LEVELS = [
   { need: 0, label: "しずか" },
   { need: 6, label: "すこしにぎやか" },
@@ -17,15 +17,18 @@ const PER_COMPANION = 3;
 
 export type Liveliness = { score: number; level: number; label: string; next: { label: string; remaining: number } | null };
 
-/** 置いたアイテムは種類ごとに1つ目+3・2つ目から+1、仲間は1人+3。バッグのアイテムは数えない */
-export function livelinessScore(items: Pick<WorldItem, "shop_item_id" | "x" | "y">[], companionCount: number): number {
-  const perKind = new Map<number, number>();
+type Countable = Pick<WorldItem, "shop_item_id" | "x" | "y"> & { footprint?: number };
+
+/** 置いたアイテムは種類ごとに1つ目+3・2つ目から+1(2×2の建物はその2倍)、仲間は1人+3。バッグのアイテムは数えない */
+export function livelinessScore(items: Countable[], companionCount: number): number {
+  const perKind = new Map<number, { count: number; footprint: number }>();
   for (const item of items) {
     if (item.x === null || item.y === null) continue;
-    perKind.set(item.shop_item_id, (perKind.get(item.shop_item_id) ?? 0) + 1);
+    const kind = perKind.get(item.shop_item_id);
+    perKind.set(item.shop_item_id, { count: (kind?.count ?? 0) + 1, footprint: item.footprint ?? 1 });
   }
   let score = companionCount * PER_COMPANION;
-  for (const count of perKind.values()) score += FIRST_OF_KIND + (count - 1) * SAME_KIND;
+  for (const { count, footprint } of perKind.values()) score += (FIRST_OF_KIND + (count - 1) * SAME_KIND) * footprint;
   return score;
 }
 
@@ -43,7 +46,7 @@ export function levelForScore(score: number): Liveliness {
   };
 }
 
-export function liveliness(items: Pick<WorldItem, "shop_item_id" | "x" | "y">[], companionCount: number): Liveliness {
+export function liveliness(items: Countable[], companionCount: number): Liveliness {
   return levelForScore(livelinessScore(items, companionCount));
 }
 

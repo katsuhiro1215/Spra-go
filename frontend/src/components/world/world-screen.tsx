@@ -23,8 +23,8 @@ import { errandGo, townPrompt } from "./errands";
 import { Festive } from "./festive";
 import { pickGardenTap } from "./garden";
 import { GreetingsCard } from "./greetings-card";
-import { tileKey } from "./iso";
 import { ItemActionSheet } from "./item-action-sheet";
+import { validAnchors } from "./land";
 import { liveliness, livelinessUpLine } from "./liveliness";
 import { LivelinessCard } from "./liveliness-card";
 import { NicknameDialog } from "./nickname-dialog";
@@ -154,21 +154,10 @@ export function WorldScreen() {
     [world, placingId],
   );
 
-  const validTiles = useMemo(() => {
-    const tiles = new Set<string>();
-    if (!world || placingId === null) return tiles;
-    const blocked = new Set(world.land.blocked.map(([x, y]) => tileKey(x, y)));
-    const occupied = new Set(
-      world.items.filter((item) => item.id !== placingId).map((item) => tileKey(item.x as number, item.y as number)),
-    );
-    for (let y = 0; y < world.land.size; y++) {
-      for (let x = 0; x < world.land.size; x++) {
-        const key = tileKey(x, y);
-        if (!blocked.has(key) && !occupied.has(key)) tiles.add(key);
-      }
-    }
-    return tiles;
-  }, [world, placingId]);
+  const validTiles = useMemo(
+    () => (world && placingItem ? validAnchors(world.land, world.items, placingItem.footprint, placingItem.id) : new Set<string>()),
+    [world, placingItem],
+  );
 
   const placing = placingItem !== null;
   const growth = world?.spru.growth ?? 0;

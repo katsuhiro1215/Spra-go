@@ -94,8 +94,8 @@ export function WorldScene({
   const theme = TIME_THEME[timeOfDay];
   // 夜は物を少し暗くする(明かりは暗くしない)
   const artStyle = theme.dimObjects ? { filter: "brightness(0.78) saturate(0.85)" } : undefined;
-  const vb = sceneViewBox(land.size);
-  const n = land.size;
+  const vb = sceneViewBox(land.width, land.height);
+  const n = land.width;
   const pathSet = new Set(land.paths.map(([x, y]) => tileKey(x, y)));
   const placed = items.filter((item): item is WorldItem & { x: number; y: number } => item.x !== null && item.y !== null);
   const placedCompanions = companions.filter(isPlacedCompanion);

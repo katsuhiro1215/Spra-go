@@ -18,11 +18,11 @@ export function tileKey(x: number, y: number): string {
   return `${x},${y}`;
 }
 
-export function sceneViewBox(size: number): ViewBox {
-  const halfWidth = size * HALF_W;
-  const top = -84; // 奥のマスの目印やアイテムが上に伸びる分
-  const bottom = size * HALF_H * 2 + LAND_THICKNESS + 24;
-  return { x: -halfWidth - 16, y: top, width: halfWidth * 2 + 32, height: bottom - top };
+// 地図全体(横 width × 縦 height マス)を描く範囲。上は奥の目印・アイテムが伸びる分、下は土地の厚みの分をあける
+export function sceneViewBox(width: number, height: number): ViewBox {
+  const top = -84;
+  const bottom = (width + height) * HALF_H + LAND_THICKNESS + 24;
+  return { x: -height * HALF_W - 16, y: top, width: (width + height) * HALF_W + 32, height: bottom - top };
 }
 
 export function toPercent(sx: number, sy: number, vb: ViewBox): { left: number; top: number } {
