@@ -5,7 +5,9 @@
     "m6": "mascot-6.png",
     "logo": "mascot-logo.png",
     "m7": "mascot-7.png",
-    "m8": "mascot-8.png"
+    "m8": "mascot-8.png",
+    "m9": "mascot-9.png",
+    "m10": "mascot-10.png"
   },
   "figures": [
     { "key": "front", "group": "basic", "source": "m6", "box": [30, 48, 158, 258] },
@@ -67,5 +69,15 @@
     { "key": "christmas", "source": "m8", "box": [426, 246, 776, 866], "scale": 0.4 },
     { "key": "valentine", "source": "m8", "box": [812, 238, 1114, 864], "scale": 0.4 },
     { "key": "summer", "source": "m8", "box": [1136, 234, 1490, 852], "scale": 0.4 }
+  ],
+  "badges": [
+    { "key": "streak", "source": "m10", "box": [88, 260, 260, 456], "scale": 0.5 },
+    { "key": "points", "source": "m10", "box": [348, 264, 556, 456], "scale": 0.5 },
+    { "key": "coins", "source": "m10", "box": [936, 276, 1148, 472], "scale": 0.5 },
+    { "key": "hp", "source": "m10", "box": [1212, 24, 1476, 244], "scale": 0.5 },
+    { "key": "star", "source": "m9", "box": [336, 20, 580, 260], "scale": 0.6 },
+    { "key": "medal", "source": "m9", "box": [48, 32, 284, 272], "scale": 0.6 },
+    { "key": "trophy", "source": "m9", "box": [644, 16, 864, 284], "scale": 0.6 },
+    { "key": "crown", "source": "m9", "box": [1244, 556, 1492, 788], "scale": 0.6 }
   ]
 }
