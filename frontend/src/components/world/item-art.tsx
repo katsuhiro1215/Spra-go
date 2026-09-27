@@ -2,36 +2,13 @@ import type { ReactNode } from "react";
 
 import { SPRU_BLOOM } from "@/components/spru/spru-assets";
 
-import { isBigAsset, type ItemArtKey } from "./art-keys";
+import { isBigAsset, type ArtKey } from "./art-keys";
+import { IsoBox, IsoRoof } from "./iso-shapes";
 import { LandmarkArt } from "./landmark-art";
-
-// 原点を中心にした、横の半幅 w・高さ h の箱を、地面から lift 持ち上げて描く(左の面・右の面・上の面)
-function IsoBox({ w, h, lift = 0, left, right, top }: { w: number; h: number; lift?: number; left: string; right: string; top: string }) {
-  const b = -lift;
-  const q = w / 2;
-  return (
-    <>
-      <polygon points={`${-w},${b} 0,${b + q} 0,${b + q - h} ${-w},${b - h}`} fill={left} />
-      <polygon points={`0,${b + q} ${w},${b} ${w},${b - h} 0,${b + q - h}`} fill={right} />
-      <polygon points={`${-w},${b - h} 0,${b + q - h} ${w},${b - h} 0,${b - q - h}`} fill={top} />
-    </>
-  );
-}
-
-// 原点を中心にした、横の半幅 w・高さ h の四角すいの屋根を、地面から lift 持ち上げて描く
-function IsoRoof({ w, h, lift = 0, left, right }: { w: number; h: number; lift?: number; left: string; right: string }) {
-  const b = -lift;
-  const q = w / 2;
-  return (
-    <>
-      <polygon points={`${-w},${b} 0,${b + q} 0,${b - h}`} fill={left} />
-      <polygon points={`0,${b + q} ${w},${b} 0,${b - h}`} fill={right} />
-    </>
-  );
-}
+import { TRAVEL_ART } from "./travel-art";
 
 // 原点(0,0)がマスの中心(地面に接する点)。Blender製の画像に差し替えるときはこのファイルだけ直す
-const ART: Record<ItemArtKey | "spru_flower", ReactNode> = {
+const ART: Record<ArtKey | "spru_flower", ReactNode> = {
   // 種から咲いた「スプルの花」(非売品)。花は素材集の切り抜き
   spru_flower: (
     <g>
@@ -275,6 +252,7 @@ const ART: Record<ItemArtKey | "spru_flower", ReactNode> = {
       <circle cx={0} cy={-141} r={2.4} fill="#ffd35c" />
     </g>
   ),
+  ...TRAVEL_ART,
 };
 
 // 夜に光るアイテムの光の輪(原点=マスの中心)。絵を差し替えるときは位置も合わせて直す
@@ -282,6 +260,7 @@ export const ITEM_LIGHTS: Record<string, { cx: number; cy: number; r: number }> 
   chochin: { cx: 9, cy: -20, r: 15 },
   stone_lantern: { cx: 0, cy: -20.5, r: 11 },
   tower: { cx: 0, cy: -141, r: 9 },
+  liberty: { cx: 12.5, cy: -116, r: 9 },
 };
 
 // 絵が未登録のキーでも画面が壊れないようにする代わりの絵(プレゼント箱)
