@@ -30,6 +30,7 @@ use App\Support\LevelCurve;
 use App\Support\PlayableQuestion;
 use App\Support\QuestionAnswerResolver;
 use App\Support\Review;
+use App\Support\Travel;
 use App\Support\WorldLand;
 use App\Support\WorldPlacement;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -1410,6 +1411,22 @@ Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(fu
             return Review::complete($profile);
         });
     })->name('complete');
+});
+
+Route::middleware(['auth:sanctum'])->prefix('travel')->name('travel.')->group(function () {
+    Route::get('/', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+
+        return ['level' => $profile->level, 'destinations' => Travel::state($profile)];
+    })->name('index');
+
+    Route::get('/{key}', function (Request $request, string $key) {
+        $destination = Travel::show(ActiveProfile::require($request), $key);
+        abort_unless($destination, 404);
+        abort_unless($destination['state'] === 'visited', 422, 'まだこの国に着いていません。');
+
+        return $destination;
+    })->name('show');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('family')->name('family.')->group(function () {

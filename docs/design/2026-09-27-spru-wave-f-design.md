@@ -103,6 +103,7 @@
         'key' => 'id',
         'name' => 'インドネシア',
         'country_code' => 'id',          // countries.code（大文字・小文字は区別しない）
+        'flag' => 'id',                  // public/flag/ のファイル名（DBの国コードは大文字小文字が不揃いなため）
         'min_level' => 7,
         'items' => ['boat_small' => '小さな船'],   // 旅じたく: 絵のキー => 名前
         'greeting' => ['text' => 'Selamat datang!', 'reading' => 'スラマット ダタン'],
@@ -140,7 +141,8 @@
 ### 4-4. API
 
 - `GET /api/travel`（新規）: `{ level, destinations: Destination[] }`
-  - `Destination` = `{ key, name, country_id, code, min_level, state: 'visited'|'next'|'later', ready, checklist, souvenirs, gift_ready, greeting }`
+  - `Destination` = `{ key, name, country_id, code, flag, min_level, state: 'visited'|'next'|'later', ready, checklist, souvenirs, gift_ready, greeting }`
+    - `flag`: 国旗の画像のパス（例 `/flag/kr.svg`）。設定の `flag` から作る
     - `ready`: `next` で、じゅんびがすべてそろっている
     - `checklist`: `[{ kind: 'level'|'item'|'souvenir', label, done, hint }]`
       - レベル: 「レベル7」／ヒント「あと2レベル」
