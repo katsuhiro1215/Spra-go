@@ -56,6 +56,42 @@ const ART: Record<string, (lit: boolean) => ReactNode> = {
       {lit && <circle cx={0} cy={-20.5} r={11} fill="#ffd98a" opacity={0.45} />}
     </g>
   ),
+  bamboo_grove: () => (
+    <g>
+      <ellipse cx={0} cy={2} rx={20} ry={8} fill="#2f5d2a" opacity={0.16} />
+      <path
+        d="M-14 0 V-50 M-6 4 V-64 M3 -2 V-58 M11 3 V-70 M17 -1 V-46"
+        stroke="#5f9f3f"
+        strokeWidth={3.4}
+        strokeLinecap="round"
+      />
+      <path
+        d="M-15.7 -18 h3.4 M-7.7 -24 h3.4 M1.3 -20 h3.4 M9.3 -28 h3.4 M15.3 -16 h3.4 M-7.7 -44 h3.4 M9.3 -50 h3.4"
+        stroke="#437a2b"
+        strokeWidth={1.4}
+        strokeLinecap="round"
+      />
+      <ellipse cx={-18} cy={-48} rx={7} ry={2.4} fill="#7cc35a" transform="rotate(-25 -18 -48)" />
+      <ellipse cx={-2} cy={-62} rx={7} ry={2.4} fill="#86c56d" transform="rotate(20 -2 -62)" />
+      <ellipse cx={7} cy={-56} rx={6} ry={2.2} fill="#6fae4a" transform="rotate(-20 7 -56)" />
+      <ellipse cx={16} cy={-68} rx={7} ry={2.4} fill="#7cc35a" transform="rotate(25 16 -68)" />
+      <ellipse cx={21} cy={-44} rx={6} ry={2.2} fill="#86c56d" transform="rotate(20 21 -44)" />
+      <ellipse cx={-9} cy={-58} rx={6} ry={2.2} fill="#6fae4a" transform="rotate(-30 -9 -58)" />
+    </g>
+  ),
+  // 桟橋は、マスから左手前(yが大きくなる向き)の海へ伸びる
+  pier: () => (
+    <g>
+      <polygon points="19.2,0 -41.6,30.4 -41.6,34.4 19.2,4" fill="#8e5c33" />
+      <polygon points="0,-9.6 19.2,0 -41.6,30.4 -60.8,20.8" fill="#c8915c" />
+      <path
+        d="M-12.16 -3.52 L7.04 6.08 M-24.32 2.56 L-5.12 12.16 M-36.48 8.64 L-17.28 18.24 M-48.64 14.72 L-29.44 24.32"
+        stroke="#a8703f"
+        strokeWidth={1}
+      />
+      <path d="M-41.6 30.4 v10 M-60.8 20.8 v10 M-20 19.6 v8" stroke="#6e472b" strokeWidth={2.6} strokeLinecap="round" />
+    </g>
+  ),
 };
 
 export function LandmarkArt({ landmarkKey, lit = false }: { landmarkKey: string; lit?: boolean }) {

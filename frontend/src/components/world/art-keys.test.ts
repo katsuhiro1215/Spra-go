@@ -1,0 +1,33 @@
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
+import { describe, expect, it } from "vitest";
+
+import { BIG_ASSETS, ITEM_ART_KEYS, isBigAsset } from "./art-keys";
+
+// サーバーの設定(Ownerがショップに登録できる絵のキー)と、画面の絵の一覧がずれていないか確かめる
+const config = readFileSync(fileURLToPath(new URL("../../../../config/world.php", import.meta.url)), "utf8");
+
+function phpArray(name: string): string {
+  const match = config.match(new RegExp(`'${name}'\\s*=>\\s*\\[([^\\]]*)\\]`));
+  if (!match) throw new Error(`${name} が config/world.php に見つからない`);
+  return match[1];
+}
+
+describe("町のアイテムの絵のキー", () => {
+  it("config/world.php の asset_keys と同じ", () => {
+    const keys = [...phpArray("asset_keys").matchAll(/'([a-z_]+)'/g)].map((m) => m[1]);
+    expect([...ITEM_ART_KEYS].sort()).toEqual(keys.sort());
+  });
+
+  it("2×2の絵は config/world.php の asset_footprints と同じ", () => {
+    const big = [...phpArray("asset_footprints").matchAll(/'([a-z_]+)'\s*=>\s*2/g)].map((m) => m[1]);
+    expect([...BIG_ASSETS].sort()).toEqual(big.sort());
+  });
+
+  it("2×2の絵かどうかを返す", () => {
+    expect(isBigAsset("castle")).toBe(true);
+    expect(isBigAsset("bench")).toBe(false);
+    expect(isBigAsset(null)).toBe(false);
+  });
+});
