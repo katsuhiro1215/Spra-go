@@ -13,7 +13,8 @@ const dictionaryEntries = Object.entries(
 
 type Segment = string | { text: string; reading: string };
 
-function tokenize(text: string): Segment[] {
+/** 辞書の最長一致で、ふりがなを付ける語と、そのままの文字に分ける(テストでも使う) */
+export function tokenize(text: string): Segment[] {
   const segments: Segment[] = [];
   let i = 0;
 
