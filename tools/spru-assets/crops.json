@@ -1,6 +1,7 @@
 {
   "sources": {
     "m4": "mascot-4.png",
+    "m5": "mascot-5.png",
     "m6": "mascot-6.png",
     "logo": "mascot-logo.png"
   },
@@ -27,10 +28,28 @@
     { "key": "startled", "group": "actions", "source": "m6", "box": [952, 590, 1058, 760] },
     { "key": "cheer", "group": "actions", "source": "m6", "box": [1094, 590, 1212, 758] },
     { "key": "dash", "group": "actions", "source": "m6", "box": [1256, 604, 1358, 754] },
-    { "key": "palms", "group": "actions", "source": "m6", "box": [1406, 584, 1506, 756] }
+    { "key": "palms", "group": "actions", "source": "m6", "box": [1406, 584, 1506, 756] },
+    { "key": "water", "group": "actions", "source": "m4", "box": [539, 1065, 624, 1198], "scale": 1.55 },
+    { "key": "sow-shake", "group": "actions", "source": "m6", "box": [547, 822, 641, 979], "tip": false },
+    { "key": "sow-fly", "group": "actions", "source": "m6", "box": [664, 826, 770, 982], "mode": "all", "tip": false }
   ],
   "scenes": [
     { "key": "challenge", "source": "logo", "box": [284, 930, 502, 1098] },
     { "key": "grow", "source": "logo", "box": [750, 925, 930, 1100] }
+  ],
+  "bloom": [
+    { "key": "flower", "source": "m5", "box": [1432, 804, 1475, 854] },
+    { "key": "bud", "source": "m4", "box": [447, 604, 472, 633], "mode": "rect" }
+  ],
+  "garden": [
+    { "key": "seed", "source": "m6", "box": [806, 846, 867, 954] },
+    { "key": "sprout", "source": "m6", "box": [897, 860, 955, 976] }
+  ],
+  "companions": [
+    { "key": "lumi", "source": "m6", "box": [1067, 835, 1149, 975] },
+    { "key": "momo", "source": "m6", "box": [1159, 836, 1240, 974] },
+    { "key": "kuru", "source": "m6", "box": [1255, 824, 1339, 974] },
+    { "key": "piko", "source": "m6", "box": [1349, 828, 1430, 971] },
+    { "key": "ruru", "source": "m6", "box": [1442, 822, 1520, 971] }
   ]
 }
