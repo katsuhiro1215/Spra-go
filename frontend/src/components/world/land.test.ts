@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { tileCenter } from "./iso";
 import {
+  cloudArea,
   cloudLabel,
   cloudLine,
   depthTile,
@@ -149,6 +150,16 @@ describe("絵の位置", () => {
     expect(footprintCenter(4, 4, 1)).toEqual(tileCenter(4, 4));
     expect(footprintCenter(4, 4, 2)).toEqual({ sx: 0, sy: 160 });
     expect(plotCenter(plotOf("town"))).toEqual(tileCenter(3, 3));
+  });
+});
+
+describe("雲の範囲", () => {
+  it("区画の形に切り取り、海に面した辺だけ半マス外へ広げる(開いた区画には雲がかからない)", () => {
+    const land = landAt(1);
+    // 竹林: 奥の町側と手前の丘側は区画の辺どおり、地図の外に面した右奥と右手前は半マス広げる
+    expect(cloudArea(land, plotOf("bamboo"))).toBe("240,104 416,192 176,312 0,224");
+    // 丘: 奥は海辺・竹林と接し、手前の2辺だけ広げる
+    expect(cloudArea(land, plotOf("hill"))).toBe("0,224 176,312 0,400 -176,312");
   });
 });
 

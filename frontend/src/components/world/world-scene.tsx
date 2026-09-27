@@ -16,26 +16,40 @@ import { TIME_THEME } from "./ambience";
 import { GardenArt } from "./garden-art";
 import { HALF_H, HALF_W, LAND_THICKNESS, sceneViewBox, tileCenter, tileKey, tilePoints, toPercent } from "./iso";
 import { ITEM_LIGHTS, ItemArt } from "./item-art";
+import { cloudArea, cloudLabel, depthTile, footprintCenter, footprintTiles, landEdges, openTiles, plotAt, plotCenter } from "./land";
 import { LandmarkArt } from "./landmark-art";
 import type { TimeOfDay } from "./time-of-day";
-import type { WorldCompanion, WorldGarden, WorldItem, WorldLand } from "./types";
+import type { Ground, WorldCompanion, WorldGarden, WorldItem, WorldLand, WorldPlot } from "./types";
 
 // 町の中のスプルの立ち姿の高さ(SVGの単位)。座る・寝る・仲間は素材集の縮尺どおりにそろえる
 const TOWN_STAND_HEIGHT = 58;
 const TOWN_SCALE = TOWN_STAND_HEIGHT / SPRU_STAND_HEIGHT;
 
+// 区画の地面の色(設計書3-1)。tile は市松の2色、lip は側面の上の縁(左手前・右手前)
+const GROUND: Record<Ground, { tile: [string, string]; lip: [string, string] }> = {
+  grass: { tile: ["#b4e19b", "#a9da8e"], lip: ["#86c56d", "#74b35d"] },
+  bamboo: { tile: ["#94d17e", "#88c872"], lip: ["#6fae55", "#5f9e47"] },
+  sand: { tile: ["#f3e2b3", "#ecd8a2"], lip: ["#e0c88c", "#d3ba7c"] },
+  hill: { tile: ["#c8eda9", "#bee69d"], lip: ["#9fd684", "#8cc672"] },
+};
+const PATH_COLOR = "#f1dfbb";
+const SOIL = { left: "#d7a574", right: "#bf8a5b" };
+
 type PlacedCompanion = WorldCompanion & { key: CompanionKey; x: number; y: number };
 
+// x, y は重なり順に使うマス(大きな建物は手前のマス)、sx, sy は絵を描く位置
 type SceneObject =
-  | { kind: "landmark"; id: string; x: number; y: number; landmarkKey: string }
-  | { kind: "item"; id: string; x: number; y: number; item: WorldItem }
-  | { kind: "companion"; id: string; x: number; y: number; companion: PlacedCompanion; index: number }
-  | { kind: "spru"; id: string; x: number; y: number };
+  | { kind: "landmark"; id: string; x: number; y: number; sx: number; sy: number; landmarkKey: string }
+  | { kind: "item"; id: string; x: number; y: number; sx: number; sy: number; item: WorldItem }
+  | { kind: "companion"; id: string; x: number; y: number; sx: number; sy: number; companion: PlacedCompanion; index: number }
+  | { kind: "spru"; id: string; x: number; y: number; sx: number; sy: number };
 
 type TapTarget = {
   id: string;
   x: number;
   y: number;
+  sx: number;
+  sy: number;
   label: string;
   onTap: () => void;
   halfWidth: number;
@@ -48,6 +62,45 @@ const byDepth = (a: { x: number; y: number }, b: { x: number; y: number }) => a.
 
 function isPlacedCompanion(companion: WorldCompanion): companion is PlacedCompanion {
   return companion.x !== null && companion.y !== null && companion.key in COMPANION_IMAGES;
+}
+
+// 土地の側面(左手前・右手前)の形。depth は下へ伸ばす長さ
+function leftFace(sx: number, sy: number, depth: number): string {
+  return `${sx - HALF_W},${sy} ${sx},${sy + HALF_H} ${sx},${sy + HALF_H + depth} ${sx - HALF_W},${sy + depth}`;
+}
+
+function rightFace(sx: number, sy: number, depth: number): string {
+  return `${sx},${sy + HALF_H} ${sx + HALF_W},${sy} ${sx + HALF_W},${sy + depth} ${sx},${sy + HALF_H + depth}`;
+}
+
+// 雲の区画を隠す雲。区画のマスに1つおきに丸を置いて、もこもこにする。area(区画の形)で切り取り、開いた区画にかからないようにする
+function Clouds({ plot, area, className }: { plot: WorldPlot; area: string; className?: string }) {
+  const puffs: { key: string; sx: number; sy: number }[] = [];
+  for (let y = plot.y; y < plot.y + plot.h; y++) {
+    for (let x = plot.x; x < plot.x + plot.w; x++) {
+      if ((x + y) % 2 === 0) puffs.push({ key: tileKey(x, y), ...tileCenter(x, y) });
+    }
+  }
+  const clipId = `cloud-area-${plot.key}`;
+  return (
+    <g clipPath={`url(#${clipId})`}>
+      <clipPath id={clipId}>
+        <polygon points={area} />
+      </clipPath>
+      <g className={className}>
+        <g fill="#dfeaf2">
+          {puffs.map((p) => (
+            <circle key={p.key} cx={p.sx} cy={p.sy + 4} r={34} />
+          ))}
+        </g>
+        <g fill="#ffffff">
+          {puffs.map((p) => (
+            <circle key={p.key} cx={p.sx} cy={p.sy - 4} r={33} />
+          ))}
+        </g>
+      </g>
+    </g>
+  );
 }
 
 export function WorldScene({
@@ -69,6 +122,9 @@ export function WorldScene({
   companionTalk,
   reviewGiver,
   quiet,
+  onCloudTap,
+  veil = null,
+  preview = null,
   readOnly = false,
 }: {
   land: WorldLand;
@@ -89,40 +145,57 @@ export function WorldScene({
   companionTalk: { key: string; at: number; line: string } | null;
   reviewGiver: string | null;
   quiet: boolean;
+  onCloudTap?: (plot: WorldPlot) => void;
+  veil?: { keys: string[]; fading: boolean } | null;
+  preview?: { x: number; y: number; item: WorldItem } | null;
   readOnly?: boolean;
 }) {
   const theme = TIME_THEME[timeOfDay];
   // 夜は物を少し暗くする(明かりは暗くしない)
   const artStyle = theme.dimObjects ? { filter: "brightness(0.78) saturate(0.85)" } : undefined;
   const vb = sceneViewBox(land.width, land.height);
-  const n = land.width;
   const pathSet = new Set(land.paths.map(([x, y]) => tileKey(x, y)));
+  const tiles = openTiles(land);
+  const edges = landEdges(land);
+  const groundOf = (x: number, y: number) => GROUND[plotAt(land, x, y)?.ground ?? "grass"];
+  const lockedPlots = land.plots.filter((plot) => !plot.unlocked);
+  const veiledPlots = veil ? land.plots.filter((plot) => veil.keys.includes(plot.key)) : [];
   const placed = items.filter((item): item is WorldItem & { x: number; y: number } => item.x !== null && item.y !== null);
   const placedCompanions = companions.filter(isPlacedCompanion);
 
-  const tiles: { x: number; y: number }[] = [];
-  for (let y = 0; y < n; y++) {
-    for (let x = 0; x < n; x++) tiles.push({ x, y });
-  }
-
+  const at = (x: number, y: number) => ({ x, y, ...tileCenter(x, y) });
   // 奥から手前へ描くことで、手前の物が奥の物に重なる
   const objects: SceneObject[] = [
-    ...land.landmarks.map((l, i) => ({ kind: "landmark" as const, id: `landmark-${i}`, x: l.x, y: l.y, landmarkKey: l.key })),
-    ...placed.map((item) => ({ kind: "item" as const, id: `item-${item.id}`, x: item.x, y: item.y, item })),
+    ...land.landmarks.map((l, i) => ({ kind: "landmark" as const, id: `landmark-${i}`, ...at(l.x, l.y), landmarkKey: l.key })),
+    ...placed.map((item) => ({
+      kind: "item" as const,
+      id: `item-${item.id}`,
+      ...depthTile(item.x, item.y, item.footprint),
+      ...footprintCenter(item.x, item.y, item.footprint),
+      item,
+    })),
     ...placedCompanions.map((companion, index) => ({
       kind: "companion" as const,
       id: `companion-${companion.key}`,
-      x: companion.x,
-      y: companion.y,
+      ...at(companion.x, companion.y),
       companion,
       index,
     })),
-    { kind: "spru" as const, id: "spru", x: land.spru.x, y: land.spru.y },
+    { kind: "spru" as const, id: "spru", ...at(land.spru.x, land.spru.y) },
   ].sort(byDepth);
 
-  const left = { x: -n * HALF_W, y: n * HALF_H };
-  const bottom = { x: 0, y: n * HALF_H * 2 };
-  const right = { x: n * HALF_W, y: n * HALF_H };
+  // 海は地図全体の下に描く(雲の区画も海の上に浮かぶ)
+  const w = land.width;
+  const h = land.height;
+  const sea = `${-h * HALF_W},${h * HALF_H + 50} ${(w - h) * HALF_W},${(w + h) * HALF_H + 50} ${w * HALF_W},${w * HALF_H + 50} 0,50`;
+  // 夜の暗さは、土地の形(側面とマス)に重ねる
+  const landShapes = [
+    ...edges.left.map(([x, y]) => leftFace(tileCenter(x, y).sx, tileCenter(x, y).sy, LAND_THICKNESS)),
+    ...edges.right.map(([x, y]) => rightFace(tileCenter(x, y).sx, tileCenter(x, y).sy, LAND_THICKNESS)),
+    ...tiles.map(([x, y]) => tilePoints(x, y)),
+  ];
+  const previewTiles = preview ? footprintTiles(preview.x, preview.y, preview.item.footprint) : [];
+  const previewCenter = preview ? footprintCenter(preview.x, preview.y, preview.item.footprint) : null;
   const spruCenter = tileCenter(land.spru.x, land.spru.y);
   // 吹き出しのしっぽがSの先のつぼみ・花に重ならない高さ
   const bubble = toPercent(spruCenter.sx, spruCenter.sy - 72, vb);
@@ -154,27 +227,29 @@ export function WorldScene({
   // 畑は地面の上にあり、手前のアイテムの(背の高い物用に長い)範囲に隠れないよう最後に置く。見るだけ(家族の町)ではアイテムと畑は押せない
   const itemTargets: TapTarget[] = readOnly
     ? []
-    : placed.map((item) => ({
-        id: `item-button-${item.id}`,
-        x: item.x,
-        y: item.y,
-        label: `${item.name}(動かす・しまう)`,
-        onTap: () => onItemTap(item),
-        halfWidth: HALF_W - 4,
-        up: 56,
-        down: 14,
-      }));
+    : placed.map((item) => {
+        const big = item.footprint > 1;
+        return {
+          id: `item-button-${item.id}`,
+          ...depthTile(item.x, item.y, item.footprint),
+          ...footprintCenter(item.x, item.y, item.footprint),
+          label: `${item.name}(動かす・しまう)`,
+          onTap: () => onItemTap(item),
+          halfWidth: big ? 60 : HALF_W - 4,
+          up: big ? 110 : 56,
+          down: big ? 30 : 14,
+        };
+      });
   const gardenTarget: TapTarget[] = readOnly
     ? []
-    : [{ id: "garden-button", x: garden.x, y: garden.y, label: "畑", onTap: onGardenTap, halfWidth: 22, up: 36, down: 12 }];
+    : [{ id: "garden-button", ...at(garden.x, garden.y), label: "畑", onTap: onGardenTap, halfWidth: 22, up: 36, down: 12 }];
   const tapTargets: TapTarget[] = placing
     ? []
     : [
         ...itemTargets,
         ...placedCompanions.map((c) => ({
           id: `companion-button-${c.key}`,
-          x: c.x,
-          y: c.y,
+          ...at(c.x, c.y),
           label: c.name,
           onTap: () => onCompanionTap(c.key),
           halfWidth: 14,
@@ -188,40 +263,41 @@ export function WorldScene({
   return (
     <div className="relative w-full" style={{ aspectRatio: `${vb.width} / ${vb.height}` }}>
       <svg viewBox={`${vb.x} ${vb.y} ${vb.width} ${vb.height}`} className="absolute inset-0 h-full w-full" aria-hidden>
-        <polygon
-          points={`${left.x},${left.y + 50} ${bottom.x},${bottom.y + 50} ${right.x},${right.y + 50} 0,50`}
-          fill="#62b8d6"
-          opacity={0.55}
-        />
-        <polygon
-          points={`${left.x},${left.y} ${bottom.x},${bottom.y} ${bottom.x},${bottom.y + LAND_THICKNESS} ${left.x},${left.y + LAND_THICKNESS}`}
-          fill="#d7a574"
-        />
-        <polygon
-          points={`${bottom.x},${bottom.y} ${right.x},${right.y} ${right.x},${right.y + LAND_THICKNESS} ${bottom.x},${bottom.y + LAND_THICKNESS}`}
-          fill="#bf8a5b"
-        />
-        <polygon points={`${left.x},${left.y} ${bottom.x},${bottom.y} ${bottom.x},${bottom.y + 7} ${left.x},${left.y + 7}`} fill="#86c56d" />
-        <polygon points={`${bottom.x},${bottom.y} ${right.x},${right.y} ${right.x},${right.y + 7} ${bottom.x},${bottom.y + 7}`} fill="#74b35d" />
-        <path
-          d={`M${left.x} ${left.y + LAND_THICKNESS} L${bottom.x} ${bottom.y + LAND_THICKNESS} L${right.x} ${right.y + LAND_THICKNESS}`}
-          stroke="#e6f7fb"
-          strokeWidth={3}
-          fill="none"
-        />
+        <polygon points={sea} fill="#62b8d6" opacity={0.55} />
 
-        {tiles.map(({ x, y }) => {
+        {edges.left.map(([x, y]) => {
+          const { sx, sy } = tileCenter(x, y);
+          return (
+            <g key={`edge-left-${x},${y}`}>
+              <polygon points={leftFace(sx, sy, LAND_THICKNESS)} fill={SOIL.left} stroke={SOIL.left} strokeWidth={0.6} />
+              <polygon points={leftFace(sx, sy, 7)} fill={groundOf(x, y).lip[0]} />
+              <path d={`M${sx - HALF_W} ${sy + LAND_THICKNESS} L${sx} ${sy + HALF_H + LAND_THICKNESS}`} stroke="#e6f7fb" strokeWidth={3} />
+            </g>
+          );
+        })}
+        {edges.right.map(([x, y]) => {
+          const { sx, sy } = tileCenter(x, y);
+          return (
+            <g key={`edge-right-${x},${y}`}>
+              <polygon points={rightFace(sx, sy, LAND_THICKNESS)} fill={SOIL.right} stroke={SOIL.right} strokeWidth={0.6} />
+              <polygon points={rightFace(sx, sy, 7)} fill={groundOf(x, y).lip[1]} />
+              <path d={`M${sx} ${sy + HALF_H + LAND_THICKNESS} L${sx + HALF_W} ${sy + LAND_THICKNESS}`} stroke="#e6f7fb" strokeWidth={3} />
+            </g>
+          );
+        })}
+
+        {tiles.map(([x, y]) => {
           const key = tileKey(x, y);
-          const fill = pathSet.has(key) ? "#f1dfbb" : (x + y) % 2 === 0 ? "#b4e19b" : "#a9da8e";
+          const fill = pathSet.has(key) ? PATH_COLOR : groundOf(x, y).tile[(x + y) % 2];
           return <polygon key={key} points={tilePoints(x, y)} fill={fill} />;
         })}
 
         {theme.groundTint && (
-          <polygon
-            points={`0,0 ${right.x},${right.y} ${right.x},${right.y + LAND_THICKNESS} ${bottom.x},${bottom.y + LAND_THICKNESS} ${left.x},${left.y + LAND_THICKNESS} ${left.x},${left.y}`}
-            fill={theme.groundTint.color}
-            opacity={theme.groundTint.opacity}
-          />
+          <g fill={theme.groundTint.color} opacity={theme.groundTint.opacity}>
+            {landShapes.map((points, i) => (
+              <polygon key={i} points={points} />
+            ))}
+          </g>
         )}
 
         {gardenGlow && (
@@ -249,8 +325,16 @@ export function WorldScene({
             );
           })}
 
+        {previewTiles.map(([x, y]) => (
+          <polygon key={`preview-${x},${y}`} points={tilePoints(x, y)} fill="#9fd8ff" stroke="#3a8fc9" strokeWidth={1.5} />
+        ))}
+
+        {lockedPlots.map((plot) => (
+          <Clouds key={`cloud-${plot.key}`} plot={plot} area={cloudArea(land, plot)} />
+        ))}
+
         {objects.map((o) => {
-          const { sx, sy } = tileCenter(o.x, o.y);
+          const { sx, sy } = o;
           const hopping = o.kind === "companion" && companionTalk?.key === o.companion.key;
           return (
             <g key={o.id} transform={`translate(${sx} ${sy})`}>
@@ -310,6 +394,16 @@ export function WorldScene({
             </g>
           );
         })}
+
+        {preview && previewCenter && (
+          <g transform={`translate(${previewCenter.sx} ${previewCenter.sy})`} opacity={0.6}>
+            <ItemArt assetKey={preview.item.asset_key} />
+          </g>
+        )}
+
+        {veiledPlots.map((plot) => (
+          <Clouds key={`veil-${plot.key}`} plot={plot} area={cloudArea(land, plot)} className={veil?.fading ? "animate-cloud-clear" : undefined} />
+        ))}
       </svg>
 
       {placing &&
@@ -332,7 +426,6 @@ export function WorldScene({
         })}
 
       {tapTargets.map((target) => {
-        const { sx, sy } = tileCenter(target.x, target.y);
         return (
           <button
             key={target.id}
@@ -340,8 +433,34 @@ export function WorldScene({
             aria-label={target.label}
             onClick={target.onTap}
             className="absolute rounded-lg focus-visible:outline-3 focus-visible:outline-[#f2b632]"
-            style={boxStyle(sx, sy, target.halfWidth, target.up, target.down)}
+            style={boxStyle(target.sx, target.sy, target.halfWidth, target.up, target.down)}
           />
+        );
+      })}
+
+      {lockedPlots.map((plot) => {
+        const { sx, sy } = plotCenter(plot);
+        const pos = toPercent(sx, sy - 10, vb);
+        const style = { left: `${pos.left}%`, top: `${pos.top}%` };
+        const className =
+          "absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(255,250,240,0.95)] px-3 py-1 text-[12px] font-black whitespace-nowrap text-[#5a4526] shadow-[0_2px_6px_rgba(59,50,38,0.16)]";
+        const text = <AutoFurigana text={cloudLabel(plot)} />;
+        return readOnly || !onCloudTap ? (
+          <span key={`cloud-label-${plot.key}`} className={`pointer-events-none ${className}`} style={style}>
+            {text}
+          </span>
+        ) : (
+          <button
+            key={`cloud-label-${plot.key}`}
+            type="button"
+            disabled={placing}
+            onClick={() => onCloudTap(plot)}
+            aria-label={`${plot.name}(レベル${plot.min_level}で解放)`}
+            className={`${className} focus-visible:outline-3 focus-visible:outline-[#f2b632] disabled:pointer-events-none`}
+            style={style}
+          >
+            {text}
+          </button>
         );
       })}
 
@@ -357,7 +476,7 @@ export function WorldScene({
 
       {/* 吹き出しは、上に重ねるにぎやか度の飾りや季節の舞うものより手前に出す */}
       <div
-        className="pointer-events-none absolute z-10 flex max-w-[66%] -translate-x-[18%] -translate-y-full items-center gap-2 rounded-2xl bg-white py-1.5 pr-3 pl-1.5 text-[12.5px] leading-relaxed font-bold text-[#3b3226] shadow-[0_3px_10px_rgba(59,50,38,0.16)]"
+        className="pointer-events-none absolute z-10 flex max-w-[240px] -translate-x-[18%] -translate-y-full items-center gap-2 rounded-2xl bg-white py-1.5 pr-3 pl-1.5 text-[12.5px] leading-relaxed font-bold text-[#3b3226] shadow-[0_3px_10px_rgba(59,50,38,0.16)]"
         style={{ left: `${bubble.left}%`, top: `${bubble.top}%` }}
         aria-live="polite"
       >
@@ -371,7 +490,7 @@ export function WorldScene({
       {/* 仲間の吹き出しは、隣に立つスプルの吹き出しより手前に出す */}
       {talking && talkPos && companionTalk && (
         <div
-          className="pointer-events-none absolute z-10 w-max max-w-[48%] -translate-x-1/2 -translate-y-full rounded-xl bg-white px-2.5 py-1 text-[11.5px] leading-snug font-bold text-[#3b3226] shadow-[0_2px_8px_rgba(59,50,38,0.16)]"
+          className="pointer-events-none absolute z-10 w-max max-w-[172px] -translate-x-1/2 -translate-y-full rounded-xl bg-white px-2.5 py-1 text-[11.5px] leading-snug font-bold text-[#3b3226] shadow-[0_2px_8px_rgba(59,50,38,0.16)]"
           style={{ left: `${talkPos.left}%`, top: `${talkPos.top}%` }}
           aria-live="polite"
         >

@@ -24,7 +24,7 @@ import { Festive } from "./festive";
 import { pickGardenTap } from "./garden";
 import { GreetingsCard } from "./greetings-card";
 import { ItemActionSheet } from "./item-action-sheet";
-import { validAnchors } from "./land";
+import { cloudLine, validAnchors } from "./land";
 import { liveliness, livelinessUpLine } from "./liveliness";
 import { LivelinessCard } from "./liveliness-card";
 import { NicknameDialog } from "./nickname-dialog";
@@ -40,6 +40,7 @@ import {
 import { SeasonGreetingCard } from "./season-greeting-card";
 import { getSeason, getTimeOfDay, isSpruSleepTime } from "./time-of-day";
 import { TownButtons } from "./town-buttons";
+import { TownMap } from "./town-map";
 import type {
   BornResult,
   ErrandClaimResult,
@@ -50,6 +51,7 @@ import type {
   WorldGarden,
   WorldGreeting,
   WorldItem,
+  WorldPlot,
   WorldReview,
 } from "./types";
 import { WelcomeGift } from "./welcome-gift";
@@ -378,6 +380,10 @@ export function WorldScreen() {
     setSheetKey(key);
   }
 
+  function handleCloudTap(plot: WorldPlot) {
+    setEvent({ kind: "say", at: Date.now(), image: "think", line: cloudLine(plot) });
+  }
+
   function handleBornClose() {
     if (!born) return;
     const result = born;
@@ -517,26 +523,30 @@ export function WorldScreen() {
         )}
 
         <div className="relative mt-2 px-1">
-          <WorldScene
-            land={world.land}
-            items={world.items}
-            validTiles={validTiles}
-            placing={placing}
-            onTileTap={placeAt}
-            onItemTap={setSelected}
-            spru={mood}
-            bloom={bloomOf(growth)}
-            onSpruTap={handleSpruTap}
-            timeOfDay={timeOfDay}
-            poppedItemId={poppedItemId}
-            garden={world.garden}
-            onGardenTap={handleGardenTap}
-            companions={world.companions}
-            onCompanionTap={handleCompanionTap}
-            companionTalk={talk}
-            reviewGiver={placing ? null : reviewGiverKey(world.review)}
-            quiet={isSpruSleepTime(new Date(now))}
-          />
+          <TownMap land={world.land} focus={null}>
+            <WorldScene
+              land={world.land}
+              items={world.items}
+              validTiles={validTiles}
+              placing={placing}
+              onTileTap={placeAt}
+              onItemTap={setSelected}
+              spru={mood}
+              bloom={bloomOf(growth)}
+              onSpruTap={handleSpruTap}
+              timeOfDay={timeOfDay}
+              poppedItemId={poppedItemId}
+              garden={world.garden}
+              onGardenTap={handleGardenTap}
+              companions={world.companions}
+              onCompanionTap={handleCompanionTap}
+              companionTalk={talk}
+              reviewGiver={placing ? null : reviewGiverKey(world.review)}
+              quiet={isSpruSleepTime(new Date(now))}
+              onCloudTap={handleCloudTap}
+            />
+          </TownMap>
+          {/* 空の飾りは地図と一緒に動かさず、見えている枠の上に重ねる(設計書3-3) */}
           <Festive level={lively.level} timeOfDay={timeOfDay} quiet={isSpruSleepTime(new Date(now))} />
           <Ambience timeOfDay={timeOfDay} season={townSeason} />
         </div>

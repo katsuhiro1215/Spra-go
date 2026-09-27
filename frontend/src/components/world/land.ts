@@ -1,4 +1,4 @@
-import { tileCenter, tileKey } from "./iso";
+import { HALF_H, HALF_W, tileCenter, tileKey } from "./iso";
 import type { Tile, WorldItem, WorldLand, WorldPlot } from "./types";
 
 type Plots = Pick<WorldLand, "plots">;
@@ -91,6 +91,21 @@ export function footprintCenter(x: number, y: number, footprint: number): { sx: 
 
 export function plotCenter(plot: Rect): { sx: number; sy: number } {
   return tileCenter(plot.x + (plot.w - 1) / 2, plot.y + (plot.h - 1) / 2);
+}
+
+// マス目の角の点(u, v)の画面の座標。マス(x, y)の奥の角が(x, y)
+const corner = (u: number, v: number) => `${(u - v) * HALF_W},${(u + v) * HALF_H}`;
+
+/** 雲を描く範囲。区画の形に切り取り、開いた区画に雲がかからないようにする。海に面した辺だけ半マス外へ広げる */
+export function cloudArea(land: Plots, plot: WorldPlot): string {
+  const midX = plot.x + Math.floor(plot.w / 2);
+  const midY = plot.y + Math.floor(plot.h / 2);
+  const sea = (x: number, y: number) => (plotAt(land, x, y) === null ? 0.5 : 0);
+  const u0 = plot.x - sea(plot.x - 1, midY);
+  const v0 = plot.y - sea(midX, plot.y - 1);
+  const u1 = plot.x + plot.w + sea(plot.x + plot.w, midY);
+  const v1 = plot.y + plot.h + sea(midX, plot.y + plot.h);
+  return [corner(u0, v0), corner(u1, v0), corner(u1, v1), corner(u0, v1)].join(" ");
 }
 
 export function cloudLabel(plot: Pick<WorldPlot, "name" | "min_level">): string {

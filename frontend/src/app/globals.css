@@ -386,6 +386,27 @@
     transform-origin: 50% 90%;
   }
 
+  /* 区画が開いたとき、雲が散って晴れる(E回 設計書3-2) */
+  @keyframes cloud-clear {
+    to {
+      opacity: 0;
+      transform: translateY(-14px) scale(1.18);
+    }
+  }
+  .animate-cloud-clear {
+    animation: cloud-clear 1.2s ease-out forwards;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+  }
+
+  /* 町の地図の枠(E回 設計書3-3)。ドラッグ・ホイール・矢印キーで動かすので、スクロールバーは出さない */
+  .town-map-scroll {
+    scrollbar-width: none;
+  }
+  .town-map-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
   @keyframes season-fall {
     0% {
       transform: translate3d(0, -12px, 0) rotate(0deg);
@@ -597,7 +618,8 @@
     .season-sparkle,
     .festive-fly,
     .festive-flutter,
-    .festive-firework {
+    .festive-firework,
+    .animate-cloud-clear {
       display: none;
     }
   }
