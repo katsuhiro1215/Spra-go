@@ -37,13 +37,13 @@ export function answerHeadline(correct: boolean): string {
 
 export type StampTier = "none" | "bronze" | "silver" | "gold";
 
-type StampBadge = { badge: "star" | "medal" | "trophy" | null; ring: string; label: string };
+type StampBadge = { badge: "medal-bronze" | "medal-silver" | "medal-gold" | null; ring: string; label: string };
 
-// 素材集(mascot-9)に銀・銅のメダルがないので、段が上がるほど豪華なバッジにする(設計書4-2)。丸のふちは金・銀・銅の色
+// 銅・銀・金のメダル(mascot-11のスプル入り、設計書4-2)。丸のふちもメダルの色
 const STAMP_BADGES: Record<StampTier, StampBadge> = {
-  gold: { badge: "trophy", ring: "border-[#d4a72c]", label: "全難易度クリア" },
-  silver: { badge: "medal", ring: "border-[#9aa3ab]", label: "中級までクリア" },
-  bronze: { badge: "star", ring: "border-[#c47a45]", label: "初級クリア" },
+  gold: { badge: "medal-gold", ring: "border-[#d4a72c]", label: "全難易度クリア" },
+  silver: { badge: "medal-silver", ring: "border-[#9aa3ab]", label: "中級までクリア" },
+  bronze: { badge: "medal-bronze", ring: "border-[#c47a45]", label: "初級クリア" },
   none: { badge: null, ring: "border-[#e8dfcf]", label: "未訪問" },
 };
 

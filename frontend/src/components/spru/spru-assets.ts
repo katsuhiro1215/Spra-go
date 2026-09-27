@@ -88,10 +88,17 @@ export const BADGE_IMAGES = {
   "points": { src: "/spru/badges/points.webp", width: 104, height: 98 },
   "coins": { src: "/spru/badges/coins.webp", width: 108, height: 101 },
   "hp": { src: "/spru/badges/hp.webp", width: 135, height: 111 },
-  "star": { src: "/spru/badges/star.webp", width: 149, height: 146 },
-  "medal": { src: "/spru/badges/medal.webp", width: 145, height: 146 },
   "trophy": { src: "/spru/badges/trophy.webp", width: 134, height: 163 },
   "crown": { src: "/spru/badges/crown.webp", width: 149, height: 143 },
+  "medal-bronze": { src: "/spru/badges/medal-bronze.webp", width: 79, height: 80 },
+  "medal-silver": { src: "/spru/badges/medal-silver.webp", width: 80, height: 80 },
+  "medal-gold": { src: "/spru/badges/medal-gold.webp", width: 83, height: 83 },
+  "passport": { src: "/spru/badges/passport.webp", width: 49, height: 69 },
+  "beginner": { src: "/spru/badges/beginner.webp", width: 82, height: 80 },
+  "intermediate": { src: "/spru/badges/intermediate.webp", width: 83, height: 80 },
+  "advanced": { src: "/spru/badges/advanced.webp", width: 85, height: 84 },
+  "boss": { src: "/spru/badges/boss.webp", width: 94, height: 83 },
+  "boss-battle": { src: "/spru/badges/boss-battle.webp", width: 130, height: 132 },
 } as const satisfies Record<string, SpruImage>;
 
 export type SpruImageKey = keyof typeof SPRU_IMAGES;

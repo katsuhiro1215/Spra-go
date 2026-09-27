@@ -44,10 +44,10 @@ describe("答えのあとの見出し", () => {
 });
 
 describe("パスポートのスタンプのバッジ", () => {
-  it("段が上がるほど豪華なバッジ(星 → 金メダル → トロフィー)と、今の文言を返す", () => {
-    expect(stampBadge("bronze")).toEqual({ badge: "star", ring: "border-[#c47a45]", label: "初級クリア" });
-    expect(stampBadge("silver")).toEqual({ badge: "medal", ring: "border-[#9aa3ab]", label: "中級までクリア" });
-    expect(stampBadge("gold")).toEqual({ badge: "trophy", ring: "border-[#d4a72c]", label: "全難易度クリア" });
+  it("段位ごとに銅・銀・金のメダルと、今の文言を返す", () => {
+    expect(stampBadge("bronze")).toEqual({ badge: "medal-bronze", ring: "border-[#c47a45]", label: "初級クリア" });
+    expect(stampBadge("silver")).toEqual({ badge: "medal-silver", ring: "border-[#9aa3ab]", label: "中級までクリア" });
+    expect(stampBadge("gold")).toEqual({ badge: "medal-gold", ring: "border-[#d4a72c]", label: "全難易度クリア" });
   });
 
   it("未訪問はバッジなし", () => {
