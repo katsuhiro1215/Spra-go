@@ -32,6 +32,17 @@
 4. **答えのあとのカードに情報が多い日**（コンボ・連続プレイ・相棒のハート・レベルアップが重なる）: 小さい画面でもカードがはみ出さず、［次へ］が押せること（Task 5 のカードに `max-h`＋スクロール、Task 8 のブラウザ確認）
 5. **画面を開いた瞬間の色の切り替え・サーバーとの表示のずれ**: 最初は昼の色で描き、開いたあとに今の時間帯へ色が変わること。コンソールに表示のずれ（hydration）の警告が新しく出ないこと（Task 3 の `SkyPage`、Task 8 のブラウザ確認）
 
+## あとから決めたこと（2026-09-28、実行中）
+
+Ownerが実行中に mascot-11 を追加し、「パスポートのメダル・難易度バッジ・ボスステージの印」を今回に入れると決めた。設計書4-2に反映済み。この計画のうち、次の手順はこの節を優先する（コミット番号は「git log の番号+1」）:
+
+- Task 1・2: 追加コミットで `stampBadge` を銅・銀・金のメダル（`medal-bronze`・`medal-silver`・`medal-gold`）にし、バッジに `passport`・`beginner`・`intermediate`・`advanced`・`boss`・`boss-battle` を足し、使わない `star`・`medal` を外した（済み）
+- Task 3 のステージの道: ボスの丸のアイコンを lucide の `Crown` でなく `<BadgeImage badge="boss" size={30} />` にする
+- Task 4: `palette.ts` に `difficultyBadge(difficulty: string): "beginner" | "intermediate" | "advanced" | null` を足す（テストを先に書く: 初級→beginner、中級→intermediate、上級→advanced、ほか→null）。国の画面の難易度のタブの文字の前に `<BadgeImage badge={...} size={20} />` を出す（`null` なら出さない）。地域の画面の「BOSS」の札の前に `<BadgeImage badge="boss" size={16} />`
+- Task 5: クイズの「BOSS」の札の前に `<BadgeImage badge="boss" size={16} />`
+- Task 6: ミニアプリの難易度のボタンに難易度のバッジ（20px）。「BOSS STAGE」の場面は lucide の `Swords` をやめ、`<BadgeImage badge="boss-battle" size={96} />` を上に出す。パスポートの見出しの `BookOpen` を `<BadgeImage badge="passport" size={32} />` にする。スタンプのバッジは `stampBadge` の返すメダル（40px）
+- Task 7: 旅のハブの［パスポート］のリンクの文字の前に `<BadgeImage badge="passport" size={18} />`
+
 ## 計画で決めたこと（Task 8 で設計書にも反映する）
 
 - **対象外の画面のボタン**: `AppButton` を新配色に置き換えると、同じ部品を使う対象外の画面（LP・紹介ページのクイズの試遊・Owner/管理のログイン）も変わってしまう。そこで今の `button.tsx` を `classic-button.tsx` にそのまま写し、対象外の4ファイルはそちらを読み込む
