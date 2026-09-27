@@ -7,8 +7,7 @@ use App\Models\Stage;
 use App\Models\UserProfile;
 
 /**
- * 町の画面の「つづきから学ぶ」の行き先。復習を混ぜた「今日のレッスン」
- * (サブプロジェクト③)ができるまでの代わり。
+ * 町の画面の「つづきから学ぶ」の行き先。復習は、仲間からの復習(C回、app/Support/Review.php)で行う。
  */
 class ContinueStage
 {
