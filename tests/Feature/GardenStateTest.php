@@ -108,8 +108,8 @@ it('生まれた仲間は、生まれた順に道の立ち位置つきで出る'
             'key' => 'ruru', 'name' => 'Ruru', 'trait' => '水・知恵', 'line' => 'じっくり考えるのが好き', 'x' => 0, 'y' => 3,
         ])
         ->assertJsonPath('companions.1.key', 'lumi')
-        ->assertJsonPath('companions.1.x', 2)
-        ->assertJsonPath('companions.1.y', 3);
+        ->assertJsonPath('companions.1.x', 3)
+        ->assertJsonPath('companions.1.y', 2);
 });
 
 it('立ち位置が足りない仲間は、位置なしで出る', function () {
