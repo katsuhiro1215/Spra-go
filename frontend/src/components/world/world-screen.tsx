@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BookOpen } from "lucide-react";
@@ -16,15 +16,42 @@ import { apiFetch } from "@/lib/api";
 import { Ambience, TIME_THEME } from "./ambience";
 import { BornOverlay } from "./born-overlay";
 import { CompanionSheet } from "./companion-sheet";
-import { pickLine, pickSpruTap, reviewGiverKey, reviewPrompt } from "./companions";
-import { gardenPrompt, pickGardenTap } from "./garden";
+import { pickLine, pickSpruTap, reviewGiverKey } from "./companions";
+import { ErrandReturn } from "./errand-return";
+import { ErrandSheet } from "./errand-sheet";
+import { errandGo, townPrompt } from "./errands";
+import { Festive } from "./festive";
+import { pickGardenTap } from "./garden";
+import { GreetingsCard } from "./greetings-card";
 import { tileKey } from "./iso";
 import { ItemActionSheet } from "./item-action-sheet";
+import { liveliness, livelinessUpLine } from "./liveliness";
+import { LivelinessCard } from "./liveliness-card";
 import { NicknameDialog } from "./nickname-dialog";
 import { PlacementBar } from "./placement-bar";
 import { ReviewCard } from "./review-card";
+import {
+  readSeasonShown,
+  seasonGreeting,
+  shouldShowSeasonGreeting,
+  writeSeasonShown,
+  type SeasonGreeting,
+} from "./season-greeting";
+import { SeasonGreetingCard } from "./season-greeting-card";
 import { getSeason, getTimeOfDay, isSpruSleepTime } from "./time-of-day";
-import type { BornResult, ShopListItem, WorldCompanion, WorldData, WorldGarden, WorldItem, WorldReview } from "./types";
+import { TownButtons } from "./town-buttons";
+import type {
+  BornResult,
+  ErrandClaimResult,
+  ShopListItem,
+  WorldCompanion,
+  WorldData,
+  WorldErrand,
+  WorldGarden,
+  WorldGreeting,
+  WorldItem,
+  WorldReview,
+} from "./types";
 import { WelcomeGift } from "./welcome-gift";
 import { WorldHud } from "./world-hud";
 import { WorldScene } from "./world-scene";
@@ -65,6 +92,20 @@ export function WorldScreen() {
   const [naming, setNaming] = useState<WorldCompanion | null>(null);
   // 相棒の変更の通信中は、続けて押しても送らない
   const [partnerBusy, setPartnerBusy] = useState(false);
+  // おつかいのカード・受け取りの通信中の番号・受け取りの場面、にぎやか度のカード
+  const [errandsOpen, setErrandsOpen] = useState(false);
+  const [claimingSlot, setClaimingSlot] = useState<number | null>(null);
+  const [errandReturn, setErrandReturn] = useState<{ errand: WorldErrand; result: ErrandClaimResult } | null>(null);
+  const [livelinessOpen, setLivelinessOpen] = useState(false);
+  // 家族から届いたあいさつ(閉じるまで出す)と、今日まだ出していない季節のあいさつ
+  const [greetings, setGreetings] = useState<WorldGreeting[]>([]);
+  const [season, setSeason] = useState<SeasonGreeting | null>(null);
+  const profileId = world?.profile.id ?? null;
+  // 町は1秒ごとに描き直すので、季節のカードのタイマーがやり直しにならないよう固定する
+  const closeSeason = useCallback(() => {
+    if (profileId !== null) writeSeasonShown(profileId, new Date());
+    setSeason(null);
+  }, [profileId]);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -86,6 +127,9 @@ export function WorldScreen() {
       if (res.ok) {
         const data: WorldData = await res.json();
         setWorld(data);
+        setGreetings(data.greetings);
+        const opened = new Date();
+        if (shouldShowSeasonGreeting(opened, readSeasonShown(data.profile.id))) setSeason(seasonGreeting(opened));
         applyPartial({ points: data.profile.points });
         setEvent({ kind: "greet", at: Date.now() });
 
@@ -128,7 +172,7 @@ export function WorldScreen() {
 
   const placing = placingItem !== null;
   const growth = world?.spru.growth ?? 0;
-  const prompt = world && !placing ? (gardenPrompt(world.garden) ?? reviewPrompt(world.review)) : null;
+  const prompt = world && !placing ? townPrompt({ errands: world.errands, garden: world.garden, review: world.review }) : null;
   const mood = pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing, prompt });
   const talk = companionTalk && now - companionTalk.at < COMPANION_TALK_MS ? companionTalk : null;
 
@@ -186,11 +230,12 @@ export function WorldScreen() {
   }
 
   // 仲間が生まれた後は、相棒・立ち位置・復習を出す人が変わるため読み直す
-  async function reloadCompanions() {
+  async function reloadCompanions(): Promise<WorldData | null> {
     const res = await apiFetch("/api/world").catch(() => null);
-    if (!res || !res.ok) return;
+    if (!res || !res.ok) return null;
     const data: WorldData = await res.json();
     applyCompanions(data);
+    return data;
   }
 
   async function renameCompanion(key: string, nickname: string | null): Promise<string | null> {
@@ -223,6 +268,66 @@ export function WorldScreen() {
     } finally {
       setPartnerBusy(false);
     }
+  }
+
+  // 日付が変わった後の受け取りなど、おつかいだけを読み直す
+  async function reloadErrands() {
+    const res = await apiFetch("/api/world").catch(() => null);
+    if (!res || !res.ok) return;
+    const data: WorldData = await res.json();
+    setWorld((prev) => (prev ? { ...prev, errands: data.errands } : prev));
+  }
+
+  async function claimErrand(errand: WorldErrand) {
+    if (claimingSlot !== null) return;
+    setClaimingSlot(errand.slot);
+    try {
+      const res = await apiFetch(`/api/errands/${errand.slot}/claim`, { method: "POST" }).catch(() => null);
+      const data = res ? await res.json().catch(() => ({})) : {};
+      if (!res || !res.ok) {
+        setErrandsOpen(false);
+        setMessage(data.message ?? "通信エラーが発生しました。");
+        setEvent({ kind: "error", at: Date.now() });
+        reloadErrands();
+        return;
+      }
+      const result: ErrandClaimResult = data;
+      setWorld((prev) => (prev ? { ...prev, errands: result.errands, profile: { ...prev.profile, points: result.points } } : prev));
+      applyPartial({ points: result.points });
+      setMessage(null);
+      setErrandsOpen(false);
+      play("correct");
+      setErrandReturn({ errand, result });
+      // 相棒のなかよし度が変わると、仲間のカードのハートも変わる
+      if (result.partner) reloadCompanions();
+    } finally {
+      setClaimingSlot(null);
+    }
+  }
+
+  function goErrand(errand: WorldErrand) {
+    if (!world) return;
+    const go = errandGo(errand, {
+      continueHref: world.continue_stage_id ? `/quiz/${world.continue_stage_id}` : "/learn",
+      learnedToday: world.garden.learned_today,
+      bagCount: world.bag.length,
+    });
+    if (go.kind === "link") {
+      router.push(go.href);
+      return;
+    }
+    setErrandsOpen(false);
+    setEvent({ kind: "say", at: Date.now(), image: "think", line: go.line });
+  }
+
+  // 閉じたら、出したあいさつだけに見た印を付ける。その間に届いたものは続けて出す
+  async function closeGreetings() {
+    const ids = greetings.map((greeting) => greeting.id);
+    setGreetings([]);
+    const res = await apiFetch("/api/world/greetings/seen", { method: "POST", body: JSON.stringify({ ids }) }).catch(() => null);
+    if (!res || !res.ok) return;
+    const data: { greetings: WorldGreeting[] } = await res.json();
+    if (data.greetings.length > 0) setGreetings(data.greetings);
   }
 
   function startReview() {
@@ -292,7 +397,13 @@ export function WorldScreen() {
       setWorld((prev) => (prev ? { ...prev, bag: [...prev.bag, result.world_item] } : prev));
       return;
     }
-    reloadCompanions();
+    // 生まれて段階が上がったらお祝いする
+    const before = liveliness(world?.items ?? [], world?.companions.length ?? 0).level;
+    reloadCompanions().then((data) => {
+      if (!data) return;
+      const after = liveliness(data.items, data.companions.length);
+      if (after.level > before) setEvent({ kind: "say", at: Date.now(), image: "jump", line: livelinessUpLine(after.label) });
+    });
     setCompanionTalk({ key: result.key, at: Date.now(), line: result.lines[0] ?? "" });
     if (result.is_partner) setNaming(result);
   }
@@ -324,15 +435,22 @@ export function WorldScreen() {
     return true;
   }
 
+  // 置いて段階が上がったときだけ、いつものひとことの代わりにお祝い(動かしただけでは数が変わらないので出ない)
   async function placeAt(x: number, y: number) {
-    if (!placingItem) return;
+    if (!placingItem || !world) return;
     const item = placingItem;
+    const before = liveliness(world.items, world.companions.length).level;
+    const after = liveliness([...world.items.filter((i) => i.id !== item.id), { ...item, x, y }], world.companions.length);
     setPlacingId(null);
     setMessage(null);
     if (await moveItem(item, x, y)) {
       play("correct");
       setPoppedItemId(item.id);
-      setEvent({ kind: "placed", at: Date.now(), itemName: item.name });
+      setEvent(
+        after.level > before
+          ? { kind: "say", at: Date.now(), image: "jump", line: livelinessUpLine(after.label) }
+          : { kind: "placed", at: Date.now(), itemName: item.name },
+      );
     }
   }
 
@@ -359,7 +477,7 @@ export function WorldScreen() {
   }
 
   const timeOfDay = getTimeOfDay(new Date(now));
-  const season = getSeason(new Date(now));
+  const townSeason = getSeason(new Date(now));
 
   if (!world) {
     return (
@@ -375,6 +493,7 @@ export function WorldScreen() {
   const nextUnlock = nextLocked ? `Lv.${nextLocked.min_level}で ${nextLocked.name}` : null;
   const continueHref = world.continue_stage_id ? `/quiz/${world.continue_stage_id}` : "/learn";
   const sheetCompanion = sheetKey ? (world.companions.find((c) => c.key === sheetKey) ?? null) : null;
+  const lively = liveliness(world.items, world.companions.length);
 
   return (
     <div
@@ -398,6 +517,16 @@ export function WorldScreen() {
           日本 · はじまりの町
         </p>
 
+        {!placingItem && (
+          <TownButtons
+            errands={world.errands}
+            lively={lively}
+            familyCount={world.family_count}
+            onErrands={() => setErrandsOpen(true)}
+            onLiveliness={() => setLivelinessOpen(true)}
+          />
+        )}
+
         <div className="relative mt-2 px-1">
           <WorldScene
             land={world.land}
@@ -419,7 +548,8 @@ export function WorldScreen() {
             reviewGiver={placing ? null : reviewGiverKey(world.review)}
             quiet={isSpruSleepTime(new Date(now))}
           />
-          <Ambience timeOfDay={timeOfDay} season={season} />
+          <Festive level={lively.level} timeOfDay={timeOfDay} quiet={isSpruSleepTime(new Date(now))} />
+          <Ambience timeOfDay={timeOfDay} season={townSeason} />
         </div>
 
         {!placingItem && (
@@ -463,8 +593,31 @@ export function WorldScreen() {
         <ReviewCard count={world.review.count} onStart={startReview} onClose={() => setReviewCardOpen(false)} />
       )}
 
+      {errandsOpen && (
+        <ErrandSheet
+          errands={world.errands}
+          busy={claimingSlot !== null}
+          onClaim={claimErrand}
+          onGo={goErrand}
+          onClose={() => setErrandsOpen(false)}
+        />
+      )}
+
+      {errandReturn && (
+        <ErrandReturn errand={errandReturn.errand} result={errandReturn.result} onClose={() => setErrandReturn(null)} />
+      )}
+
+      {livelinessOpen && <LivelinessCard lively={lively} onClose={() => setLivelinessOpen(false)} />}
+
       {world.welcome_available && (
         <WelcomeGift amount={WELCOME_AMOUNT} busy={welcomeBusy} onReceive={receiveWelcome} />
+      )}
+
+      {/* はじめてのプレゼント → 家族のあいさつ → 季節のあいさつ の順に1つずつ出す */}
+      {!world.welcome_available && greetings.length > 0 && <GreetingsCard greetings={greetings} onClose={closeGreetings} />}
+
+      {!world.welcome_available && greetings.length === 0 && season && (
+        <SeasonGreetingCard greeting={season} onDone={closeSeason} />
       )}
 
       {born && <BornOverlay born={born} onClose={handleBornClose} />}

@@ -189,6 +189,21 @@ class UserProfile extends Model
         return $this->hasMany(ProfileCompanion::class);
     }
 
+    public function sentGreetings(): HasMany
+    {
+        return $this->hasMany(ProfileGreeting::class, 'from_profile_id');
+    }
+
+    public function receivedGreetings(): HasMany
+    {
+        return $this->hasMany(ProfileGreeting::class, 'to_profile_id');
+    }
+
+    public function errands(): HasMany
+    {
+        return $this->hasMany(ProfileErrand::class);
+    }
+
     /**
      * @param  array<string,int>  $deltas  type(hp/coin/xp/point) => delta
      * @return array{leveled_up: bool, deltas: array<string,int>}

@@ -69,6 +69,7 @@ export function WorldScene({
   companionTalk,
   reviewGiver,
   quiet,
+  readOnly = false,
 }: {
   land: WorldLand;
   items: WorldItem[];
@@ -88,6 +89,7 @@ export function WorldScene({
   companionTalk: { key: string; at: number; line: string } | null;
   reviewGiver: string | null;
   quiet: boolean;
+  readOnly?: boolean;
 }) {
   const theme = TIME_THEME[timeOfDay];
   // 夜は物を少し暗くする(明かりは暗くしない)
@@ -132,7 +134,7 @@ export function WorldScene({
   const spruY = -spruH + 2;
   const spruBloom = bloom ? bloomRect(spru.image, bloom) : null;
   const spruMotion = spru.sleeping ? undefined : spru.image === "jump" ? "animate-spru-hop" : "animate-spru-bob";
-  const gardenGlow = !placing && (garden.can_sow || garden.can_water);
+  const gardenGlow = !placing && !readOnly && (garden.can_sow || garden.can_water);
 
   const talking = companionTalk ? (placedCompanions.find((c) => c.key === companionTalk.key) ?? null) : null;
   const talkCenter = talking ? tileCenter(talking.x, talking.y) : null;
@@ -149,20 +151,26 @@ export function WorldScene({
   };
 
   // 押せる範囲は上に伸びて奥の物と重なるため、絵と同じく奥から順に並べて手前のボタンを上にする。置く場所を選んでいる間は出さない。
-  // 畑は地面の上にあり、手前のアイテムの(背の高い物用に長い)範囲に隠れないよう最後に置く
+  // 畑は地面の上にあり、手前のアイテムの(背の高い物用に長い)範囲に隠れないよう最後に置く。見るだけ(家族の町)ではアイテムと畑は押せない
+  const itemTargets: TapTarget[] = readOnly
+    ? []
+    : placed.map((item) => ({
+        id: `item-button-${item.id}`,
+        x: item.x,
+        y: item.y,
+        label: `${item.name}(動かす・しまう)`,
+        onTap: () => onItemTap(item),
+        halfWidth: HALF_W - 4,
+        up: 56,
+        down: 14,
+      }));
+  const gardenTarget: TapTarget[] = readOnly
+    ? []
+    : [{ id: "garden-button", x: garden.x, y: garden.y, label: "畑", onTap: onGardenTap, halfWidth: 22, up: 36, down: 12 }];
   const tapTargets: TapTarget[] = placing
     ? []
     : [
-        ...placed.map((item) => ({
-          id: `item-button-${item.id}`,
-          x: item.x,
-          y: item.y,
-          label: `${item.name}(動かす・しまう)`,
-          onTap: () => onItemTap(item),
-          halfWidth: HALF_W - 4,
-          up: 56,
-          down: 14,
-        })),
+        ...itemTargets,
         ...placedCompanions.map((c) => ({
           id: `companion-button-${c.key}`,
           x: c.x,
@@ -175,7 +183,7 @@ export function WorldScene({
         })),
       ]
         .sort(byDepth)
-        .concat({ id: "garden-button", x: garden.x, y: garden.y, label: "畑", onTap: onGardenTap, halfWidth: 22, up: 36, down: 12 });
+        .concat(gardenTarget);
 
   return (
     <div className="relative w-full" style={{ aspectRatio: `${vb.width} / ${vb.height}` }}>
@@ -347,8 +355,9 @@ export function WorldScene({
         style={boxStyle(spruCenter.sx, spruCenter.sy, 20, 60, 6)}
       />
 
+      {/* 吹き出しは、上に重ねるにぎやか度の飾りや季節の舞うものより手前に出す */}
       <div
-        className="pointer-events-none absolute flex max-w-[66%] -translate-x-[18%] -translate-y-full items-center gap-2 rounded-2xl bg-white py-1.5 pr-3 pl-1.5 text-[12.5px] leading-relaxed font-bold text-[#3b3226] shadow-[0_3px_10px_rgba(59,50,38,0.16)]"
+        className="pointer-events-none absolute z-10 flex max-w-[66%] -translate-x-[18%] -translate-y-full items-center gap-2 rounded-2xl bg-white py-1.5 pr-3 pl-1.5 text-[12.5px] leading-relaxed font-bold text-[#3b3226] shadow-[0_3px_10px_rgba(59,50,38,0.16)]"
         style={{ left: `${bubble.left}%`, top: `${bubble.top}%` }}
         aria-live="polite"
       >
@@ -362,7 +371,7 @@ export function WorldScene({
       {/* 仲間の吹き出しは、隣に立つスプルの吹き出しより手前に出す */}
       {talking && talkPos && companionTalk && (
         <div
-          className="pointer-events-none absolute w-max max-w-[48%] -translate-x-1/2 -translate-y-full rounded-xl bg-white px-2.5 py-1 text-[11.5px] leading-snug font-bold text-[#3b3226] shadow-[0_2px_8px_rgba(59,50,38,0.16)]"
+          className="pointer-events-none absolute z-10 w-max max-w-[48%] -translate-x-1/2 -translate-y-full rounded-xl bg-white px-2.5 py-1 text-[11.5px] leading-snug font-bold text-[#3b3226] shadow-[0_2px_8px_rgba(59,50,38,0.16)]"
           style={{ left: `${talkPos.left}%`, top: `${talkPos.top}%` }}
           aria-live="polite"
         >

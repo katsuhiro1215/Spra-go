@@ -23,6 +23,8 @@ use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\Bond;
 use App\Support\ContinueStage;
+use App\Support\Errands;
+use App\Support\Family;
 use App\Support\Garden;
 use App\Support\LevelCurve;
 use App\Support\PlayableQuestion;
@@ -1248,6 +1250,9 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'garden' => Garden::state($profile),
             'companions' => Garden::companions($profile),
             'review' => Review::state($profile),
+            'errands' => Errands::state($profile),
+            'greetings' => Family::unseenGreetings($profile),
+            'family_count' => Family::others($profile)->count(),
         ];
     })->name('show');
 
@@ -1331,6 +1336,14 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
         });
     })->name('partner');
 
+    Route::post('/greetings/seen', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $data = $request->validate(['ids' => ['required', 'array'], 'ids.*' => ['integer']]);
+        Family::markSeen($profile, $data['ids']);
+
+        return ['greetings' => Family::unseenGreetings($profile)];
+    })->name('greetings.seen');
+
     Route::patch('/items/{profileWorldItem}', function (Request $request, ProfileWorldItem $profileWorldItem) {
         $profile = ActiveProfile::require($request);
         abort_unless($profileWorldItem->user_profile_id === $profile->id, 404);
@@ -1380,6 +1393,37 @@ Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(fu
         });
     })->name('complete');
 });
+
+Route::middleware(['auth:sanctum'])->prefix('family')->name('family.')->group(function () {
+    Route::get('/', function (Request $request) {
+        return Family::list(ActiveProfile::require($request));
+    })->name('index');
+
+    Route::get('/{profile}', function (Request $request, UserProfile $profile) {
+        $me = ActiveProfile::require($request);
+
+        return Family::town($me, Family::member($me, $profile));
+    })->whereNumber('profile')->name('show');
+
+    Route::post('/{profile}/greet', function (Request $request, UserProfile $profile) {
+        $me = ActiveProfile::require($request);
+        $data = $request->validate(['stamp' => ['required', 'string']]);
+        Family::greet($me, Family::member($me, $profile), $data['stamp']);
+
+        return ['greeted_today' => true];
+    })->whereNumber('profile')->name('greet');
+});
+
+Route::middleware(['auth:sanctum'])->post('/errands/{slot}/claim', function (Request $request, int $slot) {
+    $activeProfile = ActiveProfile::require($request);
+
+    // 二重に押しても1回分だけになるよう、プロフィールをロックしてから渡す
+    return DB::transaction(function () use ($activeProfile, $slot) {
+        $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+        return Errands::claim($profile, $slot);
+    });
+})->whereNumber('slot')->name('errands.claim');
 
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {
     Route::get('/', function (Request $request) {

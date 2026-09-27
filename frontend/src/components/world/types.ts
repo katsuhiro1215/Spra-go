@@ -45,6 +45,9 @@ export type WorldData = {
   garden: WorldGarden;
   companions: WorldCompanion[];
   review: WorldReview;
+  errands: WorldErrands;
+  greetings: WorldGreeting[];
+  family_count: number;
 };
 
 export type ShopListItem = {
@@ -105,3 +108,40 @@ export type AnswerPartner = {
 };
 
 export type BornResult = ({ kind: "companion" } & WorldCompanion) | { kind: "item"; world_item: WorldItem };
+
+export type ErrandKind = "correct" | "stage_clear" | "water" | "review" | "decorate" | "family_greet";
+
+/** 今日のおつかい(設計書4-4) */
+export type WorldErrand = {
+  slot: number;
+  kind: ErrandKind;
+  target: number;
+  progress: number;
+  claimed: boolean;
+  giver: { kind: "spru" | "partner"; key: string | null; name: string };
+};
+
+export type WorldErrands = { date: string; items: WorldErrand[]; bonus: { amount: number; claimed: boolean } };
+
+export type ErrandClaimResult = {
+  errands: WorldErrands;
+  points: number;
+  gained: { points: number; bonus: number; bond: number };
+  partner: AnswerPartner | null;
+};
+
+/** 家族から届いた、まだ見ていないあいさつ */
+export type WorldGreeting = { id: number; from: { id: number; name: string }; stamp: string; text: string; greeted_on: string };
+
+export type FamilyMember = { id: number; name: string; level: number; greeted_today: boolean };
+
+/** 家族の町(見るだけ)。ポイント・HP・バッグなどは含まない */
+export type FamilyTown = {
+  profile: { id: number; name: string; level: number };
+  land: WorldLand;
+  items: WorldItem[];
+  spru: { growth: number };
+  garden: Pick<WorldGarden, "x" | "y" | "state">;
+  companions: WorldCompanion[];
+  greeted_today: boolean;
+};

@@ -5,6 +5,7 @@ use App\Models\Quiz;
 use App\Models\ShopItem;
 use App\Models\User;
 use App\Models\UserProfile;
+use App\Models\UserSchema;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -65,6 +66,12 @@ function createActiveProfile(): UserProfile
         ->withSession(['active_profile_id' => $profile->id]);
 
     return $profile;
+}
+
+/** 同じ家族アカウントに、もう1人のプレイヤーを作る(家族の町・おつかいのテストで使う) */
+function createFamilyMember(UserProfile $profile, string $name = '家族のだれか'): UserProfile
+{
+    return UserSchema::findOrFail($profile->user_schema_id)->profiles()->create(['name' => $name]);
 }
 
 /** @return array{0: Question, 1: \App\Models\QuestionChoice, 2: \App\Models\QuestionChoice} */
