@@ -69,6 +69,7 @@ export function WorldScene({
   companionTalk,
   reviewGiver,
   quiet,
+  readOnly = false,
 }: {
   land: WorldLand;
   items: WorldItem[];
@@ -88,6 +89,7 @@ export function WorldScene({
   companionTalk: { key: string; at: number; line: string } | null;
   reviewGiver: string | null;
   quiet: boolean;
+  readOnly?: boolean;
 }) {
   const theme = TIME_THEME[timeOfDay];
   // 夜は物を少し暗くする(明かりは暗くしない)
@@ -132,7 +134,7 @@ export function WorldScene({
   const spruY = -spruH + 2;
   const spruBloom = bloom ? bloomRect(spru.image, bloom) : null;
   const spruMotion = spru.sleeping ? undefined : spru.image === "jump" ? "animate-spru-hop" : "animate-spru-bob";
-  const gardenGlow = !placing && (garden.can_sow || garden.can_water);
+  const gardenGlow = !placing && !readOnly && (garden.can_sow || garden.can_water);
 
   const talking = companionTalk ? (placedCompanions.find((c) => c.key === companionTalk.key) ?? null) : null;
   const talkCenter = talking ? tileCenter(talking.x, talking.y) : null;
@@ -149,20 +151,26 @@ export function WorldScene({
   };
 
   // 押せる範囲は上に伸びて奥の物と重なるため、絵と同じく奥から順に並べて手前のボタンを上にする。置く場所を選んでいる間は出さない。
-  // 畑は地面の上にあり、手前のアイテムの(背の高い物用に長い)範囲に隠れないよう最後に置く
+  // 畑は地面の上にあり、手前のアイテムの(背の高い物用に長い)範囲に隠れないよう最後に置く。見るだけ(家族の町)ではアイテムと畑は押せない
+  const itemTargets: TapTarget[] = readOnly
+    ? []
+    : placed.map((item) => ({
+        id: `item-button-${item.id}`,
+        x: item.x,
+        y: item.y,
+        label: `${item.name}(動かす・しまう)`,
+        onTap: () => onItemTap(item),
+        halfWidth: HALF_W - 4,
+        up: 56,
+        down: 14,
+      }));
+  const gardenTarget: TapTarget[] = readOnly
+    ? []
+    : [{ id: "garden-button", x: garden.x, y: garden.y, label: "畑", onTap: onGardenTap, halfWidth: 22, up: 36, down: 12 }];
   const tapTargets: TapTarget[] = placing
     ? []
     : [
-        ...placed.map((item) => ({
-          id: `item-button-${item.id}`,
-          x: item.x,
-          y: item.y,
-          label: `${item.name}(動かす・しまう)`,
-          onTap: () => onItemTap(item),
-          halfWidth: HALF_W - 4,
-          up: 56,
-          down: 14,
-        })),
+        ...itemTargets,
         ...placedCompanions.map((c) => ({
           id: `companion-button-${c.key}`,
           x: c.x,
@@ -175,7 +183,7 @@ export function WorldScene({
         })),
       ]
         .sort(byDepth)
-        .concat({ id: "garden-button", x: garden.x, y: garden.y, label: "畑", onTap: onGardenTap, halfWidth: 22, up: 36, down: 12 });
+        .concat(gardenTarget);
 
   return (
     <div className="relative w-full" style={{ aspectRatio: `${vb.width} / ${vb.height}` }}>
