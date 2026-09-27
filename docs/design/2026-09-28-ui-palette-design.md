@@ -48,8 +48,10 @@
 |---|---|
 | `SkyPage`（新規、`components/app/sky-page.tsx`） | 画面のいちばん外側。時間帯の空を背景に描き、`useSkyTime()` で時間帯を配る。最初は昼の色で描き、画面を開いたあとに端末の時計（`getTimeOfDay`）で決めて、0.7秒かけて色を変える（サーバーとブラウザで時間がずれて表示が崩れるのを防ぐ）。1分ごとに時間帯を見直す |
 | `SkyTitle`（新規、同じファイル） | 空の上に直接置く見出し。`useSkyTime()` の時間帯で、朝・昼・夕方はこげ茶、夜は白にする |
+| `SkyText`（新規、同じファイル） | 空の上に直接置く補足の文字（「読み込み中...」など）。時間帯で色を変える（昼の補足は `#4a3f30`、夜は白）。空の上のリンクは、クリーム色の丸い札にする |
 | `Panel`（新規、`components/app/panel.tsx`） | クリーム色のカード（3章の色・角・影） |
-| `AppButton`（`components/app/button.tsx`） | 色の種類を新配色に置き換える（名前はそのまま、使っている画面はそのまま新しい色になる）。`default`＝白・こげ茶の文字、`primary`＝緑、`secondary`＝明るい緑（正解）、`warning`＝山吹 `#f2b632`（下の厚み `#c98f12`、こげ茶の文字）、`danger`＝やわらかい朱色（不正解）、`ghost`＝透明・こげ茶の文字、`locked`＝ベージュ `#efe5cf`・弱い補足の文字。英字向けの `uppercase`・`tracking-wide` はやめ、文字は太め（`font-black`） |
+| `AppButton`（`components/app/button.tsx`） | 色の種類を新配色に置き換える（名前はそのまま、使っている画面はそのまま新しい色になる）。`default`＝白・こげ茶の文字、`primary`＝緑、`secondary`＝明るい緑（正解）、`warning`＝山吹 `#f2b632`（下の厚み `#c98f12`、こげ茶の文字）、`danger`＝やわらかい朱色（不正解）、`ghost`＝透明・こげ茶の文字、`locked`＝ベージュ `#efe5cf`・弱い補足の文字。英字向けの `uppercase`・`tracking-wide` はやめ、文字は太め（`font-black`）。コントラストを保つため、明るい緑・山吹・朱色のボタンの文字はこげ茶、緑・青のボタンは白 |
+| `ClassicButton`（`components/app/classic-button.tsx`） | 前の配色のボタン。未ログインのLP・紹介ページのクイズの試遊・Owner/管理のログインで使い、対象外の画面の見た目を変えない（`AppButton` を置き換えると、同じ部品を使う対象外の画面も変わってしまうため） |
 | `AppHeader`（`components/app/app-header.tsx`） | 黒い半透明の帯をやめ、背景は空のまま。ロゴ・学習ポイント・コイン・HP・アバターを、クリーム色の丸い札にする（町の上の段に近づける）。札の絵は4-2のバッジ（`points`・`coins`・`hp`・連続プレイは `streak`） |
 | `BackLink`（`components/app/back-link.tsx`） | クリーム色の丸い札（旅先の国の画面の「旅の地図へ戻る」と同じ形） |
 | `StagePath`（`components/app/stage-path.tsx`） | 次に遊ぶ＝山吹と星、クリア＝明るい緑と✓、ボス＝朱色 `#e5664a` と王冠、ロック＝ベージュと鍵、選択中＝青のふち。アイコンは lucide（`Star`・`Check`・`Crown`・`Lock`）。「START」の吹き出しはクリーム色に青の文字 |
@@ -85,7 +87,7 @@
 - `skyInk(time: TimeOfDay)`: 空の上の見出しの色の種類（`"ink"` か `"white"`。夜だけ `"white"`）
 - `choiceTone({ answered, isCorrect, isSelected })`: 選択肢のボタンの色の種類（答える前＝`default`、正解＝`secondary`、選んだ不正解＝`danger`、ほか＝`locked`）。今の `quiz-session.tsx` の中の決め方を切り出す
 - `answerHeadline(correct: boolean)`: 「せいかい！」か「おしい！」
-- `correctAnswerLine(label: string)`: 「こたえは「〇〇」」
+- 正しい答えの行（「こたえは「〇〇」」）は、答えが国旗の画像のこともあるため関数にせず、画面で組み立てる
 - `stampBadge(tier)`: パスポートのスタンプの段位（`gold`・`silver`・`bronze`・`none`）から、バッジ（`medal-gold`・`medal-silver`・`medal-bronze`・なし）・丸のふちの色・文言（「全難易度クリア」など今の文言）を返す
 - `difficultyBadge(difficulty)`: 「初級」「中級」「上級」から難易度のバッジ（`beginner`・`intermediate`・`advanced`）を返す（ほかは `null`）
 
@@ -102,11 +104,11 @@
 | 並べ替え・仕分け・マッチング | `components/app/ordering-question.tsx`、`sorting-question.tsx`、`matching-question.tsx` | 選択肢と同じボタンの見た目（白・下の厚み）、正解・不正解の色は3章 |
 | ミニアプリ | `app/play/[id]/page.tsx` | 見出しは `SkyTitle`、カテゴリーのボタン・ロック・トロフィーは新配色と lucide |
 | パスポート | `app/passport/page.tsx` | スタンプの🥇🥈🥉は `stampBadge` のバッジ（4-2）、❔は lucide `CircleHelp`。「獲得した称号」の見出しに `crown` のバッジ。鍵・称号・航空券（✈️ → `Plane`）・思い出の欄は `Panel` |
-| プロフィール選び・ログイン・登録 | `app/profiles/page.tsx`、`app/login/page.tsx`、`app/register/page.tsx` | 入力欄とボタンは白いカードの中。「ぼうけんへ出発」などの見出しは `SkyTitle` |
+| プロフィール選び・ログイン・登録 | `app/profiles/page.tsx`、`app/login/page.tsx`、`app/register/page.tsx` | 入力欄とボタンはクリーム色のカードの中。ログイン・登録の見出し（「ぼうけんへ出発」など）は今のままカードの中（こげ茶）。プロフィール選びの「だれが冒険する？」は空の上なので `SkyTitle` |
 | ショップ | `app/shop/page.tsx` | 「🛒 ショップ」の見出しは `SkyTitle`（絵文字 → lucide `Store`）。「べんりアイテム（コイン）」「コインを購入」の欄を町のアイテムの欄と同じカードに。「コインを購入」の見出しに `coins` のバッジ。✈️ → `Plane` |
 | バッグ・旅先の国の画面 | `app/bag/page.tsx`、`app/trip/[key]/page.tsx` | カードはすでに新配色。背景を `SkyPage` に、見出しを `SkyTitle` に替える |
 | 町の上の段 | `components/world/world-hud.tsx` | HPと学習ポイントの札の絵を、ヘッダーとそろえて4-2のバッジ（`hp`・`points`）にする。色・形は今のまま |
-| 旅のハブ | `app/trip/page.tsx` | 見出し「旅する」を `SkyTitle` に替える（今は白い文字） |
+| 旅のハブ | `app/trip/page.tsx` | 画面全体を `SkyPage` で包み、見出し「旅する」を `SkyTitle` に替える。［パスポート］に `passport` のバッジ |
 
 - 画面の流れ・ボタンの位置・機能は変えない
 - ふりがな（`AutoFurigana`・`Furigana`）・動きを減らす設定の対応は今のまま残す
