@@ -67,12 +67,30 @@ export const COMPANION_IMAGES = {
   "ruru": { src: "/spru/companions/ruru.webp", width: 82, height: 153 },
 } as const satisfies Record<string, SpruImage>;
 
+export const OUTING_IMAGES = {
+  "walk": { src: "/spru/outing/walk.webp", width: 93, height: 160 },
+  "run": { src: "/spru/outing/run.webp", width: 82, height: 111 },
+  "back": { src: "/spru/outing/back.webp", width: 66, height: 95 },
+  "apple": { src: "/spru/outing/apple.webp", width: 80, height: 136 },
+  "heart": { src: "/spru/outing/heart.webp", width: 88, height: 137 },
+  "star": { src: "/spru/outing/star.webp", width: 90, height: 135 },
+} as const satisfies Record<string, SpruImage>;
+
+export const COSTUME_IMAGES = {
+  "halloween": { src: "/spru/costumes/halloween.webp", width: 154, height: 253 },
+  "christmas": { src: "/spru/costumes/christmas.webp", width: 142, height: 249 },
+  "valentine": { src: "/spru/costumes/valentine.webp", width: 122, height: 252 },
+  "summer": { src: "/spru/costumes/summer.webp", width: 143, height: 250 },
+} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
 export type SpruBloomKey = keyof typeof SPRU_BLOOM;
 export type GardenImageKey = keyof typeof GARDEN_IMAGES;
 export type CompanionKey = keyof typeof COMPANION_IMAGES;
+export type OutingKey = keyof typeof OUTING_IMAGES;
+export type CostumeKey = keyof typeof COSTUME_IMAGES;
 
 /** 立ち姿(3/4)の元画像の高さ。ほかの画像はこれとの比で大きさをそろえる(素材集の中で縮尺が同じため) */
 export const SPRU_STAND_HEIGHT = 208;
