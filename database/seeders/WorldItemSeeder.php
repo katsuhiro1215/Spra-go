@@ -6,7 +6,7 @@ use App\Models\ShopItem;
 use Illuminate\Database\Seeder;
 
 /**
- * 町に置くアイテムの初期の品ぞろえ。レベルは10問正解で1上がるため、
+ * 町に置くアイテムの初期の品ぞろえ。レベルは最初10問正解で1上がり、だんだん上がりにくくなる(config/world.php の level_curve)ため、
  * 必要レベルはLv.1〜12に散らしている。何度実行しても重複しない。
  */
 class WorldItemSeeder extends Seeder

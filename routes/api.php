@@ -22,6 +22,7 @@ use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\ContinueStage;
+use App\Support\LevelCurve;
 use App\Support\QuestionAnswerResolver;
 use App\Support\WorldLand;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -1114,7 +1115,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
         $economyResult = $isCorrect
             ? $profile->applyEconomy([
                 'hp' => -1,
-                'xp' => 10,
+                'xp' => config('world.rewards.xp_by_difficulty')[$question->quiz?->difficulty] ?? 10,
                 'coin' => 5,
                 'point' => config('world.rewards.answer_correct'),
             ], 'answer_correct', $question)
@@ -1149,6 +1150,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'best_streak' => $streak['best_streak'],
             'streak_extended_today' => $streak['streak_extended_today'],
             'streak_milestone_bonus_coin' => $streak['milestone_bonus_coin'],
+            'level_xp' => LevelCurve::progress($profile->level),
         ];
     }
 
@@ -1251,6 +1253,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
                 'hp' => $profile->hp,
                 'max_hp' => $profile->max_hp,
                 'coins' => $profile->coins,
+                'level_xp' => LevelCurve::progress($profile->level),
             ],
             'welcome_available' => $profile->world_welcomed_at === null,
             'continue_stage_id' => ContinueStage::resolveId($profile),

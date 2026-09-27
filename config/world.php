@@ -16,7 +16,16 @@ return [
         'answer_correct' => 10,
         'stage_clear' => 50,
         'welcome' => 100,
+        // 正解のXP。難しい問題ほど多い(学習ポイントは難しさにかかわらず answer_correct)
+        'xp_by_difficulty' => ['初級' => 10, '中級' => 15, '上級' => 20],
     ],
+
+    /*
+    | レベルの上がり方: 次のレベルまでに必要なXP = min(base + step × (今のレベル − 1), max)。
+    | 最初は上がりやすく、続けるほど上がりにくい(docs/design/2026-09-27-spru-wave-b-design.md 3-6)。
+    */
+
+    'level_curve' => ['base' => 100, 'step' => 20, 'max' => 300],
 
     /*
     | 町のアイテムの絵として用意済みのキー。フロントの components/world/item-art.tsx と

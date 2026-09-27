@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\LevelCurve;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -209,7 +210,7 @@ class UserProfile extends Model
         }
 
         if (isset($deltas['xp'])) {
-            $newLevel = intdiv($this->xp, 100) + 1;
+            $newLevel = LevelCurve::levelForXp($this->xp);
 
             if ($newLevel > $this->level) {
                 $this->level = $newLevel;
