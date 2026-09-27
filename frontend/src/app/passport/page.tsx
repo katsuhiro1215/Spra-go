@@ -9,8 +9,10 @@ import { AppHeader } from "@/components/app/app-header";
 import { BackLink } from "@/components/app/back-link";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { BadgeImage } from "@/components/app/badge-image";
+import { countryStampKey } from "@/components/app/country-stamp";
 import { stampBadge, type StampTier } from "@/components/app/palette";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
+import { STAMP_IMAGES } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
 
 type PassportCountry = {
@@ -118,38 +120,14 @@ export default function Page() {
               </p>
             ) : (
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                {countries.map((country) => {
+                {countries.map((country, index) => {
                   const stamp = stampBadge(country.stamp_tier);
                   return (
                     <div
                       key={country.code}
                       className="flex flex-col items-center gap-2 rounded-2xl border border-[#efe5cf] bg-white p-3 text-center"
                     >
-                      <div
-                        className={`relative flex h-20 w-20 items-center justify-center rounded-full border-4 bg-white ${stamp.ring} ${
-                          country.stamp_tier === "none"
-                            ? "grayscale"
-                            : "-rotate-6"
-                        }`}
-                      >
-                        <div className="relative h-10 w-14 overflow-hidden rounded-sm border border-[#efe5cf]">
-                          <Image
-                            src={`/flag/${country.code}.svg`}
-                            alt={country.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <span className="absolute -right-4 -bottom-3">
-                          {stamp.badge ? (
-                            <BadgeImage badge={stamp.badge} size={40} />
-                          ) : (
-                            <span className="flex rounded-full bg-white p-0.5 shadow">
-                              <CircleHelp aria-hidden className="h-6 w-6 text-[#b9ad96]" />
-                            </span>
-                          )}
-                        </span>
-                      </div>
+                      <StampFace country={country} stamp={stamp} eager={index < 8} />
                       <p className="text-sm font-black">
                         {country.mood_emoji ? `${country.mood_emoji} ` : ""}
                         {country.name}
@@ -285,6 +263,71 @@ export default function Page() {
 
       <BottomNav />
     </SkyPage>
+  );
+}
+
+/**
+ * 国スタンプの絵。スタンプの画像がある国はそれを出し(行った国はカラーで少し傾け、まだの国は白黒で薄く)、
+ * ない国は国旗の丸。右下に銅・銀・金のメダル(まだの国は「?」)。
+ * eager: 最初の画面に入る上の2段(PCで8つ)のスタンプは、遅らせずに読み込む(いちばん大きな絵になるため)
+ */
+function StampFace({
+  country,
+  stamp,
+  eager,
+}: {
+  country: PassportCountry;
+  stamp: ReturnType<typeof stampBadge>;
+  eager: boolean;
+}) {
+  const visited = country.stamp_tier !== "none";
+  const stampKey = countryStampKey(country.code);
+
+  const medal = (
+    <span className="absolute -right-4 -bottom-3">
+      {stamp.badge ? (
+        <BadgeImage badge={stamp.badge} size={40} />
+      ) : (
+        <span className="flex rounded-full bg-white p-0.5 shadow">
+          <CircleHelp aria-hidden className="h-6 w-6 text-[#b9ad96]" />
+        </span>
+      )}
+    </span>
+  );
+
+  if (stampKey) {
+    const asset = STAMP_IMAGES[stampKey];
+    return (
+      <div className="relative h-24 w-24">
+        <Image
+          src={asset.src}
+          alt={`${country.name}のスタンプ`}
+          width={asset.width}
+          height={asset.height}
+          loading={eager ? "eager" : undefined}
+          className={`h-full w-full object-contain ${visited ? "-rotate-6" : "opacity-45 grayscale"}`}
+        />
+        {medal}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`relative flex h-24 w-24 items-center justify-center rounded-full border-4 bg-white ${stamp.ring} ${
+        visited ? "-rotate-6" : "grayscale"
+      }`}
+    >
+      <div className="relative h-11 w-16 overflow-hidden rounded-sm border border-[#efe5cf]">
+        <Image
+          src={`/flag/${country.code}.svg`}
+          alt={country.name}
+          fill
+          className="object-cover"
+        />
+      </div>
+      {medal}
+    </div>
   );
 }
 
