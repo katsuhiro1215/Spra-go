@@ -5,7 +5,8 @@
 
 - 切り抜く範囲は同じフォルダの crops.json に書く(素材集上のピクセル座標 [左, 上, 右, 下])
 - 出力: frontend/public/spru/{group}/{key}.webp、表情の顔アイコン faces/、シーン scenes/、
-  つぼみ・花 bloom/、畑の種・芽 garden/、仲間 companions/、リュックのスプル outing/、季節の衣装 costumes/、バッジ badges/
+  つぼみ・花 bloom/、畑の種・芽 garden/、仲間 companions/、リュックのスプル outing/、季節の衣装 costumes/、バッジ badges/、
+  国のスタンプ stamps/(キーは国のコードの小文字)
 - 画面側が読む一覧 frontend/src/components/spru/spru-assets.ts もここで書き出す(手で直さない)
 - Spru Master(Blender)ができたら、同じキー・同じ置き場所の画像に差し替える
 """
@@ -116,7 +117,7 @@ def entries(items: dict) -> str:
 
 def write_ts(
     images: dict, faces: dict, scenes: dict, bloom: dict, garden: dict, companions: dict,
-    outing: dict, costumes: dict, badges: dict, tips: dict,
+    outing: dict, costumes: dict, badges: dict, stamps: dict, tips: dict,
 ) -> None:
     TS_OUT.parent.mkdir(parents=True, exist_ok=True)
     stand = images["three-quarter"]["height"]
@@ -161,6 +162,11 @@ export const BADGE_IMAGES = {{
 {entries(badges)}
 }} as const satisfies Record<string, SpruImage>;
 
+/** パスポートの国スタンプ。キーは国のコードの小文字 */
+export const STAMP_IMAGES = {{
+{entries(stamps)}
+}} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
@@ -170,6 +176,7 @@ export type CompanionKey = keyof typeof COMPANION_IMAGES;
 export type OutingKey = keyof typeof OUTING_IMAGES;
 export type CostumeKey = keyof typeof COSTUME_IMAGES;
 export type BadgeKey = keyof typeof BADGE_IMAGES;
+export type StampKey = keyof typeof STAMP_IMAGES;
 
 /** 立ち姿(3/4)の元画像の高さ。ほかの画像はこれとの比で大きさをそろえる(素材集の中で縮尺が同じため) */
 export const SPRU_STAND_HEIGHT = {stand};
@@ -206,7 +213,7 @@ def main() -> None:
         scenes[scene["key"]] = save(img, f'scenes/{scene["key"]}.webp')
 
     parts: dict = {}
-    for group in ("bloom", "garden", "companions", "outing", "costumes", "badges"):
+    for group in ("bloom", "garden", "companions", "outing", "costumes", "badges", "stamps"):
         parts[group] = {}
         for part in spec[group]:
             img = cut_figure(sources[part["source"]], part["box"], part.get("scale", 1.0), part.get("mode", "largest"))
@@ -214,12 +221,13 @@ def main() -> None:
 
     write_ts(
         images, faces, scenes, parts["bloom"], parts["garden"], parts["companions"],
-        parts["outing"], parts["costumes"], parts["badges"], tips,
+        parts["outing"], parts["costumes"], parts["badges"], parts["stamps"], tips,
     )
     print(
         f"画像 {len(images)}・顔 {len(faces)}・シーン {len(scenes)}・花 {len(parts['bloom'])}"
         f"・畑 {len(parts['garden'])}・仲間 {len(parts['companions'])}"
-        f"・お出かけ {len(parts['outing'])}・衣装 {len(parts['costumes'])}・バッジ {len(parts['badges'])} を書き出しました"
+        f"・お出かけ {len(parts['outing'])}・衣装 {len(parts['costumes'])}・バッジ {len(parts['badges'])}"
+        f"・スタンプ {len(parts['stamps'])} を書き出しました"
     )
 
 

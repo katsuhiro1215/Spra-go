@@ -101,6 +101,17 @@ export const BADGE_IMAGES = {
   "boss-battle": { src: "/spru/badges/boss-battle.webp", width: 130, height: 132 },
 } as const satisfies Record<string, SpruImage>;
 
+/** パスポートの国スタンプ。キーは国のコードの小文字 */
+export const STAMP_IMAGES = {
+  "jp": { src: "/spru/stamps/jp.webp", width: 202, height: 202 },
+  "us": { src: "/spru/stamps/us.webp", width: 203, height: 202 },
+  "id": { src: "/spru/stamps/id.webp", width: 203, height: 202 },
+  "fr": { src: "/spru/stamps/fr.webp", width: 204, height: 201 },
+  "it": { src: "/spru/stamps/it.webp", width: 202, height: 202 },
+  "gb": { src: "/spru/stamps/gb.webp", width: 202, height: 202 },
+  "es": { src: "/spru/stamps/es.webp", width: 200, height: 200 },
+} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
@@ -110,6 +121,7 @@ export type CompanionKey = keyof typeof COMPANION_IMAGES;
 export type OutingKey = keyof typeof OUTING_IMAGES;
 export type CostumeKey = keyof typeof COSTUME_IMAGES;
 export type BadgeKey = keyof typeof BADGE_IMAGES;
+export type StampKey = keyof typeof STAMP_IMAGES;
 
 /** 立ち姿(3/4)の元画像の高さ。ほかの画像はこれとの比で大きさをそろえる(素材集の中で縮尺が同じため) */
 export const SPRU_STAND_HEIGHT = 208;
