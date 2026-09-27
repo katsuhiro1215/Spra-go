@@ -25,7 +25,9 @@ use App\Support\Bond;
 use App\Support\ContinueStage;
 use App\Support\Garden;
 use App\Support\LevelCurve;
+use App\Support\PlayableQuestion;
 use App\Support\QuestionAnswerResolver;
+use App\Support\Review;
 use App\Support\WorldLand;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
@@ -988,49 +990,7 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Stage $sta
 
     abort_if($questions->isEmpty(), 404);
 
-    $questions->each(function (Question $question) {
-        if ($question->type === 'matching') {
-            // マッチングは全ペア分の選択肢をそのまま出す(is_correctの単一正解という概念がないため)。
-            // meta.item_idを返すと正解の組み合わせが漏れるので隠す。
-            $question->setRelation('choices', $question->choices->shuffle()->values());
-            $question->choices->each->makeHidden(['is_correct', 'meta']);
-
-            return;
-        }
-
-        if ($question->type === 'ordering') {
-            // 並べ替えはorder列を「正解の順序」として使うため、シャッフルして出し、
-            // 手がかりになるorder/is_correctを隠す。
-            $question->setRelation('choices', $question->choices->shuffle()->values());
-            $question->choices->each->makeHidden(['is_correct', 'order']);
-
-            return;
-        }
-
-        if ($question->type === 'sorting') {
-            // 仕分けはquestion_choicesを使わずmeta(items/baskets)だけで完結する。
-            // items内のcorrect_basket_idは正解の手がかりになるため取り除いて返す。
-            $question->meta = [
-                'items' => collect($question->meta['items'] ?? [])
-                    ->map(fn (array $item) => ['id' => $item['id'], 'image' => $item['image']])
-                    ->all(),
-                'baskets' => $question->meta['baskets'] ?? [],
-            ];
-
-            return;
-        }
-
-        $correct = $question->choices->firstWhere('is_correct', true);
-        $wrong = $question->choices->where('is_correct', false);
-        $display = $wrong->random(min(3, $wrong->count()));
-
-        if ($correct) {
-            $display->push($correct);
-        }
-
-        $question->setRelation('choices', $display->shuffle()->values());
-        $question->choices->each->makeHidden('is_correct');
-    });
+    PlayableQuestion::present($questions);
 
     return [
         'id' => $stage->id,
@@ -1097,6 +1057,16 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
     };
 
     $isCorrect = $result['correct'];
+
+    // 解いた直後のやり直しは練習なので、正解かどうかだけを返し何も記録しない(設計書3-7)
+    if ($request->boolean('practice')) {
+        return [
+            'correct' => $isCorrect,
+            'correct_choice_id' => $result['correct_choice_id'] ?? null,
+            'results' => $result['results'] ?? null,
+            'profile' => null,
+        ];
+    }
 
     $profileId = $request->session()->get('active_profile_id');
     $profile = $profileId ? UserProfile::find($profileId) : null;
@@ -1276,6 +1246,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'spru' => ['growth' => Garden::growth($profile)],
             'garden' => Garden::state($profile),
             'companions' => Garden::companions($profile),
+            'review' => Review::state($profile),
         ];
     })->name('show');
 
@@ -1348,6 +1319,24 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
 
         return $profileWorldItem->load('shopItem')->toWorldArray();
     })->name('items.update');
+});
+
+Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(function () {
+    Route::get('/', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+
+        return ['giver' => Review::giver($profile), 'questions' => Review::questions($profile)];
+    })->name('show');
+
+    Route::post('/complete', function (Request $request) {
+        $activeProfile = ActiveProfile::require($request);
+
+        return DB::transaction(function () use ($activeProfile) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+            return Review::complete($profile);
+        });
+    })->name('complete');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->group(function () {
