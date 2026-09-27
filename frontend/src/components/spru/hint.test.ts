@@ -19,6 +19,12 @@ const bagItem = (name: string): WorldItem => ({ id: 1, shop_item_id: 1, name, as
 const shop = [item("ベンチ", 30, 1), item("花だん", 20, 1), item("木", 30, 2)];
 
 describe("pickTownHint", () => {
+  it("今日の水やりができるときは、いちばん先に水やりをすすめる", () => {
+    expect(pickTownHint({ bag: [bagItem("ちょうちん")], points: 500, level: 1, shop, canWater: true })).toBe(
+      "畑に水をあげよう！",
+    );
+  });
+
   it("バッグにアイテムがあれば、置くようにすすめる", () => {
     expect(pickTownHint({ bag: [bagItem("ちょうちん")], points: 500, level: 1, shop })).toBe(
       "バッグにちょうちんがあるよ。町に置いてみよう",

@@ -6,7 +6,9 @@ export type TownEvent =
   | { kind: "greet"; at: number }
   | { kind: "placed" | "stored"; at: number; itemName: string }
   | { kind: "error" | "welcome" | "woke"; at: number }
-  | { kind: "tap"; at: number; image: "shy" | "laugh" | "cheer"; hint: string };
+  | { kind: "tap"; at: number; image: "shy" | "laugh" | "cheer"; hint: string }
+  | { kind: "sow" | "water"; at: number }
+  | { kind: "say"; at: number; image: SpruImageKey; line: string };
 
 export type SpruView = { image: SpruImageKey; face: SpruFaceKey; line: string; sleeping: boolean };
 
@@ -16,6 +18,8 @@ export type TownMoodInput = {
   event: TownEvent | null;
   nightWokenAt: number | null;
   placing: boolean;
+  // 畑の案内(components/world/garden.ts の gardenPrompt)。ふだんのあいさつの代わりに言う
+  prompt?: string | null;
 };
 
 export const IDLE_SIT_MS = 30_000;
@@ -32,7 +36,13 @@ const EVENT_IMAGE_MS: Record<TownEvent["kind"], number> = {
   welcome: 2_600,
   tap: 2_600,
   woke: 1_500,
+  sow: 2_400,
+  water: 2_600,
+  say: 2_600,
 };
+
+// 種まきは「頭を振る」を見せてから「種が飛ぶ」に変える
+const SOW_SHAKE_MS = 1_200;
 
 const GREETINGS: Record<TimeOfDay, string> = {
   morning: "おはよう！今日もいっしょに学ぼう",
@@ -52,13 +62,16 @@ const FACE_FOR_IMAGE: Partial<Record<SpruImageKey, SpruFaceKey>> = {
   sit: "smile",
   sleep: "normal",
   startled: "surprised",
+  water: "smile",
+  "sow-shake": "happy",
+  "sow-fly": "laugh",
 };
 
 function faceFor(image: SpruImageKey): SpruFaceKey {
   return FACE_FOR_IMAGE[image] ?? (image in SPRU_FACES ? (image as SpruFaceKey) : "normal");
 }
 
-function eventImage(event: TownEvent): SpruImageKey {
+function eventImage(event: TownEvent, age: number): SpruImageKey {
   switch (event.kind) {
     case "greet":
       return "wave";
@@ -72,6 +85,12 @@ function eventImage(event: TownEvent): SpruImageKey {
     case "woke":
       return "startled";
     case "tap":
+      return event.image;
+    case "sow":
+      return age < SOW_SHAKE_MS ? "sow-shake" : "sow-fly";
+    case "water":
+      return "water";
+    case "say":
       return event.image;
   }
 }
@@ -92,11 +111,17 @@ function eventLine(event: TownEvent, date: Date): string {
       return isSpruSleepTime(date) ? "ふぁ…まだ起きてたの？" : "わっ、びっくりした！";
     case "tap":
       return event.hint;
+    case "sow":
+      return "種をまいたよ！毎日水をあげて育てよう";
+    case "water":
+      return "大きくなあれ！";
+    case "say":
+      return event.line;
   }
 }
 
 /** 町のスプルの画像・顔・吹き出し。優先順位は できごと → 夜の眠り → さわらない時間 → ふだん(設計書5-1) */
-export function pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing }: TownMoodInput): SpruView {
+export function pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing, prompt = null }: TownMoodInput): SpruView {
   const date = new Date(now);
   const idleMs = now - lastInteractionAt;
   const nightAwake = nightWokenAt !== null && idleMs < NIGHT_AWAKE_MS;
@@ -106,7 +131,7 @@ export function pickTownMood({ now, lastInteractionAt, event, nightWokenAt, plac
   const eventAge = activeEvent ? now - activeEvent.at : Infinity;
 
   if (activeEvent && eventAge < EVENT_IMAGE_MS[activeEvent.kind]) {
-    const image = eventImage(activeEvent);
+    const image = eventImage(activeEvent, eventAge);
     return { image, face: faceFor(image), line: eventLine(activeEvent, date), sleeping: false };
   }
   if (nightSleeping || (!placing && idleMs >= IDLE_SLEEP_MS)) {
@@ -118,7 +143,7 @@ export function pickTownMood({ now, lastInteractionAt, event, nightWokenAt, plac
   if (placing) {
     return { image: "three-quarter", face: "excited", line: "どこに置く？光っているマスをタップしてね", sleeping: false };
   }
-  const line = activeEvent && eventAge < EVENT_LINE_MS ? eventLine(activeEvent, date) : GREETINGS[getTimeOfDay(date)];
+  const line = activeEvent && eventAge < EVENT_LINE_MS ? eventLine(activeEvent, date) : (prompt ?? GREETINGS[getTimeOfDay(date)]);
   return { image: "three-quarter", face: "normal", line, sleeping: false };
 }
 

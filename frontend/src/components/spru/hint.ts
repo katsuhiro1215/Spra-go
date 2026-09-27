@@ -6,12 +6,15 @@ export function pickTownHint({
   points,
   level,
   shop,
+  canWater = false,
 }: {
   bag: WorldItem[];
   points: number;
   level: number;
   shop: ShopListItem[];
+  canWater?: boolean;
 }): string {
+  if (canWater) return "畑に水をあげよう！";
   if (bag.length > 0) return `バッグに${bag[0].name}があるよ。町に置いてみよう`;
 
   const decorations = shop.filter((item) => item.type === "decoration");
