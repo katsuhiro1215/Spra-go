@@ -1,5 +1,9 @@
 "use client";
 
+import { Check, Lock, Star } from "lucide-react";
+
+import { BadgeImage } from "@/components/app/badge-image";
+
 export type StagePathNode = {
   id: number;
   stage_number: number;
@@ -41,21 +45,20 @@ export function StagePath({
         // S字を描くように左右へ揺らす(蛇行パス)
         const offset = Math.round(Math.sin(index * (Math.PI / 2)) * 44);
 
-        let icon = "⭐";
-        if (stage.locked) icon = "🔒";
-        else if (stage.cleared) icon = "✓";
-        else if (stage.is_boss) icon = "👑";
+        let icon = <Star aria-hidden className="h-6 w-6 fill-current" />;
+        if (stage.locked) icon = <Lock aria-hidden className="h-6 w-6" />;
+        else if (stage.cleared) icon = <Check aria-hidden className="h-6 w-6" strokeWidth={3} />;
+        else if (stage.is_boss) icon = <BadgeImage badge="boss" size={30} />;
 
-        let colorClasses =
-          "border-amber-500 bg-amber-400 text-white";
+        let colorClasses = "border-[#c98f12] bg-[#f2b632] text-[#3b3226]";
         if (isSelected) {
-          colorClasses = "border-sky-600 bg-sky-400 text-white ring-4 ring-sky-300";
+          colorClasses = "border-[#1d4f76] bg-[#2b6fa3] text-white ring-4 ring-[#9fd8ff]";
         } else if (stage.locked) {
-          colorClasses = "border-neutral-400 bg-neutral-200 text-neutral-500";
+          colorClasses = "border-[#dccfb4] bg-[#efe5cf] text-[#8a7a5a]";
         } else if (stage.cleared) {
-          colorClasses = "border-green-600 bg-green-400 text-white";
+          colorClasses = "border-[#3b7f26] bg-[#5bb33e] text-[#3b3226]";
         } else if (stage.is_boss) {
-          colorClasses = "border-rose-600 bg-rose-400 text-white";
+          colorClasses = "border-[#b04a31] bg-[#e5664a] text-white";
         }
 
         const label = stage.locked
@@ -71,7 +74,7 @@ export function StagePath({
             style={{ transform: `translateX(${offset}px)` }}
           >
             {isNext && (
-              <div className="absolute -top-7 left-1/2 -translate-x-1/2 animate-bounce rounded-full border-2 border-sky-400 bg-white px-2 py-0.5 text-[10px] font-bold whitespace-nowrap text-sky-500 shadow">
+              <div className="absolute -top-7 left-1/2 -translate-x-1/2 animate-bounce rounded-full border-2 border-[#2b6fa3] bg-[#fffaf0] px-2 py-0.5 text-[10px] font-black whitespace-nowrap text-[#2b6fa3] shadow">
                 START
               </div>
             )}
@@ -87,7 +90,7 @@ export function StagePath({
                   : ""
               } ${colorClasses}`}
             >
-              <span aria-hidden>{icon}</span>
+              <span aria-hidden className="flex">{icon}</span>
               <span className="text-[10px] font-medium opacity-90">
                 {stage.stage_number}
               </span>

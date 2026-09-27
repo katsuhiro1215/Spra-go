@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { BadgeImage } from "@/components/app/badge-image";
 import { HpGauge } from "@/components/app/hp-gauge";
 import { LearnPointsBadge } from "@/components/app/learn-points-badge";
 import { PointsBadge } from "@/components/app/points-badge";
@@ -35,10 +36,10 @@ export function AppHeader() {
   }
 
   return (
-    <header className="relative z-30 flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/10 px-4 backdrop-blur-sm sm:px-6">
+    <header className="relative z-30 flex h-14 shrink-0 items-center justify-between px-3 sm:px-6">
       <Link
         href="/"
-        className="flex shrink-0 items-center gap-2 text-lg font-bold text-white drop-shadow"
+        className="flex shrink-0 items-center gap-2 rounded-full bg-[#fffaf0] py-1 pr-1.5 pl-1.5 text-base font-black text-[#2e6b1c] shadow-[0_2px_6px_rgba(59,50,38,0.15)] sm:pr-3"
         aria-label="SpraGo"
       >
         <Image src="/logo.svg" alt="" width={28} height={28} aria-hidden />
@@ -50,10 +51,11 @@ export function AppHeader() {
         {typeof profile?.current_streak === "number" &&
           profile.current_streak > 0 && (
             <span
-              className="flex items-center gap-1 rounded-full border border-orange-300/40 bg-orange-500/20 px-2 py-1 text-xs font-bold whitespace-nowrap text-orange-200"
+              className="flex items-center gap-1 rounded-full bg-[#fffaf0] px-2 py-1 text-xs font-black whitespace-nowrap text-[#c2402c] shadow-[0_2px_6px_rgba(59,50,38,0.15)]"
               title="連続プレイ日数"
             >
-              🔥{profile.current_streak}日
+              <BadgeImage badge="streak" size={18} />
+              {profile.current_streak}日
             </span>
           )}
         <LearnPointsBadge value={profile?.points ?? 0} />
@@ -64,10 +66,10 @@ export function AppHeader() {
           <DropdownMenuTrigger asChild>
             <button
               aria-label="プロフィールメニュー"
-              className="rounded-full outline-none ring-white/60 focus-visible:ring-2"
+              className="rounded-full outline-none ring-[#2b6fa3] focus-visible:ring-2"
             >
-              <Avatar className="border-2 border-white/50">
-                <AvatarFallback className="bg-sky-500 font-semibold text-white">
+              <Avatar className="border-2 border-[#fffaf0] shadow-[0_2px_6px_rgba(59,50,38,0.15)]">
+                <AvatarFallback className="bg-[#2b6fa3] font-black text-white">
                   {profile?.name.slice(0, 1)}
                 </AvatarFallback>
               </Avatar>

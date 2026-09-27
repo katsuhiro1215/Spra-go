@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
-import { Button as AppButton } from "@/components/app/button";
+import { Button as AppButton } from "@/components/app/classic-button";
 import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 import { useSound } from "@/components/app/sound-provider";
 

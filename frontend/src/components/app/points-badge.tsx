@@ -1,4 +1,4 @@
-import { Coins } from "lucide-react";
+import { BadgeImage } from "@/components/app/badge-image";
 
 /**
  * ポイント表示のUI。正解でポイント獲得しアイテム購入に使う仕組みは今後実装。
@@ -12,10 +12,10 @@ export function PointsBadge({
 }) {
   return (
     <div
-      className={`flex items-center gap-1.5 rounded-full border border-white/30 bg-black/20 px-3 py-1 backdrop-blur-sm ${className ?? ""}`}
+      className={`flex items-center gap-1.5 rounded-full bg-[#fffaf0] px-3 py-1 shadow-[0_2px_6px_rgba(59,50,38,0.15)] ${className ?? ""}`}
     >
-      <Coins className="h-4 w-4 shrink-0 text-amber-400" />
-      <span className="text-xs font-medium text-white drop-shadow">
+      <BadgeImage badge="coins" size={20} />
+      <span className="text-xs font-black text-[#3b3226]">
         {value.toLocaleString()}
       </span>
     </div>

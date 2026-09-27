@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Button as AppButton } from "@/components/app/button";
+import { Button as AppButton } from "@/components/app/classic-button";
 import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 import { SceneBackground } from "@/components/app/scene-background";
 

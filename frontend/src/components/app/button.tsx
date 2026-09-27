@@ -4,24 +4,24 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium uppercase tracking-wide transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-zinc-950 dark:focus-visible:ring-zinc-300",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-black transition-colors disabled:pointer-events-none disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2b6fa3] focus-visible:ring-offset-2",
   {
     variants: {
       variant: {
         default:
-          "border-2 border-b-4 border-slate-200 bg-white text-slate-500 hover:bg-slate-100 active:border-b-2",
+          "border-2 border-b-4 border-[#e8dfcf] bg-white text-[#3b3226] hover:bg-[#fffaf0] active:border-b-2",
         primary:
-          "border-b-4 border-sky-500 bg-sky-400 text-white hover:bg-sky-400/90 active:border-b-0",
+          "border-b-4 border-[#285a19] bg-[#3b7f26] text-white hover:bg-[#438b2d] active:border-b-0",
         secondary:
-          "border-b-4 border-green-500 bg-green-400 text-white hover:bg-green-400/90 active:border-b-0",
+          "border-b-4 border-[#3b7f26] bg-[#5bb33e] text-[#3b3226] hover:bg-[#66bd49] active:border-b-0",
         warning:
-          "border-b-4 border-yellow-500 bg-yellow-400 text-white hover:bg-yellow-400/90 active:border-b-0",
+          "border-b-4 border-[#c98f12] bg-[#f2b632] text-[#3b3226] hover:bg-[#f5c04d] active:border-b-0",
         danger:
-          "border-b-4 border-rose-500 bg-rose-400 text-white hover:bg-rose-400/90 active:border-b-0",
+          "border-b-4 border-[#c9573b] bg-[#f28b6d] text-[#3b3226] hover:bg-[#f49a7f] active:border-b-0",
         ghost:
-          "border-0 border-transparent bg-transparent text-slate-500 hover:bg-slate-100",
+          "border-0 border-transparent bg-transparent text-[#3b3226] hover:bg-[#f5efe1]",
         locked:
-          "border-b-4 border-neutral-400 bg-neutral-200 text-neutral-500 hover:bg-neutral-200/90",
+          "border-b-4 border-[#dccfb4] bg-[#efe5cf] text-[#8a7a5a] hover:bg-[#efe5cf]",
       },
       size: {
         default: "h-11 px-4 py-2",
