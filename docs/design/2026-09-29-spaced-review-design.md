@@ -94,7 +94,7 @@ Ownerの要望は、モチたんのように「同じ問題をくり返し出し
 | `question_id` | FK | 問題が消えたら消える（cascade） |
 | `level` | tinyint | 段階（1〜5） |
 | `due_on` | date null | 次に出る日。覚えたら null |
-| `mastered_at` | datetime null | 覚えた時刻。まちがえたら null に戻す |
+| `mastered_on` | date null | 覚えた日。まちがえたら null に戻す（ほかの列と同じく日付で持つ。今までの記録からの引き継ぎでも日付しかわからないため） |
 | `last_answered_on` | date | 最後に答えた日 |
 | `created_at`・`updated_at` | | |
 
