@@ -6,12 +6,11 @@ use App\Models\Stage;
 
 /*
 |--------------------------------------------------------------------------
-| GET /api/countries のテスト
+| GET /api/countries のテスト(学ぶタブ、docs/design/2026-09-28-travel-tickets-design.md 3-6)
 |--------------------------------------------------------------------------
 |
-| ホーム画面に表示する国は「実際にコンテンツがある国」のみに絞る
-| (190ヶ国全部だと選べない上、ほとんどが行き止まりになるため)。
-| あわせてAccept-Languageからの弱い国推定(is_suggested)も確認する。
+| 日本と旅の行き先の国のうち、コンテンツがある国だけを 日本 → 行き先の順 に返す。
+| まだ着いていない行き先には鍵(locked)を付ける。
 |
 */
 
@@ -38,65 +37,38 @@ function createCountryWithStageContent(string $code, string $name): Country
     return $country;
 }
 
-function createCountryWithoutContent(string $code, string $name): Country
-{
-    return Country::create([
-        'code' => $code,
-        'three_code' => strtoupper($code).'X',
-        'name' => $name,
-        'name_en' => $name,
-        'country_code' => random_int(100, 999),
-    ]);
-}
-
-it('コンテンツがある国だけ一覧に出る', function () {
-    createActiveProfile();
-    createCountryWithStageContent('zz', 'テスト国Z');
-    createCountryWithoutContent('yy', 'テスト国Y');
-
-    $response = $this->getJson('/api/countries');
-
-    $response->assertOk();
-    $codes = collect($response->json())->pluck('code');
-    expect($codes)->toContain('zz');
-    expect($codes)->not->toContain('yy');
-});
-
-it('Accept-Languageの地域サブタグから推定し先頭に並ぶ', function () {
+it('日本が先頭、そのあと行き先の順。コンテンツのない国と、行き先でない国は出ない', function () {
     createActiveProfile();
     createCountryWithStageContent('fr', 'フランス');
+    createCountryWithStageContent('it', 'イタリア');
+    createCountryWithStageContent('US', 'アメリカ');
     createCountryWithStageContent('jp', '日本');
+    Country::create(['code' => 'kr', 'three_code' => 'KRX', 'name' => '韓国', 'name_en' => '韓国', 'country_code' => 410]);
 
-    $response = $this->withHeader('Accept-Language', 'fr-FR,fr;q=0.9')
-        ->getJson('/api/countries');
+    $codes = collect($this->getJson('/api/countries')->assertOk()->json())->pluck('code')->all();
 
-    $response->assertOk();
-    expect($response->json('0.code'))->toBe('fr');
-    expect($response->json('0.is_suggested'))->toBeTrue();
+    expect($codes)->toBe(['jp', 'US', 'fr']);
 });
 
-it('地域サブタグが無くても言語だけで推定できる(日本語→日本)', function () {
-    createActiveProfile();
+it('日本と着いた国は鍵がなく、まだ着いていない行き先に鍵が付く', function () {
+    $profile = createActiveProfile();
     createCountryWithStageContent('jp', '日本');
     createCountryWithStageContent('us', 'アメリカ');
+    createCountryWithStageContent('gb', 'イギリス');
+    $profile->trips()->create(['destination' => 'us', 'arrived_at' => now()]);
 
-    $response = $this->withHeader('Accept-Language', 'ja,en;q=0.5')
-        ->getJson('/api/countries');
+    $locked = collect($this->getJson('/api/countries')->assertOk()->json())->pluck('locked', 'code')->all();
 
-    $response->assertOk();
-    expect($response->json('0.code'))->toBe('jp');
+    expect($locked)->toBe(['jp' => false, 'us' => false, 'gb' => true]);
 });
 
-it('該当する国が無ければis_suggestedはすべてfalse', function () {
+it('推定した国の印(is_suggested)は返さない', function () {
     createActiveProfile();
     createCountryWithStageContent('jp', '日本');
 
-    $response = $this->withHeader('Accept-Language', 'de-DE,de;q=0.9')
-        ->getJson('/api/countries');
+    $response = $this->withHeader('Accept-Language', 'ja')->getJson('/api/countries')->assertOk();
 
-    $response->assertOk();
-    expect(collect($response->json())->pluck('is_suggested')->unique()->all())
-        ->toBe([false]);
+    expect($response->json('0'))->not->toHaveKey('is_suggested');
 });
 
 it('言語学習モードのステージがある国だけhas_language_modeがtrue', function () {
@@ -114,10 +86,8 @@ it('言語学習モードのステージがある国だけhas_language_modeがtr
     [$question] = createQuestionWithChoices();
     $stage->questions()->attach($question->id, ['order' => 1]);
 
-    $response = $this->getJson('/api/countries');
+    $byCode = collect($this->getJson('/api/countries')->assertOk()->json())->keyBy('code');
 
-    $response->assertOk();
-    $byCode = collect($response->json())->keyBy('code');
     expect($byCode['us']['has_language_mode'])->toBeTrue();
     expect($byCode['jp']['has_language_mode'])->toBeFalse();
 });

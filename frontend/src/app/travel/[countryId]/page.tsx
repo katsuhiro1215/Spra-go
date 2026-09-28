@@ -16,6 +16,7 @@ import { LoadingScreen } from "@/components/app/spru-loading";
 import { StagePath } from "@/components/app/stage-path";
 import { BadgeImage } from "@/components/app/badge-image";
 import { difficultyBadge } from "@/components/app/palette";
+import { LockedCountry } from "@/components/travel/locked-country";
 import { apiFetch } from "@/lib/api";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
 
@@ -87,6 +88,8 @@ export default function Page({
     null,
   );
 
+  const [locked, setLocked] = useState(false);
+
   useEffect(() => {
     apiFetch(`/api/countries/${countryId}`)
       .then(async (res) => {
@@ -94,10 +97,16 @@ export default function Page({
           router.replace("/login");
           return;
         }
+        if (res.status === 403) {
+          setLocked(true);
+          return;
+        }
         setCountry(res.ok ? await res.json() : null);
       })
       .catch(() => setCountry(null));
   }, [countryId, router]);
+
+  if (locked) return <LockedCountry />;
 
   if (country === undefined) {
     return (

@@ -12,6 +12,8 @@ import { SkyPage, SkyText } from "@/components/app/sky-page";
 import { SpruLoading } from "@/components/app/spru-loading";
 import { QuizSession } from "@/components/quiz/quiz-session";
 import type { QuizQuestion } from "@/components/quiz/types";
+import { LockedCountry } from "@/components/travel/locked-country";
+import { TicketEarnedCard } from "@/components/travel/ticket-earned-card";
 import { apiFetch } from "@/lib/api";
 
 type StagePlayData = {
@@ -36,11 +38,17 @@ export default function Page({
     undefined,
   );
 
+  const [locked, setLocked] = useState(false);
+
   useEffect(() => {
     apiFetch(`/api/stages/${stageId}`)
       .then(async (res) => {
         if (res.status === 401) {
           router.replace("/login");
+          return;
+        }
+        if (res.status === 403) {
+          setLocked(true);
           return;
         }
         setStage(res.ok ? await res.json() : null);
@@ -57,13 +65,24 @@ export default function Page({
     const data = await res.json();
     // ステージクリアのコイン+100・学習ポイント+50をヘッダーにも反映する
     applyPartial({ coins: data.profile.coins, points: data.profile.points });
-    return data.title_granted && data.title ? (
-      <p className="flex items-center justify-center gap-2 text-sm font-black text-[#7a5a0e]">
-        <BadgeImage badge="crown" size={44} />
-        称号「{data.title}」を獲得しました！
-      </p>
+    const titleNote =
+      data.title_granted && data.title ? (
+        <p className="flex items-center justify-center gap-2 text-sm font-black text-[#7a5a0e]">
+          <BadgeImage badge="crown" size={44} />
+          称号「{data.title}」を獲得しました！
+        </p>
+      ) : null;
+    // ボスでチケットがもらえたときは、結果の画面にカードを出す(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-4)
+    const ticketNote = data.ticket_earned ? <TicketEarnedCard /> : null;
+    return titleNote || ticketNote ? (
+      <>
+        {titleNote}
+        {ticketNote}
+      </>
     ) : null;
   }
+
+  if (locked) return <LockedCountry />;
 
   if (stage === undefined) {
     return (

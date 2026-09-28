@@ -72,8 +72,8 @@ export type WorldData = {
   family_count: number;
   /** 開いたが、まだ祝っていない区画のキー(必要レベルの低い順) */
   plots_new: string[];
-  /** 次の行き先のじゅんびがそろっていれば、その国(F回) */
-  travel_ready: { key: string; name: string } | null;
+  /** 持っているチケットの数(docs/design/2026-09-28-travel-tickets-design.md 3-2) */
+  tickets: number;
 };
 
 export type ShopListItem = {
@@ -85,8 +85,6 @@ export type ShopListItem = {
   min_level: number;
   asset_key: string | null;
   footprint: number;
-  /** 旅のじゅんびに使うアイテム(ショップの「旅じたく」の札) */
-  travel_gear: boolean;
   locked: boolean;
   meta: { heal?: number; asset_key?: string } | null;
 };

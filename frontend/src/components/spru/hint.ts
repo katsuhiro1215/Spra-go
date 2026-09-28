@@ -7,17 +7,17 @@ export function pickTownHint({
   level,
   shop,
   canWater = false,
-  travelReady = null,
+  tickets = 0,
 }: {
   bag: WorldItem[];
   points: number;
   level: number;
   shop: ShopListItem[];
   canWater?: boolean;
-  travelReady?: { key: string; name: string } | null;
+  tickets?: number;
 }): string {
   if (canWater) return "畑に水をあげよう！";
-  if (travelReady) return `旅のじゅんびがそろったよ！『旅する』から${travelReady.name}へ出発しよう`;
+  if (tickets > 0) return "チケットがあるよ！『せかい』で行きたい国を選ぼう";
   if (bag.length > 0) return `バッグに${bag[0].name}があるよ。町に置いてみよう`;
 
   const decorations = shop.filter((item) => item.type === "decoration");

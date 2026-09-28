@@ -1,9 +1,8 @@
 import type { WorldItem } from "@/components/world/types";
 
-export type TravelState = "visited" | "next" | "later";
+export type TravelState = "visited" | "unvisited";
 
-/** 旅のじゅんびの1行(設計書4-4)。そろっていれば hint は null */
-export type ChecklistRow = { kind: "level" | "item" | "souvenir"; label: string; done: boolean; hint: string | null };
+export type Transport = "ship" | "plane";
 
 export type TravelSouvenir = {
   key: string;
@@ -22,16 +21,18 @@ export type Destination = {
   country_id: number | null;
   code: string;
   flag: string;
-  min_level: number;
+  transport: Transport;
   state: TravelState;
-  ready: boolean;
-  checklist: ChecklistRow[];
+  /** まだの国で、チケットが1枚以上あるとき true */
+  can_depart: boolean;
+  /** 着いた国だけ中身が入る(まだの国は「？」で出すため空) */
   souvenirs: TravelSouvenir[];
+  souvenir_count: number;
   gift_ready: boolean;
   greeting: { text: string; reading: string };
 };
 
-export type TravelData = { level: number; destinations: Destination[] };
+export type TravelData = { level: number; tickets: number; ticket_hint: string | null; destinations: Destination[] };
 
 export type DepartResult = { first: boolean; destination: Destination };
 

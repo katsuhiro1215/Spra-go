@@ -373,7 +373,7 @@ export function WorldScreen() {
         level: world.profile.level,
         shop,
         canWater: world.garden.can_water,
-        travelReady: world.travel_ready,
+        tickets: world.tickets,
       }),
     });
   }

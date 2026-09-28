@@ -6,10 +6,14 @@ import { AutoFurigana } from "@/components/app/auto-furigana";
 import { OutingImage } from "@/components/spru/outing-image";
 import { ItemArt } from "@/components/world/item-art";
 
-import { departurePhase, departureStart, type DeparturePhase } from "./travel";
+import { PlaneArt } from "./plane-art";
+import { departureCaption, departurePhase, departureStart, type DeparturePhase } from "./travel";
 import type { Destination } from "./types";
 
-/** 初めての国へ出発する場面(設計書5-2)。reduced は操作のときに調べて渡し、onDone は useCallback で固定して渡す */
+/**
+ * 初めての国へ出発する場面(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-3)。船の国は船、飛行機の国は飛行機で渡る。
+ * reduced は操作のときに調べて渡し、onDone は useCallback で固定して渡す
+ */
 export function DepartureScene({ destination, reduced, onDone }: { destination: Destination; reduced: boolean; onDone: () => void }) {
   const [phase, setPhase] = useState<DeparturePhase>(() => departurePhase(departureStart(reduced)));
 
@@ -27,8 +31,8 @@ export function DepartureScene({ destination, reduced, onDone }: { destination: 
     return () => clearInterval(timer);
   }, [reduced, onDone]);
 
-  const caption =
-    phase === "walk" ? "桟橋から出発！" : phase === "sail" ? `${destination.name}へ船で向かっているよ` : `${destination.name}に着いた！`;
+  const caption = departureCaption(phase, destination);
+  const plane = destination.transport === "plane";
 
   return (
     <div
@@ -51,29 +55,50 @@ export function DepartureScene({ destination, reduced, onDone }: { destination: 
       {phase === "walk" && (
         <div className="flex flex-col items-center">
           <OutingImage image="back" height={150} className="animate-outing-walk-away" />
-          <svg viewBox="0 0 200 40" width={220} aria-hidden>
-            <path d="M40 30 L160 10" stroke="#8a5a33" strokeWidth={14} strokeLinecap="round" />
-            <path d="M40 30 L160 10" stroke="#c9905a" strokeWidth={6} strokeDasharray="6 5" />
-          </svg>
+          {!plane && (
+            <svg viewBox="0 0 200 40" width={220} aria-hidden>
+              <path d="M40 30 L160 10" stroke="#8a5a33" strokeWidth={14} strokeLinecap="round" />
+              <path d="M40 30 L160 10" stroke="#c9905a" strokeWidth={6} strokeDasharray="6 5" />
+            </svg>
+          )}
         </div>
       )}
 
-      {phase === "sail" && (
-        <div className="relative flex h-40 w-full items-center">
-          <svg viewBox="-40 -60 80 70" width={160} aria-hidden className="animate-boat-sail absolute left-1/2 -ml-20">
-            <ItemArt assetKey="boat_small" />
-          </svg>
-          <svg viewBox="0 0 400 20" className="absolute bottom-6 w-full" preserveAspectRatio="none" aria-hidden>
-            <path
-              d="M0 10 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"
-              stroke="#ffffff"
-              strokeWidth={3}
-              fill="none"
-              opacity={0.7}
-            />
-          </svg>
-        </div>
-      )}
+      {phase === "sail" &&
+        (plane ? (
+          <div className="relative flex h-40 w-full items-center">
+            {[
+              [10, 12],
+              [56, 4],
+              [78, 34],
+            ].map(([left, top]) => (
+              <span
+                key={left}
+                aria-hidden
+                className="absolute h-6 w-16 rounded-full bg-white/80"
+                style={{ left: `${left}%`, top: `${top}%` }}
+              />
+            ))}
+            <div className="animate-plane-fly absolute left-1/2 -ml-[85px]">
+              <PlaneArt />
+            </div>
+          </div>
+        ) : (
+          <div className="relative flex h-40 w-full items-center">
+            <svg viewBox="-40 -60 80 70" width={160} aria-hidden className="animate-boat-sail absolute left-1/2 -ml-20">
+              <ItemArt assetKey="boat_small" />
+            </svg>
+            <svg viewBox="0 0 400 20" className="absolute bottom-6 w-full" preserveAspectRatio="none" aria-hidden>
+              <path
+                d="M0 10 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"
+                stroke="#ffffff"
+                strokeWidth={3}
+                fill="none"
+                opacity={0.7}
+              />
+            </svg>
+          </div>
+        ))}
 
       {phase === "arrive" && (
         <div className="flex flex-col items-center gap-3 px-6 text-center">

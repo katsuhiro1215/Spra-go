@@ -9,6 +9,7 @@ import { Button as AppButton } from "@/components/app/button";
 import { BadgeImage } from "@/components/app/badge-image";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { LoadingScreen } from "@/components/app/spru-loading";
+import { LockedCountry } from "@/components/travel/locked-country";
 import { apiFetch } from "@/lib/api";
 
 type StageSummary = {
@@ -59,6 +60,8 @@ export default function Page({
     undefined,
   );
 
+  const [locked, setLocked] = useState(false);
+
   useEffect(() => {
     apiFetch(`/api/regions/${regionId}`)
       .then(async (res) => {
@@ -66,10 +69,16 @@ export default function Page({
           router.replace("/login");
           return;
         }
+        if (res.status === 403) {
+          setLocked(true);
+          return;
+        }
         setRegion(res.ok ? await res.json() : null);
       })
       .catch(() => setRegion(null));
   }, [regionId, router]);
+
+  if (locked) return <LockedCountry />;
 
   if (region === undefined) {
     return (

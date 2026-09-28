@@ -6,47 +6,61 @@ use Database\Seeders\WorldItemSeeder;
 
 /*
 |--------------------------------------------------------------------------
-| 出発とおみやげの受け取り(docs/design/2026-09-27-spru-wave-f-design.md 3-1・3-2・4-4)
+| 出発とおみやげの受け取り(docs/design/2026-09-28-travel-tickets-design.md 3-2・4-3)
 |--------------------------------------------------------------------------
 |
+| まだの国へはチケットを1枚使って出発する。着いた国へはチケットなしで何度でも行ける。
 | 出発もおみやげの受け取りも、プロフィールをロックしてから行い、一意の制約でも二重にならないようにする。
 |
 */
 
-function readyForIndonesia(UserProfile $profile): void
+/** 日本の初級のボスを倒して、チケットを1枚持たせる */
+function giveFirstTicket(UserProfile $profile): void
 {
-    setProfileLevel($profile, 7);
-    giveWorldItem($profile, 'boat_small');
+    clearCountryStage($profile, createTravelCountry('jp', '日本'), '初級', true);
 }
 
-it('じゅんびがそろっていないと出発できない', function () {
+it('チケットがないと出発できない', function () {
     createActiveProfile();
 
-    $this->postJson('/api/travel/id/depart')
+    $this->postJson('/api/travel/us/depart')
         ->assertStatus(422)
-        ->assertJsonPath('message', '旅のじゅんびがそろっていません。');
+        ->assertJsonPath('message', 'チケットがありません。');
 });
 
-it('出発すると着いた国として記録され、2回目は first が false で記録は1つのまま', function () {
+it('チケットがあれば好きな国へ出発でき、チケットが1枚減る', function () {
     $profile = createActiveProfile();
-    readyForIndonesia($profile);
+    giveFirstTicket($profile);
 
-    $this->postJson('/api/travel/id/depart')->assertOk()
+    $this->postJson('/api/travel/us/depart')->assertOk()
         ->assertJsonPath('first', true)
+        ->assertJsonPath('destination.key', 'us')
         ->assertJsonPath('destination.state', 'visited');
-    $this->postJson('/api/travel/id/depart')->assertOk()->assertJsonPath('first', false);
 
-    expect($profile->trips()->where('destination', 'id')->count())->toBe(1);
+    $this->getJson('/api/travel')->assertOk()->assertJsonPath('tickets', 0);
+    expect($profile->trips()->pluck('destination')->all())->toBe(['us']);
 });
 
-it('まだ先の国には、レベルが足りていても出発できない', function () {
+it('チケット1枚で2か国には行けない', function () {
     $profile = createActiveProfile();
-    setProfileLevel($profile, 15);
-    giveWorldItem($profile, 'bicycle');
+    giveFirstTicket($profile);
 
-    $this->postJson('/api/travel/kr/depart')
+    $this->postJson('/api/travel/us/depart')->assertOk();
+    $this->postJson('/api/travel/gb/depart')
         ->assertStatus(422)
-        ->assertJsonPath('message', 'まだこの国には行けません。');
+        ->assertJsonPath('message', 'チケットがありません。');
+
+    expect($profile->trips()->count())->toBe(1);
+});
+
+it('着いた国への2回目は first が false で、チケットを使わず、記録は1つのまま', function () {
+    $profile = createActiveProfile();
+    giveFirstTicket($profile);
+    $this->postJson('/api/travel/us/depart')->assertOk();
+
+    $this->postJson('/api/travel/us/depart')->assertOk()->assertJsonPath('first', false);
+
+    expect($profile->trips()->where('destination', 'us')->count())->toBe(1);
 });
 
 it('知らない行き先は404', function () {
@@ -68,7 +82,7 @@ it('おみやげは、着く前は受け取れない', function () {
 it('おみやげは、条件を満たしていなければ受け取れない', function () {
     $profile = createActiveProfile();
     createTravelCountry('id', 'インドネシア');
-    readyForIndonesia($profile);
+    giveFirstTicket($profile);
     $this->postJson('/api/travel/id/depart')->assertOk();
 
     $this->postJson('/api/travel/id/souvenirs/komodo')
@@ -76,12 +90,12 @@ it('おみやげは、条件を満たしていなければ受け取れない', f
         ->assertJsonPath('message', 'まだ受け取れません。');
 });
 
-it('着く前にクリアしていても、着いた後に1個目を受け取れ、バッグに非売品のおみやげとして入る', function () {
+it('着いた国で1個目を受け取ると、バッグに非売品のおみやげとして入る', function () {
     $profile = createActiveProfile();
     $indonesia = createTravelCountry('id', 'インドネシア');
-    clearCountryStage($profile, $indonesia, '初級', false);
-    readyForIndonesia($profile);
+    giveFirstTicket($profile);
     $this->postJson('/api/travel/id/depart')->assertOk();
+    clearCountryStage($profile, $indonesia, '初級', false);
 
     $this->postJson('/api/travel/id/souvenirs/komodo')->assertOk()
         ->assertJsonPath('world_item.name', 'コモドドラゴンの像')
@@ -94,16 +108,16 @@ it('着く前にクリアしていても、着いた後に1個目を受け取れ
 
     $item = ShopItem::query()->where('name', 'コモドドラゴンの像')->firstOrFail();
     expect($item->meta)->toMatchArray(['asset_key' => 'komodo', 'not_for_sale' => true, 'souvenir_of' => 'インドネシア']);
-    $this->getJson('/api/world')->assertOk()->assertJsonPath('bag.1.asset_key', 'komodo');
+    $this->getJson('/api/world')->assertOk()->assertJsonPath('bag.0.asset_key', 'komodo');
     $this->getJson('/api/shop')->assertOk()->assertJsonMissing(['name' => 'コモドドラゴンの像']);
 });
 
 it('おみやげは1回だけ受け取れる', function () {
     $profile = createActiveProfile();
     $indonesia = createTravelCountry('id', 'インドネシア');
-    clearCountryStage($profile, $indonesia, '初級', false);
-    readyForIndonesia($profile);
+    giveFirstTicket($profile);
     $this->postJson('/api/travel/id/depart')->assertOk();
+    clearCountryStage($profile, $indonesia, '初級', false);
     $this->postJson('/api/travel/id/souvenirs/komodo')->assertOk();
 
     $this->postJson('/api/travel/id/souvenirs/komodo')
@@ -111,12 +125,11 @@ it('おみやげは1回だけ受け取れる', function () {
         ->assertJsonPath('message', 'もう受け取っています。');
 
     expect($profile->souvenirs()->count())->toBe(1);
-    expect($profile->worldItems()->whereHas('shopItem', fn ($q) => $q->where('name', 'コモドドラゴンの像'))->count())->toBe(1);
 });
 
 it('知らないおみやげ・その国にないおみやげは404', function (string $souvenir) {
     $profile = createActiveProfile();
-    readyForIndonesia($profile);
+    giveFirstTicket($profile);
     $this->postJson('/api/travel/id/depart')->assertOk();
 
     $this->postJson("/api/travel/id/souvenirs/{$souvenir}")->assertNotFound();
@@ -125,9 +138,9 @@ it('知らないおみやげ・その国にないおみやげは404', function (
 it('2×2のおみやげ(ボロブドゥール寺院)は、町に置くと4マス使う', function () {
     $profile = createActiveProfile();
     $indonesia = createTravelCountry('id', 'インドネシア');
-    clearCountryStage($profile, $indonesia, '初級', true);
-    readyForIndonesia($profile);
+    giveFirstTicket($profile);
     $this->postJson('/api/travel/id/depart')->assertOk();
+    clearCountryStage($profile, $indonesia, '初級', true);
 
     $id = $this->postJson('/api/travel/id/souvenirs/borobudur')->assertOk()
         ->assertJsonPath('world_item.footprint', 2)
@@ -140,32 +153,18 @@ it('2×2のおみやげ(ボロブドゥール寺院)は、町に置くと4マス
         ->assertJsonPath('message', 'そこにはもう置いてあります。');
 });
 
-it('インドネシアの2個目を受け取り、Lv.9で自転車を持っていれば韓国へ出発できる', function () {
-    $profile = createActiveProfile();
-    $indonesia = createTravelCountry('id', 'インドネシア');
-    clearCountryStage($profile, $indonesia, '初級', true);
-    readyForIndonesia($profile);
-    $this->postJson('/api/travel/id/depart')->assertOk();
-    $this->postJson('/api/travel/id/souvenirs/borobudur')->assertOk();
-    setProfileLevel($profile, 9);
-    giveWorldItem($profile, 'bicycle', true);
-
-    $this->getJson('/api/travel')->assertOk()->assertJsonPath('destinations.1.ready', true);
-    $this->postJson('/api/travel/kr/depart')->assertOk()->assertJsonPath('first', true);
-});
-
-it('町の travel_ready は、次の行き先のじゅんびがそろったときだけ行き先を返す', function () {
+it('町の tickets は、持っているチケットの数', function () {
     $profile = createActiveProfile();
 
-    $this->getJson('/api/world')->assertOk()->assertJsonPath('travel_ready', null);
+    $this->getJson('/api/world')->assertOk()->assertJsonPath('tickets', 0)->assertJsonMissingPath('travel_ready');
 
-    readyForIndonesia($profile);
+    giveFirstTicket($profile);
 
-    $this->getJson('/api/world')->assertOk()->assertJsonPath('travel_ready', ['key' => 'id', 'name' => 'インドネシア']);
+    $this->getJson('/api/world')->assertOk()->assertJsonPath('tickets', 1);
 
-    $this->postJson('/api/travel/id/depart')->assertOk();
+    $this->postJson('/api/travel/us/depart')->assertOk();
 
-    $this->getJson('/api/world')->assertOk()->assertJsonPath('travel_ready', null);
+    $this->getJson('/api/world')->assertOk()->assertJsonPath('tickets', 0);
 });
 
 it('町のアイテムに souvenir が付く(ふつうのアイテムは false)', function () {
@@ -175,20 +174,16 @@ it('町のアイテムに souvenir が付く(ふつうのアイテムは false)'
     $this->getJson('/api/world')->assertOk()->assertJsonPath('bag.0.souvenir', false);
 });
 
-it('ショップの旅じたく(小さな船・お城)に travel_gear が付く', function () {
+it('ショップの品に travel_gear は付かない(旅の条件でなくなったため)', function () {
     createActiveProfile();
     createDecoration(['name' => '小さな船', 'meta' => ['asset_key' => 'boat_small']]);
-    createDecoration(['name' => 'お城', 'meta' => ['asset_key' => 'castle']]);
-    createDecoration(['name' => 'ベンチ']);
 
-    $decorations = collect($this->getJson('/api/shop')->assertOk()->json())->keyBy('name');
+    $item = collect($this->getJson('/api/shop')->assertOk()->json())->firstWhere('name', '小さな船');
 
-    expect($decorations['小さな船']['travel_gear'])->toBeTrue();
-    expect($decorations['お城']['travel_gear'])->toBeTrue();
-    expect($decorations['ベンチ']['travel_gear'])->toBeFalse();
+    expect($item)->not->toHaveKey('travel_gear');
 });
 
-it('品ぞろえに小さな船(Lv.7・200pt)と大きな船(Lv.11・450pt・2×2)がある', function () {
+it('品ぞろえに小さな船(Lv.7・200pt)と大きな船(Lv.11・450pt・2×2)がある(町のアイテムとして残る)', function () {
     $this->seed(WorldItemSeeder::class);
 
     $small = ShopItem::query()->where('name', '小さな船')->firstOrFail();

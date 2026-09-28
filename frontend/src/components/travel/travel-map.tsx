@@ -7,7 +7,7 @@ import { Flag } from "./flag";
 import { islandLabel, islandTag } from "./travel";
 import type { Destination } from "./types";
 
-// 地図の座標(viewBox 360×600)。日本の島から上へジグザグに島が並ぶ。6か国目以降は最後の位置の近くに置く
+// 地図の座標(viewBox 360×600)。日本の近くに近い国、遠くに遠い国の島が並ぶ(行く順番は自由)。6か国目以降は最後の位置の近くに置く
 const W = 360;
 const H = 600;
 const HOME = { x: 70, y: 540 };
@@ -24,29 +24,28 @@ function islandPoint(index: number) {
   return ISLANDS[index] ?? { x: last.x, y: last.y - (index - ISLANDS.length + 1) * 40 };
 }
 
-function Island({ x, y, state, ready }: { x: number; y: number; state: Destination["state"]; ready: boolean }) {
-  const later = state === "later";
+function Island({ x, y, visited, glow, dim }: { x: number; y: number; visited: boolean; glow: boolean; dim: boolean }) {
   return (
-    <g opacity={later ? 0.55 : 1}>
-      {ready && <ellipse cx={x} cy={y} rx={50} ry={23} fill="#fff6b0" opacity={0.7} className="animate-pulse" />}
+    <g opacity={dim ? 0.55 : 1}>
+      {glow && <ellipse cx={x} cy={y} rx={50} ry={23} fill="#fff6b0" opacity={0.7} className="animate-pulse" />}
       <ellipse cx={x} cy={y + 4} rx={42} ry={18} fill="#3f93c4" opacity={0.35} />
-      <ellipse cx={x} cy={y} rx={40} ry={17} fill={later ? "#cfc8b8" : "#f1dfae"} />
-      <ellipse cx={x - 4} cy={y - 4} rx={28} ry={11} fill={later ? "#9aa39a" : "#7cc26a"} />
+      <ellipse cx={x} cy={y} rx={40} ry={17} fill={dim ? "#cfc8b8" : "#f1dfae"} />
+      <ellipse cx={x - 4} cy={y - 4} rx={28} ry={11} fill={dim ? "#9aa39a" : "#7cc26a"} />
       <path
         d={`M${x + 12} ${y - 6} q2 -14 -2 -22`}
-        stroke={later ? "#7d857d" : "#8a5a33"}
+        stroke={dim ? "#7d857d" : "#8a5a33"}
         strokeWidth={2.4}
         fill="none"
         strokeLinecap="round"
       />
       <path
         d={`M${x + 10} ${y - 28} q-9 -2 -14 4 M${x + 10} ${y - 28} q9 -3 13 3 M${x + 10} ${y - 28} q0 -8 6 -10`}
-        stroke={later ? "#9aa39a" : "#3f8f35"}
+        stroke={dim ? "#9aa39a" : "#3f8f35"}
         strokeWidth={2.6}
         fill="none"
         strokeLinecap="round"
       />
-      {state === "visited" && (
+      {visited && (
         <g transform={`translate(${x - 26} ${y - 8})`}>
           <circle r={9} fill="#fffaf0" stroke="#d8352a" strokeWidth={2} />
           <path d="M-4 0 l3 3 l5 -6" stroke="#d8352a" strokeWidth={2.2} fill="none" strokeLinecap="round" />
@@ -56,7 +55,12 @@ function Island({ x, y, state, ready }: { x: number; y: number; state: Destinati
   );
 }
 
-/** 旅のハブの海の地図(設計書5-1)。島の文字とボタンはふりがなが付くようHTMLで重ねる */
+/** まだの国でチケットがないとき、島と名前をうす暗くする */
+function isDim(destination: Destination): boolean {
+  return destination.state === "unvisited" && !destination.can_depart;
+}
+
+/** せかいの海の地図(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-2)。島の文字とボタンはふりがなが付くようHTMLで重ねる */
 export function TravelMap({
   destinations,
   line,
@@ -66,9 +70,6 @@ export function TravelMap({
   line: string;
   onSelect: (destination: Destination) => void;
 }) {
-  const points = [HOME, ...destinations.map((_, index) => islandPoint(index))];
-  const visitedCount = destinations.filter((destination) => destination.state === "visited").length;
-
   return (
     <div
       className="relative w-full overflow-hidden rounded-3xl shadow-[0_10px_30px_rgba(20,60,90,0.25)]"
@@ -93,18 +94,18 @@ export function TravelMap({
             strokeLinecap="round"
           />
         ))}
-        {points.slice(1).map((point, index) => {
-          const from = points[index];
-          const traveled = index < visitedCount;
+        {destinations.map((destination, index) => {
+          if (destination.state !== "visited") return null;
+          const point = islandPoint(index);
           return (
             <path
-              key={index}
-              d={`M${from.x} ${from.y} L${point.x} ${point.y}`}
+              key={destination.key}
+              d={`M${HOME.x} ${HOME.y} L${point.x} ${point.y}`}
               stroke="#ffffff"
-              strokeWidth={traveled ? 3.5 : 2.5}
-              strokeDasharray={traveled ? "2 7" : "4 9"}
+              strokeWidth={3.5}
+              strokeDasharray="2 7"
               strokeLinecap="round"
-              opacity={traveled ? 0.95 : 0.6}
+              opacity={0.95}
             />
           );
         })}
@@ -117,7 +118,16 @@ export function TravelMap({
         </g>
         {destinations.map((destination, index) => {
           const point = islandPoint(index);
-          return <Island key={destination.key} x={point.x} y={point.y} state={destination.state} ready={destination.ready} />;
+          return (
+            <Island
+              key={destination.key}
+              x={point.x}
+              y={point.y}
+              visited={destination.state === "visited"}
+              glow={destination.can_depart}
+              dim={isDim(destination)}
+            />
+          );
         })}
       </svg>
 
@@ -135,27 +145,25 @@ export function TravelMap({
           >
             <span
               className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[13px] font-black whitespace-nowrap shadow ${
-                destination.state === "later" ? "bg-white/70 text-[#5b6770]" : "bg-[#fffaf0] text-[#3b3226]"
+                isDim(destination) ? "bg-white/70 text-[#5b6770]" : "bg-[#fffaf0] text-[#3b3226]"
               }`}
             >
               <Flag src={destination.flag} size={20} />
               {destination.name}
             </span>
-            {tag && (
-              <span
-                className={`rounded-full px-2 py-0.5 text-[11px] leading-none font-black whitespace-nowrap text-white shadow ${
-                  destination.gift_ready
-                    ? "bg-[#d8352a]"
-                    : destination.ready
-                      ? "bg-[#3b7f26]"
-                      : destination.state === "visited"
-                        ? "bg-[#2b6fa3]"
-                        : "bg-[#8a7a5a]"
-                }`}
-              >
-                <AutoFurigana text={tag} />
-              </span>
-            )}
+            <span
+              className={`rounded-full px-2 py-0.5 text-[11px] leading-none font-black whitespace-nowrap text-white shadow ${
+                destination.gift_ready
+                  ? "bg-[#d8352a]"
+                  : destination.can_depart
+                    ? "bg-[#3b7f26]"
+                    : destination.state === "visited"
+                      ? "bg-[#2b6fa3]"
+                      : "bg-[#8a7a5a]"
+              }`}
+            >
+              <AutoFurigana text={tag} />
+            </span>
           </button>
         );
       })}

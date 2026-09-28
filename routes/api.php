@@ -657,31 +657,30 @@ Route::middleware(['auth:sanctum'])->get('/categories', function () {
 })->name('categories.index');
 
 Route::middleware(['auth:sanctum'])->get('/countries', function (Request $request) {
-    // ホーム画面向け: コンテンツが実際にある国だけを返す(190ヶ国全部を出すと選べない上、
-    // ほとんどが未実装で行き止まりになるため)。Owner管理画面は別エンドポイント
-    // (/api/owner/countries)で全件を扱う。
-    $countries = Country::query()
+    // 学ぶタブ向け(docs/design/2026-09-28-travel-tickets-design.md 3-6): 日本と旅の行き先の国のうち、コンテンツがある国だけを
+    // 日本 → 行き先の順に返し、まだ着いていない行き先に鍵(locked)を付ける。Owner管理画面は /api/owner/countries で全件を扱う。
+    // Accept-Language からの推定(Country::guessFromAcceptLanguage)は、スタートが日本に決まったので使わない(海外展開のときにまた使う)
+    $codes = Travel::countryCodes();
+    $locked = Travel::lockedCountryIds(ActiveProfile::find($request));
+
+    return Country::query()
+        ->whereIn(DB::raw('LOWER(code)'), $codes)
         ->whereHas('stages.questions')
-        ->orderBy('order')
-        ->get();
-
-    $suggestedCode = Country::guessFromAcceptLanguage(
-        $request->header('Accept-Language'),
-        $countries->pluck('code')->all()
-    );
-
-    return $countries->map(fn (Country $country) => [
-        ...$country->toArray(),
-        'is_suggested' => $suggestedCode !== null
-            && strtolower($country->code) === $suggestedCode,
-        'has_language_mode' => $country->stages()
-            ->whereHas('category', fn ($q) => $q->where('is_language_mode', true))
-            ->whereHas('questions')
-            ->exists(),
-    ])->sortByDesc('is_suggested')->values();
+        ->get()
+        ->sortBy(fn (Country $country) => array_search(strtolower($country->code), $codes, true))
+        ->map(fn (Country $country) => [
+            ...$country->toArray(),
+            'locked' => in_array($country->id, $locked, true),
+            'has_language_mode' => $country->stages()
+                ->whereHas('category', fn ($q) => $q->where('is_language_mode', true))
+                ->whereHas('questions')
+                ->exists(),
+        ])
+        ->values();
 })->name('countries.index');
 
 Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Request $request, Country $country) {
+    Travel::abortIfLocked(ActiveProfile::find($request), $country->id);
     $profileId = $request->session()->get('active_profile_id');
 
     $clearedStageIds = $profileId
@@ -853,10 +852,13 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
         'streak_milestones' => collect(UserProfile::STREAK_MILESTONES)
             ->map(fn (int $days) => ['days' => $days, 'earned' => $bestStreak >= $days])
             ->all(),
+        // 旅した国(設計書5-7)。チケットを使って着いた国
+        'trips' => ($profile = ActiveProfile::find($request)) ? Travel::trips($profile) : [],
     ];
 })->name('passport');
 
 Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request $request, Region $region) {
+    Travel::abortIfLocked(ActiveProfile::find($request), $region->country_id);
     $profileId = $request->session()->get('active_profile_id');
 
     $clearedStageIds = $profileId
@@ -961,11 +963,15 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
             ->all()
         : [];
 
+    $locked = Travel::lockedCountryIds(ActiveProfile::find($request));
+
     $stagesByDifficulty = Stage::query()
         ->where('category_id', $category->id)
         ->withCount('questions')
         ->orderBy('stage_number')
         ->get()
+        // 鍵の国のステージはミニアプリにも出さない(設計書3-6)
+        ->reject(fn (Stage $stage) => in_array($stage->country_id, $locked, true))
         ->groupBy('difficulty');
 
     return collect(config('quiz.difficulties'))
@@ -995,7 +1001,8 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
         ->values();
 })->name('categories.stages');
 
-Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Stage $stage) {
+Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $request, Stage $stage) {
+    Travel::abortIfLocked(ActiveProfile::find($request), $stage->country_id);
     $questions = $stage->questions()
         ->with(['choices', 'country'])
         ->get(['questions.id', 'questions.type', 'questions.prompt', 'questions.country_id', 'questions.meta'])
@@ -1025,6 +1032,8 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $profileId = $request->session()->get('active_profile_id');
     $profile = $profileId ? UserProfile::find($profileId) : null;
     abort_unless($profile && $profile->user_schema_id === $request->user()->schema?->id, 422);
+    Travel::abortIfLocked($profile, $stage->country_id);
+    $earnedTicketsBefore = Travel::earnedTickets($profile);
 
     $progress = ProfileStageProgress::query()->firstOrNew([
         'user_profile_id' => $profile->id,
@@ -1036,6 +1045,9 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $progress->save();
 
     $profile->applyEconomy(['coin' => 100, 'point' => config('world.rewards.stage_clear')], 'stage_clear', null, $stage);
+
+    // このクリアで新しくチケットが増え、使えるときだけ知らせる(設計書4-3・5-4)
+    $ticketEarned = Travel::earnedTickets($profile) > $earnedTicketsBefore && Travel::tickets($profile) > 0;
 
     $titleGranted = false;
     if ($stage->is_boss && $stage->title_reward && $data['score'] === $stage->questions()->count()) {
@@ -1059,6 +1071,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         ],
         'title_granted' => $titleGranted,
         'title' => $stage->title_reward,
+        'ticket_earned' => $ticketEarned,
     ];
 })->name('stages.complete');
 
@@ -1162,7 +1175,6 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
 
 Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
     $level = ActiveProfile::find($request)?->level ?? 1;
-    $gear = Travel::gearAssetKeys();
 
     return ShopItem::query()
         ->whereIn('type', config('shop.enabled_types'))
@@ -1177,7 +1189,6 @@ Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
             ...$item->toArray(),
             'asset_key' => $item->assetKey(),
             'footprint' => $item->footprint(),
-            'travel_gear' => in_array($item->assetKey(), $gear, true),
             'locked' => $level < $item->min_level,
         ]);
 })->name('shop.index');
@@ -1270,7 +1281,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'greetings' => Family::unseenGreetings($profile),
             'family_count' => Family::others($profile)->count(),
             'plots_new' => WorldLand::newPlotKeys($profile->level, $profile->world_plots_seen ?? []),
-            'travel_ready' => Travel::ready($profile),
+            'tickets' => Travel::tickets($profile),
         ];
     })->name('show');
 
@@ -1431,7 +1442,7 @@ Route::middleware(['auth:sanctum'])->prefix('travel')->name('travel.')->group(fu
     Route::get('/', function (Request $request) {
         $profile = ActiveProfile::require($request);
 
-        return ['level' => $profile->level, 'destinations' => Travel::state($profile)];
+        return ['level' => $profile->level, ...Travel::overview($profile)];
     })->name('index');
 
     Route::get('/{key}', function (Request $request, string $key) {

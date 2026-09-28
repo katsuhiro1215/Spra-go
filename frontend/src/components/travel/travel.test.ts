@@ -4,14 +4,19 @@ import {
   ARRIVE_MS,
   SAIL_MS,
   WALK_MS,
+  departureCaption,
   departurePhase,
   departureStart,
   hubLine,
   islandLabel,
   islandTag,
+  lockedCountryText,
   pickBeginnerGroup,
+  ticketHintText,
+  transportText,
+  unlockedCountries,
 } from "./travel";
-import type { ChecklistRow, Destination, TravelSouvenir } from "./types";
+import type { Destination, TravelSouvenir } from "./types";
 
 const souvenir = (key: string, over: Partial<TravelSouvenir> = {}): TravelSouvenir => ({
   key,
@@ -25,99 +30,104 @@ const souvenir = (key: string, over: Partial<TravelSouvenir> = {}): TravelSouven
   ...over,
 });
 
-const row = (kind: ChecklistRow["kind"], label: string, done: boolean, hint: string | null = null): ChecklistRow => ({
-  kind,
-  label,
-  done,
-  hint,
-});
-
 const dest = (name: string, over: Partial<Destination> = {}): Destination => ({
   key: name,
   name,
   country_id: 1,
   code: "id",
   flag: "/flag/id.svg",
-  min_level: 7,
-  state: "later",
-  ready: false,
-  checklist: [],
-  souvenirs: [souvenir("a"), souvenir("b", { condition: "boss", footprint: 2 })],
+  transport: "ship",
+  state: "unvisited",
+  can_depart: false,
+  souvenirs: [],
+  souvenir_count: 2,
   gift_ready: false,
   greeting: { text: "Hello!", reading: "ハロー" },
   ...over,
 });
 
+const visited = (name: string, over: Partial<Destination> = {}) =>
+  dest(name, { state: "visited", souvenirs: [souvenir("a"), souvenir("b", { condition: "boss", footprint: 2 })], ...over });
+
 describe("hubLine", () => {
   it("受け取れるおみやげがある国があれば、いちばん先にそれを言う", () => {
-    const destinations = [
-      dest("インドネシア", { state: "visited", gift_ready: true }),
-      dest("韓国", { state: "next", ready: true }),
-    ];
-    expect(hubLine(destinations)).toBe("インドネシアのおみやげ屋さんで、おみやげを受け取れるよ！");
+    const destinations = [visited("インドネシア", { gift_ready: true }), dest("韓国", { can_depart: true })];
+    expect(hubLine({ tickets: 1, ticket_hint: null, destinations })).toBe("インドネシアのおみやげ屋さんで、おみやげを受け取れるよ！");
   });
 
-  it("次の行き先のじゅんびがそろっていれば、出発をすすめる", () => {
-    expect(hubLine([dest("インドネシア", { state: "next", ready: true })])).toBe("じゅんびができたよ！インドネシアへ出発しよう");
+  it("チケットがあれば、行きたい国を選ぶようにすすめる", () => {
+    expect(hubLine({ tickets: 1, ticket_hint: null, destinations: [dest("韓国", { can_depart: true })] })).toBe(
+      "チケットがあるよ！行きたい国を選んでね",
+    );
   });
 
-  it("レベルが足りなければ、あと何レベルかを言う", () => {
-    const next = dest("インドネシア", {
-      state: "next",
-      checklist: [row("level", "レベル7", false, "あと2レベル"), row("item", "小さな船", false, "ショップで買えるよ")],
-    });
-    expect(hubLine([next])).toBe("次はインドネシア！あと2レベルだね");
-  });
-
-  it("町のアイテムが足りなければ、そのアイテムを言う", () => {
-    const next = dest("インドネシア", {
-      state: "next",
-      checklist: [row("level", "レベル7", true), row("item", "小さな船", false, "ショップで買えるよ")],
-    });
-    expect(hubLine([next])).toBe("小さな船があればインドネシアへ行けるよ");
-  });
-
-  it("前の国のおみやげが足りなければ、そのおみやげを言う", () => {
-    const next = dest("韓国", {
-      state: "next",
-      checklist: [
-        row("level", "レベル9", true),
-        row("item", "自転車", true),
-        row("souvenir", "インドネシアのおみやげ「ボロブドゥール寺院」", false, "インドネシアの初級のボスをクリアしよう"),
-      ],
-    });
-    expect(hubLine([dest("インドネシア", { state: "visited" }), next])).toBe(
-      "インドネシアのおみやげ「ボロブドゥール寺院」があれば韓国へ行けるよ",
+  it("チケットがなければ、どこの初級のボスを倒せばもらえるかを言う", () => {
+    expect(hubLine({ tickets: 0, ticket_hint: "日本", destinations: [dest("韓国")] })).toBe(
+      "日本の初級のボスを倒すと、チケットがもらえるよ",
     );
   });
 
   it("全部の国に着いたら、ほめる", () => {
-    const all = ["インドネシア", "韓国", "アメリカ", "イギリス", "フランス"].map((name) => dest(name, { state: "visited" }));
-    expect(hubLine(all)).toBe("5つの国をぜんぶ旅したね！すごい！");
+    const all = ["インドネシア", "韓国", "アメリカ", "イギリス", "フランス"].map((name) => visited(name));
+    expect(hubLine({ tickets: 0, ticket_hint: null, destinations: all })).toBe("5つの国をぜんぶ旅したね！すごい！");
+  });
+});
+
+describe("ticketHintText", () => {
+  it("国の名前があれば入れ、なければ国の名前なしで言う", () => {
+    expect(ticketHintText("アメリカ")).toBe("アメリカの初級のボスを倒すと、チケットがもらえるよ");
+    expect(ticketHintText(null)).toBe("初級のボスを倒すと、チケットがもらえるよ");
   });
 });
 
 describe("島のラベルと札", () => {
   it("着いた国は、受け取ったおみやげの数を言う", () => {
-    const visited = dest("インドネシア", { state: "visited", souvenirs: [souvenir("a", { received: true }), souvenir("b")] });
-    expect(islandLabel(visited)).toBe("インドネシア(着いた国・おみやげ1/2)");
-    expect(islandTag(visited)).toBe("おみやげ 1/2");
+    const island = visited("インドネシア", { souvenirs: [souvenir("a", { received: true }), souvenir("b")] });
+    expect(islandLabel(island)).toBe("インドネシア(着いた国・おみやげ1/2)");
+    expect(islandTag(island)).toBe("おみやげ 1/2");
   });
 
   it("着いた国で受け取れるおみやげがあれば、札は「おみやげ！」", () => {
-    expect(islandTag(dest("インドネシア", { state: "visited", gift_ready: true }))).toBe("おみやげ！");
+    expect(islandTag(visited("インドネシア", { gift_ready: true }))).toBe("おみやげ！");
   });
 
-  it("次の行き先は、出発できるか・じゅんび中かを言う", () => {
-    expect(islandLabel(dest("インドネシア", { state: "next", ready: true }))).toBe("インドネシア(出発できます)");
-    expect(islandTag(dest("インドネシア", { state: "next", ready: true }))).toBe("出発できる");
-    expect(islandLabel(dest("インドネシア", { state: "next" }))).toBe("インドネシア(じゅんび中)");
-    expect(islandTag(dest("インドネシア", { state: "next" }))).toBe("じゅんび中");
+  it("まだの国は、チケットがあれば「行ける！」、なければ「？」", () => {
+    expect(islandLabel(dest("アメリカ", { can_depart: true }))).toBe("アメリカ(まだの国・行けます)");
+    expect(islandTag(dest("アメリカ", { can_depart: true }))).toBe("行ける！");
+    expect(islandLabel(dest("アメリカ"))).toBe("アメリカ(まだの国)");
+    expect(islandTag(dest("アメリカ"))).toBe("？");
+  });
+});
+
+describe("乗り物と出発の場面の文", () => {
+  it("乗り物の説明", () => {
+    expect(transportText("plane")).toBe("飛行機で行く国");
+    expect(transportText("ship")).toBe("船で行く国");
   });
 
-  it("まだ先の国は札を出さない", () => {
-    expect(islandLabel(dest("アメリカ"))).toBe("アメリカ(まだ先)");
-    expect(islandTag(dest("アメリカ"))).toBeNull();
+  it("船の国は桟橋から船で、飛行機の国は空港から飛行機で向かう", () => {
+    const ship = dest("韓国", { transport: "ship" });
+    const plane = dest("アメリカ", { transport: "plane" });
+    expect(departureCaption("walk", ship)).toBe("桟橋から出発！");
+    expect(departureCaption("sail", ship)).toBe("韓国へ船で向かっているよ");
+    expect(departureCaption("walk", plane)).toBe("空港から出発！");
+    expect(departureCaption("sail", plane)).toBe("アメリカへ飛行機で向かっているよ");
+    expect(departureCaption("arrive", plane)).toBe("アメリカに着いた！");
+  });
+});
+
+describe("学ぶタブの鍵", () => {
+  it("鍵のない国だけを並びのまま残す(地図に渡す)", () => {
+    const countries = [
+      { code: "jp", locked: false },
+      { code: "id", locked: true },
+      { code: "us", locked: false },
+    ];
+    expect(unlockedCountries(countries).map((country) => country.code)).toEqual(["jp", "us"]);
+  });
+
+  it("鍵の国を押したときの案内", () => {
+    expect(lockedCountryText("アメリカ")).toBe("アメリカへは『せかい』でチケットを使うと行けるよ");
   });
 });
 
@@ -141,7 +151,7 @@ describe("pickBeginnerGroup", () => {
 });
 
 describe("出発の場面", () => {
-  it("経過時間で、歩く → 船 → 着いた → おわり と進む", () => {
+  it("経過時間で、歩く → 乗り物 → 着いた → おわり と進む", () => {
     expect(departurePhase(0)).toBe("walk");
     expect(departurePhase(WALK_MS - 1)).toBe("walk");
     expect(departurePhase(WALK_MS)).toBe("sail");

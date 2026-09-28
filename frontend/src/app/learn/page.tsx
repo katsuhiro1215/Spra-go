@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Flag, Map as MapIcon } from "lucide-react";
+import { Flag, Lock, Map as MapIcon } from "lucide-react";
 
 import { AppHeader } from "@/components/app/app-header";
 import { BottomNav } from "@/components/app/bottom-nav";
@@ -14,6 +14,8 @@ import { Panel } from "@/components/app/panel";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { LoadingScreen, SpruLoading } from "@/components/app/spru-loading";
 import { WorldMap } from "@/components/app/world-map";
+import { LockedCountrySheet } from "@/components/travel/locked-country";
+import { unlockedCountries } from "@/components/travel/travel";
 import { apiFetch } from "@/lib/api";
 
 type Category = {
@@ -26,7 +28,7 @@ type Country = {
   id: number;
   code: string;
   name: string;
-  is_suggested?: boolean;
+  locked: boolean;
 };
 
 type Status = "checking" | "ready";
@@ -40,6 +42,7 @@ export default function Page() {
   const [countries, setCountries] = useState<Country[] | null>(null);
   const [pickerView, setPickerView] = useState<"flags" | "map">("flags");
   const [miniAppOpen, setMiniAppOpen] = useState(false);
+  const [lockedCountry, setLockedCountry] = useState<Country | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -106,7 +109,7 @@ export default function Page() {
             どこから<Furigana text="冒険" reading="ぼうけん" />する？
           </SkyTitle>
           <SkyText muted className="mt-1 text-sm">
-            好きな国を選んでね
+            着いた国で学べるよ
           </SkyText>
         </div>
 
@@ -148,30 +151,29 @@ export default function Page() {
           <>
             {/* モバイル: 常にグリッド表示(タップ精度の関係で地図は非対応) */}
             <div className="grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-3 md:hidden">
-              {allCountries.map((country) => (
-                <Link key={country.id} href={`/travel/${country.id}/start`}>
+              {allCountries.map((country) =>
+                country.locked ? (
                   <AppButton
-                    variant="default"
+                    key={country.id}
+                    variant="locked"
                     size="lg"
-                    className="relative flex w-full items-center justify-center gap-2 shadow-lg"
+                    aria-label={`${country.name}(まだの国)`}
+                    onClick={() => setLockedCountry(country)}
+                    className="flex w-full items-center justify-center gap-2 shadow-lg"
                   >
-                    {country.is_suggested && (
-                      <span className="absolute -top-2 -right-2 rounded-full bg-[#f2b632] px-1.5 py-0.5 text-[9px] font-bold text-[#3b3226] shadow">
-                        あなたの国?
-                      </span>
-                    )}
-                    <span className="relative h-4 w-6 shrink-0 overflow-hidden rounded-sm border border-[#e8dfcf]">
-                      <Image
-                        src={`/flag/${country.code}.svg`}
-                        alt={country.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </span>
+                    <Lock aria-hidden className="h-4 w-4 shrink-0" />
+                    <FlagThumb code={country.code} className="h-4 w-6 grayscale" />
                     {country.name}
                   </AppButton>
-                </Link>
-              ))}
+                ) : (
+                  <Link key={country.id} href={`/travel/${country.id}/start`}>
+                    <AppButton variant="default" size="lg" className="flex w-full items-center justify-center gap-2 shadow-lg">
+                      <FlagThumb code={country.code} className="h-4 w-6" />
+                      {country.name}
+                    </AppButton>
+                  </Link>
+                ),
+              )}
             </div>
 
             {/* デスクトップ: フラッグ(円形)または地図、切替可能 */}
@@ -180,7 +182,7 @@ export default function Page() {
                 <>
                   <Panel className="p-3">
                     <WorldMap
-                      countries={allCountries}
+                      countries={unlockedCountries(allCountries)}
                       onSelect={(country) =>
                         router.push(`/travel/${country.id}/start`)
                       }
@@ -201,30 +203,31 @@ export default function Page() {
                     const x = 50 + radius * Math.cos(angle);
                     const y = 50 + radius * Math.sin(angle);
 
-                    return (
+                    const position = { left: `${x}%`, top: `${y}%` };
+                    const circleClass =
+                      "flex aspect-square h-24 w-24 flex-col items-center justify-center gap-1 rounded-full p-2 text-center text-xs leading-tight text-balance shadow-lg lg:h-28 lg:w-28 lg:text-sm";
+                    return country.locked ? (
+                      <AppButton
+                        key={country.id}
+                        variant="locked"
+                        aria-label={`${country.name}(まだの国)`}
+                        onClick={() => setLockedCountry(country)}
+                        className={`absolute -translate-x-1/2 -translate-y-1/2 ${circleClass}`}
+                        style={position}
+                      >
+                        <Lock aria-hidden className="h-4 w-4" />
+                        <FlagThumb code={country.code} className="h-6 w-9 grayscale" />
+                        {country.name}
+                      </AppButton>
+                    ) : (
                       <Link
                         key={country.id}
                         href={`/travel/${country.id}/start`}
                         className="absolute -translate-x-1/2 -translate-y-1/2"
-                        style={{ left: `${x}%`, top: `${y}%` }}
+                        style={position}
                       >
-                        <AppButton
-                          variant="default"
-                          className="relative flex aspect-square h-24 w-24 flex-col items-center justify-center gap-1 rounded-full p-2 text-center text-xs leading-tight text-balance shadow-lg lg:h-28 lg:w-28 lg:text-sm"
-                        >
-                          {country.is_suggested && (
-                            <span className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-full bg-[#f2b632] px-1.5 py-0.5 text-[9px] font-bold whitespace-nowrap text-[#3b3226] shadow">
-                              あなたの国?
-                            </span>
-                          )}
-                          <span className="relative h-6 w-9 shrink-0 overflow-hidden rounded-sm border border-[#e8dfcf]">
-                            <Image
-                              src={`/flag/${country.code}.svg`}
-                              alt={country.name}
-                              fill
-                              className="object-cover"
-                            />
-                          </span>
+                        <AppButton variant="default" className={circleClass}>
+                          <FlagThumb code={country.code} className="h-6 w-9" />
                           {country.name}
                         </AppButton>
                       </Link>
@@ -292,7 +295,18 @@ export default function Page() {
         </div>
       )}
 
+      {lockedCountry && <LockedCountrySheet name={lockedCountry.name} onClose={() => setLockedCountry(null)} />}
+
       <BottomNav />
     </SkyPage>
+  );
+}
+
+/** 国のボタンの中の国旗(国名の文字が横にあるので alt は空) */
+function FlagThumb({ code, className }: { code: string; className: string }) {
+  return (
+    <span className={`relative shrink-0 overflow-hidden rounded-sm border border-[#e8dfcf] ${className}`}>
+      <Image src={`/flag/${code}.svg`} alt="" fill className="object-cover" />
+    </span>
   );
 }

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Ticket } from "lucide-react";
 
 import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
@@ -18,7 +19,7 @@ import type { DepartResult, Destination, TravelData } from "@/components/travel/
 import { apiFetch } from "@/lib/api";
 import { prefersReducedMotion } from "@/lib/motion";
 
-/** 旅のハブ(設計書5-1)。「旅する」タブ */
+/** せかい(docs/design/2026-09-28-travel-tickets-design.md 5-2)。チケットで好きな国へ行く */
 export default function Page() {
   const router = useRouter();
   const [travel, setTravel] = useState<TravelData | null>(null);
@@ -76,22 +77,32 @@ export default function Page() {
       <main className="relative z-10 mx-auto flex w-full max-w-[480px] flex-1 flex-col gap-3 px-4 pt-4 pb-28">
         <div className="flex items-center justify-between">
           <SkyTitle className="text-2xl">
-            <AutoFurigana text="旅する" />
+            <AutoFurigana text="せかい" />
           </SkyTitle>
-          <Link
-            href="/passport"
-            className="flex items-center gap-1 rounded-full bg-[#fffaf0] py-1 pr-3 pl-2 text-xs font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
-          >
-            <BadgeImage badge="passport" size={20} />
-            パスポート
-          </Link>
+          <div className="flex items-center gap-2">
+            {travel && travel.destinations.some((destination) => destination.state === "unvisited") && (
+              <span
+                aria-label={`チケット ${travel.tickets}まい`}
+                className="flex items-center gap-1 rounded-full bg-[#fffaf0] py-1 pr-3 pl-2 text-xs font-black text-[#7a5a0e] shadow-[0_2px_6px_rgba(59,50,38,0.15)]"
+              >
+                <Ticket aria-hidden className="h-4 w-4 text-[#d8352a]" />×{travel.tickets}
+              </span>
+            )}
+            <Link
+              href="/passport"
+              className="flex items-center gap-1 rounded-full bg-[#fffaf0] py-1 pr-3 pl-2 text-xs font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
+            >
+              <BadgeImage badge="passport" size={20} />
+              パスポート
+            </Link>
+          </div>
         </div>
         {!travel ? (
           <SpruLoading />
         ) : (
           <TravelMap
             destinations={travel.destinations}
-            line={hubLine(travel.destinations)}
+            line={hubLine(travel)}
             onSelect={(destination) => {
               setError(null);
               setOpenKey(destination.key);
@@ -103,6 +114,7 @@ export default function Page() {
       {open && (
         <DestinationSheet
           destination={open}
+          ticketHint={travel?.ticket_hint ?? null}
           busy={busy}
           error={error}
           onDepart={() => depart(open)}

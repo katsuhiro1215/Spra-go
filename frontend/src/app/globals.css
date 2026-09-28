@@ -514,6 +514,18 @@
     animation: boat-sail 1.6s ease-in-out both;
   }
 
+  @keyframes plane-fly {
+    0% {
+      transform: translate(-60vw, 30px) rotate(-6deg);
+    }
+    100% {
+      transform: translate(60vw, -24px) rotate(-6deg);
+    }
+  }
+  .animate-plane-fly {
+    animation: plane-fly 1.6s ease-in-out both;
+  }
+
   @keyframes season-card {
     0% {
       opacity: 0;
@@ -622,6 +634,7 @@
     .animate-outing-run-across,
     .animate-outing-walk-away,
     .animate-boat-sail,
+    .animate-plane-fly,
     .animate-season-card,
     .festive-float {
       animation: none !important;

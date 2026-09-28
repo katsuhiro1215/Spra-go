@@ -1,18 +1,20 @@
 "use client";
 
-import { Check, CircleDashed, Ship } from "lucide-react";
+import { Plane, Ship, Ticket } from "lucide-react";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { ItemIcon } from "@/components/world/item-art";
 
 import { Flag } from "./flag";
+import { ticketHintText, transportText } from "./travel";
 import type { Destination } from "./types";
 
-const STATE_TEXT: Record<Destination["state"], string> = { visited: "着いた国", next: "次の行き先", later: "まだ先" };
+const STATE_TEXT: Record<Destination["state"], string> = { visited: "着いた国", unvisited: "まだの国" };
 
-/** 島を押したときのカード(設計書5-1) */
+/** 島を押したときのカード(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-2) */
 export function DestinationSheet({
   destination,
+  ticketHint,
   busy,
   error,
   onDepart,
@@ -20,6 +22,7 @@ export function DestinationSheet({
   onClose,
 }: {
   destination: Destination;
+  ticketHint: string | null;
   busy: boolean;
   error: string | null;
   onDepart: () => void;
@@ -45,44 +48,49 @@ export function DestinationSheet({
           </span>
         </div>
 
-        {destination.state === "next" && (
+        {destination.state === "unvisited" && (
           <>
-            <h3 className="text-sm font-black text-[#6b5d45]">
-              <AutoFurigana text="旅のじゅんび" />
-            </h3>
-            <ul className="flex flex-col gap-2">
-              {destination.checklist.map((row) => (
-                <li key={`${row.kind}-${row.label}`} className="flex items-start gap-2 rounded-xl bg-[#f5efe1] px-3 py-2">
-                  {row.done ? (
-                    <Check aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-[#3b7f26]" strokeWidth={3} />
-                  ) : (
-                    <CircleDashed aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-[#8a7a5a]" strokeWidth={2.4} />
-                  )}
-                  <div className="flex flex-col">
-                    <span className="text-sm font-black">
-                      <AutoFurigana text={row.label} />
-                      <span className="sr-only">{row.done ? "(そろった)" : "(まだ)"}</span>
-                    </span>
-                    {row.hint && (
-                      <span className="text-xs font-bold text-[#8a6a3a]">
-                        <AutoFurigana text={row.hint} />
-                      </span>
-                    )}
-                  </div>
+            <p className="flex items-center gap-2 rounded-xl bg-[#f5efe1] px-3 py-2 text-sm font-black">
+              {destination.transport === "plane" ? (
+                <Plane aria-hidden className="h-4 w-4 text-[#2b6fa3]" />
+              ) : (
+                <Ship aria-hidden className="h-4 w-4 text-[#2b6fa3]" />
+              )}
+              <span>
+                <AutoFurigana text={transportText(destination.transport)} />
+              </span>
+            </p>
+            <ul className="grid grid-cols-2 gap-2" aria-label="おみやげ">
+              {Array.from({ length: destination.souvenir_count }, (_, index) => (
+                <li key={index} className="flex flex-col items-center gap-1 rounded-xl bg-[#f5efe1] p-2 text-center">
+                  <span
+                    aria-hidden
+                    className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#e8dfcf] text-2xl font-black text-[#8a7a5a]"
+                  >
+                    ？
+                  </span>
+                  <span className="text-[11px] font-bold text-[#6b5d45]">
+                    <AutoFurigana text="着いたらわかるよ" />
+                  </span>
                 </li>
               ))}
             </ul>
             <button
               type="button"
               onClick={onDepart}
-              disabled={!destination.ready || busy}
+              disabled={!destination.can_depart || busy}
               className="flex h-[52px] items-center justify-center gap-2 rounded-2xl bg-[#2b6fa3] text-base font-black text-white shadow-[0_4px_0_#1d4f76] disabled:bg-[#efe5cf] disabled:text-[#6b5d45] disabled:shadow-none"
             >
-              <Ship aria-hidden className="h-5 w-5" />
+              <Ticket aria-hidden className="h-5 w-5" />
               <span>
-                <AutoFurigana text={busy ? "出発中..." : "出発する"} />
+                <AutoFurigana text={busy ? "出発中..." : "チケットを使って出発する"} />
               </span>
             </button>
+            {!destination.can_depart && (
+              <p className="text-center text-xs font-bold text-[#8a6a3a]">
+                <AutoFurigana text={ticketHintText(ticketHint)} />
+              </p>
+            )}
           </>
         )}
 
@@ -115,12 +123,6 @@ export function DestinationSheet({
               <AutoFurigana text="行く" />
             </button>
           </>
-        )}
-
-        {destination.state === "later" && (
-          <p className="rounded-xl bg-[#f5efe1] px-3 py-3 text-sm font-bold text-[#6b5d45]">
-            <AutoFurigana text="前の国へ行ってからね" />
-          </p>
         )}
 
         {error && (

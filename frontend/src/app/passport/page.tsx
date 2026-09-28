@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CircleHelp, KeyRound, Lock, PartyPopper, Plane, Trophy } from "lucide-react";
+import { CircleHelp, KeyRound, Lock, PartyPopper, Plane, Ship, Trophy } from "lucide-react";
 
 import { AppHeader } from "@/components/app/app-header";
 import { BackLink } from "@/components/app/back-link";
@@ -32,6 +32,7 @@ type PassportData = {
   visited_count: number;
   best_streak: number;
   streak_milestones: { days: number; earned: boolean }[];
+  trips: { key: string; name: string; flag: string; transport: "ship" | "plane"; arrived_at: string | null }[];
 };
 
 const ALL_DIFFICULTIES = ["初級", "中級", "上級"];
@@ -83,6 +84,7 @@ export default function Page() {
     visited_count: visitedCount,
     best_streak: bestStreak,
     streak_milestones: streakMilestones,
+    trips,
   } = data;
   const visitedCountries = countries.filter((c) => c.stamp_tier !== "none");
 
@@ -108,11 +110,11 @@ export default function Page() {
         {/* サマリー */}
         <div className="mx-auto flex flex-wrap justify-center gap-3">
           <SummaryBadge
-            label="訪れた国"
+            label="スタンプ"
             value={`${visitedCount} / ${countries.length}`}
           />
           <SummaryBadge label="称号" value={`${titles.length}個`} />
-          <SummaryBadge label="航空券" value={`${visitedCount}枚`} />
+          <SummaryBadge label="旅した国" value={`${trips.length}`} />
         </div>
 
         {/* パスポート帳本体(紙のような見た目で他画面と質感を変える) */}
@@ -222,32 +224,31 @@ export default function Page() {
             )}
           </section>
 
-          {/* 航空券 */}
+          {/* 旅した国(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-7) */}
           <section className="mt-8">
             <h2 className="mb-3 text-sm font-bold tracking-wide text-[#6b5d45]">
-              集めた航空券
+              旅した国
             </h2>
-            {visitedCountries.length === 0 ? (
+            {trips.length === 0 ? (
               <p className="text-sm text-[#8a7a5a]">
-                国をクリアすると航空券がもらえます。
+                チケットを使って国へ行くと、ここにふえるよ
               </p>
             ) : (
               <div className="flex flex-wrap gap-3">
-                {visitedCountries.map((country) => (
+                {trips.map((trip) => (
                   <div
-                    key={country.code}
+                    key={trip.key}
                     className="flex items-center gap-2 rounded-lg border-2 border-dashed border-[#d9cdb4] bg-white px-3 py-2 text-xs font-semibold"
                   >
-                    <Plane aria-hidden className="h-3.5 w-3.5 text-[#2b6fa3]" />
+                    {trip.transport === "plane" ? (
+                      <Plane aria-hidden className="h-3.5 w-3.5 text-[#2b6fa3]" />
+                    ) : (
+                      <Ship aria-hidden className="h-3.5 w-3.5 text-[#2b6fa3]" />
+                    )}
                     <span className="relative h-4 w-6 shrink-0 overflow-hidden rounded-sm border border-[#efe5cf]">
-                      <Image
-                        src={`/flag/${country.code}.svg`}
-                        alt={country.name}
-                        fill
-                        className="object-cover"
-                      />
+                      <Image src={trip.flag} alt="" fill className="object-cover" />
                     </span>
-                    {country.name}行き
+                    {trip.name}行き
                   </div>
                 ))}
               </div>
