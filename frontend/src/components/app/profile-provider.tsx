@@ -14,6 +14,8 @@ import { apiFetch } from "@/lib/api";
 export type Profile = {
   id: number;
   name: string;
+  /** アバターの名前(avatar-1〜6。GET /api/profiles/active が返す。docs/design/2026-09-29-spru-icons-design.md 4-1) */
+  avatar: string | null;
   hp: number;
   max_hp: number;
   hp_regen_seconds: number | null;

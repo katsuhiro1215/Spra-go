@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
-import { ArrowLeftRight, Backpack, LogOut } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
+import { AssetImage } from "@/components/app/asset-image";
+import { ProfileAvatar } from "@/components/app/avatar-badge";
 import { BadgeImage } from "@/components/app/badge-image";
 import { DisplaySettings } from "@/components/app/display-settings";
 import { useProfile } from "@/components/app/profile-provider";
+import { SPRU_ICONS } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
 
 /**
@@ -38,12 +40,7 @@ export function MeSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (
         >
           <div aria-hidden className="mx-auto mb-3 h-1 w-10 rounded-full bg-[#e0d6c2]" />
           <div className="mb-2 flex items-center gap-3">
-            <span
-              aria-hidden
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#2b6fa3] text-lg font-black text-white"
-            >
-              {profile?.name.slice(0, 1)}
-            </span>
+            <ProfileAvatar profile={profile} size={44} />
             <div className="min-w-0">
               <DialogPrimitive.Title className="truncate text-base font-black">
                 {profile?.name ?? "じぶん"}
@@ -53,7 +50,7 @@ export function MeSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (
           </div>
 
           <ul className="flex flex-col">
-            <SheetLink href="/bag" icon={<Backpack aria-hidden className="h-5 w-5" />} label="バッグ" onNavigate={close} />
+            <SheetLink href="/bag" icon={<AssetImage asset={SPRU_ICONS.bag} size={28} />} label="バッグ" onNavigate={close} />
             <SheetLink href="/passport" icon={<BadgeImage badge="passport" size={22} />} label="パスポート" onNavigate={close} />
           </ul>
 
@@ -64,7 +61,7 @@ export function MeSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (
           <ul className="flex flex-col">
             <SheetLink
               href="/profiles"
-              icon={<ArrowLeftRight aria-hidden className="h-5 w-5" />}
+              icon={<AssetImage asset={SPRU_ICONS["switch-profile"]} size={28} />}
               label="プロフィールを切り替える"
               onNavigate={close}
             />
@@ -75,7 +72,7 @@ export function MeSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (
                 className="flex w-full items-center gap-3 rounded-xl px-2 py-3 text-left text-sm font-black text-[#c2402c] hover:bg-[#fdecea]"
               >
                 <span className="flex h-7 w-7 items-center justify-center">
-                  <LogOut aria-hidden className="h-5 w-5" />
+                  <AssetImage asset={SPRU_ICONS.logout} size={28} />
                 </span>
                 ログアウト
               </button>

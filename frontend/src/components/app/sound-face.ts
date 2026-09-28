@@ -1,6 +1,6 @@
-// 音のボタンの絵(設計書4-7)。スプルの顔を使い、専用のアイコンが届いたら差し替える
+// 音のボタンの絵(docs/design/2026-09-29-spru-icons-design.md 4-3)
 
-/** オンは笑顔に♪、オフはふつうの顔を薄くして✕ */
-export function soundFace(enabled: boolean): { face: "laugh" | "normal"; mark: string; dim: boolean } {
-  return enabled ? { face: "laugh", mark: "♪", dim: false } : { face: "normal", mark: "✕", dim: true };
+/** オンは音オンの絵、オフは音オフの絵(どちらも SPRU_ICONS のキー) */
+export function soundIcon(enabled: boolean): "sound-on" | "sound-off" {
+  return enabled ? "sound-on" : "sound-off";
 }

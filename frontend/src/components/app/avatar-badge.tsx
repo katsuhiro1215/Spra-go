@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { avatarImage } from "@/components/app/avatars";
+import { SPRU_FACES } from "@/components/spru/spru-assets";
 
 /**
  * プレイヤーのアバター(docs/design/2026-09-29-spru-icons-design.md 4-9)。絵に色の輪が描いてあるので枠は付けない。
@@ -36,5 +37,22 @@ export function AvatarBadge({
         aria-hidden
       />
     </span>
+  );
+}
+
+/** 「じぶん」の絵(docs/design/2026-09-29-spru-icons-design.md 4-1・4-2)。プレイヤーがいればそのアバター、いなければスプルのふつうの顔 */
+export function ProfileAvatar({ profile, size }: { profile: { avatar: string | null } | null; size: number }) {
+  if (profile) return <AvatarBadge avatar={profile.avatar} size={size} />;
+  const face = SPRU_FACES.normal;
+  return (
+    <Image
+      src={face.src}
+      alt=""
+      width={size}
+      height={size}
+      aria-hidden
+      className="shrink-0 rounded-full bg-[#e3f3d6]"
+      style={{ width: size, height: size }}
+    />
   );
 }
