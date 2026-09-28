@@ -13,10 +13,11 @@ const item = (name: string, price: number, minLevel: number, id = price * 100 + 
   min_level: minLevel,
   asset_key: "bench",
   footprint: 1,
+  category: "decor",
   locked: false,
   meta: { asset_key: "bench" },
 });
-const bagItem = (name: string): WorldItem => ({ id: 1, shop_item_id: 1, name, asset_key: "bench", footprint: 1, souvenir: false, x: null, y: null });
+const bagItem = (name: string): WorldItem => ({ id: 1, shop_item_id: 1, name, asset_key: "bench", footprint: 1, category: "decor", souvenir: false, x: null, y: null });
 const shop = [item("ベンチ", 30, 1), item("花だん", 20, 1), item("木", 30, 2)];
 
 describe("pickTownHint", () => {
