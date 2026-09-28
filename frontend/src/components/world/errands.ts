@@ -32,7 +32,7 @@ export function errandLine(errand: ErrandText): string {
     case "water":
       return "芽に水をあげてほしいな";
     case "review":
-      return "この前まちがえた問題、復習してみよう";
+      return "おさらいの問題を解いてみよう";
     case "decorate":
       return "町のもようがえをしてみない？";
     case "family_greet":

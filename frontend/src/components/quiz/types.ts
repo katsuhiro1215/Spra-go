@@ -14,4 +14,6 @@ export type QuizQuestion = {
     baskets?: SortingBasket[];
     image?: string;
   } | null;
+  /** ステージに足した、出す日が来た前の問題(おさらい)。ステージの点数には入れない */
+  review?: boolean;
 };

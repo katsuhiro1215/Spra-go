@@ -7,6 +7,7 @@ import {
   pickLine,
   pickSpruTap,
   reviewGiverKey,
+  reviewInvite,
   reviewPrompt,
 } from "./companions";
 import type { WorldReview } from "./types";
@@ -115,5 +116,11 @@ describe("reviewGiverKey", () => {
 
   it("相棒が出す日は、相棒のキー", () => {
     expect(reviewGiverKey(momoReview)).toBe("momo");
+  });
+});
+
+describe("スプルの復習カードの誘い", () => {
+  it("おさらいの問題の数を添える", () => {
+    expect(reviewInvite(3)).toBe("おさらいの問題、いっしょにやってみよう！（3問）");
   });
 });

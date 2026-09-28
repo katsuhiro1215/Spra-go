@@ -205,3 +205,14 @@ it('問題が消されると、覚え具合も消える', function () {
     expect(ProfileQuestionMemory::query()->count())->toBe(0)
         ->and(QuestionMemory::dueIds($profile, 10))->toBe([]);
 });
+
+it('パスポートに覚えた問題の数が出る', function () {
+    $profile = createActiveProfile();
+    [$question] = createQuestionWithChoices();
+    ProfileQuestionMemory::query()->create([
+        'user_profile_id' => $profile->id, 'question_id' => $question->id,
+        'level' => 5, 'due_on' => null, 'mastered_on' => '2026-09-01', 'last_answered_on' => '2026-09-01',
+    ]);
+
+    $this->getJson('/api/passport')->assertOk()->assertJsonPath('mastered_count', 1);
+});

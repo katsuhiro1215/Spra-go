@@ -844,6 +844,7 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
     $bestStreak = $profileId
         ? (int) (UserProfile::query()->whereKey($profileId)->value('best_streak') ?? 0)
         : 0;
+    $activeProfile = ActiveProfile::find($request);
 
     return [
         'countries' => $countries,
@@ -854,7 +855,9 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
             ->map(fn (int $days) => ['days' => $days, 'earned' => $bestStreak >= $days])
             ->all(),
         // 旅した国(設計書5-7)。チケットを使って着いた国
-        'trips' => ($profile = ActiveProfile::find($request)) ? Travel::trips($profile) : [],
+        'trips' => $activeProfile ? Travel::trips($activeProfile) : [],
+        // 覚えた問題の数(docs/design/2026-09-29-spaced-review-design.md 4-8)
+        'mastered_count' => $activeProfile ? QuestionMemory::masteredCount($activeProfile) : 0,
     ];
 })->name('passport');
 

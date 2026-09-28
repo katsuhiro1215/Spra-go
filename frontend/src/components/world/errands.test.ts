@@ -44,7 +44,7 @@ describe("おつかいの名前とひとこと", () => {
     expect(errandTitle(errand({ kind: "decorate", target: 1 }))).toBe("町のもようがえ（置く・動かす）");
     expect(errandTitle(errand({ kind: "family_greet", target: 1 }))).toBe("家族の町にあいさつに行く");
     expect(errandLine(errand({ kind: "water", target: 1 }))).toBe("芽に水をあげてほしいな");
-    expect(errandLine(errand({ kind: "review", target: 1 }))).toBe("この前まちがえた問題、復習してみよう");
+    expect(errandLine(errand({ kind: "review", target: 1 }))).toBe("おさらいの問題を解いてみよう");
     expect(errandLine(errand({ kind: "family_greet", target: 1 }))).toBe("家族の町に、あいさつに行ってみよう");
   });
 });

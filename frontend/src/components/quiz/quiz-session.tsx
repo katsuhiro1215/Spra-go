@@ -28,6 +28,7 @@ import { apiFetch } from "@/lib/api";
 import { GameHeader } from "./game-header";
 import { LevelUpOverlay } from "./level-up-overlay";
 import { retryRound } from "./retry";
+import { countsTowardScore } from "./score";
 import { StageStartCard } from "./stage-start-card";
 import { streakLineBonusCoin } from "./streak-milestone";
 import { StreakMilestoneOverlay } from "./streak-milestone-overlay";
@@ -101,6 +102,7 @@ function ChoiceLabel({ label }: { label: string }) {
 /**
  * 問題を出して答えを送り、正解・不正解・レベルアップ・結果を見せる(ステージと仲間の復習で共通。設計書5-4)。
  * 結果の画面から、まちがえた問題だけをもう一度解ける(練習なので何も記録しない。設計書3-7)
+ * ステージに足したおさらいの問題には札を付け、onFinish に渡す点数には入れない(設計書 2026-09-29-spaced-review 5-1)
  */
 export function QuizSession({
   questions,
@@ -144,6 +146,8 @@ export function QuizSession({
   const [combo, setCombo] = useState<ComboInfo | null>(null);
   const [streak, setStreak] = useState<StreakInfo | null>(null);
   const [score, setScore] = useState(0);
+  // ステージの点数(おさらいの問題を除いた正解数)。最後に onFinish に渡す
+  const [stageScore, setStageScore] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [completionSubmitted, setCompletionSubmitted] = useState(false);
   const [finishNote, setFinishNote] = useState<ReactNode>(null);
@@ -230,9 +234,9 @@ export function QuizSession({
       setCompletionSubmitted(true);
       // やり直しは練習なので、ステージのクリアや復習のやりきりは送らない
       if (mode !== "main") return;
-      setFinishNote(await onFinish(score).catch(() => null));
+      setFinishNote(await onFinish(stageScore).catch(() => null));
     })();
-  }, [round, currentIndex, completionSubmitted, score, mode, playSound, onFinish]);
+  }, [round, currentIndex, completionSubmitted, score, stageScore, mode, playSound, onFinish]);
 
   const finished = currentIndex >= round.length;
   const practice = mode === "retry";
@@ -354,6 +358,7 @@ export function QuizSession({
         });
       }
       if (data.correct) setScore((prev) => prev + 1);
+      if (data.correct && countsTowardScore(question)) setStageScore((prev) => prev + 1);
     } finally {
       setSubmitting(false);
     }
@@ -433,6 +438,7 @@ export function QuizSession({
     setCombo(null);
     setStreak(null);
     setScore(0);
+    setStageScore(0);
     setCompletionSubmitted(false);
     setLevelUp(null);
     setLevelUpOpen(false);
@@ -513,6 +519,11 @@ export function QuizSession({
               <span>
                 ・ 問題 {currentIndex + 1} / {round.length}
               </span>
+              {question.review && !practice && (
+                <span className="rounded-full bg-[#2b6fa3] px-2 py-0.5 text-[10px] font-black text-white">
+                  <AutoFurigana text="おさらい" />
+                </span>
+              )}
             </p>
             {question.meta?.image ? (
               <div className="relative mx-auto mt-4 h-32 w-52 overflow-hidden rounded-lg border border-[#e8dfcf] shadow-sm">

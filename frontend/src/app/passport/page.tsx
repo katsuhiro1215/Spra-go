@@ -33,6 +33,7 @@ type PassportData = {
   best_streak: number;
   streak_milestones: { days: number; earned: boolean }[];
   trips: { key: string; name: string; flag: string; transport: "ship" | "plane"; arrived_at: string | null }[];
+  mastered_count: number;
 };
 
 const ALL_DIFFICULTIES = ["初級", "中級", "上級"];
@@ -85,6 +86,7 @@ export default function Page() {
     best_streak: bestStreak,
     streak_milestones: streakMilestones,
     trips,
+    mastered_count: masteredCount,
   } = data;
   const visitedCountries = countries.filter((c) => c.stamp_tier !== "none");
 
@@ -115,6 +117,7 @@ export default function Page() {
           />
           <SummaryBadge label="称号" value={`${titles.length}個`} />
           <SummaryBadge label="旅した国" value={`${trips.length}`} />
+          <SummaryBadge label="覚えた問題" value={`${masteredCount}`} />
         </div>
 
         {/* パスポート帳本体(紙のような見た目で他画面と質感を変える) */}
