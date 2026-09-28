@@ -2,7 +2,9 @@
 
 namespace App\Support;
 
+use App\Models\ProfileCurrencyLedger;
 use App\Models\ProfileQuestionMemory;
+use App\Models\Question;
 use App\Models\UserProfile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -52,6 +54,32 @@ class QuestionMemory
             ->where('user_profile_id', $profile->id)
             ->whereNotNull('mastered_on')
             ->count();
+    }
+
+    /**
+     * 今までの答えの記録から覚え具合を作る(設計書3-5)。1回の答えには必ず体力の行が1つあるので、
+     * 体力の行だけを古い順に読み直す(正解は体力・XP・コイン・ポイントの4行になるため)。消された問題の記録は読み飛ばす
+     */
+    public static function rebuildFromLedger(): void
+    {
+        $questionIds = Question::query()->pluck('id')->flip();
+
+        ProfileCurrencyLedger::query()
+            ->where('type', 'hp')
+            ->whereIn('reason', ['answer_correct', 'answer_wrong'])
+            ->whereNotNull('question_id')
+            ->lazyById(500)
+            ->each(function (ProfileCurrencyLedger $row) use ($questionIds) {
+                if (! $questionIds->has($row->question_id)) {
+                    return;
+                }
+                self::apply(
+                    $row->user_profile_id,
+                    $row->question_id,
+                    $row->reason === 'answer_correct',
+                    $row->created_at->timezone(Garden::TIMEZONE)->toDateString(),
+                );
+            });
     }
 
     /** 出す日が来た問題(覚えていない・鍵の国の問題でない)。国のない問題は鍵にならない */

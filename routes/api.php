@@ -29,6 +29,7 @@ use App\Support\Garden;
 use App\Support\LevelCurve;
 use App\Support\PlayableQuestion;
 use App\Support\QuestionAnswerResolver;
+use App\Support\QuestionMemory;
 use App\Support\Review;
 use App\Support\Travel;
 use App\Support\WorldLand;
@@ -1126,6 +1127,9 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
                 'point' => config('world.rewards.answer_correct'),
             ], 'answer_correct', $question)
             : $profile->applyEconomy(['hp' => -2], 'answer_wrong', $question);
+
+        // 問題ごとの覚え具合(docs/design/2026-09-29-spaced-review-design.md 4-4)
+        QuestionMemory::record($profile, $question->id, $isCorrect);
 
         $combo = $profile->registerComboResult($isCorrect);
 
