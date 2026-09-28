@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react";
 
+import { AssetImage } from "@/components/app/asset-image";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { OutingImage } from "@/components/spru/outing-image";
-import { ItemArt } from "@/components/world/item-art";
 
-import { PlaneArt } from "./plane-art";
-import { departureCaption, departurePhase, departureStart, type DeparturePhase } from "./travel";
+import { departureCaption, departurePhase, departureStart, vehicleImage, type DeparturePhase } from "./travel";
 import type { Destination } from "./types";
 
 /**
@@ -80,14 +79,14 @@ export function DepartureScene({ destination, reduced, onDone }: { destination: 
               />
             ))}
             <div className="animate-plane-fly absolute left-1/2 -ml-[85px]">
-              <PlaneArt />
+              <AssetImage asset={vehicleImage("plane")} size={150} flip />
             </div>
           </div>
         ) : (
           <div className="relative flex h-40 w-full items-center">
-            <svg viewBox="-40 -60 80 70" width={160} aria-hidden className="animate-boat-sail absolute left-1/2 -ml-20">
-              <ItemArt assetKey="boat_small" />
-            </svg>
+            <div className="animate-boat-sail absolute left-1/2 -ml-[85px]">
+              <AssetImage asset={vehicleImage("ship")} size={150} flip />
+            </div>
             <svg viewBox="0 0 400 20" className="absolute bottom-6 w-full" preserveAspectRatio="none" aria-hidden>
               <path
                 d="M0 10 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"

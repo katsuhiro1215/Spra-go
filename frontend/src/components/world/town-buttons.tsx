@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { Backpack, HouseHeart } from "lucide-react";
+import { Backpack } from "lucide-react";
 
+import { AssetImage } from "@/components/app/asset-image";
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { SPRU_ICONS } from "@/components/spru/spru-assets";
 
 import { claimableErrands, claimedCount } from "./errands";
 import { livelinessStars, type Liveliness } from "./liveliness";
@@ -57,7 +59,7 @@ export function TownButtons({
       </button>
       {familyCount > 0 && (
         <Link href="/family" className={PILL}>
-          <HouseHeart className="h-3.5 w-3.5 text-[#d0467a]" aria-hidden />
+          <AssetImage asset={SPRU_ICONS.family} size={24} />
           <span>
             <AutoFurigana text="家族の町" />
           </span>

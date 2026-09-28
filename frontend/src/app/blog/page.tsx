@@ -4,9 +4,9 @@ import Link from "next/link";
 import { blogPosts } from "@/lib/blog-posts";
 
 export const metadata: Metadata = {
-  title: "ブログ | SpraGo",
+  title: "ブログ | Spra Go",
   description:
-    "国旗・地理・文化にまつわる豆知識をSpraGoが発信するブログです。",
+    "国旗・地理・文化にまつわる豆知識をSpra Goが発信するブログです。",
 };
 
 export default function Page() {
@@ -14,7 +14,7 @@ export default function Page() {
     <div className="mx-auto flex min-h-screen w-full max-w-2xl flex-col gap-8 px-6 py-16">
       <div>
         <Link href="/" className="text-sm text-muted-foreground hover:underline">
-          ← SpraGoトップへ
+          ← Spra Goトップへ
         </Link>
         <h1 className="mt-3 text-3xl font-bold">ブログ</h1>
         <p className="mt-1 text-sm text-muted-foreground">

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { AssetImage } from "@/components/app/asset-image";
 import { LogoMark } from "@/components/app/logo-mark";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
-import { STAMP_IMAGES, type StampKey } from "@/components/spru/spru-assets";
+import { SPRU_ICONS, STAMP_IMAGES, type StampKey } from "@/components/spru/spru-assets";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { SpruHouse } from "@/components/spru/spru-house";
 
@@ -23,7 +24,7 @@ export function GuestLanding() {
     <SkyPage className="items-center px-4 pt-10 pb-24">
       <div className="flex items-center gap-2">
         <LogoMark size={40} />
-        <SkyTitle className="text-[32px] tracking-wide">SpraGo</SkyTitle>
+        <SkyTitle className="text-[32px] tracking-wide">Spra Go</SkyTitle>
       </div>
       <SkyText className="mt-1 text-sm">学ぶほど、世界が広がる。</SkyText>
 
@@ -46,8 +47,9 @@ export function GuestLanding() {
         </Link>
         <Link
           href="/login"
-          className="mt-3 rounded-full bg-[#fffaf0] px-4 py-1.5 text-sm font-black text-[#2b6fa3] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
+          className="mt-3 flex items-center gap-1.5 rounded-full bg-[#fffaf0] py-1 pr-4 pl-1.5 text-sm font-black text-[#2b6fa3] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
         >
+          <AssetImage asset={SPRU_ICONS.login} size={28} />
           アカウントをお持ちの方はログイン
         </Link>
 

@@ -17,11 +17,11 @@ export async function generateMetadata({
   const post = getBlogPost(slug);
 
   if (!post) {
-    return { title: "記事が見つかりません | SpraGo" };
+    return { title: "記事が見つかりません | Spra Go" };
   }
 
   return {
-    title: `${post.title} | SpraGo`,
+    title: `${post.title} | Spra Go`,
     description: post.description,
   };
 }

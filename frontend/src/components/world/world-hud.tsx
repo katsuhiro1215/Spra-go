@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Backpack } from "lucide-react";
 
+import { AssetImage } from "@/components/app/asset-image";
 import { BadgeImage } from "@/components/app/badge-image";
 import { LogoMark } from "@/components/app/logo-mark";
-import { SPRU_FACES } from "@/components/spru/spru-assets";
+import { SPRU_FACES, SPRU_ICONS } from "@/components/spru/spru-assets";
 
 import { growthLabel } from "./garden";
 import type { WorldProfile } from "./types";
@@ -27,7 +27,7 @@ export function WorldHud({
   return (
     <header className="rounded-b-[22px] bg-[#fffaf0] px-3.5 pt-2.5 pb-2.5 text-[#3b3226] shadow-[0_4px_14px_rgba(59,50,38,0.14)]">
       <div className="flex h-9 items-center justify-between">
-        <Link href="/" aria-label="SpraGo" className="flex items-center">
+        <Link href="/" aria-label="Spra Go" className="flex items-center">
           <LogoMark />
         </Link>
         <div className="flex items-center gap-1.5">
@@ -45,9 +45,9 @@ export function WorldHud({
           <Link
             href="/bag"
             aria-label="バッグ"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f5efe1] text-[#6b5d45]"
+            className="flex h-8 w-8 items-center justify-center rounded-full"
           >
-            <Backpack aria-hidden className="h-5 w-5" />
+            <AssetImage asset={SPRU_ICONS.bag} size={32} />
           </Link>
         </div>
       </div>

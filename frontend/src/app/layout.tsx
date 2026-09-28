@@ -18,9 +18,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const TITLE = "Spra Go — 学ぶほど、世界が広がる。";
+const DESCRIPTION = "言葉を学ぶと町が育ち、世界を旅できるようになる、家族で遊べる学習ゲーム。";
+
+// SNSで共有したときのカード(docs/design/2026-09-29-spru-icons-design.md 6章)。画像は app/opengraph-image.jpg・twitter-image.jpg。
+// 画像のURLのもとになるドメインは NEXT_PUBLIC_SITE_URL(本番の値はブランドとドメインの設計で決める)
 export const metadata: Metadata = {
-  title: "SpraGo — 学ぶほど、世界が広がる。",
-  description: "言葉を学ぶと町が育ち、世界を旅できるようになる、家族で遊べる学習ゲーム。",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: { title: TITLE, description: DESCRIPTION, siteName: "Spra Go", locale: "ja_JP", type: "website" },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
 };
 
 export default function RootLayout({

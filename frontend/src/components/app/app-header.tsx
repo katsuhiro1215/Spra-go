@@ -22,7 +22,7 @@ export function AppHeader() {
     <header className="relative z-30 flex shrink-0 items-center justify-between gap-3 px-3 pt-2 pb-1 sm:px-6">
       <Link
         href="/"
-        aria-label="SpraGo"
+        aria-label="Spra Go"
         className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#fffaf0] shadow-[0_2px_6px_rgba(59,50,38,0.15)]"
       >
         <LogoMark />

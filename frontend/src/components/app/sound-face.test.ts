@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { soundFace } from "./sound-face";
+import { soundIcon } from "./sound-face";
 
-describe("音のボタンの絵", () => {
-  it("オンは笑顔に♪", () => {
-    expect(soundFace(true)).toEqual({ face: "laugh", mark: "♪", dim: false });
+describe("音のボタンの絵(docs/design/2026-09-29-spru-icons-design.md 4-3)", () => {
+  it("オンは音オンの絵", () => {
+    expect(soundIcon(true)).toBe("sound-on");
   });
 
-  it("オフはふつうの顔を薄くして✕", () => {
-    expect(soundFace(false)).toEqual({ face: "normal", mark: "✕", dim: true });
+  it("オフは音オフの絵", () => {
+    expect(soundIcon(false)).toBe("sound-off");
   });
 });

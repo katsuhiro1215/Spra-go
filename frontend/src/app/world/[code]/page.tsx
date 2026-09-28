@@ -35,14 +35,14 @@ export async function generateMetadata({
   const data = await getSampleQuiz(code);
 
   if (!data) {
-    return { title: "クイズが見つかりません | SpraGo" };
+    return { title: "クイズが見つかりません | Spra Go" };
   }
 
   const name = data.country.name;
 
   return {
-    title: `${name}クイズ | 世界を冒険しながら図鑑を完成させるRPG SpraGo`,
-    description: `${name}の国旗・首都・地理を無料で学べるミニクイズに挑戦。SpraGoは世界中を旅しながら自分だけの世界図鑑を完成させる無料のWebRPGです。`,
+    title: `${name}クイズ | 世界を冒険しながら図鑑を完成させるRPG Spra Go`,
+    description: `${name}の国旗・首都・地理を無料で学べるミニクイズに挑戦。Spra Goは世界中を旅しながら自分だけの世界図鑑を完成させる無料のWebRPGです。`,
   };
 }
 
@@ -58,7 +58,7 @@ export default async function Page({ params }: PageProps) {
     <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col gap-8 bg-linear-to-b from-indigo-950 via-purple-900 to-orange-900 px-6 py-12">
       <div>
         <Link href="/" className="text-sm text-white/80 hover:underline">
-          ← SpraGoトップへ
+          ← Spra Goトップへ
         </Link>
 
         <div className="mt-3 flex items-center gap-3">
@@ -79,7 +79,7 @@ export default async function Page({ params }: PageProps) {
         <p className="mt-3 text-sm text-white/85">
           国旗・首都・地理・言語まで、{data.country.name}
           について{data.questions.length}
-          問の無料お試しクイズ。SpraGoは世界を冒険しながら自分だけの「世界図鑑」を完成させるRPGです。
+          問の無料お試しクイズ。Spra Goは世界を冒険しながら自分だけの「世界図鑑」を完成させるRPGです。
         </p>
       </div>
 

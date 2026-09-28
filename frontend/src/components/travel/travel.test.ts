@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { SPRU_TRAVEL } from "@/components/spru/spru-assets";
+
 import {
   ARRIVE_MS,
   SAIL_MS,
@@ -15,6 +17,7 @@ import {
   ticketHintText,
   transportText,
   unlockedCountries,
+  vehicleImage,
 } from "./travel";
 import type { Destination, TravelSouvenir } from "./types";
 
@@ -163,5 +166,12 @@ describe("出発の場面", () => {
   it("動きを減らす設定のときは、着いた場面から始める", () => {
     expect(departureStart(false)).toBe(0);
     expect(departurePhase(departureStart(true))).toBe("arrive");
+  });
+});
+
+describe("出発の場面の乗り物の絵(docs/design/2026-09-29-spru-icons-design.md 4-7)", () => {
+  it("船の国は船、飛行機の国は飛行機", () => {
+    expect(vehicleImage("ship")).toEqual(SPRU_TRAVEL.ship);
+    expect(vehicleImage("plane")).toEqual(SPRU_TRAVEL.plane);
   });
 });
