@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class UserProfile extends Model
 {
     protected $fillable = [
-        'name', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'points', 'world_welcomed_at', 'world_plots_seen',
+        'name', 'avatar', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'points', 'world_welcomed_at', 'world_plots_seen',
         'level', 'combo', 'best_combo', 'current_streak', 'best_streak', 'last_played_date',
         'bloom_base_level', 'last_correct_on', 'partner_companion_key', 'last_review_on',
     ];
@@ -38,6 +39,58 @@ class UserProfile extends Model
      * (docs/design/2026-09-28-streak-milestones-design.md)
      */
     public const STREAK_MILESTONES = [3, 7, 30];
+
+    /**
+     * プレイヤーのアバターの名前。絵は画面側(frontend/src/components/app/avatars.ts)で対応させるので、
+     * 絵を替えてもデータは変わらない(docs/design/2026-09-28-top-profiles-design.md 5章)
+     */
+    public const AVATARS = ['avatar-1', 'avatar-2', 'avatar-3', 'avatar-4', 'avatar-5', 'avatar-6'];
+
+    protected static function booted(): void
+    {
+        // アバターを決めずに作ったプレイヤーには、家族でまだ使われていないものを入れる
+        static::creating(function (UserProfile $profile) {
+            $profile->avatar ??= self::nextAvatarFor($profile->user_schema_id);
+        });
+    }
+
+    /** 家族の中でまだ誰も使っていないアバターの1つ目。全部使われていたら1つ目 */
+    public static function nextAvatarFor(?int $schemaId): string
+    {
+        $used = $schemaId === null
+            ? []
+            : DB::table('user_profiles')->where('user_schema_id', $schemaId)->pluck('avatar')->all();
+
+        foreach (self::AVATARS as $avatar) {
+            if (! in_array($avatar, $used, true)) {
+                return $avatar;
+            }
+        }
+
+        return self::AVATARS[0];
+    }
+
+    /**
+     * アバターが空のプレイヤーに、家族ごとに作った順(id順)で割り当てる(7人目からは1つ目に戻る)。
+     * avatar 列を足すマイグレーションから呼ぶので、モデルの属性に頼らずテーブルを直接読む
+     */
+    public static function assignAvatarsByCreationOrder(): void
+    {
+        $counts = [];
+        DB::table('user_profiles')
+            ->orderBy('user_schema_id')
+            ->orderBy('id')
+            ->get(['id', 'user_schema_id', 'avatar'])
+            ->each(function ($row) use (&$counts) {
+                $index = $counts[$row->user_schema_id] ?? 0;
+                $counts[$row->user_schema_id] = $index + 1;
+                if ($row->avatar === null) {
+                    DB::table('user_profiles')
+                        ->where('id', $row->id)
+                        ->update(['avatar' => self::AVATARS[$index % count(self::AVATARS)]]);
+                }
+            });
+    }
 
     protected function casts(): array
     {

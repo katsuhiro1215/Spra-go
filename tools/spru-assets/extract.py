@@ -6,7 +6,7 @@
 - 切り抜く範囲は同じフォルダの crops.json に書く(素材集上のピクセル座標 [左, 上, 右, 下])
 - 出力: frontend/public/spru/{group}/{key}.webp、表情の顔アイコン faces/、シーン scenes/、
   つぼみ・花 bloom/、畑の種・芽 garden/、仲間 companions/、リュックのスプル outing/、季節の衣装 costumes/、バッジ badges/、
-  国のスタンプ stamps/(キーは国のコードの小文字)
+  国のスタンプ stamps/(キーは国のコードの小文字)、スプルの家 house/(背景が透明でない絵は四隅から背景を抜く)
 - 画面側が読む一覧 frontend/src/components/spru/spru-assets.ts もここで書き出す(手で直さない)
 - Spru Master(Blender)ができたら、同じキー・同じ置き場所の画像に差し替える
 """
@@ -15,7 +15,7 @@ import sys
 from collections import deque
 from pathlib import Path
 
-from PIL import Image, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "frontend/public/spru"
@@ -26,6 +26,7 @@ EDGE_ALPHA = 24  # 余白を詰めるときの透明度のしきい値
 MIN_PART = 20  # mode "all" で残す塊の最小の大きさ(小さなごみを除く)
 TIP_ALPHA = 128  # Sの先を探すときの不透明さのしきい値
 TIP_ROWS = 6  # いちばん上から何行分の平均を、Sの先の横位置にするか
+BG_THRESH = 55  # 背景を抜くとき、四隅の色からどれだけ離れた色まで背景とみなすか
 
 
 def components(mask: Image.Image) -> list[list[tuple[int, int]]]:
@@ -56,6 +57,23 @@ def mask_of(size: tuple[int, int], points: list[tuple[int, int]]) -> Image.Image
     op = out.load()
     for x, y in points:
         op[x, y] = 255
+    return out
+
+
+def clear_background(img: Image.Image) -> Image.Image:
+    """背景が透明でない絵(スプルの家 image1 など)から、四隅につながる背景色を透明にする。
+    もともと透明な所がある絵はそのまま返す(背景を消した絵に差し替えたときは何もしない)"""
+    if img.getchannel("A").getextrema()[0] < 255:
+        return img
+    rgb = img.convert("RGB")
+    marked = rgb.copy()
+    w, h = marked.size
+    for corner in [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)]:
+        ImageDraw.floodfill(marked, corner, (255, 0, 255), thresh=BG_THRESH)
+    diff = ImageChops.difference(marked, Image.new("RGB", marked.size, (255, 0, 255))).convert("L")
+    alpha = diff.point(lambda v: 255 if v > 0 else 0).filter(ImageFilter.GaussianBlur(1.2))
+    out = rgb.convert("RGBA")
+    out.putalpha(alpha)
     return out
 
 
@@ -117,7 +135,7 @@ def entries(items: dict) -> str:
 
 def write_ts(
     images: dict, faces: dict, scenes: dict, bloom: dict, garden: dict, companions: dict,
-    outing: dict, costumes: dict, badges: dict, stamps: dict, tips: dict,
+    outing: dict, costumes: dict, badges: dict, stamps: dict, house: dict, tips: dict,
 ) -> None:
     TS_OUT.parent.mkdir(parents=True, exist_ok=True)
     stand = images["three-quarter"]["height"]
@@ -167,6 +185,11 @@ export const STAMP_IMAGES = {{
 {entries(stamps)}
 }} as const satisfies Record<string, SpruImage>;
 
+/** スプルの家(入口の1枚の絵)。町のマスには置かない */
+export const HOUSE_IMAGES = {{
+{entries(house)}
+}} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
@@ -177,6 +200,7 @@ export type OutingKey = keyof typeof OUTING_IMAGES;
 export type CostumeKey = keyof typeof COSTUME_IMAGES;
 export type BadgeKey = keyof typeof BADGE_IMAGES;
 export type StampKey = keyof typeof STAMP_IMAGES;
+export type HouseImageKey = keyof typeof HOUSE_IMAGES;
 
 /** 立ち姿(3/4)の元画像の高さ。ほかの画像はこれとの比で大きさをそろえる(素材集の中で縮尺が同じため) */
 export const SPRU_STAND_HEIGHT = {stand};
@@ -213,21 +237,24 @@ def main() -> None:
         scenes[scene["key"]] = save(img, f'scenes/{scene["key"]}.webp')
 
     parts: dict = {}
-    for group in ("bloom", "garden", "companions", "outing", "costumes", "badges", "stamps"):
+    for group in ("bloom", "garden", "companions", "outing", "costumes", "badges", "stamps", "house"):
         parts[group] = {}
         for part in spec[group]:
-            img = cut_figure(sources[part["source"]], part["box"], part.get("scale", 1.0), part.get("mode", "largest"))
+            src = sources[part["source"]]
+            if part.get("background") == "flood":
+                src = clear_background(src)
+            img = cut_figure(src, part["box"], part.get("scale", 1.0), part.get("mode", "largest"))
             parts[group][part["key"]] = save(img, f'{group}/{part["key"]}.webp')
 
     write_ts(
         images, faces, scenes, parts["bloom"], parts["garden"], parts["companions"],
-        parts["outing"], parts["costumes"], parts["badges"], parts["stamps"], tips,
+        parts["outing"], parts["costumes"], parts["badges"], parts["stamps"], parts["house"], tips,
     )
     print(
         f"画像 {len(images)}・顔 {len(faces)}・シーン {len(scenes)}・花 {len(parts['bloom'])}"
         f"・畑 {len(parts['garden'])}・仲間 {len(parts['companions'])}"
         f"・お出かけ {len(parts['outing'])}・衣装 {len(parts['costumes'])}・バッジ {len(parts['badges'])}"
-        f"・スタンプ {len(parts['stamps'])} を書き出しました"
+        f"・スタンプ {len(parts['stamps'])}・家 {len(parts['house'])} を書き出しました"
     )
 
 

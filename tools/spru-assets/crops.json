@@ -10,7 +10,8 @@
     "m10": "mascot-10.png",
     "m11": "mascot-11.png",
     "m12": "mascot-12.png",
-    "m12b": "mascot-12-2.png"
+    "m12b": "mascot-12-2.png",
+    "house": "image1.png"
   },
   "figures": [
     { "key": "front", "group": "basic", "source": "m6", "box": [30, 48, 158, 258] },
@@ -101,5 +102,8 @@
     { "key": "it", "source": "m12b", "box": [804, 12, 1280, 492], "scale": 0.42 },
     { "key": "gb", "source": "m12b", "box": [260, 512, 740, 988], "scale": 0.42 },
     { "key": "es", "source": "m12b", "box": [808, 520, 1280, 992], "scale": 0.42 }
+  ],
+  "house": [
+    { "key": "home", "source": "house", "box": [0, 0, 1254, 1254], "mode": "all", "scale": 0.48, "background": "flood" }
   ]
 }

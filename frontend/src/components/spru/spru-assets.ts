@@ -115,6 +115,11 @@ export const STAMP_IMAGES = {
   "es": { src: "/spru/stamps/es.webp", width: 200, height: 200 },
 } as const satisfies Record<string, SpruImage>;
 
+/** スプルの家(入口の1枚の絵)。町のマスには置かない */
+export const HOUSE_IMAGES = {
+  "home": { src: "/spru/house/home.webp", width: 552, height: 528 },
+} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
@@ -125,6 +130,7 @@ export type OutingKey = keyof typeof OUTING_IMAGES;
 export type CostumeKey = keyof typeof COSTUME_IMAGES;
 export type BadgeKey = keyof typeof BADGE_IMAGES;
 export type StampKey = keyof typeof STAMP_IMAGES;
+export type HouseImageKey = keyof typeof HOUSE_IMAGES;
 
 /** 立ち姿(3/4)の元画像の高さ。ほかの画像はこれとの比で大きさをそろえる(素材集の中で縮尺が同じため) */
 export const SPRU_STAND_HEIGHT = 208;
