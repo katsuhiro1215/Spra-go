@@ -9,9 +9,10 @@ use App\Models\UserProfile;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 旅(docs/design/2026-09-27-spru-wave-f-design.md 3章・4-3)。行き先・条件・おみやげは config/travel.php に持ち、
+ * 旅(docs/design/2026-09-28-travel-tickets-design.md 3章・4-2。おみやげは docs/design/2026-09-27-spru-wave-f-design.md 3-2)。
+ * はじまりの国(日本)から、クイズで手に入れたチケットで好きな国へ行く。行き先・乗り物・おみやげは config/travel.php に持ち、
  * DBには着いた国(profile_trips)と受け取ったおみやげ(profile_souvenirs)だけを持つ。
- * おみやげの条件は今あるクリアの記録(profile_stage_progress)から数える。
+ * チケットは表を作らず、クリアの記録(profile_stage_progress)と着いた国から毎回数える(A案)。
  */
 class Travel
 {
@@ -28,27 +29,67 @@ class Travel
         return $index === false ? null : $index;
     }
 
-    /** 旅じたく(旅のじゅんびに使う町のアイテム)の絵のキー。ショップの「旅じたく」の札に使う @return list<string> */
-    public static function gearAssetKeys(): array
+    /** 学ぶタブに出す国の国コード(小文字)。日本が先頭、そのあと行き先の順 @return list<string> */
+    public static function countryCodes(): array
     {
+        return [
+            strtolower(config('travel.home.country_code')),
+            ...array_map(fn (array $destination) => strtolower($destination['country_code']), self::destinations()),
+        ];
+    }
+
+    /** 鍵の国(旅の行き先のうち、まだ着いていない国)の国のid。プロフィールがなければ行き先ぜんぶ @return list<int> */
+    public static function lockedCountryIds(?UserProfile $profile): array
+    {
+        $countries = self::countryIdsByCode();
+        $visited = $profile ? self::visitedKeys($profile) : [];
+
         return collect(self::destinations())
-            ->flatMap(fn (array $destination) => array_keys($destination['items']))
-            ->unique()
+            ->reject(fn (array $destination) => in_array($destination['key'], $visited, true))
+            ->map(fn (array $destination) => $countries[strtolower($destination['country_code'])] ?? null)
+            ->filter()
             ->values()
             ->all();
+    }
+
+    /** 鍵の国なら 403。国のないステージ(国のid が null)には鍵をかけない */
+    public static function abortIfLocked(?UserProfile $profile, ?int $countryId): void
+    {
+        abort_if(
+            $countryId !== null && in_array($countryId, self::lockedCountryIds($profile), true),
+            403,
+            'まだこの国に着いていません。',
+        );
+    }
+
+    /** もらったチケットの数(0で止めない)。「このクリアで新しく増えたか」の判定に使う */
+    public static function earnedTickets(UserProfile $profile): int
+    {
+        return self::context($profile)['earned'];
+    }
+
+    /** 持っているチケットの数(3-2)。まだの国が残っていなければ 0 */
+    public static function tickets(UserProfile $profile): int
+    {
+        return self::context($profile)['tickets'];
+    }
+
+    /** せかいの画面に出すもの(GET /api/travel)。記録は1回だけ読む @return array{tickets: int, ticket_hint: ?string, destinations: list<array<string, mixed>>} */
+    public static function overview(UserProfile $profile): array
+    {
+        $context = self::context($profile);
+
+        return [
+            'tickets' => $context['tickets'],
+            'ticket_hint' => self::ticketHint($context),
+            'destinations' => array_map(fn (array $destination) => self::present($destination, $context), self::destinations()),
+        ];
     }
 
     /** @return list<array<string, mixed>> */
     public static function state(UserProfile $profile): array
     {
-        $context = self::context($profile);
-        $destinations = self::destinations();
-        $next = self::nextIndex($context['visited']);
-
-        return array_map(
-            fn (int $index) => self::present($destinations, $index, $next, $context),
-            array_keys($destinations),
-        );
+        return self::overview($profile)['destinations'];
     }
 
     /** @return array<string, mixed>|null */
@@ -59,18 +100,16 @@ class Travel
         return $index === null ? null : self::state($profile)[$index];
     }
 
-    /** 出発する(プロフィールはロック済みで呼ぶ)。着いたことのある国なら何もしない @return array{first: bool, destination: array<string, mixed>} */
+    /** 出発する(プロフィールはロック済みで呼ぶ)。着いた国ならチケットを使わない @return array{first: bool, destination: array<string, mixed>} */
     public static function depart(UserProfile $profile, string $key): array
     {
         $index = self::indexOf($key);
         abort_if($index === null, 404);
 
-        $destination = self::state($profile)[$index];
-        if ($destination['state'] === 'visited') {
-            return ['first' => false, 'destination' => $destination];
+        if (in_array($key, self::visitedKeys($profile), true)) {
+            return ['first' => false, 'destination' => self::state($profile)[$index]];
         }
-        abort_unless($destination['state'] === 'next', 422, 'まだこの国には行けません。');
-        abort_unless($destination['ready'], 422, '旅のじゅんびがそろっていません。');
+        abort_unless(self::tickets($profile) > 0, 422, 'チケットがありません。');
 
         $profile->trips()->create(['destination' => $key, 'arrived_at' => now()]);
 
@@ -101,14 +140,6 @@ class Travel
         ];
     }
 
-    /** 町の「旅のじゅんびがそろったよ」に使う。次の行き先のじゅんびがそろっていればその国 @return array{key: string, name: string}|null */
-    public static function ready(UserProfile $profile): ?array
-    {
-        $next = collect(self::state($profile))->firstWhere('state', 'next');
-
-        return $next && $next['ready'] ? ['key' => $next['key'], 'name' => $next['name']] : null;
-    }
-
     /** おみやげの町のアイテム(非売品)。そのおみやげを初めてだれかが受け取ったときに作る(スプルの花と同じ) */
     private static function souvenirShopItem(array $destination, array $souvenir): ShopItem
     {
@@ -123,16 +154,34 @@ class Travel
         );
     }
 
-    /** まだ着いていない国のうち、いちばん順の早い国(全部着いていれば null) */
-    private static function nextIndex(array $visited): ?int
+    /** @return list<string> */
+    private static function visitedKeys(UserProfile $profile): array
     {
-        foreach (self::destinations() as $index => $destination) {
-            if (! in_array($destination['key'], $visited, true)) {
-                return $index;
-            }
-        }
+        return $profile->trips()->pluck('destination')->all();
+    }
 
-        return null;
+    /** 日本と行き先の国の、国コード(小文字) => 国のid。DBにない国は入らない @return array<string, int> */
+    private static function countryIdsByCode(): array
+    {
+        return Country::query()
+            ->whereIn(DB::raw('LOWER(code)'), self::countryCodes())
+            ->get(['id', 'code'])
+            ->mapWithKeys(fn (Country $country) => [strtolower($country->code) => (int) $country->id])
+            ->all();
+    }
+
+    /** 学べる国(日本と着いた国)。日本が先、そのあと行き先の順 @return list<array{name: string, country_id: int|null}> */
+    private static function learnablePlaces(array $countries, array $visited): array
+    {
+        $places = [config('travel.home'), ...array_filter(
+            self::destinations(),
+            fn (array $destination) => in_array($destination['key'], $visited, true),
+        )];
+
+        return array_values(array_map(fn (array $place) => [
+            'name' => $place['name'],
+            'country_id' => $countries[strtolower($place['country_code'])] ?? null,
+        ], $places));
     }
 
     /** 状態の計算に使う記録。それぞれ1回のクエリで読む @return array<string, mixed> */
@@ -143,116 +192,66 @@ class Travel
             ->where('profile_stage_progress.user_profile_id', $profile->id)
             ->whereNotNull('profile_stage_progress.cleared_at')
             ->get(['stages.country_id', 'stages.difficulty', 'stages.is_boss']);
-
-        $codes = array_map('strtolower', array_column(self::destinations(), 'country_code'));
-        $decorations = ShopItem::query()->where('type', 'decoration')->get();
+        $countries = self::countryIdsByCode();
+        $visited = self::visitedKeys($profile);
+        $bossCountries = $cleared
+            ->filter(fn ($stage) => $stage->difficulty === '初級' && (bool) $stage->is_boss && $stage->country_id !== null)
+            ->pluck('country_id')->map(fn ($id) => (int) $id)->unique()->values()->all();
+        $learnable = self::learnablePlaces($countries, $visited);
+        $earned = collect($learnable)->filter(fn (array $place) => in_array($place['country_id'], $bossCountries, true))->count();
+        $remaining = count(array_diff(array_column(self::destinations(), 'key'), $visited));
 
         return [
-            'level' => $profile->level,
-            'visited' => $profile->trips()->pluck('destination')->all(),
+            'visited' => $visited,
             'received' => $profile->souvenirs()->pluck('souvenir')->all(),
-            'owned' => $profile->worldItems()->with('shopItem')->get()
-                ->map(fn ($item) => $item->shopItem->assetKey())
-                ->filter()
-                ->unique()
-                ->values()
-                ->all(),
-            'cleared_countries' => $cleared->pluck('country_id')->map(fn ($id) => (int) $id)->unique()->values()->all(),
-            'boss_countries' => $cleared
-                ->filter(fn ($stage) => $stage->difficulty === '初級' && (bool) $stage->is_boss)
-                ->pluck('country_id')->map(fn ($id) => (int) $id)->unique()->values()->all(),
-            'countries' => Country::query()
-                ->whereIn(DB::raw('LOWER(code)'), $codes)
-                ->get(['id', 'code'])
-                ->keyBy(fn (Country $country) => strtolower($country->code)),
-            // 旅じたくのヒント(「Lv.7でショップに出るよ」)に使う、売っているアイテムの必要レベル
-            'shop_levels' => $decorations
-                ->reject(fn (ShopItem $item) => $item->meta['not_for_sale'] ?? false)
-                ->groupBy(fn (ShopItem $item) => $item->assetKey())
-                ->map(fn ($items) => $items->min('min_level'))
-                ->all(),
+            'cleared_countries' => $cleared->pluck('country_id')->filter()->map(fn ($id) => (int) $id)->unique()->values()->all(),
+            'boss_countries' => $bossCountries,
+            'countries' => $countries,
+            'learnable' => $learnable,
+            'earned' => $earned,
+            'tickets' => $remaining === 0 ? 0 : max(0, $earned - count($visited)),
         ];
     }
 
-    /** @return array<string, mixed> */
-    private static function present(array $destinations, int $index, ?int $next, array $context): array
+    /** 学べる国のうち、初級のボスをまだ倒していない最初の国の名前(DBにない国は飛ばす) */
+    private static function ticketHint(array $context): ?string
     {
-        $destination = $destinations[$index];
-        $country = $context['countries'][strtolower($destination['country_code'])] ?? null;
+        foreach ($context['learnable'] as $place) {
+            if ($place['country_id'] !== null && ! in_array($place['country_id'], $context['boss_countries'], true)) {
+                return $place['name'];
+            }
+        }
+
+        return null;
+    }
+
+    /** @return array<string, mixed> */
+    private static function present(array $destination, array $context): array
+    {
+        $countryId = $context['countries'][strtolower($destination['country_code'])] ?? null;
         $visited = in_array($destination['key'], $context['visited'], true);
-        $state = $visited ? 'visited' : ($index === $next ? 'next' : 'later');
-        $checklist = self::checklist($destinations, $index, $context);
-        $souvenirs = array_map(
-            fn (array $souvenir) => self::souvenir($destination, $souvenir, $country, $context),
-            $destination['souvenirs'],
-        );
+        $souvenirs = $visited
+            ? array_map(fn (array $souvenir) => self::souvenir($destination, $souvenir, $countryId, $context), $destination['souvenirs'])
+            : [];
 
         return [
             'key' => $destination['key'],
             'name' => $destination['name'],
-            'country_id' => $country?->id,
+            'country_id' => $countryId,
             'code' => $destination['country_code'],
             'flag' => "/flag/{$destination['flag']}.svg",
-            'min_level' => $destination['min_level'],
-            'state' => $state,
-            'ready' => $state === 'next' && collect($checklist)->every(fn (array $row) => $row['done']),
-            'checklist' => $checklist,
+            'transport' => $destination['transport'],
+            'state' => $visited ? 'visited' : 'unvisited',
+            'can_depart' => ! $visited && $context['tickets'] > 0,
             'souvenirs' => $souvenirs,
-            'gift_ready' => $visited && collect($souvenirs)->contains(fn (array $souvenir) => $souvenir['met'] && ! $souvenir['received']),
+            'souvenir_count' => count($destination['souvenirs']),
+            'gift_ready' => collect($souvenirs)->contains(fn (array $souvenir) => $souvenir['met'] && ! $souvenir['received']),
             'greeting' => $destination['greeting'],
         ];
     }
 
-    /** 旅のじゅんび: レベル → 町のアイテム → 前の国の2個目のおみやげ @return list<array<string, mixed>> */
-    private static function checklist(array $destinations, int $index, array $context): array
-    {
-        $destination = $destinations[$index];
-        $levelDone = $context['level'] >= $destination['min_level'];
-        $rows = [[
-            'kind' => 'level',
-            'label' => "レベル{$destination['min_level']}",
-            'done' => $levelDone,
-            'hint' => $levelDone ? null : 'あと'.($destination['min_level'] - $context['level']).'レベル',
-        ]];
-
-        foreach ($destination['items'] as $assetKey => $name) {
-            $done = in_array($assetKey, $context['owned'], true);
-            $shopLevel = $context['shop_levels'][$assetKey] ?? null;
-            $rows[] = [
-                'kind' => 'item',
-                'label' => $name,
-                'done' => $done,
-                'hint' => match (true) {
-                    $done => null,
-                    $shopLevel !== null && $context['level'] < $shopLevel => "Lv.{$shopLevel}でショップに出るよ",
-                    default => 'ショップで買えるよ',
-                },
-            ];
-        }
-
-        if ($index > 0) {
-            $previous = $destinations[$index - 1];
-            $souvenir = collect($previous['souvenirs'])->firstWhere('condition', 'boss');
-            $previousCountry = $context['countries'][strtolower($previous['country_code'])] ?? null;
-            $done = in_array($souvenir['key'], $context['received'], true);
-            $met = $previousCountry !== null && in_array($previousCountry->id, $context['boss_countries'], true);
-            $rows[] = [
-                'kind' => 'souvenir',
-                'label' => "{$previous['name']}のおみやげ「{$souvenir['name']}」",
-                'done' => $done,
-                'hint' => match (true) {
-                    $done => null,
-                    $met => "{$previous['name']}のおみやげ屋さんで受け取ろう",
-                    default => "{$previous['name']}の初級のボスをクリアしよう",
-                },
-            ];
-        }
-
-        return $rows;
-    }
-
     /** @return array<string, mixed> */
-    private static function souvenir(array $destination, array $souvenir, ?Country $country, array $context): array
+    private static function souvenir(array $destination, array $souvenir, ?int $countryId, array $context): array
     {
         $boss = $souvenir['condition'] === 'boss';
         $cleared = $boss ? $context['boss_countries'] : $context['cleared_countries'];
@@ -266,7 +265,7 @@ class Travel
             'condition_label' => $boss
                 ? "{$destination['name']}の初級のボスをクリア"
                 : "{$destination['name']}のステージを1つクリア",
-            'met' => $country !== null && in_array($country->id, $cleared, true),
+            'met' => $countryId !== null && in_array($countryId, $cleared, true),
             'received' => in_array($souvenir['key'], $context['received'], true),
         ];
     }

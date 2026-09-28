@@ -1162,7 +1162,6 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
 
 Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
     $level = ActiveProfile::find($request)?->level ?? 1;
-    $gear = Travel::gearAssetKeys();
 
     return ShopItem::query()
         ->whereIn('type', config('shop.enabled_types'))
@@ -1177,7 +1176,6 @@ Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
             ...$item->toArray(),
             'asset_key' => $item->assetKey(),
             'footprint' => $item->footprint(),
-            'travel_gear' => in_array($item->assetKey(), $gear, true),
             'locked' => $level < $item->min_level,
         ]);
 })->name('shop.index');
@@ -1270,7 +1268,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'greetings' => Family::unseenGreetings($profile),
             'family_count' => Family::others($profile)->count(),
             'plots_new' => WorldLand::newPlotKeys($profile->level, $profile->world_plots_seen ?? []),
-            'travel_ready' => Travel::ready($profile),
+            'tickets' => Travel::tickets($profile),
         ];
     })->name('show');
 
@@ -1431,7 +1429,7 @@ Route::middleware(['auth:sanctum'])->prefix('travel')->name('travel.')->group(fu
     Route::get('/', function (Request $request) {
         $profile = ActiveProfile::require($request);
 
-        return ['level' => $profile->level, 'destinations' => Travel::state($profile)];
+        return ['level' => $profile->level, ...Travel::overview($profile)];
     })->name('index');
 
     Route::get('/{key}', function (Request $request, string $key) {

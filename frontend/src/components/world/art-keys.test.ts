@@ -38,10 +38,10 @@ describe("町のアイテムの絵のキー", () => {
     expect([...SOUVENIR_ART_KEYS].sort()).toEqual(keys.sort());
   });
 
-  it("旅じたく(config/travel.php の items)の絵は、町のアイテムの絵にある", () => {
-    const gear = [...travel.matchAll(/'items' => \['([a-z_]+)' =>/g)].map((m) => m[1]);
-    expect(gear).toHaveLength(5);
-    for (const key of gear) expect(ITEM_ART_KEYS).toContain(key);
+  it("旅の行き先(config/travel.php)には、乗り物(ship か plane)が5つある", () => {
+    const transports = [...travel.matchAll(/'transport' => '([a-z]+)'/g)].map((m) => m[1]);
+    expect(transports).toHaveLength(5);
+    for (const transport of transports) expect(["ship", "plane"]).toContain(transport);
   });
 
   it("2×2の絵かどうかを返す", () => {
