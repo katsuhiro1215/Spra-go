@@ -1134,6 +1134,8 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'best_streak' => $streak['best_streak'],
             'streak_extended_today' => $streak['streak_extended_today'],
             'streak_milestone_bonus_coin' => $streak['milestone_bonus_coin'],
+            'streak_milestone' => $streak['milestone'],
+            'streak_milestone_first' => $streak['milestone_first'],
             'level_xp' => LevelCurve::progress($profile->level),
             'spru_growth' => Garden::growth($profile),
             'garden_busy' => Garden::activeSeed($profile) !== null,

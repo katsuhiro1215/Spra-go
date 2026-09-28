@@ -33,6 +33,12 @@ class UserProfile extends Model
 
     private const STREAK_BONUS_COIN = 50;
 
+    /**
+     * 連続プレイの節目。この日数に届いた日をお祝いし、パスポートにバッジを残す
+     * (docs/design/2026-09-28-streak-milestones-design.md)
+     */
+    public const STREAK_MILESTONES = [3, 7, 30];
+
     protected function casts(): array
     {
         return [
@@ -130,8 +136,10 @@ class UserProfile extends Model
      * (同じ日に何問答えても増えない)、前日にプレイしていなければリセットする。
      * 日の境界はSTREAK_TIMEZONE(Asia/Tokyo)固定。docs/AppInfo.mdが
      * 「最重要要素」の1つとして挙げるが、これまで未実装だった(docs/AppRoadmap.md)。
+     * 節目(STREAK_MILESTONES)に届いた日は milestone にその日数を入れ、伸びる前の
+     * いちばん長い連続が節目より短ければ milestone_first を true にする。
      *
-     * @return array{streak: int, best_streak: int, streak_extended_today: bool, milestone_bonus_coin: int}
+     * @return array{streak: int, best_streak: int, streak_extended_today: bool, milestone_bonus_coin: int, milestone: int|null, milestone_first: bool}
      */
     public function registerDailyStreak(): array
     {
@@ -144,9 +152,12 @@ class UserProfile extends Model
                 'best_streak' => $this->best_streak,
                 'streak_extended_today' => false,
                 'milestone_bonus_coin' => 0,
+                'milestone' => null,
+                'milestone_first' => false,
             ];
         }
 
+        $previousBest = (int) $this->best_streak;
         $yesterday = Carbon::now(self::STREAK_TIMEZONE)->subDay()->toDateString();
         $this->current_streak = $lastPlayed === $yesterday ? $this->current_streak + 1 : 1;
         $this->best_streak = max($this->best_streak, $this->current_streak);
@@ -156,12 +167,17 @@ class UserProfile extends Model
         $milestoneBonusCoin = $this->current_streak % self::STREAK_BONUS_INTERVAL_DAYS === 0
             ? self::STREAK_BONUS_COIN
             : 0;
+        $milestone = in_array((int) $this->current_streak, self::STREAK_MILESTONES, true)
+            ? (int) $this->current_streak
+            : null;
 
         return [
             'streak' => $this->current_streak,
             'best_streak' => $this->best_streak,
             'streak_extended_today' => true,
             'milestone_bonus_coin' => $milestoneBonusCoin,
+            'milestone' => $milestone,
+            'milestone_first' => $milestone !== null && $previousBest < $milestone,
         ];
     }
 
