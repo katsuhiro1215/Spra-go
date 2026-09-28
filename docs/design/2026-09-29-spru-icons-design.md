@@ -44,26 +44,26 @@
 
 ### 3-2. もやを消す
 
-image4〜6は、背景を透明にした絵のまわりに、うすい半透明の色（もや）が残っている。切り抜くとき、決めた濃さ（不透明度）より薄い所を透明にしてから、いちばん大きい塊を取り出す。
+image4〜6は、背景を透明にした絵のまわりに、うすい半透明の色（もや）が残っている。今の切り抜き（`cut_figure`。不透明度200より濃い塊だけを本体とみなし、本体の縁から5pxの外は透明にする）で試したところ、暗い背景・白い背景のどちらに重ねても、もやは残らなかった（2026-09-29に確認）。そのため、もやを消す設定は足さない。
 
-- 組ごと・1点ごとに `min_alpha`（0〜255）を書けるようにする。書いた物だけ、その値より薄い所を透明にする
-- 今までの組（`min_alpha` を書かない物）は、今までどおりの結果になる
+- 迷子のスプルは、頭の上の「？」が離れた部品なので `mode: "all"`（離れた部品も残す）で切る。ほかは今までどおり、いちばん大きい塊だけを残す（飛行機の後ろの雲など、離れた飾りは落ちる）
 
 ### 3-3. 組と中身
 
 | 組（出力 `frontend/public/spru/{組}/`） | キー | 元の絵 | 保存する幅 |
 |---|---|---|---|
-| `icons` | `nav-learn`・`nav-trip`・`nav-town`・`nav-shop` | i4 | 192px |
+| `icons` | `nav-learn`・`nav-trip`・`nav-town`・`nav-shop` | i4 | 元のまま（約200px） |
 | | `sound-on`・`sound-off`・`bag`・`logout`・`continue`・`family` | i5 | 192px |
-| | `login`・`switch-profile`・`add-player` | i4 | 192px |
+| | `login`・`switch-profile`・`add-player` | i4 | 元のまま（約200px） |
 | | `letter`・`key`（取っておくだけ。画面では使わない） | i5 | 192px |
-| `stages` | `locked`（灰色の鍵）・`open`（紫の鍵を持つ）・`cleared`（金のチェック） | i4 | 192px |
+| `stages` | `locked`（灰色の鍵）・`open`（紫の鍵を持つ）・`cleared`（金のチェック） | i4 | 元のまま（約195px） |
 | `avatars` | `avatar-1`（赤・ボール）・`avatar-2`（橙・本）・`avatar-3`（黄・ひまわり）・`avatar-4`（青・紙飛行機）・`avatar-5`（紫・星）・`avatar-6`（桃・カメラ） | i6 | 288px |
-| `travel` | `ship`・`plane` | i4 | 480px |
+| `travel` | `ship`・`plane` | i4 | 元のまま（約180px） |
 | | `ticket` | i4 | 192px |
-| `pages` | `lost`（迷子のスプル） | i4 | 480px |
+| `pages` | `lost`（迷子のスプル） | i4 | 元のまま（約210px） |
 
-- 保存する幅は、画面に出す大きさの約3倍（高精細の画面でもぼやけない大きさ）
+- 保存する幅は、画面に出す大きさの約3倍を目安にする。ただし元の絵より大きくはしない（大きくしてもぼやけるだけのため）。image4 の物は1点が小さいので元のまま
+- 船と飛行機は元の絵が約180pxなので、幅170pxで出すと高精細の画面では少しやわらかく見える。気になるときは、大きい絵を Owner に頼んで差し替える
 - 画面から使う一覧は `components/spru/spru-assets.ts` に `SPRU_ICONS`・`SPRU_STAGES`・`SPRU_AVATARS`・`SPRU_TRAVEL`・`SPRU_PAGES` として書き出す（今の `SPRU_ITEMS` などと同じ作り）
 
 ## 4. 画面への入れ方
@@ -75,9 +75,11 @@ image4〜6は、背景を透明にした絵のまわりに、うすい半透明�
 - 選んでいる所の字の色と上の線は今のまま。選んでいないときも、絵は色のまま出す
 - どのメニューにどの絵を使うかは `nav-items.ts` の `NAV_ITEMS` に持たせる（`icon` のキー）
 - 「じぶん」: 名前の1文字をやめて、そのプレイヤーのアバター（`AvatarBadge`、28px）。プロフィールを選んでいないときは、スプルのふつうの顔
+- 今のプレイヤーの情報（`GET /api/profiles/active`）には、もうアバター（`avatar`）が入っている。画面の型（`profile-provider.tsx` の `Profile`）に `avatar` を足すだけで、サーバーは触らない
 
 ### 4-2. 「じぶん」のパネル（`components/app/me-sheet.tsx`）
 
+- パネルの上の名前の横（今は名前の1文字、44px）も、下のメニューと同じくそのプレイヤーのアバターにする
 - バッグ → `icons/bag`、プロフィールを切り替える → `icons/switch-profile`、ログアウト → `icons/logout`（どれも28px）
 - パスポートは今のバッジ（`badges/passport`）のまま。ふりがな・文字の大きさは今の字のまま
 
@@ -163,16 +165,18 @@ image4〜6は、背景を透明にした絵のまわりに、うすい半透明�
   3. 「学ぶほど、世界が広がる。」
 - 書体: M PLUS Rounded 1c（無料、SIL Open Font License）。`tools/spru-assets/fonts/` に書体のファイルと使用許諾の文（`OFL.txt`）を置く
 - 色: 字は画面と同じ濃い緑（`#3b7f26`）と焦げ茶（`#3b3226`）、白いふちを付けて空の上でも読みやすくする
-- 置き場所: `app/opengraph-image.png`・`app/twitter-image.png`（同じ絵）と、絵の説明文 `app/opengraph-image.alt.txt`・`app/twitter-image.alt.txt`（「家の前で手を振るスプルと、Spra Go のロゴ」）
-- 画像のURLのもとになるドメイン: `layout.tsx` の `metadataBase` に、設定 `NEXT_PUBLIC_SITE_URL` の値を使う（ないときは `http://localhost:3000`）。本番の値は、ブランドとドメインの設計で決める
+- 置き場所: `app/opengraph-image.jpg`・`app/twitter-image.jpg`（同じ絵。写真のような絵なので、ファイルを小さくできるJPGにする）と、絵の説明文 `app/opengraph-image.alt.txt`・`app/twitter-image.alt.txt`（「家の前で手を振るスプルと、Spra Go のロゴ」）
+- `layout.tsx` の `metadata` に、SNSのカードの題名・説明（`openGraph`：サイト名「Spra Go」・日本語・`website`）と、Xの大きい画像のカード（`twitter.card: "summary_large_image"`）を足す
+- 画像のURLのもとになるドメイン: `layout.tsx` の `metadataBase` に、設定 `NEXT_PUBLIC_SITE_URL` の値を使う（ないときは `http://localhost:3000`）。本番の値は、ブランドとドメインの設計で決める。本番で設定し忘れるとSNSの画像が出ないので、`TASKS.md` の公開前の確認に足す
 
 ## 7. 名前の表記
 
-画面とタブに出る「SpraGo」を「Spra Go」にする。
+画面とタブに出る「SpraGo」を「Spra Go」にする。`frontend/src` の中の「SpraGo」を全部置き換える（2026-09-29時点で次の所）。
 
 - `app/layout.tsx` のタブの題名
-- `app/about/page.tsx`（題名・説明）
-- `app/world/[code]/page.tsx`（題名・説明・本文・「トップへ」のリンク）
+- `app/about/page.tsx`・`app/blog/page.tsx`・`app/blog/[slug]/page.tsx`・`app/world/[code]/page.tsx`（題名・説明・本文・「トップへ」のリンク）
+- `components/app/guest-landing.tsx`（トップの大きな名前）、`components/app/app-header.tsx`・`components/world/world-hud.tsx`（ロゴのリンクの読み上げの名前）
+- `lib/blog-posts.ts`（ブログの本文）
 
 ドキュメント（`CLAUDE.md` の「SpraGo（仮）」など）の名前は、ブランドとドメインの設計でまとめて直す。
 
@@ -194,6 +198,9 @@ image4〜6は、背景を透明にした絵のまわりに、うすい半透明�
 - `soundIcon`: オン → `sound-on`、オフ → `sound-off`（今の `soundFace` のテストを直す）
 - `avatarImage`: 6つのキーがそれぞれ別の新しい絵になる・空と知らない名前は1つ目（今のテストを直す）
 - `NAV_ITEMS`: 4つのメニューそれぞれに、`SPRU_ICONS` にある絵のキーが付いている
+- 切り抜いた一覧（`SPRU_ICONS` など）: 3-3のキーがそろい、どのファイルも `public/` にある
+- 出発の場面の乗り物の絵（`vehicleImage`）: 船の国は船、飛行機の国は飛行機
+- `manifest`: 名前が「Spra Go」で、アイコンのファイルが `public/` にある
 - 型チェック・lint
 
 ### 9-2. 切り抜きと作った画像
@@ -207,7 +214,7 @@ image4〜6は、背景を透明にした絵のまわりに、うすい半透明�
 - 下のメニュー（まちの大きい絵・選んでいる所）・「じぶん」のアバター・「じぶん」のパネル・音のボタン（オン・オフ）
 - 学ぶタブと国のページのステージの丸（鍵・遊べる・クリア・ボス・選んでいる輪・START）
 - 町のボタン（つづきから学ぶ・家族の町・バッグ）、家族の町の見出しと「自分の町にもどる」
-- せかいのチケットの札。出発の場面（町テストにチケットを1枚足して確かめ、確認後に元へ戻す）
+- せかいのチケットの札。出発の場面（チケットはクリアの記録から数えるので、足せない。町テストにチケットが1枚以上あれば出発して確かめ、できた旅の記録を消して元へ戻す。なければ、ブラウザでは確かめず、切り抜いた絵と反転の指定を見て確かめる）
 - 見つからないページ（`/nai` などを開く）
 - プロフィール選びのアバターと「＋ 追加」、未ログインのトップの「ログイン」
 - ページの頭に、アイコン・SNS画像・manifest の指定が入っていること（ページのHTMLを見る）。タブにアイコンが出ること
