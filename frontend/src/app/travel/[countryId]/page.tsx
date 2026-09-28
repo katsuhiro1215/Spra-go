@@ -12,6 +12,7 @@ import { BottomNav } from "@/components/app/bottom-nav";
 import { Furigana } from "@/components/app/furigana";
 import { Panel } from "@/components/app/panel";
 import { SkyPage, SkyText } from "@/components/app/sky-page";
+import { LoadingScreen } from "@/components/app/spru-loading";
 import { StagePath } from "@/components/app/stage-path";
 import { BadgeImage } from "@/components/app/badge-image";
 import { difficultyBadge } from "@/components/app/palette";
@@ -100,9 +101,7 @@ export default function Page({
 
   if (country === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
-        読み込み中...
-      </div>
+      <LoadingScreen />
     );
   }
 

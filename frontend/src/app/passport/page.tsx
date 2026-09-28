@@ -12,6 +12,7 @@ import { BadgeImage } from "@/components/app/badge-image";
 import { countryStampKey } from "@/components/app/country-stamp";
 import { stampBadge, type StampTier } from "@/components/app/palette";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
+import { LoadingScreen } from "@/components/app/spru-loading";
 import { streakMilestoneBadge } from "@/components/quiz/streak-milestone";
 import { STAMP_IMAGES } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
@@ -64,9 +65,7 @@ export default function Page() {
 
   if (data === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
-        読み込み中...
-      </div>
+      <LoadingScreen />
     );
   }
 

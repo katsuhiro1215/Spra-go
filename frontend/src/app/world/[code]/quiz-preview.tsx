@@ -5,8 +5,8 @@ import Link from "next/link";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { Button as AppButton } from "@/components/app/classic-button";
-import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 import { useSound } from "@/components/app/sound-provider";
+import { SpruFigure } from "@/components/spru/spru-figure";
 
 type Choice = { id: number; label: string; is_correct: boolean };
 type Question = { id: number; prompt: string; choices: Choice[] };
@@ -42,7 +42,7 @@ export function QuizPreview({ data }: { data: SampleQuiz }) {
   if (finished) {
     return (
       <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/30 bg-black/30 p-6 text-center shadow-xl backdrop-blur-sm">
-        <CharacterPlaceholder className="h-20 w-20" />
+        <SpruFigure image={score === questions.length ? "laugh" : "smile"} standHeight={88} className="animate-character-bounce" />
         <p className="text-lg font-bold text-white">
           {score} / {questions.length} 問正解！
         </p>

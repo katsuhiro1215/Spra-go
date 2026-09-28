@@ -9,6 +9,7 @@ import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Panel } from "@/components/app/panel";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
+import { SpruLoading } from "@/components/app/spru-loading";
 import { ItemIcon } from "@/components/world/item-art";
 import type { WorldData } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
@@ -44,9 +45,7 @@ export default function Page() {
         </SkyText>
 
         {!world ? (
-          <SkyText muted className="text-sm">
-            読み込み中...
-          </SkyText>
+          <SpruLoading />
         ) : world.bag.length === 0 ? (
           <Panel className="flex flex-col items-start gap-3 text-sm">
             <AutoFurigana text="バッグはからっぽです。ショップで町のアイテムを買ってみよう。" />

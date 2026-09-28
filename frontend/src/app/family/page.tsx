@@ -7,6 +7,7 @@ import { ChevronRight, HouseHeart } from "lucide-react";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
+import { SpruLoading } from "@/components/app/spru-loading";
 import type { FamilyMember } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
 
@@ -58,7 +59,7 @@ export default function FamilyPage() {
           </p>
         )}
 
-        {members === null && !error && <p className="mt-16 text-center text-sm">読み込み中...</p>}
+        {members === null && !error && <SpruLoading className="mt-16" />}
 
         {members !== null && members.length === 0 && (
           <div className="mx-4 mt-6 flex flex-col items-center gap-3 rounded-2xl bg-[#fffaf0] p-5 text-center">

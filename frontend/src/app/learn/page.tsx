@@ -12,6 +12,7 @@ import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
 import { Panel } from "@/components/app/panel";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
+import { LoadingScreen, SpruLoading } from "@/components/app/spru-loading";
 import { WorldMap } from "@/components/app/world-map";
 import { apiFetch } from "@/lib/api";
 
@@ -86,9 +87,7 @@ export default function Page() {
 
   if (status === "checking") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
-        読み込み中...
-      </div>
+      <LoadingScreen />
     );
   }
 
@@ -140,9 +139,7 @@ export default function Page() {
         </div>
 
         {!countries ? (
-          <SkyText muted className="text-sm">
-            読み込み中...
-          </SkyText>
+          <SpruLoading />
         ) : allCountries.length === 0 ? (
           <SkyText muted className="text-sm">
             まだ国が登録されていません。お楽しみに。

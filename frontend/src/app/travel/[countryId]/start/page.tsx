@@ -9,6 +9,7 @@ import { AppHeader } from "@/components/app/app-header";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
+import { LoadingScreen } from "@/components/app/spru-loading";
 import { apiFetch } from "@/lib/api";
 
 type CountryStart = {
@@ -45,9 +46,7 @@ export default function Page({
 
   if (country === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
-        読み込み中...
-      </div>
+      <LoadingScreen />
     );
   }
 

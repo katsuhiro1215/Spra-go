@@ -9,6 +9,7 @@ import { BottomNav } from "@/components/app/bottom-nav";
 import { useProfile } from "@/components/app/profile-provider";
 import { BadgeImage } from "@/components/app/badge-image";
 import { SkyPage, SkyText } from "@/components/app/sky-page";
+import { SpruLoading } from "@/components/app/spru-loading";
 import { QuizSession } from "@/components/quiz/quiz-session";
 import type { QuizQuestion } from "@/components/quiz/types";
 import { apiFetch } from "@/lib/api";
@@ -69,9 +70,7 @@ export default function Page({
       <SkyPage>
         <AppHeader />
         <div className="relative z-10 flex flex-1 items-center justify-center">
-          <SkyText muted className="text-sm">
-            読み込み中...
-          </SkyText>
+          <SpruLoading />
         </div>
         <BottomNav />
       </SkyPage>
@@ -103,7 +102,7 @@ export default function Page({
         <>
           {stage.category.name} ・ Stage {stage.stage_number}
           {stage.is_boss && (
-            <span className="flex items-center gap-0.5 rounded-full bg-[#e5664a] py-0.5 pr-2 pl-1 text-[10px] font-bold text-white">
+            <span className="flex items-center gap-0.5 rounded-full bg-[#c2402c] py-0.5 pr-2 pl-1 text-[10px] font-bold text-white">
               <BadgeImage badge="boss" size={16} />
               BOSS
             </span>

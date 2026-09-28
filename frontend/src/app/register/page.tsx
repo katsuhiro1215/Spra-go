@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Button as AppButton } from "@/components/app/button";
-import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 import { Furigana } from "@/components/app/furigana";
 import { SkyPage } from "@/components/app/sky-page";
+import { SpruFigure } from "@/components/spru/spru-figure";
 import { apiFetch } from "@/lib/api";
 
 export default function Page() {
@@ -60,7 +60,7 @@ export default function Page() {
     <SkyPage className="items-center justify-center px-6 py-12">
 
       <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-4">
-        <CharacterPlaceholder className="h-24 w-24" />
+        <SpruFigure image="excited" standHeight={104} className="animate-character-bounce" eager />
 
         <div className="w-full rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
           <h1 className="text-center text-2xl font-black text-[#3b3226]">

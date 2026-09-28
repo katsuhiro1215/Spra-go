@@ -8,7 +8,8 @@ import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { BadgeImage } from "@/components/app/badge-image";
-import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
+import { SkyPage, SkyTitle } from "@/components/app/sky-page";
+import { SpruLoading } from "@/components/app/spru-loading";
 import { DepartureScene } from "@/components/travel/departure-scene";
 import { DestinationSheet } from "@/components/travel/destination-sheet";
 import { hubLine } from "@/components/travel/travel";
@@ -86,9 +87,7 @@ export default function Page() {
           </Link>
         </div>
         {!travel ? (
-          <SkyText muted className="text-sm">
-            読み込み中...
-          </SkyText>
+          <SpruLoading />
         ) : (
           <TravelMap
             destinations={travel.destinations}

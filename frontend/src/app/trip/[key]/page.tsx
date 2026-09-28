@@ -8,6 +8,7 @@ import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { SkyPage, SkyText } from "@/components/app/sky-page";
+import { LoadingScreen } from "@/components/app/spru-loading";
 import { StagePath, type StagePathNode } from "@/components/app/stage-path";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { Flag } from "@/components/travel/flag";
@@ -77,7 +78,7 @@ export default function Page({ params }: { params: Promise<{ key: string }> }) {
   }
 
   if (!destination) {
-    return <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">読み込み中...</div>;
+    return <LoadingScreen />;
   }
 
   const group = country ? pickBeginnerGroup(country.groups) : null;

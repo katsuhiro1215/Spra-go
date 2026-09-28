@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { useSound } from "@/components/app/sound-provider";
+import { SpruLoading } from "@/components/app/spru-loading";
 import { bloomOf } from "@/components/spru/bloom";
 import { pickTownMood, type SpruView, type TownEvent } from "@/components/spru/mood";
 import { Ambience, TIME_THEME } from "@/components/world/ambience";
@@ -122,7 +123,7 @@ export function FamilyTown({ profileId }: { profileId: string }) {
       onPointerDown={() => setLastInteractionAt(Date.now())}
     >
       <div className="relative mx-auto flex min-h-screen w-full max-w-[480px] flex-col pb-28 text-[#3b3226]">
-        {state === undefined && <p className="mt-16 text-center text-sm">読み込み中...</p>}
+        {state === undefined && <SpruLoading className="mt-16" />}
 
         {state?.kind === "missing" && (
           <div className="mx-4 mt-16 flex flex-col items-center gap-3 rounded-2xl bg-[#fffaf0] p-5 text-center">
