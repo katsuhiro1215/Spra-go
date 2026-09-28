@@ -1,40 +1,60 @@
-import type { Destination } from "./types";
+import type { Destination, TravelData, Transport } from "./types";
 
 export function receivedCount(destination: Destination): number {
   return destination.souvenirs.filter((souvenir) => souvenir.received).length;
 }
 
-/** 旅のハブで日本の島のスプルが言うひとこと。上から順に最初に当てはまるもの(設計書5-1) */
-export function hubLine(destinations: Destination[]): string {
+/** せかいで日本の島のスプルが言うひとこと。上から順に最初に当てはまるもの(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-2) */
+export function hubLine(travel: Pick<TravelData, "tickets" | "ticket_hint" | "destinations">): string {
+  const { destinations } = travel;
   const gift = destinations.find((destination) => destination.gift_ready);
   if (gift) return `${gift.name}のおみやげ屋さんで、おみやげを受け取れるよ！`;
-
-  const next = destinations.find((destination) => destination.state === "next");
-  if (!next) return `${destinations.length}つの国をぜんぶ旅したね！すごい！`;
-  if (next.ready) return `じゅんびができたよ！${next.name}へ出発しよう`;
-
-  const missing = next.checklist.find((row) => !row.done);
-  if (missing?.kind === "level") return `次は${next.name}！${missing.hint ?? ""}だね`;
-  if (missing) return `${missing.label}があれば${next.name}へ行けるよ`;
-  return `次は${next.name}！`;
+  if (travel.tickets > 0) return "チケットがあるよ！行きたい国を選んでね";
+  if (destinations.some((destination) => destination.state === "unvisited")) return ticketHintText(travel.ticket_hint);
+  return `${destinations.length}つの国をぜんぶ旅したね！すごい！`;
 }
 
-/** 島のボタンの読み上げ用ラベル(設計書5-1) */
+/** チケットのもらい方(ticket_hint は、初級のボスをまだ倒していない学べる国の名前) */
+export function ticketHintText(hint: string | null): string {
+  return hint ? `${hint}の初級のボスを倒すと、チケットがもらえるよ` : "初級のボスを倒すと、チケットがもらえるよ";
+}
+
+/** 島のボタンの読み上げ用ラベル(設計書5-2) */
 export function islandLabel(destination: Destination): string {
   if (destination.state === "visited") {
     return `${destination.name}(着いた国・おみやげ${receivedCount(destination)}/${destination.souvenirs.length})`;
   }
-  if (destination.state === "next") return `${destination.name}(${destination.ready ? "出発できます" : "じゅんび中"})`;
-  return `${destination.name}(まだ先)`;
+  return destination.can_depart ? `${destination.name}(まだの国・行けます)` : `${destination.name}(まだの国)`;
 }
 
-/** 島に出す札。まだ先の国は出さない */
-export function islandTag(destination: Destination): string | null {
+/** 島に出す札 */
+export function islandTag(destination: Destination): string {
   if (destination.state === "visited") {
     return destination.gift_ready ? "おみやげ！" : `おみやげ ${receivedCount(destination)}/${destination.souvenirs.length}`;
   }
-  if (destination.state === "next") return destination.ready ? "出発できる" : "じゅんび中";
-  return null;
+  return destination.can_depart ? "行ける！" : "？";
+}
+
+export function transportText(transport: Transport): string {
+  return transport === "plane" ? "飛行機で行く国" : "船で行く国";
+}
+
+/** 出発の場面の文(設計書5-3)。sail は乗り物で向かっているところ(船も飛行機も) */
+export function departureCaption(phase: DeparturePhase, destination: Pick<Destination, "name" | "transport">): string {
+  const plane = destination.transport === "plane";
+  if (phase === "walk") return plane ? "空港から出発！" : "桟橋から出発！";
+  if (phase === "sail") return `${destination.name}へ${plane ? "飛行機" : "船"}で向かっているよ`;
+  return `${destination.name}に着いた！`;
+}
+
+/** 学ぶタブで、鍵のない国だけを並びのまま残す(地図の表示に渡す。設計書5-5) */
+export function unlockedCountries<T extends { locked: boolean }>(countries: T[]): T[] {
+  return countries.filter((country) => !country.locked);
+}
+
+/** 学ぶタブで鍵の国を押したときの案内(設計書5-5) */
+export function lockedCountryText(name: string): string {
+  return `${name}へは『せかい』でチケットを使うと行けるよ`;
 }
 
 export type BeginnerGroupLike = { category: { is_language_mode: boolean }; difficulty: string; stages: { is_boss: boolean }[] };
