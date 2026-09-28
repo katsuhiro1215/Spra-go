@@ -2,6 +2,7 @@
 
 use App\Models\UserProfile;
 use App\Support\Garden;
+use App\Support\QuestionMemory;
 use Illuminate\Support\Carbon;
 use Illuminate\Testing\TestResponse;
 
@@ -66,9 +67,8 @@ it('出す条件を満たすおつかいが、2つ目・3つ目に出る', funct
     $profile = createActiveProfile();
     match ($kind) {
         'water' => $profile->seeds()->create(['result_key' => 'momo']),
-        'review' => $profile->currencyLedger()->create([
-            'type' => 'hp', 'delta' => -2, 'reason' => 'answer_wrong', 'question_id' => createQuestionWithChoices()[0]->id,
-        ]),
+        // 出す日が来た問題を用意する(docs/design/2026-09-29-spaced-review-design.md 4-7)
+        'review' => QuestionMemory::record($profile, createQuestionWithChoices()[0]->id, false, now('Asia/Tokyo')->subDays(9)->toDateString()),
         'decorate' => $profile->worldItems()->create(['shop_item_id' => createDecoration()->id]),
         'family_greet' => createFamilyMember($profile),
     };
@@ -151,7 +151,7 @@ it('ステージクリアと水やりを数える', function () {
 it('復習をやりきると数える', function () {
     $profile = createActiveProfile();
     [$question] = createQuestionWithChoices();
-    $profile->currencyLedger()->create(['type' => 'hp', 'delta' => -2, 'reason' => 'answer_wrong', 'question_id' => $question->id]);
+    QuestionMemory::record($profile, $question->id, false, now('Asia/Tokyo')->subDays(9)->toDateString());
     $this->getJson('/api/world');
 
     $this->postJson('/api/review/complete')->assertOk();
