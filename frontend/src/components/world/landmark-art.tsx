@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
 
+import { itemImage } from "./item-image";
+import { ImageArt } from "./item-image-art";
+import { ITEM_IMAGE_FIT, LANDMARK_LIGHTS } from "./item-image-fit";
+
 // 原点(0,0)がマスの中心。最初から町にある、動かせない目印。lit は夜に明かりがともっているとき
 const ART: Record<string, (lit: boolean) => ReactNode> = {
   spru_house: (lit) => {
@@ -95,5 +99,17 @@ const ART: Record<string, (lit: boolean) => ReactNode> = {
 };
 
 export function LandmarkArt({ landmarkKey, lit = false }: { landmarkKey: string; lit?: boolean }) {
+  const image = itemImage(landmarkKey);
+  if (image) {
+    return (
+      <>
+        <ImageArt image={image} footprint={1} fit={ITEM_IMAGE_FIT[landmarkKey]} />
+        {lit &&
+          LANDMARK_LIGHTS[landmarkKey]?.map((light, index) => (
+            <circle key={index} cx={light.cx} cy={light.cy} r={light.r} fill="#ffd98a" opacity={0.5} />
+          ))}
+      </>
+    );
+  }
   return <>{ART[landmarkKey]?.(lit) ?? null}</>;
 }

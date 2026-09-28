@@ -4,10 +4,13 @@ import { SPRU_BLOOM } from "@/components/spru/spru-assets";
 
 import { isBigAsset, type ArtKey } from "./art-keys";
 import { IsoBox, IsoRoof } from "./iso-shapes";
+import { iconViewBox, imagePlacement, itemImage } from "./item-image";
+import { ImageArt } from "./item-image-art";
+import { ITEM_IMAGE_FIT } from "./item-image-fit";
 import { LandmarkArt } from "./landmark-art";
 import { TRAVEL_ART } from "./travel-art";
 
-// 原点(0,0)がマスの中心(地面に接する点)。Blender製の画像に差し替えるときはこのファイルだけ直す
+// 原点(0,0)がマスの中心(地面に接する点)。SPRU_ITEMS に画像がある絵は画像で描き(item-image-art.tsx)、ここの絵は画像が届くまでの代わり
 const ART: Record<ArtKey | "spru_flower", ReactNode> = {
   // 種から咲いた「スプルの花」(非売品)。花は素材集の切り抜き
   spru_flower: (
@@ -275,6 +278,10 @@ const FALLBACK: ReactNode = (
 );
 
 export function ItemArt({ assetKey }: { assetKey: string | null }) {
+  const image = itemImage(assetKey);
+  if (image && assetKey) {
+    return <ImageArt image={image} footprint={isBigAsset(assetKey) ? 2 : 1} fit={ITEM_IMAGE_FIT[assetKey]} />;
+  }
   return <>{(assetKey && (ART as Record<string, ReactNode>)[assetKey]) ?? FALLBACK}</>;
 }
 
@@ -287,8 +294,14 @@ export function ItemIcon({
   size?: number;
   className?: string;
 }) {
-  // 2×2の建物は4マスぶん横に広く、タワーは高いので、広い範囲で描く
-  const viewBox = isBigAsset(assetKey) ? "-70 -150 140 180" : "-34 -62 68 72";
+  const image = itemImage(assetKey);
+  // 画像の物は画像の範囲に合わせる。プログラムの絵は、2×2の建物は4マスぶん横に広く、タワーは高いので、広い範囲で描く
+  const viewBox =
+    image && assetKey
+      ? iconViewBox(imagePlacement(image, isBigAsset(assetKey) ? 2 : 1, ITEM_IMAGE_FIT[assetKey]))
+      : isBigAsset(assetKey)
+        ? "-70 -150 140 180"
+        : "-34 -62 68 72";
   return (
     <svg viewBox={viewBox} width={size} height={size} aria-hidden className={className}>
       <ItemArt assetKey={assetKey} />
