@@ -840,10 +840,19 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
             ->pluck('title')
         : collect();
 
+    // 連続プレイの節目のバッジ(docs/design/2026-09-28-streak-milestones-design.md 3-4)。一度届いたら、途切れても消えない
+    $bestStreak = $profileId
+        ? (int) (UserProfile::query()->whereKey($profileId)->value('best_streak') ?? 0)
+        : 0;
+
     return [
         'countries' => $countries,
         'titles' => $titles,
         'visited_count' => $countries->filter(fn ($c) => $c['stamp_tier'] !== 'none')->count(),
+        'best_streak' => $bestStreak,
+        'streak_milestones' => collect(UserProfile::STREAK_MILESTONES)
+            ->map(fn (int $days) => ['days' => $days, 'earned' => $bestStreak >= $days])
+            ->all(),
     ];
 })->name('passport');
 
