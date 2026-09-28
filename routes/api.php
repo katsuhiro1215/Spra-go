@@ -1003,14 +1003,24 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
 })->name('categories.stages');
 
 Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $request, Stage $stage) {
-    Travel::abortIfLocked(ActiveProfile::find($request), $stage->country_id);
+    $profile = ActiveProfile::find($request);
+    Travel::abortIfLocked($profile, $stage->country_id);
     $questions = $stage->questions()
         ->with(['choices', 'country'])
-        ->get(['questions.id', 'questions.type', 'questions.prompt', 'questions.country_id', 'questions.meta'])
-        ->shuffle()
-        ->values();
+        ->get(['questions.id', 'questions.type', 'questions.prompt', 'questions.country_id', 'questions.meta']);
 
     abort_if($questions->isEmpty(), 404);
+
+    // おさらい(docs/design/2026-09-29-spaced-review-design.md 4-5)。ボス以外に、出す日が来た前の問題を足す
+    $reviewIds = $profile && ! $stage->is_boss
+        ? QuestionMemory::dueIds($profile, config('review.stage_mix'), $questions->pluck('id')->all(), $stage->country_id)
+        : [];
+    $reviews = $reviewIds === []
+        ? collect()
+        : Question::query()->with(['choices', 'country'])->whereIn('id', $reviewIds)->get(['id', 'type', 'prompt', 'country_id', 'meta']);
+    $questions->each(fn (Question $question) => $question->setAttribute('review', false));
+    $reviews->each(fn (Question $question) => $question->setAttribute('review', true));
+    $questions = $questions->concat($reviews)->shuffle()->values();
 
     PlayableQuestion::present($questions);
 
@@ -1029,6 +1039,8 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $data = $request->validate([
         'score' => ['required', 'integer', 'min:0'],
     ]);
+    // 点数はステージの問題だけの正解数(おさらいの問題は数えない)。念のため問題の数までに抑える(設計書4-6)
+    $score = min($data['score'], $stage->questions()->count());
 
     $profileId = $request->session()->get('active_profile_id');
     $profile = $profileId ? UserProfile::find($profileId) : null;
@@ -1041,7 +1053,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         'stage_id' => $stage->id,
     ]);
     $progress->attempts = ($progress->attempts ?? 0) + 1;
-    $progress->best_score = max($progress->best_score ?? 0, $data['score']);
+    $progress->best_score = max($progress->best_score ?? 0, $score);
     $progress->cleared_at ??= now();
     $progress->save();
 
@@ -1051,7 +1063,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $ticketEarned = Travel::earnedTickets($profile) > $earnedTicketsBefore && Travel::tickets($profile) > 0;
 
     $titleGranted = false;
-    if ($stage->is_boss && $stage->title_reward && $data['score'] === $stage->questions()->count()) {
+    if ($stage->is_boss && $stage->title_reward && $score === $stage->questions()->count()) {
         $title = ProfileTitle::query()->firstOrCreate(
             ['user_profile_id' => $profile->id, 'title' => $stage->title_reward],
             ['source_stage_id' => $stage->id, 'unlocked_at' => now()]
