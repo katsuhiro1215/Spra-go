@@ -105,5 +105,6 @@
   ],
   "house": [
     { "key": "home", "source": "house", "box": [0, 0, 1254, 1254], "mode": "all", "scale": 0.48, "background": "flood" }
-  ]
+  ],
+  "items": []
 }
