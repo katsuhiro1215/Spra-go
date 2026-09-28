@@ -840,10 +840,19 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
             ->pluck('title')
         : collect();
 
+    // 連続プレイの節目のバッジ(docs/design/2026-09-28-streak-milestones-design.md 3-4)。一度届いたら、途切れても消えない
+    $bestStreak = $profileId
+        ? (int) (UserProfile::query()->whereKey($profileId)->value('best_streak') ?? 0)
+        : 0;
+
     return [
         'countries' => $countries,
         'titles' => $titles,
         'visited_count' => $countries->filter(fn ($c) => $c['stamp_tier'] !== 'none')->count(),
+        'best_streak' => $bestStreak,
+        'streak_milestones' => collect(UserProfile::STREAK_MILESTONES)
+            ->map(fn (int $days) => ['days' => $days, 'earned' => $bestStreak >= $days])
+            ->all(),
     ];
 })->name('passport');
 
@@ -1134,6 +1143,8 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'best_streak' => $streak['best_streak'],
             'streak_extended_today' => $streak['streak_extended_today'],
             'streak_milestone_bonus_coin' => $streak['milestone_bonus_coin'],
+            'streak_milestone' => $streak['milestone'],
+            'streak_milestone_first' => $streak['milestone_first'],
             'level_xp' => LevelCurve::progress($profile->level),
             'spru_growth' => Garden::growth($profile),
             'garden_busy' => Garden::activeSeed($profile) !== null,

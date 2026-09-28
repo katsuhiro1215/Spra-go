@@ -99,6 +99,9 @@ export const BADGE_IMAGES = {
   "advanced": { src: "/spru/badges/advanced.webp", width: 85, height: 84 },
   "boss": { src: "/spru/badges/boss.webp", width: 94, height: 83 },
   "boss-battle": { src: "/spru/badges/boss-battle.webp", width: 130, height: 132 },
+  "streak-3": { src: "/spru/badges/streak-3.webp", width: 127, height: 121 },
+  "streak-7": { src: "/spru/badges/streak-7.webp", width: 135, height: 131 },
+  "streak-30": { src: "/spru/badges/streak-30.webp", width: 158, height: 143 },
 } as const satisfies Record<string, SpruImage>;
 
 /** パスポートの国スタンプ。キーは国のコードの小文字 */

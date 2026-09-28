@@ -28,6 +28,7 @@ import { apiFetch } from "@/lib/api";
 import { LevelUpOverlay } from "./level-up-overlay";
 import { retryRound } from "./retry";
 import { StageStartCard } from "./stage-start-card";
+import { StreakMilestoneOverlay } from "./streak-milestone-overlay";
 import type { QuizQuestion } from "./types";
 
 type EconomyDelta = { hp?: number; xp?: number; coin?: number; point?: number };
@@ -37,6 +38,7 @@ type StreakInfo = {
   streak_extended_today: boolean;
   streak_milestone_bonus_coin: number;
 };
+type StreakMilestone = { days: number; first: boolean; bonusCoin: number };
 type HpBlocked = { hp: number; max_hp: number; hp_regen_seconds: number | null };
 
 function formatMinutesSeconds(totalSeconds: number): string {
@@ -155,6 +157,9 @@ export function QuizSession({
   const [partner, setPartner] = useState<AnswerPartner | null>(null);
   const [partnerUp, setPartnerUp] = useState<AnswerPartner | null>(null);
   const [levelUpOpen, setLevelUpOpen] = useState(false);
+  // 連続プレイの節目に届いた答えのあと、「つぎへ」でお祝いを出すまで覚えておく(設計書4-4)
+  const [streakMilestone, setStreakMilestone] = useState<StreakMilestone | null>(null);
+  const [streakMilestoneOpen, setStreakMilestoneOpen] = useState(false);
   const [shopItems, setShopItems] = useState<ShopListItem[]>([]);
   // 「もう一度」のたびに増やし、ステージ開始のカードを出し直す
   const [runId, setRunId] = useState(0);
@@ -339,6 +344,13 @@ export function QuizSession({
             }
           : null,
       );
+      if (data.profile?.streak_milestone) {
+        setStreakMilestone({
+          days: data.profile.streak_milestone,
+          first: Boolean(data.profile.streak_milestone_first),
+          bonusCoin: data.profile.streak_milestone_bonus_coin ?? 0,
+        });
+      }
       if (data.correct) setScore((prev) => prev + 1);
     } finally {
       setSubmitting(false);
@@ -383,12 +395,28 @@ export function QuizSession({
       playSound("allCorrect");
       return;
     }
+    if (openStreakMilestone()) return;
     advance();
+  }
+
+  // 連続プレイの節目に届いたときは、レベルアップのあとにお祝いを挟む。出したら true
+  function openStreakMilestone(): boolean {
+    if (!streakMilestone || streakMilestoneOpen) return false;
+    setStreakMilestoneOpen(true);
+    playSound("allCorrect");
+    return true;
   }
 
   function handleLevelUpContinue() {
     setLevelUp(null);
     setLevelUpOpen(false);
+    if (openStreakMilestone()) return;
+    advance();
+  }
+
+  function handleMilestoneContinue() {
+    setStreakMilestone(null);
+    setStreakMilestoneOpen(false);
     advance();
   }
 
@@ -406,6 +434,8 @@ export function QuizSession({
     setCompletionSubmitted(false);
     setLevelUp(null);
     setLevelUpOpen(false);
+    setStreakMilestone(null);
+    setStreakMilestoneOpen(false);
     setMissedIds([]);
     setPartnerUp(null);
   }
@@ -611,13 +641,6 @@ export function QuizSession({
                 {combo && combo.combo_milestone_bonus_coin > 0 && (
                   <p className="text-sm font-bold text-[#7a5a0e]">ボーナス +{combo.combo_milestone_bonus_coin}Coin</p>
                 )}
-                {streak?.streak_extended_today && (
-                  <p className="flex items-center gap-1 text-sm font-bold text-[#c2402c]">
-                    <BadgeImage badge="streak" size={20} />
-                    {streak.streak}日連続プレイ！
-                    {streak.streak_milestone_bonus_coin > 0 && ` ボーナス+${streak.streak_milestone_bonus_coin}Coin`}
-                  </p>
-                )}
                 {partnerUp && (
                   <div className="flex w-full flex-col items-center gap-1 rounded-2xl bg-[#fdeef2] px-4 py-2">
                     <p className="text-sm font-black text-[#b03a64]">
@@ -649,6 +672,13 @@ export function QuizSession({
                 )}
               </div>
             )}
+            {streak?.streak_extended_today && (
+              <p className="flex items-center gap-1 text-sm font-bold text-[#c2402c]">
+                <BadgeImage badge="streak" size={20} />
+                {streak.streak}日連続プレイ！
+                {streak.streak_milestone_bonus_coin > 0 && ` ボーナス+${streak.streak_milestone_bonus_coin}Coin`}
+              </p>
+            )}
 
             <AppButton variant="primary" size="lg" onClick={handleNext} className="mt-1 w-full">
               {isLastQuestion ? "結果を見る ▶" : "次へ ▶"}
@@ -666,6 +696,14 @@ export function QuizSession({
           growthLine={levelUp.growthLine}
           bloom={levelUp.bloom}
           onContinue={handleLevelUpContinue}
+        />
+      )}
+      {streakMilestoneOpen && streakMilestone && (
+        <StreakMilestoneOverlay
+          days={streakMilestone.days}
+          first={streakMilestone.first}
+          bonusCoin={streakMilestone.bonusCoin}
+          onContinue={handleMilestoneContinue}
         />
       )}
     </SkyPage>

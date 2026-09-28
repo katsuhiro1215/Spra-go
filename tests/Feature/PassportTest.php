@@ -5,6 +5,7 @@ use App\Models\Country;
 use App\Models\ProfileStageProgress;
 use App\Models\ProfileTitle;
 use App\Models\Stage;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,4 +95,30 @@ it('称号一覧と訪問国数を返す', function () {
     $response->assertOk();
     expect($response->json('titles'))->toBe(['テスト称号']);
     expect($response->json('visited_count'))->toBe(1);
+});
+
+it('いちばん長い連続と、節目ごとのバッジをもらったかを返す', function () {
+    $profile = createActiveProfile();
+    $profile->update(['best_streak' => 7, 'current_streak' => 1]);
+
+    $response = $this->getJson('/api/passport');
+
+    $response->assertOk();
+    expect($response->json('best_streak'))->toBe(7);
+    expect($response->json('streak_milestones'))->toBe([
+        ['days' => 3, 'earned' => true],
+        ['days' => 7, 'earned' => true],
+        ['days' => 30, 'earned' => false],
+    ]);
+});
+
+it('プロフィールを選んでいなければ、連続は0日でバッジはどれもまだ', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user)->withHeader('Referer', 'http://localhost');
+
+    $response = $this->getJson('/api/passport');
+
+    $response->assertOk();
+    expect($response->json('best_streak'))->toBe(0);
+    expect(collect($response->json('streak_milestones'))->pluck('earned')->all())->toBe([false, false, false]);
 });
