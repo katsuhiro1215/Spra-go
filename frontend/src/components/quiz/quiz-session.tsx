@@ -25,6 +25,7 @@ import { levelUpGrowthLine } from "@/components/world/garden";
 import type { AnswerPartner, ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
 
+import { GameHeader } from "./game-header";
 import { LevelUpOverlay } from "./level-up-overlay";
 import { retryRound } from "./retry";
 import { StageStartCard } from "./stage-start-card";
@@ -501,7 +502,7 @@ export function QuizSession({
 
   return (
     <SkyPage>
-      <AppHeader />
+      <GameHeader />
       {currentIndex === 0 && !practice && stageNumber !== null && <StageStartCard key={runId} stageNumber={stageNumber} />}
       <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12">
         <div className="flex flex-col gap-8 rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">

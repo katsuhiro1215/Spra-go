@@ -1,7 +1,7 @@
 import { BadgeImage } from "@/components/app/badge-image";
 
 /**
- * 体力ゲージのUI。減少・回復のロジックは未実装で、表示のみ。
+ * 体力ゲージ(設計書4-1)。バーはスマホでもいつも出し、親から渡す幅(className)いっぱいに伸ばす
  */
 export function HpGauge({
   value,
@@ -19,14 +19,13 @@ export function HpGauge({
       className={`flex items-center gap-1.5 rounded-full bg-[#fffaf0] py-1 pr-3 pl-1.5 shadow-[0_2px_6px_rgba(59,50,38,0.15)] ${className ?? ""}`}
     >
       <BadgeImage badge="hp" size={20} />
-      {/* スマホ幅ではヘッダーに収まらないため、バーを省いてハートと数値だけにする */}
-      <div className="hidden h-2.5 w-24 overflow-hidden rounded-full bg-[#efe5cf] sm:block">
+      <div className="h-2.5 min-w-0 flex-1 overflow-hidden rounded-full bg-[#efe5cf]">
         <div
           className="h-full rounded-full bg-[#e5533f] transition-[width]"
           style={{ width: `${percent}%` }}
         />
       </div>
-      <span className="text-xs font-black text-[#3b3226]">
+      <span className="shrink-0 text-xs font-black text-[#3b3226]">
         {value}/{max}
       </span>
     </div>

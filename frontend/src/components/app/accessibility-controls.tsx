@@ -2,58 +2,24 @@
 
 import { useState } from "react";
 
-import { useAccessibility } from "@/components/app/accessibility-provider";
-
-const FONT_SCALE_LABELS = {
-  base: "標準",
-  lg: "大",
-  xl: "特大",
-} as const;
+import { DisplaySettings } from "@/components/app/display-settings";
+import { useFloatingSettingsShown } from "@/components/app/use-floating-settings";
 
 /**
- * 画面右下に固定表示する、文字サイズ・ふりがな表示の切替パネル。
- * 全ページ共通(RootLayoutでAccessibilityProviderと一緒に配置)。
+ * 画面右下に浮かぶ、文字の大きさ・ふりがなの切替(RootLayoutに配置)。
+ * プレイヤーが入っている画面では、下のメニューの「じぶん」かクイズ中のヘッダーに設定があるので出さない(設計書4-7)
  */
 export function AccessibilityControls() {
-  const { fontScale, setFontScale, furigana, toggleFurigana } =
-    useAccessibility();
+  const shown = useFloatingSettingsShown();
   const [open, setOpen] = useState(false);
+
+  if (!shown) return null;
 
   return (
     <div className="fixed right-3 bottom-20 z-50">
       {open && (
-        <div className="mb-2 flex w-56 flex-col gap-3 rounded-xl border border-border bg-background p-3 text-sm shadow-lg">
-          <div>
-            <p className="mb-1.5 font-medium">文字サイズ</p>
-            <div className="flex gap-1.5">
-              {(Object.keys(FONT_SCALE_LABELS) as Array<keyof typeof FONT_SCALE_LABELS>).map(
-                (scale) => (
-                  <button
-                    key={scale}
-                    onClick={() => setFontScale(scale)}
-                    aria-pressed={fontScale === scale}
-                    className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-medium ${
-                      fontScale === scale
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-background text-foreground hover:bg-muted"
-                    }`}
-                  >
-                    {FONT_SCALE_LABELS[scale]}
-                  </button>
-                ),
-              )}
-            </div>
-          </div>
-
-          <label className="flex items-center justify-between gap-2">
-            <span className="font-medium">ふりがな表示</span>
-            <input
-              type="checkbox"
-              checked={furigana}
-              onChange={toggleFurigana}
-              className="h-4 w-4"
-            />
-          </label>
+        <div className="mb-2 w-72 rounded-2xl bg-[#fffaf0] p-4 shadow-[0_8px_22px_rgba(40,70,90,0.2)]">
+          <DisplaySettings />
         </div>
       )}
 

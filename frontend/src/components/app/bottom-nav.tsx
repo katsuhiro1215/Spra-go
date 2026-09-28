@@ -2,7 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+
+import { MeSheet } from "@/components/app/me-sheet";
+import { useRegisterMenu } from "@/components/app/menu-presence";
+import { isNavActive, NAV_ITEMS, type NavKey } from "@/components/app/nav-items";
+import { useProfile } from "@/components/app/profile-provider";
 
 const ICON_PROPS = {
   width: 24,
@@ -16,90 +21,107 @@ const ICON_PROPS = {
   "aria-hidden": true,
 };
 
-const ITEMS: { href: string; label: string; icon: ReactNode }[] = [
-  {
-    href: "/learn",
-    label: "学ぶ",
-    icon: (
-      <svg {...ICON_PROPS}>
-        <path d="M3 5.5c3-1.5 6-1.5 9 .5 3-2 6-2 9-.5v13c-3-1.5-6-1.5-9 .5-3-2-6-2-9-.5z M12 6v13" />
-      </svg>
-    ),
-  },
-  {
-    href: "/trip",
-    label: "旅する",
-    icon: (
-      <svg {...ICON_PROPS}>
-        <path d="M3 13.5l7.5-2.2L14 4.5c.5-1 2-1 2.3.1l-1.4 6 4.6-1.4c1.4-.4 2.5 1.2 1.3 2.1L5.4 18.2c-.7.4-1.5-.1-1.5-.9z" />
-      </svg>
-    ),
-  },
-  {
-    href: "/shop",
-    label: "ショップ",
-    icon: (
-      <svg {...ICON_PROPS}>
-        <path d="M3.5 9l1.5-5h14l1.5 5 M3.5 9c0 1.7 1.3 3 2.8 3s2.9-1.3 2.9-3c0 1.7 1.3 3 2.8 3s2.8-1.3 2.8-3c0 1.7 1.3 3 2.9 3s2.8-1.3 2.8-3 M5.5 12v8h13v-8 M10 20v-4.5h4V20" />
-      </svg>
-    ),
-  },
-  {
-    href: "/bag",
-    label: "バッグ",
-    icon: (
-      <svg {...ICON_PROPS}>
-        <path d="M8.5 7V5.5A2.5 2.5 0 0 1 11 3h2a2.5 2.5 0 0 1 2.5 2.5V7 M6 10a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v9a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z M9 14h6v3H9z" />
-      </svg>
-    ),
-  },
-  {
-    href: "/",
-    label: "世界",
-    icon: (
-      <svg {...ICON_PROPS}>
-        <circle cx={12} cy={12} r={9} />
-        <path d="M3 12h18 M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z" />
-      </svg>
-    ),
-  },
-];
+// 今は線のアイコン。スプルのアイコン画像が届いたら差し替える(設計書5章)
+const ICONS: Record<NavKey, ReactNode> = {
+  learn: (
+    <svg {...ICON_PROPS}>
+      <path d="M3 5.5c3-1.5 6-1.5 9 .5 3-2 6-2 9-.5v13c-3-1.5-6-1.5-9 .5-3-2-6-2-9-.5z M12 6v13" />
+    </svg>
+  ),
+  trip: (
+    <svg {...ICON_PROPS}>
+      <path d="M3 13.5l7.5-2.2L14 4.5c.5-1 2-1 2.3.1l-1.4 6 4.6-1.4c1.4-.4 2.5 1.2 1.3 2.1L5.4 18.2c-.7.4-1.5-.1-1.5-.9z" />
+    </svg>
+  ),
+  world: (
+    <svg {...ICON_PROPS} width={28} height={28}>
+      <circle cx={12} cy={12} r={9} />
+      <path d="M3 12h18 M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z" />
+    </svg>
+  ),
+  shop: (
+    <svg {...ICON_PROPS}>
+      <path d="M3.5 9l1.5-5h14l1.5 5 M3.5 9c0 1.7 1.3 3 2.8 3s2.9-1.3 2.9-3c0 1.7 1.3 3 2.8 3s2.8-1.3 2.8-3c0 1.7 1.3 3 2.9 3s2.8-1.3 2.8-3 M5.5 12v8h13v-8 M10 20v-4.5h4V20" />
+    </svg>
+  ),
+};
 
-function isActive(pathname: string, href: string): boolean {
-  return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+const ITEM_CLASS = "relative flex h-[68px] flex-col items-center justify-center gap-0.5 text-[11.5px]";
+const ACTIVE_TEXT = "font-black text-[#3b7f26]";
+const IDLE_TEXT = "font-bold text-[#6b5d45] hover:text-[#3b3226]";
+
+function ActiveBar() {
+  return <span className="absolute top-1.5 left-1/2 h-1 w-6 -translate-x-1/2 rounded-full bg-[#5bb33e]" />;
 }
 
 /**
- * 画面下部の常設ナビ。「学ぶほど世界が広がる」構成(2026-09-26 Owner決定)で
- * 学ぶ/旅する/ショップ/バッグ/世界の5つにした。各ページは下端の余白(pb-24)を確保すること。
+ * 画面下部の常設ナビ(設計書4-5)。学ぶ・旅する・世界(真ん中で丸く大きく)・ショップ・じぶん。
+ * 「じぶん」はページを移らず、下から出るパネル(MeSheet)を開く。各ページは下端の余白(pb-24)を確保すること
  */
 export function BottomNav() {
   const pathname = usePathname();
+  const { profile } = useProfile();
+  const [meOpen, setMeOpen] = useState(false);
+  useRegisterMenu();
 
   return (
-    <nav
-      className="fixed inset-x-0 bottom-0 z-40 mx-auto grid max-w-[480px] grid-cols-5 rounded-t-[22px] bg-[#fffaf0] shadow-[0_-4px_14px_rgba(59,50,38,0.12)]"
-      aria-label="メインナビゲーション"
-    >
-      {ITEMS.map((item) => {
-        const active = isActive(pathname, item.href);
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            aria-current={active ? "page" : undefined}
-            className={`relative flex h-[68px] flex-col items-center justify-center gap-0.5 text-[11.5px] ${
-              active ? "font-black text-[#3b7f26]" : "font-bold text-[#6b5d45] hover:text-[#3b3226]"
-            }`}
+    <>
+      <nav
+        className="fixed inset-x-0 bottom-0 z-40 mx-auto grid max-w-[480px] grid-cols-5 rounded-t-[22px] bg-[#fffaf0] shadow-[0_-4px_14px_rgba(59,50,38,0.12)]"
+        aria-label="メインナビゲーション"
+      >
+        {NAV_ITEMS.map((item) => {
+          const active = isNavActive(pathname, item.href);
+          if (item.key === "world") {
+            return (
+              <Link
+                key={item.key}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={`${ITEM_CLASS} justify-end pb-2 ${active ? ACTIVE_TEXT : IDLE_TEXT}`}
+              >
+                <span
+                  className={`absolute -top-5 left-1/2 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full border-4 border-[#fffaf0] text-white shadow-[0_4px_10px_rgba(40,70,90,0.25)] ${
+                    active ? "bg-[#3b7f26]" : "bg-[#5bb33e]"
+                  }`}
+                >
+                  {ICONS.world}
+                </span>
+                {item.label}
+              </Link>
+            );
+          }
+          return (
+            <Link
+              key={item.key}
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              className={`${ITEM_CLASS} ${active ? ACTIVE_TEXT : IDLE_TEXT}`}
+            >
+              {active && <ActiveBar />}
+              {ICONS[item.key]}
+              {item.label}
+            </Link>
+          );
+        })}
+        <button
+          type="button"
+          onClick={() => setMeOpen(true)}
+          aria-haspopup="dialog"
+          aria-expanded={meOpen}
+          className={`${ITEM_CLASS} ${meOpen ? ACTIVE_TEXT : IDLE_TEXT}`}
+        >
+          {meOpen && <ActiveBar />}
+          <span
+            aria-hidden
+            className="flex h-6 w-6 items-center justify-center rounded-full bg-[#2b6fa3] text-[11px] font-black text-white"
           >
-            {active && (
-              <span className="absolute top-1.5 left-1/2 h-1 w-6 -translate-x-1/2 rounded-full bg-[#5bb33e]" />
-            )}
-            {item.icon}
-            {item.label}
-          </Link>
-        );
-      })}
-    </nav>
+            {profile?.name.slice(0, 1) ?? ""}
+          </span>
+          じぶん
+        </button>
+      </nav>
+      <MeSheet open={meOpen} onOpenChange={setMeOpen} />
+    </>
   );
 }
