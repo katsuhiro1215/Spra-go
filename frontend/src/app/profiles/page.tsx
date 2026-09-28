@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
 
+import { AssetImage } from "@/components/app/asset-image";
 import { AvatarBadge } from "@/components/app/avatar-badge";
 import { Furigana } from "@/components/app/furigana";
 import { useProfile } from "@/components/app/profile-provider";
@@ -11,6 +12,7 @@ import { upsertById } from "@/components/app/profile-list";
 import { ProfileSheet, type SheetProfile } from "@/components/app/profile-sheet";
 import { SkyPage, SkyTitle } from "@/components/app/sky-page";
 import { SpruLoading } from "@/components/app/spru-loading";
+import { SPRU_ICONS } from "@/components/spru/spru-assets";
 import { SpruHouse } from "@/components/spru/spru-house";
 import { apiFetch } from "@/lib/api";
 
@@ -138,8 +140,8 @@ export default function Page() {
                   aria-label="プレイヤーを追加"
                   className="group flex w-[92px] flex-col items-center gap-1 rounded-2xl outline-none focus-visible:ring-4 focus-visible:ring-[#9fd8ff]"
                 >
-                  <span className="flex h-[76px] w-[76px] items-center justify-center rounded-full border-[3px] border-dashed border-[#fffaf0] bg-[rgba(255,250,240,0.55)] text-4xl font-black text-[#3b7f26] transition-transform group-hover:scale-105">
-                    ＋
+                  <span className="flex h-[76px] w-[76px] items-center justify-center rounded-full border-[3px] border-dashed border-[#fffaf0] bg-[rgba(255,250,240,0.55)] transition-transform group-hover:scale-105">
+                    <AssetImage asset={SPRU_ICONS["add-player"]} size={64} />
                   </span>
                   <span className={PLATE}>追加</span>
                 </button>

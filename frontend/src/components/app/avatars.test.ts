@@ -1,11 +1,19 @@
 import { describe, expect, it } from "vitest";
 
+import { SPRU_AVATARS } from "@/components/spru/spru-assets";
+
 import { AVATAR_KEYS, avatarImage, avatarKeyOf, firstUnusedAvatar } from "./avatars";
 
 describe("アバターの絵", () => {
   it("6つの名前で、それぞれ別の絵", () => {
     const srcs = AVATAR_KEYS.map((key) => avatarImage(key).src);
     expect(new Set(srcs).size).toBe(6);
+  });
+
+  it("6つの名前は、Ownerのアバター6種の同じ名前の絵(docs/design/2026-09-29-spru-icons-design.md 4-9)", () => {
+    for (const key of AVATAR_KEYS) {
+      expect(avatarImage(key)).toEqual(SPRU_AVATARS[key]);
+    }
   });
 
   it("空・知らない名前は、1つ目の絵", () => {

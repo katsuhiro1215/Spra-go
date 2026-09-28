@@ -1,19 +1,12 @@
-import { COMPANION_IMAGES, SPRU_IMAGES, type SpruImage } from "@/components/spru/spru-assets";
+import { SPRU_AVATARS, type SpruImage } from "@/components/spru/spru-assets";
 
 /** アバターの名前(サーバーの UserProfile::AVATARS と同じ並び。設計書5章) */
 export const AVATAR_KEYS = ["avatar-1", "avatar-2", "avatar-3", "avatar-4", "avatar-5", "avatar-6"] as const;
 
 export type AvatarKey = (typeof AVATAR_KEYS)[number];
 
-// Ownerのアバター6種が届くまでの仮の絵(設計書6-2)。届いたらここだけ替える
-const AVATAR_IMAGES: Record<AvatarKey, SpruImage> = {
-  "avatar-1": COMPANION_IMAGES.lumi,
-  "avatar-2": COMPANION_IMAGES.momo,
-  "avatar-3": COMPANION_IMAGES.kuru,
-  "avatar-4": COMPANION_IMAGES.piko,
-  "avatar-5": COMPANION_IMAGES.ruru,
-  "avatar-6": SPRU_IMAGES.smile,
-};
+// Ownerのアバター6種(docs/design/2026-09-29-spru-icons-design.md 3-3・4-9)。赤・橙・黄・青・紫・桃の順
+const AVATAR_IMAGES: Record<AvatarKey, SpruImage> = SPRU_AVATARS;
 
 /** サーバーの値をアバターの名前にそろえる。空・知らない名前は1つ目 */
 export function avatarKeyOf(key: string | null): AvatarKey {
