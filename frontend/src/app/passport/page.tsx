@@ -12,6 +12,7 @@ import { BadgeImage } from "@/components/app/badge-image";
 import { countryStampKey } from "@/components/app/country-stamp";
 import { stampBadge, type StampTier } from "@/components/app/palette";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
+import { streakMilestoneBadge } from "@/components/quiz/streak-milestone";
 import { STAMP_IMAGES } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
 
@@ -28,6 +29,8 @@ type PassportData = {
   countries: PassportCountry[];
   titles: string[];
   visited_count: number;
+  best_streak: number;
+  streak_milestones: { days: number; earned: boolean }[];
 };
 
 const ALL_DIFFICULTIES = ["初級", "中級", "上級"];
@@ -75,7 +78,13 @@ export default function Page() {
     );
   }
 
-  const { countries, titles, visited_count: visitedCount } = data;
+  const {
+    countries,
+    titles,
+    visited_count: visitedCount,
+    best_streak: bestStreak,
+    streak_milestones: streakMilestones,
+  } = data;
   const visitedCountries = countries.filter((c) => c.stamp_tier !== "none");
 
   return (
@@ -162,6 +171,31 @@ export default function Page() {
                 })}
               </div>
             )}
+          </section>
+
+          {/* 連続プレイのバッジ(設計書4-5)。もらったものはカラー、まだのものは白黒で薄く */}
+          <section className="mt-8">
+            <h2 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-wide text-[#6b5d45]">
+              <BadgeImage badge="streak" size={24} />
+              連続プレイのバッジ
+            </h2>
+            <div className="flex flex-wrap items-end gap-4">
+              {streakMilestones.map(({ days, earned }) => {
+                const badge = streakMilestoneBadge(days);
+                return badge ? (
+                  <BadgeImage
+                    key={days}
+                    badge={badge}
+                    size={72}
+                    alt={`${days}日連続のバッジ（${earned ? "もらった" : "まだ"}）`}
+                    className={earned ? "" : "opacity-45 grayscale"}
+                  />
+                ) : null;
+              })}
+            </div>
+            <p className="mt-3 text-sm font-bold text-[#6b5d45]">
+              いちばん長い連続: {bestStreak}日
+            </p>
           </section>
 
           {/* 称号 */}
