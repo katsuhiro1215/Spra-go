@@ -1,5 +1,7 @@
 import { useEffect, useSyncExternalStore } from "react";
 
+import type { ProfileStatus } from "@/components/app/profile-provider";
+
 // 新しいメニュー(下のメニュー・クイズ中のヘッダー)が今出ているか(設計書4-7)。
 // 出ている間は、右下の「文A」を隠し、音のボタンを1段下に置く
 
@@ -32,6 +34,14 @@ export function subscribeMenu(listener: () => void): () => void {
   return () => {
     listeners.delete(listener);
   };
+}
+
+/**
+ * 右下の「文A」を出すか。プレイヤーが入っておらず(ログイン・登録・LP・Owner/管理など)、新しいメニューも出ていないときだけ。
+ * プレイヤーの画面の読み込み中はメニューがまだ無いので、メニューだけで決めると一瞬出て消えてしまう
+ */
+export function floatingSettingsVisible(menuShown: boolean, profileStatus: ProfileStatus): boolean {
+  return !menuShown && profileStatus === "none";
 }
 
 /** このメニューが出ている間、「出ている」と知らせる(下のメニュー・クイズ中のヘッダーで呼ぶ) */

@@ -24,8 +24,12 @@ export type Profile = {
   current_streak: number;
 };
 
+/** プレイヤーが入っているか。loading: 確かめている間、active: 入っている、none: 入っていない(未ログイン・プロフィール未選択) */
+export type ProfileStatus = "loading" | "active" | "none";
+
 type ProfileContextValue = {
   profile: Profile | null;
+  status: ProfileStatus;
   refresh: () => Promise<void>;
   applyPartial: (partial: Partial<Profile>) => void;
 };
@@ -41,16 +45,25 @@ const ProfileContext = createContext<ProfileContextValue | null>(null);
  */
 export function ProfileProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [status, setStatus] = useState<ProfileStatus>("loading");
 
   const refresh = useCallback(async () => {
     try {
       const res = await apiFetch("/api/profiles/active");
       if (res.ok) {
-        const data = await res.json();
+        const data: Profile | null = await res.json();
         setProfile(data);
+        setStatus(data ? "active" : "none");
+      } else if (res.status === 401 || res.status === 403) {
+        // ログアウトした・ログインしていない。前のプレイヤーの表示を残さない
+        setProfile(null);
+        setStatus("none");
+      } else {
+        setStatus((prev) => (prev === "loading" ? "none" : prev));
       }
     } catch {
-      // 未ログイン等で失敗しても致命的ではないため無視
+      // 通信の失敗は致命的ではないため無視する(最初の確認だけは「入っていない」として右下の設定を出す)
+      setStatus((prev) => (prev === "loading" ? "none" : prev));
     }
   }, []);
 
@@ -65,7 +78,7 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ProfileContext.Provider value={{ profile, refresh, applyPartial }}>
+    <ProfileContext.Provider value={{ profile, status, refresh, applyPartial }}>
       {children}
     </ProfileContext.Provider>
   );

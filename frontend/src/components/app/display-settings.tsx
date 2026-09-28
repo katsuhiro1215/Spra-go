@@ -33,17 +33,17 @@ export function DisplaySettings() {
         </button>
       </div>
       <div className="flex items-center justify-between gap-3">
-        <span className="text-sm font-black">
+        <span className="text-sm font-black whitespace-nowrap">
           <AutoFurigana text="文字の大きさ" />
         </span>
-        <div role="group" aria-label="文字の大きさ" className="flex rounded-full bg-[#efe5cf] p-0.5">
+        <div role="group" aria-label="文字の大きさ" className="flex shrink-0 rounded-full bg-[#efe5cf] p-0.5">
           {(Object.keys(FONT_SCALE_LABELS) as FontScaleKey[]).map((scale) => (
             <button
               key={scale}
               type="button"
               onClick={() => setFontScale(scale)}
               aria-pressed={fontScale === scale}
-              className={`rounded-full px-3 py-1 text-xs font-black ${
+              className={`rounded-full px-3 py-1 text-xs font-black whitespace-nowrap ${
                 fontScale === scale ? "bg-[#3b7f26] text-white" : "text-[#6b5d45]"
               }`}
             >

@@ -17,12 +17,14 @@ import { apiFetch } from "@/lib/api";
  */
 export function MeSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const router = useRouter();
-  const { profile } = useProfile();
+  const { profile, refresh } = useProfile();
   const close = () => onOpenChange(false);
 
   async function handleLogout() {
     close();
     await apiFetch("/logout", { method: "POST" });
+    // 前のプレイヤーの表示を消し、ログイン画面で右下の「文A」が出るようにする
+    await refresh();
     router.replace("/login");
   }
 

@@ -7,6 +7,7 @@ import { Pencil } from "lucide-react";
 import { Button as AppButton } from "@/components/app/button";
 import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 import { Furigana } from "@/components/app/furigana";
+import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { apiFetch } from "@/lib/api";
 
@@ -28,6 +29,7 @@ const avatarPalette = [
 
 export default function Page() {
   const router = useRouter();
+  const { refresh: refreshProfile } = useProfile();
   const [profiles, setProfiles] = useState<Profile[] | null>(null);
   const [newName, setNewName] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -73,6 +75,8 @@ export default function Page() {
     });
 
     if (res.ok) {
+      // ヘッダーや下のメニューに、選んだプレイヤーをすぐ出す(以前は読み込み直すまで前の状態のままだった)
+      await refreshProfile();
       router.push("/");
     }
   }

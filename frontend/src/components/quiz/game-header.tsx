@@ -65,7 +65,7 @@ export function GameHeader() {
           <PopoverPrimitive.Content
             align="start"
             sideOffset={8}
-            className="z-50 w-64 rounded-2xl bg-[#fffaf0] p-4 shadow-[0_8px_22px_rgba(40,70,90,0.2)] outline-none"
+            className="z-50 w-72 rounded-2xl bg-[#fffaf0] p-4 shadow-[0_8px_22px_rgba(40,70,90,0.2)] outline-none"
           >
             <DisplaySettings />
           </PopoverPrimitive.Content>
