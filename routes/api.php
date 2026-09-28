@@ -657,31 +657,30 @@ Route::middleware(['auth:sanctum'])->get('/categories', function () {
 })->name('categories.index');
 
 Route::middleware(['auth:sanctum'])->get('/countries', function (Request $request) {
-    // ホーム画面向け: コンテンツが実際にある国だけを返す(190ヶ国全部を出すと選べない上、
-    // ほとんどが未実装で行き止まりになるため)。Owner管理画面は別エンドポイント
-    // (/api/owner/countries)で全件を扱う。
-    $countries = Country::query()
+    // 学ぶタブ向け(docs/design/2026-09-28-travel-tickets-design.md 3-6): 日本と旅の行き先の国のうち、コンテンツがある国だけを
+    // 日本 → 行き先の順に返し、まだ着いていない行き先に鍵(locked)を付ける。Owner管理画面は /api/owner/countries で全件を扱う。
+    // Accept-Language からの推定(Country::guessFromAcceptLanguage)は、スタートが日本に決まったので使わない(海外展開のときにまた使う)
+    $codes = Travel::countryCodes();
+    $locked = Travel::lockedCountryIds(ActiveProfile::find($request));
+
+    return Country::query()
+        ->whereIn(DB::raw('LOWER(code)'), $codes)
         ->whereHas('stages.questions')
-        ->orderBy('order')
-        ->get();
-
-    $suggestedCode = Country::guessFromAcceptLanguage(
-        $request->header('Accept-Language'),
-        $countries->pluck('code')->all()
-    );
-
-    return $countries->map(fn (Country $country) => [
-        ...$country->toArray(),
-        'is_suggested' => $suggestedCode !== null
-            && strtolower($country->code) === $suggestedCode,
-        'has_language_mode' => $country->stages()
-            ->whereHas('category', fn ($q) => $q->where('is_language_mode', true))
-            ->whereHas('questions')
-            ->exists(),
-    ])->sortByDesc('is_suggested')->values();
+        ->get()
+        ->sortBy(fn (Country $country) => array_search(strtolower($country->code), $codes, true))
+        ->map(fn (Country $country) => [
+            ...$country->toArray(),
+            'locked' => in_array($country->id, $locked, true),
+            'has_language_mode' => $country->stages()
+                ->whereHas('category', fn ($q) => $q->where('is_language_mode', true))
+                ->whereHas('questions')
+                ->exists(),
+        ])
+        ->values();
 })->name('countries.index');
 
 Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Request $request, Country $country) {
+    Travel::abortIfLocked(ActiveProfile::find($request), $country->id);
     $profileId = $request->session()->get('active_profile_id');
 
     $clearedStageIds = $profileId
@@ -857,6 +856,7 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
 })->name('passport');
 
 Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request $request, Region $region) {
+    Travel::abortIfLocked(ActiveProfile::find($request), $region->country_id);
     $profileId = $request->session()->get('active_profile_id');
 
     $clearedStageIds = $profileId
@@ -961,11 +961,15 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
             ->all()
         : [];
 
+    $locked = Travel::lockedCountryIds(ActiveProfile::find($request));
+
     $stagesByDifficulty = Stage::query()
         ->where('category_id', $category->id)
         ->withCount('questions')
         ->orderBy('stage_number')
         ->get()
+        // 鍵の国のステージはミニアプリにも出さない(設計書3-6)
+        ->reject(fn (Stage $stage) => in_array($stage->country_id, $locked, true))
         ->groupBy('difficulty');
 
     return collect(config('quiz.difficulties'))
@@ -995,7 +999,8 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
         ->values();
 })->name('categories.stages');
 
-Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Stage $stage) {
+Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $request, Stage $stage) {
+    Travel::abortIfLocked(ActiveProfile::find($request), $stage->country_id);
     $questions = $stage->questions()
         ->with(['choices', 'country'])
         ->get(['questions.id', 'questions.type', 'questions.prompt', 'questions.country_id', 'questions.meta'])
@@ -1025,6 +1030,8 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $profileId = $request->session()->get('active_profile_id');
     $profile = $profileId ? UserProfile::find($profileId) : null;
     abort_unless($profile && $profile->user_schema_id === $request->user()->schema?->id, 422);
+    Travel::abortIfLocked($profile, $stage->country_id);
+    $earnedTicketsBefore = Travel::earnedTickets($profile);
 
     $progress = ProfileStageProgress::query()->firstOrNew([
         'user_profile_id' => $profile->id,
@@ -1036,6 +1043,9 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $progress->save();
 
     $profile->applyEconomy(['coin' => 100, 'point' => config('world.rewards.stage_clear')], 'stage_clear', null, $stage);
+
+    // このクリアで新しくチケットが増え、使えるときだけ知らせる(設計書4-3・5-4)
+    $ticketEarned = Travel::earnedTickets($profile) > $earnedTicketsBefore && Travel::tickets($profile) > 0;
 
     $titleGranted = false;
     if ($stage->is_boss && $stage->title_reward && $data['score'] === $stage->questions()->count()) {
@@ -1059,6 +1069,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         ],
         'title_granted' => $titleGranted,
         'title' => $stage->title_reward,
+        'ticket_earned' => $ticketEarned,
     ];
 })->name('stages.complete');
 
