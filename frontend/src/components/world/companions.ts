@@ -48,7 +48,7 @@ export function reviewPrompt(review: WorldReview): string | null {
 
 /** 仲間のカードと、スプルの復習カードの誘い(設計書3-5) */
 export function reviewInvite(count: number): string {
-  return `この前まちがえた問題、いっしょにやってみよう！（${count}問）`;
+  return `おさらいの問題、いっしょにやってみよう！（${count}問）`;
 }
 
 /** 復習の「！」を出す相手。スプルなら "spru"、仲間ならそのキー、出さない日は null */

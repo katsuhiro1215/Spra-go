@@ -29,6 +29,7 @@ use App\Support\Garden;
 use App\Support\LevelCurve;
 use App\Support\PlayableQuestion;
 use App\Support\QuestionAnswerResolver;
+use App\Support\QuestionMemory;
 use App\Support\Review;
 use App\Support\Travel;
 use App\Support\WorldLand;
@@ -843,6 +844,7 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
     $bestStreak = $profileId
         ? (int) (UserProfile::query()->whereKey($profileId)->value('best_streak') ?? 0)
         : 0;
+    $activeProfile = ActiveProfile::find($request);
 
     return [
         'countries' => $countries,
@@ -853,7 +855,9 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
             ->map(fn (int $days) => ['days' => $days, 'earned' => $bestStreak >= $days])
             ->all(),
         // 旅した国(設計書5-7)。チケットを使って着いた国
-        'trips' => ($profile = ActiveProfile::find($request)) ? Travel::trips($profile) : [],
+        'trips' => $activeProfile ? Travel::trips($activeProfile) : [],
+        // 覚えた問題の数(docs/design/2026-09-29-spaced-review-design.md 4-8)
+        'mastered_count' => $activeProfile ? QuestionMemory::masteredCount($activeProfile) : 0,
     ];
 })->name('passport');
 
@@ -1002,14 +1006,24 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
 })->name('categories.stages');
 
 Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $request, Stage $stage) {
-    Travel::abortIfLocked(ActiveProfile::find($request), $stage->country_id);
+    $profile = ActiveProfile::find($request);
+    Travel::abortIfLocked($profile, $stage->country_id);
     $questions = $stage->questions()
         ->with(['choices', 'country'])
-        ->get(['questions.id', 'questions.type', 'questions.prompt', 'questions.country_id', 'questions.meta'])
-        ->shuffle()
-        ->values();
+        ->get(['questions.id', 'questions.type', 'questions.prompt', 'questions.country_id', 'questions.meta']);
 
     abort_if($questions->isEmpty(), 404);
+
+    // おさらい(docs/design/2026-09-29-spaced-review-design.md 4-5)。ボス以外に、出す日が来た前の問題を足す
+    $reviewIds = $profile && ! $stage->is_boss
+        ? QuestionMemory::dueIds($profile, config('review.stage_mix'), $questions->pluck('id')->all(), $stage->country_id)
+        : [];
+    $reviews = $reviewIds === []
+        ? collect()
+        : Question::query()->with(['choices', 'country'])->whereIn('id', $reviewIds)->get(['id', 'type', 'prompt', 'country_id', 'meta']);
+    $questions->each(fn (Question $question) => $question->setAttribute('review', false));
+    $reviews->each(fn (Question $question) => $question->setAttribute('review', true));
+    $questions = $questions->concat($reviews)->shuffle()->values();
 
     PlayableQuestion::present($questions);
 
@@ -1028,6 +1042,8 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $data = $request->validate([
         'score' => ['required', 'integer', 'min:0'],
     ]);
+    // 点数はステージの問題だけの正解数(おさらいの問題は数えない)。念のため問題の数までに抑える(設計書4-6)
+    $score = min($data['score'], $stage->questions()->count());
 
     $profileId = $request->session()->get('active_profile_id');
     $profile = $profileId ? UserProfile::find($profileId) : null;
@@ -1040,7 +1056,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         'stage_id' => $stage->id,
     ]);
     $progress->attempts = ($progress->attempts ?? 0) + 1;
-    $progress->best_score = max($progress->best_score ?? 0, $data['score']);
+    $progress->best_score = max($progress->best_score ?? 0, $score);
     $progress->cleared_at ??= now();
     $progress->save();
 
@@ -1050,7 +1066,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $ticketEarned = Travel::earnedTickets($profile) > $earnedTicketsBefore && Travel::tickets($profile) > 0;
 
     $titleGranted = false;
-    if ($stage->is_boss && $stage->title_reward && $data['score'] === $stage->questions()->count()) {
+    if ($stage->is_boss && $stage->title_reward && $score === $stage->questions()->count()) {
         $title = ProfileTitle::query()->firstOrCreate(
             ['user_profile_id' => $profile->id, 'title' => $stage->title_reward],
             ['source_stage_id' => $stage->id, 'unlocked_at' => now()]
@@ -1126,6 +1142,9 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
                 'point' => config('world.rewards.answer_correct'),
             ], 'answer_correct', $question)
             : $profile->applyEconomy(['hp' => -2], 'answer_wrong', $question);
+
+        // 問題ごとの覚え具合(docs/design/2026-09-29-spaced-review-design.md 4-4)
+        QuestionMemory::record($profile, $question->id, $isCorrect);
 
         $combo = $profile->registerComboResult($isCorrect);
 

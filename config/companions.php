@@ -73,9 +73,6 @@ return [
     'bond_per_correct' => 1,
     'review_bonus' => 5,
 
-    // 仲間からの復習で1日に出す問題の数(3-5)
-    'review_size' => 5,
-
     // 子どもが付ける名前の長さ(3-2)
     'nickname_max' => 8,
 
