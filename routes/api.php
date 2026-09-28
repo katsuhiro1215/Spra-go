@@ -1500,14 +1500,17 @@ Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->grou
     })->name('index');
 
     Route::post('/', function (Request $request) {
-        $request->validate([
+        $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'avatar' => ['nullable', Rule::in(UserProfile::AVATARS)],
         ]);
 
         $schema = $request->user()->schema ?? $request->user()->schema()->create();
 
+        // avatar が無ければ、モデルが家族でまだ使われていないものを入れる
         return $schema->profiles()->create([
-            'name' => $request->string('name'),
+            'name' => $data['name'],
+            'avatar' => $data['avatar'] ?? null,
         ]);
     })->name('store');
 
@@ -1546,6 +1549,7 @@ Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->grou
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'avatar' => ['sometimes', Rule::in(UserProfile::AVATARS)],
         ]);
 
         $profile->update($data);
