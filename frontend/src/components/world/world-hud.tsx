@@ -27,7 +27,7 @@ export function WorldHud({
   return (
     <header className="rounded-b-[22px] bg-[#fffaf0] px-3.5 pt-2.5 pb-2.5 text-[#3b3226] shadow-[0_4px_14px_rgba(59,50,38,0.14)]">
       <div className="flex h-9 items-center justify-between">
-        <Link href="/" aria-label="SpraGo" className="flex items-center">
+        <Link href="/" aria-label="Spra Go" className="flex items-center">
           <LogoMark />
         </Link>
         <div className="flex items-center gap-1.5">

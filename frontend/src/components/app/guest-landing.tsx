@@ -24,7 +24,7 @@ export function GuestLanding() {
     <SkyPage className="items-center px-4 pt-10 pb-24">
       <div className="flex items-center gap-2">
         <LogoMark size={40} />
-        <SkyTitle className="text-[32px] tracking-wide">SpraGo</SkyTitle>
+        <SkyTitle className="text-[32px] tracking-wide">Spra Go</SkyTitle>
       </div>
       <SkyText className="mt-1 text-sm">学ぶほど、世界が広がる。</SkyText>
 

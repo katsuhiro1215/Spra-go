@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SpraGo — 学ぶほど、世界が広がる。",
+  title: "Spra Go — 学ぶほど、世界が広がる。",
   description: "言葉を学ぶと町が育ち、世界を旅できるようになる、家族で遊べる学習ゲーム。",
 };
 
