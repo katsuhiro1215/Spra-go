@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 
 import { BadgeImage } from "@/components/app/badge-image";
 import { HpGauge } from "@/components/app/hp-gauge";
+import { LogoMark } from "@/components/app/logo-mark";
 import { LearnPointsBadge } from "@/components/app/learn-points-badge";
 import { PointsBadge } from "@/components/app/points-badge";
 import { useProfile } from "@/components/app/profile-provider";
@@ -25,7 +25,7 @@ export function AppHeader() {
         aria-label="SpraGo"
         className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#fffaf0] shadow-[0_2px_6px_rgba(59,50,38,0.15)]"
       >
-        <Image src="/logo.svg" alt="" width={28} height={28} aria-hidden />
+        <LogoMark />
       </Link>
 
       <div className="flex w-[196px] flex-col items-end gap-1">

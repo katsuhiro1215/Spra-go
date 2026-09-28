@@ -9,6 +9,7 @@ import { CharacterPlaceholder } from "@/components/app/character-placeholder";
 import { Furigana } from "@/components/app/furigana";
 import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
+import { SpruLoading } from "@/components/app/spru-loading";
 import { apiFetch } from "@/lib/api";
 
 type Profile = {
@@ -183,9 +184,7 @@ export default function Page() {
         </div>
 
         {!profiles ? (
-          <SkyText muted className="text-sm">
-            読み込み中...
-          </SkyText>
+          <SpruLoading />
         ) : (
           <div className="flex flex-wrap items-start justify-center gap-6">
             {profiles.map((profile, index) => (

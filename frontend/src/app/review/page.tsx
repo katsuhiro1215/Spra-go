@@ -8,7 +8,8 @@ import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
-import { SkyPage, SkyText } from "@/components/app/sky-page";
+import { SkyPage } from "@/components/app/sky-page";
+import { SpruLoading } from "@/components/app/spru-loading";
 import { QuizSession } from "@/components/quiz/quiz-session";
 import type { QuizQuestion } from "@/components/quiz/types";
 import { SpruFigure } from "@/components/spru/spru-figure";
@@ -69,9 +70,7 @@ export default function ReviewPage() {
       <SkyPage>
         <AppHeader />
         <div className="relative z-10 flex flex-1 items-center justify-center">
-          <SkyText muted className="text-sm">
-            読み込み中...
-          </SkyText>
+          <SpruLoading />
         </div>
         <BottomNav />
       </SkyPage>

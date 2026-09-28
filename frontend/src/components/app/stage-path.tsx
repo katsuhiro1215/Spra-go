@@ -3,6 +3,7 @@
 import { Check, Lock, Star } from "lucide-react";
 
 import { BadgeImage } from "@/components/app/badge-image";
+import { stageNodeClasses } from "@/components/app/stage-node";
 
 export type StagePathNode = {
   id: number;
@@ -50,16 +51,7 @@ export function StagePath({
         else if (stage.cleared) icon = <Check aria-hidden className="h-6 w-6" strokeWidth={3} />;
         else if (stage.is_boss) icon = <BadgeImage badge="boss" size={30} />;
 
-        let colorClasses = "border-[#c98f12] bg-[#f2b632] text-[#3b3226]";
-        if (isSelected) {
-          colorClasses = "border-[#1d4f76] bg-[#2b6fa3] text-white ring-4 ring-[#9fd8ff]";
-        } else if (stage.locked) {
-          colorClasses = "border-[#dccfb4] bg-[#efe5cf] text-[#8a7a5a]";
-        } else if (stage.cleared) {
-          colorClasses = "border-[#3b7f26] bg-[#5bb33e] text-[#3b3226]";
-        } else if (stage.is_boss) {
-          colorClasses = "border-[#b04a31] bg-[#e5664a] text-white";
-        }
+        const colorClasses = stageNodeClasses(stage, isSelected);
 
         const label = stage.locked
           ? `ステージ${stage.stage_number}(ロック中)`

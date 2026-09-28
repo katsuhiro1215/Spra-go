@@ -42,6 +42,7 @@ export function StreakMilestoneOverlay({
         )}
         <button
           type="button"
+          autoFocus
           onClick={onContinue}
           className="mt-1 h-[52px] w-full rounded-2xl bg-[#3b7f26] text-base font-black text-white shadow-[0_4px_0_#285a19]"
         >

@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { GuestLanding } from "@/components/app/guest-landing";
+import { LoadingScreen } from "@/components/app/spru-loading";
 import { WorldScreen } from "@/components/world/world-screen";
 import { apiFetch } from "@/lib/api";
 
@@ -45,11 +46,7 @@ export default function Page() {
 
   if (status === "guest") return <GuestLanding />;
 
-  const loading = (
-    <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-      読み込み中...
-    </div>
-  );
+  const loading = <LoadingScreen />;
 
   if (status === "checking") return loading;
 

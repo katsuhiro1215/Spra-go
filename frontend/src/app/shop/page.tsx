@@ -15,6 +15,7 @@ import { LearnPointsBadge } from "@/components/app/learn-points-badge";
 import { PointsBadge } from "@/components/app/points-badge";
 import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
+import { LoadingScreen } from "@/components/app/spru-loading";
 import { ItemIcon } from "@/components/world/item-art";
 import type { ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
@@ -187,9 +188,7 @@ function ShopContent() {
 
   if (profile === undefined || items === null) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
-        読み込み中...
-      </div>
+      <LoadingScreen />
     );
   }
 
@@ -379,9 +378,7 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
-          読み込み中...
-        </div>
+        <LoadingScreen />
       }
     >
       <ShopContent />

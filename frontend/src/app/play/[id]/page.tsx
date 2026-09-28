@@ -12,6 +12,7 @@ import { Furigana } from "@/components/app/furigana";
 import { BadgeImage } from "@/components/app/badge-image";
 import { difficultyBadge } from "@/components/app/palette";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
+import { LoadingScreen, SpruLoading } from "@/components/app/spru-loading";
 import { StagePath } from "@/components/app/stage-path";
 import { apiFetch } from "@/lib/api";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
@@ -97,9 +98,7 @@ export default function Page({
 
   if (category === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
-        読み込み中...
-      </div>
+      <LoadingScreen />
     );
   }
 
@@ -148,9 +147,7 @@ export default function Page({
         </div>
 
         {groups === null ? (
-          <SkyText muted className="text-sm">
-            読み込み中...
-          </SkyText>
+          <SpruLoading />
         ) : !hasAnyStage ? (
           <SkyText muted className="text-sm">
             まだクイズがありません。お楽しみに。

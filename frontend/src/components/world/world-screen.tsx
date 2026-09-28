@@ -8,6 +8,7 @@ import { BookOpen } from "lucide-react";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { useProfile } from "@/components/app/profile-provider";
 import { useSound } from "@/components/app/sound-provider";
+import { LoadingScreen } from "@/components/app/spru-loading";
 import { bloomOf } from "@/components/spru/bloom";
 import { pickTownHint } from "@/components/spru/hint";
 import { pickTownMood, type TownEvent } from "@/components/spru/mood";
@@ -536,9 +537,7 @@ export function WorldScreen() {
 
   if (!world) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
-        読み込み中...
-      </div>
+      <LoadingScreen />
     );
   }
 

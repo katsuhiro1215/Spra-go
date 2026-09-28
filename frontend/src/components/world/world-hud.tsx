@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Backpack } from "lucide-react";
 
 import { BadgeImage } from "@/components/app/badge-image";
+import { LogoMark } from "@/components/app/logo-mark";
 import { SPRU_FACES } from "@/components/spru/spru-assets";
 
 import { growthLabel } from "./garden";
@@ -27,7 +28,7 @@ export function WorldHud({
     <header className="rounded-b-[22px] bg-[#fffaf0] px-3.5 pt-2.5 pb-2.5 text-[#3b3226] shadow-[0_4px_14px_rgba(59,50,38,0.14)]">
       <div className="flex h-9 items-center justify-between">
         <Link href="/" aria-label="SpraGo" className="flex items-center">
-          <Image src="/logo.svg" alt="" width={28} height={28} aria-hidden />
+          <LogoMark />
         </Link>
         <div className="flex items-center gap-1.5">
           <span className="flex items-center gap-1 rounded-full bg-[#fdecea] px-2.5 py-1 text-sm font-semibold text-[#8a2c22]">

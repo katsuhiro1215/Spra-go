@@ -12,7 +12,8 @@ import {
 
 /**
  * HTMLの中でスプルを出す(クイズ・演出用)。standHeight は立ち姿のときの高さ(px)で、
- * 座る・寝るなどほかの画像は素材集の縮尺どおりに大きさをそろえる。bloom はSの先のつぼみ・花
+ * 座る・寝るなどほかの画像は素材集の縮尺どおりに大きさをそろえる。bloom はSの先のつぼみ・花。
+ * eager は、開いてすぐ見える大きな絵(ログイン・登録など)で遅れて読み込まないようにする
  */
 export function SpruFigure({
   image,
@@ -20,12 +21,14 @@ export function SpruFigure({
   bloom = null,
   alt = "",
   className,
+  eager = false,
 }: {
   image: SpruImageKey;
   standHeight: number;
   bloom?: Bloom | null;
   alt?: string;
   className?: string;
+  eager?: boolean;
 }) {
   const asset = SPRU_IMAGES[image];
   const scale = standHeight / SPRU_STAND_HEIGHT;
@@ -38,11 +41,15 @@ export function SpruFigure({
       alt={alt}
       width={width}
       height={height}
+      loading={eager ? "eager" : undefined}
       className={rect ? undefined : className}
+      style={{ width, height }}
       aria-hidden={alt === "" ? true : undefined}
     />
   );
   if (!bloom || !rect) return figure;
+  const bloomWidth = Math.round(rect.width * scale);
+  const bloomHeight = Math.round(rect.height * scale);
   // 跳ねるなどの動きは、花も一緒に動くよう外側の箱に付ける
   return (
     <span className={`relative inline-block ${className ?? ""}`} style={{ width, height }}>
@@ -50,11 +57,11 @@ export function SpruFigure({
       <Image
         src={SPRU_BLOOM[bloom].src}
         alt=""
-        width={Math.round(rect.width * scale)}
-        height={Math.round(rect.height * scale)}
+        width={bloomWidth}
+        height={bloomHeight}
         aria-hidden
         className="absolute"
-        style={{ left: rect.x * scale, top: rect.y * scale }}
+        style={{ left: rect.x * scale, top: rect.y * scale, width: bloomWidth, height: bloomHeight }}
       />
     </span>
   );
