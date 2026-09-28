@@ -9,7 +9,9 @@ export function TicketEarnedCard() {
     <div className="flex flex-col items-center gap-2 rounded-2xl border-2 border-[#f2b632] bg-[#fff4d6] px-4 py-3 text-center">
       <p className="flex items-center gap-2 text-base font-black text-[#7a5a0e]">
         <Ticket aria-hidden className="h-6 w-6 text-[#d8352a]" />
-        <AutoFurigana text="チケットを手に入れた！" />
+        <span>
+          <AutoFurigana text="チケットを手に入れた！" />
+        </span>
       </p>
       <p className="text-sm font-bold text-[#6b5d45]">
         <AutoFurigana text="『せかい』で次の国を選ぼう" />

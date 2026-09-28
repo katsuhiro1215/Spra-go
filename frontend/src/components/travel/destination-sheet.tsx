@@ -56,7 +56,9 @@ export function DestinationSheet({
               ) : (
                 <Ship aria-hidden className="h-4 w-4 text-[#2b6fa3]" />
               )}
-              <AutoFurigana text={transportText(destination.transport)} />
+              <span>
+                <AutoFurigana text={transportText(destination.transport)} />
+              </span>
             </p>
             <ul className="grid grid-cols-2 gap-2" aria-label="おみやげ">
               {Array.from({ length: destination.souvenir_count }, (_, index) => (

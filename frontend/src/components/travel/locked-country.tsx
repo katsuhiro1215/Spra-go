@@ -20,7 +20,7 @@ export function LockedCountry() {
     <SkyPage>
       <AppHeader />
       <main className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-4 px-6 pb-28">
-        <SpruFigure image="think" standHeight={110} alt="スプル" />
+        <SpruFigure image="think" standHeight={110} alt="スプル" eager />
         <Panel className="flex w-full flex-col items-center gap-3 p-5 text-center">
           <p className="text-lg font-black text-[#3b3226]">
             <AutoFurigana text="まだこの国に着いていません" />
