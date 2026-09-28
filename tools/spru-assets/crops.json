@@ -88,7 +88,10 @@
     { "key": "intermediate", "source": "m11", "box": [948, 84, 1108, 240], "scale": 0.5 },
     { "key": "advanced", "source": "m11", "box": [1136, 76, 1300, 236], "scale": 0.5 },
     { "key": "boss", "source": "m11", "box": [244, 280, 428, 440], "scale": 0.5 },
-    { "key": "boss-battle", "source": "m11", "box": [1000, 272, 1180, 456], "scale": 0.7 }
+    { "key": "boss-battle", "source": "m11", "box": [1000, 272, 1180, 456], "scale": 0.7 },
+    { "key": "streak-3", "source": "m11", "box": [226, 490, 372, 628], "scale": 0.85 },
+    { "key": "streak-7", "source": "m11", "box": [408, 478, 564, 628], "scale": 0.85 },
+    { "key": "streak-30", "source": "m11", "box": [600, 466, 784, 630], "scale": 0.85 }
   ],
   "stamps": [
     { "key": "jp", "source": "m12", "box": [52, 356, 364, 668], "scale": 0.64 },
