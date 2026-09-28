@@ -29,6 +29,7 @@ import { GameHeader } from "./game-header";
 import { LevelUpOverlay } from "./level-up-overlay";
 import { retryRound } from "./retry";
 import { StageStartCard } from "./stage-start-card";
+import { streakLineBonusCoin } from "./streak-milestone";
 import { StreakMilestoneOverlay } from "./streak-milestone-overlay";
 import type { QuizQuestion } from "./types";
 
@@ -677,7 +678,8 @@ export function QuizSession({
               <p className="flex items-center gap-1 text-sm font-bold text-[#c2402c]">
                 <BadgeImage badge="streak" size={20} />
                 {streak.streak}日連続プレイ！
-                {streak.streak_milestone_bonus_coin > 0 && ` ボーナス+${streak.streak_milestone_bonus_coin}Coin`}
+                {streakLineBonusCoin(streak.streak_milestone_bonus_coin, streakMilestone?.days ?? null) > 0 &&
+                  ` ボーナス+${streak.streak_milestone_bonus_coin}Coin`}
               </p>
             )}
 

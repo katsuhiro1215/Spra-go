@@ -17,3 +17,8 @@ export function streakMilestoneBadge(days: number): StreakBadge | null {
 export function streakMilestoneLine(days: number, first: boolean): string {
   return first ? "バッジをゲット！パスポートに入れたよ" : `また${days}日つづいたね！`;
 }
+
+/** 答えのカードの連続プレイの行に出すボーナス。節目の日はお祝いの画面で出すので、行には出さない(2回出さない) */
+export function streakLineBonusCoin(bonusCoin: number, milestoneDays: number | null): number {
+  return milestoneDays === null ? bonusCoin : 0;
+}

@@ -26,7 +26,7 @@ export function GameHeader() {
   }
 
   return (
-    <header className="relative z-30 flex h-14 shrink-0 items-center gap-2 px-3 sm:px-6">
+    <header className="relative z-30 mx-auto flex h-14 w-full max-w-xl shrink-0 items-center gap-2 px-3 sm:px-6">
       <AlertDialogPrimitive.Root>
         <AlertDialogPrimitive.Trigger asChild>
           <button type="button" aria-label="クイズをやめる" className={ROUND_BUTTON}>
