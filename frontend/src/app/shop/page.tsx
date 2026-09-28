@@ -16,6 +16,16 @@ import { PointsBadge } from "@/components/app/points-badge";
 import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { LoadingScreen } from "@/components/app/spru-loading";
+import {
+  categoriesWithNew,
+  inTab,
+  isNewItem,
+  pickTab,
+  presentCategories,
+  tabLabel,
+  type ItemCategory,
+} from "@/components/world/categories";
+import { CategoryTabs } from "@/components/world/category-tabs";
 import { ItemIcon } from "@/components/world/item-art";
 import type { ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
@@ -72,6 +82,7 @@ function ShopContent() {
     string | null
   >(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [tab, setTab] = useState<ItemCategory | null>(null);
 
   useEffect(() => {
     apiFetch("/api/profiles/active")
@@ -194,6 +205,10 @@ function ShopContent() {
 
   const decorations = items.filter((item) => item.type === "decoration");
   const coinItems = items.filter((item) => item.type !== "decoration");
+  const level = profile?.level ?? 1;
+  const tabs = presentCategories(decorations);
+  const currentTab = pickTab(tabs, tab);
+  const newTabs = categoriesWithNew(decorations, level);
 
   return (
     <SkyPage>
@@ -220,15 +235,29 @@ function ShopContent() {
           </p>
         )}
 
-        {decorations.length > 0 && (
+        {decorations.length > 0 && currentTab && (
           <section className="flex flex-col gap-3" aria-labelledby="shop-decorations">
             <h2 id="shop-decorations">
               <SkyText as="span" className="text-sm">
                 <AutoFurigana text="町のアイテム(学習ポイントで買う)" />
               </SkyText>
             </h2>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {decorations.map((item) => {
+            <CategoryTabs
+              idBase="shop"
+              label="町のアイテムの種類"
+              tabs={tabs}
+              selected={currentTab}
+              onSelect={setTab}
+              tabLabel={tabLabel}
+              marked={newTabs}
+            />
+            <div
+              role="tabpanel"
+              id="shop-panel"
+              aria-labelledby={`shop-tab-${currentTab}`}
+              className="grid grid-cols-2 gap-3 sm:grid-cols-4"
+            >
+              {inTab(decorations, currentTab).map((item) => {
                 const affordable = (profile?.points ?? 0) >= item.price;
                 const label = item.locked
                   ? `Lv.${item.min_level}で解放`
@@ -250,6 +279,11 @@ function ShopContent() {
                       {item.footprint > 1 && (
                         <span className="absolute top-1 left-1 rounded-full bg-[#3b7f26] px-1.5 py-0.5 text-[10px] leading-none font-black text-white">
                           2×2マス
+                        </span>
+                      )}
+                      {isNewItem(item, level) && (
+                        <span className="absolute top-1 right-1 rounded-full bg-[#d8352a] px-1.5 py-0.5 text-[10px] leading-none font-black text-white">
+                          NEW
                         </span>
                       )}
                     </div>

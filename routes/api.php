@@ -1189,6 +1189,7 @@ Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
             ...$item->toArray(),
             'asset_key' => $item->assetKey(),
             'footprint' => $item->footprint(),
+            'category' => $item->category(),
             'locked' => $level < $item->min_level,
         ]);
 })->name('shop.index');

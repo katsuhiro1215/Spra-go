@@ -10,6 +10,8 @@ import { BottomNav } from "@/components/app/bottom-nav";
 import { Panel } from "@/components/app/panel";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { SpruLoading } from "@/components/app/spru-loading";
+import { bagTabs, inTab, pickTab, tabLabel, type BagTab } from "@/components/world/categories";
+import { CategoryTabs } from "@/components/world/category-tabs";
 import { ItemIcon } from "@/components/world/item-art";
 import type { WorldData } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
@@ -17,6 +19,7 @@ import { apiFetch } from "@/lib/api";
 export default function Page() {
   const router = useRouter();
   const [world, setWorld] = useState<WorldData | null>(null);
+  const [tab, setTab] = useState<BagTab>("all");
 
   useEffect(() => {
     apiFetch("/api/world").then(async (res) => {
@@ -31,6 +34,9 @@ export default function Page() {
       if (res.ok) setWorld(await res.json());
     });
   }, [router]);
+
+  const tabs: BagTab[] = world ? bagTabs(world.bag) : ["all"];
+  const currentTab = pickTab(tabs, tab) ?? "all";
 
   return (
     <SkyPage>
@@ -54,35 +60,47 @@ export default function Page() {
             </Link>
           </Panel>
         ) : (
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {world.bag.map((item) => (
-              <li
-                key={item.id}
-                className="flex flex-col items-center gap-2 rounded-2xl bg-[#fffaf0] p-3 text-[#3b3226] shadow-lg"
-              >
-                <div className="relative">
-                  <ItemIcon assetKey={item.asset_key} size={64} />
-                  {item.footprint > 1 && (
-                    <span className="absolute -top-1 -left-4 rounded-full bg-[#3b7f26] px-1.5 py-0.5 text-[10px] leading-none font-black whitespace-nowrap text-white">
-                      2×2マス
-                    </span>
-                  )}
-                  {item.souvenir && (
-                    <span className="absolute -right-4 -bottom-1 rounded-full bg-[#d8352a] px-1.5 py-0.5 text-[10px] leading-none font-black whitespace-nowrap text-white">
-                      おみやげ
-                    </span>
-                  )}
-                </div>
-                <span className="text-sm font-black">{item.name}</span>
-                <Link
-                  href={`/?place=${item.id}`}
-                  className="w-full rounded-xl bg-[#3b7f26] py-2 text-center text-sm font-black text-white"
-                >
-                  <AutoFurigana text="置く" />
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <>
+            <CategoryTabs
+              idBase="bag"
+              label="アイテムの種類"
+              tabs={tabs}
+              selected={currentTab}
+              onSelect={setTab}
+              tabLabel={tabLabel}
+            />
+            <div role="tabpanel" id="bag-panel" aria-labelledby={`bag-tab-${currentTab}`}>
+              <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {inTab(world.bag, currentTab).map((item) => (
+                  <li
+                    key={item.id}
+                    className="flex flex-col items-center gap-2 rounded-2xl bg-[#fffaf0] p-3 text-[#3b3226] shadow-lg"
+                  >
+                    <div className="relative">
+                      <ItemIcon assetKey={item.asset_key} size={64} />
+                      {item.footprint > 1 && (
+                        <span className="absolute -top-1 -left-4 rounded-full bg-[#3b7f26] px-1.5 py-0.5 text-[10px] leading-none font-black whitespace-nowrap text-white">
+                          2×2マス
+                        </span>
+                      )}
+                      {item.souvenir && (
+                        <span className="absolute -right-4 -bottom-1 rounded-full bg-[#d8352a] px-1.5 py-0.5 text-[10px] leading-none font-black whitespace-nowrap text-white">
+                          おみやげ
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-sm font-black">{item.name}</span>
+                    <Link
+                      href={`/?place=${item.id}`}
+                      className="w-full rounded-xl bg-[#3b7f26] py-2 text-center text-sm font-black text-white"
+                    >
+                      <AutoFurigana text="置く" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
         )}
 
         {world && (

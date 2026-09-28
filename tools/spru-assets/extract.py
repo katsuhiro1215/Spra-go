@@ -4,9 +4,12 @@
 使い方(リポジトリ直下で): python3 tools/spru-assets/extract.py ../../company/mascot/assets
 
 - 切り抜く範囲は同じフォルダの crops.json に書く(素材集上のピクセル座標 [左, 上, 右, 下])
+- 1点ごとに "width" を書くと、その幅(px)に縮める(アイテムは1マス256px・2×2は384px)
 - 出力: frontend/public/spru/{group}/{key}.webp、表情の顔アイコン faces/、シーン scenes/、
   つぼみ・花 bloom/、畑の種・芽 garden/、仲間 companions/、リュックのスプル outing/、季節の衣装 costumes/、バッジ badges/、
-  国のスタンプ stamps/(キーは国のコードの小文字)、スプルの家 house/(背景が透明でない絵は四隅から背景を抜く)
+  国のスタンプ stamps/(キーは国のコードの小文字)、スプルの家 house/(背景が透明でない絵は四隅から背景を抜く)、
+  町のアイテム・おみやげ・目印 items/(キーは絵のキー。docs/design/2026-09-28-town-items-design.md 7-1。
+  離れた部品も残すため、既定の mode は "all")
 - 画面側が読む一覧 frontend/src/components/spru/spru-assets.ts もここで書き出す(手で直さない)
 - Spru Master(Blender)ができたら、同じキー・同じ置き場所の画像に差し替える
 """
@@ -135,7 +138,7 @@ def entries(items: dict) -> str:
 
 def write_ts(
     images: dict, faces: dict, scenes: dict, bloom: dict, garden: dict, companions: dict,
-    outing: dict, costumes: dict, badges: dict, stamps: dict, house: dict, tips: dict,
+    outing: dict, costumes: dict, badges: dict, stamps: dict, house: dict, items: dict, tips: dict,
 ) -> None:
     TS_OUT.parent.mkdir(parents=True, exist_ok=True)
     stand = images["three-quarter"]["height"]
@@ -190,6 +193,11 @@ export const HOUSE_IMAGES = {{
 {entries(house)}
 }} as const satisfies Record<string, SpruImage>;
 
+/** 町のアイテム・おみやげ・目印の画像(docs/design/2026-09-28-town-items-design.md 7章)。キーは絵のキー。無い物はプログラムの絵で描く */
+export const SPRU_ITEMS = {{
+{entries(items)}
+}} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
@@ -237,24 +245,27 @@ def main() -> None:
         scenes[scene["key"]] = save(img, f'scenes/{scene["key"]}.webp')
 
     parts: dict = {}
-    for group in ("bloom", "garden", "companions", "outing", "costumes", "badges", "stamps", "house"):
+    for group in ("bloom", "garden", "companions", "outing", "costumes", "badges", "stamps", "house", "items"):
         parts[group] = {}
-        for part in spec[group]:
+        default_mode = "all" if group == "items" else "largest"
+        for part in spec.get(group, []):
             src = sources[part["source"]]
             if part.get("background") == "flood":
                 src = clear_background(src)
-            img = cut_figure(src, part["box"], part.get("scale", 1.0), part.get("mode", "largest"))
+            img = cut_figure(src, part["box"], part.get("scale", 1.0), part.get("mode", default_mode))
+            if "width" in part:
+                img = img.resize((part["width"], round(img.height * part["width"] / img.width)), Image.LANCZOS)
             parts[group][part["key"]] = save(img, f'{group}/{part["key"]}.webp')
 
     write_ts(
         images, faces, scenes, parts["bloom"], parts["garden"], parts["companions"],
-        parts["outing"], parts["costumes"], parts["badges"], parts["stamps"], parts["house"], tips,
+        parts["outing"], parts["costumes"], parts["badges"], parts["stamps"], parts["house"], parts["items"], tips,
     )
     print(
         f"画像 {len(images)}・顔 {len(faces)}・シーン {len(scenes)}・花 {len(parts['bloom'])}"
         f"・畑 {len(parts['garden'])}・仲間 {len(parts['companions'])}"
         f"・お出かけ {len(parts['outing'])}・衣装 {len(parts['costumes'])}・バッジ {len(parts['badges'])}"
-        f"・スタンプ {len(parts['stamps'])}・家 {len(parts['house'])} を書き出しました"
+        f"・スタンプ {len(parts['stamps'])}・家 {len(parts['house'])}・アイテム {len(parts['items'])} を書き出しました"
     )
 
 

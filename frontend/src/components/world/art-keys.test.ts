@@ -3,7 +3,15 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
-import { BIG_ASSETS, ITEM_ART_KEYS, ITEM_ART_LABELS, SOUVENIR_ART_KEYS, isBigAsset } from "./art-keys";
+import {
+  BIG_ASSETS,
+  ITEM_ART_CATEGORIES,
+  ITEM_ART_KEYS,
+  ITEM_ART_LABELS,
+  SOUVENIR_ART_KEYS,
+  artOptionLabel,
+  isBigAsset,
+} from "./art-keys";
 
 // サーバーの設定(Ownerがショップに登録できる絵のキー)と、画面の絵の一覧がずれていないか確かめる
 const config = readFileSync(fileURLToPath(new URL("../../../../config/world.php", import.meta.url)), "utf8");
@@ -28,6 +36,19 @@ describe("町のアイテムの絵のキー", () => {
 
   it("管理画面(ショップ編集)の絵の選択肢の名前が、すべての絵にある", () => {
     expect(Object.keys(ITEM_ART_LABELS).sort()).toEqual([...ITEM_ART_KEYS].sort());
+  });
+
+  it("絵のカテゴリは config/world.php の asset_categories と同じ", () => {
+    const pairs = Object.fromEntries(
+      [...phpArray("asset_categories").matchAll(/'([a-z_]+)'\s*=>\s*'([a-z]+)'/g)].map((m) => [m[1], m[2]]),
+    );
+    for (const key of ITEM_ART_KEYS) expect([key, pairs[key]]).toEqual([key, ITEM_ART_CATEGORIES[key]]);
+  });
+
+  it("管理画面の絵の選択肢は、名前にカテゴリと大きさを添える", () => {
+    expect(artOptionLabel("bench")).toBe("ベンチ（かざり）");
+    expect(artOptionLabel("pagoda")).toBe("五重塔（名所・2×2）");
+    expect(artOptionLabel("boat_large")).toBe("大きな船（のりもの・2×2）");
   });
 
   it("おみやげの絵のキーは config/travel.php のおみやげと同じ", () => {

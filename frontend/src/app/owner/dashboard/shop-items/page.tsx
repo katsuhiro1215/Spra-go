@@ -36,7 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ITEM_ART_KEYS, ITEM_ART_LABELS } from "@/components/world/art-keys";
+import { ITEM_ART_KEYS, artOptionLabel } from "@/components/world/art-keys";
 import { apiFetch } from "@/lib/api";
 
 const TYPES = [
@@ -49,7 +49,7 @@ const TYPES = [
 ] as const;
 
 // 絵の一覧は config/world.php の asset_keys と同じ(components/world/art-keys.test.ts で確かめている)
-const ASSET_KEYS = ITEM_ART_KEYS.map((value) => ({ value, label: ITEM_ART_LABELS[value] }));
+const ASSET_KEYS = ITEM_ART_KEYS.map((value) => ({ value, label: artOptionLabel(value) }));
 type ItemType = (typeof TYPES)[number]["value"];
 
 function typeLabel(type: string): string {

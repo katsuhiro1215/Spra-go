@@ -1,3 +1,5 @@
+import { CATEGORY_LABELS, type ItemCategory } from "./categories";
+
 /** 町のアイテムの絵のキー。config/world.php の asset_keys と必ず一致させる(art-keys.test.ts で確かめる) */
 export const ITEM_ART_KEYS = [
   "bench",
@@ -40,7 +42,7 @@ export type SouvenirArtKey = (typeof SOUVENIR_ART_KEYS)[number];
 
 export type ArtKey = ItemArtKey | SouvenirArtKey;
 
-/** 管理画面(ショップ編集)の絵の選択肢に出す名前。2×2の絵は大きさも書く */
+/** 管理画面(ショップ編集)の絵の選択肢に出す名前。カテゴリと大きさは artOptionLabel で添える */
 export const ITEM_ART_LABELS: Record<ItemArtKey, string> = {
   bench: "ベンチ",
   flowerbed: "花だん",
@@ -52,15 +54,43 @@ export const ITEM_ART_LABELS: Record<ItemArtKey, string> = {
   stall: "屋台",
   stone_lantern: "石灯籠",
   bamboo: "竹",
-  fountain: "噴水(2×2)",
+  fountain: "噴水",
   palm: "ヤシの木",
   parasol: "ビーチパラソル",
-  pagoda: "五重塔(2×2)",
-  castle: "お城(2×2)",
-  tower: "タワー(2×2)",
+  pagoda: "五重塔",
+  castle: "お城",
+  tower: "タワー",
   boat_small: "小さな船",
-  boat_large: "大きな船(2×2)",
+  boat_large: "大きな船",
 };
+
+/** 絵のカテゴリ(設計書 2026-09-28-town-items 3-2)。config/world.php の asset_categories と必ず一致させる */
+export const ITEM_ART_CATEGORIES: Record<ItemArtKey, ItemCategory> = {
+  bench: "decor",
+  flowerbed: "nature",
+  chochin: "decor",
+  tree: "nature",
+  sakura: "nature",
+  vending: "decor",
+  bicycle: "vehicle",
+  stall: "house",
+  stone_lantern: "decor",
+  bamboo: "nature",
+  fountain: "decor",
+  palm: "nature",
+  parasol: "decor",
+  pagoda: "landmark",
+  castle: "landmark",
+  tower: "landmark",
+  boat_small: "vehicle",
+  boat_large: "vehicle",
+};
+
+/** 管理画面の絵の選択肢の名前。カテゴリと、2×2なら大きさを添える(例: 「五重塔（名所・2×2）」) */
+export function artOptionLabel(key: ItemArtKey): string {
+  const size = isBigAsset(key) ? "・2×2" : "";
+  return `${ITEM_ART_LABELS[key]}（${CATEGORY_LABELS[ITEM_ART_CATEGORIES[key]]}${size}）`;
+}
 
 /** 2×2マスの絵(設計書3-4)。config/world.php の asset_footprints と必ず一致させる */
 export const BIG_ASSETS: readonly ArtKey[] = [

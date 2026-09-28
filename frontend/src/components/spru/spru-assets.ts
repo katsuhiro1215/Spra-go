@@ -120,6 +120,11 @@ export const HOUSE_IMAGES = {
   "home": { src: "/spru/house/home.webp", width: 552, height: 528 },
 } as const satisfies Record<string, SpruImage>;
 
+/** 町のアイテム・おみやげ・目印の画像(docs/design/2026-09-28-town-items-design.md 7章)。キーは絵のキー。無い物はプログラムの絵で描く */
+export const SPRU_ITEMS = {
+
+} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;

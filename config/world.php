@@ -62,6 +62,22 @@ return [
     ],
 
     /*
+    | 町のアイテムのカテゴリ(docs/design/2026-09-28-town-items-design.md 3-2)。絵のキーで決まり、Ownerは選ばない。
+    | asset_keys のすべてのキーに付ける(種から咲くスプルの花も)。おみやげはキーによらず souvenir(ShopItem::category)。
+    | フロントの art-keys.ts の ITEM_ART_CATEGORIES と必ず一致させる(art-keys.test.ts で確かめる)
+    */
+
+    'asset_categories' => [
+        'flowerbed' => 'nature', 'tree' => 'nature', 'bamboo' => 'nature', 'sakura' => 'nature', 'palm' => 'nature',
+        'spru_flower' => 'nature',
+        'chochin' => 'decor', 'bench' => 'decor', 'stone_lantern' => 'decor', 'fountain' => 'decor',
+        'parasol' => 'decor', 'vending' => 'decor',
+        'stall' => 'house',
+        'pagoda' => 'landmark', 'castle' => 'landmark', 'tower' => 'landmark',
+        'bicycle' => 'vehicle', 'boat_small' => 'vehicle', 'boat_large' => 'vehicle',
+    ],
+
+    /*
     | 土地(docs/design/2026-09-27-spru-wave-e-design.md 3-1)。x,yは0始まり。地図は区画を並べたもの(今は12×12)で、
     | 町の手前(xとyが大きくなる向き)へ広がる。形は全員同じなのでDBに持たず、人によって違うのは
     | レベルでどこまで開いているかだけ。目印・道がどの区画のものかは座標で決まる。目印と道のマスには置けない。
