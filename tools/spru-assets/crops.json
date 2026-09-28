@@ -11,7 +11,10 @@
     "m11": "mascot-11.png",
     "m12": "mascot-12.png",
     "m12b": "mascot-12-2.png",
-    "house": "image1.png"
+    "house": "image1.png",
+    "i4": "image4.png",
+    "i5": "image5.png",
+    "i6": "image6.png"
   },
   "figures": [
     { "key": "front", "group": "basic", "source": "m6", "box": [30, 48, 158, 258] },
@@ -106,5 +109,43 @@
   "house": [
     { "key": "home", "source": "house", "box": [0, 0, 1254, 1254], "mode": "all", "scale": 0.48, "background": "flood" }
   ],
-  "items": []
+  "items": [],
+  "icons": [
+    { "key": "login", "source": "i4", "box": [28, 92, 224, 340] },
+    { "key": "switch-profile", "source": "i4", "box": [236, 100, 420, 336] },
+    { "key": "add-player", "source": "i4", "box": [432, 104, 620, 336] },
+    { "key": "nav-learn", "source": "i4", "box": [16, 368, 236, 592] },
+    { "key": "nav-trip", "source": "i4", "box": [252, 372, 452, 596] },
+    { "key": "nav-town", "source": "i4", "box": [464, 372, 672, 596] },
+    { "key": "nav-shop", "source": "i4", "box": [680, 376, 892, 596] },
+    { "key": "sound-on", "source": "i5", "box": [28, 152, 368, 480], "width": 192 },
+    { "key": "sound-off", "source": "i5", "box": [408, 156, 740, 480], "width": 192 },
+    { "key": "bag", "source": "i5", "box": [792, 152, 1120, 484], "width": 192 },
+    { "key": "logout", "source": "i5", "box": [1164, 152, 1508, 484], "width": 192 },
+    { "key": "continue", "source": "i5", "box": [24, 544, 364, 896], "width": 192 },
+    { "key": "family", "source": "i5", "box": [404, 564, 748, 896], "width": 192 },
+    { "key": "letter", "source": "i5", "box": [792, 556, 1128, 900], "width": 192 },
+    { "key": "key", "source": "i5", "box": [1168, 556, 1512, 900], "width": 192 }
+  ],
+  "stages": [
+    { "key": "locked", "source": "i4", "box": [920, 392, 1112, 588] },
+    { "key": "open", "source": "i4", "box": [1116, 392, 1312, 584] },
+    { "key": "cleared", "source": "i4", "box": [1320, 384, 1512, 592] }
+  ],
+  "avatars": [
+    { "key": "avatar-1", "source": "i6", "box": [32, 40, 436, 472], "width": 288 },
+    { "key": "avatar-2", "source": "i6", "box": [556, 64, 964, 472], "width": 288 },
+    { "key": "avatar-3", "source": "i6", "box": [1104, 56, 1508, 472], "width": 288 },
+    { "key": "avatar-4", "source": "i6", "box": [32, 548, 436, 960], "width": 288 },
+    { "key": "avatar-5", "source": "i6", "box": [560, 552, 968, 960], "width": 288 },
+    { "key": "avatar-6", "source": "i6", "box": [1100, 556, 1504, 960], "width": 288 }
+  ],
+  "travel": [
+    { "key": "ship", "source": "i4", "box": [636, 628, 820, 788] },
+    { "key": "plane", "source": "i4", "box": [820, 628, 1000, 788] },
+    { "key": "ticket", "source": "i4", "box": [40, 808, 332, 1004], "width": 192 }
+  ],
+  "pages": [
+    { "key": "lost", "source": "i4", "box": [812, 800, 1024, 1004], "mode": "all" }
+  ]
 }

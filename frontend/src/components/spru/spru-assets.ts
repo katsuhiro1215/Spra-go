@@ -125,6 +125,54 @@ export const SPRU_ITEMS = {
 
 } as const satisfies Record<string, SpruImage>;
 
+/** 画面のアイコン(下のメニュー・音・じぶん・町・入口。docs/design/2026-09-29-spru-icons-design.md 3-3) */
+export const SPRU_ICONS = {
+  "login": { src: "/spru/icons/login.webp", width: 191, height: 242 },
+  "switch-profile": { src: "/spru/icons/switch-profile.webp", width: 183, height: 231 },
+  "add-player": { src: "/spru/icons/add-player.webp", width: 185, height: 230 },
+  "nav-learn": { src: "/spru/icons/nav-learn.webp", width: 217, height: 220 },
+  "nav-trip": { src: "/spru/icons/nav-trip.webp", width: 196, height: 221 },
+  "nav-town": { src: "/spru/icons/nav-town.webp", width: 205, height: 220 },
+  "nav-shop": { src: "/spru/icons/nav-shop.webp", width: 211, height: 217 },
+  "sound-on": { src: "/spru/icons/sound-on.webp", width: 192, height: 186 },
+  "sound-off": { src: "/spru/icons/sound-off.webp", width: 192, height: 187 },
+  "bag": { src: "/spru/icons/bag.webp", width: 192, height: 195 },
+  "logout": { src: "/spru/icons/logout.webp", width: 192, height: 185 },
+  "continue": { src: "/spru/icons/continue.webp", width: 192, height: 200 },
+  "family": { src: "/spru/icons/family.webp", width: 192, height: 185 },
+  "letter": { src: "/spru/icons/letter.webp", width: 192, height: 195 },
+  "key": { src: "/spru/icons/key.webp", width: 192, height: 193 },
+} as const satisfies Record<string, SpruImage>;
+
+/** ステージの丸(鍵・遊べる・クリア) */
+export const SPRU_STAGES = {
+  "locked": { src: "/spru/stages/locked.webp", width: 189, height: 192 },
+  "open": { src: "/spru/stages/open.webp", width: 195, height: 189 },
+  "cleared": { src: "/spru/stages/cleared.webp", width: 188, height: 202 },
+} as const satisfies Record<string, SpruImage>;
+
+/** プレイヤーのアバター6種。キーはサーバーの UserProfile::AVATARS と同じ */
+export const SPRU_AVATARS = {
+  "avatar-1": { src: "/spru/avatars/avatar-1.webp", width: 288, height: 309 },
+  "avatar-2": { src: "/spru/avatars/avatar-2.webp", width: 288, height: 289 },
+  "avatar-3": { src: "/spru/avatars/avatar-3.webp", width: 288, height: 298 },
+  "avatar-4": { src: "/spru/avatars/avatar-4.webp", width: 288, height: 294 },
+  "avatar-5": { src: "/spru/avatars/avatar-5.webp", width: 288, height: 289 },
+  "avatar-6": { src: "/spru/avatars/avatar-6.webp", width: 288, height: 289 },
+} as const satisfies Record<string, SpruImage>;
+
+/** 旅(出発の場面の船・飛行機は左向き、チケット) */
+export const SPRU_TRAVEL = {
+  "ship": { src: "/spru/travel/ship.webp", width: 179, height: 159 },
+  "plane": { src: "/spru/travel/plane.webp", width: 177, height: 155 },
+  "ticket": { src: "/spru/travel/ticket.webp", width: 192, height: 127 },
+} as const satisfies Record<string, SpruImage>;
+
+/** ページの絵(見つからないページの迷子のスプル) */
+export const SPRU_PAGES = {
+  "lost": { src: "/spru/pages/lost.webp", width: 192, height: 178 },
+} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
@@ -136,6 +184,8 @@ export type CostumeKey = keyof typeof COSTUME_IMAGES;
 export type BadgeKey = keyof typeof BADGE_IMAGES;
 export type StampKey = keyof typeof STAMP_IMAGES;
 export type HouseImageKey = keyof typeof HOUSE_IMAGES;
+export type SpruIconKey = keyof typeof SPRU_ICONS;
+export type SpruStageKey = keyof typeof SPRU_STAGES;
 
 /** 立ち姿(3/4)の元画像の高さ。ほかの画像はこれとの比で大きさをそろえる(素材集の中で縮尺が同じため) */
 export const SPRU_STAND_HEIGHT = 208;

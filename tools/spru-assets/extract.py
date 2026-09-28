@@ -10,6 +10,8 @@
   国のスタンプ stamps/(キーは国のコードの小文字)、スプルの家 house/(背景が透明でない絵は四隅から背景を抜く)、
   町のアイテム・おみやげ・目印 items/(キーは絵のキー。docs/design/2026-09-28-town-items-design.md 7-1。
   離れた部品も残すため、既定の mode は "all")
+- 画面のアイコン icons/・ステージの丸 stages/・アバター avatars/・旅の乗り物とチケット travel/・ページの絵 pages/
+  (docs/design/2026-09-29-spru-icons-design.md 3章。元の絵は image4〜6)
 - 画面側が読む一覧 frontend/src/components/spru/spru-assets.ts もここで書き出す(手で直さない)
 - Spru Master(Blender)ができたら、同じキー・同じ置き場所の画像に差し替える
 """
@@ -139,6 +141,7 @@ def entries(items: dict) -> str:
 def write_ts(
     images: dict, faces: dict, scenes: dict, bloom: dict, garden: dict, companions: dict,
     outing: dict, costumes: dict, badges: dict, stamps: dict, house: dict, items: dict, tips: dict,
+    icons: dict, stages: dict, avatars: dict, travel: dict, pages: dict,
 ) -> None:
     TS_OUT.parent.mkdir(parents=True, exist_ok=True)
     stand = images["three-quarter"]["height"]
@@ -198,6 +201,31 @@ export const SPRU_ITEMS = {{
 {entries(items)}
 }} as const satisfies Record<string, SpruImage>;
 
+/** 画面のアイコン(下のメニュー・音・じぶん・町・入口。docs/design/2026-09-29-spru-icons-design.md 3-3) */
+export const SPRU_ICONS = {{
+{entries(icons)}
+}} as const satisfies Record<string, SpruImage>;
+
+/** ステージの丸(鍵・遊べる・クリア) */
+export const SPRU_STAGES = {{
+{entries(stages)}
+}} as const satisfies Record<string, SpruImage>;
+
+/** プレイヤーのアバター6種。キーはサーバーの UserProfile::AVATARS と同じ */
+export const SPRU_AVATARS = {{
+{entries(avatars)}
+}} as const satisfies Record<string, SpruImage>;
+
+/** 旅(出発の場面の船・飛行機は左向き、チケット) */
+export const SPRU_TRAVEL = {{
+{entries(travel)}
+}} as const satisfies Record<string, SpruImage>;
+
+/** ページの絵(見つからないページの迷子のスプル) */
+export const SPRU_PAGES = {{
+{entries(pages)}
+}} as const satisfies Record<string, SpruImage>;
+
 export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
@@ -209,6 +237,8 @@ export type CostumeKey = keyof typeof COSTUME_IMAGES;
 export type BadgeKey = keyof typeof BADGE_IMAGES;
 export type StampKey = keyof typeof STAMP_IMAGES;
 export type HouseImageKey = keyof typeof HOUSE_IMAGES;
+export type SpruIconKey = keyof typeof SPRU_ICONS;
+export type SpruStageKey = keyof typeof SPRU_STAGES;
 
 /** 立ち姿(3/4)の元画像の高さ。ほかの画像はこれとの比で大きさをそろえる(素材集の中で縮尺が同じため) */
 export const SPRU_STAND_HEIGHT = {stand};
@@ -245,7 +275,10 @@ def main() -> None:
         scenes[scene["key"]] = save(img, f'scenes/{scene["key"]}.webp')
 
     parts: dict = {}
-    for group in ("bloom", "garden", "companions", "outing", "costumes", "badges", "stamps", "house", "items"):
+    for group in (
+        "bloom", "garden", "companions", "outing", "costumes", "badges", "stamps", "house", "items",
+        "icons", "stages", "avatars", "travel", "pages",
+    ):
         parts[group] = {}
         default_mode = "all" if group == "items" else "largest"
         for part in spec.get(group, []):
@@ -260,12 +293,15 @@ def main() -> None:
     write_ts(
         images, faces, scenes, parts["bloom"], parts["garden"], parts["companions"],
         parts["outing"], parts["costumes"], parts["badges"], parts["stamps"], parts["house"], parts["items"], tips,
+        parts["icons"], parts["stages"], parts["avatars"], parts["travel"], parts["pages"],
     )
     print(
         f"画像 {len(images)}・顔 {len(faces)}・シーン {len(scenes)}・花 {len(parts['bloom'])}"
         f"・畑 {len(parts['garden'])}・仲間 {len(parts['companions'])}"
         f"・お出かけ {len(parts['outing'])}・衣装 {len(parts['costumes'])}・バッジ {len(parts['badges'])}"
-        f"・スタンプ {len(parts['stamps'])}・家 {len(parts['house'])}・アイテム {len(parts['items'])} を書き出しました"
+        f"・スタンプ {len(parts['stamps'])}・家 {len(parts['house'])}・アイテム {len(parts['items'])}"
+        f"・アイコン {len(parts['icons'])}・ステージ {len(parts['stages'])}・アバター {len(parts['avatars'])}"
+        f"・旅 {len(parts['travel'])}・ページ {len(parts['pages'])} を書き出しました"
     )
 
 
