@@ -140,6 +140,55 @@ class Travel
         ];
     }
 
+    /** パスポートの「旅した国」。着いた順 @return list<array{key: string, name: string, flag: string, transport: string, arrived_at: string|null}> */
+    public static function trips(UserProfile $profile): array
+    {
+        $destinations = collect(self::destinations())->keyBy('key');
+
+        return $profile->trips()->orderBy('arrived_at')->orderBy('id')->get()
+            ->filter(fn ($trip) => $destinations->has($trip->destination))
+            ->map(fn ($trip) => [
+                'key' => $trip->destination,
+                'name' => $destinations[$trip->destination]['name'],
+                'flag' => "/flag/{$destinations[$trip->destination]['flag']}.svg",
+                'transport' => $destinations[$trip->destination]['transport'],
+                'arrived_at' => $trip->arrived_at?->toDateString(),
+            ])
+            ->values()
+            ->all();
+    }
+
+    /**
+     * 今のデータの記録(設計書3-7。マイグレーションから呼ぶ)。ステージをクリアしている行き先の国を、
+     * その国で最初にクリアした日に着いた国として足す。もう着いている国は変えない
+     */
+    public static function recordTripsForClearedCountries(): void
+    {
+        $countries = self::countryIdsByCode();
+
+        foreach (self::destinations() as $destination) {
+            $countryId = $countries[strtolower($destination['country_code'])] ?? null;
+            if ($countryId === null) {
+                continue;
+            }
+
+            $firstClears = ProfileStageProgress::query()
+                ->join('stages', 'stages.id', '=', 'profile_stage_progress.stage_id')
+                ->where('stages.country_id', $countryId)
+                ->whereNotNull('profile_stage_progress.cleared_at')
+                ->groupBy('profile_stage_progress.user_profile_id')
+                ->selectRaw('profile_stage_progress.user_profile_id as profile_id, MIN(profile_stage_progress.cleared_at) as first_cleared_at')
+                ->get();
+
+            foreach ($firstClears as $row) {
+                UserProfile::query()->find($row->profile_id)?->trips()->firstOrCreate(
+                    ['destination' => $destination['key']],
+                    ['arrived_at' => $row->first_cleared_at],
+                );
+            }
+        }
+    }
+
     /** おみやげの町のアイテム(非売品)。そのおみやげを初めてだれかが受け取ったときに作る(スプルの花と同じ) */
     private static function souvenirShopItem(array $destination, array $souvenir): ShopItem
     {

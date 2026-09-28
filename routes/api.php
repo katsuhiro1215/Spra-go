@@ -852,6 +852,8 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
         'streak_milestones' => collect(UserProfile::STREAK_MILESTONES)
             ->map(fn (int $days) => ['days' => $days, 'earned' => $bestStreak >= $days])
             ->all(),
+        // 旅した国(設計書5-7)。チケットを使って着いた国
+        'trips' => ($profile = ActiveProfile::find($request)) ? Travel::trips($profile) : [],
     ];
 })->name('passport');
 
