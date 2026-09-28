@@ -1,3 +1,5 @@
+import { SPRU_TRAVEL, type SpruImage } from "@/components/spru/spru-assets";
+
 import type { Destination, TravelData, Transport } from "./types";
 
 export function receivedCount(destination: Destination): number {
@@ -37,6 +39,11 @@ export function islandTag(destination: Destination): string {
 
 export function transportText(transport: Transport): string {
   return transport === "plane" ? "飛行機で行く国" : "船で行く国";
+}
+
+/** 出発の場面の乗り物の絵。元の絵は左向きなので、画面では左右を反転して出す(docs/design/2026-09-29-spru-icons-design.md 4-7) */
+export function vehicleImage(transport: Transport): SpruImage {
+  return transport === "plane" ? SPRU_TRAVEL.plane : SPRU_TRAVEL.ship;
 }
 
 /** 出発の場面の文(設計書5-3)。sail は乗り物で向かっているところ(船も飛行機も) */

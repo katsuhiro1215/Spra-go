@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronRight, HouseHeart } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
+import { AssetImage } from "@/components/app/asset-image";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { SpruLoading } from "@/components/app/spru-loading";
+import { HOUSE_IMAGES, SPRU_ICONS } from "@/components/spru/spru-assets";
 import type { FamilyMember } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
 
@@ -42,14 +44,17 @@ export default function FamilyPage() {
       <div className="mx-auto flex min-h-screen w-full max-w-[480px] flex-col pb-28 text-[#3b3226]">
         <header className="flex items-center justify-between gap-2 rounded-b-[22px] bg-[#fffaf0] px-3.5 py-3 shadow-[0_4px_14px_rgba(59,50,38,0.14)]">
           <h1 className="flex items-center gap-1.5 text-lg font-black text-[#2f4a22]">
-            <HouseHeart className="h-5 w-5 text-[#d0467a]" aria-hidden />
+            <AssetImage asset={SPRU_ICONS.family} size={28} />
             {/* ふりがなの部品は漢字の所で分かれるので、横並びのすき間が入らないよう span で包む */}
             <span>
               <AutoFurigana text="家族の町" />
             </span>
           </h1>
-          <Link href="/" className="shrink-0 rounded-full bg-[#efe5cf] px-3 py-1.5 text-sm font-black">
-            <AutoFurigana text="自分の町にもどる" />
+          <Link href="/" className="flex shrink-0 items-center gap-1 rounded-full bg-[#efe5cf] py-1 pr-3 pl-1.5 text-sm font-black">
+            <AssetImage asset={HOUSE_IMAGES.home} size={24} />
+            <span>
+              <AutoFurigana text="自分の町にもどる" />
+            </span>
           </Link>
         </header>
 

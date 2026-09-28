@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { BookOpen } from "lucide-react";
 
+import { AssetImage } from "@/components/app/asset-image";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { useProfile } from "@/components/app/profile-provider";
 import { useSound } from "@/components/app/sound-provider";
@@ -12,6 +12,7 @@ import { LoadingScreen } from "@/components/app/spru-loading";
 import { bloomOf } from "@/components/spru/bloom";
 import { pickTownHint } from "@/components/spru/hint";
 import { pickTownMood, type TownEvent } from "@/components/spru/mood";
+import { SPRU_ICONS } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
 import { prefersReducedMotion } from "@/lib/motion";
 
@@ -628,9 +629,9 @@ export function WorldScreen() {
         {!placingItem && (
           <Link
             href={continueHref}
-            className="mx-auto mt-4 flex h-[52px] items-center gap-2 rounded-full bg-[#3b7f26] px-6 text-base font-black text-white shadow-[0_5px_0_#285a19,0_10px_18px_rgba(40,90,25,0.28)]"
+            className="mx-auto mt-4 flex h-[52px] items-center gap-2 rounded-full bg-[#3b7f26] pr-6 pl-3 text-base font-black text-white shadow-[0_5px_0_#285a19,0_10px_18px_rgba(40,90,25,0.28)]"
           >
-            <BookOpen className="h-5 w-5" aria-hidden />
+            <AssetImage asset={SPRU_ICONS.continue} size={36} />
             つづきから学ぶ
           </Link>
         )}

@@ -3,14 +3,15 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Ticket } from "lucide-react";
 
+import { AssetImage } from "@/components/app/asset-image";
 import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { BadgeImage } from "@/components/app/badge-image";
 import { SkyPage, SkyTitle } from "@/components/app/sky-page";
 import { SpruLoading } from "@/components/app/spru-loading";
+import { SPRU_TRAVEL } from "@/components/spru/spru-assets";
 import { DepartureScene } from "@/components/travel/departure-scene";
 import { DestinationSheet } from "@/components/travel/destination-sheet";
 import { hubLine } from "@/components/travel/travel";
@@ -85,7 +86,7 @@ export default function Page() {
                 aria-label={`チケット ${travel.tickets}まい`}
                 className="flex items-center gap-1 rounded-full bg-[#fffaf0] py-1 pr-3 pl-2 text-xs font-black text-[#7a5a0e] shadow-[0_2px_6px_rgba(59,50,38,0.15)]"
               >
-                <Ticket aria-hidden className="h-4 w-4 text-[#d8352a]" />×{travel.tickets}
+                <AssetImage asset={SPRU_TRAVEL.ticket} size={20} />×{travel.tickets}
               </span>
             )}
             <Link
