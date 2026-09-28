@@ -10,6 +10,7 @@ import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { LoadingScreen } from "@/components/app/spru-loading";
+import { LockedCountry } from "@/components/travel/locked-country";
 import { apiFetch } from "@/lib/api";
 
 type CountryStart = {
@@ -32,6 +33,8 @@ export default function Page({
     undefined,
   );
 
+  const [locked, setLocked] = useState(false);
+
   useEffect(() => {
     apiFetch(`/api/countries/${countryId}`)
       .then(async (res) => {
@@ -39,10 +42,16 @@ export default function Page({
           router.replace("/login");
           return;
         }
+        if (res.status === 403) {
+          setLocked(true);
+          return;
+        }
         setCountry(res.ok ? await res.json() : null);
       })
       .catch(() => setCountry(null));
   }, [countryId, router]);
+
+  if (locked) return <LockedCountry />;
 
   if (country === undefined) {
     return (
