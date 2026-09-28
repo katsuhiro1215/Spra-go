@@ -30,13 +30,13 @@ const ICONS: Record<NavKey, ReactNode> = {
   ),
   trip: (
     <svg {...ICON_PROPS}>
-      <path d="M3 13.5l7.5-2.2L14 4.5c.5-1 2-1 2.3.1l-1.4 6 4.6-1.4c1.4-.4 2.5 1.2 1.3 2.1L5.4 18.2c-.7.4-1.5-.1-1.5-.9z" />
-    </svg>
-  ),
-  world: (
-    <svg {...ICON_PROPS} width={28} height={28}>
       <circle cx={12} cy={12} r={9} />
       <path d="M3 12h18 M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z" />
+    </svg>
+  ),
+  town: (
+    <svg {...ICON_PROPS} width={28} height={28}>
+      <path d="M3.5 11 12 4l8.5 7 M5.5 9.5V20h13V9.5 M10 20v-5.5h4V20" />
     </svg>
   ),
   shop: (
@@ -55,7 +55,7 @@ function ActiveBar() {
 }
 
 /**
- * 画面下部の常設ナビ(設計書4-5)。学ぶ・旅する・世界(真ん中で丸く大きく)・ショップ・じぶん。
+ * 画面下部の常設ナビ(設計書4-5)。学ぶ・せかい・まち(真ん中で丸く大きく)・ショップ・じぶん。
  * 「じぶん」はページを移らず、下から出るパネル(MeSheet)を開く。各ページは下端の余白(pb-24)を確保すること
  */
 export function BottomNav() {
@@ -72,7 +72,7 @@ export function BottomNav() {
       >
         {NAV_ITEMS.map((item) => {
           const active = isNavActive(pathname, item.href);
-          if (item.key === "world") {
+          if (item.key === "town") {
             return (
               <Link
                 key={item.key}
@@ -85,7 +85,7 @@ export function BottomNav() {
                     active ? "bg-[#3b7f26]" : "bg-[#5bb33e]"
                   }`}
                 >
-                  {ICONS.world}
+                  {ICONS.town}
                 </span>
                 {item.label}
               </Link>
