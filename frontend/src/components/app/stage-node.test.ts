@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { stageNodeClasses } from "./stage-node";
+import { stageNodeClasses, stageNodeImage } from "./stage-node";
 
 // WCAG のコントラスト比(相対輝度から計算)
 function luminance(hex: string): number {
@@ -51,5 +51,26 @@ describe("ステージの丸の色", () => {
   it("ロック中は、クリア済みやボスよりロックの色を優先する", () => {
     const locked = stageNodeClasses({ ...base, locked: true }, false);
     expect(stageNodeClasses({ ...base, locked: true, is_boss: true }, false)).toBe(locked);
+  });
+});
+
+describe("ステージの丸の絵(docs/design/2026-09-29-spru-icons-design.md 4-4)", () => {
+  it("鍵がかかっていれば、ボスでもクリア済みでも鍵の絵", () => {
+    expect(stageNodeImage({ ...base, locked: true })).toBe("locked");
+    expect(stageNodeImage({ ...base, locked: true, is_boss: true })).toBe("locked");
+    expect(stageNodeImage({ ...base, locked: true, cleared: true })).toBe("locked");
+  });
+
+  it("クリア済みは、ボスでもクリアの絵", () => {
+    expect(stageNodeImage({ ...base, cleared: true })).toBe("cleared");
+    expect(stageNodeImage({ ...base, cleared: true, is_boss: true })).toBe("cleared");
+  });
+
+  it("まだのボスは絵を使わない(赤い丸とボスの印のまま)", () => {
+    expect(stageNodeImage({ ...base, is_boss: true })).toBeNull();
+  });
+
+  it("それ以外は、遊べる絵", () => {
+    expect(stageNodeImage(base)).toBe("open");
   });
 });
