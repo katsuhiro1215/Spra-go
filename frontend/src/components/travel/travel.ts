@@ -54,11 +54,6 @@ export function departureCaption(phase: DeparturePhase, destination: Pick<Destin
   return `${destination.name}に着いた！`;
 }
 
-/** 学ぶタブで、鍵のない国だけを並びのまま残す(地図の表示に渡す。設計書5-5) */
-export function unlockedCountries<T extends { locked: boolean }>(countries: T[]): T[] {
-  return countries.filter((country) => !country.locked);
-}
-
 /** 学ぶタブで鍵の国を押したときの案内(設計書5-5) */
 export function lockedCountryText(name: string): string {
   return `${name}へは『せかい』でチケットを使うと行けるよ`;
