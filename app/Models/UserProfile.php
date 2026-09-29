@@ -279,6 +279,12 @@ class UserProfile extends Model
         return $this->hasMany(ProfileTrip::class);
     }
 
+    /** ミニゲームを遊んだ回(docs/design/2026-09-29-spru-catch-design.md 5-1) */
+    public function gamePlays(): HasMany
+    {
+        return $this->hasMany(ProfileGamePlay::class);
+    }
+
     public function souvenirs(): HasMany
     {
         return $this->hasMany(ProfileSouvenir::class);

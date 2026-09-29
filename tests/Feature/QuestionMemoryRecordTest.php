@@ -99,3 +99,59 @@ it('プロフィールごとに作り、消された問題の記録は読み飛�
     expect(ProfileQuestionMemory::query()->orderBy('user_profile_id')->pluck('user_profile_id')->all())
         ->toBe([$profile->id, $sibling->id]);
 });
+
+it('まちがえると wrong_on にその日が付き、正解すると空に戻る(スプルキャッチ。設計書4-4)', function () {
+    $profile = createActiveProfile();
+    [$question] = createQuestionWithChoices();
+
+    QuestionMemory::record($profile, $question->id, false, '2026-09-27');
+    expect(ProfileQuestionMemory::query()->sole()->wrong_on->toDateString())->toBe('2026-09-27');
+
+    QuestionMemory::record($profile, $question->id, true, '2026-09-27'); // 出す日より前の正解でも空に戻る
+    expect(ProfileQuestionMemory::query()->sole()->wrong_on)->toBeNull();
+});
+
+it('答えのAPIでまちがえると wrong_on が付き、正解すると空に戻る', function () {
+    createActiveProfile();
+    [$question, $correct, $wrong] = createQuestionWithChoices();
+
+    $this->postJson("/api/questions/{$question->id}/answer", ['choice_id' => $wrong->id])->assertOk();
+    expect(ProfileQuestionMemory::query()->sole()->wrong_on->toDateString())->toBe('2026-09-29');
+
+    $this->postJson("/api/questions/{$question->id}/answer", ['choice_id' => $correct->id])->assertOk();
+    expect(ProfileQuestionMemory::query()->sole()->wrong_on)->toBeNull();
+});
+
+it('最後にまちがえた問題を、まちがえた日の新しい順に、渡した問題の中から返す', function () {
+    $profile = createActiveProfile();
+    [$a] = createQuestionWithChoices();
+    [$b] = createQuestionWithChoices();
+    [$c] = createQuestionWithChoices();
+    [$d] = createQuestionWithChoices();
+    QuestionMemory::record($profile, $a->id, false, '2026-09-27');
+    QuestionMemory::record($profile, $b->id, false, '2026-09-28');
+    QuestionMemory::record($profile, $c->id, false, '2026-09-28');
+    QuestionMemory::record($profile, $c->id, true, '2026-09-29'); // 正解したので外れる
+    QuestionMemory::record($profile, $d->id, false, '2026-09-29'); // 渡さない問題
+
+    expect(QuestionMemory::wrongIdsAmong($profile, [$a->id, $b->id, $c->id], 5))->toBe([$b->id, $a->id])
+        ->and(QuestionMemory::wrongIdsAmong($profile, [$a->id, $b->id, $c->id], 1))->toBe([$b->id])
+        ->and(QuestionMemory::wrongIdsAmong($profile, [$a->id], 0))->toBe([])
+        ->and(QuestionMemory::wrongIdsAmong($profile, [], 5))->toBe([]);
+});
+
+it('出す日が来た問題を、渡した問題の中から、出す日の古い順に返す', function () {
+    $profile = createActiveProfile();
+    [$a] = createQuestionWithChoices();
+    [$b] = createQuestionWithChoices();
+    [$c] = createQuestionWithChoices();
+    [$d] = createQuestionWithChoices();
+    QuestionMemory::record($profile, $a->id, false, '2026-09-27'); // 出す日 9/28
+    QuestionMemory::record($profile, $b->id, false, '2026-09-26'); // 出す日 9/27
+    QuestionMemory::record($profile, $c->id, false, '2026-09-29'); // 出す日 9/30(まだ)
+    QuestionMemory::record($profile, $d->id, false, '2026-09-20'); // 渡さない問題
+
+    expect(QuestionMemory::dueIdsAmong($profile, [$a->id, $b->id, $c->id], 5))->toBe([$b->id, $a->id])
+        ->and(QuestionMemory::dueIdsAmong($profile, [$a->id, $b->id], 0))->toBe([])
+        ->and(QuestionMemory::dueIdsAmong($profile, [], 5))->toBe([]);
+});

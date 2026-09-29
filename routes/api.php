@@ -7,6 +7,7 @@ use App\Models\ContentItem;
 use App\Models\Country;
 use App\Models\Event;
 use App\Models\Language;
+use App\Models\ProfileGamePlay;
 use App\Models\ProfileStageProgress;
 use App\Models\ProfileTitle;
 use App\Models\ProfileWorldItem;
@@ -22,6 +23,7 @@ use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\Bond;
+use App\Support\CatchGame;
 use App\Support\ContinueStage;
 use App\Support\Errands;
 use App\Support\Family;
@@ -1480,6 +1482,39 @@ Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(fu
             return Review::complete($profile);
         });
     })->name('complete');
+});
+
+// ミニゲーム1本目「スプルキャッチ」(docs/design/2026-09-29-spru-catch-design.md 6-3)
+Route::middleware(['auth:sanctum'])->prefix('games/catch')->name('games.catch.')->group(function () {
+    Route::get('/', function (Request $request) {
+        return CatchGame::summary(ActiveProfile::require($request));
+    })->name('show');
+
+    Route::post('/plays', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $data = $request->validate([
+            'difficulty' => ['required', 'string', Rule::in(array_keys(config('games.catch.difficulties')))],
+        ]);
+
+        return CatchGame::start($profile, $data['difficulty']);
+    })->name('plays.store');
+
+    Route::post('/plays/{play}/finish', function (Request $request, ProfileGamePlay $play) {
+        $profile = ActiveProfile::require($request);
+        abort_unless($play->user_profile_id === $profile->id && $play->game === CatchGame::GAME, 404);
+        $data = $request->validate([
+            'answers' => ['present', 'array'],
+            'answers.*.question_id' => ['required', 'integer'],
+            'answers.*.choice_id' => ['required', 'integer'],
+        ]);
+
+        return DB::transaction(function () use ($play, $data) {
+            $locked = ProfileGamePlay::query()->whereKey($play->id)->lockForUpdate()->firstOrFail();
+            abort_if($locked->finished_at !== null, 409, 'この回はもう終わっています。');
+
+            return CatchGame::finish($locked, $data['answers']);
+        });
+    })->name('plays.finish');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('travel')->name('travel.')->group(function () {

@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Lock, Trophy } from "lucide-react";
 
@@ -68,6 +69,8 @@ export default function Page({
     null,
   );
   const [stageIntro, setStageIntro] = useState<StageIntro | null>(null);
+  // スプルキャッチの問題の出どころ(「英語を学ぶ」)のカテゴリー。この画面がそれなら、ゲームのボタンを出す
+  const [catchCategoryId, setCatchCategoryId] = useState<number | null>(null);
 
   useEffect(() => {
     apiFetch("/api/categories")
@@ -84,6 +87,12 @@ export default function Page({
     apiFetch(`/api/categories/${id}/stages`).then(async (res) => {
       if (res.ok) setGroups(await res.json());
     });
+
+    apiFetch("/api/games/catch")
+      .then(async (res) => {
+        if (res.ok) setCatchCategoryId((await res.json()).category_id);
+      })
+      .catch(() => {});
   }, [id, router]);
 
   useEffect(() => {
@@ -232,6 +241,14 @@ export default function Page({
             >
               スタート
             </AppButton>
+
+            {catchCategoryId !== null && category?.id === catchCategoryId && (
+              <Link href="/games/catch">
+                <AppButton variant="warning" size="lg" className="w-full">
+                  スプルキャッチで遊ぶ
+                </AppButton>
+              </Link>
+            )}
           </>
         )}
       </div>

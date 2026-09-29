@@ -177,6 +177,14 @@ export default function Page() {
                 ✕
               </button>
             </div>
+            {/* ミニゲーム(docs/design/2026-09-29-spru-catch-design.md 7-1) */}
+            <h3 className="text-xs font-black text-[#6b5d45]">ゲーム</h3>
+            <Link href="/games/catch" onClick={() => setMiniAppOpen(false)}>
+              <AppButton variant="warning" size="sm" className="w-full shadow">
+                スプルキャッチ
+              </AppButton>
+            </Link>
+            <h3 className="text-xs font-black text-[#6b5d45]">クイズ</h3>
             {!categories ? (
               <p className="text-xs text-[#6b5d45]">読み込み中...</p>
             ) : (
