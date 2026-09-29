@@ -67,7 +67,9 @@ export default function Page(props: PageProps<"/password-reset/[token]">) {
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         {errors.link && (
           <div role="alert" className="flex flex-col gap-2 rounded-xl bg-[#fdecea] p-3 text-sm font-bold text-[#c2402c]">
-            <AutoFurigana text={errors.link} />
+            <p>
+              <AutoFurigana text={errors.link} />
+            </p>
             <Link href="/forgot-password" className="self-start text-[#2b5d7a] underline">
               もう一度メールを送る
             </Link>

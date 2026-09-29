@@ -156,4 +156,12 @@ return [
     'uppercase'              => ':attributeは、大文字で入力してください。',
     'url'                    => ':attributeは、有効なURL形式で指定してください。',
     'uuid'                   => ':attributeは、有効なUUIDである必要があります。',
+
+    // 項目の名前。入力のまちがいを「パスワードとパスワード確認が一致しません。」のように日本語で出す
+    // (docs/design/2026-09-29-email-verify-reset-design.md 3章)
+    'attributes' => [
+        'name' => '名前',
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
+    ],
 ];

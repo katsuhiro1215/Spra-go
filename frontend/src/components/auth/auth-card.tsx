@@ -32,7 +32,8 @@ export function AuthCard({
     <SkyPage className="items-center justify-center px-6 py-12">
       <div className="relative z-10 flex w-full max-w-sm flex-col items-center gap-4">
         <AssetImage asset={SPRU_ICONS[icon]} size={104} alt="" />
-        <div className="w-full rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
+        {/* カードの中の日本語は文節で折り返す(「確かめまし／た」のように折れないように) */}
+        <div className="w-full rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)] [word-break:auto-phrase]">
           <h1 className="text-center text-2xl font-black text-[#3b3226]">
             <AutoFurigana text={title} />
           </h1>

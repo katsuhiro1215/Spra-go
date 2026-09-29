@@ -70,6 +70,7 @@ Ownerは日常的な実装判断・技術選定・タスクの進め方につい
 - ✅ Owner / Admin / User の独立ログイン（Laravel Breeze、guard分離）
 - ✅ UserSchema（家族単位）→ UserProfile（プレイヤー、複数人）
 - ✅ プロフィールの作成・選択・**編集・削除**（2026-07-29追加）
+- ✅（2026-09-29）**メール確認とパスワード再設定の画面**: 利用者のアカウントはメール確認あり。登録すると確認メールを送り、確かめるまではプロフィール選びとショップのコイン購入の欄にお知らせを出す（町・学ぶは止めない）。コインの購入だけは確かめるまでできない（`POST /api/coin-purchases/checkout` が403・`email_unverified`）。確認のリンクはログイン不要で24時間有効、結果は `/verify-email?status=verified|expired|invalid`。ログイン画面の「パスワードを忘れたら」から `/forgot-password`（登録の有無に関係なく同じ返事）→ メールのリンク → `/password-reset/{token}` → `/login?reset=1`。開発ではMailpit（`http://localhost:8025`）でメールを見る。本番のメールの送り先は本番デプロイの設計で決める（`docs/design/2026-09-29-email-verify-reset-design.md`）
 - ❌ 決済前の追加認証（パスワード再確認等）— [4-6](#4-6-決済コイン購入)参照
 
 ### 4-2. 冒険ループ（コア体験）
