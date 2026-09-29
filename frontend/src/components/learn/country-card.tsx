@@ -54,7 +54,7 @@ export function ArrivedCountryCard({ country }: { country: LearnCountry }) {
   );
 }
 
-/** まだの国のカード。灰色の国旗に鍵、国名だけ。押すと「せかいへ」の案内を出す */
+/** まだの国のカード。鍵の印を付けた灰色の国旗と、国名だけ。押すと「せかいへ」の案内を出す */
 export function LockedCountryCard({ country, onSelect }: { country: LearnCountry; onSelect: () => void }) {
   return (
     <button
@@ -63,8 +63,16 @@ export function LockedCountryCard({ country, onSelect }: { country: LearnCountry
       aria-label={`${country.name}(まだの国)`}
       className={`${CARD_CLASS} border-[#dccfb4] bg-[#efe5cf] text-[#8a7a5a]`}
     >
-      <Lock aria-hidden className="absolute top-2 left-2 h-4 w-4" />
-      <CardFlag code={country.code} locked />
+      {/* 鍵は国旗の左上の角に丸い印で重ねる(国名の前に並べると、幅320pxで長い国名が2行に折れる) */}
+      <span className="relative block w-full max-w-28">
+        <CardFlag code={country.code} locked />
+        <span
+          aria-hidden
+          className="absolute -top-1.5 -left-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-[#dccfb4] bg-[#fffaf0]"
+        >
+          <Lock className="h-3.5 w-3.5" />
+        </span>
+      </span>
       <span className="text-base leading-tight font-black">
         <AutoFurigana text={country.name} />
       </span>
