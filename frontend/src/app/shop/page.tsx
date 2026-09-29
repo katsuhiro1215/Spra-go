@@ -16,6 +16,8 @@ import { PointsBadge } from "@/components/app/points-badge";
 import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { LoadingScreen } from "@/components/app/spru-loading";
+import { isEmailVerified } from "@/components/auth/auth-flow";
+import { EmailVerifyNotice } from "@/components/auth/email-verify-notice";
 import {
   categoriesWithNew,
   inTab,
@@ -82,6 +84,8 @@ function ShopContent() {
     string | null
   >(null);
   const [message, setMessage] = useState<string | null>(null);
+  // メールアドレスを確かめたか。確かめるまではコインを買えない(docs/design/2026-09-29-email-verify-reset-design.md 3-6)
+  const [emailVerified, setEmailVerified] = useState<boolean | null>(null);
   const [tab, setTab] = useState<ItemCategory | null>(null);
 
   useEffect(() => {
@@ -106,6 +110,10 @@ function ShopContent() {
 
     apiFetch("/api/coin-packages").then(async (res) => {
       if (res.ok) setCoinPackages(await res.json());
+    });
+
+    apiFetch("/api/user").then(async (res) => {
+      if (res.ok) setEmailVerified(isEmailVerified(await res.json()));
     });
   }, [router]);
 
@@ -365,6 +373,7 @@ function ShopContent() {
                 コインを<Furigana text="購入" reading="こうにゅう" />
               </SkyText>
             </h2>
+            {emailVerified === false && <EmailVerifyNotice />}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               {coinPackages.map((pkg) => (
                 <div
@@ -378,9 +387,9 @@ function ShopContent() {
                     ¥{pkg.amount.toLocaleString()}
                   </p>
                   <AppButton
-                    variant="warning"
+                    variant={emailVerified === false ? "locked" : "warning"}
                     size="sm"
-                    disabled={purchasingPackageKey === pkg.key}
+                    disabled={purchasingPackageKey === pkg.key || emailVerified === false}
                     onClick={() => handleCoinPurchase(pkg)}
                     className="w-full normal-case"
                   >
