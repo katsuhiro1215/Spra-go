@@ -14,8 +14,9 @@ class EmailVerificationNotificationController extends Controller
      */
     public function store(Request $request): JsonResponse|RedirectResponse
     {
+        // 画面から呼ぶので、確認済みでもリダイレクトせず JSON で返す(docs/design/2026-09-29-email-verify-reset-design.md 3-5)
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended('/dashboard');
+            return response()->json(['status' => 'already-verified']);
         }
 
         $request->user()->sendEmailVerificationNotification();

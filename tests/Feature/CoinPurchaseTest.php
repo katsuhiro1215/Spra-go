@@ -94,3 +94,17 @@ it('署名ヘッダーが無いWebhookリクエストは400になる', function 
         'Stripe-Signature' => 'invalid',
     ])->assertStatus(400);
 });
+
+it('メールアドレスを確かめていないアカウントはコインを買えない(403・email_unverified)', function () {
+    createActiveProfile();
+    auth()->user()->forceFill(['email_verified_at' => null])->save();
+
+    $this->postJson('/api/coin-purchases/checkout', ['package_key' => 'small'])
+        ->assertForbidden()
+        ->assertJson([
+            'message' => 'メールアドレスを確かめると、コインを買えるようになります。',
+            'code' => 'email_unverified',
+        ]);
+
+    expect(CoinPurchase::count())->toBe(0);
+});

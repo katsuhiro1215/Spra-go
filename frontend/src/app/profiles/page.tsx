@@ -12,6 +12,8 @@ import { upsertById } from "@/components/app/profile-list";
 import { ProfileSheet, type SheetProfile } from "@/components/app/profile-sheet";
 import { SkyPage, SkyTitle } from "@/components/app/sky-page";
 import { SpruLoading } from "@/components/app/spru-loading";
+import { isEmailVerified } from "@/components/auth/auth-flow";
+import { EmailVerifyNotice } from "@/components/auth/email-verify-notice";
 import { SPRU_ICONS } from "@/components/spru/spru-assets";
 import { SpruHouse } from "@/components/spru/spru-house";
 import { apiFetch } from "@/lib/api";
@@ -30,6 +32,8 @@ export default function Page() {
   const [profiles, setProfiles] = useState<Profile[] | null>(null);
   const [managing, setManaging] = useState(false);
   const [sheet, setSheet] = useState<SheetState>({ open: false, target: null, key: 0 });
+  // メールアドレスを確かめたか。確かめていなければお知らせを出す(docs/design/2026-09-29-email-verify-reset-design.md 3-5)
+  const [emailVerified, setEmailVerified] = useState<boolean | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -42,6 +46,10 @@ export default function Page() {
           router.replace("/login");
           return;
         }
+
+        const user = await res.json();
+        if (!active) return;
+        setEmailVerified(isEmailVerified(user));
 
         const profilesRes = await apiFetch("/api/profiles");
         if (!active) return;
@@ -97,6 +105,7 @@ export default function Page() {
             {managing ? "完了" : "プロフィールを編集"}
           </button>
         )}
+        {emailVerified === false && <EmailVerifyNotice className="mt-3" />}
       </div>
 
       <SpruHouse width={230} eager className="z-10 mt-2" />

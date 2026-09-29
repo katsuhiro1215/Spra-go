@@ -35,7 +35,10 @@ class RegisteredUserController extends Controller
 
         $user->schema()->create();
 
-        event(new Registered($user));
+        // 確認メールを送る(docs/design/2026-09-29-email-verify-reset-design.md 4-1)。メールのサーバーが止まっていても
+        // 登録は成功させ、エラーは記録に残す(アカウントはもうできているので、失敗を返すと登録し直せなくなる。メールは
+        // プロフィール選びのお知らせの「もう一度送る」から送り直せる)
+        rescue(fn () => event(new Registered($user)));
 
         Auth::login($user);
 

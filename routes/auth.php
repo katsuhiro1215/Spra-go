@@ -24,8 +24,9 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->middleware('guest')
     ->name('password.store');
 
+// ログイン不要(スマホのメールアプリから開いても確かめられるように)。署名と hash はコントローラーで確かめる
 Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['auth', 'signed', 'throttle:6,1'])
+    ->middleware(['throttle:6,1'])
     ->name('verification.verify');
 
 Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])

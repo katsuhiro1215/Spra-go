@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { use, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -9,7 +9,9 @@ import { SkyPage } from "@/components/app/sky-page";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { apiFetch } from "@/lib/api";
 
-export default function Page() {
+export default function Page(props: PageProps<"/login">) {
+  // 新しいパスワードを決めたあとに来たとき(docs/design/2026-09-29-email-verify-reset-design.md 3-1)
+  const { reset } = use(props.searchParams);
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,6 +61,12 @@ export default function Page() {
             ログインして世界図鑑の続きへ
           </p>
 
+          {reset === "1" && (
+            <p role="status" className="mt-4 rounded-xl bg-[#e8f5dc] px-3 py-2 text-center text-sm font-bold text-[#2f6b1f]">
+              新しいパスワードでログインしてね
+            </p>
+          )}
+
           <form className="mt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="email" className="text-sm font-black text-[#3b3226]">
@@ -89,6 +97,9 @@ export default function Page() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="h-11 rounded-xl border-2 border-[#e8dfcf] bg-white px-3 text-sm text-[#3b3226] outline-none focus-visible:border-[#2b6fa3]"
               />
+              <Link href="/forgot-password" className="self-end text-xs font-black text-[#2b5d7a] underline">
+                パスワードを忘れたら
+              </Link>
             </div>
 
             {error && (
