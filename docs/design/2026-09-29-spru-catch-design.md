@@ -353,7 +353,7 @@ return [
 
 | 使う所 | 絵・音 |
 |---|---|
-| ふだんのスプル | `spru/outing/back.webp` |
+| ふだんのスプル | `spru/outing/back.webp`（2026-09-29 に、新しい設定画 `company/mascot/assets/spru/spru.png` の後ろ姿〔200×337〕に差し替えた。前は mascot-7 の小さい絵〔66×95〕。お出かけ・旅の出発の場面も同じ絵） |
 | 正解のとき | `spru/actions/cheer.webp` |
 | まちがいのとき | `spru/expressions/sad.webp` |
 | 結果（ふつう） | `spru/expressions/happy.webp` |

@@ -70,7 +70,7 @@ export const COMPANION_IMAGES = {
 export const OUTING_IMAGES = {
   "walk": { src: "/spru/outing/walk.webp", width: 93, height: 160 },
   "run": { src: "/spru/outing/run.webp", width: 82, height: 111 },
-  "back": { src: "/spru/outing/back.webp", width: 66, height: 95 },
+  "back": { src: "/spru/outing/back.webp", width: 200, height: 337 },
   "apple": { src: "/spru/outing/apple.webp", width: 80, height: 136 },
   "heart": { src: "/spru/outing/heart.webp", width: 88, height: 137 },
   "star": { src: "/spru/outing/star.webp", width: 90, height: 135 },

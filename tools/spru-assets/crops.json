@@ -1,5 +1,6 @@
 {
   "sources": {
+    "spru": "spru/spru.png",
     "m4": "mascot-4.png",
     "m5": "mascot-5.png",
     "m6": "mascot-6.png",
@@ -78,7 +79,7 @@
   "outing": [
     { "key": "walk", "source": "m7", "box": [88, 14, 178, 170] },
     { "key": "run", "source": "m7", "box": [1058, 814, 1136, 922] },
-    { "key": "back", "source": "m7", "box": [562, 924, 626, 1016] },
+    { "key": "back", "source": "spru", "box": [426, 16, 720, 504], "background": "checker", "scale": 0.7 },
     { "key": "apple", "source": "m7", "box": [842, 662, 920, 794] },
     { "key": "heart", "source": "m7", "box": [966, 662, 1044, 794] },
     { "key": "star", "source": "m7", "box": [1100, 664, 1186, 796] }

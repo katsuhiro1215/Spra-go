@@ -8,6 +8,7 @@
 - 出力: frontend/public/spru/{group}/{key}.webp、表情の顔アイコン faces/、シーン scenes/、
   つぼみ・花 bloom/、畑の種・芽 garden/、仲間 companions/、リュックのスプル outing/、季節の衣装 costumes/、バッジ badges/、
   国のスタンプ stamps/(キーは国のコードの小文字)、スプルの家 house/(背景が透明でない絵は四隅から背景を抜く)、
+  (背景の透明を灰色の格子模様で描いてしまった絵は "background": "checker" で格子を抜く。新しい設定画 spru/ の多く)、
   町のアイテム・おみやげ・目印 items/(キーは絵のキー。docs/design/2026-09-28-town-items-design.md 7-1。
   離れた部品も残すため、既定の mode は "all")
 - 画面のアイコン icons/・ステージの丸 stages/・アバター avatars/・旅の乗り物とチケット travel/・ページの絵 pages/
@@ -32,6 +33,8 @@ MIN_PART = 20  # mode "all" で残す塊の最小の大きさ(小さなごみを
 TIP_ALPHA = 128  # Sの先を探すときの不透明さのしきい値
 TIP_ROWS = 6  # いちばん上から何行分の平均を、Sの先の横位置にするか
 BG_THRESH = 55  # 背景を抜くとき、四隅の色からどれだけ離れた色まで背景とみなすか
+CHECKER_SPREAD = 14  # 格子とみなす色の、RGBの最大と最小の差の上限(色味のない灰色)
+CHECKER_RANGE = (100, 215)  # 格子とみなす明るさ(Rの値)の範囲。白い花びらや、つやの白は入らない
 
 
 def components(mask: Image.Image) -> list[list[tuple[int, int]]]:
@@ -77,6 +80,38 @@ def clear_background(img: Image.Image) -> Image.Image:
         ImageDraw.floodfill(marked, corner, (255, 0, 255), thresh=BG_THRESH)
     diff = ImageChops.difference(marked, Image.new("RGB", marked.size, (255, 0, 255))).convert("L")
     alpha = diff.point(lambda v: 255 if v > 0 else 0).filter(ImageFilter.GaussianBlur(1.2))
+    out = rgb.convert("RGBA")
+    out.putalpha(alpha)
+    return out
+
+
+def clear_checker(img: Image.Image) -> Image.Image:
+    """背景の透明を灰色の格子模様で描いてしまった絵(company/mascot/assets/spru/ の多く)から、
+    四辺につながる格子(色味のない灰色)を透明にする。もともと透明な所がある絵はそのまま返す。
+    銀・真珠のように体の色が格子と近い絵は、体まで削れるので使わない(透明な絵に描き直してもらう)"""
+    if img.getchannel("A").getextrema()[0] < 255:
+        return img
+    rgb = img.convert("RGB")
+    w, h = rgb.size
+    px = rgb.load()
+    lo, hi = CHECKER_RANGE
+
+    def is_checker(x: int, y: int) -> bool:
+        r, g, b = px[x, y]
+        return max(r, g, b) - min(r, g, b) <= CHECKER_SPREAD and lo <= r <= hi
+
+    seen = bytearray(w * h)
+    queue = deque([(x, y) for x in range(w) for y in (0, h - 1)] + [(x, y) for y in range(h) for x in (0, w - 1)])
+    while queue:
+        x, y = queue.popleft()
+        i = y * w + x
+        if seen[i] or not is_checker(x, y):
+            continue
+        seen[i] = 1
+        for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+            if 0 <= nx < w and 0 <= ny < h and not seen[ny * w + nx]:
+                queue.append((nx, ny))
+    alpha = Image.frombytes("L", (w, h), bytes(0 if v else 255 for v in seen)).filter(ImageFilter.GaussianBlur(1.2))
     out = rgb.convert("RGBA")
     out.putalpha(alpha)
     return out
@@ -274,6 +309,7 @@ def main() -> None:
         img = sources[scene["source"]].convert("RGB").crop(tuple(scene["box"]))
         scenes[scene["key"]] = save(img, f'scenes/{scene["key"]}.webp')
 
+    checker_cleared: dict = {}  # 格子を抜くのは重いので、元の絵ごとに1回だけ
     parts: dict = {}
     for group in (
         "bloom", "garden", "companions", "outing", "costumes", "badges", "stamps", "house", "items",
@@ -285,6 +321,10 @@ def main() -> None:
             src = sources[part["source"]]
             if part.get("background") == "flood":
                 src = clear_background(src)
+            elif part.get("background") == "checker":
+                if part["source"] not in checker_cleared:
+                    checker_cleared[part["source"]] = clear_checker(src)
+                src = checker_cleared[part["source"]]
             img = cut_figure(src, part["box"], part.get("scale", 1.0), part.get("mode", default_mode))
             if "width" in part:
                 img = img.resize((part["width"], round(img.height * part["width"] / img.width)), Image.LANCZOS)
