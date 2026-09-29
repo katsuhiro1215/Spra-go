@@ -160,16 +160,31 @@ it('町のAPIのバッグのアイテムにも大きさが付く', function () {
     $this->getJson('/api/world')->assertOk()->assertJsonPath('bag.0.footprint', 2);
 });
 
-it('品ぞろえのシーダーで大きな建物9つ(新しい4つを含む)を含む34種類がそろい、2回実行しても増えない', function () {
+it('品ぞろえのシーダーで大きな建物13(特別の名所4つを含む)を含む38種類がそろい、2回実行しても増えない', function () {
     $this->seed(WorldItemSeeder::class);
     $this->seed(WorldItemSeeder::class);
 
     $items = ShopItem::query()->where('type', 'decoration')->get();
 
-    expect($items)->toHaveCount(34)
+    expect($items)->toHaveCount(38)
         ->and($items->filter(fn (ShopItem $item) => $item->footprint() === 2)->pluck('name')->sort()->values()->all())
-        ->toBe(['お城', 'カフェ', 'タワー', 'パン屋', '五重塔', '和風の家', '噴水', '大きな船', '灯台'])
+        ->toBe(['お城', 'カフェ', 'タワー', 'パン屋', 'ビッグ・ベン', '五重塔', '凱旋門', '南大門', '和風の家', '噴水', '大きな船', '灯台', '金閣寺'])
         ->and($items->firstWhere('name', 'タワー')->only(['price', 'min_level']))->toBe(['price' => 500, 'min_level' => 12]);
+});
+
+it('特別の名所4点は Lv10〜15・600〜900pt の名所(2×2)として並ぶ(設計書 2026-09-28-town-items 5-4)', function () {
+    $this->seed(WorldItemSeeder::class);
+
+    $row = function (string $name): array {
+        $item = ShopItem::query()->where('name', $name)->firstOrFail();
+
+        return [$item->min_level, $item->price, $item->assetKey(), $item->category(), $item->footprint()];
+    };
+
+    expect($row('金閣寺'))->toBe([10, 600, 'kinkakuji', 'landmark', 2])
+        ->and($row('南大門'))->toBe([11, 650, 'sungnyemun', 'landmark', 2])
+        ->and($row('凱旋門'))->toBe([13, 750, 'arc_de_triomphe', 'landmark', 2])
+        ->and($row('ビッグ・ベン'))->toBe([15, 900, 'big_ben', 'landmark', 2]);
 });
 
 it('新しい16点は設計書 2026-09-28-town-items 5-2 のレベル・値段・カテゴリで並ぶ', function () {

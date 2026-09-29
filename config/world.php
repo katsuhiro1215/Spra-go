@@ -51,6 +51,8 @@ return [
         // 段階2・3(docs/design/2026-09-28-town-items-design.md 5-2)
         'tulip', 'rock', 'sunflower', 'bush', 'momiji', 'pine', 'flower_pots', 'well', 'street_lamp', 'mailbox',
         'cottage', 'red_house', 'bakery', 'japanese_house', 'cafe', 'lighthouse',
+        // 特別の名所(docs/design/2026-09-28-town-items-design.md 5-4。各国の有名な建物、高額でレア)
+        'kinkakuji', 'sungnyemun', 'arc_de_triomphe', 'big_ben',
     ],
 
     /*
@@ -63,6 +65,7 @@ return [
         'fountain' => 2, 'pagoda' => 2, 'castle' => 2, 'tower' => 2, 'boat_large' => 2,
         'borobudur' => 2, 'bulguksa' => 2, 'liberty' => 2, 'stonehenge' => 2, 'mont_saint_michel' => 2,
         'bakery' => 2, 'japanese_house' => 2, 'cafe' => 2, 'lighthouse' => 2,
+        'kinkakuji' => 2, 'sungnyemun' => 2, 'arc_de_triomphe' => 2, 'big_ben' => 2,
     ],
 
     /*
@@ -83,6 +86,7 @@ return [
         'flower_pots' => 'decor', 'well' => 'decor', 'street_lamp' => 'decor', 'mailbox' => 'decor',
         'cottage' => 'house', 'red_house' => 'house', 'bakery' => 'house', 'japanese_house' => 'house', 'cafe' => 'house',
         'lighthouse' => 'landmark',
+        'kinkakuji' => 'landmark', 'sungnyemun' => 'landmark', 'arc_de_triomphe' => 'landmark', 'big_ben' => 'landmark',
     ],
 
     /*

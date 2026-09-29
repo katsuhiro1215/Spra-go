@@ -37,6 +37,11 @@ export const ITEM_ART_KEYS = [
   "japanese_house",
   "cafe",
   "lighthouse",
+  // 特別の名所(docs/design/2026-09-28-town-items-design.md 5-4)
+  "kinkakuji",
+  "sungnyemun",
+  "arc_de_triomphe",
+  "big_ben",
 ] as const;
 
 export type ItemArtKey = (typeof ITEM_ART_KEYS)[number];
@@ -95,6 +100,10 @@ export const ITEM_ART_LABELS: Record<ItemArtKey, string> = {
   japanese_house: "和風の家",
   cafe: "カフェ",
   lighthouse: "灯台",
+  kinkakuji: "金閣寺",
+  sungnyemun: "南大門",
+  arc_de_triomphe: "凱旋門",
+  big_ben: "ビッグ・ベン",
 };
 
 /** 絵のカテゴリ(設計書 2026-09-28-town-items 3-2)。config/world.php の asset_categories と必ず一致させる */
@@ -133,6 +142,10 @@ export const ITEM_ART_CATEGORIES: Record<ItemArtKey, ItemCategory> = {
   japanese_house: "house",
   cafe: "house",
   lighthouse: "landmark",
+  kinkakuji: "landmark",
+  sungnyemun: "landmark",
+  arc_de_triomphe: "landmark",
+  big_ben: "landmark",
 };
 
 /** 管理画面の絵の選択肢の名前。カテゴリと、2×2なら大きさを添える(例: 「五重塔（名所・2×2）」) */
@@ -157,6 +170,10 @@ export const BIG_ASSETS: readonly ArtKey[] = [
   "japanese_house",
   "cafe",
   "lighthouse",
+  "kinkakuji",
+  "sungnyemun",
+  "arc_de_triomphe",
+  "big_ben",
 ];
 
 export function isBigAsset(key: string | null): boolean {
