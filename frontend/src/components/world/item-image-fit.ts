@@ -7,4 +7,15 @@ export const ITEM_IMAGE_FIT: Partial<Record<string, ItemImageFit>> = {};
 export type ImageLight = { x: number; y: number; r: number };
 
 /** 光る物の明かり。アイテムも目印も同じキーで書く(石灯籠は両方で使う) */
-export const IMAGE_LIGHTS: Partial<Record<string, ImageLight[]>> = {};
+export const IMAGE_LIGHTS: Partial<Record<string, ImageLight[]>> = {
+  chochin: [{ x: 0.71, y: 0.5, r: 9 }],
+  stone_lantern: [{ x: 0.5, y: 0.41, r: 7 }],
+  street_lamp: [{ x: 0.48, y: 0.16, r: 7 }],
+  tower: [{ x: 0.5, y: 0.05, r: 7 }],
+  liberty: [{ x: 0.34, y: 0.03, r: 7 }],
+  lighthouse: [{ x: 0.45, y: 0.18, r: 10 }],
+  spru_house: [
+    { x: 0.09, y: 0.675, r: 6 },
+    { x: 0.71, y: 0.71, r: 6 },
+  ],
+};
