@@ -386,6 +386,29 @@
     transform-origin: 50% 90%;
   }
 
+  /* スプルキャッチでまちがえた言葉がゆれる(docs/design/2026-09-29-spru-catch-design.md 3-2) */
+  @keyframes catch-shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-6px);
+    }
+    40% {
+      transform: translateX(6px);
+    }
+    60% {
+      transform: translateX(-4px);
+    }
+    80% {
+      transform: translateX(4px);
+    }
+  }
+  .animate-catch-shake {
+    animation: catch-shake 0.4s ease-in-out both;
+  }
+
   /* 区画が開いたとき、雲が散って晴れる(E回 設計書3-2) */
   @keyframes cloud-clear {
     to {
@@ -627,6 +650,7 @@
     .animate-spru-hop,
     .animate-tile-pulse,
     .animate-pop-in,
+    .animate-catch-shake,
     .animate-twinkle,
     .animate-stage-start,
     .animate-stage-intro-subtitle,
