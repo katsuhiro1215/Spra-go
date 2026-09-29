@@ -33,3 +33,13 @@ test('users can logout', function () {
     $this->assertGuest();
     $response->assertNoContent();
 });
+
+test('画面から(JSONで)ログインしてパスワードがまちがっていると、リダイレクトでなく 422 の JSON が返る', function () {
+    $user = User::factory()->create();
+
+    $this->postJson('/login', ['email' => $user->email, 'password' => 'wrong-password'])
+        ->assertStatus(422)
+        ->assertJsonValidationErrors('email');
+
+    $this->assertGuest();
+});

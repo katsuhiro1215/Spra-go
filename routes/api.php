@@ -1687,6 +1687,14 @@ Route::middleware(['auth:sanctum'])->post('/coin-purchases/checkout', function (
     $profile = $profileId ? UserProfile::find($profileId) : null;
     abort_unless($profile && $profile->user_schema_id === $request->user()->schema?->id, 422);
 
+    // メールアドレスを確かめるまでは買えない(docs/design/2026-09-29-email-verify-reset-design.md 4-3)
+    if (! $request->user()->hasVerifiedEmail()) {
+        return response()->json([
+            'message' => 'メールアドレスを確かめると、コインを買えるようになります。',
+            'code' => 'email_unverified',
+        ], 403);
+    }
+
     abort_unless(config('services.stripe.secret_key'), 503, 'Stripeが設定されていません。');
 
     $stripe = new StripeClient(config('services.stripe.secret_key'));

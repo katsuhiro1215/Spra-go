@@ -24,7 +24,9 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // 画面(apiFetch は Accept: application/json を付ける)からのログイン・パスワード再設定などの Web の道も、
+        // 入力のまちがいをリダイレクトでなく 422 の JSON で返す(docs/design/2026-09-29-email-verify-reset-design.md 3章)
         $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*'),
+            fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
     })->create();
