@@ -65,7 +65,7 @@ class Family
             'items' => $other->worldItems()->with('shopItem')->whereNotNull('x')->whereNotNull('y')->orderBy('id')->get()
                 ->map->toWorldArray()->values()->all(),
             'spru' => ['growth' => Garden::growth($other)],
-            'garden' => ['x' => $garden['x'], 'y' => $garden['y'], 'state' => $garden['state']],
+            'garden' => ['x' => $garden['x'], 'y' => $garden['y'], 'state' => $garden['state'], 'look' => $garden['look']],
             'companions' => Garden::companions($other),
             'greeted_today' => self::greetedToday($viewer, $other),
         ];

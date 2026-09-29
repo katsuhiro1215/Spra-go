@@ -32,6 +32,7 @@ use App\Support\LevelCurve;
 use App\Support\PlayableQuestion;
 use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
+use App\Support\RareSeeds;
 use App\Support\Review;
 use App\Support\Travel;
 use App\Support\WorldLand;
@@ -1301,6 +1302,8 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
     Route::get('/', function (Request $request) {
         $profile = ActiveProfile::require($request);
         $profile->regenerateHp();
+        // 条件を満たした特別な種を先に渡す(種のふくろに入る。docs/design/2026-09-29-rare-spru-design.md 3-2)
+        $newSeeds = RareSeeds::grantLocked($profile);
         $items = $profile->worldItems()->with('shopItem')->orderBy('id')->get();
 
         return [
@@ -1328,6 +1331,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'family_count' => Family::others($profile)->count(),
             'plots_new' => WorldLand::newPlotKeys($profile->level, $profile->world_plots_seen ?? []),
             'tickets' => Travel::tickets($profile),
+            'new_seeds' => RareSeeds::present($newSeeds),
         ];
     })->name('show');
 
@@ -1350,10 +1354,15 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
 
     Route::post('/garden/sow', function (Request $request) {
         $activeProfile = ActiveProfile::require($request);
+        // spru(スプルの種)か、レアスプルの色だけ(docs/design/2026-09-29-rare-spru-design.md 4-5)
+        $data = $request->validate(
+            ['seed' => ['nullable', 'string', Rule::in(['spru', ...array_keys(RareSeeds::rares())])]],
+            ['seed.in' => 'その種は持っていないよ', 'seed.string' => 'その種は持っていないよ'],
+        );
 
-        return DB::transaction(function () use ($activeProfile) {
+        return DB::transaction(function () use ($activeProfile, $data) {
             $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
-            Garden::sow($profile);
+            Garden::sow($profile, $data['seed'] ?? 'spru');
 
             return ['spru' => ['growth' => Garden::growth($profile)], 'garden' => Garden::state($profile)];
         });

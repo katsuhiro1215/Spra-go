@@ -132,7 +132,7 @@ it('3回目の水やりで仲間が生まれ、道に並ぶ', function () {
         ->assertJsonPath('born', [
             'kind' => 'companion', 'key' => 'momo', 'name' => 'Momo', 'official_name' => 'Momo', 'nickname' => null,
             'trait' => '花・やさしさ', 'lines' => ['お花、きれいだね'], 'hearts' => 1, 'heart_label' => 'はじめまして',
-            'bond' => 0, 'next_heart_bond' => 20, 'is_partner' => true, 'x' => 0, 'y' => 3,
+            'bond' => 0, 'next_heart_bond' => 20, 'is_partner' => true, 'rare' => false, 'in_town' => true, 'x' => 0, 'y' => 3,
         ])
         ->assertJsonPath('garden.state', 'empty');
 

@@ -45,27 +45,42 @@ class Garden
         return $profile->last_correct_on?->toDateString() === self::today();
     }
 
-    /** @return array{x:int, y:int, state:string, waterings:int, learned_today:bool, watered_today:bool, can_sow:bool, can_water:bool} */
+    /** @return array{x:int, y:int, state:string, look:?string, waterings:int, learned_today:bool, watered_today:bool, spru_seed_ready:bool, seed_bag:list<array{key:string, name:string}>, can_sow:bool, can_water:bool} */
     public static function state(UserProfile $profile): array
     {
         $seed = self::activeSeed($profile);
         $learned = self::learnedToday($profile);
         $watered = $seed?->last_watered_on?->toDateString() === self::today();
+        $spruSeedReady = self::growth($profile) >= config('companions.growth_steps');
+        $bag = RareSeeds::bag($profile);
 
         return [
             ...self::position(),
             'state' => $seed === null ? 'empty' : ['seed', 'sprout', 'sprout_big'][min($seed->waterings, 2)],
+            'look' => $seed === null ? null : self::look($seed),
             'waterings' => $seed?->waterings ?? 0,
             'learned_today' => $learned,
             'watered_today' => $watered,
-            'can_sow' => $seed === null && self::growth($profile) >= config('companions.growth_steps'),
+            'spru_seed_ready' => $spruSeedReady,
+            'seed_bag' => $bag,
+            'can_sow' => $seed === null && ($spruSeedReady || $bag !== []),
             'can_water' => $seed !== null && $learned && ! $watered,
         ];
     }
 
     /**
+     * 畑の見た目(docs/design/2026-09-29-rare-spru-design.md 3-4)。特別な種はその色、
+     * スプルの種は生まれる子にかかわらず spru(誰が生まれるかを画面に送らない)
+     */
+    public static function look(ProfileSeed $seed): string
+    {
+        return RareSeeds::isRare($seed->result_key) ? $seed->result_key : 'spru';
+    }
+
+    /**
      * 生まれた仲間。相棒を先頭に、ほかは生まれた順(docs/design/2026-09-27-spru-wave-c-design.md 3-1)。
-     * 立ち位置(config/world.php の companion_spots)はこの順に前から使う。
+     * 立ち位置(config/world.php の companion_spots)は、町にいる子だけにこの順で前から使う。
+     * おうちで休んでいる子は x・y が null(docs/design/2026-09-29-rare-spru-design.md 3-5)
      *
      * @return list<array<string, mixed>>
      */
@@ -73,11 +88,16 @@ class Garden
     {
         $spots = config('world.companion_spots');
         $partnerKey = $profile->partner_companion_key;
+        $next = 0;
 
         return $profile->companions()->orderBy('id')->get()
             ->sortBy(fn (ProfileCompanion $companion) => $companion->companion_key === $partnerKey ? 0 : 1)
             ->values()
-            ->map(fn (ProfileCompanion $companion, int $i) => self::companionArray($companion, $partnerKey, $spots[$i] ?? null))
+            ->map(function (ProfileCompanion $companion) use ($partnerKey, $spots, &$next) {
+                $spot = $companion->in_town ? ($spots[$next++] ?? null) : null;
+
+                return self::companionArray($companion, $partnerKey, $spot);
+            })
             ->all();
     }
 
@@ -104,16 +124,28 @@ class Garden
         return $candidates->keys()->last();
     }
 
-    /** 呼び出し側で、プロフィールを lockForUpdate してから呼ぶ */
-    public static function sow(UserProfile $profile): ProfileSeed
+    /**
+     * 呼び出し側で、プロフィールを lockForUpdate してから呼ぶ。$seed は spru(スプルの種)か、
+     * ふくろにある特別な種の色(docs/design/2026-09-29-rare-spru-design.md 3-3)。特別な種はスプルの育ち具合を戻さない
+     */
+    public static function sow(UserProfile $profile, string $seed = 'spru'): ProfileSeed
     {
-        abort_if(self::growth($profile) < config('companions.growth_steps'), 422, 'まだ種ができていないよ');
+        if ($seed === 'spru') {
+            abort_if(self::growth($profile) < config('companions.growth_steps'), 422, 'まだ種ができていないよ');
+            abort_if(self::activeSeed($profile) !== null, 422, '畑に芽が育っているよ');
+
+            $profile->bloom_base_level = $profile->level;
+            $profile->save();
+
+            return $profile->seeds()->create(['result_key' => self::pickResult($profile)]);
+        }
+
         abort_if(self::activeSeed($profile) !== null, 422, '畑に芽が育っているよ');
+        $special = $profile->specialSeeds()->where('rare_key', $seed)->whereNull('planted_at')->first();
+        abort_if($special === null, 422, 'その種は持っていないよ');
+        $special->update(['planted_at' => now()]);
 
-        $profile->bloom_base_level = $profile->level;
-        $profile->save();
-
-        return $profile->seeds()->create(['result_key' => self::pickResult($profile)]);
+        return $profile->seeds()->create(['result_key' => $seed]);
     }
 
     /**
@@ -165,7 +197,9 @@ class Garden
             return ['kind' => 'item', 'world_item' => $worldItem->load('shopItem')->toWorldArray()];
         }
 
-        $profile->companions()->firstOrCreate(['companion_key' => $resultKey]);
+        // 町がいっぱいなら、おうちで休む(docs/design/2026-09-29-rare-spru-design.md 3-5)
+        $inTown = $profile->companions()->where('in_town', true)->count() < config('companions.town_limit');
+        $profile->companions()->firstOrCreate(['companion_key' => $resultKey], ['in_town' => $inTown]);
         if ($profile->partner_companion_key === null) {
             // 最初の仲間は自動で相棒になる(C回、設計書3-1)
             $profile->partner_companion_key = $resultKey;
@@ -194,6 +228,8 @@ class Garden
             'bond' => $companion->bond,
             'next_heart_bond' => Bond::nextHeartBond($companion->bond),
             'is_partner' => $key === $partnerKey,
+            'rare' => (bool) ($def['rare'] ?? false),
+            'in_town' => (bool) $companion->in_town,
             'x' => $spot[0] ?? null,
             'y' => $spot[1] ?? null,
         ];
