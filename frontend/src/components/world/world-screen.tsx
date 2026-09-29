@@ -35,6 +35,7 @@ import { NicknameDialog } from "./nickname-dialog";
 import { PlacementBar } from "./placement-bar";
 import { PlotUnlockCard } from "./plot-unlock-card";
 import { ReviewCard } from "./review-card";
+import { SeedGift } from "./seed-gift";
 import { SeedPicker } from "./seed-picker";
 import {
   readSeasonShown,
@@ -50,6 +51,7 @@ import { TownMap } from "./town-map";
 import type {
   BornResult,
   ErrandClaimResult,
+  NewSeed,
   ShopListItem,
   WorldCompanion,
   WorldData,
@@ -99,6 +101,8 @@ export function WorldScreen() {
   const [gardenBusy, setGardenBusy] = useState(false);
   // どの種をまく？(ふくろに種があるとき)
   const [pickerOpen, setPickerOpen] = useState(false);
+  // 新しくもらった特別な種(ほかのお祝いの後に出す。docs/design/2026-09-29-rare-spru-design.md 5-2)
+  const [seedGifts, setSeedGifts] = useState<NewSeed[]>([]);
   // 開いている仲間のカード(仲間のキー)・スプルの復習カード・最初の仲間の名前付け
   const [sheetKey, setSheetKey] = useState<string | null>(null);
   const [reviewCardOpen, setReviewCardOpen] = useState(false);
@@ -146,6 +150,7 @@ export function WorldScreen() {
         const data: WorldData = await res.json();
         setWorld(data);
         setGreetings(data.greetings);
+        setSeedGifts(data.new_seeds);
         const opened = new Date();
         if (shouldShowSeasonGreeting(opened, readSeasonShown(data.profile.id))) setSeason(seasonGreeting(opened));
         applyPartial({ points: data.profile.points });
@@ -710,6 +715,10 @@ export function WorldScreen() {
       {calm && greetings.length > 0 && <GreetingsCard greetings={greetings} onClose={closeGreetings} />}
 
       {calm && greetings.length === 0 && season && <SeasonGreetingCard greeting={season} onDone={closeSeason} />}
+
+      {calm && greetings.length === 0 && !season && !born && seedGifts.length > 0 && (
+        <SeedGift seeds={seedGifts} onClose={() => setSeedGifts([])} />
+      )}
 
       {born && <BornOverlay born={born} onClose={handleBornClose} />}
 
