@@ -9,8 +9,8 @@
     "m9": "mascot-9.png",
     "m10": "mascot-10.png",
     "m11": "mascot-11.png",
-    "m12": "mascot-12.png",
-    "m12b": "mascot-12-2.png",
+    "m12": "badges/badge1.png",
+    "m12b": "badges/badge1-1.png",
     "house": "image1.png",
     "i4": "image4.png",
     "i5": "image5.png",
@@ -23,7 +23,10 @@
     "item6": "items/item6.png",
     "item7": "items/item7.png",
     "item8": "items/item8.png",
-    "item9": "items/item9.png"
+    "item9": "items/item9.png",
+    "item10": "items/item10.png",
+    "item11": "items/item11.png",
+    "b4": "badges/badge4.png"
   },
   "figures": [
     { "key": "front", "group": "basic", "source": "m6", "box": [30, 48, 158, 258] },
@@ -113,7 +116,8 @@
     { "key": "fr", "source": "m12b", "box": [256, 12, 740, 488], "scale": 0.42 },
     { "key": "it", "source": "m12b", "box": [804, 12, 1280, 492], "scale": 0.42 },
     { "key": "gb", "source": "m12b", "box": [260, 512, 740, 988], "scale": 0.42 },
-    { "key": "es", "source": "m12b", "box": [808, 520, 1280, 992], "scale": 0.42 }
+    { "key": "es", "source": "m12b", "box": [808, 520, 1280, 992], "scale": 0.42 },
+    { "key": "kr", "source": "b4", "box": [11, 666, 373, 1006], "background": "flood", "mode": "all", "scale": 0.56 }
   ],
   "house": [
     { "key": "home", "source": "house", "box": [0, 0, 1254, 1254], "mode": "all", "scale": 0.48, "background": "flood" }
@@ -166,7 +170,11 @@
     { "key": "bulguksa", "source": "item8", "box": [548, 560, 1068, 956], "background": "flood", "scale": 0.985 },
     { "key": "liberty", "source": "item8", "box": [1100, 484, 1492, 980], "background": "flood", "scale": 0.985 },
     { "key": "stonehenge", "source": "item9", "box": [28, 252, 864, 792], "background": "flood", "scale": 0.617 },
-    { "key": "mont_saint_michel", "source": "item9", "box": [916, 20, 1752, 828], "background": "flood", "scale": 0.617 }
+    { "key": "mont_saint_michel", "source": "item9", "box": [916, 20, 1752, 828], "background": "flood", "scale": 0.617 },
+    { "key": "kinkakuji", "source": "item10", "box": [13, 94, 830, 901], "background": "flood", "scale": 0.63 },
+    { "key": "arc_de_triomphe", "source": "item10", "box": [860, 155, 1516, 898], "background": "flood", "scale": 0.63 },
+    { "key": "big_ben", "source": "item11", "box": [28, 18, 650, 959], "background": "flood", "scale": 0.63 },
+    { "key": "sungnyemun", "source": "item11", "box": [689, 244, 1502, 950], "background": "flood", "scale": 0.63 }
   ],
   "icons": [
     { "key": "login", "source": "i4", "box": [28, 92, 224, 340] },

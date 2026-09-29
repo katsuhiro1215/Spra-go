@@ -113,6 +113,7 @@ export const STAMP_IMAGES = {
   "it": { src: "/spru/stamps/it.webp", width: 202, height: 202 },
   "gb": { src: "/spru/stamps/gb.webp", width: 202, height: 202 },
   "es": { src: "/spru/stamps/es.webp", width: 200, height: 200 },
+  "kr": { src: "/spru/stamps/kr.webp", width: 203, height: 190 },
 } as const satisfies Record<string, SpruImage>;
 
 /** スプルの家(入口の1枚の絵)。町のマスには置かない */
@@ -170,6 +171,10 @@ export const SPRU_ITEMS = {
   "liberty": { src: "/spru/items/liberty.webp", width: 384, height: 485 },
   "stonehenge": { src: "/spru/items/stonehenge.webp", width: 507, height: 325 },
   "mont_saint_michel": { src: "/spru/items/mont_saint_michel.webp", width: 507, height: 492 },
+  "kinkakuji": { src: "/spru/items/kinkakuji.webp", width: 511, height: 507 },
+  "arc_de_triomphe": { src: "/spru/items/arc_de_triomphe.webp", width: 410, height: 466 },
+  "big_ben": { src: "/spru/items/big_ben.webp", width: 388, height: 590 },
+  "sungnyemun": { src: "/spru/items/sungnyemun.webp", width: 508, height: 441 },
 } as const satisfies Record<string, SpruImage>;
 
 /** 画面のアイコン(下のメニュー・音・じぶん・町・入口。docs/design/2026-09-29-spru-icons-design.md 3-3) */

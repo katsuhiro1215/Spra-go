@@ -51,6 +51,11 @@ class WorldItemSeeder extends Seeder
             ['name' => '和風の家', 'price' => 280, 'min_level' => 8, 'asset_key' => 'japanese_house'],
             ['name' => 'カフェ', 'price' => 320, 'min_level' => 9, 'asset_key' => 'cafe'],
             ['name' => '灯台', 'price' => 350, 'min_level' => 9, 'asset_key' => 'lighthouse'],
+            // 特別の名所(docs/design/2026-09-28-town-items-design.md 5-4)。Lv10から上の目標になる、高額でレアな各国の有名な建物
+            ['name' => '金閣寺', 'price' => 600, 'min_level' => 10, 'asset_key' => 'kinkakuji'],
+            ['name' => '南大門', 'price' => 650, 'min_level' => 11, 'asset_key' => 'sungnyemun'],
+            ['name' => '凱旋門', 'price' => 750, 'min_level' => 13, 'asset_key' => 'arc_de_triomphe'],
+            ['name' => 'ビッグ・ベン', 'price' => 900, 'min_level' => 15, 'asset_key' => 'big_ben'],
         ];
 
         foreach ($items as $item) {

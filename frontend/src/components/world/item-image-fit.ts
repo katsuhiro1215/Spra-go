@@ -18,4 +18,8 @@ export const IMAGE_LIGHTS: Partial<Record<string, ImageLight[]>> = {
     { x: 0.09, y: 0.675, r: 6 },
     { x: 0.71, y: 0.71, r: 6 },
   ],
+  big_ben: [
+    { x: 0.526, y: 0.416, r: 6 },
+    { x: 0.725, y: 0.416, r: 6 },
+  ],
 };
