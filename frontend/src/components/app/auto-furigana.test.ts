@@ -48,3 +48,53 @@ describe("自動ふりがな(ショップとバッグのタブ)", () => {
     expect(ruby("いえ・お店")).toEqual(["お店(おみせ)"]);
   });
 });
+
+describe("自動ふりがな(数字の後の日・人)", () => {
+  it("日は数に合わせて読む(何日間の読み)", () => {
+    expect(ruby("7日続けて学ぶ")).toEqual(["7日(なのか)", "続(つづ)"]);
+    expect(ruby("あと3日")).toEqual(["3日(みっか)"]);
+    expect(ruby("あと1日")).toEqual(["1日(いちにち)"]);
+    expect(ruby("30日、毎日来てくれて")).toEqual(["30日(さんじゅうにち)", "毎日(まいにち)"]);
+    expect(ruby("14日")).toEqual(["14日(じゅうよっか)"]);
+    expect(ruby("20日")).toEqual(["20日(はつか)"]);
+    expect(ruby("17日")).toEqual(["17日(じゅうしちにち)"]);
+    expect(ruby("100日連続プレイ！")).toEqual(["100日(ひゃくにち)", "連続(れんぞく)"]);
+    expect(ruby("365日")).toEqual(["365日(さんびゃくろくじゅうごにち)"]);
+  });
+
+  it("人は数に合わせて読む", () => {
+    expect(ruby("仲間が5人そろったね")).toEqual(["仲間(なかま)", "5人(ごにん)"]);
+    expect(ruby("1人")).toEqual(["1人(ひとり)"]);
+    expect(ruby("2人")).toEqual(["2人(ふたり)"]);
+    expect(ruby("4人")).toEqual(["4人(よにん)"]);
+  });
+
+  it("日・人が後ろにない数字は、そのまま", () => {
+    expect(ruby("レベル10になる")).toEqual([]);
+    expect(tokenize("レベル10になる")).toEqual(["レベル10になる"]);
+  });
+});
+
+describe("自動ふりがな(レアスプルと特別な種の言葉)", () => {
+  it("1文字ずつ読むと誤る言葉を、言葉ごとに読む", () => {
+    expect(ruby("今日の復習")).toEqual(["今日(きょう)"]);
+    expect(ruby("町に出す")).toEqual(["出す(だす)"]);
+    expect(ruby("町に出せるよ")).toEqual(["出せる(だせる)"]);
+    expect(ruby("琥珀・思い出")).toEqual(["思い出(おもいで)"]);
+    expect(ruby("大切なしんゆう")).toEqual(["大切(たいせつ)"]);
+    expect(ruby("水晶・集中")).toEqual(["集中(しゅうちゅう)"]);
+    expect(ruby("全問正解")).toEqual(["全問(ぜんもん)", "正解(せいかい)"]);
+    expect(ruby("最高のしんゆう")).toEqual(["最高(さいこう)"]);
+    expect(ruby("一番のしんゆう")).toEqual(["一番(いちばん)"]);
+    expect(ruby("なかまの一覧")).toEqual(["一覧(いちらん)"]);
+    expect(ruby("会えてうれしい")).toEqual(["会えて(あえて)"]);
+    expect(ruby("会いに来たよ")).toEqual(["会いに(あいに)"]);
+    expect(ruby("何度も")).toEqual(["何度(なんど)"]);
+    expect(ruby("景色")).toEqual(["景色(けしき)"]);
+    expect(ruby("大きくなる")).toEqual(["大きく(おおきく)"]);
+    expect(ruby("小さな一歩")).toEqual(["小さな(ちいさな)", "一歩(いっぽ)"]);
+    expect(ruby("宝物")).toEqual(["宝物(たからもの)"]);
+    expect(ruby("白金")).toEqual(["白金(はっきん)"]);
+    expect(ruby("あと1か国")).toEqual(["か国(かこく)"]);
+  });
+});
