@@ -28,3 +28,20 @@ test('登録すると、確認メールが送られる(docs/design/2026-09-29-em
 
     Notification::assertSentTo(User::where('email', 'verify@example.com')->firstOrFail(), VerifyEmail::class);
 });
+
+test('確認メールが送れなくても(メールのサーバーが止まっているなど)登録は成功し、ログインした状態になる', function () {
+    // 確認メールを送る処理(Registered のイベント)が失敗したときの代わり
+    Illuminate\Support\Facades\Event::listen(Illuminate\Auth\Events\Registered::class, function () {
+        throw new RuntimeException('メールのサーバーにつながらない');
+    });
+
+    $this->post('/register', [
+        'name' => 'Mail Down',
+        'email' => 'mail-down@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ])->assertNoContent();
+
+    $this->assertAuthenticated();
+    expect(User::where('email', 'mail-down@example.com')->exists())->toBeTrue();
+});
