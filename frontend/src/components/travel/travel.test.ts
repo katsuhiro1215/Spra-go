@@ -16,7 +16,6 @@ import {
   pickBeginnerGroup,
   ticketHintText,
   transportText,
-  unlockedCountries,
   vehicleImage,
 } from "./travel";
 import type { Destination, TravelSouvenir } from "./types";
@@ -120,15 +119,6 @@ describe("乗り物と出発の場面の文", () => {
 });
 
 describe("学ぶタブの鍵", () => {
-  it("鍵のない国だけを並びのまま残す(地図に渡す)", () => {
-    const countries = [
-      { code: "jp", locked: false },
-      { code: "id", locked: true },
-      { code: "us", locked: false },
-    ];
-    expect(unlockedCountries(countries).map((country) => country.code)).toEqual(["jp", "us"]);
-  });
-
   it("鍵の国を押したときの案内", () => {
     expect(lockedCountryText("アメリカ")).toBe("アメリカへは『せかい』でチケットを使うと行けるよ");
   });

@@ -661,13 +661,33 @@ Route::middleware(['auth:sanctum'])->get('/countries', function (Request $reques
     // 学ぶタブ向け(docs/design/2026-09-28-travel-tickets-design.md 3-6): 日本と旅の行き先の国のうち、コンテンツがある国だけを
     // 日本 → 行き先の順に返し、まだ着いていない行き先に鍵(locked)を付ける。Owner管理画面は /api/owner/countries で全件を扱う。
     // Accept-Language からの推定(Country::guessFromAcceptLanguage)は、スタートが日本に決まったので使わない(海外展開のときにまた使う)
+    // 国ごとの achievement(クリアしたステージの数/問題のあるステージの数)は国旗のカードに出す(docs/design/2026-09-29-learn-flag-cards-design.md)
     $codes = Travel::countryCodes();
-    $locked = Travel::lockedCountryIds(ActiveProfile::find($request));
+    $profile = ActiveProfile::find($request);
+    $locked = Travel::lockedCountryIds($profile);
 
-    return Country::query()
+    $countries = Country::query()
         ->whereIn(DB::raw('LOWER(code)'), $codes)
         ->whereHas('stages.questions')
-        ->get()
+        ->get();
+
+    // 国旗のカードの進み具合(docs/design/2026-09-29-learn-flag-cards-design.md 4章)。問題のあるステージ(id => 国のid)と、
+    // 今のプロフィールがそのうちクリアしたステージを、国の数によらずまとめて1回ずつ読む
+    $stageCountries = Stage::query()
+        ->whereIn('country_id', $countries->pluck('id'))
+        ->whereHas('questions')
+        ->pluck('country_id', 'id');
+    $clearedStageIds = $profile
+        ? ProfileStageProgress::query()
+            ->where('user_profile_id', $profile->id)
+            ->whereNotNull('cleared_at')
+            ->whereIn('stage_id', $stageCountries->keys())
+            ->pluck('stage_id')
+            ->all()
+        : [];
+    $clearedCountries = $stageCountries->only($clearedStageIds);
+
+    return $countries
         ->sortBy(fn (Country $country) => array_search(strtolower($country->code), $codes, true))
         ->map(fn (Country $country) => [
             ...$country->toArray(),
@@ -676,6 +696,10 @@ Route::middleware(['auth:sanctum'])->get('/countries', function (Request $reques
                 ->whereHas('category', fn ($q) => $q->where('is_language_mode', true))
                 ->whereHas('questions')
                 ->exists(),
+            'achievement' => [
+                'cleared' => $clearedCountries->filter(fn ($countryId) => (int) $countryId === $country->id)->count(),
+                'total' => $stageCountries->filter(fn ($countryId) => (int) $countryId === $country->id)->count(),
+            ],
         ])
         ->values();
 })->name('countries.index');
