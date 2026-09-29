@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ProfileCompanion extends Model
+/** がんばった記念にもらった特別な種(docs/design/2026-09-29-rare-spru-design.md 4-1) */
+class ProfileSpecialSeed extends Model
 {
-    protected $fillable = ['companion_key', 'nickname', 'bond', 'in_town'];
+    protected $fillable = ['rare_key', 'granted_at', 'planted_at'];
 
     protected function casts(): array
     {
         return [
-            'bond' => 'integer',
-            'in_town' => 'boolean',
+            'granted_at' => 'datetime',
+            'planted_at' => 'datetime',
         ];
     }
 
