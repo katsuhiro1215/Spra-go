@@ -3,5 +3,8 @@ export type ItemImageFit = { scale?: number; dx?: number; dy?: number };
 
 export const ITEM_IMAGE_FIT: Partial<Record<string, ItemImageFit>> = {};
 
-/** 画像の目印の、夜の明かりの光の輪(設計書7-3。原点=マスの中心)。画像を取り込んだら位置を測って書く */
-export const LANDMARK_LIGHTS: Partial<Record<string, { cx: number; cy: number; r: number }[]>> = {};
+/** 夜の明かりの光の輪(設計書7-3)。x・y は画像の左上からの割合(0〜1)、r は半径(SVGの単位) */
+export type ImageLight = { x: number; y: number; r: number };
+
+/** 光る物の明かり。アイテムも目印も同じキーで書く(石灯籠は両方で使う) */
+export const IMAGE_LIGHTS: Partial<Record<string, ImageLight[]>> = {};

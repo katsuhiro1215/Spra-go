@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { iconViewBox, imagePlacement, itemImage } from "./item-image";
+import { iconViewBox, imagePlacement, itemImage, lightCircles } from "./item-image";
 
 const square = { width: 256, height: 256 };
-const tall = { width: 256, height: 512 };
+const big = { width: 512, height: 1024 };
+const thin = { width: 64, height: 256 };
 
-describe("画像の置き場所", () => {
-  it("1マスは幅57.6、画像の下の真ん中が原点から8だけ手前", () => {
+describe("画像の置き場所(設計書 2026-09-28-town-items 7-2)", () => {
+  it("幅は画像の幅×0.225。256pxは57.6で、画像の下の真ん中が原点から8だけ手前", () => {
     const p = imagePlacement(square, 1);
     expect(p.width).toBeCloseTo(57.6);
     expect(p.height).toBeCloseTo(57.6);
@@ -14,11 +15,17 @@ describe("画像の置き場所", () => {
     expect(p.y + p.height).toBeCloseTo(8);
   });
 
-  it("2×2は幅115.2、下は16だけ手前。高さは縦横の比から", () => {
-    const p = imagePlacement(tall, 2);
+  it("2×2でも幅は画像の幅どおり(512pxで115.2)。下は16だけ手前。高さは縦横の比から", () => {
+    const p = imagePlacement(big, 2);
     expect(p.width).toBeCloseTo(115.2);
     expect(p.height).toBeCloseTo(230.4);
     expect(p.y + p.height).toBeCloseTo(16);
+  });
+
+  it("細い画像は細く出て、幅は足元のマスの数によらない", () => {
+    expect(imagePlacement(thin, 1).width).toBeCloseTo(14.4);
+    expect(imagePlacement(thin, 1).height).toBeCloseTo(57.6);
+    expect(imagePlacement(thin, 2).width).toBeCloseTo(14.4);
   });
 
   it("物ごとの調整値(scale・dx・dy)が効く", () => {
@@ -40,7 +47,7 @@ describe("画像があるか", () => {
 
 describe("小さな絵の範囲", () => {
   it("画像の範囲に余白を足した正方形で、背の高い画像もはみ出さない", () => {
-    const p = imagePlacement(tall, 2);
+    const p = imagePlacement(big, 2);
     const [x, y, w, h] = iconViewBox(p).split(" ").map(Number);
     expect(w).toBeCloseTo(238.4);
     expect(h).toBeCloseTo(238.4);
@@ -48,5 +55,31 @@ describe("小さな絵の範囲", () => {
     expect(y).toBeLessThanOrEqual(p.y);
     expect(x + w).toBeGreaterThanOrEqual(p.x + p.width);
     expect(y + h).toBeGreaterThanOrEqual(p.y + p.height);
+  });
+});
+
+describe("夜の光の輪(設計書 2026-09-28-town-items 7-3)", () => {
+  const images = { lamp: { src: "/spru/items/lamp.webp", width: 128, height: 256 } };
+  const lights = { lamp: [{ x: 0.5, y: 0.25, r: 6 }] };
+
+  it("画像の中の割合の位置が、置き場所に合わせたSVGの位置になる", () => {
+    // 幅 28.8・高さ 57.6・左 -14.4・上 8-57.6=-49.6
+    const [c] = lightCircles("lamp", 1, images, lights, {});
+    expect(c.cx).toBeCloseTo(0);
+    expect(c.cy).toBeCloseTo(-35.2);
+    expect(c.r).toBe(6);
+  });
+
+  it("大きさの調整(scale)を変えても、絵の同じ所に付く", () => {
+    // 幅 57.6・高さ 115.2・左 -28.8・上 8-115.2=-107.2
+    const [c] = lightCircles("lamp", 1, images, lights, { lamp: { scale: 2 } });
+    expect(c.cx).toBeCloseTo(0);
+    expect(c.cy).toBeCloseTo(-78.4);
+  });
+
+  it("明かりのない物・画像のない物・キーなしは空", () => {
+    expect(lightCircles("lamp", 1, images, {}, {})).toEqual([]);
+    expect(lightCircles("tree", 1, images, { tree: [{ x: 0.5, y: 0.5, r: 5 }] }, {})).toEqual([]);
+    expect(lightCircles(null, 1, images, lights, {})).toEqual([]);
   });
 });
