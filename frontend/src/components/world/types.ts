@@ -78,6 +78,8 @@ export type WorldData = {
   plots_new: string[];
   /** 持っているチケットの数(docs/design/2026-09-28-travel-tickets-design.md 3-2) */
   tickets: number;
+  /** この読み込みで新しくもらった特別な種(docs/design/2026-09-29-rare-spru-design.md 5-2) */
+  new_seeds: NewSeed[];
 };
 
 export type ShopListItem = {
@@ -97,13 +99,21 @@ export type ShopListItem = {
 
 export type GardenState = "empty" | "seed" | "sprout" | "sprout_big";
 
+/** 種のふくろの中の特別な種(docs/design/2026-09-29-rare-spru-design.md 4-4) */
+export type SeedBagItem = { key: string; name: string };
+
 export type WorldGarden = {
   x: number;
   y: number;
   state: GardenState;
+  /** 育っている種の見た目。spru(仲間の種もこれ)か、レアスプルの色。空の畑は null */
+  look: string | null;
   waterings: number;
   learned_today: boolean;
   watered_today: boolean;
+  /** スプルの種(レベルアップ3回)ができている */
+  spru_seed_ready: boolean;
+  seed_bag: SeedBagItem[];
   can_sow: boolean;
   can_water: boolean;
 };
@@ -120,6 +130,9 @@ export type WorldCompanion = {
   bond: number;
   next_heart_bond: number | null;
   is_partner: boolean;
+  rare: boolean;
+  /** 町に立っている(false ならおうちで休んでいて、x・y は null) */
+  in_town: boolean;
   x: number | null;
   y: number | null;
 };
@@ -139,6 +152,23 @@ export type AnswerPartner = {
   hearts_up: boolean;
   new_line: string | null;
 };
+
+export type NewSeed = { key: string; name: string; reason: string };
+
+/** なかまの一覧(docs/design/2026-09-29-rare-spru-design.md 4-5) */
+export type RosterStatus = "born" | "growing" | "in_bag" | "waiting";
+export type RosterCondition = { text: string; current: number; target: number; unit: string };
+export type RosterMember = {
+  key: string;
+  name: string;
+  rare: boolean;
+  status: RosterStatus;
+  in_town: boolean;
+  is_partner: boolean;
+  hearts: number;
+  condition: RosterCondition | null;
+};
+export type RosterData = { town_limit: number; town_count: number; members: RosterMember[]; new_seeds: NewSeed[] };
 
 export type BornResult = ({ kind: "companion" } & WorldCompanion) | { kind: "item"; world_item: WorldItem };
 
@@ -174,7 +204,7 @@ export type FamilyTown = {
   land: WorldLand;
   items: WorldItem[];
   spru: { growth: number };
-  garden: Pick<WorldGarden, "x" | "y" | "state">;
+  garden: Pick<WorldGarden, "x" | "y" | "state" | "look">;
   companions: WorldCompanion[];
   greeted_today: boolean;
 };

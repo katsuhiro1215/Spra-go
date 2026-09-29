@@ -24,7 +24,7 @@ import { ErrandReturn } from "./errand-return";
 import { ErrandSheet } from "./errand-sheet";
 import { errandGo, townPrompt } from "./errands";
 import { Festive } from "./festive";
-import { pickGardenTap } from "./garden";
+import { canSowSpruSeed, pickGardenTap, seedLabel } from "./garden";
 import { GreetingsCard } from "./greetings-card";
 import { ItemActionSheet } from "./item-action-sheet";
 import { cloudLine, hasAnchorsOutside, openedLine, unlockFocus, validAnchors } from "./land";
@@ -35,6 +35,7 @@ import { NicknameDialog } from "./nickname-dialog";
 import { PlacementBar } from "./placement-bar";
 import { PlotUnlockCard } from "./plot-unlock-card";
 import { ReviewCard } from "./review-card";
+import { SeedPicker } from "./seed-picker";
 import {
   readSeasonShown,
   seasonGreeting,
@@ -96,6 +97,8 @@ export function WorldScreen() {
   const [born, setBorn] = useState<BornResult | null>(null);
   // 種まき・水やりの通信中は、続けて押しても送らない
   const [gardenBusy, setGardenBusy] = useState(false);
+  // どの種をまく？(ふくろに種があるとき)
+  const [pickerOpen, setPickerOpen] = useState(false);
   // 開いている仲間のカード(仲間のキー)・スプルの復習カード・最初の仲間の名前付け
   const [sheetKey, setSheetKey] = useState<string | null>(null);
   const [reviewCardOpen, setReviewCardOpen] = useState(false);
@@ -180,22 +183,30 @@ export function WorldScreen() {
   const mood = pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing, prompt });
   const talk = companionTalk && now - companionTalk.at < COMPANION_TALK_MS ? companionTalk : null;
 
-  async function sow() {
+  // seed は spru(スプルの種)か、ふくろの特別な種の色(docs/design/2026-09-29-rare-spru-design.md 3-3)
+  async function sow(seed: string = "spru") {
     if (gardenBusy) return;
     setGardenBusy(true);
     try {
-      const res = await apiFetch("/api/world/garden/sow", { method: "POST" }).catch(() => null);
+      const res = await apiFetch("/api/world/garden/sow", { method: "POST", body: JSON.stringify({ seed }) }).catch(() => null);
       const data = res ? await res.json().catch(() => ({})) : {};
+      setPickerOpen(false);
       if (!res || !res.ok) {
         setMessage(data.message ?? "通信エラーが発生しました。");
         setEvent({ kind: "error", at: Date.now() });
         return;
       }
       const next: { spru: { growth: number }; garden: WorldGarden } = data;
+      const planted = world?.garden.seed_bag.find((item) => item.key === seed);
       setWorld((prev) => (prev ? { ...prev, spru: next.spru, garden: next.garden } : prev));
       setMessage(null);
       play("correct");
-      setEvent({ kind: "sow", at: Date.now() });
+      // スプルの種はスプルが頭を振って種が飛ぶ。特別な種は畑に植わるだけ(設計書5-3)
+      if (planted) {
+        setEvent({ kind: "say", at: Date.now(), image: "happy", line: `${seedLabel(planted.name)}をまいたよ！毎日水をあげて育てよう` });
+      } else {
+        setEvent({ kind: "sow", at: Date.now() });
+      }
     } finally {
       setGardenBusy(false);
     }
@@ -355,7 +366,7 @@ export function WorldScreen() {
       setEvent({ kind: "woke", at });
       return;
     }
-    const tap = pickSpruTap({ canSow: world.garden.can_sow, review: world.review });
+    const tap = pickSpruTap({ canSow: canSowSpruSeed(world.garden), review: world.review });
     if (tap === "sow") {
       sow();
       return;
@@ -383,6 +394,7 @@ export function WorldScreen() {
     if (!world || gardenBusy) return;
     const tap = pickGardenTap(world.garden);
     if (tap.action === "sow") sow();
+    else if (tap.action === "choose") setPickerOpen(true);
     else if (tap.action === "water") water();
     else setEvent({ kind: "say", at: Date.now(), image: tap.image, line: tap.line });
   }
@@ -662,6 +674,10 @@ export function WorldScreen() {
           onRename={(nickname) => renameCompanion(sheetCompanion.key, nickname)}
           onClose={() => setSheetKey(null)}
         />
+      )}
+
+      {pickerOpen && (
+        <SeedPicker garden={world.garden} busy={gardenBusy} onPick={(seed) => sow(seed)} onClose={() => setPickerOpen(false)} />
       )}
 
       {reviewCardOpen && world.review.available && (
