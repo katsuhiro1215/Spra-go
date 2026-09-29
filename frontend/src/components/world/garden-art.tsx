@@ -1,18 +1,18 @@
-import { GARDEN_IMAGES, type GardenImageKey } from "@/components/spru/spru-assets";
+import { plantImage, type PlantStage } from "@/components/spru/plant";
 
 import type { GardenState } from "./types";
 
-// 畑の芽の絵の高さ(SVGの単位)。大きな芽は小さな芽と同じ絵を大きく描く
-const PLANT: Record<Exclude<GardenState, "empty">, { image: GardenImageKey; height: number }> = {
-  seed: { image: "seed", height: 18 },
-  sprout: { image: "sprout", height: 22 },
-  sprout_big: { image: "sprout", height: 32 },
+// 畑の状態ごとの絵と高さ(SVGの単位)。2回水をあげた大きな芽は、つぼみの絵(docs/design/2026-09-29-rare-spru-design.md 3-4)
+const PLANT: Record<Exclude<GardenState, "empty">, { stage: PlantStage; height: number }> = {
+  seed: { stage: "seed", height: 16 },
+  sprout: { stage: "sprout", height: 24 },
+  sprout_big: { stage: "bud", height: 30 },
 };
 
-/** スプルの家の前の畑(原点=マスの中心)。土の畝に、水やりの回数に応じた種・芽を重ねる */
-export function GardenArt({ state }: { state: GardenState }) {
+/** スプルの家の前の畑(原点=マスの中心)。土の畝に、水やりの回数に応じた種・芽・つぼみを重ねる */
+export function GardenArt({ state, look }: { state: GardenState; look: string | null }) {
   const plant = state === "empty" ? null : PLANT[state];
-  const asset = plant ? GARDEN_IMAGES[plant.image] : null;
+  const asset = plant ? plantImage(look, plant.stage) : null;
   const width = plant && asset ? (asset.width * plant.height) / asset.height : 0;
   return (
     <g>

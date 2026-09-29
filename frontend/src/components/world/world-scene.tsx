@@ -343,7 +343,7 @@ export function WorldScene({
                 <>
                   <g style={artStyle}>
                     {o.landmarkKey === "garden" ? (
-                      <GardenArt state={garden.state} />
+                      <GardenArt state={garden.state} look={null} />
                     ) : (
                       <LandmarkArt landmarkKey={o.landmarkKey} />
                     )}
