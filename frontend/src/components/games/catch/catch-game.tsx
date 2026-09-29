@@ -206,7 +206,7 @@ export function CatchGame({
                 <div
                   key={choice.id}
                   className={cn(
-                    "flex flex-1 items-center justify-center rounded-2xl px-1 text-center font-black break-words text-[#3b3226] shadow-[0_4px_10px_rgba(40,70,90,0.18)] [word-break:auto-phrase]",
+                    "flex min-w-0 flex-1 items-center justify-center rounded-2xl px-1 text-center font-black break-words text-[#3b3226] shadow-[0_4px_10px_rgba(40,70,90,0.18)] [word-break:auto-phrase]",
                     laneTextClass(lanes),
                     CARD_CLASS[cardLook(state, lane)],
                   )}

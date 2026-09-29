@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
+import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage } from "@/components/app/sky-page";
 import { SpruLoading } from "@/components/app/spru-loading";
 import {
@@ -38,6 +39,7 @@ async function fetchSummary(): Promise<CatchSummary | "/login" | "/profiles" | n
 /** ミニゲーム1本目「スプルキャッチ」。選ぶ → 3・2・1 → ゲーム → 結果(docs/design/2026-09-29-spru-catch-design.md 7章) */
 export default function CatchPage() {
   const router = useRouter();
+  const { refresh: refreshProfile } = useProfile();
   const [summary, setSummary] = useState<CatchSummary | null>(null);
   const [phase, setPhase] = useState<Phase>({ kind: "select" });
   const [starting, setStarting] = useState(false);
@@ -98,6 +100,8 @@ export default function CatchPage() {
         return;
       }
       setPhase({ kind: "result", start: started, state, result: data });
+      // ごほうびの経験値・学習ポイントを上のバーに出す
+      refreshProfile().catch(() => {});
     } catch {
       setError("通信エラーが発生しました。記録できませんでした。");
       setPhase({ kind: "select" });
