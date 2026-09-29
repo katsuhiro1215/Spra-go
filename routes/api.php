@@ -22,6 +22,7 @@ use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\Bond;
+use App\Support\CatchGame;
 use App\Support\ContinueStage;
 use App\Support\Errands;
 use App\Support\Family;
@@ -1480,6 +1481,22 @@ Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(fu
             return Review::complete($profile);
         });
     })->name('complete');
+});
+
+// ミニゲーム1本目「スプルキャッチ」(docs/design/2026-09-29-spru-catch-design.md 6-3)
+Route::middleware(['auth:sanctum'])->prefix('games/catch')->name('games.catch.')->group(function () {
+    Route::get('/', function (Request $request) {
+        return CatchGame::summary(ActiveProfile::require($request));
+    })->name('show');
+
+    Route::post('/plays', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $data = $request->validate([
+            'difficulty' => ['required', 'string', Rule::in(array_keys(config('games.catch.difficulties')))],
+        ]);
+
+        return CatchGame::start($profile, $data['difficulty']);
+    })->name('plays.store');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('travel')->name('travel.')->group(function () {
