@@ -41,7 +41,12 @@ class AppServiceProvider extends ServiceProvider
                 default => 'verification.verify',
             };
 
-            return URL::temporarySignedRoute($routeName, now()->addMinutes(config('auth.verification.expire', 60)), [
+            // 利用者の確認のリンクは24時間、運営側は60分(config/auth.php の verification)
+            $minutes = $routeName === 'verification.verify'
+                ? config('auth.verification.user_expire', 1440)
+                : config('auth.verification.expire', 60);
+
+            return URL::temporarySignedRoute($routeName, now()->addMinutes($minutes), [
                 'id' => $notifiable->getKey(),
                 'hash' => sha1($notifiable->getEmailForVerification()),
             ]);
