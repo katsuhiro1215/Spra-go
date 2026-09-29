@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
 
+import { SPRU_ITEMS } from "@/components/spru/spru-assets";
+
+import { ITEM_ART_KEYS, SOUVENIR_ART_KEYS } from "./art-keys";
+
 import { iconViewBox, imagePlacement, itemImage, lightCircles } from "./item-image";
 
 const square = { width: 256, height: 256 };
@@ -81,5 +85,15 @@ describe("夜の光の輪(設計書 2026-09-28-town-items 7-3)", () => {
     expect(lightCircles("lamp", 1, images, {}, {})).toEqual([]);
     expect(lightCircles("tree", 1, images, { tree: [{ x: 0.5, y: 0.5, r: 5 }] }, {})).toEqual([]);
     expect(lightCircles(null, 1, images, lights, {})).toEqual([]);
+  });
+});
+
+describe("すべての絵に画像がある(設計書 2026-09-28-town-items 7-5)", () => {
+  // config/world.php の land の landmarks のうち、畑(garden)は素材集の切り抜きのままなので除く
+  const LANDMARK_KEYS = ["spru_house", "torii", "stone_lantern", "bamboo_grove", "pier"];
+
+  it("アイテム・おみやげ・目印のすべてのキーに SPRU_ITEMS の画像がある", () => {
+    const missing = [...ITEM_ART_KEYS, ...SOUVENIR_ART_KEYS, ...LANDMARK_KEYS].filter((key) => !(key in SPRU_ITEMS));
+    expect(missing).toEqual([]);
   });
 });
