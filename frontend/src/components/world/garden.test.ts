@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { canSowSpruSeed, gardenPrompt, growthLabel, levelUpGrowthLine, pickGardenTap, seedLabel, seedOptions } from "./garden";
+import {
+  canSowSpruSeed,
+  gardenPrompt,
+  growthLabel,
+  levelUpGrowthLine,
+  mergeNewSeeds,
+  pickGardenTap,
+  seedLabel,
+  seedOptions,
+} from "./garden";
 import type { WorldGarden } from "./types";
 
 const garden = (overrides: Partial<WorldGarden> = {}): WorldGarden => ({
@@ -117,5 +126,15 @@ describe("levelUpGrowthLine", () => {
     expect(levelUpGrowthLine(2, false)).toBe("スプルの花が咲いた！");
     expect(levelUpGrowthLine(3, false)).toBe("種ができた！町でまいてみよう");
     expect(levelUpGrowthLine(3, true)).toBe("畑の芽が育ったら、種をまけるよ");
+  });
+});
+
+describe("mergeNewSeeds", () => {
+  it("あとから届いた空の返事で、まだ見せていないお祝いを消さない。同じ色は1つにする", () => {
+    const ruby = { key: "ruby", name: "ルビースプル", reason: "7日続けて学んだね" };
+    const gold = { key: "gold", name: "ゴールドスプル", reason: "レベル20になったね" };
+    expect(mergeNewSeeds([ruby], [])).toEqual([ruby]);
+    expect(mergeNewSeeds([ruby], [ruby, gold])).toEqual([ruby, gold]);
+    expect(mergeNewSeeds([], [gold])).toEqual([gold]);
   });
 });

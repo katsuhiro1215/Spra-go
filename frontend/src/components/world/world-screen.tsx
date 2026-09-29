@@ -24,7 +24,7 @@ import { ErrandReturn } from "./errand-return";
 import { ErrandSheet } from "./errand-sheet";
 import { errandGo, townPrompt } from "./errands";
 import { Festive } from "./festive";
-import { canSowSpruSeed, pickGardenTap, seedLabel } from "./garden";
+import { canSowSpruSeed, mergeNewSeeds, pickGardenTap, seedLabel } from "./garden";
 import { GreetingsCard } from "./greetings-card";
 import { ItemActionSheet } from "./item-action-sheet";
 import { cloudLine, hasAnchorsOutside, openedLine, unlockFocus, validAnchors } from "./land";
@@ -155,7 +155,7 @@ export function WorldScreen() {
         const data: WorldData = await res.json();
         setWorld(data);
         setGreetings(data.greetings);
-        setSeedGifts(data.new_seeds);
+        setSeedGifts((shown) => mergeNewSeeds(shown, data.new_seeds));
         const opened = new Date();
         if (shouldShowSeasonGreeting(opened, readSeasonShown(data.profile.id))) setSeason(seasonGreeting(opened));
         applyPartial({ points: data.profile.points });
@@ -285,7 +285,7 @@ export function WorldScreen() {
     const next: RosterData = data;
     setRoster(next);
     if (next.new_seeds.length > 0) {
-      setSeedGifts(next.new_seeds);
+      setSeedGifts((shown) => mergeNewSeeds(shown, next.new_seeds));
       const worldRes = await apiFetch("/api/world").catch(() => null);
       if (worldRes && worldRes.ok) {
         const fresh: WorldData = await worldRes.json();

@@ -1,6 +1,6 @@
 import type { SpruImageKey } from "@/components/spru/spru-assets";
 
-import type { WorldGarden } from "./types";
+import type { NewSeed, WorldGarden } from "./types";
 
 export type GardenTap =
   | { action: "sow" }
@@ -45,6 +45,14 @@ export function seedOptions(garden: WorldGarden): SeedOption[] {
     ? [{ seed: "spru", label: "スプルの種", note: "なにが生まれるかな？", look: "spru" }]
     : [];
   return [...spru, ...garden.seed_bag.map((item) => ({ seed: item.key, label: seedLabel(item.name), note: null, look: item.key }))];
+}
+
+/**
+ * 種をもらったお祝いに出す種を足す(置き換えない)。町を続けて読み直したとき、あとの空の返事で
+ * まだ見せていないお祝いを消さないため(docs/design/2026-09-29-rare-spru-design.md 5-2)
+ */
+export function mergeNewSeeds(shown: NewSeed[], incoming: NewSeed[]): NewSeed[] {
+  return [...shown, ...incoming.filter((seed) => !shown.some((s) => s.key === seed.key))];
 }
 
 /** 「ルビースプル」→「ルビーの種」 */
