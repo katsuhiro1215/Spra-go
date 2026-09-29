@@ -15,7 +15,8 @@ import { SpruFace } from "@/components/spru/spru-figure";
 import { TIME_THEME } from "./ambience";
 import { GardenArt } from "./garden-art";
 import { HALF_H, HALF_W, LAND_THICKNESS, sceneViewBox, tileCenter, tileKey, tilePoints, toPercent } from "./iso";
-import { ITEM_LIGHTS, ItemArt } from "./item-art";
+import { ItemArt } from "./item-art";
+import { lightCircles } from "./item-image";
 import { cloudArea, cloudLabel, depthTile, footprintCenter, footprintTiles, landEdges, openTiles, plotAt, plotCenter } from "./land";
 import { LandmarkArt } from "./landmark-art";
 import type { TimeOfDay } from "./time-of-day";
@@ -339,28 +340,29 @@ export function WorldScene({
           return (
             <g key={o.id} transform={`translate(${sx} ${sy})`}>
               {o.kind === "landmark" && (
-                <g style={artStyle}>
-                  {o.landmarkKey === "garden" ? (
-                    <GardenArt state={garden.state} />
-                  ) : (
-                    <LandmarkArt landmarkKey={o.landmarkKey} lit={theme.lit} />
-                  )}
-                </g>
+                <>
+                  <g style={artStyle}>
+                    {o.landmarkKey === "garden" ? (
+                      <GardenArt state={garden.state} />
+                    ) : (
+                      <LandmarkArt landmarkKey={o.landmarkKey} />
+                    )}
+                  </g>
+                  {theme.lit &&
+                    lightCircles(o.landmarkKey, 1).map((light, index) => (
+                      <circle key={index} cx={light.cx} cy={light.cy} r={light.r} fill="#ffd98a" opacity={0.5} />
+                    ))}
+                </>
               )}
               {o.kind === "item" && (
                 <g className={o.item.id === poppedItemId ? "animate-pop-in" : undefined}>
                   <g style={artStyle}>
                     <ItemArt assetKey={o.item.asset_key} />
                   </g>
-                  {theme.lit && o.item.asset_key && ITEM_LIGHTS[o.item.asset_key] && (
-                    <circle
-                      cx={ITEM_LIGHTS[o.item.asset_key].cx}
-                      cy={ITEM_LIGHTS[o.item.asset_key].cy}
-                      r={ITEM_LIGHTS[o.item.asset_key].r}
-                      fill="#ffd98a"
-                      opacity={0.5}
-                    />
-                  )}
+                  {theme.lit &&
+                    lightCircles(o.item.asset_key, o.item.footprint).map((light, index) => (
+                      <circle key={index} cx={light.cx} cy={light.cy} r={light.r} fill="#ffd98a" opacity={0.5} />
+                    ))}
                 </g>
               )}
               {o.kind === "companion" && (
