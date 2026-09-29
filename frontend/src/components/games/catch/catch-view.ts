@@ -1,5 +1,5 @@
 import { splitPrompt } from "@/components/games/game-question";
-import { GARDEN_IMAGES, SPRU_BLOOM, type SpruImage } from "@/components/spru/spru-assets";
+import { GROWTH_IMAGES, SPRU_BLOOM, type SpruImage } from "@/components/spru/spru-assets";
 
 import type { CatchState, GrowthStage } from "./catch-engine";
 
@@ -46,8 +46,8 @@ export function cardLook(state: CatchState, lane: number): CardLook {
 
 export function growthImage(stage: GrowthStage): SpruImage {
   const images: Record<GrowthStage, SpruImage> = {
-    seed: GARDEN_IMAGES.seed,
-    sprout: GARDEN_IMAGES.sprout,
+    seed: GROWTH_IMAGES["spru/seed"],
+    sprout: GROWTH_IMAGES["spru/sprout"],
     bud: SPRU_BLOOM.bud,
     flower: SPRU_BLOOM.flower,
   };

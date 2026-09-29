@@ -72,6 +72,8 @@ class Review
         abort_if(self::doneToday($profile), 422, '今日の復習はもう終わったよ。また明日ね');
 
         $profile->last_review_on = Garden::today();
+        // アンバーの種の条件(docs/design/2026-09-29-rare-spru-design.md 3-1)
+        $profile->reviews_completed++;
         $profile->save();
         $partner = Bond::addToPartner($profile, config('companions.review_bonus'));
 

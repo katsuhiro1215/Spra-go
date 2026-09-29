@@ -14,7 +14,7 @@ class UserProfile extends Model
     protected $fillable = [
         'name', 'avatar', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'points', 'world_welcomed_at', 'world_plots_seen',
         'level', 'combo', 'best_combo', 'current_streak', 'best_streak', 'last_played_date',
-        'bloom_base_level', 'last_correct_on', 'partner_companion_key', 'last_review_on',
+        'bloom_base_level', 'last_correct_on', 'partner_companion_key', 'last_review_on', 'reviews_completed',
     ];
 
     /**
@@ -102,6 +102,7 @@ class UserProfile extends Model
             'bloom_base_level' => 'integer',
             'last_correct_on' => 'date',
             'last_review_on' => 'date',
+            'reviews_completed' => 'integer',
         ];
     }
 
@@ -252,6 +253,12 @@ class UserProfile extends Model
     public function seeds(): HasMany
     {
         return $this->hasMany(ProfileSeed::class);
+    }
+
+    /** がんばった記念にもらった特別な種(docs/design/2026-09-29-rare-spru-design.md 4-1) */
+    public function specialSeeds(): HasMany
+    {
+        return $this->hasMany(ProfileSpecialSeed::class);
     }
 
     public function companions(): HasMany

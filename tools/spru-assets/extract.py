@@ -6,7 +6,7 @@
 - 切り抜く範囲は同じフォルダの crops.json に書く(素材集上のピクセル座標 [左, 上, 右, 下])
 - 1点ごとに "width" を書くと、その幅(px)に縮める(アイテムは1マス256px・2×2は384px)
 - 出力: frontend/public/spru/{group}/{key}.webp、表情の顔アイコン faces/、シーン scenes/、
-  つぼみ・花 bloom/、畑の種・芽 garden/、仲間 companions/、リュックのスプル outing/、季節の衣装 costumes/、バッジ badges/、
+  つぼみ・花 bloom/、畑で育つ絵 growth/{見た目}/{段階}.webp(キーに / を入れる)、仲間 companions/、リュックのスプル outing/、季節の衣装 costumes/、バッジ badges/、
   国のスタンプ stamps/(キーは国のコードの小文字)、スプルの家 house/(背景が透明でない絵は四隅から背景を抜く)、
   (背景の透明を灰色の格子模様で描いてしまった絵は "background": "checker" で格子を抜く。新しい設定画 spru/ の多く)、
   町のアイテム・おみやげ・目印 items/(キーは絵のキー。docs/design/2026-09-28-town-items-design.md 7-1。
@@ -35,6 +35,11 @@ TIP_ROWS = 6  # いちばん上から何行分の平均を、Sの先の横位置
 BG_THRESH = 55  # 背景を抜くとき、四隅の色からどれだけ離れた色まで背景とみなすか
 CHECKER_SPREAD = 14  # 格子とみなす色の、RGBの最大と最小の差の上限(色味のない灰色)
 CHECKER_RANGE = (100, 215)  # 格子とみなす明るさ(Rの値)の範囲。白い花びらや、つやの白は入らない
+CHECKER_TONE_DIST = 16  # 明るさの山の近くとみなす差
+CHECKER_HOLE_MIN = 30  # 囲まれた格子として抜く塊の最小の大きさ(小さな灰色の点は残す)
+CHECKER_HOLE_TONE_SHARE = 0.6  # 囲まれた塊のうち、明るさの2つの山の近くにある点の割合がこれ以上なら格子とみなす
+CHECKER_HOLE_SPREAD = 32  # 囲まれた格子とみなす色の、RGBの最大と最小の差の上限(うっすら色が付いた格子も入れる)
+CHECKER_HOLE_GAP = 30  # 格子の濃い灰と薄い灰の明るさの差の下限(四辺の格子では約48)
 
 
 def components(mask: Image.Image) -> list[list[tuple[int, int]]]:
@@ -111,10 +116,61 @@ def clear_checker(img: Image.Image) -> Image.Image:
         for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
             if 0 <= nx < w and 0 <= ny < h and not seen[ny * w + nx]:
                 queue.append((nx, ny))
+    clear_checker_holes(px, w, h, seen)
     alpha = Image.frombytes("L", (w, h), bytes(0 if v else 255 for v in seen)).filter(ImageFilter.GaussianBlur(1.2))
     out = rgb.convert("RGBA")
     out.putalpha(alpha)
     return out
+
+
+def clear_checker_holes(px, w: int, h: int, seen: bytearray) -> None:
+    """Sの輪の内側や足もとの影のように、四辺からつながらない格子、うっすら色が付いた格子も抜く(seen に印を付ける)。
+    色味の少ない灰色の塊を集め、明るさが2つの山(格子の濃い灰と薄い灰)にはっきり分かれている塊だけを格子とみなす
+    (体のつやや影は明るさがなだらかに変わるので2つの山にならず、残る)"""
+    lo, hi = CHECKER_RANGE
+
+    def candidate(x: int, y: int) -> bool:
+        r, g, b = px[x, y]
+        return max(r, g, b) - min(r, g, b) <= CHECKER_HOLE_SPREAD and lo - 20 <= (r + g + b) // 3 <= hi
+
+    visited = bytearray(w * h)
+    for start in range(w * h):
+        if seen[start] or visited[start]:
+            continue
+        sx, sy = start % w, start // w
+        if not candidate(sx, sy):
+            continue
+        comp = []
+        queue = deque([(sx, sy)])
+        visited[start] = 1
+        while queue:
+            x, y = queue.popleft()
+            comp.append((x, y))
+            for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                j = ny * w + nx
+                if 0 <= nx < w and 0 <= ny < h and not visited[j] and not seen[j] and candidate(nx, ny):
+                    visited[j] = 1
+                    queue.append((nx, ny))
+        if len(comp) >= CHECKER_HOLE_MIN and is_two_tone([sum(px[x, y]) // 3 for x, y in comp]):
+            for x, y in comp:
+                seen[y * w + x] = 1
+
+
+def is_two_tone(values: list[int]) -> bool:
+    """明るさが、はなれた2つの山にまとまっているか(格子の市松)。2つに分けたそれぞれの平均の差が CHECKER_HOLE_GAP 以上で、
+    どちらの山にも2割以上あり、山の近く(±CHECKER_TONE_DIST)に CHECKER_HOLE_TONE_SHARE 以上が入っていれば真"""
+    dark, light = min(values), max(values)
+    for _ in range(10):
+        mid = (dark + light) / 2
+        low = [v for v in values if v <= mid]
+        high = [v for v in values if v > mid]
+        if not low or not high:
+            return False
+        dark, light = sum(low) / len(low), sum(high) / len(high)
+    if light - dark < CHECKER_HOLE_GAP or min(len(low), len(high)) < len(values) * 0.2:
+        return False
+    near = sum(1 for v in values if abs(v - dark) <= CHECKER_TONE_DIST or abs(v - light) <= CHECKER_TONE_DIST)
+    return near >= len(values) * CHECKER_HOLE_TONE_SHARE
 
 
 def cut_figure(src: Image.Image, box: list[int], scale: float, mode: str = "largest") -> Image.Image:
@@ -174,7 +230,7 @@ def entries(items: dict) -> str:
 
 
 def write_ts(
-    images: dict, faces: dict, scenes: dict, bloom: dict, garden: dict, companions: dict,
+    images: dict, faces: dict, scenes: dict, bloom: dict, growth: dict, companions: dict,
     outing: dict, costumes: dict, badges: dict, stamps: dict, house: dict, items: dict, tips: dict,
     icons: dict, stages: dict, avatars: dict, travel: dict, pages: dict,
 ) -> None:
@@ -201,8 +257,8 @@ export const SPRU_BLOOM = {{
 {entries(bloom)}
 }} as const satisfies Record<string, SpruImage>;
 
-export const GARDEN_IMAGES = {{
-{entries(garden)}
+export const GROWTH_IMAGES = {{
+{entries(growth)}
 }} as const satisfies Record<string, SpruImage>;
 
 export const COMPANION_IMAGES = {{
@@ -265,7 +321,7 @@ export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
 export type SpruBloomKey = keyof typeof SPRU_BLOOM;
-export type GardenImageKey = keyof typeof GARDEN_IMAGES;
+export type GrowthImageKey = keyof typeof GROWTH_IMAGES;
 export type CompanionKey = keyof typeof COMPANION_IMAGES;
 export type OutingKey = keyof typeof OUTING_IMAGES;
 export type CostumeKey = keyof typeof COSTUME_IMAGES;
@@ -312,7 +368,7 @@ def main() -> None:
     checker_cleared: dict = {}  # 格子を抜くのは重いので、元の絵ごとに1回だけ
     parts: dict = {}
     for group in (
-        "bloom", "garden", "companions", "outing", "costumes", "badges", "stamps", "house", "items",
+        "bloom", "growth", "companions", "outing", "costumes", "badges", "stamps", "house", "items",
         "icons", "stages", "avatars", "travel", "pages",
     ):
         parts[group] = {}
@@ -331,13 +387,13 @@ def main() -> None:
             parts[group][part["key"]] = save(img, f'{group}/{part["key"]}.webp')
 
     write_ts(
-        images, faces, scenes, parts["bloom"], parts["garden"], parts["companions"],
+        images, faces, scenes, parts["bloom"], parts["growth"], parts["companions"],
         parts["outing"], parts["costumes"], parts["badges"], parts["stamps"], parts["house"], parts["items"], tips,
         parts["icons"], parts["stages"], parts["avatars"], parts["travel"], parts["pages"],
     )
     print(
         f"画像 {len(images)}・顔 {len(faces)}・シーン {len(scenes)}・花 {len(parts['bloom'])}"
-        f"・畑 {len(parts['garden'])}・仲間 {len(parts['companions'])}"
+        f"・育つ絵 {len(parts['growth'])}・仲間 {len(parts['companions'])}"
         f"・お出かけ {len(parts['outing'])}・衣装 {len(parts['costumes'])}・バッジ {len(parts['badges'])}"
         f"・スタンプ {len(parts['stamps'])}・家 {len(parts['house'])}・アイテム {len(parts['items'])}"
         f"・アイコン {len(parts['icons'])}・ステージ {len(parts['stages'])}・アバター {len(parts['avatars'])}"

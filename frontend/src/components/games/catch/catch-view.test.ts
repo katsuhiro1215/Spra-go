@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { GameQuestion } from "@/components/games/game-question";
-import { GARDEN_IMAGES, SPRU_BLOOM } from "@/components/spru/spru-assets";
+import { GROWTH_IMAGES, SPRU_BLOOM } from "@/components/spru/spru-assets";
 
 import { createCatchGame, tick, type CatchState } from "./catch-engine";
 import {
@@ -77,8 +77,8 @@ describe("落ちてくる言葉のカードの見た目", () => {
 
 describe("成長の印の絵", () => {
   it("種・芽は畑の絵、つぼみ・花はスプルの頭の絵", () => {
-    expect(growthImage("seed")).toBe(GARDEN_IMAGES.seed);
-    expect(growthImage("sprout")).toBe(GARDEN_IMAGES.sprout);
+    expect(growthImage("seed")).toBe(GROWTH_IMAGES["spru/seed"]);
+    expect(growthImage("sprout")).toBe(GROWTH_IMAGES["spru/sprout"]);
     expect(growthImage("bud")).toBe(SPRU_BLOOM.bud);
     expect(growthImage("flower")).toBe(SPRU_BLOOM.flower);
   });

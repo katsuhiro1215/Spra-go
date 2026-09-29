@@ -107,7 +107,7 @@ it('生まれた仲間は、生まれた順に道の立ち位置つきで出る'
         ->assertJsonPath('companions.0', [
             'key' => 'ruru', 'name' => 'Ruru', 'official_name' => 'Ruru', 'nickname' => null, 'trait' => '水・知恵',
             'lines' => ['じっくり考えるのが好き'], 'hearts' => 1, 'heart_label' => 'はじめまして', 'bond' => 0,
-            'next_heart_bond' => 20, 'is_partner' => false, 'x' => 0, 'y' => 3,
+            'next_heart_bond' => 20, 'is_partner' => false, 'rare' => false, 'in_town' => true, 'x' => 0, 'y' => 3,
         ])
         ->assertJsonPath('companions.1.key', 'lumi')
         ->assertJsonPath('companions.1.x', 3)

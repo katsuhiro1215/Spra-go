@@ -189,6 +189,8 @@ function ReadyTown({
     waterings: 0,
     learned_today: false,
     watered_today: false,
+    spru_seed_ready: false,
+    seed_bag: [],
     can_sow: false,
     can_water: false,
   };

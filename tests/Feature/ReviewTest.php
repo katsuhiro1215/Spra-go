@@ -159,3 +159,13 @@ it('やりきってハートが増えると、そのことが返る', function (
         ->assertJsonPath('partner.hearts_up', true)
         ->assertJsonPath('partner.new_line', 'まちがえても大丈夫。つぎはきっとできるよ');
 });
+
+it('やりきると、やりきった回数が1増える(アンバーの種の条件)', function () {
+    $profile = createActiveProfile();
+    [$question] = createQuestionWithChoices();
+    makeDue($profile, $question);
+
+    $this->postJson('/api/review/complete')->assertOk();
+
+    expect($profile->fresh()->reviews_completed)->toBe(1);
+});

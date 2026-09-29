@@ -3,6 +3,8 @@ import { Fragment } from "react";
 import { Furigana } from "@/components/app/furigana";
 import furiganaDictionary from "@/lib/furigana-dictionary.json";
 
+import { counterAt } from "./counter-reading";
+
 // JSONのキー順(挿入順)は文字数の長い語から並んでいる前提
 // (frontend/src/lib/furigana-dictionary.json生成時に保証済み)。
 // 長い語から先にマッチさせないと「日本語」が「日本」+「語」に
@@ -19,6 +21,14 @@ export function tokenize(text: string): Segment[] {
   let i = 0;
 
   outer: while (i < text.length) {
+    // 数字の後の「日」「人」は、数によって読みが変わるので辞書より先に見る(7日=なのか、5人=ごにん)。
+    // 数字の途中(「17日」の「7」)から始めないよう、前の文字が数字のときは見ない
+    const counter = /\d/.test(text[i - 1] ?? "") ? null : counterAt(text, i);
+    if (counter) {
+      segments.push({ text: text.slice(i, i + counter.length), reading: counter.reading });
+      i += counter.length;
+      continue;
+    }
     for (const [word, reading] of dictionaryEntries) {
       if (text.startsWith(word, i)) {
         segments.push({ text: word, reading });

@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  bornLook,
+  bornNote,
   checkNickname,
   heartsText,
   nextHeartText,
@@ -122,5 +124,22 @@ describe("reviewGiverKey", () => {
 describe("スプルの復習カードの誘い", () => {
   it("おさらいの問題の数を添える", () => {
     expect(reviewInvite(3)).toBe("おさらいの問題、いっしょにやってみよう！（3問）");
+  });
+});
+
+describe("bornNote", () => {
+  it("おうちで休む子・相棒でない子・相棒の順に、お祝いの下の一言を決める", () => {
+    expect(bornNote({ is_partner: false, in_town: false })).toBe(
+      "町がいっぱいだから、おうちで休んでいるよ。なかまの一覧で町に出せるよ",
+    );
+    expect(bornNote({ is_partner: false, in_town: true })).toBe("町でタップすると、相棒にできるよ");
+    expect(bornNote({ is_partner: true, in_town: true })).toBeNull();
+  });
+});
+
+describe("bornLook", () => {
+  it("仲間は緑の花、レアスプルはその色の花", () => {
+    expect(bornLook({ key: "momo", rare: false })).toBe("spru");
+    expect(bornLook({ key: "gold", rare: true })).toBe("gold");
   });
 });

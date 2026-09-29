@@ -25,9 +25,12 @@ const garden: WorldGarden = {
   x: 1,
   y: 2,
   state: "empty",
+  look: null,
   waterings: 0,
   learned_today: false,
   watered_today: false,
+  spru_seed_ready: false,
+  seed_bag: [],
   can_sow: false,
   can_water: false,
 };
@@ -97,7 +100,7 @@ describe("［やりに行く］の行き先", () => {
 describe("スプルのふだんのひとことの優先順", () => {
   it("受け取れるおつかいが一番上", () => {
     expect(
-      townPrompt({ errands: errands([errand({ progress: 5 })]), garden: { ...garden, can_sow: true }, review: noReview }),
+      townPrompt({ errands: errands([errand({ progress: 5 })]), garden: { ...garden, spru_seed_ready: true, can_sow: true }, review: noReview }),
     ).toBe("おつかいができたね！受け取ろう");
   });
 

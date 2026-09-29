@@ -54,17 +54,69 @@ export const SPRU_BLOOM = {
   "bud": { src: "/spru/bloom/bud.webp", width: 25, height: 29 },
 } as const satisfies Record<string, SpruImage>;
 
-export const GARDEN_IMAGES = {
-  "seed": { src: "/spru/garden/seed.webp", width: 65, height: 112 },
-  "sprout": { src: "/spru/garden/sprout.webp", width: 62, height: 120 },
+export const GROWTH_IMAGES = {
+  "spru/seed": { src: "/spru/growth/spru/seed.webp", width: 68, height: 98 },
+  "spru/sprout": { src: "/spru/growth/spru/sprout.webp", width: 70, height: 119 },
+  "spru/bud": { src: "/spru/growth/spru/bud.webp", width: 68, height: 126 },
+  "spru/flower": { src: "/spru/growth/spru/flower.webp", width: 103, height: 140 },
+  "ruby/seed": { src: "/spru/growth/ruby/seed.webp", width: 65, height: 95 },
+  "ruby/sprout": { src: "/spru/growth/ruby/sprout.webp", width: 71, height: 118 },
+  "ruby/bud": { src: "/spru/growth/ruby/bud.webp", width: 70, height: 124 },
+  "ruby/flower": { src: "/spru/growth/ruby/flower.webp", width: 114, height: 141 },
+  "sapphire/seed": { src: "/spru/growth/sapphire/seed.webp", width: 66, height: 95 },
+  "sapphire/sprout": { src: "/spru/growth/sapphire/sprout.webp", width: 71, height: 119 },
+  "sapphire/bud": { src: "/spru/growth/sapphire/bud.webp", width: 69, height: 125 },
+  "sapphire/flower": { src: "/spru/growth/sapphire/flower.webp", width: 110, height: 142 },
+  "silver/seed": { src: "/spru/growth/silver/seed.webp", width: 65, height: 92 },
+  "silver/sprout": { src: "/spru/growth/silver/sprout.webp", width: 72, height: 119 },
+  "silver/bud": { src: "/spru/growth/silver/bud.webp", width: 70, height: 122 },
+  "silver/flower": { src: "/spru/growth/silver/flower.webp", width: 102, height: 137 },
+  "amber/seed": { src: "/spru/growth/amber/seed.webp", width: 63, height: 92 },
+  "amber/sprout": { src: "/spru/growth/amber/sprout.webp", width: 73, height: 120 },
+  "amber/bud": { src: "/spru/growth/amber/bud.webp", width: 72, height: 125 },
+  "amber/flower": { src: "/spru/growth/amber/flower.webp", width: 117, height: 145 },
+  "obsidian/seed": { src: "/spru/growth/obsidian/seed.webp", width: 66, height: 95 },
+  "obsidian/sprout": { src: "/spru/growth/obsidian/sprout.webp", width: 72, height: 118 },
+  "obsidian/bud": { src: "/spru/growth/obsidian/bud.webp", width: 70, height: 125 },
+  "obsidian/flower": { src: "/spru/growth/obsidian/flower.webp", width: 113, height: 141 },
+  "crystal/seed": { src: "/spru/growth/crystal/seed.webp", width: 64, height: 94 },
+  "crystal/sprout": { src: "/spru/growth/crystal/sprout.webp", width: 71, height: 121 },
+  "crystal/bud": { src: "/spru/growth/crystal/bud.webp", width: 69, height: 125 },
+  "crystal/flower": { src: "/spru/growth/crystal/flower.webp", width: 110, height: 140 },
+  "pearl/seed": { src: "/spru/growth/pearl/seed.webp", width: 65, height: 91 },
+  "pearl/sprout": { src: "/spru/growth/pearl/sprout.webp", width: 71, height: 119 },
+  "pearl/bud": { src: "/spru/growth/pearl/bud.webp", width: 69, height: 125 },
+  "pearl/flower": { src: "/spru/growth/pearl/flower.webp", width: 107, height: 139 },
+  "emerald/seed": { src: "/spru/growth/emerald/seed.webp", width: 67, height: 95 },
+  "emerald/sprout": { src: "/spru/growth/emerald/sprout.webp", width: 71, height: 118 },
+  "emerald/bud": { src: "/spru/growth/emerald/bud.webp", width: 70, height: 124 },
+  "emerald/flower": { src: "/spru/growth/emerald/flower.webp", width: 110, height: 140 },
+  "gold/seed": { src: "/spru/growth/gold/seed.webp", width: 59, height: 79 },
+  "gold/sprout": { src: "/spru/growth/gold/sprout.webp", width: 73, height: 118 },
+  "gold/bud": { src: "/spru/growth/gold/bud.webp", width: 71, height: 122 },
+  "gold/flower": { src: "/spru/growth/gold/flower.webp", width: 98, height: 130 },
+  "platinum/seed": { src: "/spru/growth/platinum/seed.webp", width: 67, height: 92 },
+  "platinum/sprout": { src: "/spru/growth/platinum/sprout.webp", width: 70, height: 119 },
+  "platinum/bud": { src: "/spru/growth/platinum/bud.webp", width: 69, height: 122 },
+  "platinum/flower": { src: "/spru/growth/platinum/flower.webp", width: 108, height: 139 },
 } as const satisfies Record<string, SpruImage>;
 
 export const COMPANION_IMAGES = {
-  "lumi": { src: "/spru/companions/lumi.webp", width: 86, height: 144 },
-  "momo": { src: "/spru/companions/momo.webp", width: 85, height: 142 },
-  "kuru": { src: "/spru/companions/kuru.webp", width: 88, height: 154 },
-  "piko": { src: "/spru/companions/piko.webp", width: 85, height: 147 },
-  "ruru": { src: "/spru/companions/ruru.webp", width: 82, height: 153 },
+  "lumi": { src: "/spru/companions/lumi.webp", width: 104, height: 153 },
+  "momo": { src: "/spru/companions/momo.webp", width: 101, height: 152 },
+  "kuru": { src: "/spru/companions/kuru.webp", width: 94, height: 155 },
+  "piko": { src: "/spru/companions/piko.webp", width: 104, height: 150 },
+  "ruru": { src: "/spru/companions/ruru.webp", width: 95, height: 151 },
+  "ruby": { src: "/spru/companions/ruby.webp", width: 104, height: 154 },
+  "sapphire": { src: "/spru/companions/sapphire.webp", width: 104, height: 154 },
+  "silver": { src: "/spru/companions/silver.webp", width: 104, height: 152 },
+  "amber": { src: "/spru/companions/amber.webp", width: 104, height: 154 },
+  "obsidian": { src: "/spru/companions/obsidian.webp", width: 103, height: 153 },
+  "crystal": { src: "/spru/companions/crystal.webp", width: 104, height: 153 },
+  "pearl": { src: "/spru/companions/pearl.webp", width: 104, height: 153 },
+  "emerald": { src: "/spru/companions/emerald.webp", width: 104, height: 153 },
+  "gold": { src: "/spru/companions/gold.webp", width: 100, height: 148 },
+  "platinum": { src: "/spru/companions/platinum.webp", width: 104, height: 153 },
 } as const satisfies Record<string, SpruImage>;
 
 export const OUTING_IMAGES = {
@@ -229,7 +281,7 @@ export type SpruImageKey = keyof typeof SPRU_IMAGES;
 export type SpruFaceKey = keyof typeof SPRU_FACES;
 export type SpruSceneKey = keyof typeof SPRU_SCENES;
 export type SpruBloomKey = keyof typeof SPRU_BLOOM;
-export type GardenImageKey = keyof typeof GARDEN_IMAGES;
+export type GrowthImageKey = keyof typeof GROWTH_IMAGES;
 export type CompanionKey = keyof typeof COMPANION_IMAGES;
 export type OutingKey = keyof typeof OUTING_IMAGES;
 export type CostumeKey = keyof typeof COSTUME_IMAGES;

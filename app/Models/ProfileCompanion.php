@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProfileCompanion extends Model
 {
-    protected $fillable = ['companion_key', 'nickname', 'bond'];
+    protected $fillable = ['companion_key', 'nickname', 'bond', 'in_town'];
 
     protected function casts(): array
     {
         return [
             'bond' => 'integer',
+            'in_town' => 'boolean',
         ];
     }
 

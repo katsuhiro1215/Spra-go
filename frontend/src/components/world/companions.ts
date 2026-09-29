@@ -56,3 +56,15 @@ export function reviewGiverKey(review: WorldReview): string | null {
   if (!review.available) return null;
   return review.giver.kind === "spru" ? "spru" : review.giver.key;
 }
+
+/** 生まれたときのお祝いの下の一言(docs/design/2026-09-29-rare-spru-design.md 5-4) */
+export function bornNote(companion: Pick<WorldCompanion, "is_partner" | "in_town">): string | null {
+  if (!companion.in_town) return "町がいっぱいだから、おうちで休んでいるよ。なかまの一覧で町に出せるよ";
+  if (!companion.is_partner) return "町でタップすると、相棒にできるよ";
+  return null;
+}
+
+/** 生まれる前に咲く花の見た目。仲間は緑(ふつうのスプル)、レアスプルはその色 */
+export function bornLook(companion: Pick<WorldCompanion, "key" | "rare">): string {
+  return companion.rare ? companion.key : "spru";
+}
