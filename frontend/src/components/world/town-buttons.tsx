@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Backpack } from "lucide-react";
+import { Backpack, Sprout } from "lucide-react";
 
 import { AssetImage } from "@/components/app/asset-image";
 import { AutoFurigana } from "@/components/app/auto-furigana";
@@ -19,12 +19,14 @@ export function TownButtons({
   familyCount,
   onErrands,
   onLiveliness,
+  onRoster,
 }: {
   errands: WorldErrands;
   lively: Liveliness;
   familyCount: number;
   onErrands: () => void;
   onLiveliness: () => void;
+  onRoster: () => void;
 }) {
   const claimable = claimableErrands(errands).length > 0;
   const count = `${claimedCount(errands)}/${errands.items.length}`;
@@ -56,6 +58,12 @@ export function TownButtons({
           <AutoFurigana text="にぎやか度" />
         </span>
         <span className="text-[#e0a100]">{livelinessStars(lively.level)}</span>
+      </button>
+      <button type="button" onClick={onRoster} className={PILL} aria-label="なかまの一覧">
+        <Sprout className="h-3.5 w-3.5 text-[#3b7f26]" aria-hidden />
+        <span>
+          <AutoFurigana text="なかま" />
+        </span>
       </button>
       {familyCount > 0 && (
         <Link href="/family" className={PILL}>

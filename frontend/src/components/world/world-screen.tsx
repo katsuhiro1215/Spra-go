@@ -35,6 +35,7 @@ import { NicknameDialog } from "./nickname-dialog";
 import { PlacementBar } from "./placement-bar";
 import { PlotUnlockCard } from "./plot-unlock-card";
 import { ReviewCard } from "./review-card";
+import { RosterSheet } from "./roster-sheet";
 import { SeedGift } from "./seed-gift";
 import { SeedPicker } from "./seed-picker";
 import {
@@ -52,6 +53,7 @@ import type {
   BornResult,
   ErrandClaimResult,
   NewSeed,
+  RosterData,
   ShopListItem,
   WorldCompanion,
   WorldData,
@@ -103,6 +105,9 @@ export function WorldScreen() {
   const [pickerOpen, setPickerOpen] = useState(false);
   // 新しくもらった特別な種(ほかのお祝いの後に出す。docs/design/2026-09-29-rare-spru-design.md 5-2)
   const [seedGifts, setSeedGifts] = useState<NewSeed[]>([]);
+  // なかまの一覧(開いたときに読む)と、町に出す・休ませるの通信中
+  const [roster, setRoster] = useState<RosterData | null>(null);
+  const [townBusy, setTownBusy] = useState(false);
   // 開いている仲間のカード(仲間のキー)・スプルの復習カード・最初の仲間の名前付け
   const [sheetKey, setSheetKey] = useState<string | null>(null);
   const [reviewCardOpen, setReviewCardOpen] = useState(false);
@@ -267,6 +272,49 @@ export function WorldScreen() {
     if (!res || !res.ok) return data.errors?.nickname?.[0] ?? data.message ?? "通信エラーが発生しました。";
     applyCompanions(data);
     return null;
+  }
+
+  // なかまの一覧を開く。一覧を開いたときにもらった種があれば、お祝いを出し、畑のふくろを読み直す
+  async function openRoster() {
+    const res = await apiFetch("/api/world/roster").catch(() => null);
+    const data = res ? await res.json().catch(() => ({})) : {};
+    if (!res || !res.ok) {
+      setMessage(data.message ?? "通信エラーが発生しました。");
+      return;
+    }
+    const next: RosterData = data;
+    setRoster(next);
+    if (next.new_seeds.length > 0) {
+      setSeedGifts(next.new_seeds);
+      const worldRes = await apiFetch("/api/world").catch(() => null);
+      if (worldRes && worldRes.ok) {
+        const fresh: WorldData = await worldRes.json();
+        setWorld((prev) => (prev ? { ...prev, garden: fresh.garden } : prev));
+      }
+    }
+  }
+
+  // 町に出す・おうちで休む(設計書3-5)
+  async function setTown(key: string, inTown: boolean) {
+    if (townBusy) return;
+    setTownBusy(true);
+    try {
+      const res = await apiFetch(`/api/world/companions/${key}/town`, {
+        method: "POST",
+        body: JSON.stringify({ in_town: inTown }),
+      }).catch(() => null);
+      const data = res ? await res.json().catch(() => ({})) : {};
+      if (!res || !res.ok) {
+        setMessage(data.message ?? "通信エラーが発生しました。");
+        setEvent({ kind: "error", at: Date.now() });
+        return;
+      }
+      applyCompanions(data);
+      setMessage(null);
+      play("correct");
+    } finally {
+      setTownBusy(false);
+    }
   }
 
   async function makePartner(key: string) {
@@ -609,6 +657,7 @@ export function WorldScreen() {
             familyCount={world.family_count}
             onErrands={() => setErrandsOpen(true)}
             onLiveliness={() => setLivelinessOpen(true)}
+            onRoster={openRoster}
           />
         )}
 
@@ -666,6 +715,17 @@ export function WorldScreen() {
           }}
           onPutAway={() => putAway(selected)}
           onClose={() => setSelected(null)}
+        />
+      )}
+
+      {roster && (
+        <RosterSheet
+          roster={roster}
+          companions={world.companions}
+          busy={townBusy}
+          onToggleTown={setTown}
+          onOpen={setSheetKey}
+          onClose={() => setRoster(null)}
         />
       )}
 

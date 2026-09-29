@@ -85,16 +85,21 @@ export function CompanionSheet({
           />
         ) : (
           <>
-            {!companion.is_partner && (
-              <button
-                type="button"
-                disabled={busy}
-                onClick={onMakePartner}
-                className="h-12 rounded-2xl bg-[#3b7f26] text-base font-black text-white disabled:opacity-60"
-              >
-                <AutoFurigana text="相棒にする" />
-              </button>
-            )}
+            {!companion.is_partner &&
+              (companion.in_town ? (
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={onMakePartner}
+                  className="h-12 rounded-2xl bg-[#3b7f26] text-base font-black text-white disabled:opacity-60"
+                >
+                  <AutoFurigana text="相棒にする" />
+                </button>
+              ) : (
+                <p className="rounded-2xl bg-[#f5efe1] px-3 py-3 text-center text-sm font-bold text-[#6b5d45]">
+                  <AutoFurigana text="町に出すと相棒にできるよ" />
+                </p>
+              ))}
             <button type="button" onClick={() => setEditing(true)} className="h-12 rounded-2xl bg-[#efe5cf] text-base font-black">
               <AutoFurigana text="名前を変える" />
             </button>
