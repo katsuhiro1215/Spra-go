@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\Category;
+use App\Models\ProfileGamePlay;
 use App\Models\Question;
 use App\Models\QuestionChoice;
 use App\Models\UserProfile;
@@ -76,6 +77,112 @@ class CatchGame
             ->count();
 
         return max(0, config('games.catch.daily_rewarded_plays') - $finishedToday);
+    }
+
+    /**
+     * 回を終える(設計書4-4・5章・6-3)。答えを採点し直して覚え具合に書き、その日の最初の3回ならごほうびを出す。
+     * 呼ぶ側で、終えていない回をロックしてから呼ぶ
+     *
+     * @param  list<array{question_id: int|string, choice_id: int|string}>  $answers  答えた順
+     */
+    public static function finish(ProfileGamePlay $play, array $answers): array
+    {
+        $dealt = array_map('intval', $play->question_ids);
+        $questionIds = array_map(fn (array $answer) => (int) $answer['question_id'], $answers);
+        abort_if(
+            count($answers) > count($dealt)
+            || count(array_unique($questionIds)) !== count($questionIds)
+            || array_diff($questionIds, $dealt) !== [],
+            422,
+            '答えが正しくありません。',
+        );
+
+        $choices = QuestionChoice::query()
+            ->whereIn('id', array_map(fn (array $answer) => (int) $answer['choice_id'], $answers))
+            ->get(['id', 'question_id', 'is_correct'])
+            ->keyBy('id');
+        $results = array_map(function (array $answer) use ($choices) {
+            $choice = $choices->get((int) $answer['choice_id']);
+            abort_if(! $choice || (int) $choice->question_id !== (int) $answer['question_id'], 422, '答えが正しくありません。');
+
+            return ['question_id' => (int) $choice->question_id, 'correct' => $choice->is_correct];
+        }, $answers);
+
+        $profile = UserProfile::query()->whereKey($play->user_profile_id)->lockForUpdate()->firstOrFail();
+        $today = Garden::today();
+        foreach ($results as $result) {
+            QuestionMemory::record($profile, $result['question_id'], $result['correct'], $today);
+        }
+
+        $flags = array_column($results, 'correct');
+        ['score' => $score, 'best_combo' => $bestCombo] = self::score($flags);
+        $correctCount = count(array_filter($flags));
+        $previousBest = (int) $profile->gamePlays()
+            ->where('game', self::GAME)
+            ->where('difficulty', $play->difficulty)
+            ->whereNotNull('finished_at')
+            ->max('score');
+        $left = self::rewardedPlaysLeft($profile);
+        $previousLevel = $profile->level;
+        $reward = null;
+        $leveledUp = false;
+
+        if ($left > 0 && $correctCount > 0) {
+            $per = self::settings($play->difficulty)['reward'];
+            $reward = ['xp' => $correctCount * $per['xp'], 'point' => $correctCount * $per['point']];
+            $leveledUp = $profile->applyEconomy($reward, 'game_catch')['leveled_up'];
+        }
+
+        $play->fill([
+            'finished_at' => now(),
+            'played_on' => $today,
+            'answered_count' => count($results),
+            'correct_count' => $correctCount,
+            'score' => $score,
+            'best_combo' => $bestCombo,
+            'rewarded' => $reward !== null,
+        ])->save();
+
+        return [
+            'answered_count' => count($results),
+            'correct_count' => $correctCount,
+            'score' => $score,
+            'best_combo' => $bestCombo,
+            'best_score' => max($previousBest, $score),
+            'new_best' => $score > $previousBest,
+            'reward' => $reward,
+            'rewarded_plays_left' => max(0, $left - 1),
+            'leveled_up' => $leveledUp,
+            'previous_level' => $previousLevel,
+            'level' => $profile->level,
+        ];
+    }
+
+    /**
+     * 答えの並び(正解か)から、点数といちばん長いコンボ(設計書3-5)。画面の scoreOf と同じ決まり
+     *
+     * @param  list<bool>  $results
+     * @return array{score: int, best_combo: int}
+     */
+    public static function score(array $results): array
+    {
+        $rules = config('games.catch.score');
+        $score = 0;
+        $combo = 0;
+        $best = 0;
+
+        foreach ($results as $correct) {
+            if (! $correct) {
+                $combo = 0;
+
+                continue;
+            }
+            $combo++;
+            $best = max($best, $combo);
+            $score += $rules['correct'] + ($combo >= $rules['combo_bonus_from'] ? $rules['combo_bonus'] : 0);
+        }
+
+        return ['score' => $score, 'best_combo' => $best];
     }
 
     /** @return array{lanes: int, fall_ms: int, max_label_width: int, reward: array{xp: int, point: int}} */
