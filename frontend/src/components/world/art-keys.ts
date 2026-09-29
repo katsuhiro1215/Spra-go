@@ -20,6 +20,23 @@ export const ITEM_ART_KEYS = [
   "tower",
   "boat_small",
   "boat_large",
+  // 段階2・3(docs/design/2026-09-28-town-items-design.md 5-2)
+  "tulip",
+  "rock",
+  "sunflower",
+  "bush",
+  "momiji",
+  "pine",
+  "flower_pots",
+  "well",
+  "street_lamp",
+  "mailbox",
+  "cottage",
+  "red_house",
+  "bakery",
+  "japanese_house",
+  "cafe",
+  "lighthouse",
 ] as const;
 
 export type ItemArtKey = (typeof ITEM_ART_KEYS)[number];
@@ -62,6 +79,22 @@ export const ITEM_ART_LABELS: Record<ItemArtKey, string> = {
   tower: "タワー",
   boat_small: "小さな船",
   boat_large: "大きな船",
+  tulip: "チューリップ",
+  rock: "岩と草",
+  sunflower: "ひまわり",
+  bush: "まるい植え込み",
+  momiji: "もみじ",
+  pine: "松",
+  flower_pots: "植木鉢",
+  well: "井戸",
+  street_lamp: "街灯",
+  mailbox: "ポスト",
+  cottage: "小さな家",
+  red_house: "赤い屋根の家",
+  bakery: "パン屋",
+  japanese_house: "和風の家",
+  cafe: "カフェ",
+  lighthouse: "灯台",
 };
 
 /** 絵のカテゴリ(設計書 2026-09-28-town-items 3-2)。config/world.php の asset_categories と必ず一致させる */
@@ -84,6 +117,22 @@ export const ITEM_ART_CATEGORIES: Record<ItemArtKey, ItemCategory> = {
   tower: "landmark",
   boat_small: "vehicle",
   boat_large: "vehicle",
+  tulip: "nature",
+  rock: "nature",
+  sunflower: "nature",
+  bush: "nature",
+  momiji: "nature",
+  pine: "nature",
+  flower_pots: "decor",
+  well: "decor",
+  street_lamp: "decor",
+  mailbox: "decor",
+  cottage: "house",
+  red_house: "house",
+  bakery: "house",
+  japanese_house: "house",
+  cafe: "house",
+  lighthouse: "landmark",
 };
 
 /** 管理画面の絵の選択肢の名前。カテゴリと、2×2なら大きさを添える(例: 「五重塔（名所・2×2）」) */
@@ -104,6 +153,10 @@ export const BIG_ASSETS: readonly ArtKey[] = [
   "liberty",
   "stonehenge",
   "mont_saint_michel",
+  "bakery",
+  "japanese_house",
+  "cafe",
+  "lighthouse",
 ];
 
 export function isBigAsset(key: string | null): boolean {

@@ -48,6 +48,9 @@ return [
         'bench', 'flowerbed', 'chochin', 'tree', 'sakura', 'vending', 'bicycle', 'stall',
         'stone_lantern', 'bamboo', 'fountain', 'palm', 'parasol', 'pagoda', 'castle', 'tower',
         'boat_small', 'boat_large',
+        // 段階2・3(docs/design/2026-09-28-town-items-design.md 5-2)
+        'tulip', 'rock', 'sunflower', 'bush', 'momiji', 'pine', 'flower_pots', 'well', 'street_lamp', 'mailbox',
+        'cottage', 'red_house', 'bakery', 'japanese_house', 'cafe', 'lighthouse',
     ],
 
     /*
@@ -59,6 +62,7 @@ return [
     'asset_footprints' => [
         'fountain' => 2, 'pagoda' => 2, 'castle' => 2, 'tower' => 2, 'boat_large' => 2,
         'borobudur' => 2, 'bulguksa' => 2, 'liberty' => 2, 'stonehenge' => 2, 'mont_saint_michel' => 2,
+        'bakery' => 2, 'japanese_house' => 2, 'cafe' => 2, 'lighthouse' => 2,
     ],
 
     /*
@@ -75,6 +79,10 @@ return [
         'stall' => 'house',
         'pagoda' => 'landmark', 'castle' => 'landmark', 'tower' => 'landmark',
         'bicycle' => 'vehicle', 'boat_small' => 'vehicle', 'boat_large' => 'vehicle',
+        'tulip' => 'nature', 'rock' => 'nature', 'sunflower' => 'nature', 'bush' => 'nature', 'momiji' => 'nature', 'pine' => 'nature',
+        'flower_pots' => 'decor', 'well' => 'decor', 'street_lamp' => 'decor', 'mailbox' => 'decor',
+        'cottage' => 'house', 'red_house' => 'house', 'bakery' => 'house', 'japanese_house' => 'house', 'cafe' => 'house',
+        'lighthouse' => 'landmark',
     ],
 
     /*

@@ -160,14 +160,32 @@ it('町のAPIのバッグのアイテムにも大きさが付く', function () {
     $this->getJson('/api/world')->assertOk()->assertJsonPath('bag.0.footprint', 2);
 });
 
-it('品ぞろえのシーダーで大きな建物5つ(F回の大きな船を含む)を含む18種類がそろい、2回実行しても増えない', function () {
+it('品ぞろえのシーダーで大きな建物9つ(新しい4つを含む)を含む34種類がそろい、2回実行しても増えない', function () {
     $this->seed(WorldItemSeeder::class);
     $this->seed(WorldItemSeeder::class);
 
     $items = ShopItem::query()->where('type', 'decoration')->get();
 
-    expect($items)->toHaveCount(18)
+    expect($items)->toHaveCount(34)
         ->and($items->filter(fn (ShopItem $item) => $item->footprint() === 2)->pluck('name')->sort()->values()->all())
-        ->toBe(['お城', 'タワー', '五重塔', '噴水', '大きな船'])
+        ->toBe(['お城', 'カフェ', 'タワー', 'パン屋', '五重塔', '和風の家', '噴水', '大きな船', '灯台'])
         ->and($items->firstWhere('name', 'タワー')->only(['price', 'min_level']))->toBe(['price' => 500, 'min_level' => 12]);
+});
+
+it('新しい16点は設計書 2026-09-28-town-items 5-2 のレベル・値段・カテゴリで並ぶ', function () {
+    $this->seed(WorldItemSeeder::class);
+
+    $row = function (string $name): array {
+        $item = ShopItem::query()->where('name', $name)->firstOrFail();
+
+        return [$item->min_level, $item->price, $item->assetKey(), $item->category()];
+    };
+
+    expect($row('チューリップ'))->toBe([1, 15, 'tulip', 'nature'])
+        ->and($row('松'))->toBe([6, 45, 'pine', 'nature'])
+        ->and($row('植木鉢'))->toBe([1, 15, 'flower_pots', 'decor'])
+        ->and($row('街灯'))->toBe([3, 40, 'street_lamp', 'decor'])
+        ->and($row('小さな家'))->toBe([2, 120, 'cottage', 'house'])
+        ->and($row('カフェ'))->toBe([9, 320, 'cafe', 'house'])
+        ->and($row('灯台'))->toBe([9, 350, 'lighthouse', 'landmark']);
 });
