@@ -2,6 +2,7 @@
 
 use App\Models\Category;
 use App\Models\Country;
+use App\Models\ProfileStageProgress;
 use App\Models\Stage;
 
 /*
@@ -90,4 +91,45 @@ it('言語学習モードのステージがある国だけhas_language_modeがtr
 
     expect($byCode['us']['has_language_mode'])->toBeTrue();
     expect($byCode['jp']['has_language_mode'])->toBeFalse();
+});
+
+it('国ごとに、問題のあるステージの数と今のプロフィールがクリアした数(achievement)を返す', function () {
+    $profile = createActiveProfile();
+    $japan = createCountryWithStageContent('jp', '日本');
+    createCountryWithStageContent('us', 'アメリカ');
+
+    $category = Category::create(['name' => '日本の2つ目']);
+    $second = Stage::create(['category_id' => $category->id, 'country_id' => $japan->id, 'difficulty' => '初級', 'stage_number' => 2]);
+    [$question] = createQuestionWithChoices();
+    $second->questions()->attach($question->id, ['order' => 1]);
+    // 問題のないステージは数えない(クリアの記録があっても数えない)
+    $empty = Stage::create(['category_id' => $category->id, 'country_id' => $japan->id, 'difficulty' => '初級', 'stage_number' => 3]);
+
+    $first = $japan->stages()->where('stage_number', 1)->firstOrFail();
+    ProfileStageProgress::create(['user_profile_id' => $profile->id, 'stage_id' => $first->id, 'cleared_at' => now()]);
+    ProfileStageProgress::create(['user_profile_id' => $profile->id, 'stage_id' => $empty->id, 'cleared_at' => now()]);
+    // 挑戦しただけ(クリアしていない)は数えない
+    ProfileStageProgress::create(['user_profile_id' => $profile->id, 'stage_id' => $second->id, 'attempts' => 1]);
+    // 同じ家族の別のプレイヤーのクリアは数えない
+    $other = createFamilyMember($profile);
+    ProfileStageProgress::create(['user_profile_id' => $other->id, 'stage_id' => $second->id, 'cleared_at' => now()]);
+
+    $byCode = collect($this->getJson('/api/countries')->assertOk()->json())->keyBy('code');
+
+    expect($byCode['jp']['achievement'])->toBe(['cleared' => 1, 'total' => 2])
+        ->and($byCode['us']['achievement'])->toBe(['cleared' => 0, 'total' => 1]);
+});
+
+it('プレイヤーを選んでいないときは、クリアした数を0にする', function () {
+    $profile = createActiveProfile();
+    $japan = createCountryWithStageContent('jp', '日本');
+    ProfileStageProgress::create([
+        'user_profile_id' => $profile->id,
+        'stage_id' => $japan->stages()->firstOrFail()->id,
+        'cleared_at' => now(),
+    ]);
+
+    $countries = $this->withSession(['active_profile_id' => null])->getJson('/api/countries')->assertOk()->json();
+
+    expect(collect($countries)->firstWhere('code', 'jp')['achievement'])->toBe(['cleared' => 0, 'total' => 1]);
 });
