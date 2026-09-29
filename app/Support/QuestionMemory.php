@@ -57,6 +57,53 @@ class QuestionMemory
     }
 
     /**
+     * 最後の答えがまちがいだった問題を、まちがえた日の新しい順に最大 $limit 個返す。$questionIds の中から選ぶ
+     * (スプルキャッチ。docs/design/2026-09-29-spru-catch-design.md 4-2)
+     *
+     * @param  list<int>  $questionIds
+     * @return list<int>
+     */
+    public static function wrongIdsAmong(UserProfile $profile, array $questionIds, int $limit): array
+    {
+        if ($limit <= 0 || $questionIds === []) {
+            return [];
+        }
+
+        return ProfileQuestionMemory::query()
+            ->where('user_profile_id', $profile->id)
+            ->whereIn('question_id', $questionIds)
+            ->whereNotNull('wrong_on')
+            ->orderByDesc('wrong_on')
+            ->orderByDesc('id')
+            ->limit($limit)
+            ->pluck('question_id')
+            ->map(fn ($id) => (int) $id)
+            ->all();
+    }
+
+    /**
+     * 出す日が来た問題を、出す日の古い順に最大 $limit 個返す。$questionIds の中から選ぶ(覚えた問題・鍵の国の問題は出さない)
+     *
+     * @param  list<int>  $questionIds
+     * @return list<int>
+     */
+    public static function dueIdsAmong(UserProfile $profile, array $questionIds, int $limit): array
+    {
+        if ($limit <= 0 || $questionIds === []) {
+            return [];
+        }
+
+        return self::dueQuery($profile)
+            ->whereIn('profile_question_memories.question_id', $questionIds)
+            ->orderBy('profile_question_memories.due_on')
+            ->orderBy('profile_question_memories.id')
+            ->limit($limit)
+            ->pluck('profile_question_memories.question_id')
+            ->map(fn ($id) => (int) $id)
+            ->all();
+    }
+
+    /**
      * 今までの答えの記録から覚え具合を作る(設計書3-5)。1回の答えには必ず体力の行が1つあるので、
      * 体力の行だけを古い順に読み直す(正解は体力・XP・コイン・ポイントの4行になるため)。消された問題の記録は読み飛ばす
      */
@@ -115,6 +162,8 @@ class QuestionMemory
             }
         }
 
+        // 最後の答えがまちがいだった日(スプルキャッチ。docs/design/2026-09-29-spru-catch-design.md 4-4)
+        $memory->wrong_on = $correct ? null : $today;
         $memory->last_answered_on = $today;
         $memory->save();
     }

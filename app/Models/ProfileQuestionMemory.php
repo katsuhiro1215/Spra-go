@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /** 問題ごとの覚え具合(docs/design/2026-09-29-spaced-review-design.md 4-1)。計算は App\Support\QuestionMemory */
 class ProfileQuestionMemory extends Model
 {
-    protected $fillable = ['user_profile_id', 'question_id', 'level', 'due_on', 'mastered_on', 'last_answered_on'];
+    protected $fillable = ['user_profile_id', 'question_id', 'level', 'due_on', 'mastered_on', 'last_answered_on', 'wrong_on'];
 
     protected function casts(): array
     {
@@ -17,6 +17,7 @@ class ProfileQuestionMemory extends Model
             'due_on' => 'date',
             'mastered_on' => 'date',
             'last_answered_on' => 'date',
+            'wrong_on' => 'date',
         ];
     }
 
