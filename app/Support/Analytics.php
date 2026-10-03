@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\AnalyticsDaily;
+use App\Models\Feedback;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Database\Query\Builder;
@@ -46,8 +47,8 @@ class Analytics
     public function answers(): Builder
     {
         return DB::table('profile_currency_ledger')
-            ->where('type', 'hp')
-            ->whereIn('reason', ['answer_correct', 'answer_wrong']);
+            ->where('profile_currency_ledger.type', 'hp')
+            ->whereIn('profile_currency_ledger.reason', ['answer_correct', 'answer_wrong']);
     }
 
     /**
@@ -316,5 +317,91 @@ class Analytics
             'label' => $step[1],
             'count' => $lapsed->where('step', $number)->count(),
         ])->values()->all();
+    }
+
+    /**
+     * まちがいの多い問題。期間にかかわらず全期間で、$minAnswers 回以上答えられた問題を、正解率の低い順に $limit 件。
+     * 削除された問題は出さない
+     *
+     * @return list<array{question_id: int, prompt: string, answers: int, accuracy: float, reports: int}>
+     */
+    public function hardQuestions(int $limit = 20, int $minAnswers = 5): array
+    {
+        $rows = $this->answers()
+            ->join('questions', 'questions.id', '=', 'profile_currency_ledger.question_id')
+            ->groupBy('questions.id', 'questions.prompt')
+            ->havingRaw('count(*) >= ?', [$minAnswers])
+            ->orderByRaw("sum(profile_currency_ledger.reason = 'answer_correct') / count(*) asc")
+            ->orderByDesc(DB::raw('count(*)'))
+            ->limit($limit)
+            ->get([
+                'questions.id as question_id',
+                'questions.prompt',
+                DB::raw('count(*) as answers'),
+                DB::raw("sum(profile_currency_ledger.reason = 'answer_correct') as correct"),
+            ]);
+
+        $reports = Feedback::query()
+            ->where('kind', Feedback::KIND_QUESTION_REPORT)
+            ->whereIn('question_id', $rows->pluck('question_id'))
+            ->groupBy('question_id')
+            ->selectRaw('question_id, count(*) as total')
+            ->pluck('total', 'question_id');
+
+        return $rows->map(fn ($row) => [
+            'question_id' => (int) $row->question_id,
+            'prompt' => $row->prompt,
+            'answers' => (int) $row->answers,
+            'accuracy' => round($row->correct / $row->answers, 4),
+            'reports' => (int) ($reports[$row->question_id] ?? 0),
+        ])->all();
+    }
+
+    /**
+     * よく使われる遊び(期間内。日本時間の日付 $from〜$to)。回数を持たない遊び(復習・水やり)は count が null。
+     * 「クイズ」は、ステージと復習の答え(答えの行にステージの番号が付かないため、分けずに数える)
+     *
+     * @return list<array{key: string, label: string, players: int, count: ?int}>
+     */
+    public function activities(string $from, string $to): array
+    {
+        [$start, $end] = self::utcRange($from, $to);
+        $inRange = fn (Builder $query, string $column) => $query->where($column, '>=', $start)->where($column, '<', $end);
+        $between = fn (Builder $query, string $column) => $query->whereBetween($column, [$from, $to]);
+
+        $quiz = $inRange($this->answers(), 'created_at');
+        $clear = $inRange(DB::table('profile_stage_progress')->whereNotNull('cleared_at'), 'cleared_at');
+        $review = $between(DB::table('user_profiles')->whereNotNull('last_review_on'), 'last_review_on');
+        $catch = $between(DB::table('profile_game_plays')->where('game', 'catch')->whereNotNull('finished_at'), 'played_on');
+        $water = $between(DB::table('profile_seeds')->whereNotNull('last_watered_on'), 'last_watered_on');
+        $trip = $inRange(DB::table('profile_trips'), 'arrived_at');
+        $errand = $inRange(DB::table('profile_errands')->whereNotNull('claimed_at'), 'claimed_at');
+        $greeting = $between(DB::table('profile_greetings'), 'greeted_on');
+
+        $row = fn (string $key, string $label, Builder $query, string $playerColumn, bool $hasCount = true) => [
+            'key' => $key,
+            'label' => $label,
+            'players' => (clone $query)->distinct()->count($playerColumn),
+            'count' => $hasCount ? (clone $query)->count() : null,
+        ];
+
+        return [
+            $row('quiz', 'クイズ(ステージ・復習の答え)', $quiz, 'user_profile_id'),
+            $row('clear', 'ステージクリア', $clear, 'user_profile_id'),
+            $row('review', '復習をやりきった', $review, 'id', false),
+            $row('catch', 'スプルキャッチ', $catch, 'user_profile_id'),
+            $row('water', '水やり', $water, 'user_profile_id', false),
+            $row('trip', '旅', $trip, 'user_profile_id'),
+            $row('errand', 'おつかい', $errand, 'user_profile_id'),
+            $row('greeting', 'あいさつ', $greeting, 'from_profile_id'),
+        ];
+    }
+
+    /** ご意見の件数(状態ごと。無い状態は0) */
+    public function feedbackCounts(): array
+    {
+        $counts = Feedback::query()->groupBy('status')->selectRaw('status, count(*) as total')->pluck('total', 'status');
+
+        return collect(Feedback::STATUSES)->mapWithKeys(fn ($status) => [$status => (int) ($counts[$status] ?? 0)])->all();
     }
 }
