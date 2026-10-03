@@ -1764,19 +1764,29 @@ Route::prefix('public')->name('public.')->group(function () {
     })->name('sample-quiz');
 });
 
+// 公開設定でコイン購入がOFFのあいだは、一覧を空にして購入の欄を出さない(docs/design/2026-10-03-closed-beta-design.md 4章)
 Route::middleware(['auth:sanctum'])->get('/coin-packages', function () {
-    return collect(config('coin_packages.packages'))
-        ->map(fn (array $package, string $key) => [
-            'key' => $key,
-            'coins' => $package['coins'],
-            'amount' => $package['amount'],
-            'currency' => $package['currency'],
-            'label' => $package['label'],
-        ])
-        ->values();
+    if (! AppSettings::coinPurchaseEnabled()) {
+        return ['enabled' => false, 'packages' => []];
+    }
+
+    return [
+        'enabled' => true,
+        'packages' => collect(config('coin_packages.packages'))
+            ->map(fn (array $package, string $key) => [
+                'key' => $key,
+                'coins' => $package['coins'],
+                'amount' => $package['amount'],
+                'currency' => $package['currency'],
+                'label' => $package['label'],
+            ])
+            ->values(),
+    ];
 })->name('coin-packages.index');
 
 Route::middleware(['auth:sanctum'])->post('/coin-purchases/checkout', function (Request $request) {
+    abort_unless(AppSettings::coinPurchaseEnabled(), 403, 'コインの購入は、まだ始まっていません。');
+
     $data = $request->validate(['package_key' => ['required', 'string']]);
 
     $package = config("coin_packages.packages.{$data['package_key']}");
