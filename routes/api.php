@@ -84,6 +84,12 @@ Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
     ];
 })->name('owner.dashboard.summary');
 
+// ログイン不要。登録画面が、招待コードの欄を出すか・おやすみ中かを知るための問い合わせ(コードそのものは返さない)
+Route::get('/registration', fn () => [
+    'open' => AppSettings::registrationOpen(),
+    'invite_required' => AppSettings::inviteCode() !== '',
+])->name('registration.info');
+
 Route::middleware(['auth:owner'])->get('/owner/settings', fn () => AppSettings::all())->name('owner.settings.show');
 
 Route::middleware(['auth:owner'])->put('/owner/settings', function (Request $request) {

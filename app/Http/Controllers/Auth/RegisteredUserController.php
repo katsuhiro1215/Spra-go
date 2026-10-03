@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\AppSettings;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,11 +22,22 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): Response
     {
+        // 招待制の試験公開(docs/design/2026-10-03-closed-beta-design.md 3-2)。おやすみ中は受け付けず、
+        // 招待コードが設定されていれば、合うコードを必須にする
+        abort_unless(AppSettings::registrationOpen(), 403, 'いまは登録をおやすみしています');
+
+        $codeRequired = AppSettings::inviteCode() !== '';
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+            'invite_code' => $codeRequired ? ['required', 'string'] : ['nullable'],
+        ], ['invite_code.required' => '招待コードを入れてください']);
+
+        if ($codeRequired && ! AppSettings::inviteCodeMatches($request->string('invite_code'))) {
+            throw ValidationException::withMessages(['invite_code' => '招待コードが違います']);
+        }
 
         $user = User::create([
             'name' => $request->name,
