@@ -27,6 +27,7 @@ use App\Support\Analytics;
 use App\Support\AppSettings;
 use App\Support\Bond;
 use App\Support\CatchGame;
+use App\Support\Csv;
 use App\Support\ContinueStage;
 use App\Support\Errands;
 use App\Support\Family;
@@ -153,6 +154,49 @@ Route::middleware(['auth:owner'])->get('/owner/analytics', function (Request $re
         'feedback' => $analytics->feedbackCounts(),
     ];
 })->name('owner.analytics');
+
+// 分析のCSV(docs/design/2026-10-03-analytics-design.md 4-4・6-3)。User一覧にメールアドレスは入れない
+Route::middleware(['auth:owner'])->get('/owner/analytics/export/{kind}', function (Request $request, string $kind) {
+    abort_unless(in_array($kind, ['daily', 'cohorts', 'hard-questions', 'users'], true), 404);
+
+    $analytics = new Analytics;
+    $today = $analytics->today();
+
+    $csv = match ($kind) {
+        'daily' => (function () use ($request, $analytics, $today) {
+            $days = in_array((int) $request->query('days'), [7, 14, 30, 90], true) ? (int) $request->query('days') : 14;
+            $rows = $analytics->daily(Carbon::parse($today)->subDays($days - 1)->toDateString(), $today);
+
+            return Csv::make(
+                ['日付', '新規アカウント', '新規プレイヤー', '開いた人数', '遊んだ人数', '解いた問題数', '正解数', '正解率', '遊んだ時間(分)'],
+                array_map(fn ($r) => [$r['date'], $r['new_accounts'], $r['new_players'], $r['opened_players'], $r['active_players'], $r['answers'], $r['correct_answers'], $r['accuracy'], $r['play_minutes']], $rows),
+            );
+        })(),
+        'cohorts' => Csv::make(
+            ['登録した週', '人数', '登録した週', '1週後', '2週後', '3週後', '4週後'],
+            array_map(fn ($c) => [$c['week'], $c['players'], ...$c['weeks']], $analytics->cohorts(8)),
+        ),
+        'hard-questions' => Csv::make(
+            ['問題番号', '問題文', '回答数', '正解率', 'へん報告数'],
+            array_map(fn ($q) => [$q['question_id'], $q['prompt'], $q['answers'], $q['accuracy'], $q['reports']], $analytics->hardQuestions()),
+        ),
+        'users' => (function () use ($analytics) {
+            $stats = $analytics->userStats();
+
+            return Csv::make(
+                ['ID', '名前', '登録日', 'メール確認', 'プレイヤー数', '最後に遊んだ日', '解いた問題数', '遊んだ時間(分)'],
+                User::query()->latest()->get()->map(fn (User $user) => [
+                    $user->id, $user->name,
+                    $user->created_at->copy()->setTimezone(Analytics::TIMEZONE)->toDateString(),
+                    $user->email_verified_at ? '確認済み' : '未確認',
+                    $stats[$user->id]['players'], $stats[$user->id]['last_played_on'], $stats[$user->id]['answers'], $stats[$user->id]['play_minutes'],
+                ])->all(),
+            );
+        })(),
+    };
+
+    return response($csv, 200, ['Content-Type' => 'text/csv; charset=UTF-8']);
+})->name('owner.analytics.export');
 
 Route::middleware(['auth:owner'])->get('/owner/users', function () {
     $stats = (new Analytics)->userStats();
