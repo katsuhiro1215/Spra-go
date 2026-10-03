@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -9,6 +9,7 @@ import { Furigana } from "@/components/app/furigana";
 import { SkyPage } from "@/components/app/sky-page";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { apiFetch } from "@/lib/api";
+import { inviteCodeFromSearch, registrationView, type RegistrationInfo } from "@/lib/registration";
 
 export default function Page() {
   const router = useRouter();
@@ -16,6 +17,23 @@ export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [inviteCode, setInviteCode] = useState("");
+  // 招待コードが要るか・おやすみ中か(docs/design/2026-10-03-closed-beta-design.md 3-3)。取れなければ null のまま、サーバーが最後に判断する
+  const [info, setInfo] = useState<RegistrationInfo | null>(null);
+  const view = registrationView(info);
+
+  useEffect(() => {
+    // 問い合わせの答えが来たところで、/register?code=○○ のコードを欄に入れる(入力が始まっていれば、そのまま)。
+    // useSearchParams は静的に作るとき Suspense が要るので、window.location.search を読む
+    apiFetch("/api/registration")
+      .then(async (res) => (res.ok ? ((await res.json()) as RegistrationInfo) : null))
+      .catch(() => null)
+      .then((data) => {
+        setInfo(data);
+        setInviteCode((prev) => prev || inviteCodeFromSearch(window.location.search));
+      });
+  }, []);
+
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -32,6 +50,7 @@ export default function Page() {
           email,
           password,
           password_confirmation: passwordConfirmation,
+          invite_code: inviteCode,
         }),
       });
 
@@ -40,7 +59,10 @@ export default function Page() {
         return;
       }
 
-      if (res.status === 422) {
+      if (res.status === 403) {
+        const data = await res.json();
+        setError(data.message ?? "いまは登録をおやすみしています");
+      } else if (res.status === 422) {
         const data = await res.json();
         const firstError = Object.values(data.errors ?? {})[0] as
           | string[]
@@ -70,7 +92,32 @@ export default function Page() {
             世界図鑑を完成させる旅をはじめよう
           </p>
 
+          {view.closed ? (
+            <p className="mt-6 text-center text-sm font-bold text-[#6b5d45]">
+              いまは登録をおやすみしています。
+              <br />
+              ひらいたら、またきてね
+            </p>
+          ) : (
           <form className="mt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
+            {view.showCode && (
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="invite_code" className="text-sm font-black text-[#3b3226]">
+                  招待コード
+                </label>
+                <input
+                  id="invite_code"
+                  type="text"
+                  required
+                  autoComplete="off"
+                  value={inviteCode}
+                  onChange={(e) => setInviteCode(e.target.value)}
+                  className="h-11 rounded-xl border-2 border-[#e8dfcf] bg-white px-3 text-sm text-[#3b3226] outline-none focus-visible:border-[#2b6fa3]"
+                />
+                <p className="text-xs font-bold text-[#6b5d45]">教えてもらったコードを入れてください</p>
+              </div>
+            )}
+
             <div className="flex flex-col gap-1.5">
               <label htmlFor="name" className="text-sm font-black text-[#3b3226]">
                 お名前
@@ -153,6 +200,7 @@ export default function Page() {
               )}
             </AppButton>
           </form>
+          )}
         </div>
 
         <Link
