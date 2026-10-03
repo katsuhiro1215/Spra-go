@@ -31,14 +31,7 @@ import { CategoryTabs } from "@/components/world/category-tabs";
 import { ItemIcon } from "@/components/world/item-art";
 import type { ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
-
-type CoinPackage = {
-  key: string;
-  coins: number;
-  amount: number;
-  currency: string;
-  label: string;
-};
+import { coinPackagesFrom, type CoinPackageInfo } from "@/lib/coin-packages";
 
 type ItemType = "potion" | "plane" | "background" | "character" | "title" | "decoration";
 
@@ -76,7 +69,7 @@ function ShopContent() {
     undefined,
   );
   const [items, setItems] = useState<ShopListItem[] | null>(null);
-  const [coinPackages, setCoinPackages] = useState<CoinPackage[] | null>(
+  const [coinPackages, setCoinPackages] = useState<CoinPackageInfo[] | null>(
     null,
   );
   const [purchasingId, setPurchasingId] = useState<number | null>(null);
@@ -109,7 +102,7 @@ function ShopContent() {
     });
 
     apiFetch("/api/coin-packages").then(async (res) => {
-      if (res.ok) setCoinPackages(await res.json());
+      if (res.ok) setCoinPackages(coinPackagesFrom(await res.json()));
     });
 
     apiFetch("/api/user").then(async (res) => {
@@ -133,7 +126,7 @@ function ShopContent() {
     })();
   }, [searchParams]);
 
-  async function handleCoinPurchase(pkg: CoinPackage) {
+  async function handleCoinPurchase(pkg: CoinPackageInfo) {
     setPurchasingPackageKey(pkg.key);
     setMessage(null);
 
