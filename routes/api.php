@@ -30,6 +30,7 @@ use App\Support\ContinueStage;
 use App\Support\Errands;
 use App\Support\Family;
 use App\Support\Garden;
+use App\Support\PlayTime;
 use App\Support\LevelCurve;
 use App\Support\PlayableQuestion;
 use App\Support\QuestionAnswerResolver;
@@ -1785,6 +1786,13 @@ Route::prefix('public')->name('public.')->group(function () {
         ];
     })->name('sample-quiz');
 });
+
+// 遊んだ時間(docs/design/2026-10-03-analytics-design.md 5章)。画面が見えていて操作があるあいだ、30秒ごとに送られる
+Route::middleware(['auth:sanctum', 'throttle:6,1'])->post('/play-time', function (Request $request) {
+    $data = $request->validate(['seconds' => ['required', 'integer', 'min:1', 'max:60']]);
+
+    return ['seconds' => PlayTime::record(ActiveProfile::require($request), $data['seconds'])];
+})->name('play-time.store');
 
 // 保護者のご意見と、子どもの問題の「へん」報告(docs/design/2026-10-03-closed-beta-design.md 5章)
 Route::middleware(['auth:sanctum', 'throttle:10,60'])->post('/feedback', function (Request $request) {
