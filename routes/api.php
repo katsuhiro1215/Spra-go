@@ -105,6 +105,27 @@ Route::middleware(['auth:owner'])->put('/owner/settings', function (Request $req
     return AppSettings::all();
 })->name('owner.settings.update');
 
+Route::middleware(['auth:owner'])->get('/owner/feedbacks', function (Request $request) {
+    $query = Feedback::query()->with(['user:id,name', 'question:id,prompt'])->latest('id');
+
+    if ($request->filled('kind')) {
+        $query->where('kind', $request->string('kind'));
+    }
+    if ($request->filled('status')) {
+        $query->where('status', $request->string('status'));
+    }
+
+    return $query->paginate(30)->through(fn (Feedback $feedback) => $feedback->toOwnerArray());
+})->name('owner.feedbacks.index');
+
+Route::middleware(['auth:owner'])->patch('/owner/feedbacks/{feedback}', function (Request $request, Feedback $feedback) {
+    $data = $request->validate(['status' => ['required', Rule::in(Feedback::STATUSES)]]);
+
+    $feedback->update($data);
+
+    return $feedback->load(['user:id,name', 'question:id,prompt'])->toOwnerArray();
+})->name('owner.feedbacks.update');
+
 Route::middleware(['auth:owner'])->get('/owner/admins', function () {
     return Admin::query()->latest()->get();
 })->name('owner.admins');
