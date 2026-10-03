@@ -6,6 +6,7 @@ use App\Models\CoinPurchase;
 use App\Models\ContentItem;
 use App\Models\Country;
 use App\Models\Event;
+use App\Models\Feedback;
 use App\Models\Language;
 use App\Models\ProfileGamePlay;
 use App\Models\ProfileStageProgress;
@@ -22,6 +23,7 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
+use App\Support\AppSettings;
 use App\Support\Bond;
 use App\Support\CatchGame;
 use App\Support\ContinueStage;
@@ -72,6 +74,7 @@ Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
             ->where('cleared_at', '>=', $sevenDaysAgo)
             ->count(),
         'countries_with_content' => Country::query()->whereHas('stages.questions')->count(),
+        'invite_code_empty' => AppSettings::inviteCode() === '',
         'coin_purchases' => [
             'completed_count' => CoinPurchase::query()->where('status', 'completed')->count(),
             'completed_amount_this_month' => (int) CoinPurchase::query()
@@ -81,6 +84,47 @@ Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
         ],
     ];
 })->name('owner.dashboard.summary');
+
+// ログイン不要。登録画面が、招待コードの欄を出すか・おやすみ中かを知るための問い合わせ(コードそのものは返さない)
+Route::get('/registration', fn () => [
+    'open' => AppSettings::registrationOpen(),
+    'invite_required' => AppSettings::inviteCode() !== '',
+])->name('registration.info');
+
+Route::middleware(['auth:owner'])->get('/owner/settings', fn () => AppSettings::all())->name('owner.settings.show');
+
+Route::middleware(['auth:owner'])->put('/owner/settings', function (Request $request) {
+    $data = $request->validate([
+        'invite_code' => ['nullable', 'string', 'max:64'],
+        'registration_open' => ['required', 'boolean'],
+        'coin_purchase_enabled' => ['required', 'boolean'],
+    ]);
+
+    AppSettings::update($data);
+
+    return AppSettings::all();
+})->name('owner.settings.update');
+
+Route::middleware(['auth:owner'])->get('/owner/feedbacks', function (Request $request) {
+    $query = Feedback::query()->with(['user:id,name', 'question:id,prompt'])->latest('id');
+
+    if ($request->filled('kind')) {
+        $query->where('kind', $request->string('kind'));
+    }
+    if ($request->filled('status')) {
+        $query->where('status', $request->string('status'));
+    }
+
+    return $query->paginate(30)->through(fn (Feedback $feedback) => $feedback->toOwnerArray());
+})->name('owner.feedbacks.index');
+
+Route::middleware(['auth:owner'])->patch('/owner/feedbacks/{feedback}', function (Request $request, Feedback $feedback) {
+    $data = $request->validate(['status' => ['required', Rule::in(Feedback::STATUSES)]]);
+
+    $feedback->update($data);
+
+    return $feedback->load(['user:id,name', 'question:id,prompt'])->toOwnerArray();
+})->name('owner.feedbacks.update');
 
 Route::middleware(['auth:owner'])->get('/owner/admins', function () {
     return Admin::query()->latest()->get();
@@ -1742,19 +1786,55 @@ Route::prefix('public')->name('public.')->group(function () {
     })->name('sample-quiz');
 });
 
+// 保護者のご意見と、子どもの問題の「へん」報告(docs/design/2026-10-03-closed-beta-design.md 5章)
+Route::middleware(['auth:sanctum', 'throttle:10,60'])->post('/feedback', function (Request $request) {
+    $data = $request->validate([
+        'kind' => ['required', Rule::in(Feedback::WRITTEN_KINDS)],
+        'body' => ['required', 'string', 'max:2000'],
+        'page' => ['nullable', 'string', 'max:200'],
+    ]);
+
+    Feedback::create($data + ['user_id' => $request->user()->id]);
+
+    return response()->json(['sent' => true], 201);
+})->name('feedback.store');
+
+Route::middleware(['auth:sanctum', 'throttle:30,60'])->post('/questions/{question}/report', function (Request $request, Question $question) {
+    $data = $request->validate(['reason' => ['required', Rule::in(array_keys(Feedback::REASONS))]]);
+    $profile = ActiveProfile::require($request);
+
+    // 同じ子が同じ問題を重ねて報告しても、最初の1件のまま
+    Feedback::firstOrCreate(
+        ['kind' => Feedback::KIND_QUESTION_REPORT, 'user_profile_id' => $profile->id, 'question_id' => $question->id],
+        ['user_id' => $request->user()->id, 'reason' => $data['reason'], 'body' => Feedback::REASONS[$data['reason']]],
+    );
+
+    return ['reported' => true];
+})->name('questions.report');
+
+// 公開設定でコイン購入がOFFのあいだは、一覧を空にして購入の欄を出さない(docs/design/2026-10-03-closed-beta-design.md 4章)
 Route::middleware(['auth:sanctum'])->get('/coin-packages', function () {
-    return collect(config('coin_packages.packages'))
-        ->map(fn (array $package, string $key) => [
-            'key' => $key,
-            'coins' => $package['coins'],
-            'amount' => $package['amount'],
-            'currency' => $package['currency'],
-            'label' => $package['label'],
-        ])
-        ->values();
+    if (! AppSettings::coinPurchaseEnabled()) {
+        return ['enabled' => false, 'packages' => []];
+    }
+
+    return [
+        'enabled' => true,
+        'packages' => collect(config('coin_packages.packages'))
+            ->map(fn (array $package, string $key) => [
+                'key' => $key,
+                'coins' => $package['coins'],
+                'amount' => $package['amount'],
+                'currency' => $package['currency'],
+                'label' => $package['label'],
+            ])
+            ->values(),
+    ];
 })->name('coin-packages.index');
 
 Route::middleware(['auth:sanctum'])->post('/coin-purchases/checkout', function (Request $request) {
+    abort_unless(AppSettings::coinPurchaseEnabled(), 403, 'コインの購入は、まだ始まっていません。');
+
     $data = $request->validate(['package_key' => ['required', 'string']]);
 
     $package = config("coin_packages.packages.{$data['package_key']}");

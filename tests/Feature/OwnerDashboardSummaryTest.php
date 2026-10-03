@@ -79,3 +79,15 @@ it('7日より前のクリアはカウントされない', function () {
     $response->assertOk();
     expect($response->json('stage_clears_last_7_days'))->toBe(0);
 });
+
+it('招待コードが空かどうかを、要約で知らせる', function () {
+    $owner = Owner::factory()->create();
+
+    $this->actingAs($owner, 'owner')->getJson('/api/owner/dashboard/summary')
+        ->assertOk()->assertJsonPath('invite_code_empty', true);
+
+    \App\Support\AppSettings::update(['invite_code' => 'abc']);
+
+    $this->actingAs($owner, 'owner')->getJson('/api/owner/dashboard/summary')
+        ->assertOk()->assertJsonPath('invite_code_empty', false);
+});

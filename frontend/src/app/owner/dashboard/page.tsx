@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import Link from "next/link";
+
 import { apiFetch } from "@/lib/api";
 
 type Summary = {
@@ -10,6 +12,7 @@ type Summary = {
   new_users_last_7_days: number;
   stage_clears_last_7_days: number;
   countries_with_content: number;
+  invite_code_empty: boolean;
   coin_purchases: {
     completed_count: number;
     completed_amount_this_month: number;
@@ -51,6 +54,15 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-6">
       <h1 className="text-xl font-semibold">Owner Dashboard</h1>
+
+      {summary?.invite_code_empty && (
+        <p className="rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+          招待コードが空です。誰でも登録できます。
+          <Link href="/owner/dashboard/settings" className="ml-2 underline">
+            公開設定を開く
+          </Link>
+        </p>
+      )}
 
       {summary === undefined ? (
         <p className="text-sm text-muted-foreground">読み込み中...</p>

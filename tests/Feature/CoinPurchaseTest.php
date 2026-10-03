@@ -2,6 +2,9 @@
 
 use App\Models\CoinPurchase;
 use App\Models\User;
+use App\Support\AppSettings;
+
+beforeEach(fn () => AppSettings::update(['coin_purchase_enabled' => true]));
 
 /*
 |--------------------------------------------------------------------------
@@ -39,10 +42,21 @@ it('コインパッケージ一覧を取得できる', function () {
 
     $response = $this->getJson('/api/coin-packages');
 
-    $response->assertOk();
-    expect($response->json())->toHaveCount(3);
-    expect(collect($response->json())->pluck('key')->all())
+    $response->assertOk()->assertJsonPath('enabled', true);
+    expect($response->json('packages'))->toHaveCount(3);
+    expect(collect($response->json('packages'))->pluck('key')->all())
         ->toBe(['small', 'medium', 'large']);
+});
+
+it('コイン購入がOFFのとき、一覧は空で、チェックアウトは403', function () {
+    AppSettings::update(['coin_purchase_enabled' => false]);
+    createActiveProfile();
+
+    $this->getJson('/api/coin-packages')->assertOk()
+        ->assertExactJson(['enabled' => false, 'packages' => []]);
+
+    $this->postJson('/api/coin-purchases/checkout', ['package_key' => 'small'])
+        ->assertStatus(403)->assertJsonPath('message', 'コインの購入は、まだ始まっていません。');
 });
 
 it('Stripeセッション完了でコインが付与される', function () {
