@@ -15,6 +15,7 @@ import { answerHeadline, choiceTone } from "@/components/app/palette";
 import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage } from "@/components/app/sky-page";
 import { SortingQuestion } from "@/components/app/sorting-question";
+import { ReportQuestion } from "@/components/quiz/report-question";
 import { useSound } from "@/components/app/sound-provider";
 import { bloomOf, type Bloom } from "@/components/spru/bloom";
 import { CompanionImage } from "@/components/spru/companion-image";
@@ -512,9 +513,13 @@ export function QuizSession({
       <GameHeader />
       {currentIndex === 0 && !practice && stageNumber !== null && <StageStartCard key={runId} stageNumber={stageNumber} />}
       <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12">
-        <div className="flex flex-col gap-8 rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
+        <div className="relative flex flex-col gap-8 rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
+          {/* 「へん？」の報告(問題が変わるたびに作り直す) */}
+          <div className="absolute top-3 right-3 z-10">
+            <ReportQuestion key={question.id} questionId={question.id} />
+          </div>
           <div>
-            <p className="flex items-center gap-2 text-sm text-[#6b5d45]">
+            <p className="flex items-center gap-2 pr-16 text-sm text-[#6b5d45]">
               {practice ? "もう一度チャレンジ" : title}
               <span>
                 ・ 問題 {currentIndex + 1} / {round.length}

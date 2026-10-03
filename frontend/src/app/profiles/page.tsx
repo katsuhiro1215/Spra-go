@@ -13,6 +13,7 @@ import { ProfileSheet, type SheetProfile } from "@/components/app/profile-sheet"
 import { SkyPage, SkyTitle } from "@/components/app/sky-page";
 import { SpruLoading } from "@/components/app/spru-loading";
 import { isEmailVerified } from "@/components/auth/auth-flow";
+import { FeedbackForm } from "@/components/app/feedback-form";
 import { EmailVerifyNotice } from "@/components/auth/email-verify-notice";
 import { SPRU_ICONS } from "@/components/spru/spru-assets";
 import { SpruHouse } from "@/components/spru/spru-house";
@@ -156,6 +157,11 @@ export default function Page() {
                 </button>
               </li>
             </ul>
+
+            {/* 保護者のかたへ(ご意見・ホーム画面に追加の案内) */}
+            <section aria-label="保護者のかたへ" className="mt-10 flex w-full max-w-md flex-col items-center gap-3">
+              <FeedbackForm />
+            </section>
           </>
         )}
       </div>
