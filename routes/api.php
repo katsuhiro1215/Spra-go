@@ -22,6 +22,7 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
+use App\Support\AppSettings;
 use App\Support\Bond;
 use App\Support\CatchGame;
 use App\Support\ContinueStage;
@@ -72,6 +73,7 @@ Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
             ->where('cleared_at', '>=', $sevenDaysAgo)
             ->count(),
         'countries_with_content' => Country::query()->whereHas('stages.questions')->count(),
+        'invite_code_empty' => AppSettings::inviteCode() === '',
         'coin_purchases' => [
             'completed_count' => CoinPurchase::query()->where('status', 'completed')->count(),
             'completed_amount_this_month' => (int) CoinPurchase::query()
@@ -81,6 +83,20 @@ Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
         ],
     ];
 })->name('owner.dashboard.summary');
+
+Route::middleware(['auth:owner'])->get('/owner/settings', fn () => AppSettings::all())->name('owner.settings.show');
+
+Route::middleware(['auth:owner'])->put('/owner/settings', function (Request $request) {
+    $data = $request->validate([
+        'invite_code' => ['nullable', 'string', 'max:64'],
+        'registration_open' => ['required', 'boolean'],
+        'coin_purchase_enabled' => ['required', 'boolean'],
+    ]);
+
+    AppSettings::update($data);
+
+    return AppSettings::all();
+})->name('owner.settings.update');
 
 Route::middleware(['auth:owner'])->get('/owner/admins', function () {
     return Admin::query()->latest()->get();
