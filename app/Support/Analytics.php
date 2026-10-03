@@ -211,4 +211,110 @@ class Analytics
 
         return $result;
     }
+
+    /** 段階(2〜8)。1 のアカウント登録は、段階の人数ではなくアカウントの数 */
+    private const STEPS = [
+        2 => ['player', 'プレイヤーを作る'],
+        3 => ['first_answer', '最初の1問'],
+        4 => ['first_clear', '最初のステージクリア'],
+        5 => ['three_days', '3日以上遊ぶ'],
+        6 => ['level5', 'レベル5'],
+        7 => ['first_seed', '最初の種まき'],
+        8 => ['first_trip', '最初の旅'],
+    ];
+
+    /**
+     * 期間内($from 以降)に作ったプレイヤーの、到達した段階(2〜8)。前の段階を全部満たした人だけが次に進む。
+     *
+     * @return array<int, array{step: int, created_on: string, last_day: ?string}> プレイヤーの番号 => …
+     */
+    private function playerProgress(string $from): array
+    {
+        $since = self::utcRange($from)[0];
+        $players = DB::table('user_profiles')->where('created_at', '>=', $since)->get(['id', 'level', 'created_at']);
+
+        if ($players->isEmpty()) {
+            return [];
+        }
+
+        $ids = $players->pluck('id');
+        $cleared = DB::table('profile_stage_progress')->whereIn('user_profile_id', $ids)->whereNotNull('cleared_at')->pluck('user_profile_id')->flip();
+        $seeded = DB::table('profile_seeds')->whereIn('user_profile_id', $ids)->pluck('user_profile_id')->flip();
+        $traveled = DB::table('profile_trips')->whereIn('user_profile_id', $ids)->pluck('user_profile_id')->flip();
+        $allDays = $this->activeDays();
+
+        return $players->mapWithKeys(function ($player) use ($cleared, $seeded, $traveled, $allDays) {
+            $days = $allDays[$player->id] ?? [];
+            $conditions = [
+                3 => $days !== [],
+                4 => $cleared->has($player->id),
+                5 => count($days) >= 3,
+                6 => $player->level >= 5,
+                7 => $seeded->has($player->id),
+                8 => $traveled->has($player->id),
+            ];
+
+            $step = 2;
+            foreach ($conditions as $number => $met) {
+                if (! $met) {
+                    break;
+                }
+                $step = $number;
+            }
+
+            return [$player->id => [
+                'step' => $step,
+                'created_on' => Carbon::parse($player->created_at, 'UTC')->setTimezone(self::TIMEZONE)->toDateString(),
+                'last_day' => $days === [] ? null : end($days),
+            ]];
+        })->all();
+    }
+
+    /**
+     * どこでやめたか。期間内に作ったアカウントとプレイヤーについて、段階ごとの人数と、前の段階からの割合
+     * (アカウントとプレイヤーの数は割合を出さない)
+     *
+     * @return list<array{key: string, label: string, count: int, rate: ?float}>
+     */
+    public function funnel(string $from): array
+    {
+        $progress = collect($this->playerProgress($from));
+        $accounts = User::query()->where('created_at', '>=', self::utcRange($from)[0])->count();
+
+        $rows = [['key' => 'account', 'label' => 'アカウント登録', 'count' => $accounts, 'rate' => null]];
+        $previous = null;
+
+        foreach (self::STEPS as $number => [$key, $label]) {
+            $count = $progress->where('step', '>=', $number)->count();
+            $rows[] = [
+                'key' => $key,
+                'label' => $label,
+                'count' => $count,
+                'rate' => $number === 2 || $previous === 0 ? null : round($count / $previous, 4),
+            ];
+            $previous = $count;
+        }
+
+        return $rows;
+    }
+
+    /**
+     * 離れた人(最後に答えた日が7日以上前。答えたことがなければ、プレイヤーを作って7日以上経った人)が、
+     * 最後にどの段階まで進んだか
+     *
+     * @return list<array{key: string, label: string, count: int}>
+     */
+    public function dropoff(string $from): array
+    {
+        $limit = Carbon::parse($this->today())->subDays(7)->toDateString();
+
+        $lapsed = collect($this->playerProgress($from))
+            ->filter(fn ($player) => ($player['last_day'] ?? $player['created_on']) <= $limit);
+
+        return collect(self::STEPS)->map(fn ($step, $number) => [
+            'key' => $step[0],
+            'label' => $step[1],
+            'count' => $lapsed->where('step', $number)->count(),
+        ])->values()->all();
+    }
 }
