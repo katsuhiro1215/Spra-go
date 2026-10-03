@@ -23,13 +23,16 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
+use App\Support\Analytics;
 use App\Support\AppSettings;
 use App\Support\Bond;
 use App\Support\CatchGame;
+use App\Support\Csv;
 use App\Support\ContinueStage;
 use App\Support\Errands;
 use App\Support\Family;
 use App\Support\Garden;
+use App\Support\PlayTime;
 use App\Support\LevelCurve;
 use App\Support\PlayableQuestion;
 use App\Support\QuestionAnswerResolver;
@@ -42,6 +45,7 @@ use App\Support\WorldLand;
 use App\Support\WorldPlacement;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
@@ -130,8 +134,76 @@ Route::middleware(['auth:owner'])->get('/owner/admins', function () {
     return Admin::query()->latest()->get();
 })->name('owner.admins');
 
+// 分析(docs/design/2026-10-03-analytics-design.md 4-4)。期間は 7・14・30・90 のどれか(それ以外は14)
+Route::middleware(['auth:owner'])->get('/owner/analytics', function (Request $request) {
+    $days = in_array((int) $request->query('days'), [7, 14, 30, 90], true) ? (int) $request->query('days') : 14;
+    $analytics = new Analytics;
+    $today = $analytics->today();
+    $from = Carbon::parse($today)->subDays($days - 1)->toDateString();
+
+    return [
+        'days' => $days,
+        'summary' => $analytics->summary(),
+        'daily' => $analytics->daily($from, $today),
+        'retention' => $analytics->retention(),
+        'cohorts' => $analytics->cohorts(8),
+        'funnel' => $analytics->funnel($from),
+        'dropoff' => $analytics->dropoff($from),
+        'hard_questions' => $analytics->hardQuestions(),
+        'activities' => $analytics->activities($from, $today),
+        'feedback' => $analytics->feedbackCounts(),
+    ];
+})->name('owner.analytics');
+
+// 分析のCSV(docs/design/2026-10-03-analytics-design.md 4-4・6-3)。User一覧にメールアドレスは入れない
+Route::middleware(['auth:owner'])->get('/owner/analytics/export/{kind}', function (Request $request, string $kind) {
+    abort_unless(in_array($kind, ['daily', 'cohorts', 'hard-questions', 'users'], true), 404);
+
+    $analytics = new Analytics;
+    $today = $analytics->today();
+
+    $csv = match ($kind) {
+        'daily' => (function () use ($request, $analytics, $today) {
+            $days = in_array((int) $request->query('days'), [7, 14, 30, 90], true) ? (int) $request->query('days') : 14;
+            $rows = $analytics->daily(Carbon::parse($today)->subDays($days - 1)->toDateString(), $today);
+
+            return Csv::make(
+                ['日付', '新規アカウント', '新規プレイヤー', '開いた人数', '遊んだ人数', '解いた問題数', '正解数', '正解率', '遊んだ時間(分)'],
+                array_map(fn ($r) => [$r['date'], $r['new_accounts'], $r['new_players'], $r['opened_players'], $r['active_players'], $r['answers'], $r['correct_answers'], $r['accuracy'], $r['play_minutes']], $rows),
+            );
+        })(),
+        'cohorts' => Csv::make(
+            ['登録した週', '人数', '登録した週', '1週後', '2週後', '3週後', '4週後'],
+            array_map(fn ($c) => [$c['week'], $c['players'], ...$c['weeks']], $analytics->cohorts(8)),
+        ),
+        'hard-questions' => Csv::make(
+            ['問題番号', '問題文', '回答数', '正解率', 'へん報告数'],
+            array_map(fn ($q) => [$q['question_id'], $q['prompt'], $q['answers'], $q['accuracy'], $q['reports']], $analytics->hardQuestions()),
+        ),
+        'users' => (function () use ($analytics) {
+            $stats = $analytics->userStats();
+
+            return Csv::make(
+                ['ID', '名前', '登録日', 'メール確認', 'プレイヤー数', '最後に遊んだ日', '解いた問題数', '遊んだ時間(分)'],
+                User::query()->latest()->get()->map(fn (User $user) => [
+                    $user->id, $user->name,
+                    $user->created_at->copy()->setTimezone(Analytics::TIMEZONE)->toDateString(),
+                    $user->email_verified_at ? '確認済み' : '未確認',
+                    $stats[$user->id]['players'], $stats[$user->id]['last_played_on'], $stats[$user->id]['answers'], $stats[$user->id]['play_minutes'],
+                ])->all(),
+            );
+        })(),
+    };
+
+    return response($csv, 200, ['Content-Type' => 'text/csv; charset=UTF-8']);
+})->name('owner.analytics.export');
+
 Route::middleware(['auth:owner'])->get('/owner/users', function () {
-    return User::query()->latest()->get();
+    $stats = (new Analytics)->userStats();
+
+    return User::query()->latest()->get()->map(fn (User $user) => array_merge($user->toArray(), [
+        'registered_on' => $user->created_at->copy()->setTimezone(Analytics::TIMEZONE)->toDateString(),
+    ], $stats[$user->id]));
 })->name('owner.users');
 
 Route::middleware(['auth:owner'])->prefix('owner/categories')->name('owner.categories.')->group(function () {
@@ -1785,6 +1857,13 @@ Route::prefix('public')->name('public.')->group(function () {
         ];
     })->name('sample-quiz');
 });
+
+// 遊んだ時間(docs/design/2026-10-03-analytics-design.md 5章)。画面が見えていて操作があるあいだ、30秒ごとに送られる
+Route::middleware(['auth:sanctum', 'throttle:6,1'])->post('/play-time', function (Request $request) {
+    $data = $request->validate(['seconds' => ['required', 'integer', 'min:1', 'max:60']]);
+
+    return ['seconds' => PlayTime::record(ActiveProfile::require($request), $data['seconds'])];
+})->name('play-time.store');
 
 // 保護者のご意見と、子どもの問題の「へん」報告(docs/design/2026-10-03-closed-beta-design.md 5章)
 Route::middleware(['auth:sanctum', 'throttle:10,60'])->post('/feedback', function (Request $request) {

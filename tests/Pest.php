@@ -290,3 +290,27 @@ function prepareCatchQuestions(UserProfile $profile, int $count, string $difficu
 
     return array_map(fn () => createCatchQuestion($stage), range(1, $count));
 }
+
+/** 答えの記録(体力の行)を、指定した時刻(世界標準時)に作る。分析のテストで使う */
+function answerAt(UserProfile $profile, string $utc, bool $correct = true, ?int $questionId = null): void
+{
+    App\Models\ProfileCurrencyLedger::forceCreate([
+        'user_profile_id' => $profile->id,
+        'type' => 'hp',
+        'delta' => $correct ? -1 : -2,
+        'reason' => $correct ? 'answer_correct' : 'answer_wrong',
+        'question_id' => $questionId,
+        'created_at' => $utc,
+    ]);
+}
+
+/** 家族アカウントとプレイヤーを、指定した時刻(世界標準時)に作る。ログインはしない */
+function makePlayerAt(string $utc, string $name = 'プレイヤー'): UserProfile
+{
+    $user = User::factory()->create(['created_at' => $utc]);
+    $schema = $user->schema()->create(['name' => '家族']);
+    $profile = $schema->profiles()->create(['name' => $name]);
+    $profile->forceFill(['created_at' => $utc])->save();
+
+    return $profile;
+}

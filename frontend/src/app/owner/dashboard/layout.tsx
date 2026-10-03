@@ -30,6 +30,7 @@ const navGroups = [
   {
     label: "収益・運営",
     items: [
+      { href: "/owner/dashboard/analytics", label: "分析" },
       { href: "/owner/dashboard/shop-items", label: "ショップ" },
       { href: "/owner/dashboard/events", label: "イベント" },
       { href: "/owner/dashboard/content", label: "コンテンツ" },

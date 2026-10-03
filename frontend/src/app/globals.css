@@ -674,3 +674,37 @@
     }
   }
 }
+/* 分析のグラフの色(dataviz の基準の配色。docs/design/2026-10-03-analytics-design.md 6-1)。ライトとダークは、それぞれ検証した色 */
+.viz-root {
+  --viz-text: #0b0b0b;
+  --viz-text-2: #52514e;
+  --viz-grid: #e6e5e1;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --seq-1: #cde2fb;
+  --seq-2: #86b6ef;
+  --seq-3: #2a78d6;
+  --seq-4: #184f95;
+  --seq-text-1: #0b0b0b;
+  --seq-text-2: #0b0b0b;
+  --seq-text-3: #ffffff;
+  --seq-text-4: #ffffff;
+}
+
+.dark .viz-root {
+  --viz-text: #ffffff;
+  --viz-text-2: #c3c2b7;
+  --viz-grid: #34332f;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --seq-1: #104281;
+  --seq-2: #1c5cab;
+  --seq-3: #5598e7;
+  --seq-4: #9ec5f4;
+  --seq-text-1: #ffffff;
+  --seq-text-2: #ffffff;
+  --seq-text-3: #0b0b0b;
+  --seq-text-4: #0b0b0b;
+}
