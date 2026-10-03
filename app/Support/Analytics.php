@@ -138,4 +138,77 @@ class Analytics
             'play_minutes_today' => (int) round($todayRow['play_seconds'] / 60),
         ];
     }
+
+    /**
+     * 1日後・3日後・7日後に、また答えたプレイヤーの割合。初めて答えた日から、その日数が経ったプレイヤーだけを母数にする。
+     * 期間の選択には関係なく、全プレイヤーで数える
+     *
+     * @return array<string, array{rate: ?float, base: int}>
+     */
+    public function retention(): array
+    {
+        $today = $this->today();
+        $result = [];
+
+        foreach ([1, 3, 7] as $n) {
+            $base = 0;
+            $hit = 0;
+
+            foreach ($this->activeDays() as $days) {
+                $target = Carbon::parse($days[0])->addDays($n)->toDateString();
+                if ($target > $today) {
+                    continue;
+                }
+                $base++;
+                $hit += in_array($target, $days, true) ? 1 : 0;
+            }
+
+            $result["d{$n}"] = ['rate' => $base > 0 ? round($hit / $base, 4) : null, 'base' => $base];
+        }
+
+        return $result;
+    }
+
+    /**
+     * 登録した週(プレイヤーを作った週。日本時間の月曜始まり)ごとの続き具合。weeks は、登録した週・1週後〜4週後に、
+     * そのプレイヤーのうち遊んだ人の割合。まだ始まっていない週は null(始まった週は、そこまでのデータで数える)。
+     * 答えたことのないプレイヤーも、人数に入れる
+     *
+     * @return list<array{week: string, players: int, weeks: list<?float>}>
+     */
+    public function cohorts(int $weeks = 8): array
+    {
+        $thisWeek = Carbon::now(self::TIMEZONE)->startOfWeek(Carbon::MONDAY);
+        $firstWeek = $thisWeek->copy()->subWeeks($weeks - 1);
+        $days = $this->activeDays();
+
+        $byWeek = DB::table('user_profiles')
+            ->where('created_at', '>=', $firstWeek->copy()->utc()->toDateTimeString())
+            ->get(['id', 'created_at'])
+            ->groupBy(fn ($player) => Carbon::parse($player->created_at, 'UTC')->setTimezone(self::TIMEZONE)->startOfWeek(Carbon::MONDAY)->toDateString());
+
+        $result = [];
+        foreach ($byWeek->sortKeys() as $week => $players) {
+            $cohortStart = Carbon::parse($week, self::TIMEZONE);
+            $rates = [];
+
+            foreach (range(0, 4) as $k) {
+                $start = $cohortStart->copy()->addWeeks($k);
+                if ($start->greaterThan($thisWeek)) {
+                    $rates[] = null;
+
+                    continue;
+                }
+                [$from, $to] = [$start->toDateString(), $start->copy()->addDays(6)->toDateString()];
+                $hit = $players->filter(
+                    fn ($player) => collect($days[$player->id] ?? [])->contains(fn ($d) => $d >= $from && $d <= $to),
+                )->count();
+                $rates[] = round($hit / $players->count(), 4);
+            }
+
+            $result[] = ['week' => $week, 'players' => $players->count(), 'weeks' => $rates];
+        }
+
+        return $result;
+    }
 }
