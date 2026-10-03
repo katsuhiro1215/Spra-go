@@ -404,4 +404,34 @@ class Analytics
 
         return collect(Feedback::STATUSES)->mapWithKeys(fn ($status) => [$status => (int) ($counts[$status] ?? 0)])->all();
     }
+
+    /**
+     * ユーザー(アカウント)ごとの数字。プレイヤー数・最後に答えた日・解いた問題数・遊んだ時間(分)
+     *
+     * @return \Illuminate\Support\Collection<int, array{players: int, last_played_on: ?string, answers: int, play_minutes: int}>
+     */
+    public function userStats(): \Illuminate\Support\Collection
+    {
+        $players = DB::table('user_profiles as p')->join('user_schemas as s', 's.id', '=', 'p.user_schema_id')
+            ->groupBy('s.user_id')->selectRaw('s.user_id, count(*) as total')->pluck('total', 'user_id');
+
+        $answers = $this->answers()
+            ->join('user_profiles as p', 'p.id', '=', 'profile_currency_ledger.user_profile_id')
+            ->join('user_schemas as s', 's.id', '=', 'p.user_schema_id')
+            ->groupBy('s.user_id')
+            ->selectRaw('s.user_id, count(*) as total, max('.self::jst('profile_currency_ledger.created_at').') as last_day')
+            ->get()->keyBy('user_id');
+
+        $seconds = DB::table('profile_play_days as d')
+            ->join('user_profiles as p', 'p.id', '=', 'd.user_profile_id')
+            ->join('user_schemas as s', 's.id', '=', 'p.user_schema_id')
+            ->groupBy('s.user_id')->selectRaw('s.user_id, sum(d.seconds) as total')->pluck('total', 'user_id');
+
+        return User::query()->pluck('id')->mapWithKeys(fn ($id) => [$id => [
+            'players' => (int) ($players[$id] ?? 0),
+            'last_played_on' => $answers[$id]->last_day ?? null,
+            'answers' => (int) ($answers[$id]->total ?? 0),
+            'play_minutes' => (int) round(($seconds[$id] ?? 0) / 60),
+        ]]);
+    }
 }

@@ -23,6 +23,7 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
+use App\Support\Analytics;
 use App\Support\AppSettings;
 use App\Support\Bond;
 use App\Support\CatchGame;
@@ -43,6 +44,7 @@ use App\Support\WorldLand;
 use App\Support\WorldPlacement;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
@@ -131,8 +133,33 @@ Route::middleware(['auth:owner'])->get('/owner/admins', function () {
     return Admin::query()->latest()->get();
 })->name('owner.admins');
 
+// 分析(docs/design/2026-10-03-analytics-design.md 4-4)。期間は 7・14・30・90 のどれか(それ以外は14)
+Route::middleware(['auth:owner'])->get('/owner/analytics', function (Request $request) {
+    $days = in_array((int) $request->query('days'), [7, 14, 30, 90], true) ? (int) $request->query('days') : 14;
+    $analytics = new Analytics;
+    $today = $analytics->today();
+    $from = Carbon::parse($today)->subDays($days - 1)->toDateString();
+
+    return [
+        'days' => $days,
+        'summary' => $analytics->summary(),
+        'daily' => $analytics->daily($from, $today),
+        'retention' => $analytics->retention(),
+        'cohorts' => $analytics->cohorts(8),
+        'funnel' => $analytics->funnel($from),
+        'dropoff' => $analytics->dropoff($from),
+        'hard_questions' => $analytics->hardQuestions(),
+        'activities' => $analytics->activities($from, $today),
+        'feedback' => $analytics->feedbackCounts(),
+    ];
+})->name('owner.analytics');
+
 Route::middleware(['auth:owner'])->get('/owner/users', function () {
-    return User::query()->latest()->get();
+    $stats = (new Analytics)->userStats();
+
+    return User::query()->latest()->get()->map(fn (User $user) => array_merge($user->toArray(), [
+        'registered_on' => $user->created_at->copy()->setTimezone(Analytics::TIMEZONE)->toDateString(),
+    ], $stats[$user->id]));
 })->name('owner.users');
 
 Route::middleware(['auth:owner'])->prefix('owner/categories')->name('owner.categories.')->group(function () {
