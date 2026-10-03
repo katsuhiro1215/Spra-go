@@ -6,6 +6,7 @@ use App\Models\CoinPurchase;
 use App\Models\ContentItem;
 use App\Models\Country;
 use App\Models\Event;
+use App\Models\Feedback;
 use App\Models\Language;
 use App\Models\ProfileGamePlay;
 use App\Models\ProfileStageProgress;
@@ -1763,6 +1764,32 @@ Route::prefix('public')->name('public.')->group(function () {
         ];
     })->name('sample-quiz');
 });
+
+// 保護者のご意見と、子どもの問題の「へん」報告(docs/design/2026-10-03-closed-beta-design.md 5章)
+Route::middleware(['auth:sanctum', 'throttle:10,60'])->post('/feedback', function (Request $request) {
+    $data = $request->validate([
+        'kind' => ['required', Rule::in(Feedback::WRITTEN_KINDS)],
+        'body' => ['required', 'string', 'max:2000'],
+        'page' => ['nullable', 'string', 'max:200'],
+    ]);
+
+    Feedback::create($data + ['user_id' => $request->user()->id]);
+
+    return response()->json(['sent' => true], 201);
+})->name('feedback.store');
+
+Route::middleware(['auth:sanctum', 'throttle:30,60'])->post('/questions/{question}/report', function (Request $request, Question $question) {
+    $data = $request->validate(['reason' => ['required', Rule::in(array_keys(Feedback::REASONS))]]);
+    $profile = ActiveProfile::require($request);
+
+    // 同じ子が同じ問題を重ねて報告しても、最初の1件のまま
+    Feedback::firstOrCreate(
+        ['kind' => Feedback::KIND_QUESTION_REPORT, 'user_profile_id' => $profile->id, 'question_id' => $question->id],
+        ['user_id' => $request->user()->id, 'reason' => $data['reason'], 'body' => Feedback::REASONS[$data['reason']]],
+    );
+
+    return ['reported' => true];
+})->name('questions.report');
 
 // 公開設定でコイン購入がOFFのあいだは、一覧を空にして購入の欄を出さない(docs/design/2026-10-03-closed-beta-design.md 4章)
 Route::middleware(['auth:sanctum'])->get('/coin-packages', function () {
