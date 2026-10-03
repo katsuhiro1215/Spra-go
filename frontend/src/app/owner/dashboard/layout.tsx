@@ -40,6 +40,8 @@ const navGroups = [
     items: [
       { href: "/owner/dashboard/ai", label: "AI生成" },
       { href: "/owner/dashboard/system", label: "システム" },
+      { href: "/owner/dashboard/settings", label: "公開設定" },
+      { href: "/owner/dashboard/feedbacks", label: "ご意見" },
       { href: "/owner/dashboard/admins", label: "Admin" },
       { href: "/owner/dashboard/users", label: "User" },
     ],
