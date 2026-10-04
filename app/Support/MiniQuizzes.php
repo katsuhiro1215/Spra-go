@@ -9,7 +9,8 @@ use App\Models\UserProfile;
 /**
  * ミニアプリのミニクイズの一覧(docs/design/2026-10-04-mini-app-tidy-design.md 3章)。
  * 大もとのカテゴリー(parent_id が空)のうち、自分のステージで問題があるものが config('quiz.mini_quiz.min_stages') 以上あるものだけ。
- * 鍵の国のステージは数えない(ステージ一覧の窓口と同じ決まり)
+ * 鍵の国のステージは数えない(ステージ一覧の窓口と同じ決まり)。
+ * コース親(is_course_group)は、子のカテゴリーのステージも合計に入れる(docs/design/2026-10-05-flag-quiz-design.md 3-2)
  */
 class MiniQuizzes
 {
@@ -29,16 +30,32 @@ class MiniQuizzes
 
         $min = (int) config('quiz.mini_quiz.min_stages');
 
-        return Category::query()
+        $roots = Category::query()
             ->whereNull('parent_id')
             ->orderBy('order')
             ->orderBy('id')
-            ->get()
-            ->filter(fn (Category $category) => (int) ($counts[$category->id] ?? 0) >= $min)
-            ->map(fn (Category $category) => [
-                'id' => $category->id,
-                'name' => $category->name,
-                'stage_count' => (int) $counts[$category->id],
+            ->get();
+
+        // コース親(is_course_group)は、子のステージも合計に入れる(docs/design/2026-10-05-flag-quiz-design.md 3-2)
+        $groupIds = $roots->where('is_course_group', true)->pluck('id');
+        $childrenByParent = $groupIds->isEmpty()
+            ? collect()
+            : Category::query()->whereIn('parent_id', $groupIds)->get(['id', 'parent_id'])->groupBy('parent_id');
+
+        return $roots
+            ->map(function (Category $category) use ($counts, $childrenByParent) {
+                $total = (int) ($counts[$category->id] ?? 0);
+                if ($category->is_course_group) {
+                    $total += ($childrenByParent[$category->id] ?? collect())->sum(fn (Category $child) => (int) ($counts[$child->id] ?? 0));
+                }
+
+                return ['category' => $category, 'total' => $total];
+            })
+            ->filter(fn (array $row) => $row['total'] >= $min)
+            ->map(fn (array $row) => [
+                'id' => $row['category']->id,
+                'name' => $row['category']->name,
+                'stage_count' => $row['total'],
             ])
             ->values()
             ->all();

@@ -27,6 +27,7 @@ use App\Support\Analytics;
 use App\Support\AppSettings;
 use App\Support\Bond;
 use App\Support\CatchGame;
+use App\Support\Courses;
 use App\Support\Csv;
 use App\Support\ContinueStage;
 use App\Support\Errands;
@@ -781,6 +782,13 @@ Route::middleware(['auth:sanctum'])->get('/categories', function () {
 // ミニアプリの引き出しに出すミニクイズ(docs/design/2026-10-04-mini-app-tidy-design.md 3章)
 Route::middleware(['auth:sanctum'])->get('/mini-quizzes', fn (Request $request) => MiniQuizzes::list(ActiveProfile::find($request)))
     ->name('mini-quizzes.index');
+
+// 国旗クイズなどの「コース」の一覧(docs/design/2026-10-05-flag-quiz-design.md 7-3)
+Route::middleware(['auth:sanctum'])->get('/categories/{category}/courses', function (Request $request, Category $category) {
+    abort_unless($category->is_course_group, 404);
+
+    return Courses::list($category, ActiveProfile::find($request));
+})->name('categories.courses');
 
 Route::middleware(['auth:sanctum'])->get('/countries', function (Request $request) {
     // 学ぶタブ向け(docs/design/2026-09-28-travel-tickets-design.md 3-6): 日本と旅の行き先の国のうち、コンテンツがある国だけを
