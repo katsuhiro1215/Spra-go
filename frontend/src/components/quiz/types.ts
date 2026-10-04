@@ -1,7 +1,7 @@
 import type { MatchingItem } from "@/components/app/matching-question";
 import type { SortingBasket } from "@/components/app/sorting-question";
 
-export type QuizChoice = { id: number; label: string };
+export type QuizChoice = { id: number; label: string; meta?: { image?: string } | null };
 export type QuizCountry = { id: number; code: string; name: string };
 export type QuizQuestion = {
   id: number;
@@ -13,6 +13,7 @@ export type QuizQuestion = {
     items?: MatchingItem[];
     baskets?: SortingBasket[];
     image?: string;
+    layout?: "slots";
   } | null;
   /** ステージに足した、出す日が来た前の問題(おさらい)。ステージの点数には入れない */
   review?: boolean;

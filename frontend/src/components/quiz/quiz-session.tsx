@@ -9,6 +9,7 @@ import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BadgeImage } from "@/components/app/badge-image";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
+import { FlagFitQuestion } from "@/components/app/flag-fit-question";
 import { MatchingQuestion, type MatchingResult } from "@/components/app/matching-question";
 import { OrderingQuestion } from "@/components/app/ordering-question";
 import { answerHeadline, choiceTone } from "@/components/app/palette";
@@ -25,6 +26,7 @@ import { heartsText } from "@/components/world/companions";
 import { levelUpGrowthLine } from "@/components/world/garden";
 import type { AnswerPartner, ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
+import { hasImageChoices, isFlagImage } from "@/lib/flag-quiz";
 
 import { GameHeader } from "./game-header";
 import { LevelUpOverlay } from "./level-up-overlay";
@@ -536,7 +538,7 @@ export function QuizSession({
                   src={question.meta.image}
                   alt=""
                   fill
-                  className="object-cover"
+                  className={isFlagImage(question.meta.image) ? "bg-white object-contain" : "object-cover"}
                 />
               </div>
             ) : (
@@ -556,7 +558,18 @@ export function QuizSession({
             </h1>
           </div>
 
-          {question.type === "matching" ? (
+          {question.type === "matching" && question.meta?.layout === "slots" ? (
+            <FlagFitQuestion
+              key={question.id}
+              questionId={question.id}
+              items={question.meta?.items ?? []}
+              choices={question.choices}
+              answered={answered}
+              results={matchingResults}
+              submitting={submitting}
+              onSubmit={handleMatchingSubmit}
+            />
+          ) : question.type === "matching" ? (
             <MatchingQuestion
               items={question.meta?.items ?? []}
               choices={question.choices}
@@ -581,7 +594,7 @@ export function QuizSession({
               onSubmit={handleSortingSubmit}
             />
           ) : (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className={hasImageChoices(question.choices) ? "grid grid-cols-2 gap-3" : "grid grid-cols-1 gap-3 sm:grid-cols-2"}>
               {question.choices.map((choice) => {
                 const variant = choiceTone({
                   answered,
@@ -601,7 +614,20 @@ export function QuizSession({
                     {/* 色だけに頼らず、正解/選択した不正解にはアイコンも添える(色弱配慮) */}
                     {variant === "secondary" && <span aria-hidden>✓</span>}
                     {variant === "danger" && <span aria-hidden>✕</span>}
-                    <ChoiceLabel label={choice.label} />
+                    {choice.meta?.image ? (
+                      <span className="flex flex-col items-center gap-1">
+                        <span className="relative block aspect-[3/2] w-28 overflow-hidden rounded-sm border border-[#e8dfcf] bg-white">
+                          <Image src={choice.meta.image} alt={choice.label} fill sizes="112px" className="object-contain" />
+                        </span>
+                        {answered && (
+                          <span className="text-xs">
+                            <AutoFurigana text={choice.label} />
+                          </span>
+                        )}
+                      </span>
+                    ) : (
+                      <ChoiceLabel label={choice.label} />
+                    )}
                   </AppButton>
                 );
               })}
