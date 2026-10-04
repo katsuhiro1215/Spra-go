@@ -10,7 +10,7 @@ import { SpruFigure } from "@/components/spru/spru-figure";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
 
 import type { CatchDifficulty, CatchSummary } from "./catch-api";
-import { CATCH_LOCKED_MESSAGE, laneLabel, rewardLeftText } from "./catch-view";
+import { CATCH_HOW_TO, CATCH_LOCKED_MESSAGE, CATCH_TITLE, laneLabel, rewardLeftText } from "./catch-view";
 
 /** 難しさを選ぶ画面(docs/design/2026-09-29-spru-catch-design.md 7-2) */
 export function CatchSelect({
@@ -29,10 +29,24 @@ export function CatchSelect({
   return (
     <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center gap-5 px-6 py-10 pb-24 text-center">
       <SpruFigure image="cheer" standHeight={110} alt="スプル" eager />
-      <SkyTitle className="text-3xl">スプルキャッチ</SkyTitle>
+      <SkyTitle className="text-2xl">{CATCH_TITLE}</SkyTitle>
       <SkyText className="text-sm">
         <AutoFurigana text="落ちてくる答えを、スプルでキャッチしよう" />
       </SkyText>
+
+      <ol className="flex w-full flex-col gap-2 rounded-3xl bg-[#fffaf0] p-4 text-left text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
+        <li className="text-sm font-black">
+          <AutoFurigana text="あそびかた" />
+        </li>
+        {CATCH_HOW_TO.map((line, index) => (
+          <li key={line} className="flex gap-2 text-sm font-bold">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#5bb33e] text-xs font-black text-white">{index + 1}</span>
+            <span>
+              <AutoFurigana text={line} />
+            </span>
+          </li>
+        ))}
+      </ol>
 
       {allEmpty ? (
         <div className="flex w-full flex-col items-center gap-4 rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
