@@ -34,6 +34,7 @@ use App\Support\Family;
 use App\Support\Garden;
 use App\Support\PlayTime;
 use App\Support\LevelCurve;
+use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
 use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
@@ -776,6 +777,10 @@ Route::middleware(['auth:owner'])->prefix('owner/stages')->name('owner.stages.')
 Route::middleware(['auth:sanctum'])->get('/categories', function () {
     return Category::query()->orderBy('order')->get();
 })->name('categories.index');
+
+// ミニアプリの引き出しに出すミニクイズ(docs/design/2026-10-04-mini-app-tidy-design.md 3章)
+Route::middleware(['auth:sanctum'])->get('/mini-quizzes', fn (Request $request) => MiniQuizzes::list(ActiveProfile::find($request)))
+    ->name('mini-quizzes.index');
 
 Route::middleware(['auth:sanctum'])->get('/countries', function (Request $request) {
     // 学ぶタブ向け(docs/design/2026-09-28-travel-tickets-design.md 3-6): 日本と旅の行き先の国のうち、コンテンツがある国だけを
