@@ -9,6 +9,7 @@ export type CatchSettings = { lanes: number; fallMs: number };
 export type CatchPhase = "falling" | "feedback" | "done";
 export type CatchAnswer = { questionId: number; choiceId: number; correct: boolean };
 export type GrowthStage = "seed" | "sprout" | "bud" | "flower";
+export type CatchVia = "line" | "throw";
 
 export type CatchState = {
   questions: GameQuestion[];
@@ -24,6 +25,8 @@ export type CatchState = {
   feedbackMs: number;
   caughtLane: number | null;
   lastCorrect: boolean | null;
+  /** 最後の答えの決まり方。線(受け取る線で決まった)か、投げた(タップで決めた)か。見た目にだけ使う */
+  lastVia: CatchVia | null;
   score: number;
   combo: number;
   bestCombo: number;
@@ -33,6 +36,8 @@ export type CatchState = {
 
 export const CATCH_HEARTS = 3;
 export const FEEDBACK_MS = { correct: 800, wrong: 1600 };
+/** 種を投げたあと、スプルが投げる絵でいる時間(ミリ秒) */
+export const THROW_POSE_MS = 300;
 /** 1回に進める時間の上限。タブを離れていたあとなどに一気に進まないように */
 export const MAX_STEP_MS = 100;
 /** 点数の決まり。サーバーの config/games.php の catch.score と同じ */
@@ -54,6 +59,7 @@ export function createCatchGame(questions: GameQuestion[], settings: CatchSettin
     feedbackMs: 0,
     caughtLane: null,
     lastCorrect: null,
+    lastVia: null,
     score: 0,
     combo: 0,
     bestCombo: 0,
@@ -94,19 +100,21 @@ function pointsFor(correct: boolean, combo: number): number {
   return SCORE_RULES.correct + (combo >= SCORE_RULES.comboBonusFrom ? SCORE_RULES.comboBonus : 0);
 }
 
-function catchAtLine(state: CatchState): CatchState {
+/** 答えを決める(受け取る線でも、投げたときでも同じ決まり)。progress は、決まった高さ */
+function settle(state: CatchState, lane: number, progress: number, via: CatchVia): CatchState {
   const question = state.questions[state.index];
-  const choice = question.choices[state.lane];
+  const choice = question.choices[lane];
   const correct = choice.id === question.correctChoiceId;
   const combo = correct ? state.combo + 1 : 0;
 
   return {
     ...state,
-    progress: 1,
+    progress,
     phase: "feedback",
     feedbackMs: correct ? FEEDBACK_MS.correct : FEEDBACK_MS.wrong,
-    caughtLane: state.lane,
+    caughtLane: lane,
     lastCorrect: correct,
+    lastVia: via,
     score: state.score + pointsFor(correct, combo),
     combo,
     bestCombo: Math.max(state.bestCombo, combo),
@@ -115,12 +123,25 @@ function catchAtLine(state: CatchState): CatchState {
   };
 }
 
+function catchAtLine(state: CatchState): CatchState {
+  return settle(state, state.lane, 1, "line");
+}
+
+/**
+ * 落ちている言葉をタップして、スプルが種を投げて答える(docs/design/2026-10-04-mini-app-tidy-design.md 4-1)。
+ * 落ちている間だけ。どの高さでも投げられ、言葉はその高さで止まる。スプルの列は動かさない
+ */
+export function throwAt(state: CatchState, lane: number): CatchState {
+  if (state.phase !== "falling" || !Number.isInteger(lane) || lane < 0 || lane >= state.settings.lanes) return state;
+  return settle(state, lane, state.progress, "throw");
+}
+
 function advance(state: CatchState): CatchState {
   const nextIndex = state.index + 1;
   if (state.hearts <= 0 || nextIndex >= state.questions.length) {
     return { ...state, phase: "done", feedbackMs: 0 };
   }
-  return { ...state, index: nextIndex, progress: 0, phase: "falling", feedbackMs: 0, caughtLane: null, lastCorrect: null };
+  return { ...state, index: nextIndex, progress: 0, phase: "falling", feedbackMs: 0, caughtLane: null, lastCorrect: null, lastVia: null };
 }
 
 /** 答えの並び(正解か)から、点数といちばん長いコンボ。サーバーの CatchGame::score と同じ決まり */

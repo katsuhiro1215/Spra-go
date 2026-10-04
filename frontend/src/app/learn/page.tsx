@@ -15,12 +15,7 @@ import { ArrivedCountryCard, LockedCountryCard } from "@/components/learn/countr
 import { learnSections, type LearnCountry } from "@/components/learn/country-cards";
 import { LockedCountrySheet } from "@/components/travel/locked-country";
 import { apiFetch } from "@/lib/api";
-
-type Category = {
-  id: number;
-  parent_id: number | null;
-  name: string;
-};
+import { MINI_GAMES, MINI_QUIZ_EMPTY, type MiniQuiz } from "@/lib/mini-app";
 
 type Status = "checking" | "ready";
 
@@ -32,7 +27,7 @@ const CARD_GRID_CLASS = "grid grid-cols-2 gap-4 md:grid-cols-3";
 export default function Page() {
   const router = useRouter();
   const [status, setStatus] = useState<Status>("checking");
-  const [categories, setCategories] = useState<Category[] | null>(null);
+  const [miniQuizzes, setMiniQuizzes] = useState<MiniQuiz[] | null>(null);
   const [countries, setCountries] = useState<LearnCountry[] | null>(null);
   const [miniAppOpen, setMiniAppOpen] = useState(false);
   const [lockedCountry, setLockedCountry] = useState<LearnCountry | null>(null);
@@ -60,14 +55,12 @@ export default function Page() {
 
         setStatus("ready");
 
-        const [categoriesRes, countriesRes] = await Promise.all([
-          apiFetch("/api/categories"),
+        const [miniQuizzesRes, countriesRes] = await Promise.all([
+          apiFetch("/api/mini-quizzes"),
           apiFetch("/api/countries"),
         ]);
         if (!active) return;
-        if (categoriesRes.ok) {
-          setCategories(await categoriesRes.json());
-        }
+        setMiniQuizzes(miniQuizzesRes.ok ? await miniQuizzesRes.json() : []);
         if (countriesRes.ok) {
           setCountries(await countriesRes.json());
         }
@@ -87,9 +80,6 @@ export default function Page() {
     );
   }
 
-  const rootCategories = (categories ?? []).filter(
-    (c) => c.parent_id === null,
-  );
   const { arrived, notYet } = learnSections(countries ?? []);
 
   return (
@@ -177,30 +167,33 @@ export default function Page() {
                 ✕
               </button>
             </div>
-            {/* ミニゲーム(docs/design/2026-09-29-spru-catch-design.md 7-1) */}
-            <h3 className="text-xs font-black text-[#6b5d45]">ゲーム</h3>
-            <Link href="/games/catch" onClick={() => setMiniAppOpen(false)}>
-              <AppButton variant="warning" size="sm" className="w-full shadow">
-                スプルキャッチ
-              </AppButton>
-            </Link>
-            <h3 className="text-xs font-black text-[#6b5d45]">クイズ</h3>
-            {!categories ? (
+            {/* ミニゲーム(docs/design/2026-10-04-mini-app-tidy-design.md 5章)。ゲームを増やすときは lib/mini-app.ts の一覧に足す */}
+            <h3 className="text-xs font-black text-[#6b5d45]">ミニゲーム</h3>
+            {MINI_GAMES.map((game) => (
+              <Link key={game.key} href={game.href} onClick={() => setMiniAppOpen(false)}>
+                <AppButton variant="warning" size="sm" className="h-auto w-full flex-col gap-0.5 py-2 shadow">
+                  <span>
+                    <AutoFurigana text={game.title} />
+                  </span>
+                  <span className="text-[11px] font-bold opacity-80">
+                    <AutoFurigana text={game.description} />
+                  </span>
+                </AppButton>
+              </Link>
+            ))}
+            <h3 className="text-xs font-black text-[#6b5d45]">ミニクイズ</h3>
+            {!miniQuizzes ? (
               <p className="text-xs text-[#6b5d45]">読み込み中...</p>
+            ) : miniQuizzes.length === 0 ? (
+              <p className="text-xs text-[#6b5d45]">
+                <AutoFurigana text={MINI_QUIZ_EMPTY} />
+              </p>
             ) : (
               <div className="grid grid-cols-2 gap-2">
-                {rootCategories.map((category, index) => (
-                  <Link
-                    key={category.id}
-                    href={`/play/${category.id}`}
-                    onClick={() => setMiniAppOpen(false)}
-                  >
-                    <AppButton
-                      variant={tileVariants[index % tileVariants.length]}
-                      size="sm"
-                      className="w-full shadow"
-                    >
-                      {category.name}
+                {miniQuizzes.map((quiz, index) => (
+                  <Link key={quiz.id} href={`/play/${quiz.id}`} onClick={() => setMiniAppOpen(false)}>
+                    <AppButton variant={tileVariants[index % tileVariants.length]} size="sm" className="w-full shadow">
+                      {quiz.name}
                     </AppButton>
                   </Link>
                 ))}

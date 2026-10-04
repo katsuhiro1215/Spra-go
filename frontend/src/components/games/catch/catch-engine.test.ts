@@ -5,6 +5,7 @@ import type { GameQuestion } from "@/components/games/game-question";
 import {
   CATCH_HEARTS,
   FEEDBACK_MS,
+  THROW_POSE_MS,
   answersOf,
   createCatchGame,
   growthStage,
@@ -13,6 +14,7 @@ import {
   moveTo,
   scoreOf,
   startLane,
+  throwAt,
   tick,
   type CatchState,
 } from "./catch-engine";
@@ -178,5 +180,93 @@ describe("終わり", () => {
       { question_id: 1, choice_id: 10 },
       { question_id: 2, choice_id: 21 },
     ]);
+  });
+});
+
+describe("種を投げて答える", () => {
+  const two = [question(1, ["正", "誤"]), question(2, ["正", "誤"])];
+
+  it("落ちている間にタップした列の言葉で、すぐ答えが決まる(正解は点数とコンボが増える)", () => {
+    const state = throwAt(createCatchGame(two, SETTINGS), 0);
+
+    expect(state.phase).toBe("feedback");
+    expect(state.lastCorrect).toBe(true);
+    expect([state.score, state.combo, state.bestCombo, state.hearts]).toEqual([10, 1, 1, CATCH_HEARTS]);
+    expect(state.caughtLane).toBe(0);
+    expect(state.lastVia).toBe("throw");
+    expect(state.answers).toEqual([{ questionId: 1, choiceId: 10, correct: true }]);
+  });
+
+  it("まちがいは、点数なし・コンボが戻る・ハートが1つ減る", () => {
+    const state = throwAt(createCatchGame(two, SETTINGS), 1);
+
+    expect([state.lastCorrect, state.score, state.combo, state.hearts]).toEqual([false, 0, 0, CATCH_HEARTS - 1]);
+    expect(state.answers).toEqual([{ questionId: 1, choiceId: 11, correct: false }]);
+  });
+
+  it("言葉の高さは、投げた瞬間のまま止まる。スプルの列は動かない", () => {
+    let state = createCatchGame(two, SETTINGS);
+    state = tick(state, 100); // 0.1 落ちる
+    const thrown = throwAt(state, 1);
+
+    expect(thrown.progress).toBe(state.progress);
+    expect(thrown.lane).toBe(state.lane);
+  });
+
+  it("○×を見せたあと、次の問題へ進み、スプルは同じ列から始まる。投げた答えは1つだけ記録される", () => {
+    const next = endFeedback(throwAt(createCatchGame(two, SETTINGS), 0));
+
+    expect(next.index).toBe(1);
+    expect(next.phase).toBe("falling");
+    expect(next.lastVia).toBeNull();
+    expect(next.answers).toHaveLength(1);
+  });
+
+  it("投げたあとは、受け取る線に着いても、もう一度は決まらない", () => {
+    let state = throwAt(createCatchGame(two, SETTINGS), 0);
+    for (let i = 0; i < 20; i++) state = tick(state, 100); // 余裕を持って進める(○×のあと、2問目が落ち始める)
+
+    expect(state.answers.filter((a) => a.questionId === 1)).toHaveLength(1);
+  });
+
+  it("受け取る線で決まったときは、lastVia が line", () => {
+    const state = fallToLine(createCatchGame(two, SETTINGS));
+
+    expect(state.lastVia).toBe("line");
+  });
+
+  it("落ちていない間(○×を見せている・終わった)・範囲外の列・小数の列は、何も起きない", () => {
+    const feedback = throwAt(createCatchGame(two, SETTINGS), 0);
+    expect(throwAt(feedback, 1)).toBe(feedback);
+
+    const falling = createCatchGame(two, SETTINGS);
+    expect(throwAt(falling, -1)).toBe(falling);
+    expect(throwAt(falling, 2)).toBe(falling);
+    expect(throwAt(falling, 0.5)).toBe(falling);
+
+    const done = createCatchGame([], SETTINGS);
+    expect(throwAt(done, 0)).toBe(done);
+  });
+
+  it("最後の問題や、ハートが0になった投げ方でも、○×のあとに終わる", () => {
+    const last = endFeedback(throwAt(createCatchGame([question(1, ["正", "誤"])], SETTINGS), 0));
+    expect(last.phase).toBe("done");
+
+    let state = createCatchGame([1, 2, 3, 4].map((id) => question(id, ["正", "誤"])), SETTINGS);
+    for (let i = 0; i < 3; i++) state = endFeedback(throwAt(state, 1)); // 3回まちがえる
+    expect([state.hearts, state.phase]).toEqual([0, "done"]);
+  });
+
+  it("投げて答えた並びの点数は、受け取りで答えたときの採点と同じ(サーバーの採点し直しと合う)", () => {
+    let state = createCatchGame([1, 2, 3].map((id) => question(id, ["正", "誤"])), SETTINGS);
+    state = endFeedback(throwAt(state, 0));
+    state = endFeedback(throwAt(state, 0));
+    state = endFeedback(throwAt(state, 1));
+
+    expect(scoreOf(state.answers.map((a) => a.correct))).toEqual({ score: state.score, bestCombo: state.bestCombo });
+  });
+
+  it("投げたあとの、スプルの投げる絵の時間は 300ms", () => {
+    expect(THROW_POSE_MS).toBe(300);
   });
 });
