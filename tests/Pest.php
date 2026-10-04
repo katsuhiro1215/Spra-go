@@ -314,3 +314,27 @@ function makePlayerAt(string $utc, string $name = 'プレイヤー'): UserProfil
 
     return $profile;
 }
+
+/** テスト用の小さな一覧。アジア12か国(知名度1・2が8か国)・ヨーロッパ10か国(同8か国)。似ている国つき */
+function flagTestCatalog(): array
+{
+    $rows = [];
+    foreach (range(1, 12) as $n) {
+        $rows[] = ["A{$n}", "あじあ{$n}", 'asia', $n <= 3 ? 1 : ($n <= 8 ? 2 : 3)];
+    }
+    foreach (range(1, 10) as $n) {
+        $rows[] = ["E{$n}", "よーろっぱ{$n}", 'europe', $n <= 3 ? 1 : ($n <= 8 ? 2 : 3)];
+    }
+
+    $catalog = [];
+    foreach ($rows as [$key, $name, $continent, $tier]) {
+        $catalog[$key] = compact('key', 'name', 'continent', 'tier') + ['similar' => []];
+    }
+    foreach ([['A1', 'A2', 'E1'], ['A5', 'A9']] as $group) {
+        foreach ($group as $key) {
+            $catalog[$key]['similar'] = array_values(array_diff($group, [$key]));
+        }
+    }
+
+    return $catalog;
+}
