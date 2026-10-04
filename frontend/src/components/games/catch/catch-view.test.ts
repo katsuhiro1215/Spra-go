@@ -3,8 +3,12 @@ import { describe, expect, it } from "vitest";
 import type { GameQuestion } from "@/components/games/game-question";
 import { GROWTH_IMAGES, SPRU_BLOOM } from "@/components/spru/spru-assets";
 
-import { createCatchGame, tick, type CatchState } from "./catch-engine";
+import { createCatchGame, throwAt, tick, type CatchState } from "./catch-engine";
 import {
+  CATCH_HOW_TO,
+  CATCH_MOVE_HINT,
+  CATCH_TAP_HINT,
+  CATCH_TITLE,
   cardLook,
   focusSizeClass,
   growthImage,
@@ -13,6 +17,7 @@ import {
   missedWords,
   rewardLeftText,
   rewardLines,
+  spruPose,
 } from "./catch-view";
 
 function question(id: number, labels: string[], correctLane = 0, prompt = `「word${id}」の意味は？`): GameQuestion {
@@ -94,5 +99,44 @@ describe("まちがえた言葉", () => {
     while (state.phase === "feedback") state = tick(state, 100);
     state = caughtAt(state); // 2問目: 左(seven)を受け取る → 正解
     expect(missedWords(state)).toEqual([{ focus: "blue", answer: "青" }]);
+  });
+});
+
+describe("spruPose", () => {
+  const questions = [1, 2].map((id) => question(id, ["正", "誤"]));
+  const settings = { lanes: 2, fallMs: 1000 };
+
+  it("落ちている間は、後ろ姿(back)", () => {
+    expect(spruPose(createCatchGame(questions, settings))).toBe("back");
+  });
+
+  it("種を投げた直後の300msは、投げる絵(throw)。そのあとは、正解なら cheer・まちがいなら sad", () => {
+    const right = throwAt(createCatchGame(questions, settings), 0);
+    expect(spruPose(right)).toBe("throw"); // 800ms 残り(正解の○×は800ms)
+    expect(spruPose(tick(right, 100))).toBe("throw"); // 700ms 残り
+    expect(spruPose(tick(tick(right, 100), 100))).toBe("throw"); // 600ms 残り
+    expect(spruPose(tick(tick(tick(right, 100), 100), 100))).toBe("cheer"); // 500ms 残り(300ms たったので、喜びに変わる)
+
+    const wrong = throwAt(createCatchGame(questions, settings), 1);
+    expect(spruPose(wrong)).toBe("throw");
+    let later = wrong;
+    for (let i = 0; i < 4; i++) later = tick(later, 100); // 1600 → 1200ms 残り
+    expect(spruPose(later)).toBe("sad");
+  });
+
+  it("受け取る線で決まったときは、投げる絵にならず、すぐ cheer か sad", () => {
+    const state = caughtAt(createCatchGame(questions, settings));
+
+    expect(spruPose(state)).toBe(state.lastCorrect ? "cheer" : "sad");
+  });
+});
+
+describe("説明の文", () => {
+  it("名前は「スプルキャッチ（えいたんご）」、あそびかたは3つの手順、ヒントは2つ", () => {
+    expect(CATCH_TITLE).toBe("スプルキャッチ（えいたんご）");
+    expect(CATCH_HOW_TO).toHaveLength(3);
+    expect(CATCH_HOW_TO.every((line) => line.length > 0)).toBe(true);
+    expect(CATCH_TAP_HINT).toBe("答えをタップ！");
+    expect(CATCH_MOVE_HINT).toContain("◀▶");
   });
 });

@@ -1,10 +1,34 @@
 import { splitPrompt } from "@/components/games/game-question";
 import { GROWTH_IMAGES, SPRU_BLOOM, type SpruImage } from "@/components/spru/spru-assets";
 
-import type { CatchState, GrowthStage } from "./catch-engine";
+import { FEEDBACK_MS, THROW_POSE_MS, type CatchState, type GrowthStage } from "./catch-engine";
 
 /** スプルキャッチの見た目の計算(docs/design/2026-09-29-spru-catch-design.md 7章) */
 export const CATCH_LOCKED_MESSAGE = "アメリカかイギリスに着くと遊べるよ";
+
+export const CATCH_TITLE = "スプルキャッチ（えいたんご）";
+
+/** 難しさを選ぶ画面の「あそびかた」(docs/design/2026-10-04-mini-app-tidy-design.md 4-3) */
+export const CATCH_HOW_TO = [
+  "問題が上に出るよ",
+  "答えの言葉をタップ！スプルが種を投げてキャッチするよ",
+  "10問やってみよう。ハートは3つ",
+] as const;
+
+export const CATCH_TAP_HINT = "答えをタップ！";
+export const CATCH_MOVE_HINT = "◀▶でスプルを動かしても取れるよ";
+
+export type SpruPose = "back" | "throw" | "cheer" | "sad";
+
+/** スプルの絵の決まり。落ちている間は後ろ姿。種を投げた直後の少しの間は投げる絵。そのあとは正解なら喜び・まちがいならがっかり */
+export function spruPose(state: CatchState): SpruPose {
+  if (state.phase !== "feedback") return "back";
+  if (state.lastVia === "throw") {
+    const total = state.lastCorrect ? FEEDBACK_MS.correct : FEEDBACK_MS.wrong;
+    if (state.feedbackMs > total - THROW_POSE_MS) return "throw";
+  }
+  return state.lastCorrect ? "cheer" : "sad";
+}
 
 export function rewardLeftText(left: number): string {
   return left > 0 ? `今日のごほうび あと${left}回` : "今日のごほうびはおしまい。練習はいつでもできるよ";
