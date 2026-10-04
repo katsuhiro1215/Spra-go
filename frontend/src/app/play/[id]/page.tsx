@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Lock, Trophy } from "lucide-react";
 
 import { AppHeader } from "@/components/app/app-header";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BackLink } from "@/components/app/back-link";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
@@ -15,10 +16,12 @@ import { difficultyBadge } from "@/components/app/palette";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { LoadingScreen, SpruLoading } from "@/components/app/spru-loading";
 import { StagePath } from "@/components/app/stage-path";
+import { CourseSelect, type Course } from "@/components/quiz/course-select";
 import { apiFetch } from "@/lib/api";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
 
 type Category = {
+  is_course_group: boolean;
   id: number;
   parent_id: number | null;
   name: string;
@@ -62,6 +65,9 @@ export default function Page({
   const [category, setCategory] = useState<Category | null | undefined>(
     undefined,
   );
+  const [courses, setCourses] = useState<Course[] | null>(null);
+  // 国旗クイズのコースの中のとき、親(コース選びの画面)へ戻る導線に使う
+  const [courseParent, setCourseParent] = useState<Category | null>(null);
   const [groups, setGroups] = useState<DifficultyGroup[] | null>(null);
   const [selectedDifficulty, setSelectedDifficulty] =
     useState<Difficulty | null>(null);
@@ -80,7 +86,10 @@ export default function Page({
           return;
         }
         const categories: Category[] = await res.json();
-        setCategory(categories.find((c) => String(c.id) === id) ?? null);
+        const found = categories.find((c) => String(c.id) === id) ?? null;
+        setCategory(found);
+        const parent = found?.parent_id ? categories.find((c) => c.id === found.parent_id) : undefined;
+        setCourseParent(parent?.is_course_group ? parent : null);
       })
       .catch(() => router.replace("/login"));
 
@@ -105,9 +114,37 @@ export default function Page({
     return () => clearTimeout(timer);
   }, [stageIntro, router]);
 
+  // 国旗クイズのような、コースを選ばせるカテゴリー(docs/design/2026-10-05-flag-quiz-design.md 7-3)
+  const isCourseGroup = category?.is_course_group === true;
+  useEffect(() => {
+    if (!isCourseGroup) return;
+    apiFetch(`/api/categories/${id}/courses`).then(async (res) => {
+      if (res.ok) setCourses(await res.json());
+    });
+  }, [id, isCourseGroup]);
+
   if (category === undefined) {
     return (
       <LoadingScreen />
+    );
+  }
+
+  if (category?.is_course_group) {
+    return (
+      <SkyPage>
+        <AppHeader />
+        <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col gap-8 px-6 py-12 pb-24">
+          <div>
+            <BackLink href="/learn" label="学ぶにもどる" />
+            <SkyTitle className="mt-2 text-3xl">{category.name}</SkyTitle>
+            <SkyText muted className="mt-1 text-sm">
+              <AutoFurigana text="どの大陸にする？" />
+            </SkyText>
+          </div>
+          {courses === null ? <SpruLoading /> : <CourseSelect courses={courses} />}
+        </div>
+        <BottomNav />
+      </SkyPage>
     );
   }
 
@@ -151,7 +188,7 @@ export default function Page({
 
       <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col gap-8 px-6 py-12 pb-24">
         <div>
-          <BackLink />
+          <BackLink {...(courseParent ? { href: `/play/${courseParent.id}`, label: "コースえらびにもどる" } : {})} />
           <SkyTitle className="mt-2 text-3xl">{category?.name ?? "見つかりません"}</SkyTitle>
         </div>
 
