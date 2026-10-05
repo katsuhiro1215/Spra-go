@@ -44,6 +44,7 @@ use App\Support\Review;
 use App\Support\Roster;
 use App\Support\Travel;
 use App\Support\WorldLand;
+use App\Support\Zukan;
 use App\Support\WorldPlacement;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
@@ -925,6 +926,11 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
         'groups' => $groups,
     ];
 })->name('countries.show');
+
+// パンとやさいのずかん(docs/design/2026-10-05-bread-zukan-design.md)。持っていない物の名前は返さない
+Route::middleware(['auth:sanctum'])->get('/zukan', function (Request $request) {
+    return Zukan::list(ActiveProfile::require($request));
+})->name('zukan');
 
 Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request) {
     $profileId = $request->session()->get('active_profile_id');

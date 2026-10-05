@@ -73,3 +73,24 @@ it('一覧: 持っていない物の名前・英語・日付は null、持って
     // 表示の順は設定の順
     expect(array_column($list['items'], 'key'))->toBe(array_keys(config('zukan.items')));
 });
+
+it('窓口: ログインが必要', function () {
+    $this->getJson('/api/zukan')->assertUnauthorized();
+});
+
+it('窓口: 持っていない物の名前は返らず、数が合う。ほかのプロフィールの物は混ざらない', function () {
+    $profile = createActiveProfile();
+    $other = createFamilyMember($profile);
+    $profile->zukan()->create(['item_key' => 'croissant', 'received_at' => now()]);
+    $other->zukan()->create(['item_key' => 'onion', 'received_at' => now()]);
+
+    $response = $this->getJson('/api/zukan')->assertOk()
+        ->assertJsonPath('owned_count', 1)
+        ->assertJsonPath('total', 15)
+        ->assertJsonCount(15, 'items');
+
+    $items = collect($response->json('items'))->keyBy('key');
+    expect($items['croissant'])->toMatchArray(['owned' => true, 'name' => 'クロワッサン', 'english' => 'croissant']);
+    expect($items['onion'])->toMatchArray(['owned' => false, 'name' => null, 'english' => null]);
+    expect($response->getContent())->not->toContain('玉ねぎ')->not->toContain('melon bread');
+});
