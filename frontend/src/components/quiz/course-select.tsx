@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { achievementRatio, achievementText } from "@/components/learn/country-cards";
-import { COURSE_IMAGES, WORLD_COURSE_NAME, WORLD_COURSE_NOTE } from "@/lib/flag-quiz";
-import { courseBadgeState, courseCardKind } from "@/lib/prefecture-quiz";
+import { COURSE_IMAGES } from "@/lib/flag-quiz";
+import { courseBadgeState, courseCardKind, courseNote } from "@/lib/prefecture-quiz";
 
 /**
  * GET /api/categories/{id}/courses の1件。
@@ -33,6 +33,7 @@ export function CourseSelect({ courses }: { courses: Course[] }) {
         const kind = courseCardKind(course);
         const badge = courseBadgeState(course);
         const src = COURSE_IMAGES[course.name];
+        const note = courseNote(course.name);
 
         return (
           <Link key={course.id} href={`/play/${course.id}`} className={CARD}>
@@ -60,9 +61,9 @@ export function CourseSelect({ courses }: { courses: Course[] }) {
             <span className="text-base font-black text-[#3b3226]">
               <AutoFurigana text={course.name} />
             </span>
-            {course.name === WORLD_COURSE_NAME && (
+            {note && (
               <span className="rounded-full bg-[#c2402c] px-2 py-0.5 text-[10px] font-black text-white">
-                <AutoFurigana text={WORLD_COURSE_NOTE} />
+                <AutoFurigana text={note} />
               </span>
             )}
             <span className="h-2 w-full overflow-hidden rounded-full bg-[#e8dfcf]" aria-hidden>

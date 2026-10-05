@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { PREFECTURE_ROOT_NAME, courseBadgeState, courseCardKind, courseSelectPrompt } from "./prefecture-quiz";
+import { PREFECTURE_ROOT_NAME, courseBadgeState, courseCardKind, courseNote, courseSelectPrompt } from "./prefecture-quiz";
 
 describe("都道府県クイズのコースのカード", () => {
   it("バッジのある県のコース: もらったらカラー(earned)、まだなら白黒(locked)。バッジのないコースは none", () => {
@@ -26,5 +26,15 @@ describe("コースの選択の副題", () => {
     expect(courseSelectPrompt({ name: PREFECTURE_ROOT_NAME }, false)).toBe("どの地方にする？");
     expect(courseSelectPrompt({ name: "近畿" }, true)).toBe("どの県にする？");
     expect(courseSelectPrompt({ name: "国旗クイズ" }, false)).toBe("どの大陸にする？");
+  });
+});
+
+describe("コースのカードの札", () => {
+  it("「世界ぜんぶ」と「全国」には「ちょうむずかしい」。ほかには出さない", () => {
+    expect(courseNote("世界ぜんぶ")).toBe("ちょうむずかしい");
+    expect(courseNote("全国")).toBe("ちょうむずかしい");
+    expect(courseNote("近畿")).toBeNull();
+    expect(courseNote("大阪府")).toBeNull();
+    expect(courseNote("アジア")).toBeNull();
   });
 });

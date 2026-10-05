@@ -1,6 +1,9 @@
 // 都道府県クイズの画面の判定(docs/design/2026-10-05-prefecture-quiz-design.md 7章)。画面を描かない部分だけをここに置く
 
+import { WORLD_COURSE_NAME, WORLD_COURSE_NOTE } from "./flag-quiz";
+
 export const PREFECTURE_ROOT_NAME = "都道府県クイズ";
+export const NATIONAL_COURSE_NAME = "全国";
 
 /** 県のコースのカードに出すバッジの様子。バッジがなければ none、もらったら earned(カラー)、まだなら locked(白黒で薄く) */
 export function courseBadgeState(course: { badge?: string | null; earned?: boolean }): "none" | "earned" | "locked" {
@@ -20,4 +23,9 @@ export function courseSelectPrompt(category: { name: string }, hasParent: boolea
   if (category.name === PREFECTURE_ROOT_NAME) return "どの地方にする？";
   if (hasParent) return "どの県にする？";
   return "どの大陸にする？";
+}
+
+/** コースのカードに添える札。いちばん難しいコース(国旗クイズの世界ぜんぶ・都道府県クイズの全国)だけ「ちょうむずかしい」 */
+export function courseNote(name: string): string | null {
+  return name === WORLD_COURSE_NAME || name === NATIONAL_COURSE_NAME ? WORLD_COURSE_NOTE : null;
 }

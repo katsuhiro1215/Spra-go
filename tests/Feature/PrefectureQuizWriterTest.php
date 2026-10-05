@@ -129,3 +129,75 @@ it('文字のはめ込みで、問題を出すときの返事から、正しい�
         expect($choice)->not->toHaveKey('meta'); // item_id が漏れると、正しい組が分かる
     }
 });
+
+/*
+|--------------------------------------------------------------------------
+| 全国(docs/design/2026-10-06-prefecture-quiz-national-design.md)
+|--------------------------------------------------------------------------
+*/
+
+function writePrefectureNationalPlan(): array
+{
+    $plan = PrefectureQuizPlanner::plan(prefectureNationalTestCatalog());
+
+    return [$plan, FlagQuizWriter::writeTree(PREFECTURE_ROOT, $plan)];
+}
+
+it('全国は、大もとの直下のコース(地方ではない)として書かれ、ステージは 初級3・中級4・上級4。称号は3級のボスだけ', function () {
+    writePrefectureNationalPlan();
+
+    $root = Category::where('name', PREFECTURE_ROOT)->firstOrFail();
+    $national = Category::where('name', '全国')->where('parent_id', $root->id)->firstOrFail();
+    expect($national->is_course_group)->toBeFalse();
+    expect($national->order)->toBe(7);
+
+    $stages = Stage::where('category_id', $national->id)->orderBy('difficulty')->orderBy('stage_number')->get()->groupBy('difficulty');
+    expect($stages['初級'])->toHaveCount(3);
+    expect($stages['中級'])->toHaveCount(4);
+    expect($stages['上級'])->toHaveCount(4);
+    expect($stages['初級']->pluck('title_reward')->all())->toBe([null, null, '全国みならい']);
+    expect($stages['中級']->pluck('title_reward')->all())->toBe([null, null, null, '全国めいじん']);
+    expect($stages['上級']->pluck('title_reward')->all())->toBe([null, null, null, '全国はかせ']);
+    expect($stages['上級']->pluck('is_boss')->all())->toBe([false, false, false, true]);
+    foreach ($stages->flatten() as $stage) {
+        expect($stage->questions()->count())->toBe(10);
+    }
+});
+
+it('全国も、何度書いても増えない', function () {
+    [$plan] = writePrefectureNationalPlan();
+    $counts = [Category::count(), Stage::count(), Question::count(), QuestionChoice::count(), Quiz::count()];
+
+    FlagQuizWriter::writeTree(PREFECTURE_ROOT, $plan);
+
+    expect([Category::count(), Stage::count(), Question::count(), QuestionChoice::count(), Quiz::count()])->toBe($counts);
+});
+
+it('コースの窓口: 全国は group が偽で、title は「全国はかせ」。県のバッジはない', function () {
+    createActiveProfile();
+    writePrefectureNationalPlan();
+    $root = Category::where('name', PREFECTURE_ROOT)->firstOrFail();
+
+    $courses = collect($this->getJson("/api/categories/{$root->id}/courses")->assertOk()->json());
+    $national = $courses->firstWhere('name', '全国');
+
+    expect($national['group'])->toBeFalse();
+    expect($national['badge'])->toBeNull();
+    expect($national['title'])->toBe('全国はかせ');
+    expect($national['earned'])->toBeFalse();
+    expect($national['total'])->toBe(11);
+    expect($courses->last()['name'])->toBe('全国'); // 地方のあと、最後
+});
+
+it('全国のボスを全問正解すると称号が付くが、県のバッジの絵(title_badge)は付かない', function () {
+    createActiveProfile();
+    writePrefectureNationalPlan();
+    $national = Category::where('name', '全国')->firstOrFail();
+    $boss = Stage::where('category_id', $national->id)->where('difficulty', '上級')->where('is_boss', true)->firstOrFail();
+
+    $response = $this->postJson("/api/stages/{$boss->id}/complete", ['score' => 10])->assertOk();
+
+    expect($response->json('title_granted'))->toBeTrue();
+    expect($response->json('title'))->toBe('全国はかせ');
+    expect($response->json('title_badge'))->toBeNull();
+});
