@@ -37,6 +37,7 @@ use App\Support\PlayTime;
 use App\Support\LevelCurve;
 use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
+use App\Support\Prefecture\PrefectureBadges;
 use App\Support\Prefecture\PrefectureCatalog;
 use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
@@ -1022,6 +1023,8 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
         'trips' => $activeProfile ? Travel::trips($activeProfile) : [],
         // 覚えた問題の数(docs/design/2026-09-29-spaced-review-design.md 4-8)
         'mastered_count' => $activeProfile ? QuestionMemory::masteredCount($activeProfile) : 0,
+        // 日本のバッジ(docs/design/2026-10-06-passport-prefecture-badges-design.md)。47県。称号「◯◯はかせ」をもらった県が earned
+        'prefecture_badges' => PrefectureBadges::list($titles->all()),
     ];
 })->name('passport');
 
