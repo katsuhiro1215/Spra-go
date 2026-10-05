@@ -390,7 +390,7 @@ class PrefectureQuizPlanner
             default => "{$p['name']}の ゆうめいな おまつり・でんとう・人物は どれ？",
         };
 
-        return self::choiceQuestion($key, $prompt, $text, $wrong);
+        return self::choiceQuestion($key, $prompt, $text, $wrong, self::factSummary($p, $kind, $text));
     }
 
     private static function reverse(string $key, array $catalog, array $owners, array $p, string $kind, int $i, string $code): ?array
@@ -416,7 +416,7 @@ class PrefectureQuizPlanner
 
         $prompt = $kind === 'sights' ? "『{$text}』が あるのは どこ？" : "『{$text}』で ゆうめいなのは どこ？";
 
-        return self::choiceQuestion($key, $prompt, $p['name'], $wrong);
+        return self::choiceQuestion($key, $prompt, $p['name'], $wrong, self::factSummary($p, $kind, $text));
     }
 
     private static function capital(string $key, array $catalog, array $p, string $code): ?array
@@ -432,7 +432,7 @@ class PrefectureQuizPlanner
         }
 
         return count($wrong) === self::WRONG
-            ? self::choiceQuestion($key, "{$p['name']}の けんちょうしょざいちは どこ？", $p['capital'], $wrong)
+            ? self::choiceQuestion($key, "{$p['name']}の けんちょうしょざいちは どこ？", $p['capital'], $wrong, self::capitalSummary($p))
             : null;
     }
 
@@ -441,7 +441,7 @@ class PrefectureQuizPlanner
         $wrong = array_slice(array_column(self::rankedOthers($catalog, $p, $code, $key), 'name'), 0, self::WRONG);
 
         return count($wrong) === self::WRONG
-            ? self::choiceQuestion($key, "『{$p['capital']}』は、どこの けんちょうしょざいち？", $p['name'], $wrong)
+            ? self::choiceQuestion($key, "『{$p['capital']}』は、どこの けんちょうしょざいち？", $p['name'], $wrong, self::capitalSummary($p))
             : null;
     }
 
@@ -452,7 +452,7 @@ class PrefectureQuizPlanner
         $wrong = array_map(fn (string $region) => PrefectureCatalog::REGIONS[$region], array_slice($others, 0, self::WRONG));
 
         return count($wrong) === self::WRONG
-            ? self::choiceQuestion($key, "{$p['name']}は どの ちほう？", PrefectureCatalog::REGIONS[$p['region']], $wrong)
+            ? self::choiceQuestion($key, "{$p['name']}は どの ちほう？", PrefectureCatalog::REGIONS[$p['region']], $wrong, "{$p['name']}は、".PrefectureCatalog::REGIONS[$p['region']].'地方にあるよ。')
             : null;
     }
 
@@ -462,6 +462,8 @@ class PrefectureQuizPlanner
         if ($neighbors === []) {
             return null;
         }
+        // 解説には、データ表の順に、となりをすべて並べる(下の並べ替えの前に取っておく)
+        $neighborNames = implode('・', array_map(fn (string $k) => $catalog[$k]['name'], $neighbors));
         usort($neighbors, fn (string $a, string $b) => self::hash($key, $a) <=> self::hash($key, $b));
         $correct = $catalog[$neighbors[0]]['name'];
 
@@ -481,7 +483,7 @@ class PrefectureQuizPlanner
         $wrong = array_slice(array_column($others, 'name'), 0, self::WRONG);
 
         return count($wrong) === self::WRONG
-            ? self::choiceQuestion($key, "{$p['name']}と となりあうのは どれ？", $correct, $wrong)
+            ? self::choiceQuestion($key, "{$p['name']}と となりあうのは どれ？", $correct, $wrong, "{$p['name']}は、{$neighborNames}と、県ざかいが接しているよ。")
             : null;
     }
 
@@ -492,7 +494,10 @@ class PrefectureQuizPlanner
             return null;
         }
 
-        return self::choiceQuestion($key, "{$p['name']}の『{$hard['word']}』は、なんて よむ？", $hard['reading'], $hard['wrong']) + ['plain' => [$hard['word']]];
+        // 読みはひらがなで書く(問われた漢字には、ふりがなを付けない)。そのあとに、その地名の説明(note)を続ける
+        $summary = "『{$hard['word']}』は、『{$hard['reading']}』と読むよ。".trim($hard['note'] ?? '');
+
+        return self::choiceQuestion($key, "{$p['name']}の『{$hard['word']}』は、なんて よむ？", $hard['reading'], $hard['wrong'], $summary) + ['plain' => [$hard['word']]];
     }
 
     private static function fit(string $key, array $catalog, array $p, string $code, array $usedFit): ?array
@@ -523,6 +528,7 @@ class PrefectureQuizPlanner
             'prompt' => '県庁所在地を、ばんごうの県に はめよう',
             'layout' => 'slots',
             'items' => array_map(fn (array $s) => ['id' => $s['key'], 'image' => null, 'text' => $s['capital'], 'label' => $s['name']], $set),
+            'explanation' => ['summary' => 'こたえは、'.implode('、', array_map(fn (array $s) => "{$s['capital']}は{$s['name']}", $set)).'だよ。'],
         ];
     }
 
@@ -574,7 +580,8 @@ class PrefectureQuizPlanner
 
     // ---- 部品 ----
 
-    private static function choiceQuestion(string $key, string $prompt, string $correct, array $wrong): array
+    /** $summary は、答えたあとに見せる解説の要約(docs/design/2026-10-06-question-explanation-design.md 6章) */
+    private static function choiceQuestion(string $key, string $prompt, string $correct, array $wrong, string $summary): array
     {
         return [
             'key' => $key,
@@ -585,7 +592,26 @@ class PrefectureQuizPlanner
                 [['label' => $correct, 'correct' => true, 'image' => null]],
                 array_map(fn (string $label) => ['label' => $label, 'correct' => false, 'image' => null], $wrong),
             ),
+            'explanation' => ['summary' => $summary],
         ];
+    }
+
+    // ---- 解説の文 ----
+
+    /** 名物・名所・お祭りなど、その県の事実の説明 */
+    private static function factSummary(array $p, string $kind, string $text): string
+    {
+        return match ($kind) {
+            'foods' => "{$text}は、{$p['name']}の名物だよ。",
+            'sights' => "{$text}は、{$p['name']}にあるよ。",
+            default => "{$text}は、{$p['name']}で有名だよ。",
+        };
+    }
+
+    /** 県庁所在地の説明。県の名前とちがうときは、気をつけてねを足す */
+    private static function capitalSummary(array $p): string
+    {
+        return "{$p['name']}の県庁所在地は、{$p['capital']}だよ。".(self::capitalDiffers($p) ? "{$p['name']}と名前がちがうから、気をつけてね。" : '');
     }
 
     /** 同じ問いかどうかの判定(文と正解。はめ込みは、県の組) */
