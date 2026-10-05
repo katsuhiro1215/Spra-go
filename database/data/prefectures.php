@@ -13,7 +13,7 @@
 | foods(4つ以上): 名物・特産(簡単なものから)／sights(4つ以上): 名所・自然・建物(簡単なものから)
 | culture(3つ以上): お祭り・伝統工芸・歴史・人物(簡単なものから)
 | hard(3つ以上): 難読地名。word(漢字)・reading(正しい読み)・wrong(ありがちな読みまちがい3つ)
-| 事実がそろった県(foods・sights・culture・hard)だけ、県のコースができる。いまは近畿・関東の14県。
+| 事実がそろった県(foods・sights・culture・hard)だけ、県のコースができる。いまは近畿・関東・中部の23県。
 | 事実の正しさ、県庁所在地、となりの県、難読地名の読みは、公開前にOwnerが確認する。
 |
 */
@@ -113,15 +113,114 @@ return [
             ],
         ],
 
-        ['key' => 'niigata', 'name' => '新潟県', 'region' => 'chubu', 'capital' => '新潟市', 'neighbors' => ['yamagata', 'fukushima', 'gunma', 'nagano', 'toyama']],
-        ['key' => 'toyama', 'name' => '富山県', 'region' => 'chubu', 'capital' => '富山市', 'neighbors' => ['niigata', 'nagano', 'gifu', 'ishikawa']],
-        ['key' => 'ishikawa', 'name' => '石川県', 'region' => 'chubu', 'capital' => '金沢市', 'neighbors' => ['toyama', 'gifu', 'fukui']],
-        ['key' => 'fukui', 'name' => '福井県', 'region' => 'chubu', 'capital' => '福井市', 'neighbors' => ['ishikawa', 'gifu', 'shiga', 'kyoto']],
-        ['key' => 'yamanashi', 'name' => '山梨県', 'region' => 'chubu', 'capital' => '甲府市', 'neighbors' => ['saitama', 'tokyo', 'kanagawa', 'shizuoka', 'nagano']],
-        ['key' => 'nagano', 'name' => '長野県', 'region' => 'chubu', 'capital' => '長野市', 'neighbors' => ['niigata', 'gunma', 'saitama', 'yamanashi', 'shizuoka', 'aichi', 'gifu', 'toyama']],
-        ['key' => 'gifu', 'name' => '岐阜県', 'region' => 'chubu', 'capital' => '岐阜市', 'neighbors' => ['toyama', 'ishikawa', 'fukui', 'shiga', 'mie', 'aichi', 'nagano']],
-        ['key' => 'shizuoka', 'name' => '静岡県', 'region' => 'chubu', 'capital' => '静岡市', 'neighbors' => ['kanagawa', 'yamanashi', 'nagano', 'aichi']],
-        ['key' => 'aichi', 'name' => '愛知県', 'region' => 'chubu', 'capital' => '名古屋市', 'neighbors' => ['shizuoka', 'nagano', 'gifu', 'mie']],
+        [
+            'key' => 'niigata', 'name' => '新潟県', 'region' => 'chubu', 'capital' => '新潟市',
+            'neighbors' => ['yamagata', 'fukushima', 'gunma', 'nagano', 'toyama'],
+            'foods' => ['コシヒカリ', '笹だんご', 'へぎそば', '柿の種'],
+            'sights' => ['佐渡島', '弥彦神社', '越後湯沢', '信濃川'],
+            'culture' => ['長岡花火', '上杉謙信', '小千谷縮'],
+            'hard' => [
+                ['word' => '魚沼', 'reading' => 'うおぬま', 'wrong' => ['ぎょぬま', 'さかなぬま', 'うおしょう']],
+                ['word' => '十日町', 'reading' => 'とおかまち', 'wrong' => ['じゅうにちまち', 'とうかまち', 'とおかちょう']],
+                ['word' => '糸魚川', 'reading' => 'いといがわ', 'wrong' => ['いとうおがわ', 'しぎょがわ', 'いというおがわ']],
+            ],
+        ],
+        [
+            'key' => 'toyama', 'name' => '富山県', 'region' => 'chubu', 'capital' => '富山市',
+            'neighbors' => ['niigata', 'nagano', 'gifu', 'ishikawa'],
+            'foods' => ['ホタルイカ', 'ます寿司', '白えび', '富山ブラック'],
+            'sights' => ['黒部ダム', '立山連峰', '五箇山の合掌造り', '高岡大仏'],
+            'culture' => ['越中おわら風の盆', '富山の薬売り', '高岡銅器'],
+            'hard' => [
+                ['word' => '魚津', 'reading' => 'うおづ', 'wrong' => ['ぎょづ', 'さかなづ', 'うおつ']],
+                ['word' => '氷見', 'reading' => 'ひみ', 'wrong' => ['こおりみ', 'ひょうみ', 'ひけん']],
+                ['word' => '砺波', 'reading' => 'となみ', 'wrong' => ['れいなみ', 'といなみ', 'とば']],
+            ],
+        ],
+        [
+            'key' => 'ishikawa', 'name' => '石川県', 'region' => 'chubu', 'capital' => '金沢市',
+            'neighbors' => ['toyama', 'gifu', 'fukui'],
+            'foods' => ['のどぐろ', '治部煮', '金沢カレー', '加賀野菜'],
+            'sights' => ['兼六園', '金沢21世紀美術館', '輪島朝市', '千里浜なぎさドライブウェイ'],
+            'culture' => ['九谷焼', '加賀友禅', '輪島塗'],
+            'hard' => [
+                ['word' => '珠洲', 'reading' => 'すず', 'wrong' => ['たまず', 'しゅす', 'じゅず']],
+                ['word' => '羽咋', 'reading' => 'はくい', 'wrong' => ['はぐい', 'はくわ', 'うくい']],
+                ['word' => '志賀', 'reading' => 'しか', 'wrong' => ['しが', 'しこが', 'しいか']],
+            ],
+        ],
+        [
+            'key' => 'fukui', 'name' => '福井県', 'region' => 'chubu', 'capital' => '福井市',
+            'neighbors' => ['ishikawa', 'gifu', 'shiga', 'kyoto'],
+            'foods' => ['越前ガニ', 'ソースカツ丼', 'おろしそば', '水ようかん'],
+            'sights' => ['東尋坊', '恐竜博物館', '永平寺', '一乗谷朝倉氏遺跡'],
+            'culture' => ['越前和紙', '鯖江のめがね', '朝倉義景'],
+            'hard' => [
+                ['word' => '鯖江', 'reading' => 'さばえ', 'wrong' => ['さばこう', 'さばごう', 'さばや']],
+                ['word' => '敦賀', 'reading' => 'つるが', 'wrong' => ['あつが', 'とんが', 'とんがく']],
+                ['word' => '小浜', 'reading' => 'おばま', 'wrong' => ['こはま', 'こうはま', 'しょうはま']],
+            ],
+        ],
+        [
+            'key' => 'yamanashi', 'name' => '山梨県', 'region' => 'chubu', 'capital' => '甲府市',
+            'neighbors' => ['saitama', 'tokyo', 'kanagawa', 'shizuoka', 'nagano'],
+            'foods' => ['ぶどう', 'もも', 'ほうとう', '信玄餅'],
+            'sights' => ['富士五湖', '河口湖', '昇仙峡', '忍野八海'],
+            'culture' => ['武田信玄', '甲州印伝', '吉田の火祭り'],
+            'hard' => [
+                ['word' => '韮崎', 'reading' => 'にらさき', 'wrong' => ['にらざき', 'にらさい', 'にらがさき']],
+                ['word' => '勝沼', 'reading' => 'かつぬま', 'wrong' => ['かつざわ', 'しょうぬま', 'かちぬま']],
+                ['word' => '都留', 'reading' => 'つる', 'wrong' => ['とる', 'みやこ', 'とつる']],
+            ],
+        ],
+        [
+            'key' => 'nagano', 'name' => '長野県', 'region' => 'chubu', 'capital' => '長野市',
+            'neighbors' => ['niigata', 'gunma', 'saitama', 'yamanashi', 'shizuoka', 'aichi', 'gifu', 'toyama'],
+            'foods' => ['りんご', '信州そば', 'おやき', '野沢菜'],
+            'sights' => ['善光寺', '松本城', '上高地', '軽井沢'],
+            'culture' => ['御柱祭', '真田幸村', '木曽漆器'],
+            'hard' => [
+                ['word' => '小諸', 'reading' => 'こもろ', 'wrong' => ['しょうしょ', 'こしょ', 'おもろ']],
+                ['word' => '諏訪', 'reading' => 'すわ', 'wrong' => ['すほう', 'しわ', 'すうわ']],
+                ['word' => '飯田', 'reading' => 'いいだ', 'wrong' => ['はんだ', 'めしだ', 'いだ']],
+            ],
+        ],
+        [
+            'key' => 'gifu', 'name' => '岐阜県', 'region' => 'chubu', 'capital' => '岐阜市',
+            'neighbors' => ['toyama', 'ishikawa', 'fukui', 'shiga', 'mie', 'aichi', 'nagano'],
+            'foods' => ['飛騨牛', '朴葉みそ', '五平餅', '鮎の塩焼き'],
+            'sights' => ['白川郷', '飛騨高山の古い町並み', '下呂温泉', '岐阜城'],
+            'culture' => ['長良川の鵜飼', '郡上おどり', '美濃焼'],
+            'hard' => [
+                ['word' => '郡上', 'reading' => 'ぐじょう', 'wrong' => ['ぐんじょう', 'こおりうえ', 'ぐんかみ']],
+                ['word' => '可児', 'reading' => 'かに', 'wrong' => ['かじ', 'かこ', 'かじか']],
+                ['word' => '恵那', 'reading' => 'えな', 'wrong' => ['けいな', 'めぐな', 'えいな']],
+            ],
+        ],
+        [
+            'key' => 'shizuoka', 'name' => '静岡県', 'region' => 'chubu', 'capital' => '静岡市',
+            'neighbors' => ['kanagawa', 'yamanashi', 'nagano', 'aichi'],
+            'foods' => ['静岡茶', 'うなぎ', 'わさび', '桜えび'],
+            'sights' => ['三保の松原', '浜名湖', '日本平', '熱海温泉'],
+            'culture' => ['徳川家康', '浜松まつり', '登呂遺跡'],
+            'hard' => [
+                ['word' => '焼津', 'reading' => 'やいづ', 'wrong' => ['やきつ', 'やきづ', 'やけづ']],
+                ['word' => '御殿場', 'reading' => 'ごてんば', 'wrong' => ['ごでんば', 'おとのば', 'ごてんじょう']],
+                ['word' => '磐田', 'reading' => 'いわた', 'wrong' => ['ばんでん', 'いはた', 'いわだ']],
+            ],
+        ],
+        [
+            'key' => 'aichi', 'name' => '愛知県', 'region' => 'chubu', 'capital' => '名古屋市',
+            'neighbors' => ['shizuoka', 'nagano', 'gifu', 'mie'],
+            'foods' => ['味噌カツ', 'ひつまぶし', 'きしめん', '手羽先'],
+            'sights' => ['名古屋城', '熱田神宮', '犬山城', 'トヨタ博物館'],
+            'culture' => ['織田信長', '常滑焼', '有松絞り'],
+            'hard' => [
+                ['word' => '蒲郡', 'reading' => 'がまごおり', 'wrong' => ['かまぐん', 'がまぐん', 'ほぐん']],
+                ['word' => '一宮', 'reading' => 'いちのみや', 'wrong' => ['いちみや', 'いっきゅう', 'ひとみや']],
+                ['word' => '碧南', 'reading' => 'へきなん', 'wrong' => ['あおみなみ', 'みどりなん', 'へきみなみ']],
+            ],
+        ],
 
         [
             'key' => 'mie', 'name' => '三重県', 'region' => 'kinki', 'capital' => '津市',
