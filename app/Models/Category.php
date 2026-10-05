@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    protected $fillable = ['parent_id', 'name', 'order', 'is_language_mode'];
+    protected $fillable = ['parent_id', 'name', 'order', 'is_language_mode', 'is_course_group'];
 
     protected function casts(): array
     {
         return [
             'is_language_mode' => 'boolean',
+            'is_course_group' => 'boolean',
         ];
     }
 

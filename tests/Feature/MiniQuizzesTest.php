@@ -102,3 +102,38 @@ it('プロフィールを選んでいないログイン済みのユーザーに�
 it('ログインしていないと401', function () {
     $this->getJson('/api/mini-quizzes')->assertStatus(401);
 });
+
+it('コース親(is_course_group)は、子のステージの合計で数える。stage_countも合計', function () {
+    createActiveProfile();
+    $group = Category::create(['name' => '国旗クイズ', 'is_course_group' => true]);
+    miniQuizCategory('アジア', 2, ['parent' => $group->id]);
+    miniQuizCategory('ヨーロッパ', 2, ['parent' => $group->id]);
+
+    $this->getJson('/api/mini-quizzes')->assertOk()->assertExactJson([
+        ['id' => $group->id, 'name' => '国旗クイズ', 'stage_count' => 4],
+    ]);
+});
+
+it('合計が足りないコース親・目印のない親は、出さない(今の「国旗」のように子にステージがあっても出ない)', function () {
+    createActiveProfile();
+    $few = Category::create(['name' => 'すこし', 'is_course_group' => true]);
+    miniQuizCategory('ひとつ', 2, ['parent' => $few->id]);
+    $plain = Category::create(['name' => '国旗']);
+    miniQuizCategory('日本', 5, ['parent' => $plain->id]);
+
+    $this->getJson('/api/mini-quizzes')->assertOk()->assertExactJson([]);
+});
+
+it('コース親の子のうち、鍵の国のステージは数えない', function () {
+    $profile = createActiveProfile();
+    $us = createTravelCountry('us', 'アメリカ');
+    $group = Category::create(['name' => 'まとめ', 'is_course_group' => true]);
+    miniQuizCategory('ふつう', 2, ['parent' => $group->id]);
+    miniQuizCategory('アメリカの', 2, ['parent' => $group->id, 'country' => $us->id]);
+
+    $this->getJson('/api/mini-quizzes')->assertOk()->assertExactJson([]);
+
+    $profile->trips()->create(['destination' => 'us', 'arrived_at' => now()]);
+
+    $this->getJson('/api/mini-quizzes')->assertOk()->assertJsonPath('0.stage_count', 4);
+});

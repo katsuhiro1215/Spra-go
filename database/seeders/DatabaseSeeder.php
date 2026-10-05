@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             QuestionChoiceSeeder::class,
             StageSeeder::class,
             WorldItemSeeder::class,
+            FlagQuizSeeder::class,
         ]);
     }
 }

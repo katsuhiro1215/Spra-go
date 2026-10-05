@@ -9,6 +9,7 @@ import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BadgeImage } from "@/components/app/badge-image";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
+import { FlagFitQuestion } from "@/components/app/flag-fit-question";
 import { MatchingQuestion, type MatchingResult } from "@/components/app/matching-question";
 import { OrderingQuestion } from "@/components/app/ordering-question";
 import { answerHeadline, choiceTone } from "@/components/app/palette";
@@ -25,6 +26,7 @@ import { heartsText } from "@/components/world/companions";
 import { levelUpGrowthLine } from "@/components/world/garden";
 import type { AnswerPartner, ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
+import { hasImageChoices, isFlagImage } from "@/lib/flag-quiz";
 
 import { GameHeader } from "./game-header";
 import { LevelUpOverlay } from "./level-up-overlay";
@@ -34,6 +36,9 @@ import { StageStartCard } from "./stage-start-card";
 import { streakLineBonusCoin } from "./streak-milestone";
 import { StreakMilestoneOverlay } from "./streak-milestone-overlay";
 import type { QuizQuestion } from "./types";
+
+/** はめ込みで、答えのカードを出すまでの待ち(ミリ秒)。枠ごとの○×と、正しい国旗を見せる時間 */
+const FIT_CARD_DELAY_MS = 2600;
 
 type EconomyDelta = { hp?: number; xp?: number; coin?: number; point?: number };
 type ComboInfo = { combo: number; combo_milestone_bonus_coin: number };
@@ -170,6 +175,16 @@ export function QuizSession({
   const [shopItems, setShopItems] = useState<ShopListItem[]>([]);
   // 「もう一度」のたびに増やし、ステージ開始のカードを出し直す
   const [runId, setRunId] = useState(0);
+
+  // 国旗のはめ込みは、答えたあと少しの間、枠ごとの○×と正しい国旗を見せてから、答えのカードを出す(設計書 2026-10-05-flag-quiz 7-2)
+  const [cardShownFor, setCardShownFor] = useState<string | null>(null);
+  const slotsLayout = round[currentIndex]?.type === "matching" && round[currentIndex]?.meta?.layout === "slots";
+  useEffect(() => {
+    if (!answered) return;
+    const key = `${runId}:${mode}:${currentIndex}`;
+    const timer = setTimeout(() => setCardShownFor(key), slotsLayout ? FIT_CARD_DELAY_MS : 0);
+    return () => clearTimeout(timer);
+  }, [answered, runId, mode, currentIndex, slotsLayout]);
 
   useEffect(() => {
     // レベルアップの演出で「新しく買えるようになったアイテム」を見せるため
@@ -536,7 +551,7 @@ export function QuizSession({
                   src={question.meta.image}
                   alt=""
                   fill
-                  className="object-cover"
+                  className={isFlagImage(question.meta.image) ? "bg-white object-contain" : "object-cover"}
                 />
               </div>
             ) : (
@@ -556,7 +571,18 @@ export function QuizSession({
             </h1>
           </div>
 
-          {question.type === "matching" ? (
+          {question.type === "matching" && question.meta?.layout === "slots" ? (
+            <FlagFitQuestion
+              key={question.id}
+              questionId={question.id}
+              items={question.meta?.items ?? []}
+              choices={question.choices}
+              answered={answered}
+              results={matchingResults}
+              submitting={submitting}
+              onSubmit={handleMatchingSubmit}
+            />
+          ) : question.type === "matching" ? (
             <MatchingQuestion
               items={question.meta?.items ?? []}
               choices={question.choices}
@@ -581,7 +607,7 @@ export function QuizSession({
               onSubmit={handleSortingSubmit}
             />
           ) : (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className={hasImageChoices(question.choices) ? "grid grid-cols-2 gap-3" : "grid grid-cols-1 gap-3 sm:grid-cols-2"}>
               {question.choices.map((choice) => {
                 const variant = choiceTone({
                   answered,
@@ -601,7 +627,20 @@ export function QuizSession({
                     {/* 色だけに頼らず、正解/選択した不正解にはアイコンも添える(色弱配慮) */}
                     {variant === "secondary" && <span aria-hidden>✓</span>}
                     {variant === "danger" && <span aria-hidden>✕</span>}
-                    <ChoiceLabel label={choice.label} />
+                    {choice.meta?.image ? (
+                      <span className="flex flex-col items-center gap-1">
+                        <span className="relative block aspect-[3/2] w-28 overflow-hidden rounded-sm border border-[#e8dfcf] bg-white">
+                          <Image src={choice.meta.image} alt={choice.label} fill sizes="112px" className="object-contain" />
+                        </span>
+                        {answered && (
+                          <span className="text-xs">
+                            <AutoFurigana text={choice.label} />
+                          </span>
+                        )}
+                      </span>
+                    ) : (
+                      <ChoiceLabel label={choice.label} />
+                    )}
                   </AppButton>
                 );
               })}
@@ -611,7 +650,7 @@ export function QuizSession({
         </div>
       </div>
       {/* 正解・不正解のカード(設計書2章の案A)。空は明るいまま、クリーム色のカードで知らせる。fixed の基準がずれないよう、問題のカードの外に置く */}
-      {answered && (
+      {answered && cardShownFor === `${runId}:${mode}:${currentIndex}` && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(143,212,233,0.55)] px-4">
           <div
             role="dialog"
