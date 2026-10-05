@@ -73,8 +73,8 @@ export function AnswerExplanation({
                 <section>
                   <h3 className="text-xs font-black text-[#7a6a4a]">にた ことば</h3>
                   <ul className="flex flex-col gap-1">
-                    {related.map((item) => (
-                      <li key={item.term} className="font-bold">
+                    {related.map((item, index) => (
+                      <li key={`${index}:${item.term}`} className="font-bold">
                         {item.term}
                         {item.note && (
                           <span className="ml-2 font-normal text-[#6b5d45]">
