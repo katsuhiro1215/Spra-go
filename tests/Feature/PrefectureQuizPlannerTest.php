@@ -316,3 +316,162 @@ it('地方まるごとも、正解が1つ・選択肢が重ならず、1ステ�
         }
     }
 });
+
+/*
+|--------------------------------------------------------------------------
+| 全国(docs/design/2026-10-06-prefecture-quiz-national-design.md)
+|--------------------------------------------------------------------------
+*/
+
+/** 全国用の表。23県(すべて事実あり)。tier は 1が6県・2が8県・3が9県。地方は6つを順に回す。となりは前後の県 */
+function prefectureNationalTestCatalog(): array
+{
+    $regions = array_keys(PrefectureCatalog::REGIONS);
+    $catalog = [];
+    for ($n = 1; $n <= 23; $n++) {
+        $key = sprintf('n%02d', $n);
+        $catalog[$key] = [
+            'key' => $key, 'name' => "第{$n}県", 'region' => $regions[($n - 1) % 6], 'tier' => $n <= 6 ? 1 : ($n <= 14 ? 2 : 3),
+            'capital' => "首{$n}市",
+            'neighbors' => array_values(array_filter([$n > 1 ? sprintf('n%02d', $n - 1) : null, $n < 23 ? sprintf('n%02d', $n + 1) : null])),
+            'foods' => ["{$key}の食1", "{$key}の食2", "{$key}の食3", "{$key}の食4"],
+            'sights' => ["{$key}の所1", "{$key}の所2", "{$key}の所3", "{$key}の所4"],
+            'culture' => ["{$key}の文1", "{$key}の文2", "{$key}の文3"],
+            'hard' => array_map(fn ($i) => ['word' => "{$key}難{$i}", 'reading' => "よみ{$key}{$i}", 'wrong' => ["まち{$key}{$i}あ", "まち{$key}{$i}い", "まち{$key}{$i}う"]], [1, 2, 3]),
+        ];
+    }
+
+    return $catalog;
+}
+
+function nationalCourse(array $plan): ?array
+{
+    return collect($plan)->firstWhere('key', 'national');
+}
+
+it('全国は、47県すべてに事実がそろったときだけ、いちばん最後に出る(地方ではなく、直下のコース)', function () {
+    expect(nationalCourse(PrefectureQuizPlanner::plan(prefectureTestCatalog())))->toBeNull();
+
+    $plan = PrefectureQuizPlanner::plan(prefectureNationalTestCatalog());
+    expect(collect($plan)->last()['key'])->toBe('national');
+    $national = nationalCourse($plan);
+    expect($national['name'])->toBe('全国');
+    expect($national['order'])->toBe(7);
+    expect($national)->not->toHaveKey('group');
+    expect(collect($national['levels'])->pluck('difficulty')->all())->toBe(['初級', '中級', '上級']);
+});
+
+it('全国のステージ: 初級は tier 1・2 の14県 → 2ステージ＋ボス、中級・上級は23県 → 3ステージ＋ボス。どれも10問', function () {
+    $national = nationalCourse(PrefectureQuizPlanner::plan(prefectureNationalTestCatalog()));
+    $levels = collect($national['levels'])->keyBy('code');
+
+    expect(collect($levels['beginner']['stages'])->pluck('number')->all())->toBe([1, 2, 3]);
+    expect(collect($levels['intermediate']['stages'])->pluck('number')->all())->toBe([1, 2, 3, 4]);
+    expect(collect($levels['advanced']['stages'])->pluck('number')->all())->toBe([1, 2, 3, 4]);
+    foreach ($levels as $level) {
+        expect(collect($level['stages'])->pluck('boss')->all())->toBe(array_merge(array_fill(0, count($level['stages']) - 1, false), [true]));
+        foreach ($level['stages'] as $stage) {
+            expect($stage['questions'])->toHaveCount(10);
+        }
+    }
+});
+
+it('全国の称号は、3級のボスだけに付く(全国みならい・全国めいじん・全国はかせ)', function () {
+    $national = nationalCourse(PrefectureQuizPlanner::plan(prefectureNationalTestCatalog()));
+
+    $titles = collect($national['levels'])->mapWithKeys(fn ($level) => [$level['code'] => collect($level['stages'])->pluck('title_reward')->all()]);
+    expect($titles['beginner'])->toBe([null, null, '全国みならい']);
+    expect($titles['intermediate'])->toBe([null, null, null, '全国めいじん']);
+    expect($titles['advanced'])->toBe([null, null, null, '全国はかせ']);
+});
+
+it('全国の初級は tier 1・2 の県だけがアンカー(正解)。中級・上級は、全県がステージのどこかでアンカーになる', function () {
+    $catalog = prefectureNationalTestCatalog();
+    $national = nationalCourse(PrefectureQuizPlanner::plan($catalog));
+    $levels = collect($national['levels'])->keyBy('code');
+
+    $beginnerCorrect = collect($levels['beginner']['stages'])->slice(0, -1)->flatMap(fn ($s) => $s['questions'])
+        ->filter(fn ($q) => $q['type'] === 'multiple_choice' && str_contains($q['prompt'], 'どこ？'))
+        ->map(fn ($q) => prefectureCorrect($q))->unique();
+    $tier3Names = collect($catalog)->where('tier', 3)->pluck('name');
+    expect($beginnerCorrect->intersect($tier3Names)->count())->toBe(0);
+
+    // 中級: 県庁所在地の問い(県名が出る)・県庁所在地の逆の問い(正解が県名)・はめ込み(県名の枠)に、全県が出る
+    $names = collect($catalog)->pluck('name');
+    $seen = collect($levels['intermediate']['stages'])->slice(0, -1)->flatMap(fn ($s) => $s['questions'])->flatMap(function ($q) use ($names) {
+        if ($q['type'] === 'matching') {
+            return collect($q['items'])->pluck('label');
+        }
+
+        return $names->filter(fn ($name) => str_contains($q['prompt'], $name) || prefectureCorrect($q) === $name);
+    })->unique();
+    expect($names->diff($seen)->count())->toBeLessThanOrEqual(0);
+});
+
+it('全国の中級・上級は、3問目と8問目がはめ込み。初級にはない。上級に難読地名が4問', function () {
+    $national = nationalCourse(PrefectureQuizPlanner::plan(prefectureNationalTestCatalog()));
+
+    foreach ($national['levels'] as $level) {
+        foreach ($level['stages'] as $stage) {
+            $types = collect($stage['questions'])->pluck('type')->values();
+            $fitAt = $types->keys()->filter(fn ($i) => $types[$i] === 'matching')->map(fn ($i) => $i + 1)->values()->all();
+            expect($fitAt)->toBe($level['code'] === 'beginner' ? [] : [3, 8]);
+            $hard = collect($stage['questions'])->filter(fn ($q) => ($q['plain'] ?? []) !== []);
+            expect($hard->count())->toBe($level['code'] === 'advanced' ? 4 : 0);
+        }
+    }
+});
+
+it('全国も、正解が1つ・選択肢が重ならず、1ステージに同じ問いが2回出ない。問題の目印は重ならない。同じ表から同じ計画', function () {
+    $first = PrefectureQuizPlanner::plan(prefectureNationalTestCatalog());
+    expect($first)->toBe(PrefectureQuizPlanner::plan(prefectureNationalTestCatalog()));
+
+    $keys = [];
+    foreach (nationalCourse($first)['levels'] as $level) {
+        foreach ($level['stages'] as $stage) {
+            $questions = collect($stage['questions']);
+            $signatures = $questions->map(fn ($q) => $q['type'] === 'matching' ? 'fit:'.collect($q['items'])->pluck('id')->sort()->implode(',') : $q['prompt'].'|'.prefectureCorrect($q));
+            expect($signatures->unique())->toHaveCount(10);
+            foreach ($questions->where('type', 'multiple_choice') as $q) {
+                expect(collect($q['choices'])->where('correct', true))->toHaveCount(1);
+                expect(collect($q['choices'])->pluck('label')->unique())->toHaveCount(4);
+            }
+            foreach ($questions as $q) {
+                expect($q['key'])->toStartWith('pref:national:');
+                $keys[] = $q['key'];
+            }
+        }
+    }
+    expect(array_unique($keys))->toHaveCount(count($keys));
+});
+
+it('全国のボスは、ステージとは別の形(2回目)で、県をくり返し当てる。ボスの問いが、ステージの問いと全部同じにならない', function () {
+    $national = nationalCourse(PrefectureQuizPlanner::plan(prefectureNationalTestCatalog()));
+    $level = collect($national['levels'])->firstWhere('code', 'advanced');
+    $signature = fn ($q) => $q['type'] === 'matching' ? 'fit' : $q['prompt'].'|'.prefectureCorrect($q);
+
+    $stages = collect($level['stages'])->slice(0, -1)->flatMap(fn ($s) => $s['questions'])->map($signature)->all();
+    $boss = collect(collect($level['stages'])->last()['questions'])->reject(fn ($q) => $q['type'] === 'matching')->map($signature)->all();
+
+    expect(count(array_diff($boss, $stages)))->toBeGreaterThan(0);
+});
+
+it('「似ている事実の組」は、2つの県にある文字と同じに扱う(逆の問いに使わず、ほかの県のまちがいにも出さない)', function () {
+    $catalog = prefectureTestCatalog();
+
+    // 組なし: aの食2 は a だけの事実なので、逆の問いに使える(初級の7問目が「逆 foods 1」＝aの食2)
+    $plain = PrefectureQuizPlanner::plan($catalog);
+    $withoutGroup = collect(prefectureStage($plan = $plain, 'kinki', 'a', 'beginner')['questions'])->contains(fn ($q) => str_contains($q['prompt'], '『aの食2』'));
+    expect($withoutGroup)->toBeTrue();
+
+    // 組あり: aの食2 と bの食2 が似ている → a の逆の問いが消え、ほかの県のまちがいにも出ない
+    $grouped = PrefectureQuizPlanner::plan($catalog, [['aの食2', 'bの食2']]);
+    expect(prefectureStage($grouped, 'kinki', 'a', 'beginner')['questions'])->toHaveCount(10);
+    foreach (prefectureAllQuestions($grouped) as $question) {
+        expect($question['prompt'] ?? '')->not->toContain('『aの食2』');
+        expect($question['prompt'] ?? '')->not->toContain('『bの食2』');
+        if ($question['type'] === 'multiple_choice' && ! str_contains($question['prompt'], '甲県') && ! str_contains($question['prompt'], '乙県')) {
+            expect(collect($question['choices'])->pluck('label')->all())->not->toContain('aの食2', 'bの食2');
+        }
+    }
+});

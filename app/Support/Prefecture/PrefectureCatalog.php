@@ -19,6 +19,19 @@ class PrefectureCatalog
         'kyushu-okinawa' => '九州・沖縄',
     ];
 
+    /**
+     * 似ている事実の組(例 もも・福島の桃・白桃)。子どもには同じに見えるので、逆の問い(「◯◯で有名なのは？」)にも、
+     * ほかの県のまちがいの選択肢にも使わない
+     *
+     * @return list<list<string>>
+     */
+    public static function similarFacts(): array
+    {
+        $data = require base_path('database/data/prefectures.php');
+
+        return $data['similar_facts'] ?? [];
+    }
+
     /** 県のコースを作るのに要る事実の数 */
     public const MIN_FOODS = 4;
 

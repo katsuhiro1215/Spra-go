@@ -95,3 +95,14 @@ it('すべての県に知名度(tier)が1〜3であり、数は 14・16・17(全
     expect(PrefectureCatalog::all()['tokyo']['tier'])->toBe(1);
     expect(PrefectureCatalog::all()['fukui']['tier'])->toBe(3);
 });
+
+it('似ている事実の組の文字は、すべて、どれかの県の事実にあり、2つ以上の文字の組になっている', function () {
+    $facts = collect(PrefectureCatalog::all())->flatMap(fn ($p) => array_merge($p['foods'], $p['sights'], $p['culture']))->all();
+
+    foreach (PrefectureCatalog::similarFacts() as $group) {
+        expect(count($group))->toBeGreaterThanOrEqual(2);
+        foreach ($group as $text) {
+            expect($facts)->toContain($text);
+        }
+    }
+});
