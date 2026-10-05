@@ -33,11 +33,16 @@ class PrefectureCatalog
     /** @return array<string, array{key: string, name: string, region: string, capital: string, neighbors: list<string>, foods: list<string>, sights: list<string>, culture: list<string>, hard: list<array{word: string, reading: string, wrong: list<string>}>}> */
     public static function all(): array
     {
-        $data = require base_path('database/data/prefectures.php');
+        // コースの一覧などで何度も呼ばれるので、表は1回だけ読む(表はプログラムの中で変わらない)
+        static $prefectures = null;
 
-        $prefectures = [];
-        foreach ($data['prefectures'] as $row) {
-            $prefectures[$row['key']] = $row + ['neighbors' => [], 'foods' => [], 'sights' => [], 'culture' => [], 'hard' => []];
+        if ($prefectures === null) {
+            $data = require base_path('database/data/prefectures.php');
+
+            $prefectures = [];
+            foreach ($data['prefectures'] as $row) {
+                $prefectures[$row['key']] = $row + ['neighbors' => [], 'foods' => [], 'sights' => [], 'culture' => [], 'hard' => []];
+            }
         }
 
         return $prefectures;

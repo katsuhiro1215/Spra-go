@@ -110,3 +110,22 @@ it('何度書いても、カテゴリー・ステージ・問題・選択肢が�
     expect(Question::orderBy('id')->pluck('id')->all())->toBe($ids);
     expect(QuestionChoice::orderBy('id')->pluck('id')->all())->toBe($choiceIds);
 });
+
+it('文字のはめ込みで、問題を出すときの返事から、正しい組が読み取れない(項目はidと文字だけ、選択肢はis_correctとmetaが隠れる)', function () {
+    createActiveProfile();
+    writePrefectureTestPlan();
+    $course = Category::where('name', '甲県')->firstOrFail();
+    $stage = Stage::where('category_id', $course->id)->where('difficulty', '中級')->firstOrFail();
+
+    $questions = $this->getJson("/api/stages/{$stage->id}")->assertOk()->json('questions');
+    $fit = collect($questions)->firstWhere('type', 'matching');
+
+    expect($fit)->not->toBeNull();
+    foreach ($fit['meta']['items'] as $item) {
+        expect(array_keys($item))->toBe(['id', 'text']);
+    }
+    foreach ($fit['choices'] as $choice) {
+        expect($choice)->not->toHaveKey('is_correct');
+        expect($choice)->not->toHaveKey('meta'); // item_id が漏れると、正しい組が分かる
+    }
+});
