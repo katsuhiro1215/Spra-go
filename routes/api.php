@@ -37,6 +37,7 @@ use App\Support\PlayTime;
 use App\Support\LevelCurve;
 use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
+use App\Support\Prefecture\PrefectureCatalog;
 use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
 use App\Support\RareSeeds;
@@ -1250,6 +1251,8 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         ],
         'title_granted' => $titleGranted,
         'title' => $stage->title_reward,
+        // 称号が県のもの(例 大阪府はかせ)なら、その県のバッジの絵(docs/design/2026-10-05-prefecture-quiz-design.md 7-2)
+        'title_badge' => PrefectureCatalog::badgeForTitle($stage->title_reward),
         'ticket_earned' => $ticketEarned,
     ];
 })->name('stages.complete');

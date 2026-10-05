@@ -137,3 +137,16 @@ it('コース親の子のうち、鍵の国のステージは数えない', func
 
     $this->getJson('/api/mini-quizzes')->assertOk()->assertJsonPath('0.stage_count', 4);
 });
+
+it('コース親の下にコース親(地方)があるとき、孫のステージも合計に入れる', function () {
+    createActiveProfile();
+    $root = Category::create(['name' => '都道府県クイズ', 'is_course_group' => true]);
+    $region = Category::create(['name' => '近畿', 'parent_id' => $root->id, 'is_course_group' => true]);
+    miniQuizCategory('大阪府', 2, ['parent' => $region->id]);
+    miniQuizCategory('京都府', 2, ['parent' => $region->id]);
+    miniQuizCategory('全国', 1, ['parent' => $root->id]);
+
+    $this->getJson('/api/mini-quizzes')->assertOk()->assertExactJson([
+        ['id' => $root->id, 'name' => '都道府県クイズ', 'stage_count' => 5],
+    ]);
+});
