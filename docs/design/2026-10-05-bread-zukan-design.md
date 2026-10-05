@@ -76,13 +76,13 @@ Spra-worldの確定画像にある、パンと作物の絵を、Spra-goで使う
 - `Zukan::gift(UserProfile $profile): ?array` — まだ持っていない物から1つを選んで記録し、`{ key, name, english, kind }` を返す。全部持っていれば `null`
 - 選び方は、一覧のうち持っていない物を `random_int` で1つ。重複しないよう、記録は一意の制約が最後の守り（二重に呼ばれても1つだけ。重複したときは、別の物を選び直す）
 - 呼ぶ場所は `Errands::claim` の中、**3つ目を受け取っておまけが出る分岐**（今の `$bonus` の分岐）。プロフィールは、呼び出し側でロックされているので、同じ日に二重に贈られない
-- 返事（`gained`）に `gift`（贈った物、なければ `null`）を足す。今の `points`・`bonus`・`bond` は変えない
+- 受け取りの返事に、`gained` とは別に、一番上の項目として `gift`（贈った物、なければ `null`）を足す。`gained` の中身（`points`・`bonus`・`bond`）は変えない
 
 ### 5-3. 窓口
 
 - `GET /api/zukan`（ログインとプロフィールが必要）: `{ items: [{ key, kind, owned, name, english, received_at }], owned_count, total }`
   - 持っていない物は `name`・`english`・`received_at` を `null`（名前をもらうまで出さない）
-- `GET /api/errands` の `bonus` に、`gift_left`（まだ贈れる数。`total - owned_count`）を足す（画面で「おまけ＋おくりもの」を出すかを決めるため）
+- 町の窓口 `GET /api/world` のおつかい（`errands`）の `bonus` に、`gift_left`（まだ贈れる数。`total - owned_count`）を足す（画面で「おまけ＋おくりもの」を出すかを決めるため）。既存のおつかいのテストが `bonus` の中身を固定しているため、そのテストに `gift_left` を足して直す
 
 ## 6. 画面
 
