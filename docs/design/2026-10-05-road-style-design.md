@@ -34,16 +34,16 @@
 ### 3-1. データ
 
 - マイグレーション: `user_profiles.road_style`（`string(8)`、null可、既定 null＝日本）。`UserProfile::$fillable` に足す
-- 使える道の一覧: `App\Support\Travel` に `roadStyles(UserProfile $profile): array`（`[['key' => 'jp', 'name' => '日本', 'available' => true, 'selected' => ...], ['key' => 'id', 'name' => 'インドネシア', 'available' => 着いた?, 'selected' => ...], ...]`）。日本が先頭、そのあと `config/travel.php` の行き先の順。`selected` は `road_style` ?? `jp` が、そのキーに等しいか
+- 選んでいる道: `App\Support\Travel::roadStyle(UserProfile $profile): string`（`road_style` が、日本か着いた国のキーならそれ、そうでなければ `jp`）。使える道は、日本と、着いている国（`visitedKeys`）
 
 ### 3-2. 窓口
 
 - `PUT /api/world/road`（ログイン・プロフィール必須）: `{ style: string }`。`style` は、`jp` か、行き先のキー。
   - 道の一覧にないキー → 422（`style` の検証エラー）
   - まだ着いていない国 → 422「まだ着いていない国の道は、選べないよ」
-  - 成功 → `road_style` を保存して、`{ road_style: 'xx', road_styles: [...] }`
+  - 成功 → `road_style` を保存して、`{ road_style: 'xx' }`
 - `GET /api/world` の返事に `road_style`（`'jp'` など。未選択は `'jp'`）を足す。`land` の中には足さない
-- `GET /api/travel` の返事に `road_styles`（3-1の一覧）を足す
+- `GET /api/travel` の返事（`Travel::overview`）に `road_style`（選んでいる道）を足す。着いた国かどうかは、各行き先の `state` で分かるので、一覧は足さない
 - 家族の町（`Family::town`）の返事に、持ち主の `road_style` を足す（見ているのが、着いていない国の道でも、持ち主の選択どおりに見せる）
 - 選べるのは、その国に着いたときだけ。あとから「着いた」記録は消えないので、選んだ道が使えなくなることはない
 
