@@ -16,11 +16,12 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "frontend/public/spru/ground"
 SIZE = 512
+SEAMLESS_RATIO = 1.2  # つなぎ目の比がこれ以下なら、もともとつながっているとみなす
 BLUR_BAND = 0.14  # 端からこの割合の帯を、ずらした絵となじませる
 
 # キー → 素材の置き場所(company/spra/spra-world/assets からの相対)。approved/ground/ に届いた絵を足していく
 SOURCES = {
-    "grass_town": "source/terrain/soft_grass_01/v002.png",  # 仮(新しい絵が届くまで)
+    "grass_town": "approved/ground/ground_grass_town_01.png",
     "path": "source/terrain/warm_dirt_path_01/v001.png",  # 仮
     "grass_bamboo": "approved/ground/ground_bamboo_floor_01.png",
     "sand": "approved/ground/ground_sand_beach_01.png",
@@ -53,6 +54,56 @@ def edge_ratio(img: Image.Image) -> float:
     return (seam / (w + h)) / max(inner / (w + h - 1), 0.001)
 
 
+DECALS_SHEET = "approved/ground/ground_decals_sheet_01.png"  # 透過の1枚のシート(小物6点)
+DECAL_MAX = 128  # 小物1つの、長い方の辺(px)
+DECAL_MIN_PART = 2000  # これより小さい塊は、ごみとして除く(画素数)
+
+
+def cut_decals(assets: Path) -> list[tuple[str, int, int]]:
+    """透過のシートから、小物を1つずつ切り出して decal_{番号}.webp にする(左上から、上の段・下の段の順)"""
+    src = assets / DECALS_SHEET
+    if not src.exists():
+        print(f"飛ばした(元の絵がまだ無い): 小物のシート ← {DECALS_SHEET}")
+        return []
+    sheet = Image.open(src).convert("RGBA")
+    alpha = sheet.getchannel("A").point(lambda v: 255 if v > 24 else 0)
+    w, h = alpha.size
+    px = alpha.load()
+    seen = bytearray(w * h)
+    parts = []
+    for y0 in range(h):
+        for x0 in range(w):
+            if px[x0, y0] == 0 or seen[y0 * w + x0]:
+                continue
+            stack = [(x0, y0)]
+            seen[y0 * w + x0] = 1
+            xs, ys, count = [x0], [y0], 0
+            while stack:
+                x, y = stack.pop()
+                count += 1
+                xs.append(x)
+                ys.append(y)
+                for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                    if 0 <= nx < w and 0 <= ny < h and px[nx, ny] and not seen[ny * w + nx]:
+                        seen[ny * w + nx] = 1
+                        stack.append((nx, ny))
+            if count >= DECAL_MIN_PART:
+                parts.append((min(xs), min(ys), max(xs) + 1, max(ys) + 1))
+    # 近い物は1つにまとめず、上の段・下の段(縦の中心で2つに分ける)→左から右の順に並べる
+    mid = h / 2
+    parts.sort(key=lambda b: (0 if (b[1] + b[3]) / 2 < mid else 1, b[0]))
+    out = []
+    for i, box in enumerate(parts):
+        crop = sheet.crop(box)
+        scale = DECAL_MAX / max(crop.size)
+        crop = crop.resize((max(1, round(crop.width * scale)), max(1, round(crop.height * scale))), Image.LANCZOS)
+        path = OUT / f"decal_{i}.webp"
+        crop.save(path, "WEBP", quality=90)
+        out.append((f"/spru/ground/decal_{i}.webp", crop.width, crop.height))
+        print(f"decal_{i}: {crop.width}x{crop.height} {path.stat().st_size // 1024}KB")
+    return out
+
+
 def main() -> None:
     if len(sys.argv) != 2:
         sys.exit("使い方: python3 tools/ground-assets/make_ground.py <spra-worldのassetsのフォルダ>")
@@ -64,13 +115,14 @@ def main() -> None:
             print(f"飛ばした(元の絵がまだ無い): {key} ← {rel}")
             continue
         raw = Image.open(src).convert("RGB").resize((SIZE, SIZE), Image.LANCZOS)
-        # もともとつながっている絵(比が1以下)は、そのまま使う。つながっていない絵だけ、なじませる
+        # もともとつながっている絵(比が1.2以下)は、そのまま使う。つながっていない絵だけ、なじませる
         raw_ratio = edge_ratio(raw)
-        img = raw if raw_ratio <= 1.0 else seamless(raw)
+        img = raw if raw_ratio <= SEAMLESS_RATIO else seamless(raw)
         out = OUT / f"{key}.webp"
         img.save(out, "WEBP", quality=85)
         note = "もともとつながっている" if img is raw else f"なじませた(元は{raw_ratio:.2f})"
         print(f"{key}: {out.stat().st_size // 1024}KB つなぎ目の比 {edge_ratio(img):.2f} {note}")
+    cut_decals(assets)
 
 
 if __name__ == "__main__":

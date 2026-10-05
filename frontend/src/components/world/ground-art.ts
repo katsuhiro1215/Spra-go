@@ -11,11 +11,22 @@ export type GroundArtKey = Ground | "path" | "grove" | "meadow";
  */
 export const GROUND_ART: Partial<Record<GroundArtKey, GroundArt>> = {
   grass: { src: "/spru/ground/grass_town.webp", size: 512 },
+  bamboo: { src: "/spru/ground/grass_bamboo.webp", size: 512 },
+  sand: { src: "/spru/ground/sand.webp", size: 512 },
+  hill: { src: "/spru/ground/hill.webp", size: 512 },
   path: { src: "/spru/ground/path.webp", size: 512 },
+  grove: { src: "/spru/ground/grove.webp", size: 512 },
   meadow: { src: "/spru/ground/meadow.webp", size: 512 },
 };
 
-/** 地面の上にばらまく小物(真上から見た絵)。シートが届いたら足す。空なら、小物は出ない */
+/** 地面の上にばらまく小物(草・草・小花・小石・落ち葉・クローバーの順。tools/ground-assets/make_ground.py が切り出す)。空なら、小物は出ない */
 export type GroundDecal = { src: string; width: number; height: number };
 
-export const GROUND_DECALS: GroundDecal[] = [];
+export const GROUND_DECALS: GroundDecal[] = [
+  { src: "/spru/ground/decal_0.webp", width: 128, height: 128 },
+  { src: "/spru/ground/decal_1.webp", width: 128, height: 115 },
+  { src: "/spru/ground/decal_2.webp", width: 128, height: 116 },
+  { src: "/spru/ground/decal_3.webp", width: 128, height: 110 },
+  { src: "/spru/ground/decal_4.webp", width: 127, height: 128 },
+  { src: "/spru/ground/decal_5.webp", width: 128, height: 112 },
+];

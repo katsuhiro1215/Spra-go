@@ -257,7 +257,8 @@ export function WorldScene({
   const landShapes = [
     ...edges.left.map(([x, y]) => leftFace(tileCenter(x, y).sx, tileCenter(x, y).sy, LAND_THICKNESS)),
     ...edges.right.map(([x, y]) => rightFace(tileCenter(x, y).sx, tileCenter(x, y).sy, LAND_THICKNESS)),
-    ...tiles.map(([x, y]) => tilePoints(x, y)),
+    // 地面は、マスごとでなく、開いた区画ごとの1つの菱形で重ねる(マスごとだと、重なりの縁に細い線が出るため)
+    ...openPlots.map((plot) => plotPoints(plot)),
   ];
   const previewTiles = preview ? footprintTiles(preview.x, preview.y, preview.item.footprint) : [];
   const previewCenter = preview ? footprintCenter(preview.x, preview.y, preview.item.footprint) : null;
@@ -424,17 +425,17 @@ export function WorldScene({
           const decal = GROUND_DECALS[kind];
           const { sx, sy } = tileCenter(x, y);
           const { dx, dy } = decalOffset(x, y);
-          const width = 18;
+          // 草・石などは、立てて(つぶさずに)小さく置く。足元がマスの中心にくる
+          const width = 20;
           const height = (width * decal.height) / decal.width;
           return (
             <image
               key={key}
               href={decal.src}
-              x={-width / 2}
-              y={-height / 2}
+              x={sx + dx - width / 2}
+              y={sy + dy - height * 0.8}
               width={width}
               height={height}
-              transform={`translate(${sx + dx} ${sy + dy}) scale(1 0.5) rotate(45)`}
             />
           );
         })}
