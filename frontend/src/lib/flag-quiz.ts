@@ -3,15 +3,18 @@
 export const WORLD_COURSE_NAME = "世界ぜんぶ";
 export const WORLD_COURSE_NOTE = "ちょうむずかしい";
 
-/** コースのカードに出す絵(国旗。世界ぜんぶは地球) */
-export const COURSE_FLAGS: Record<string, string> = {
-  アジア: "/flag/Japan.svg",
-  ヨーロッパ: "/flag/France.svg",
-  アフリカ: "/flag/South-Africa.svg",
-  北アメリカ: "/flag/United-States.svg",
-  南アメリカ: "/flag/Brazil.svg",
-  オセアニア: "/flag/Australia.svg",
-  [WORLD_COURSE_NAME]: "/globe.svg",
+/**
+ * コースのカードに出す絵(大陸の地図とスプルのバッジ。3:2、540×360のWebP)。
+ * 元の絵は company/spra/mascot/assets/course/course_{キー}_01.png
+ */
+export const COURSE_IMAGES: Record<string, string> = {
+  アジア: "/course/asia.webp",
+  ヨーロッパ: "/course/europe.webp",
+  アフリカ: "/course/africa.webp",
+  北アメリカ: "/course/north_america.webp",
+  南アメリカ: "/course/south_america.webp",
+  オセアニア: "/course/oceania.webp",
+  [WORLD_COURSE_NAME]: "/course/world.webp",
 };
 
 /** 国旗の絵のある選択肢が1つでもあれば、国旗の選択肢として描く */
