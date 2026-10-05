@@ -16,6 +16,7 @@ import { answerHeadline, choiceTone } from "@/components/app/palette";
 import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage } from "@/components/app/sky-page";
 import { SortingQuestion, type SortingItem } from "@/components/app/sorting-question";
+import { AnswerExplanation } from "@/components/quiz/answer-explanation";
 import { ReportQuestion } from "@/components/quiz/report-question";
 import { useSound } from "@/components/app/sound-provider";
 import { bloomOf, type Bloom } from "@/components/spru/bloom";
@@ -35,7 +36,7 @@ import { countsTowardScore } from "./score";
 import { StageStartCard } from "./stage-start-card";
 import { streakLineBonusCoin } from "./streak-milestone";
 import { StreakMilestoneOverlay } from "./streak-milestone-overlay";
-import type { QuizQuestion } from "./types";
+import type { QuestionExplanation, QuizQuestion } from "./types";
 
 /** はめ込みで、答えのカードを出すまでの待ち(ミリ秒)。枠ごとの○×と、正しい国旗を見せる時間 */
 const FIT_CARD_DELAY_MS = 2600;
@@ -147,6 +148,8 @@ export function QuizSession({
     MatchingResult[] | null
   >(null);
   const [answered, setAnswered] = useState(false);
+  // 答えのAPIが返す、その問題の解説(なければ null)。答えのカードに出す
+  const [explanation, setExplanation] = useState<QuestionExplanation | null>(null);
   const [lastCorrect, setLastCorrect] = useState(false);
   const [lastDelta, setLastDelta] = useState<EconomyDelta | null>(null);
   const [combo, setCombo] = useState<ComboInfo | null>(null);
@@ -317,6 +320,7 @@ export function QuizSession({
       const data = await res.json();
       setCorrectChoiceId(data.correct_choice_id ?? null);
       setMatchingResults(data.results ?? null);
+      setExplanation(data.explanation ?? null);
       setAnswered(true);
       setLastCorrect(Boolean(data.correct));
       playSound(data.correct ? "correct" : "incorrect");
@@ -406,6 +410,7 @@ export function QuizSession({
     setSelectedChoiceId(null);
     setCorrectChoiceId(null);
     setMatchingResults(null);
+    setExplanation(null);
     setAnswered(false);
     setLastDelta(null);
     setPartnerUp(null);
@@ -449,6 +454,7 @@ export function QuizSession({
     setSelectedChoiceId(null);
     setCorrectChoiceId(null);
     setMatchingResults(null);
+    setExplanation(null);
     setAnswered(false);
     setLastDelta(null);
     setCombo(null);
@@ -729,6 +735,11 @@ export function QuizSession({
                 )}
               </div>
             )}
+            <AnswerExplanation
+              key={`${runId}:${mode}:${currentIndex}`}
+              explanation={explanation}
+              plain={question.meta?.plain}
+            />
             {streak?.streak_extended_today && (
               <p className="flex items-center gap-1 text-sm font-bold text-[#c2402c]">
                 <BadgeImage badge="streak" size={20} />

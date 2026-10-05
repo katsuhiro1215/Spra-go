@@ -30,7 +30,7 @@
 - [ ] コミット `#00449: feat:問題に解説(explanation)の入れものを足し、答えのAPIだけが返す`
 
 ## Task 2: 答えのカードの解説（先にテスト）
-**Files:** `frontend/src/components/quiz/types.ts`、`frontend/src/components/quiz/answer-explanation.tsx`・`.test.tsx`、`frontend/src/components/quiz/quiz-session.tsx`
+**Files:** `frontend/src/components/quiz/types.ts`、`explanation.ts`・`explanation.test.ts`（出すものがあるかの判定）、`answer-explanation.tsx`・`answer-explanation.test.ts`（画面のテストは `.test.ts` だけが対象のため、`renderToStaticMarkup` で、開く前の見え方を確かめる）、`quiz-session.tsx`
 - [ ] 先にテスト（RED）: `AnswerExplanation`（要約が出る・詳細がなければボタンなし・「くわしく見る」で例文・使いどころ・似た語が出る・空なら何も出さない）。**Expected:** 失敗
 - [ ] 型 `QuestionExplanation`、部品、`quiz-session.tsx`（返事の `explanation` を持ち、答えのカードに出す。次の問題・やり直しで消す）。**Expected:** 通る
 - [ ] コミット `#00450: feat:答えのカードに解説(要約・くわしく見る)を出す`
