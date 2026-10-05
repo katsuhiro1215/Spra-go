@@ -8,6 +8,7 @@
 | 47都道府県。北から南の順(都道府県コードの順)。
 | key: バッジのファイル名(frontend/public/badge/pref/{key}.webp)
 | region: hokkaido-tohoku / kanto / chubu / kinki / chugoku-shikoku / kyushu-okinawa
+| tier: 知名度(1とてもよく知られた県・2よく知られた県・3あまり知られていない県。全国の初級は1・2だけ。Ownerが確認する)
 | capital: 県庁所在地(東京都は、都庁のある新宿区)
 | neighbors: 陸で県境が接している県のkey(海を挟むだけの県は入れない。互いにそろえる)
 | foods(4つ以上): 名物・特産(簡単なものから)／sights(4つ以上): 名所・自然・建物(簡単なものから)
@@ -19,9 +20,25 @@
 */
 
 return [
+    // 似ている事実の組。子どもには同じに見えるものを、ひとまとめにする(逆の問いにも、ほかの県のまちがいにも使わない)。Ownerが確認する
+    'similar_facts' => [
+        ['もも', '福島の桃', '白桃'],
+        ['ぶどう', 'マスカット'],
+        ['りんご', '青森りんご'],
+        ['お好み焼き', '広島風お好み焼き'],
+        ['みかん', 'いよかん', '夏みかん', 'かぼす', 'すだち', 'ゆず'],
+        ['宇都宮餃子', '円盤餃子'],
+        ['さぬきうどん', 'きつねうどん', '稲庭うどん', '水沢うどん'],
+        ['松阪牛', '近江牛', '神戸牛', '飛騨牛', '佐賀牛', '宮崎牛', '米沢牛'],
+        ['松島のカキ', '広島のカキ', '隠岐の岩ガキ'],
+        ['笹かまぼこ', '小田原かまぼこ', 'さつま揚げ'],
+        ['白えび', '桜えび', '伊勢えび'],
+        ['松葉ガニ', '越前ガニ'],
+        ['祇園祭', '博多祇園山笠', '日田祇園'],
+    ],
     'prefectures' => [
         [
-            'key' => 'hokkaido', 'name' => '北海道', 'region' => 'hokkaido-tohoku', 'capital' => '札幌市',
+            'key' => 'hokkaido', 'tier' => 1, 'name' => '北海道', 'region' => 'hokkaido-tohoku', 'capital' => '札幌市',
             'neighbors' => [],
             'foods' => ['ジンギスカン', '札幌ラーメン', '石狩鍋', 'スープカレー'],
             'sights' => ['札幌時計台', '旭山動物園', '函館山の夜景', '知床半島'],
@@ -33,7 +50,7 @@ return [
             ],
         ],
         [
-            'key' => 'aomori', 'name' => '青森県', 'region' => 'hokkaido-tohoku', 'capital' => '青森市',
+            'key' => 'aomori', 'tier' => 1, 'name' => '青森県', 'region' => 'hokkaido-tohoku', 'capital' => '青森市',
             'neighbors' => ['iwate', 'akita'],
             'foods' => ['青森りんご', 'ホタテ', 'にんにく', 'せんべい汁'],
             'sights' => ['十和田湖', '奥入瀬渓流', '弘前城', '三内丸山遺跡'],
@@ -45,7 +62,7 @@ return [
             ],
         ],
         [
-            'key' => 'iwate', 'name' => '岩手県', 'region' => 'hokkaido-tohoku', 'capital' => '盛岡市',
+            'key' => 'iwate', 'tier' => 2, 'name' => '岩手県', 'region' => 'hokkaido-tohoku', 'capital' => '盛岡市',
             'neighbors' => ['aomori', 'akita', 'miyagi'],
             'foods' => ['わんこそば', '盛岡冷麺', 'じゃじゃ麺', '南部せんべい'],
             'sights' => ['中尊寺金色堂', '龍泉洞', '小岩井農場', '浄土ヶ浜'],
@@ -57,7 +74,7 @@ return [
             ],
         ],
         [
-            'key' => 'miyagi', 'name' => '宮城県', 'region' => 'hokkaido-tohoku', 'capital' => '仙台市',
+            'key' => 'miyagi', 'tier' => 1, 'name' => '宮城県', 'region' => 'hokkaido-tohoku', 'capital' => '仙台市',
             'neighbors' => ['iwate', 'akita', 'yamagata', 'fukushima'],
             'foods' => ['牛タン', 'ずんだもち', '笹かまぼこ', '松島のカキ'],
             'sights' => ['松島', '仙台城跡', '蔵王のお釜', '鳴子温泉'],
@@ -69,7 +86,7 @@ return [
             ],
         ],
         [
-            'key' => 'akita', 'name' => '秋田県', 'region' => 'hokkaido-tohoku', 'capital' => '秋田市',
+            'key' => 'akita', 'tier' => 2, 'name' => '秋田県', 'region' => 'hokkaido-tohoku', 'capital' => '秋田市',
             'neighbors' => ['aomori', 'iwate', 'miyagi', 'yamagata'],
             'foods' => ['きりたんぽ', '稲庭うどん', 'ハタハタ', 'あきたこまち'],
             'sights' => ['田沢湖', '角館の武家屋敷', '男鹿半島', '乳頭温泉'],
@@ -81,7 +98,7 @@ return [
             ],
         ],
         [
-            'key' => 'yamagata', 'name' => '山形県', 'region' => 'hokkaido-tohoku', 'capital' => '山形市',
+            'key' => 'yamagata', 'tier' => 2, 'name' => '山形県', 'region' => 'hokkaido-tohoku', 'capital' => '山形市',
             'neighbors' => ['akita', 'miyagi', 'fukushima', 'niigata'],
             'foods' => ['さくらんぼ', '芋煮', '米沢牛', 'ラ・フランス'],
             'sights' => ['蔵王の樹氷', '山寺', '銀山温泉', '最上川'],
@@ -93,7 +110,7 @@ return [
             ],
         ],
         [
-            'key' => 'fukushima', 'name' => '福島県', 'region' => 'hokkaido-tohoku', 'capital' => '福島市',
+            'key' => 'fukushima', 'tier' => 2, 'name' => '福島県', 'region' => 'hokkaido-tohoku', 'capital' => '福島市',
             'neighbors' => ['miyagi', 'yamagata', 'niigata', 'gunma', 'tochigi', 'ibaraki'],
             'foods' => ['福島の桃', '喜多方ラーメン', 'いかにんじん', '円盤餃子'],
             'sights' => ['鶴ヶ城', '大内宿', '磐梯山', '猪苗代湖'],
@@ -106,7 +123,7 @@ return [
         ],
 
         [
-            'key' => 'ibaraki', 'name' => '茨城県', 'region' => 'kanto', 'capital' => '水戸市',
+            'key' => 'ibaraki', 'tier' => 2, 'name' => '茨城県', 'region' => 'kanto', 'capital' => '水戸市',
             'neighbors' => ['fukushima', 'tochigi', 'saitama', 'chiba'],
             'foods' => ['納豆', '干しいも', 'メロン', 'れんこん'],
             'sights' => ['筑波山', '偕楽園', '国営ひたち海浜公園', '牛久大仏'],
@@ -118,7 +135,7 @@ return [
             ],
         ],
         [
-            'key' => 'tochigi', 'name' => '栃木県', 'region' => 'kanto', 'capital' => '宇都宮市',
+            'key' => 'tochigi', 'tier' => 2, 'name' => '栃木県', 'region' => 'kanto', 'capital' => '宇都宮市',
             'neighbors' => ['fukushima', 'ibaraki', 'saitama', 'gunma'],
             'foods' => ['いちご', '宇都宮餃子', 'かんぴょう', '佐野ラーメン'],
             'sights' => ['日光東照宮', '華厳の滝', '那須高原', '足利フラワーパーク'],
@@ -130,7 +147,7 @@ return [
             ],
         ],
         [
-            'key' => 'gunma', 'name' => '群馬県', 'region' => 'kanto', 'capital' => '前橋市',
+            'key' => 'gunma', 'tier' => 2, 'name' => '群馬県', 'region' => 'kanto', 'capital' => '前橋市',
             'neighbors' => ['fukushima', 'tochigi', 'saitama', 'niigata', 'nagano'],
             'foods' => ['こんにゃく', '焼きまんじゅう', '下仁田ねぎ', '水沢うどん'],
             'sights' => ['草津温泉', '富岡製糸場', '尾瀬', '伊香保温泉の石段'],
@@ -142,7 +159,7 @@ return [
             ],
         ],
         [
-            'key' => 'saitama', 'name' => '埼玉県', 'region' => 'kanto', 'capital' => 'さいたま市',
+            'key' => 'saitama', 'tier' => 2, 'name' => '埼玉県', 'region' => 'kanto', 'capital' => 'さいたま市',
             'neighbors' => ['ibaraki', 'tochigi', 'gunma', 'chiba', 'tokyo', 'yamanashi', 'nagano'],
             'foods' => ['草加せんべい', '深谷ねぎ', '狭山茶', '川越のさつまいも'],
             'sights' => ['川越の蔵造りの町並み', '秩父の芝桜', '鉄道博物館', '長瀞ライン下り'],
@@ -154,7 +171,7 @@ return [
             ],
         ],
         [
-            'key' => 'chiba', 'name' => '千葉県', 'region' => 'kanto', 'capital' => '千葉市',
+            'key' => 'chiba', 'tier' => 2, 'name' => '千葉県', 'region' => 'kanto', 'capital' => '千葉市',
             'neighbors' => ['ibaraki', 'saitama', 'tokyo'],
             'foods' => ['落花生', 'びわ', 'なめろう', '銚子のしょうゆ'],
             'sights' => ['東京ディズニーリゾート', '成田山新勝寺', '鋸山', '九十九里浜'],
@@ -166,7 +183,7 @@ return [
             ],
         ],
         [
-            'key' => 'tokyo', 'name' => '東京都', 'region' => 'kanto', 'capital' => '新宿区',
+            'key' => 'tokyo', 'tier' => 1, 'name' => '東京都', 'region' => 'kanto', 'capital' => '新宿区',
             'neighbors' => ['saitama', 'chiba', 'kanagawa', 'yamanashi'],
             'foods' => ['もんじゃ焼き', '江戸前寿司', 'くさや', '深川めし'],
             'sights' => ['東京タワー', '東京スカイツリー', '浅草の雷門', '国会議事堂'],
@@ -178,7 +195,7 @@ return [
             ],
         ],
         [
-            'key' => 'kanagawa', 'name' => '神奈川県', 'region' => 'kanto', 'capital' => '横浜市',
+            'key' => 'kanagawa', 'tier' => 1, 'name' => '神奈川県', 'region' => 'kanto', 'capital' => '横浜市',
             'neighbors' => ['tokyo', 'yamanashi', 'shizuoka'],
             'foods' => ['シウマイ', '三崎のまぐろ', '小田原かまぼこ', '湘南のしらす'],
             'sights' => ['横浜中華街', '箱根の大涌谷', '鎌倉の大仏', '江の島'],
@@ -191,7 +208,7 @@ return [
         ],
 
         [
-            'key' => 'niigata', 'name' => '新潟県', 'region' => 'chubu', 'capital' => '新潟市',
+            'key' => 'niigata', 'tier' => 2, 'name' => '新潟県', 'region' => 'chubu', 'capital' => '新潟市',
             'neighbors' => ['yamagata', 'fukushima', 'gunma', 'nagano', 'toyama'],
             'foods' => ['コシヒカリ', '笹だんご', 'へぎそば', '柿の種'],
             'sights' => ['佐渡島', '弥彦神社', '越後湯沢', '信濃川'],
@@ -203,7 +220,7 @@ return [
             ],
         ],
         [
-            'key' => 'toyama', 'name' => '富山県', 'region' => 'chubu', 'capital' => '富山市',
+            'key' => 'toyama', 'tier' => 2, 'name' => '富山県', 'region' => 'chubu', 'capital' => '富山市',
             'neighbors' => ['niigata', 'nagano', 'gifu', 'ishikawa'],
             'foods' => ['ホタルイカ', 'ます寿司', '白えび', '富山ブラック'],
             'sights' => ['黒部ダム', '立山連峰', '五箇山の合掌造り', '高岡大仏'],
@@ -215,7 +232,7 @@ return [
             ],
         ],
         [
-            'key' => 'ishikawa', 'name' => '石川県', 'region' => 'chubu', 'capital' => '金沢市',
+            'key' => 'ishikawa', 'tier' => 2, 'name' => '石川県', 'region' => 'chubu', 'capital' => '金沢市',
             'neighbors' => ['toyama', 'gifu', 'fukui'],
             'foods' => ['のどぐろ', '治部煮', '金沢カレー', '加賀野菜'],
             'sights' => ['兼六園', '金沢21世紀美術館', '輪島朝市', '千里浜なぎさドライブウェイ'],
@@ -227,7 +244,7 @@ return [
             ],
         ],
         [
-            'key' => 'fukui', 'name' => '福井県', 'region' => 'chubu', 'capital' => '福井市',
+            'key' => 'fukui', 'tier' => 3, 'name' => '福井県', 'region' => 'chubu', 'capital' => '福井市',
             'neighbors' => ['ishikawa', 'gifu', 'shiga', 'kyoto'],
             'foods' => ['越前ガニ', 'ソースカツ丼', 'おろしそば', '水ようかん'],
             'sights' => ['東尋坊', '恐竜博物館', '永平寺', '一乗谷朝倉氏遺跡'],
@@ -239,7 +256,7 @@ return [
             ],
         ],
         [
-            'key' => 'yamanashi', 'name' => '山梨県', 'region' => 'chubu', 'capital' => '甲府市',
+            'key' => 'yamanashi', 'tier' => 3, 'name' => '山梨県', 'region' => 'chubu', 'capital' => '甲府市',
             'neighbors' => ['saitama', 'tokyo', 'kanagawa', 'shizuoka', 'nagano'],
             'foods' => ['ぶどう', 'もも', 'ほうとう', '信玄餅'],
             'sights' => ['富士五湖', '河口湖', '昇仙峡', '忍野八海'],
@@ -251,7 +268,7 @@ return [
             ],
         ],
         [
-            'key' => 'nagano', 'name' => '長野県', 'region' => 'chubu', 'capital' => '長野市',
+            'key' => 'nagano', 'tier' => 3, 'name' => '長野県', 'region' => 'chubu', 'capital' => '長野市',
             'neighbors' => ['niigata', 'gunma', 'saitama', 'yamanashi', 'shizuoka', 'aichi', 'gifu', 'toyama'],
             'foods' => ['りんご', '信州そば', 'おやき', '野沢菜'],
             'sights' => ['善光寺', '松本城', '上高地', '軽井沢'],
@@ -263,7 +280,7 @@ return [
             ],
         ],
         [
-            'key' => 'gifu', 'name' => '岐阜県', 'region' => 'chubu', 'capital' => '岐阜市',
+            'key' => 'gifu', 'tier' => 3, 'name' => '岐阜県', 'region' => 'chubu', 'capital' => '岐阜市',
             'neighbors' => ['toyama', 'ishikawa', 'fukui', 'shiga', 'mie', 'aichi', 'nagano'],
             'foods' => ['飛騨牛', '朴葉みそ', '五平餅', '鮎の塩焼き'],
             'sights' => ['白川郷', '飛騨高山の古い町並み', '下呂温泉', '岐阜城'],
@@ -275,7 +292,7 @@ return [
             ],
         ],
         [
-            'key' => 'shizuoka', 'name' => '静岡県', 'region' => 'chubu', 'capital' => '静岡市',
+            'key' => 'shizuoka', 'tier' => 2, 'name' => '静岡県', 'region' => 'chubu', 'capital' => '静岡市',
             'neighbors' => ['kanagawa', 'yamanashi', 'nagano', 'aichi'],
             'foods' => ['静岡茶', 'うなぎ', 'わさび', '桜えび'],
             'sights' => ['三保の松原', '浜名湖', '日本平', '熱海温泉'],
@@ -287,7 +304,7 @@ return [
             ],
         ],
         [
-            'key' => 'aichi', 'name' => '愛知県', 'region' => 'chubu', 'capital' => '名古屋市',
+            'key' => 'aichi', 'tier' => 1, 'name' => '愛知県', 'region' => 'chubu', 'capital' => '名古屋市',
             'neighbors' => ['shizuoka', 'nagano', 'gifu', 'mie'],
             'foods' => ['味噌カツ', 'ひつまぶし', 'きしめん', '手羽先'],
             'sights' => ['名古屋城', '熱田神宮', '犬山城', 'トヨタ博物館'],
@@ -300,7 +317,7 @@ return [
         ],
 
         [
-            'key' => 'mie', 'name' => '三重県', 'region' => 'kinki', 'capital' => '津市',
+            'key' => 'mie', 'tier' => 3, 'name' => '三重県', 'region' => 'kinki', 'capital' => '津市',
             'neighbors' => ['aichi', 'gifu', 'shiga', 'kyoto', 'nara', 'wakayama'],
             'foods' => ['伊勢えび', '松阪牛', '赤福', '手こね寿司'],
             'sights' => ['伊勢神宮', '鈴鹿サーキット', '夫婦岩', 'ナガシマスパーランド'],
@@ -312,7 +329,7 @@ return [
             ],
         ],
         [
-            'key' => 'shiga', 'name' => '滋賀県', 'region' => 'kinki', 'capital' => '大津市',
+            'key' => 'shiga', 'tier' => 3, 'name' => '滋賀県', 'region' => 'kinki', 'capital' => '大津市',
             'neighbors' => ['fukui', 'gifu', 'mie', 'kyoto'],
             'foods' => ['近江牛', 'ふなずし', '赤こんにゃく', '瀬田のしじみ'],
             'sights' => ['琵琶湖', '彦根城', '竹生島', '長浜城'],
@@ -324,7 +341,7 @@ return [
             ],
         ],
         [
-            'key' => 'kyoto', 'name' => '京都府', 'region' => 'kinki', 'capital' => '京都市',
+            'key' => 'kyoto', 'tier' => 1, 'name' => '京都府', 'region' => 'kinki', 'capital' => '京都市',
             'neighbors' => ['fukui', 'shiga', 'mie', 'nara', 'osaka', 'hyogo'],
             'foods' => ['八つ橋', '湯豆腐', '千枚漬け', '京野菜'],
             'sights' => ['清水寺', '金閣寺', '伏見稲荷大社', '嵐山'],
@@ -336,7 +353,7 @@ return [
             ],
         ],
         [
-            'key' => 'osaka', 'name' => '大阪府', 'region' => 'kinki', 'capital' => '大阪市',
+            'key' => 'osaka', 'tier' => 1, 'name' => '大阪府', 'region' => 'kinki', 'capital' => '大阪市',
             'neighbors' => ['kyoto', 'hyogo', 'nara', 'wakayama'],
             'foods' => ['たこやき', 'お好み焼き', 'くしカツ', 'きつねうどん'],
             'sights' => ['大阪城', '道頓堀', '通天閣', 'ユニバーサル・スタジオ・ジャパン'],
@@ -348,7 +365,7 @@ return [
             ],
         ],
         [
-            'key' => 'hyogo', 'name' => '兵庫県', 'region' => 'kinki', 'capital' => '神戸市',
+            'key' => 'hyogo', 'tier' => 2, 'name' => '兵庫県', 'region' => 'kinki', 'capital' => '神戸市',
             'neighbors' => ['kyoto', 'osaka', 'tottori', 'okayama'],
             'foods' => ['神戸牛', '明石焼き', '淡路島のたまねぎ', '出石そば'],
             'sights' => ['姫路城', '甲子園球場', '神戸ポートタワー', '明石海峡大橋'],
@@ -360,7 +377,7 @@ return [
             ],
         ],
         [
-            'key' => 'nara', 'name' => '奈良県', 'region' => 'kinki', 'capital' => '奈良市',
+            'key' => 'nara', 'tier' => 1, 'name' => '奈良県', 'region' => 'kinki', 'capital' => '奈良市',
             'neighbors' => ['mie', 'kyoto', 'osaka', 'wakayama'],
             'foods' => ['柿の葉ずし', '三輪そうめん', '奈良漬け', 'くずもち'],
             'sights' => ['東大寺の大仏', '法隆寺', '奈良公園のシカ', '平城宮跡'],
@@ -372,7 +389,7 @@ return [
             ],
         ],
         [
-            'key' => 'wakayama', 'name' => '和歌山県', 'region' => 'kinki', 'capital' => '和歌山市',
+            'key' => 'wakayama', 'tier' => 3, 'name' => '和歌山県', 'region' => 'kinki', 'capital' => '和歌山市',
             'neighbors' => ['mie', 'nara', 'osaka'],
             'foods' => ['みかん', '梅干し', '和歌山ラーメン', '金山寺みそ'],
             'sights' => ['白浜海岸', '高野山', '熊野古道', '那智の滝'],
@@ -385,7 +402,7 @@ return [
         ],
 
         [
-            'key' => 'tottori', 'name' => '鳥取県', 'region' => 'chugoku-shikoku', 'capital' => '鳥取市',
+            'key' => 'tottori', 'tier' => 3, 'name' => '鳥取県', 'region' => 'chugoku-shikoku', 'capital' => '鳥取市',
             'neighbors' => ['hyogo', 'okayama', 'hiroshima', 'shimane'],
             'foods' => ['二十世紀梨', '松葉ガニ', 'らっきょう', '牛骨ラーメン'],
             'sights' => ['鳥取砂丘', '水木しげるロード', '大山', '投入堂'],
@@ -397,7 +414,7 @@ return [
             ],
         ],
         [
-            'key' => 'shimane', 'name' => '島根県', 'region' => 'chugoku-shikoku', 'capital' => '松江市',
+            'key' => 'shimane', 'tier' => 3, 'name' => '島根県', 'region' => 'chugoku-shikoku', 'capital' => '松江市',
             'neighbors' => ['tottori', 'hiroshima', 'yamaguchi'],
             'foods' => ['宍道湖のしじみ', '出雲そば', 'あご野焼き', '隠岐の岩ガキ'],
             'sights' => ['出雲大社', '松江城', '石見銀山', '足立美術館'],
@@ -409,7 +426,7 @@ return [
             ],
         ],
         [
-            'key' => 'okayama', 'name' => '岡山県', 'region' => 'chugoku-shikoku', 'capital' => '岡山市',
+            'key' => 'okayama', 'tier' => 3, 'name' => '岡山県', 'region' => 'chugoku-shikoku', 'capital' => '岡山市',
             'neighbors' => ['hyogo', 'tottori', 'hiroshima'],
             'foods' => ['白桃', 'きびだんご', 'マスカット', 'ばら寿司'],
             'sights' => ['後楽園', '岡山城', '倉敷美観地区', '鷲羽山'],
@@ -421,7 +438,7 @@ return [
             ],
         ],
         [
-            'key' => 'hiroshima', 'name' => '広島県', 'region' => 'chugoku-shikoku', 'capital' => '広島市',
+            'key' => 'hiroshima', 'tier' => 1, 'name' => '広島県', 'region' => 'chugoku-shikoku', 'capital' => '広島市',
             'neighbors' => ['tottori', 'shimane', 'okayama', 'yamaguchi'],
             'foods' => ['広島風お好み焼き', 'もみじまんじゅう', '広島のカキ', '尾道ラーメン'],
             'sights' => ['厳島神社', '原爆ドーム', '平和記念公園', '尾道の坂道'],
@@ -433,7 +450,7 @@ return [
             ],
         ],
         [
-            'key' => 'yamaguchi', 'name' => '山口県', 'region' => 'chugoku-shikoku', 'capital' => '山口市',
+            'key' => 'yamaguchi', 'tier' => 3, 'name' => '山口県', 'region' => 'chugoku-shikoku', 'capital' => '山口市',
             'neighbors' => ['shimane', 'hiroshima'],
             'foods' => ['ふぐ', '瓦そば', '岩国寿司', '夏みかん'],
             'sights' => ['錦帯橋', '秋芳洞', '角島大橋', '萩の城下町'],
@@ -445,7 +462,7 @@ return [
             ],
         ],
         [
-            'key' => 'tokushima', 'name' => '徳島県', 'region' => 'chugoku-shikoku', 'capital' => '徳島市',
+            'key' => 'tokushima', 'tier' => 3, 'name' => '徳島県', 'region' => 'chugoku-shikoku', 'capital' => '徳島市',
             'neighbors' => ['kagawa', 'ehime', 'kochi'],
             'foods' => ['すだち', '徳島ラーメン', '鳴門わかめ', '半田そうめん'],
             'sights' => ['鳴門の渦潮', '祖谷のかずら橋', '大塚国際美術館', '眉山'],
@@ -457,7 +474,7 @@ return [
             ],
         ],
         [
-            'key' => 'kagawa', 'name' => '香川県', 'region' => 'chugoku-shikoku', 'capital' => '高松市',
+            'key' => 'kagawa', 'tier' => 3, 'name' => '香川県', 'region' => 'chugoku-shikoku', 'capital' => '高松市',
             'neighbors' => ['tokushima', 'ehime'],
             'foods' => ['さぬきうどん', 'オリーブ', '骨付鳥', '和三盆'],
             'sights' => ['栗林公園', '金刀比羅宮', '小豆島', '瀬戸大橋'],
@@ -469,7 +486,7 @@ return [
             ],
         ],
         [
-            'key' => 'ehime', 'name' => '愛媛県', 'region' => 'chugoku-shikoku', 'capital' => '松山市',
+            'key' => 'ehime', 'tier' => 2, 'name' => '愛媛県', 'region' => 'chugoku-shikoku', 'capital' => '松山市',
             'neighbors' => ['kagawa', 'tokushima', 'kochi'],
             'foods' => ['いよかん', '鯛めし', 'じゃこ天', '今治焼き鳥'],
             'sights' => ['道後温泉', '松山城', 'しまなみ海道', '内子座'],
@@ -481,7 +498,7 @@ return [
             ],
         ],
         [
-            'key' => 'kochi', 'name' => '高知県', 'region' => 'chugoku-shikoku', 'capital' => '高知市',
+            'key' => 'kochi', 'tier' => 3, 'name' => '高知県', 'region' => 'chugoku-shikoku', 'capital' => '高知市',
             'neighbors' => ['tokushima', 'ehime'],
             'foods' => ['カツオのたたき', 'ゆず', 'アイスクリン', 'ミレービスケット'],
             'sights' => ['桂浜', '高知城', '四万十川', 'ひろめ市場'],
@@ -494,7 +511,7 @@ return [
         ],
 
         [
-            'key' => 'fukuoka', 'name' => '福岡県', 'region' => 'kyushu-okinawa', 'capital' => '福岡市',
+            'key' => 'fukuoka', 'tier' => 1, 'name' => '福岡県', 'region' => 'kyushu-okinawa', 'capital' => '福岡市',
             'neighbors' => ['saga', 'kumamoto', 'oita'],
             'foods' => ['明太子', 'とんこつラーメン', 'もつ鍋', 'あまおう'],
             'sights' => ['太宰府天満宮', '福岡タワー', '門司港レトロ', '志賀島'],
@@ -506,7 +523,7 @@ return [
             ],
         ],
         [
-            'key' => 'saga', 'name' => '佐賀県', 'region' => 'kyushu-okinawa', 'capital' => '佐賀市',
+            'key' => 'saga', 'tier' => 3, 'name' => '佐賀県', 'region' => 'kyushu-okinawa', 'capital' => '佐賀市',
             'neighbors' => ['fukuoka', 'nagasaki'],
             'foods' => ['佐賀牛', '呼子のイカ', '佐賀のり', '嬉野茶'],
             'sights' => ['吉野ヶ里遺跡', '唐津城', '虹の松原', '祐徳稲荷神社'],
@@ -518,7 +535,7 @@ return [
             ],
         ],
         [
-            'key' => 'nagasaki', 'name' => '長崎県', 'region' => 'kyushu-okinawa', 'capital' => '長崎市',
+            'key' => 'nagasaki', 'tier' => 1, 'name' => '長崎県', 'region' => 'kyushu-okinawa', 'capital' => '長崎市',
             'neighbors' => ['saga'],
             'foods' => ['カステラ', 'ちゃんぽん', '皿うどん', 'トルコライス'],
             'sights' => ['出島', '軍艦島', 'グラバー園', 'ハウステンボス'],
@@ -530,7 +547,7 @@ return [
             ],
         ],
         [
-            'key' => 'kumamoto', 'name' => '熊本県', 'region' => 'kyushu-okinawa', 'capital' => '熊本市',
+            'key' => 'kumamoto', 'tier' => 1, 'name' => '熊本県', 'region' => 'kyushu-okinawa', 'capital' => '熊本市',
             'neighbors' => ['fukuoka', 'oita', 'miyazaki', 'kagoshima'],
             'foods' => ['馬刺し', 'からしれんこん', '太平燕', 'いきなり団子'],
             'sights' => ['熊本城', '阿蘇山', '草千里ヶ浜', '黒川温泉'],
@@ -542,7 +559,7 @@ return [
             ],
         ],
         [
-            'key' => 'oita', 'name' => '大分県', 'region' => 'kyushu-okinawa', 'capital' => '大分市',
+            'key' => 'oita', 'tier' => 3, 'name' => '大分県', 'region' => 'kyushu-okinawa', 'capital' => '大分市',
             'neighbors' => ['fukuoka', 'kumamoto', 'miyazaki'],
             'foods' => ['とり天', 'かぼす', '関あじ', 'だんご汁'],
             'sights' => ['別府温泉', '由布院温泉', '地獄めぐり', '宇佐神宮'],
@@ -554,7 +571,7 @@ return [
             ],
         ],
         [
-            'key' => 'miyazaki', 'name' => '宮崎県', 'region' => 'kyushu-okinawa', 'capital' => '宮崎市',
+            'key' => 'miyazaki', 'tier' => 3, 'name' => '宮崎県', 'region' => 'kyushu-okinawa', 'capital' => '宮崎市',
             'neighbors' => ['oita', 'kumamoto', 'kagoshima'],
             'foods' => ['マンゴー', 'チキン南蛮', '宮崎牛', '地鶏の炭火焼'],
             'sights' => ['高千穂峡', '青島神社', '鵜戸神宮', 'サンメッセ日南'],
@@ -566,7 +583,7 @@ return [
             ],
         ],
         [
-            'key' => 'kagoshima', 'name' => '鹿児島県', 'region' => 'kyushu-okinawa', 'capital' => '鹿児島市',
+            'key' => 'kagoshima', 'tier' => 2, 'name' => '鹿児島県', 'region' => 'kyushu-okinawa', 'capital' => '鹿児島市',
             'neighbors' => ['kumamoto', 'miyazaki'],
             'foods' => ['黒豚', 'さつま揚げ', 'かるかん', '鶏飯'],
             'sights' => ['桜島', '屋久島', '指宿の砂むし温泉', '仙巌園'],
@@ -578,7 +595,7 @@ return [
             ],
         ],
         [
-            'key' => 'okinawa', 'name' => '沖縄県', 'region' => 'kyushu-okinawa', 'capital' => '那覇市',
+            'key' => 'okinawa', 'tier' => 1, 'name' => '沖縄県', 'region' => 'kyushu-okinawa', 'capital' => '那覇市',
             'neighbors' => [],
             'foods' => ['ゴーヤーチャンプルー', '沖縄そば', '海ぶどう', 'サーターアンダギー'],
             'sights' => ['首里城', '美ら海水族館', '万座毛', '竹富島'],

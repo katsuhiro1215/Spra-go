@@ -19,6 +19,12 @@ class PrefectureQuizPlanner
 
     private const KINDS = ['foods', 'sights', 'culture'];
 
+    /** 全国の、各級のボスの称号(docs/design/2026-10-06-prefecture-quiz-national-design.md 2章) */
+    public const NATIONAL_TITLES = ['beginner' => '全国みならい', 'intermediate' => '全国めいじん', 'advanced' => '全国はかせ'];
+
+    /** 全国の初級に出す県の、知名度(tier)の上限 */
+    private const NATIONAL_BEGINNER_MAX_TIER = 2;
+
     /**
      * 級ごとの問題の並び(1〜10問目)。形は
      * ['fact', 種類, 番号]＝その県の事実を選ぶ／['rev', 種類, 番号]＝逆(その事実で有名なのは？)／['capital']／['capital_rev']／['region']／['neighbor']／
@@ -41,11 +47,12 @@ class PrefectureQuizPlanner
 
     /**
      * @param  array<string, array>  $catalog  PrefectureCatalog::all() の形
+     * @param  list<list<string>>|null  $similarFacts  似ている事実の組(省略すると、データ表のもの)
      * @return list<array{key: string, name: string, order: int, group: bool, courses: list<array>}>
      */
-    public static function plan(array $catalog): array
+    public static function plan(array $catalog, ?array $similarFacts = null): array
     {
-        $owners = self::factOwners($catalog);
+        $owners = self::factOwners($catalog, $similarFacts ?? PrefectureCatalog::similarFacts());
         $regions = [];
         $regionOrder = 0;
 
@@ -81,6 +88,11 @@ class PrefectureQuizPlanner
             }
 
             $regions[] = ['key' => $regionKey, 'name' => $regionName, 'order' => $regionOrder, 'group' => true, 'courses' => $courses];
+        }
+
+        // 全国(47県すべてに事実がそろったときだけ。地方ではなく、大もとの直下のコース)
+        if (count($catalog) > 0 && count(array_filter($catalog, fn (array $p) => PrefectureCatalog::isReady($p))) === count($catalog)) {
+            $regions[] = ['key' => 'national', 'name' => '全国', 'order' => count(PrefectureCatalog::REGIONS) + 1, 'levels' => self::nationalLevels($catalog, $owners)];
         }
 
         return $regions;
@@ -154,20 +166,102 @@ class PrefectureQuizPlanner
     }
 
     /** 県を10個になるまで繰り返して、名前から決まる順に並べる(同じ県が続かないように、何回目かも並べ方に入れる) */
-    private static function anchors(array $members, string $salt): array
+    private static function anchors(array $members, string $salt, int $roundOffset = 0): array
     {
         $cycle = [];
         $count = count($members);
         for ($i = 0; $i < self::QUESTIONS_PER_STAGE; $i++) {
-            $cycle[] = ['prefecture' => $members[$i % $count], 'round' => intdiv($i, $count)];
+            $cycle[] = ['prefecture' => $members[$i % $count], 'round' => intdiv($i, $count) + $roundOffset];
         }
         usort($cycle, fn (array $a, array $b) => self::hash($salt, "{$a['prefecture']['key']}#{$a['round']}") <=> self::hash($salt, "{$b['prefecture']['key']}#{$b['round']}"));
 
         return $cycle;
     }
 
+    /**
+     * 全国。級ごとに、県を tier の小さい順(同じ tier はデータ表の順)に並べ、10県ずつ(均等に)のステージに分け、最後にボスを足す。
+     * 初級は tier 1・2 の県だけ
+     */
+    private static function nationalLevels(array $catalog, array $owners): array
+    {
+        $levels = [];
+        foreach (self::LEVELS as $code => $difficulty) {
+            $pool = array_values($code === 'beginner'
+                ? array_filter($catalog, fn (array $p) => $p['tier'] <= self::NATIONAL_BEGINNER_MAX_TIER)
+                : $catalog);
+            usort($pool, fn (array $a, array $b) => $a['tier'] <=> $b['tier']);
+
+            $groups = self::split($pool, max(1, (int) ceil(count($pool) / self::QUESTIONS_PER_STAGE)));
+            $stages = [];
+            foreach ($groups as $index => $group) {
+                $stages[] = self::nationalStage($catalog, $owners, $code, $index + 1, null, $group, 0);
+            }
+
+            // ボスは、その級の県から10県を、名前から決まる順に選び、2回目の形(round 1)で出す
+            $boss = $pool;
+            usort($boss, fn (array $a, array $b) => self::hash("boss:national:{$code}", $a['key']) <=> self::hash("boss:national:{$code}", $b['key']));
+            $stages[] = self::nationalStage($catalog, $owners, $code, count($groups) + 1, self::NATIONAL_TITLES[$code], array_slice($boss, 0, self::QUESTIONS_PER_STAGE), 1);
+
+            $levels[] = ['code' => $code, 'difficulty' => $difficulty, 'stages' => $stages];
+        }
+
+        return $levels;
+    }
+
+    private static function nationalStage(array $catalog, array $owners, string $code, int $number, ?string $title, array $group, int $roundOffset): array
+    {
+        $prefix = "pref:national:{$code}:{$number}";
+        $items = [];
+        foreach (self::anchors($group, $prefix, $roundOffset) as $index => $anchor) {
+            $items[] = [$anchor['prefecture'], self::nationalForm($code, $index + 1, $anchor['round'])];
+        }
+
+        return ['number' => $number, 'boss' => $title !== null, 'title_reward' => $title, 'questions' => self::assemble($catalog, $owners, $prefix, $items, $code)];
+    }
+
+    /** 全国の、$position問目(1始まり)の形。$round は、そのアンカーが何回目か */
+    private static function nationalForm(string $code, int $position, int $round): array
+    {
+        if ($code === 'advanced') {
+            return self::regionForm('advanced', $position, $round);
+        }
+        if ($code === 'beginner') {
+            return match (true) {
+                $position === 9 => ['region'],
+                $position === 10 => ['rev', 'culture', $round % 3],
+                $position % 2 === 1 => ['rev', 'foods', $round % 4],
+                default => ['rev', 'sights', $round % 4],
+            };
+        }
+
+        return match (true) {
+            in_array($position, [3, 8], true) => ['fit'],
+            in_array($position, [4, 9], true) => ['region'],
+            in_array($position, [5, 10], true) => ['neighbor'],
+            // 県庁所在地と、その逆。同じ県が2回出るとき(round 1)は、形を入れ替える
+            in_array($position, [1, 6], true) => $round % 2 === 0 ? ['capital'] : ['capital_rev'],
+            default => $round % 2 === 0 ? ['capital_rev'] : ['capital'],
+        };
+    }
+
+    /** 県を、なるべく均等に、$groups個の組に分ける(前の組から、1つずつ多く) */
+    private static function split(array $items, int $groups): array
+    {
+        $base = intdiv(count($items), $groups);
+        $extra = count($items) % $groups;
+        $result = [];
+        $offset = 0;
+        for ($i = 0; $i < $groups; $i++) {
+            $size = $base + ($i < $extra ? 1 : 0);
+            $result[] = array_slice($items, $offset, $size);
+            $offset += $size;
+        }
+
+        return $result;
+    }
+
     /** 事実の文字 => その文字を持つ県のkey(名物・名所・お祭りなどを通して) */
-    private static function factOwners(array $catalog): array
+    private static function factOwners(array $catalog, array $similarFacts = []): array
     {
         $owners = [];
         foreach ($catalog as $prefecture) {
@@ -178,7 +272,23 @@ class PrefectureQuizPlanner
             }
         }
 
-        return array_map('array_keys', $owners);
+        $owners = array_map('array_keys', $owners);
+
+        // 似ている事実(例 もも・福島の桃・白桃)は、子どもには同じに見えるので、持ち主をひとまとめにする
+        foreach ($similarFacts as $group) {
+            $union = [];
+            foreach ($group as $text) {
+                $union = array_merge($union, $owners[$text] ?? []);
+            }
+            $union = array_values(array_unique($union));
+            foreach ($group as $text) {
+                if (isset($owners[$text])) {
+                    $owners[$text] = $union;
+                }
+            }
+        }
+
+        return $owners;
     }
 
     /** 県のコースの、級ごとの10問 */

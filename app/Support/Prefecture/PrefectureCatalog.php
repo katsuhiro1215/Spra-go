@@ -19,6 +19,19 @@ class PrefectureCatalog
         'kyushu-okinawa' => '九州・沖縄',
     ];
 
+    /**
+     * 似ている事実の組(例 もも・福島の桃・白桃)。子どもには同じに見えるので、逆の問い(「◯◯で有名なのは？」)にも、
+     * ほかの県のまちがいの選択肢にも使わない
+     *
+     * @return list<list<string>>
+     */
+    public static function similarFacts(): array
+    {
+        $data = require base_path('database/data/prefectures.php');
+
+        return $data['similar_facts'] ?? [];
+    }
+
     /** 県のコースを作るのに要る事実の数 */
     public const MIN_FOODS = 4;
 
@@ -30,7 +43,7 @@ class PrefectureCatalog
 
     private const TITLE_SUFFIX = 'はかせ';
 
-    /** @return array<string, array{key: string, name: string, region: string, capital: string, neighbors: list<string>, foods: list<string>, sights: list<string>, culture: list<string>, hard: list<array{word: string, reading: string, wrong: list<string>}>}> */
+    /** @return array<string, array{key: string, name: string, region: string, tier: int, capital: string, neighbors: list<string>, foods: list<string>, sights: list<string>, culture: list<string>, hard: list<array{word: string, reading: string, wrong: list<string>}>}> */
     public static function all(): array
     {
         // コースの一覧などで何度も呼ばれるので、表は1回だけ読む(表はプログラムの中で変わらない)
@@ -41,7 +54,7 @@ class PrefectureCatalog
 
             $prefectures = [];
             foreach ($data['prefectures'] as $row) {
-                $prefectures[$row['key']] = $row + ['neighbors' => [], 'foods' => [], 'sights' => [], 'culture' => [], 'hard' => []];
+                $prefectures[$row['key']] = $row + ['tier' => 3, 'neighbors' => [], 'foods' => [], 'sights' => [], 'culture' => [], 'hard' => []];
             }
         }
 

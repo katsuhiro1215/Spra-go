@@ -49,7 +49,8 @@ function prefectureVisibleTexts(array $plan): array
     $texts = [];
     foreach ($plan as $region) {
         $texts[] = $region['name'];
-        foreach ($region['courses'] as $course) {
+        // 地方は courses を持つ。全国は、大もと直下のコースそのもの
+        foreach ($region['courses'] ?? [$region] as $course) {
             $texts[] = $course['name'];
             foreach ($course['levels'] as $level) {
                 $texts[] = $level['difficulty'];
