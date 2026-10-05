@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { bloomRect, type Bloom } from "@/components/spru/bloom";
 import type { SpruView } from "@/components/spru/mood";
@@ -13,11 +15,26 @@ import {
 import { SpruFace } from "@/components/spru/spru-figure";
 
 import { TIME_THEME } from "./ambience";
+import { GROUND_ART, GROUND_DECALS, type GroundArtKey } from "./ground-art";
+import { blendCells, blendGroups, type BlendKind } from "./blend";
+import { decalAt, decalOffset, pathEdges, patternMatrix, plotPoints } from "./ground";
 import { GardenArt } from "./garden-art";
 import { HALF_H, HALF_W, LAND_THICKNESS, sceneViewBox, tileCenter, tileKey, tilePoints, toPercent } from "./iso";
 import { ItemArt } from "./item-art";
 import { lightCircles } from "./item-image";
-import { cloudArea, cloudLabel, depthTile, footprintCenter, footprintTiles, landEdges, openTiles, plotAt, plotCenter } from "./land";
+import {
+  cloudArea,
+  cloudLabel,
+  depthTile,
+  footprintCenter,
+  footprintTiles,
+  isOpenTile,
+  landEdges,
+  occupiedTiles,
+  openTiles,
+  plotAt,
+  plotCenter,
+} from "./land";
 import { LandmarkArt } from "./landmark-art";
 import type { TimeOfDay } from "./time-of-day";
 import type { Ground, WorldCompanion, WorldGarden, WorldItem, WorldLand, WorldPlot } from "./types";
@@ -34,6 +51,11 @@ const GROUND: Record<Ground, { tile: [string, string]; lip: [string, string] }> 
   hill: { tile: ["#c8eda9", "#bee69d"], lip: ["#9fd684", "#8cc672"] },
 };
 const PATH_COLOR = "#f1dfbb";
+// 林・花畑の地面の絵が届くまでの色(設計書 2026-10-05-town-blend 4-2)
+const BLEND_FALLBACK: Record<BlendKind, { color: string; opacity: number }> = {
+  grove: { color: "#5f9e47", opacity: 0.45 },
+  meadow: { color: "#f3b7d6", opacity: 0.35 },
+};
 const SOIL = { left: "#d7a574", right: "#bf8a5b" };
 
 type PlacedCompanion = WorldCompanion & { key: CompanionKey; x: number; y: number };
@@ -159,6 +181,48 @@ export function WorldScene({
   const tiles = openTiles(land);
   const edges = landEdges(land);
   const groundOf = (x: number, y: number) => GROUND[plotAt(land, x, y)?.ground ?? "grass"];
+  // 地面の絵(設計書 2026-10-05-town-blend 3章)。絵がある地面の区画は1つの菱形で塗り、絵がない地面は今のマスごとの市松で塗る
+  const openPlots = land.plots.filter((plot) => plot.unlocked);
+  const artPlots = openPlots.filter((plot) => GROUND_ART[plot.ground]);
+  const checkerTiles = tiles.filter(([x, y]) => !pathSet.has(tileKey(x, y)) && !GROUND_ART[plotAt(land, x, y)?.ground ?? "grass"]);
+  const pathArt = GROUND_ART.path;
+  const artKeys = (Object.keys(GROUND_ART) as GroundArtKey[]).filter((key) => GROUND_ART[key]);
+  const pathLines = useMemo(
+    () => (pathArt ? pathEdges(land.paths, (x, y) => isOpenTile(land, x, y)) : []),
+    [land, pathArt],
+  );
+  // 小物は、道・目印・アイテム・スプル・仲間が立たないマスに、マスの座標から決まる位置へ置く(毎回同じ)
+  const decals = useMemo(() => {
+    if (GROUND_DECALS.length === 0) return [];
+    const taken = new Set([
+      ...land.blocked.map(([x, y]) => tileKey(x, y)),
+      ...occupiedTiles(items, null),
+      tileKey(land.spru.x, land.spru.y),
+      ...companions.filter(isPlacedCompanion).map((c) => tileKey(c.x, c.y)),
+    ]);
+    const out: { key: string; kind: number; x: number; y: number }[] = [];
+    for (const [x, y] of openTiles(land)) {
+      if (taken.has(tileKey(x, y))) continue;
+      const kind = decalAt(x, y, GROUND_DECALS.length);
+      if (kind !== null) out.push({ key: `decal-${x},${y}`, kind, x, y });
+    }
+    return out;
+  }, [land, items, companions]);
+  // 林・花畑: 木・花が3つ以上隣り合うまとまりの足元(まとまりのマスと周囲1マス。道・目印・スプル・仲間・ほかのアイテムのマスは除く)
+  const blendLayers = useMemo(() => {
+    const groups = blendGroups(items);
+    if (groups.length === 0) return [];
+    const fixed = [
+      ...land.blocked.map(([x, y]) => tileKey(x, y)),
+      tileKey(land.spru.x, land.spru.y),
+      ...companions.filter(isPlacedCompanion).map((c) => tileKey(c.x, c.y)),
+    ];
+    return groups.map((group) => {
+      const others = occupiedTiles(items.filter((item) => !group.itemIds.includes(item.id)), null);
+      const blocked = new Set([...fixed, ...others]);
+      return { kind: group.kind, cells: blendCells(group, blocked, (x, y) => isOpenTile(land, x, y)) };
+    });
+  }, [land, items, companions]);
   const lockedPlots = land.plots.filter((plot) => !plot.unlocked);
   const veiledPlots = veil ? land.plots.filter((plot) => veil.keys.includes(plot.key)) : [];
   const placed = items.filter((item): item is WorldItem & { x: number; y: number } => item.x !== null && item.y !== null);
@@ -264,6 +328,35 @@ export function WorldScene({
   return (
     <div className="relative w-full" style={{ aspectRatio: `${vb.width} / ${vb.height}` }}>
       <svg viewBox={`${vb.x} ${vb.y} ${vb.width} ${vb.height}`} className="absolute inset-0 h-full w-full" aria-hidden>
+        <defs>
+          {artKeys.map((key) => {
+            const art = GROUND_ART[key]!;
+            return (
+              <pattern
+                key={key}
+                id={`ground-${key}`}
+                patternUnits="userSpaceOnUse"
+                width={art.size}
+                height={art.size}
+                patternTransform={patternMatrix(art.size)}
+              >
+                <image href={art.src} width={art.size} height={art.size} />
+              </pattern>
+            );
+          })}
+          <filter id="blend-soft" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" />
+          </filter>
+          {blendLayers.map((layer, i) => (
+            <mask key={`blend-mask-${i}`} id={`blend-mask-${i}`} maskUnits="userSpaceOnUse" x={vb.x} y={vb.y} width={vb.width} height={vb.height}>
+              <g fill="white" filter="url(#blend-soft)">
+                {layer.cells.map(([x, y]) => (
+                  <polygon key={tileKey(x, y)} points={tilePoints(x, y)} />
+                ))}
+              </g>
+            </mask>
+          ))}
+        </defs>
         <polygon points={sea} fill="#62b8d6" opacity={0.55} />
 
         {edges.left.map(([x, y]) => {
@@ -287,10 +380,63 @@ export function WorldScene({
           );
         })}
 
-        {tiles.map(([x, y]) => {
-          const key = tileKey(x, y);
-          const fill = pathSet.has(key) ? PATH_COLOR : groundOf(x, y).tile[(x + y) % 2];
-          return <polygon key={key} points={tilePoints(x, y)} fill={fill} />;
+        {artPlots.map((plot) => (
+          <polygon key={`ground-${plot.key}`} points={plotPoints(plot)} fill={`url(#ground-${plot.ground})`} />
+        ))}
+        {checkerTiles.map(([x, y]) => (
+          <polygon key={tileKey(x, y)} points={tilePoints(x, y)} fill={groundOf(x, y).tile[(x + y) % 2]} />
+        ))}
+        {tiles
+          .filter(([x, y]) => pathSet.has(tileKey(x, y)))
+          .map(([x, y]) => (
+            <polygon
+              key={`path-${x},${y}`}
+              points={tilePoints(x, y)}
+              fill={pathArt ? "url(#ground-path)" : PATH_COLOR}
+              stroke={pathArt ? "url(#ground-path)" : undefined}
+              strokeWidth={pathArt ? 0.6 : undefined}
+            />
+          ))}
+        {pathLines.length > 0 && (
+          <g stroke="#8a6a1c" strokeOpacity={0.18} strokeWidth={1} fill="none">
+            {pathLines.map((d, i) => (
+              <path key={i} d={d} />
+            ))}
+          </g>
+        )}
+        {blendLayers.map((layer, i) => {
+          const art = GROUND_ART[layer.kind];
+          const fallback = BLEND_FALLBACK[layer.kind];
+          return (
+            <rect
+              key={`blend-${i}`}
+              x={vb.x}
+              y={vb.y}
+              width={vb.width}
+              height={vb.height}
+              fill={art ? `url(#ground-${layer.kind})` : fallback.color}
+              fillOpacity={art ? 1 : fallback.opacity}
+              mask={`url(#blend-mask-${i})`}
+            />
+          );
+        })}
+        {decals.map(({ key, kind, x, y }) => {
+          const decal = GROUND_DECALS[kind];
+          const { sx, sy } = tileCenter(x, y);
+          const { dx, dy } = decalOffset(x, y);
+          const width = 18;
+          const height = (width * decal.height) / decal.width;
+          return (
+            <image
+              key={key}
+              href={decal.src}
+              x={-width / 2}
+              y={-height / 2}
+              width={width}
+              height={height}
+              transform={`translate(${sx + dx} ${sy + dy}) scale(1 0.5) rotate(45)`}
+            />
+          );
         })}
 
         {theme.groundTint && (
