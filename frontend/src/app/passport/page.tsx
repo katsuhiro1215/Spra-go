@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircleHelp, KeyRound, Lock, PartyPopper, Plane, Ship, Trophy } from "lucide-react";
 
@@ -16,6 +17,7 @@ import { LoadingScreen } from "@/components/app/spru-loading";
 import { streakMilestoneBadge } from "@/components/quiz/streak-milestone";
 import { STAMP_IMAGES } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
+import { badgeCountText, groupBadgesByRegion, type PrefectureBadge } from "@/lib/prefecture-badges";
 
 type PassportCountry = {
   code: string;
@@ -34,6 +36,7 @@ type PassportData = {
   streak_milestones: { days: number; earned: boolean }[];
   trips: { key: string; name: string; flag: string; transport: "ship" | "plane"; arrived_at: string | null }[];
   mastered_count: number;
+  prefecture_badges?: PrefectureBadge[];
 };
 
 const ALL_DIFFICULTIES = ["初級", "中級", "上級"];
@@ -88,6 +91,8 @@ export default function Page() {
     trips,
     mastered_count: masteredCount,
   } = data;
+  const prefectureBadges = data.prefecture_badges ?? [];
+  const badgeGroups = groupBadgesByRegion(prefectureBadges);
   const visitedCountries = countries.filter((c) => c.stamp_tier !== "none");
 
   return (
@@ -226,6 +231,62 @@ export default function Page() {
               </div>
             )}
           </section>
+
+          {/* 日本のバッジ(県の上級のボスを全問正解でもらう。docs/design/2026-10-06-passport-prefecture-badges-design.md) */}
+          {prefectureBadges.length > 0 && (
+            <section className="mt-8">
+              <h2 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-wide text-[#6b5d45]">
+                日本のバッジ
+                <span className="rounded-full bg-[#fff4d6] px-2 py-0.5 text-xs font-black text-[#7a5a0e]">{badgeCountText(prefectureBadges)}</span>
+              </h2>
+              {!prefectureBadges.some((b) => b.earned) && (
+                <p className="mb-3 text-sm text-[#8a7a5a]">県の上級を ぜんぶ正解すると、バッジがもらえるよ</p>
+              )}
+              <div className="flex flex-col gap-4">
+                {badgeGroups.map((group) => (
+                  <div key={group.region}>
+                    <h3 className="mb-2 text-xs font-bold text-[#6b5d45]">{group.name}</h3>
+                    <ul className="grid grid-cols-4 gap-2 sm:grid-cols-6">
+                      {group.badges.map((badge) => {
+                        const content = (
+                          <>
+                            <span className="relative block aspect-square w-full max-w-14">
+                              <Image
+                                src={badge.badge}
+                                alt=""
+                                fill
+                                sizes="56px"
+                                className={badge.earned ? "object-contain drop-shadow" : "object-contain opacity-60 grayscale"}
+                              />
+                            </span>
+                            <span className="text-[11px] leading-tight font-bold text-[#3b3226]">{badge.name}</span>
+                          </>
+                        );
+                        const label = `${badge.name}のバッジ（${badge.earned ? "もらった" : "まだ"}）`;
+                        return (
+                          <li key={badge.key} className="flex">
+                            {badge.course_id ? (
+                              <Link
+                                href={`/play/${badge.course_id}`}
+                                aria-label={label}
+                                className="flex w-full flex-col items-center gap-1 rounded-lg p-1 text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2b6fa3]"
+                              >
+                                {content}
+                              </Link>
+                            ) : (
+                              <span aria-label={label} className="flex w-full flex-col items-center gap-1 p-1 text-center">
+                                {content}
+                              </span>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* 旅した国(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-7) */}
           <section className="mt-8">
