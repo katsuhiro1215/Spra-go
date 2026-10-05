@@ -35,6 +35,8 @@ class QuestionMemory
         }
 
         return self::dueQuery($profile)
+            // 国旗キャッチ専用の問題は、ステージのおさらいと仲間の復習には出さない(国旗キャッチの中は dueIdsAmong)
+            ->whereNull('questions.meta->catch_only')
             ->when($excludeIds !== [], fn (Builder $query) => $query->whereNotIn('profile_question_memories.question_id', $excludeIds))
             ->when($preferCountryId !== null, fn (Builder $query) => $query->orderByRaw(
                 'CASE WHEN questions.country_id = ? THEN 0 ELSE 1 END',
