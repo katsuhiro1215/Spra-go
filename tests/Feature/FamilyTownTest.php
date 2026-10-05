@@ -71,7 +71,7 @@ it('家族の町は、置いたアイテム・仲間・スプル・畑の見た�
         ->assertJsonPath('land.width', 12)
         ->assertJsonPath('greeted_today', false);
 
-    expect(array_keys($response->json()))->toEqualCanonicalizing(['profile', 'land', 'items', 'spru', 'garden', 'companions', 'greeted_today'])
+    expect(array_keys($response->json()))->toEqualCanonicalizing(['profile', 'land', 'road_style', 'items', 'spru', 'garden', 'companions', 'greeted_today'])
         ->and($response->getContent())->not->toContain('momo');
 });
 
