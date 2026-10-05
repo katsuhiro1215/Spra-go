@@ -42,7 +42,7 @@ export function DestinationSheet({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(20,40,60,0.38)]">
+    <div className="fixed inset-0 z-[55] flex items-end justify-center bg-[rgba(20,40,60,0.38)]">
       <button type="button" aria-label="閉じる" className="absolute inset-0 h-full w-full cursor-default" onClick={onClose} />
       <div
         role="dialog"
