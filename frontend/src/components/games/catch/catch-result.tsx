@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
@@ -13,16 +14,18 @@ import { apiFetch } from "@/lib/api";
 
 import type { CatchFinish } from "./catch-api";
 import { isPerfect, type CatchState } from "./catch-engine";
-import { missedWords, rewardLines } from "./catch-view";
+import { CATCH_MODES, missedWords, rewardLines, type CatchMode } from "./catch-view";
 
 /** 結果の画面(docs/design/2026-09-29-spru-catch-design.md 7-4) */
 export function CatchResult({
+  mode,
   result,
   state,
   starting,
   onRetry,
   onChangeDifficulty,
 }: {
+  mode: CatchMode;
   result: CatchFinish;
   state: CatchState;
   starting: boolean;
@@ -84,7 +87,7 @@ export function CatchResult({
       {missed.length > 0 && (
         <div className="w-full rounded-3xl bg-[#fffaf0] p-5 text-left text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.12)]">
           <h2 className="text-sm font-black">
-            <AutoFurigana text="まちがえた言葉" />
+            <AutoFurigana text={CATCH_MODES[mode].missedHeading} />
           </h2>
           <ul className="mt-2 flex flex-col gap-1 text-sm">
             {missed.map((word, index) => (
@@ -93,9 +96,15 @@ export function CatchResult({
                   <AutoFurigana text={word.focus} />
                 </span>
                 <span aria-hidden>→</span>
-                <span>
-                  <AutoFurigana text={word.answer} />
-                </span>
+                {word.answerImage ? (
+                  <span className="relative block aspect-[3/2] w-16 overflow-hidden rounded-sm border border-[#e8dfcf] bg-white">
+                    <Image src={word.answerImage} alt={word.answer} fill sizes="64px" className="object-contain" />
+                  </span>
+                ) : (
+                  <span>
+                    <AutoFurigana text={word.answer} />
+                  </span>
+                )}
               </li>
             ))}
           </ul>
