@@ -608,10 +608,10 @@ class PrefectureQuizPlanner
         };
     }
 
-    /** 県庁所在地の説明。県の名前とちがうときは、気をつけてねを足す */
+    /** 県庁所在地の説明。県の名前とちがうときは、まちがえないでねを足す */
     private static function capitalSummary(array $p): string
     {
-        return "{$p['name']}の県庁所在地は、{$p['capital']}だよ。".(self::capitalDiffers($p) ? "{$p['name']}と名前がちがうから、気をつけてね。" : '');
+        return "{$p['name']}の県庁所在地は、{$p['capital']}だよ。".(self::capitalDiffers($p) ? "{$p['name']}と名前がちがうから、まちがえないでね。" : '');
     }
 
     /** 同じ問いかどうかの判定(文と正解。はめ込みは、県の組) */

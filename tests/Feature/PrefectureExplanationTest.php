@@ -1,5 +1,6 @@
 <?php
 
+use App\Support\Prefecture\PrefectureCatalog;
 use App\Support\Prefecture\PrefectureQuizPlanner;
 use App\Support\QuestionExplanation;
 
@@ -69,7 +70,7 @@ it('逆の問い(事実から県): 問われた事実と、正解の県の名前
     }
 });
 
-it('県庁所在地: 県の名前とちがうときだけ、気をつけてねを足す。逆の問いも同じ説明', function () {
+it('県庁所在地: 県の名前とちがうときだけ、まちがえないでねを足す。逆の問いも同じ説明', function () {
     $plan = PrefectureQuizPlanner::plan(prefectureTestCatalog());
 
     $capital = explanationQuestions($plan, '/^(甲県|乙県|丙府|丁県)の けんちょうしょざいちは/u');
@@ -79,7 +80,7 @@ it('県庁所在地: 県の名前とちがうときだけ、気をつけてね�
         $answer = prefectureCorrect($q);
         $expected = "{$name}の県庁所在地は、{$answer}だよ。";
         if ($name === '乙県') {
-            $expected .= '乙県と名前がちがうから、気をつけてね。'; // 乙県の県庁所在地は丙市
+            $expected .= '乙県と名前がちがうから、まちがえないでね。'; // 乙県の県庁所在地は丙市
         }
         expect(explanationSummary($q))->toBe($expected);
     }
@@ -151,4 +152,19 @@ it('解説を付けても、問題の文・選択肢・順番は変わらない(
     $second = PrefectureQuizPlanner::plan(prefectureTestCatalog());
 
     expect($first)->toBe($second);
+});
+
+it('データ表の難読地名は、141語すべてに、その地名の説明(note)がある', function () {
+    $missing = [];
+    $count = 0;
+    foreach (PrefectureCatalog::all() as $prefecture) {
+        foreach ($prefecture['hard'] as $hard) {
+            $count++;
+            if (! is_string($hard['note'] ?? null) || trim($hard['note']) === '') {
+                $missing[] = $prefecture['name'].'の'.$hard['word'];
+            }
+        }
+    }
+
+    expect($count)->toBe(141)->and($missing)->toBe([]);
 });
