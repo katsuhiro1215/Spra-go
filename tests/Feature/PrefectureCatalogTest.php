@@ -86,3 +86,12 @@ it('称号とバッジの対応', function () {
     expect(PrefectureCatalog::badgeForName('北海道'))->toBe('/badge/pref/hokkaido.webp');
     expect(PrefectureCatalog::badgeForName('アジア'))->toBeNull();
 });
+
+it('すべての県に知名度(tier)が1〜3であり、数は 14・16・17(全国の初級は tier 1・2 の県だけ)', function () {
+    $counts = collect(PrefectureCatalog::all())->countBy('tier');
+
+    expect($counts->keys()->sort()->values()->all())->toBe([1, 2, 3]);
+    expect([$counts[1], $counts[2], $counts[3]])->toBe([14, 16, 17]);
+    expect(PrefectureCatalog::all()['tokyo']['tier'])->toBe(1);
+    expect(PrefectureCatalog::all()['fukui']['tier'])->toBe(3);
+});
