@@ -53,6 +53,10 @@ return [
         'cottage', 'red_house', 'bakery', 'japanese_house', 'cafe', 'lighthouse',
         // 特別の名所(docs/design/2026-09-28-town-items-design.md 5-4。各国の有名な建物、高額でレア)
         'kinkakuji', 'sungnyemun', 'arc_de_triomphe', 'big_ben',
+        // Spra-worldの確定画像(docs/design/2026-10-05-world-items-stage1-design.md)
+        'young_tree', 'pathside_flowers', 'pathside_stone', 'stream', 'vegetable_bed', 'broadleaf_tree', 'spring', 'large_tree', 'leaf_lamp',
+        'wooden_bridge', 'woodland_torii', 'seed_storehouse', 'resident_cottage', 'leaf_cottage', 'blue_flower_cottage', 'forest_flower_house', 'greengrocer', 'fish_shop',
+        'meat_shop', 'produce_shop', 'chief_hall', 'stone_tower_hall', 'windmill_garden', 'spru_mall', 'saku_mall',
     ],
 
     /*
@@ -66,6 +70,8 @@ return [
         'borobudur' => 2, 'bulguksa' => 2, 'liberty' => 2, 'stonehenge' => 2, 'mont_saint_michel' => 2,
         'bakery' => 2, 'japanese_house' => 2, 'cafe' => 2, 'lighthouse' => 2,
         'kinkakuji' => 2, 'sungnyemun' => 2, 'arc_de_triomphe' => 2, 'big_ben' => 2,
+        'large_tree' => 2, 'greengrocer' => 2, 'fish_shop' => 2, 'meat_shop' => 2, 'produce_shop' => 2,
+        'chief_hall' => 2, 'stone_tower_hall' => 2, 'windmill_garden' => 2, 'spru_mall' => 2, 'saku_mall' => 2,
     ],
 
     /*
@@ -87,6 +93,14 @@ return [
         'cottage' => 'house', 'red_house' => 'house', 'bakery' => 'house', 'japanese_house' => 'house', 'cafe' => 'house',
         'lighthouse' => 'landmark',
         'kinkakuji' => 'landmark', 'sungnyemun' => 'landmark', 'arc_de_triomphe' => 'landmark', 'big_ben' => 'landmark',
+        // Spra-worldの確定画像(docs/design/2026-10-05-world-items-stage1-design.md)
+        'young_tree' => 'nature', 'pathside_flowers' => 'nature', 'pathside_stone' => 'nature', 'stream' => 'nature',
+        'vegetable_bed' => 'nature', 'broadleaf_tree' => 'nature', 'spring' => 'nature', 'large_tree' => 'nature',
+        'leaf_lamp' => 'decor', 'wooden_bridge' => 'decor', 'woodland_torii' => 'landmark', 'seed_storehouse' => 'house',
+        'resident_cottage' => 'house', 'leaf_cottage' => 'house', 'blue_flower_cottage' => 'house', 'forest_flower_house' => 'house',
+        'greengrocer' => 'house', 'fish_shop' => 'house', 'meat_shop' => 'house', 'produce_shop' => 'house',
+        'chief_hall' => 'landmark', 'stone_tower_hall' => 'landmark', 'windmill_garden' => 'landmark', 'spru_mall' => 'landmark',
+        'saku_mall' => 'landmark',
     ],
 
     /*

@@ -160,15 +160,16 @@ it('町のAPIのバッグのアイテムにも大きさが付く', function () {
     $this->getJson('/api/world')->assertOk()->assertJsonPath('bag.0.footprint', 2);
 });
 
-it('品ぞろえのシーダーで大きな建物13(特別の名所4つを含む)を含む38種類がそろい、2回実行しても増えない', function () {
+it('品ぞろえのシーダーで大きな建物23(特別の名所4つとSpra-worldの確定画像10を含む)を含む63種類がそろい、2回実行しても増えない', function () {
     $this->seed(WorldItemSeeder::class);
     $this->seed(WorldItemSeeder::class);
 
     $items = ShopItem::query()->where('type', 'decoration')->get();
+    $big = $items->filter(fn (ShopItem $item) => $item->footprint() === 2)->pluck('name');
 
-    expect($items)->toHaveCount(38)
-        ->and($items->filter(fn (ShopItem $item) => $item->footprint() === 2)->pluck('name')->sort()->values()->all())
-        ->toBe(['お城', 'カフェ', 'タワー', 'パン屋', 'ビッグ・ベン', '五重塔', '凱旋門', '南大門', '和風の家', '噴水', '大きな船', '灯台', '金閣寺'])
+    expect($items)->toHaveCount(63)
+        ->and($big)->toHaveCount(23)
+        ->and($big->all())->toContain('お城', 'カフェ', 'タワー', 'パン屋', 'ビッグ・ベン', '五重塔', '凱旋門', '南大門', '和風の家', '噴水', '大きな船', '灯台', '金閣寺')
         ->and($items->firstWhere('name', 'タワー')->only(['price', 'min_level']))->toBe(['price' => 500, 'min_level' => 12]);
 });
 
@@ -203,4 +204,18 @@ it('新しい16点は設計書 2026-09-28-town-items 5-2 のレベル・値段�
         ->and($row('小さな家'))->toBe([2, 120, 'cottage', 'house'])
         ->and($row('カフェ'))->toBe([9, 320, 'cafe', 'house'])
         ->and($row('灯台'))->toBe([9, 350, 'lighthouse', 'landmark']);
+});
+
+it('Spra-worldの確定画像から足した2×2の建物(八百屋)も、4マスを使い、重なると置けない', function () {
+    $profile = createActiveProfile();
+    createPlacedBench($profile, 5, 5);
+    $shop = createBuilding($profile, 'greengrocer');
+
+    $this->patchJson("/api/world/items/{$shop->id}", ['x' => 4, 'y' => 4])
+        ->assertStatus(422)
+        ->assertJsonPath('message', 'そこにはもう置いてあります。');
+
+    $this->patchJson("/api/world/items/{$shop->id}", ['x' => 2, 'y' => 5])
+        ->assertOk()
+        ->assertJson(['asset_key' => 'greengrocer', 'footprint' => 2]);
 });
