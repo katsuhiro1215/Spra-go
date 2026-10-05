@@ -83,6 +83,7 @@ it('よく使われる遊びを、期間内の人数と回数で数える', func
     $a->update(['last_review_on' => '2026-10-15']);
     $a->gamePlays()->create(['game' => 'catch', 'difficulty' => '初級', 'question_ids' => [1], 'finished_at' => '2026-10-15 03:00:00', 'played_on' => '2026-10-15', 'answered_count' => 1, 'correct_count' => 1, 'score' => 1, 'best_combo' => 1]);
     $a->gamePlays()->create(['game' => 'catch', 'difficulty' => '初級', 'question_ids' => [1], 'finished_at' => null, 'score' => 0, 'best_combo' => 0]); // 終えていない
+    $a->gamePlays()->create(['game' => 'flag_catch', 'difficulty' => '初級', 'question_ids' => [1], 'finished_at' => '2026-10-15 03:00:00', 'played_on' => '2026-10-15', 'answered_count' => 1, 'correct_count' => 1, 'score' => 1, 'best_combo' => 1]);
     $b->seeds()->create(['result_key' => 'lumi', 'last_watered_on' => '2026-10-16']);
     $a->trips()->create(['destination' => 'id', 'arrived_at' => '2026-10-15 03:00:00']);
     $a->errands()->create(['errand_on' => '2026-10-15', 'slot' => 1, 'kind' => 'x', 'target' => 1, 'giver' => 'spru', 'claimed_at' => '2026-10-15 03:00:00']);
@@ -93,6 +94,7 @@ it('よく使われる遊びを、期間内の人数と回数で数える', func
     expect($activities['quiz'])->toMatchArray(['players' => 2, 'count' => 3])
         ->and($activities['review'])->toMatchArray(['players' => 1, 'count' => null])
         ->and($activities['catch'])->toMatchArray(['players' => 1, 'count' => 1])
+        ->and($activities['flag_catch'])->toMatchArray(['players' => 1, 'count' => 1])
         ->and($activities['water'])->toMatchArray(['players' => 1, 'count' => null])
         ->and($activities['trip'])->toMatchArray(['players' => 1, 'count' => 1])
         ->and($activities['errand'])->toMatchArray(['players' => 1, 'count' => 1])

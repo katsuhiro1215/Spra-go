@@ -373,6 +373,7 @@ class Analytics
         $clear = $inRange(DB::table('profile_stage_progress')->whereNotNull('cleared_at'), 'cleared_at');
         $review = $between(DB::table('user_profiles')->whereNotNull('last_review_on'), 'last_review_on');
         $catch = $between(DB::table('profile_game_plays')->where('game', 'catch')->whereNotNull('finished_at'), 'played_on');
+        $flagCatch = $between(DB::table('profile_game_plays')->where('game', 'flag_catch')->whereNotNull('finished_at'), 'played_on');
         $water = $between(DB::table('profile_seeds')->whereNotNull('last_watered_on'), 'last_watered_on');
         $trip = $inRange(DB::table('profile_trips'), 'arrived_at');
         $errand = $inRange(DB::table('profile_errands')->whereNotNull('claimed_at'), 'claimed_at');
@@ -390,6 +391,7 @@ class Analytics
             $row('clear', 'ステージクリア', $clear, 'user_profile_id'),
             $row('review', '復習をやりきった', $review, 'id', false),
             $row('catch', 'スプルキャッチ', $catch, 'user_profile_id'),
+            $row('flag_catch', 'スプルキャッチ(こっき)', $flagCatch, 'user_profile_id'),
             $row('water', '水やり', $water, 'user_profile_id', false),
             $row('trip', '旅', $trip, 'user_profile_id'),
             $row('errand', 'おつかい', $errand, 'user_profile_id'),
