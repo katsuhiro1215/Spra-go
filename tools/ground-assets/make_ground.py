@@ -17,6 +17,8 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "frontend/public/spru/ground"
 SIZE = 512
 SEAMLESS_RATIO = 1.2  # つなぎ目の比がこれ以下なら、もともとつながっているとみなす
+# 比は大きいが、つなぎ目の位置を拡大して見ても自然な絵(石の輪郭が多い絵は、比が大きく出やすい)。なじませず、そのまま使う
+SEAMLESS_BY_EYE = {"road_kr"}
 BLUR_BAND = 0.14  # 端からこの割合の帯を、ずらした絵となじませる
 
 # キー → 素材の置き場所(company/spra/spra-world/assets からの相対)。approved/ground/ に届いた絵を足していく
@@ -28,6 +30,12 @@ SOURCES = {
     "hill": "approved/ground/ground_hill_meadow_01.png",
     "grove": "approved/ground/ground_grove_floor_01.png",
     "meadow": "approved/ground/ground_flower_meadow_01.png",
+    # 国の道(docs/design/2026-10-05-road-style-design.md)。キーは road_{旅の行き先のキー}
+    "road_fr": "approved/road/road_france_01.png",
+    "road_gb": "approved/road/road_uk_01.png",
+    "road_kr": "approved/road/road_korea_01.png",
+    "road_id": "approved/road/road_indonesia_01.png",
+    "road_us": "approved/road/road_usa_01.png",
 }
 
 
@@ -117,7 +125,7 @@ def main() -> None:
         raw = Image.open(src).convert("RGB").resize((SIZE, SIZE), Image.LANCZOS)
         # もともとつながっている絵(比が1.2以下)は、そのまま使う。つながっていない絵だけ、なじませる
         raw_ratio = edge_ratio(raw)
-        img = raw if raw_ratio <= SEAMLESS_RATIO else seamless(raw)
+        img = raw if raw_ratio <= SEAMLESS_RATIO or key in SEAMLESS_BY_EYE else seamless(raw)
         out = OUT / f"{key}.webp"
         img.save(out, "WEBP", quality=85)
         note = "もともとつながっている" if img is raw else f"なじませた(元は{raw_ratio:.2f})"
