@@ -98,3 +98,27 @@ describe("自動ふりがな(レアスプルと特別な種の言葉)", () => {
     expect(ruby("あと1か国")).toEqual(["か国(かこく)"]);
   });
 });
+
+describe("自動ふりがな(ふりがなを付けない語。難読地名の問題)", () => {
+  const rubyPlain = (text: string, plain: string[]) =>
+    tokenize(text, plain)
+      .filter((segment) => typeof segment !== "string")
+      .map((segment) => `${segment.text}(${segment.reading})`);
+
+  it("plain の語は、辞書にあっても、ふりがなを付けずにそのまま出す。ほかの語には付く", () => {
+    // 「大阪」「京都」は辞書にある語。問われる語だけ読みを隠す
+    expect(rubyPlain("大阪府の『京都』は、なんて よむ？", ["京都"])).toEqual(["大阪(おおさか)", "府(ふ)"]);
+    expect(tokenize("大阪府の『京都』は", ["京都"]).map((segment) => (typeof segment === "string" ? segment : segment.text)).join("")).toBe("大阪府の『京都』は"); // 文字は変わらない
+  });
+
+  it("plain がなければ、これまでどおり", () => {
+    expect(rubyPlain("大阪府の『京都』は", [])).toEqual(rubyPlain("大阪府の『京都』は", []));
+    expect(ruby("大阪府の『京都』は")).toContain("京都(きょうと)");
+    expect(tokenize("大阪の京都", undefined)).toEqual(tokenize("大阪の京都"));
+  });
+
+  it("plain の語は、長い辞書の語の一部でも、その語として出す", () => {
+    // 「京都」を含む「京都府」より先に、plain の「京都」を見る
+    expect(rubyPlain("京都府と京都", ["京都"])).not.toContain("京都(きょうと)");
+  });
+});

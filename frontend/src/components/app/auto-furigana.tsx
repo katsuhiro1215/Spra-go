@@ -15,12 +15,26 @@ const dictionaryEntries = Object.entries(
 
 type Segment = string | { text: string; reading: string };
 
-/** 辞書の最長一致で、ふりがなを付ける語と、そのままの文字に分ける(テストでも使う) */
-export function tokenize(text: string): Segment[] {
+/**
+ * 辞書の最長一致で、ふりがなを付ける語と、そのままの文字に分ける(テストでも使う)。
+ * plain に入れた語(難読地名の問題の、問われる漢字)は、辞書にあっても、ふりがなを付けずにそのまま出す
+ */
+export function tokenize(text: string, plain: string[] = []): Segment[] {
   const segments: Segment[] = [];
   let i = 0;
 
   outer: while (i < text.length) {
+    const plainWord = plain.find((word) => word !== "" && text.startsWith(word, i));
+    if (plainWord) {
+      const last = segments[segments.length - 1];
+      if (typeof last === "string") {
+        segments[segments.length - 1] = last + plainWord;
+      } else {
+        segments.push(plainWord);
+      }
+      i += plainWord.length;
+      continue;
+    }
     // 数字の後の「日」「人」は、数によって読みが変わるので辞書より先に見る(7日=なのか、5人=ごにん)。
     // 数字の途中(「17日」の「7」)から始めないよう、前の文字が数字のときは見ない
     const counter = /\d/.test(text[i - 1] ?? "") ? null : counterAt(text, i);
@@ -56,8 +70,8 @@ export function tokenize(text: string): Segment[] {
  * 用語辞書を使い、表示側で変換する(元のprompt/choiceテキストは一切変更しない)。
  * 表示/非表示の切り替え自体はFuriganaコンポーネント側(CSSの data-furigana)が担う。
  */
-export function AutoFurigana({ text }: { text: string }) {
-  const segments = tokenize(text);
+export function AutoFurigana({ text, plain }: { text: string; plain?: string[] }) {
+  const segments = tokenize(text, plain);
 
   return (
     <>

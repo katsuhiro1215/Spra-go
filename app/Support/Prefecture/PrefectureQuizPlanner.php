@@ -277,7 +277,7 @@ class PrefectureQuizPlanner
         $prompt = match ($kind) {
             'foods' => "{$p['name']}の めいぶつは どれ？",
             'sights' => "{$p['name']}に あるのは どれ？",
-            default => "{$p['name']}の ゆうめいな おまつり・でんとう・人は どれ？",
+            default => "{$p['name']}の ゆうめいな おまつり・でんとう・人物は どれ？",
         };
 
         return self::choiceQuestion($key, $prompt, $text, $wrong);
