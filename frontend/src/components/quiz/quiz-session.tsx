@@ -37,6 +37,9 @@ import { streakLineBonusCoin } from "./streak-milestone";
 import { StreakMilestoneOverlay } from "./streak-milestone-overlay";
 import type { QuizQuestion } from "./types";
 
+/** はめ込みで、答えのカードを出すまでの待ち(ミリ秒)。枠ごとの○×と、正しい国旗を見せる時間 */
+const FIT_CARD_DELAY_MS = 2600;
+
 type EconomyDelta = { hp?: number; xp?: number; coin?: number; point?: number };
 type ComboInfo = { combo: number; combo_milestone_bonus_coin: number };
 type StreakInfo = {
@@ -172,6 +175,16 @@ export function QuizSession({
   const [shopItems, setShopItems] = useState<ShopListItem[]>([]);
   // 「もう一度」のたびに増やし、ステージ開始のカードを出し直す
   const [runId, setRunId] = useState(0);
+
+  // 国旗のはめ込みは、答えたあと少しの間、枠ごとの○×と正しい国旗を見せてから、答えのカードを出す(設計書 2026-10-05-flag-quiz 7-2)
+  const [cardShownFor, setCardShownFor] = useState<string | null>(null);
+  const slotsLayout = round[currentIndex]?.type === "matching" && round[currentIndex]?.meta?.layout === "slots";
+  useEffect(() => {
+    if (!answered) return;
+    const key = `${runId}:${mode}:${currentIndex}`;
+    const timer = setTimeout(() => setCardShownFor(key), slotsLayout ? FIT_CARD_DELAY_MS : 0);
+    return () => clearTimeout(timer);
+  }, [answered, runId, mode, currentIndex, slotsLayout]);
 
   useEffect(() => {
     // レベルアップの演出で「新しく買えるようになったアイテム」を見せるため
@@ -637,7 +650,7 @@ export function QuizSession({
         </div>
       </div>
       {/* 正解・不正解のカード(設計書2章の案A)。空は明るいまま、クリーム色のカードで知らせる。fixed の基準がずれないよう、問題のカードの外に置く */}
-      {answered && (
+      {answered && cardShownFor === `${runId}:${mode}:${currentIndex}` && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(143,212,233,0.55)] px-4">
           <div
             role="dialog"

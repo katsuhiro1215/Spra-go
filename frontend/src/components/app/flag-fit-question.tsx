@@ -93,8 +93,9 @@ export function FlagFitQuestion({ questionId, items, choices, answered, results,
                 answered && result && !result.correct && "border-solid border-[#c9573b] bg-[#fde6de]",
               )}
             >
-              <span className="flex items-center gap-1 text-base font-black text-[#3b3226]">
-                <span aria-hidden>{SLOT_MARKS[index]}</span>
+              {/* ふりがなの要素が別々のflexの子になって1文字ずつ折れないよう、ふつうの文として並べる */}
+              <span className="block text-base leading-snug font-black text-[#3b3226]">
+                <span aria-hidden>{SLOT_MARKS[index]} </span>
                 <AutoFurigana text={choice.label} />
               </span>
               {placed ? (
