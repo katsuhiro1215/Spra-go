@@ -17,6 +17,8 @@ import { apiFetch } from "@/lib/api";
 import { prefersReducedMotion } from "@/lib/motion";
 
 import { Ambience, TIME_THEME } from "./ambience";
+import { RoomView } from "@/components/room/room-view";
+
 import { BornOverlay } from "./born-overlay";
 import { CompanionSheet } from "./companion-sheet";
 import { pickLine, pickSpruTap, reviewGiverKey } from "./companions";
@@ -99,6 +101,8 @@ export function WorldScreen() {
   const [nightWokenAt, setNightWokenAt] = useState<number | null>(null);
   const [companionTalk, setCompanionTalk] = useState<{ key: string; at: number; line: string } | null>(null);
   const [born, setBorn] = useState<BornResult | null>(null);
+  // スプルの家の中(見るだけの部屋)
+  const [roomOpen, setRoomOpen] = useState(false);
   // 種まき・水やりの通信中は、続けて押しても送らない
   const [gardenBusy, setGardenBusy] = useState(false);
   // どの種をまく？(ふくろに種があるとき)
@@ -678,6 +682,7 @@ export function WorldScreen() {
               poppedItemId={poppedItemId}
               garden={world.garden}
               onGardenTap={handleGardenTap}
+              onHouseTap={() => setRoomOpen(true)}
               companions={world.companions}
               onCompanionTap={handleCompanionTap}
               companionTalk={talk}
@@ -782,6 +787,8 @@ export function WorldScreen() {
       )}
 
       {born && <BornOverlay born={born} onClose={handleBornClose} />}
+
+      {roomOpen && <RoomView sleeping={mood.sleeping} onWake={handleSpruTap} onClose={() => setRoomOpen(false)} />}
 
       {naming && (
         <NicknameDialog

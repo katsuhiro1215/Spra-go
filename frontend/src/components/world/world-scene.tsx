@@ -80,6 +80,8 @@ type TapTarget = {
   halfWidth: number;
   up: number;
   down: number;
+  /** スプルに関わるタップ(家)。ほかの操作として数えない(昼のうたた寝を起こさない) */
+  spru?: boolean;
 };
 
 // 奥(x+yが小さい)から手前へ並べる
@@ -142,6 +144,7 @@ export function WorldScene({
   poppedItemId,
   garden,
   onGardenTap,
+  onHouseTap,
   companions,
   onCompanionTap,
   companionTalk,
@@ -166,6 +169,8 @@ export function WorldScene({
   poppedItemId: number | null;
   garden: WorldGarden;
   onGardenTap: () => void;
+  /** スプルの家をタップしたとき(部屋を開く。設計書 2026-10-05-spru-room 6章)。なければ、家はタップできない */
+  onHouseTap?: () => void;
   companions: WorldCompanion[];
   onCompanionTap: (key: string) => void;
   companionTalk: { key: string; at: number; line: string } | null;
@@ -254,7 +259,9 @@ export function WorldScene({
       index,
     })),
     { kind: "spru" as const, id: "spru", ...at(land.spru.x, land.spru.y) },
-  ].sort(byDepth);
+  ]
+    .filter((o) => !(o.kind === "spru" && spru.sleeping))
+    .sort(byDepth);
 
   // 海は地図全体の下に描く(雲の区画も海の上に浮かぶ)
   const w = land.width;
@@ -316,9 +323,16 @@ export function WorldScene({
   const gardenTarget: TapTarget[] = readOnly
     ? []
     : [{ id: "garden-button", ...at(garden.x, garden.y), label: "畑", onTap: onGardenTap, halfWidth: 22, up: 36, down: 12 }];
+  // スプルの家は、地面と同じく目印なので、アイテム・仲間のタップより奥(最初)に置き、近くのタップをじゃましない
+  const house = land.landmarks.find((landmark) => landmark.key === "spru_house");
+  const houseTarget: TapTarget[] =
+    readOnly || !onHouseTap || !house
+      ? []
+      : [{ id: "house-button", ...at(house.x, house.y), label: "スプルの家(中をのぞく)", onTap: onHouseTap, halfWidth: 30, up: 52, down: 8, spru: true }];
   const tapTargets: TapTarget[] = placing
     ? []
     : [
+        ...houseTarget,
         ...itemTargets,
         ...placedCompanions.map((c) => ({
           id: `companion-button-${c.key}`,
@@ -551,6 +565,8 @@ export function WorldScene({
           );
         })}
 
+        {spru.sleeping && house && <SleepMark x={at(house.x, house.y).sx + 14} y={at(house.x, house.y).sy - 58} quiet={quiet} />}
+
         {preview && previewCenter && (
           <g transform={`translate(${previewCenter.sx} ${previewCenter.sy})`} opacity={0.6}>
             <ItemArt assetKey={preview.item.asset_key} />
@@ -588,6 +604,7 @@ export function WorldScene({
             type="button"
             aria-label={target.label}
             onClick={target.onTap}
+            data-spru={target.spru ? "" : undefined}
             className="absolute rounded-lg focus-visible:outline-3 focus-visible:outline-[#f2b632]"
             style={boxStyle(target.sx, target.sy, target.halfWidth, target.up, target.down)}
           />
@@ -620,28 +637,33 @@ export function WorldScene({
         );
       })}
 
-      <button
-        type="button"
-        data-spru
-        aria-label="スプル"
-        disabled={placing}
-        onClick={onSpruTap}
-        className="absolute rounded-full focus-visible:outline-3 focus-visible:outline-[#f2b632] disabled:pointer-events-none"
-        style={boxStyle(spruCenter.sx, spruCenter.sy, 20, 60, 6)}
-      />
+      {/* 寝ているスプルは家の中にいる(町には出ない)ので、押す範囲も、吹き出しも出さない。起こすのは、家の中の部屋でタップする */}
+      {!spru.sleeping && (
+        <button
+          type="button"
+          data-spru
+          aria-label="スプル"
+          disabled={placing}
+          onClick={onSpruTap}
+          className="absolute rounded-full focus-visible:outline-3 focus-visible:outline-[#f2b632] disabled:pointer-events-none"
+          style={boxStyle(spruCenter.sx, spruCenter.sy, 20, 60, 6)}
+        />
+      )}
 
       {/* 吹き出しは、上に重ねるにぎやか度の飾りや季節の舞うものより手前に出す */}
-      <div
-        className="pointer-events-none absolute z-10 flex max-w-[240px] -translate-x-[18%] -translate-y-full items-center gap-2 rounded-2xl bg-white py-1.5 pr-3 pl-1.5 text-[12.5px] leading-relaxed font-bold text-[#3b3226] shadow-[0_3px_10px_rgba(59,50,38,0.16)]"
-        style={{ left: `${bubble.left}%`, top: `${bubble.top}%` }}
-        aria-live="polite"
-      >
-        <SpruFace face={spru.face} size={28} />
-        <span>
-          <AutoFurigana text={spru.line} />
-        </span>
-        <span className="absolute -bottom-1.5 left-[18%] h-3 w-3 -translate-x-1/2 rotate-45 bg-white" />
-      </div>
+      {!spru.sleeping && (
+        <div
+          className="pointer-events-none absolute z-10 flex max-w-[240px] -translate-x-[18%] -translate-y-full items-center gap-2 rounded-2xl bg-white py-1.5 pr-3 pl-1.5 text-[12.5px] leading-relaxed font-bold text-[#3b3226] shadow-[0_3px_10px_rgba(59,50,38,0.16)]"
+          style={{ left: `${bubble.left}%`, top: `${bubble.top}%` }}
+          aria-live="polite"
+        >
+          <SpruFace face={spru.face} size={28} />
+          <span>
+            <AutoFurigana text={spru.line} />
+          </span>
+          <span className="absolute -bottom-1.5 left-[18%] h-3 w-3 -translate-x-1/2 rotate-45 bg-white" />
+        </div>
+      )}
 
       {/* 仲間の吹き出しは、隣に立つスプルの吹き出しより手前に出す */}
       {talking && talkPos && companionTalk && (
@@ -712,6 +734,25 @@ function ReviewMark({ x, y, quiet }: { x: number; y: number; quiet: boolean }) {
         <circle r={7.5} fill="#f28c28" stroke="#fff" strokeWidth={1.5} />
         <text y={3.8} textAnchor="middle" fontSize={11} fontWeight={900} fill="#fff">
           !
+        </text>
+      </g>
+    </g>
+  );
+}
+
+/** スプルの家の上の「z z z」。スプルが家の中で寝ているしるし(静かにしたいときは動かさない) */
+function SleepMark({ x, y, quiet }: { x: number; y: number; quiet: boolean }) {
+  return (
+    <g transform={`translate(${x} ${y})`} aria-hidden>
+      <g className={quiet ? undefined : "animate-spru-bob"}>
+        <text fontSize={12} fontWeight={900} fill="#ffffff" stroke="#5a4526" strokeWidth={0.6} paintOrder="stroke" x={0} y={0}>
+          z
+        </text>
+        <text fontSize={16} fontWeight={900} fill="#ffffff" stroke="#5a4526" strokeWidth={0.7} paintOrder="stroke" x={9} y={-9}>
+          z
+        </text>
+        <text fontSize={20} fontWeight={900} fill="#ffffff" stroke="#5a4526" strokeWidth={0.8} paintOrder="stroke" x={20} y={-20}>
+          z
         </text>
       </g>
     </g>
