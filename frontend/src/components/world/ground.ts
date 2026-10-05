@@ -47,3 +47,25 @@ export function decalOffset(x: number, y: number): { dx: number; dy: number } {
   const h = cellHash(y + 101, x + 53);
   return { dx: (h % 25) - 12, dy: ((h >>> 8) % 11) - 5 };
 }
+
+/**
+ * 道のふちの線(SVGの path の d)。道のマスの4辺のうち、隣が道でなく、開いた区画のマスである辺だけ。
+ * 辺は、奥の角 N(x,y)・右 E(x+1,y)・手前 S(x+1,y+1)・左 W(x,y+1) を結ぶ。
+ * 北東の辺=(x,y−1)、南東=(x+1,y)、南西=(x,y+1)、北西=(x−1,y) との境
+ */
+export function pathEdges(paths: [number, number][], isOpen: (x: number, y: number) => boolean): string[] {
+  const pathSet = new Set(paths.map(([x, y]) => `${x},${y}`));
+  const edges: string[] = [];
+  for (const [x, y] of paths) {
+    const sides: [number, number, string, string][] = [
+      [x, y - 1, corner(x, y), corner(x + 1, y)],
+      [x + 1, y, corner(x + 1, y), corner(x + 1, y + 1)],
+      [x, y + 1, corner(x + 1, y + 1), corner(x, y + 1)],
+      [x - 1, y, corner(x, y + 1), corner(x, y)],
+    ];
+    for (const [nx, ny, from, to] of sides) {
+      if (!pathSet.has(`${nx},${ny}`) && isOpen(nx, ny)) edges.push(`M${from} L${to}`);
+    }
+  }
+  return edges;
+}

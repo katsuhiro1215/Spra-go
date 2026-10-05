@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { decalAt, decalOffset, patternMatrix, plotPoints } from "./ground";
+import { decalAt, decalOffset, pathEdges, patternMatrix, plotPoints } from "./ground";
 
 describe("地面の絵の変形(設計書 2026-10-05-town-blend 3-1)", () => {
   it("4×4マスをおおう絵(512px)を、菱形に変形する行列", () => {
@@ -61,5 +61,27 @@ describe("小物の位置は座標から決まる", () => {
         expect(Math.abs(dy)).toBeLessThanOrEqual(5);
       }
     }
+  });
+});
+
+describe("道のふち(道が草地に接する辺だけ)", () => {
+  const open = () => true;
+
+  it("1マスだけの道は、4辺ぜんぶにふちが付く", () => {
+    expect(pathEdges([[2, 2]], open)).toHaveLength(4);
+  });
+
+  it("2マスが隣り合う道は、間の辺にはふちが付かない(8辺のうち6辺)", () => {
+    expect(pathEdges([[2, 2], [3, 2]], open)).toHaveLength(6);
+  });
+
+  it("地図の外・閉じた区画に接する辺には、ふちを付けない", () => {
+    const onlyThis = (x: number, y: number) => x === 2 && y === 2;
+    expect(pathEdges([[2, 2]], onlyThis)).toHaveLength(0);
+  });
+
+  it("線は、マスの辺の2つの角を結ぶ(例: (0,0)の奥の辺は上の角から右の角)", () => {
+    const edges = pathEdges([[0, 0]], (x, y) => x === 0 && y === -1);
+    expect(edges).toEqual(["M0,0 L32,16"]);
   });
 });
