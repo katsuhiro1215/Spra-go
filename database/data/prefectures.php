@@ -13,7 +13,7 @@
 | foods(4つ以上): 名物・特産(簡単なものから)／sights(4つ以上): 名所・自然・建物(簡単なものから)
 | culture(3つ以上): お祭り・伝統工芸・歴史・人物(簡単なものから)
 | hard(3つ以上): 難読地名。word(漢字)・reading(正しい読み)・wrong(ありがちな読みまちがい3つ)
-| 事実がそろった県(foods・sights・culture・hard)だけ、県のコースができる。いまは近畿の7県。
+| 事実がそろった県(foods・sights・culture・hard)だけ、県のコースができる。いまは近畿・関東の14県。
 | 事実の正しさ、県庁所在地、となりの県、難読地名の読みは、公開前にOwnerが確認する。
 |
 */
@@ -28,13 +28,90 @@ return [
         ['key' => 'yamagata', 'name' => '山形県', 'region' => 'hokkaido-tohoku', 'capital' => '山形市', 'neighbors' => ['akita', 'miyagi', 'fukushima', 'niigata']],
         ['key' => 'fukushima', 'name' => '福島県', 'region' => 'hokkaido-tohoku', 'capital' => '福島市', 'neighbors' => ['miyagi', 'yamagata', 'niigata', 'gunma', 'tochigi', 'ibaraki']],
 
-        ['key' => 'ibaraki', 'name' => '茨城県', 'region' => 'kanto', 'capital' => '水戸市', 'neighbors' => ['fukushima', 'tochigi', 'saitama', 'chiba']],
-        ['key' => 'tochigi', 'name' => '栃木県', 'region' => 'kanto', 'capital' => '宇都宮市', 'neighbors' => ['fukushima', 'ibaraki', 'saitama', 'gunma']],
-        ['key' => 'gunma', 'name' => '群馬県', 'region' => 'kanto', 'capital' => '前橋市', 'neighbors' => ['fukushima', 'tochigi', 'saitama', 'niigata', 'nagano']],
-        ['key' => 'saitama', 'name' => '埼玉県', 'region' => 'kanto', 'capital' => 'さいたま市', 'neighbors' => ['ibaraki', 'tochigi', 'gunma', 'chiba', 'tokyo', 'yamanashi', 'nagano']],
-        ['key' => 'chiba', 'name' => '千葉県', 'region' => 'kanto', 'capital' => '千葉市', 'neighbors' => ['ibaraki', 'saitama', 'tokyo']],
-        ['key' => 'tokyo', 'name' => '東京都', 'region' => 'kanto', 'capital' => '新宿区', 'neighbors' => ['saitama', 'chiba', 'kanagawa', 'yamanashi']],
-        ['key' => 'kanagawa', 'name' => '神奈川県', 'region' => 'kanto', 'capital' => '横浜市', 'neighbors' => ['tokyo', 'yamanashi', 'shizuoka']],
+        [
+            'key' => 'ibaraki', 'name' => '茨城県', 'region' => 'kanto', 'capital' => '水戸市',
+            'neighbors' => ['fukushima', 'tochigi', 'saitama', 'chiba'],
+            'foods' => ['納豆', '干しいも', 'メロン', 'れんこん'],
+            'sights' => ['筑波山', '偕楽園', '国営ひたち海浜公園', '牛久大仏'],
+            'culture' => ['水戸黄門', '笠間焼', '日立風流物'],
+            'hard' => [
+                ['word' => '潮来', 'reading' => 'いたこ', 'wrong' => ['しおき', 'ちょうらい', 'しおくる']],
+                ['word' => '取手', 'reading' => 'とりで', 'wrong' => ['とって', 'とりて', 'しゅしゅ']],
+                ['word' => '行方', 'reading' => 'なめがた', 'wrong' => ['ゆくえ', 'いきかた', 'ぎょうほう']],
+            ],
+        ],
+        [
+            'key' => 'tochigi', 'name' => '栃木県', 'region' => 'kanto', 'capital' => '宇都宮市',
+            'neighbors' => ['fukushima', 'ibaraki', 'saitama', 'gunma'],
+            'foods' => ['いちご', '宇都宮餃子', 'かんぴょう', '佐野ラーメン'],
+            'sights' => ['日光東照宮', '華厳の滝', '那須高原', '足利フラワーパーク'],
+            'culture' => ['益子焼', '日光彫', '那須与一'],
+            'hard' => [
+                ['word' => '鹿沼', 'reading' => 'かぬま', 'wrong' => ['しかぬま', 'ろくぬま', 'かのぬま']],
+                ['word' => '烏山', 'reading' => 'からすやま', 'wrong' => ['うやま', 'からすざん', 'とりやま']],
+                ['word' => '下野', 'reading' => 'しもつけ', 'wrong' => ['しもの', 'げや', 'しもずけ']],
+            ],
+        ],
+        [
+            'key' => 'gunma', 'name' => '群馬県', 'region' => 'kanto', 'capital' => '前橋市',
+            'neighbors' => ['fukushima', 'tochigi', 'saitama', 'niigata', 'nagano'],
+            'foods' => ['こんにゃく', '焼きまんじゅう', '下仁田ねぎ', '水沢うどん'],
+            'sights' => ['草津温泉', '富岡製糸場', '尾瀬', '伊香保温泉の石段'],
+            'culture' => ['高崎だるま', '上毛かるた', '新田義貞'],
+            'hard' => [
+                ['word' => '嬬恋', 'reading' => 'つまごい', 'wrong' => ['つまこい', 'じゅれん', 'おとこい']],
+                ['word' => '吾妻', 'reading' => 'あがつま', 'wrong' => ['あずま', 'わがつま', 'ごさい']],
+                ['word' => '邑楽', 'reading' => 'おうら', 'wrong' => ['ゆうらく', 'おおら', 'むらら']],
+            ],
+        ],
+        [
+            'key' => 'saitama', 'name' => '埼玉県', 'region' => 'kanto', 'capital' => 'さいたま市',
+            'neighbors' => ['ibaraki', 'tochigi', 'gunma', 'chiba', 'tokyo', 'yamanashi', 'nagano'],
+            'foods' => ['草加せんべい', '深谷ねぎ', '狭山茶', '川越のさつまいも'],
+            'sights' => ['川越の蔵造りの町並み', '秩父の芝桜', '鉄道博物館', '長瀞ライン下り'],
+            'culture' => ['秩父夜祭', '岩槻の人形', '渋沢栄一'],
+            'hard' => [
+                ['word' => '越谷', 'reading' => 'こしがや', 'wrong' => ['えつや', 'こしたに', 'こえたに']],
+                ['word' => '行田', 'reading' => 'ぎょうだ', 'wrong' => ['こうだ', 'ゆきた', 'いくた']],
+                ['word' => '蕨', 'reading' => 'わらび', 'wrong' => ['わらい', 'わらべ', 'かたばみ']],
+            ],
+        ],
+        [
+            'key' => 'chiba', 'name' => '千葉県', 'region' => 'kanto', 'capital' => '千葉市',
+            'neighbors' => ['ibaraki', 'saitama', 'tokyo'],
+            'foods' => ['落花生', 'びわ', 'なめろう', '銚子のしょうゆ'],
+            'sights' => ['東京ディズニーリゾート', '成田山新勝寺', '鋸山', '九十九里浜'],
+            'culture' => ['佐原の大祭', '伊能忠敬', '南総里見八犬伝'],
+            'hard' => [
+                ['word' => '木更津', 'reading' => 'きさらづ', 'wrong' => ['きこうづ', 'きさらつ', 'もくさらづ']],
+                ['word' => '我孫子', 'reading' => 'あびこ', 'wrong' => ['わがこ', 'わがんこ', 'がまご']],
+                ['word' => '匝瑳', 'reading' => 'そうさ', 'wrong' => ['はつさ', 'ちさ', 'たさ']],
+            ],
+        ],
+        [
+            'key' => 'tokyo', 'name' => '東京都', 'region' => 'kanto', 'capital' => '新宿区',
+            'neighbors' => ['saitama', 'chiba', 'kanagawa', 'yamanashi'],
+            'foods' => ['もんじゃ焼き', '江戸前寿司', 'くさや', '深川めし'],
+            'sights' => ['東京タワー', '東京スカイツリー', '浅草の雷門', '国会議事堂'],
+            'culture' => ['江戸切子', '三社祭', '神田祭'],
+            'hard' => [
+                ['word' => '小笠原', 'reading' => 'おがさわら', 'wrong' => ['こがさわら', 'おかさはら', 'こかさはら']],
+                ['word' => '青梅', 'reading' => 'おうめ', 'wrong' => ['あおうめ', 'せいばい', 'あおばい']],
+                ['word' => '御徒町', 'reading' => 'おかちまち', 'wrong' => ['おとちょう', 'ごとまち', 'おかちちょう']],
+            ],
+        ],
+        [
+            'key' => 'kanagawa', 'name' => '神奈川県', 'region' => 'kanto', 'capital' => '横浜市',
+            'neighbors' => ['tokyo', 'yamanashi', 'shizuoka'],
+            'foods' => ['シウマイ', '三崎のまぐろ', '小田原かまぼこ', '湘南のしらす'],
+            'sights' => ['横浜中華街', '箱根の大涌谷', '鎌倉の大仏', '江の島'],
+            'culture' => ['箱根寄木細工', '小田原提灯', '源頼朝'],
+            'hard' => [
+                ['word' => '厚木', 'reading' => 'あつぎ', 'wrong' => ['あつき', 'あつぼく', 'こうぼく']],
+                ['word' => '座間', 'reading' => 'ざま', 'wrong' => ['すわま', 'ざかん', 'くらま']],
+                ['word' => '秦野', 'reading' => 'はだの', 'wrong' => ['はたの', 'しんの', 'はたや']],
+            ],
+        ],
 
         ['key' => 'niigata', 'name' => '新潟県', 'region' => 'chubu', 'capital' => '新潟市', 'neighbors' => ['yamagata', 'fukushima', 'gunma', 'nagano', 'toyama']],
         ['key' => 'toyama', 'name' => '富山県', 'region' => 'chubu', 'capital' => '富山市', 'neighbors' => ['niigata', 'nagano', 'gifu', 'ishikawa']],
