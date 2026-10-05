@@ -42,15 +42,14 @@ it('となりの県は47県の中にあり、互いにそろっていて、自�
     expect($all['okinawa']['neighbors'])->toBe([]);
 });
 
-it('事実がそろった県は、いまは近畿・関東・中部・九州沖縄の31県(地方を足すたびに、ここを直す)', function () {
-    $ready = collect(PrefectureCatalog::all())->filter(fn ($p) => PrefectureCatalog::isReady($p));
+it('事実がそろった県は、いまは中国・四国をのぞく5地方の38県(地方を足すたびに、ここを直す)', function () {
+    $all = collect(PrefectureCatalog::all());
+    $ready = $all->filter(fn ($p) => PrefectureCatalog::isReady($p));
 
-    expect($ready->keys()->sort()->values()->all())->toBe([
-        'aichi', 'chiba', 'fukui', 'fukuoka', 'gifu', 'gunma', 'hyogo', 'ibaraki', 'ishikawa', 'kagoshima', 'kanagawa', 'kumamoto', 'kyoto', 'mie',
-        'miyazaki', 'nagano', 'nagasaki', 'nara', 'niigata', 'oita', 'okinawa', 'osaka', 'saga', 'saitama', 'shiga', 'shizuoka', 'tochigi', 'tokyo',
-        'toyama', 'wakayama', 'yamanashi',
-    ]);
-    expect($ready->pluck('region')->unique()->sort()->values()->all())->toBe(['chubu', 'kanto', 'kinki', 'kyushu-okinawa']);
+    expect($ready)->toHaveCount(38);
+    expect($ready->pluck('region')->unique()->sort()->values()->all())->toBe(['chubu', 'hokkaido-tohoku', 'kanto', 'kinki', 'kyushu-okinawa']);
+    // 残りは、中国・四国の9県
+    expect($all->reject(fn ($p) => PrefectureCatalog::isReady($p))->pluck('region')->unique()->values()->all())->toBe(['chugoku-shikoku']);
 });
 
 it('事実がそろった県は、事実に重複がなく、難読地名のまちがいの読みが3つで重ならない', function () {
