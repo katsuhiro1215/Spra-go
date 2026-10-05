@@ -19,6 +19,7 @@ import { StagePath } from "@/components/app/stage-path";
 import { CourseSelect, type Course } from "@/components/quiz/course-select";
 import { apiFetch } from "@/lib/api";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
+import { courseSelectPrompt } from "@/lib/prefecture-quiz";
 
 type Category = {
   is_course_group: boolean;
@@ -135,10 +136,14 @@ export default function Page({
         <AppHeader />
         <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col gap-8 px-6 py-12 pb-24">
           <div>
-            <BackLink href="/learn" label="学ぶにもどる" />
+            {courseParent ? (
+              <BackLink href={`/play/${courseParent.id}`} label={`${courseParent.name}にもどる`} />
+            ) : (
+              <BackLink href="/learn" label="学ぶにもどる" />
+            )}
             <SkyTitle className="mt-2 text-3xl">{category.name}</SkyTitle>
             <SkyText muted className="mt-1 text-sm">
-              <AutoFurigana text="どの大陸にする？" />
+              <AutoFurigana text={courseSelectPrompt(category, category.parent_id !== null)} />
             </SkyText>
           </div>
           {courses === null ? <SpruLoading /> : <CourseSelect courses={courses} />}

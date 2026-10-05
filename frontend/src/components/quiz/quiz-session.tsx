@@ -15,7 +15,7 @@ import { OrderingQuestion } from "@/components/app/ordering-question";
 import { answerHeadline, choiceTone } from "@/components/app/palette";
 import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage } from "@/components/app/sky-page";
-import { SortingQuestion } from "@/components/app/sorting-question";
+import { SortingQuestion, type SortingItem } from "@/components/app/sorting-question";
 import { ReportQuestion } from "@/components/quiz/report-question";
 import { useSound } from "@/components/app/sound-provider";
 import { bloomOf, type Bloom } from "@/components/spru/bloom";
@@ -567,7 +567,7 @@ export function QuizSession({
               )
             )}
             <h1 className="mt-2 text-xl font-black">
-              <AutoFurigana text={question.prompt} />
+              <AutoFurigana text={question.prompt} plain={question.meta?.plain} />
             </h1>
           </div>
 
@@ -600,7 +600,7 @@ export function QuizSession({
             />
           ) : question.type === "sorting" ? (
             <SortingQuestion
-              items={question.meta?.items ?? []}
+              items={(question.meta?.items ?? []) as SortingItem[]}
               baskets={question.meta?.baskets ?? []}
               answered={answered}
               submitting={submitting}

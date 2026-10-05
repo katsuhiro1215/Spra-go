@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  type FitItem,
   SLOT_MARKS,
   correctItemId,
   emptySlots,
@@ -89,5 +90,31 @@ describe("はめ込み(国旗を番号の枠に入れる)", () => {
 
   it("番号の印は、①〜④", () => {
     expect(SLOT_MARKS).toEqual(["①", "②", "③", "④"]);
+  });
+});
+
+describe("はめ込み(文字の項目。都道府県クイズの県庁所在地)", () => {
+  it("項目が絵でなく文字でも、番号で、同じように入れる・戻す・送る", () => {
+    const items: FitItem[] = [
+      { id: "osaka", text: "大阪市" },
+      { id: "hyogo", text: "神戸市" },
+      { id: "nara", text: "奈良市" },
+      { id: "mie", text: "津市" },
+    ];
+    let slots = emptySlots(4);
+    slots = placeFlag(slots, items[1].id);
+    slots = placeFlag(slots, items[3].id);
+    expect(unplacedItems(items, slots).map((item) => item.text)).toEqual(["大阪市", "奈良市"]);
+
+    slots = removeFlag(slots, "hyogo");
+    expect(slots).toEqual([null, "mie", null, null]);
+    slots = placeFlag(placeFlag(placeFlag(slots, "osaka"), "nara"), "hyogo");
+    const choices = [1, 2, 3, 4].map((id) => ({ id, label: `県${id}` }));
+    expect(slotAnswers(slots, choices)).toEqual([
+      { item_id: "osaka", choice_id: 1 },
+      { item_id: "mie", choice_id: 2 },
+      { item_id: "nara", choice_id: 3 },
+      { item_id: "hyogo", choice_id: 4 },
+    ]);
   });
 });

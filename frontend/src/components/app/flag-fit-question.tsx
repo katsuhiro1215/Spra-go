@@ -38,6 +38,23 @@ function Flag({ src, className }: { src: string; className?: string }) {
   );
 }
 
+/** 枠に入れるもの。国旗なら絵、都道府県クイズの県庁所在地なら文字(同じ3:2の大きさ) */
+function Piece({ item, className }: { item: MatchingItem; className?: string }) {
+  if (item.image) return <Flag src={item.image} className={className} />;
+  return (
+    <span
+      className={cn(
+        "flex aspect-[3/2] items-center justify-center rounded-sm border border-[#e8dfcf] bg-white px-1 text-center text-sm leading-snug font-black text-[#3b3226]",
+        className,
+      )}
+    >
+      <span className="block">
+        <AutoFurigana text={item.text ?? ""} />
+      </span>
+    </span>
+  );
+}
+
 /**
  * 国旗のはめ込み(docs/design/2026-10-05-flag-quiz-design.md 7-2)。
  * 上に番号つきの国名の枠。下の国旗をタップすると、いちばん上の空いている枠に入る。入れた国旗をタップすると戻る。
@@ -50,6 +67,8 @@ export function FlagFitQuestion({ questionId, items, choices, answered, results,
   const resultByItem = new Map((results ?? []).map((result) => [result.item_id, result]));
   const full = slotsFull(slots);
   const remaining = unplacedItems(tray, slots);
+  // 国旗の絵か、文字(県庁所在地)か。言葉を合わせる
+  const thing = items.some((item) => item.image) ? "国旗" : "答え";
 
   function submit(next: (string | null)[]) {
     if (answered || submitting) return;
@@ -85,7 +104,7 @@ export function FlagFitQuestion({ questionId, items, choices, answered, results,
               type="button"
               disabled={answered || submitting || placedId === null}
               onClick={() => handleSlotTap(placedId)}
-              aria-label={placed ? `${SLOT_MARKS[index]} ${choice.label}。入れた国旗を戻す` : `${SLOT_MARKS[index]} ${choice.label}。国旗を入れる枠`}
+              aria-label={placed ? `${SLOT_MARKS[index]} ${choice.label}。入れた${thing}を戻す` : `${SLOT_MARKS[index]} ${choice.label}。${thing}を入れる枠`}
               className={cn(
                 "flex flex-col items-center gap-2 rounded-xl border-2 border-b-4 border-dashed bg-white p-3 text-center transition-colors disabled:pointer-events-none",
                 placed ? "border-solid border-[#2b6fa3] bg-[#e6f1f9]" : "border-[#c9b98f]",
@@ -99,7 +118,7 @@ export function FlagFitQuestion({ questionId, items, choices, answered, results,
                 <AutoFurigana text={choice.label} />
               </span>
               {placed ? (
-                <Flag src={placed.image} className="w-24" />
+                <Piece item={placed} className="w-24" />
               ) : (
                 <span className="flex aspect-[3/2] w-24 items-center justify-center rounded-sm border-2 border-dashed border-[#c9b98f] text-xl text-[#c9b98f]" aria-hidden>
                   ？
@@ -112,8 +131,8 @@ export function FlagFitQuestion({ questionId, items, choices, answered, results,
               )}
               {correctItem && (
                 <span className="flex flex-col items-center gap-1 text-[11px] font-bold text-[#6b5d45]">
-                  <AutoFurigana text="正しい国旗" />
-                  <Flag src={correctItem.image} className="w-16" />
+                  <AutoFurigana text={`正しい${thing}`} />
+                  <Piece item={correctItem} className="w-16" />
                 </span>
               )}
             </button>
@@ -124,7 +143,7 @@ export function FlagFitQuestion({ questionId, items, choices, answered, results,
       {!answered && (
         <div className="flex flex-col gap-2">
           <p className="text-center text-xs font-bold text-[#6b5d45]">
-            <AutoFurigana text="国旗をタップして、枠に入れよう" />
+            <AutoFurigana text={`${thing}をタップして、枠に入れよう`} />
           </p>
           <div className="grid min-h-16 grid-cols-2 gap-3 sm:grid-cols-4">
             {remaining.map((item) => (
@@ -133,10 +152,10 @@ export function FlagFitQuestion({ questionId, items, choices, answered, results,
                 type="button"
                 disabled={submitting}
                 onClick={() => handleFlagTap(item.id)}
-                aria-label="国旗を枠に入れる"
+                aria-label={`${thing}を枠に入れる`}
                 className="flex items-center justify-center rounded-xl border-2 border-b-4 border-[#e8dfcf] bg-white p-2 transition-transform active:translate-y-0.5 disabled:opacity-60"
               >
-                <Flag src={item.image} className="w-24" />
+                <Piece item={item} className="w-24" />
               </button>
             ))}
           </div>
