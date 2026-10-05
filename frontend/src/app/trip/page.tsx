@@ -17,6 +17,7 @@ import { DestinationSheet } from "@/components/travel/destination-sheet";
 import { hubLine } from "@/components/travel/travel";
 import { TravelMap } from "@/components/travel/travel-map";
 import type { DepartResult, Destination, TravelData } from "@/components/travel/types";
+import { roadName } from "@/components/travel/road";
 import { apiFetch } from "@/lib/api";
 import { prefersReducedMotion } from "@/lib/motion";
 
@@ -27,6 +28,8 @@ export default function Page() {
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [roadBusy, setRoadBusy] = useState(false);
+  const [roadMessage, setRoadMessage] = useState<string | null>(null);
   const [departing, setDeparting] = useState<{ destination: Destination; reduced: boolean } | null>(null);
 
   useEffect(() => {
@@ -50,6 +53,30 @@ export default function Page() {
   const handleArrived = useCallback(() => {
     if (departingKey) router.push(`/trip/${departingKey}`);
   }, [departingKey, router]);
+
+  // 町の道を選ぶ(設計書 2026-10-05-road-style 4-3)。選べるのは日本と、着いた国だけ(サーバーも確かめる)
+  async function selectRoad(style: string) {
+    setRoadBusy(true);
+    setRoadMessage(null);
+    try {
+      const res = await apiFetch("/api/world/road", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ style }),
+      });
+      const body = await res.json().catch(() => null);
+      if (!res.ok) {
+        setRoadMessage(body?.message ?? "通信エラーが発生しました。");
+        return;
+      }
+      setTravel((prev) => (prev ? { ...prev, road_style: body.road_style } : prev));
+      setRoadMessage(style === "jp" ? "町の道を、日本の道にもどしたよ" : `町の道を、${roadName(style)}にしたよ`);
+    } catch {
+      setRoadMessage("通信エラーが発生しました。");
+    } finally {
+      setRoadBusy(false);
+    }
+  }
 
   async function depart(destination: Destination) {
     setBusy(true);
@@ -106,6 +133,7 @@ export default function Page() {
             line={hubLine(travel)}
             onSelect={(destination) => {
               setError(null);
+              setRoadMessage(null);
               setOpenKey(destination.key);
             }}
           />
@@ -118,6 +146,10 @@ export default function Page() {
           ticketHint={travel?.ticket_hint ?? null}
           busy={busy}
           error={error}
+          roadStyle={travel?.road_style ?? "jp"}
+          roadBusy={roadBusy}
+          roadMessage={roadMessage}
+          onSelectRoad={selectRoad}
           onDepart={() => depart(open)}
           onGo={() => router.push(`/trip/${open.key}`)}
           onClose={() => setOpenKey(null)}

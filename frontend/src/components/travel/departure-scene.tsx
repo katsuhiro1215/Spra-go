@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { AssetImage } from "@/components/app/asset-image";
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { GROUND_ART, type GroundArtKey } from "@/components/world/ground-art";
 import { OutingImage } from "@/components/spru/outing-image";
 
 import { departureCaption, departurePhase, departureStart, vehicleImage, type DeparturePhase } from "./travel";
@@ -109,6 +110,11 @@ export function DepartureScene({ destination, reduced, onDone }: { destination: 
             {destination.greeting.text}
             <span className="ml-2 text-xs text-[#6b5d45]">({destination.greeting.reading})</span>
           </p>
+          {GROUND_ART[`road_${destination.key}` as GroundArtKey] && (
+            <p className="rounded-full bg-white/70 px-4 py-1 text-sm font-black text-[#2b5d7a]">
+              <AutoFurigana text={`${destination.name}の道が、町で使えるようになったよ`} />
+            </p>
+          )}
         </div>
       )}
     </div>

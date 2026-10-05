@@ -2,10 +2,13 @@
 
 import { Plane, Ship, Ticket } from "lucide-react";
 
+import { AssetImage } from "@/components/app/asset-image";
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { GROUND_ART, type GroundArtKey } from "@/components/world/ground-art";
 import { ItemIcon } from "@/components/world/item-art";
 
 import { Flag } from "./flag";
+import { roadChoice, roadName } from "./road";
 import { ticketHintText, transportText } from "./travel";
 import type { Destination } from "./types";
 
@@ -17,6 +20,10 @@ export function DestinationSheet({
   ticketHint,
   busy,
   error,
+  roadStyle,
+  roadBusy,
+  roadMessage,
+  onSelectRoad,
   onDepart,
   onGo,
   onClose,
@@ -25,6 +32,11 @@ export function DestinationSheet({
   ticketHint: string | null;
   busy: boolean;
   error: string | null;
+  /** 今の町の道(日本は 'jp')と、道を変えている通信中か、変えたあとの一言(設計書 2026-10-05-road-style 4-3) */
+  roadStyle: string;
+  roadBusy: boolean;
+  roadMessage: string | null;
+  onSelectRoad: (style: string) => void;
   onDepart: () => void;
   onGo: () => void;
   onClose: () => void;
@@ -115,6 +127,13 @@ export function DestinationSheet({
                 </li>
               ))}
             </ul>
+            <RoadChoice
+              destinationKey={destination.key}
+              roadStyle={roadStyle}
+              busy={roadBusy}
+              message={roadMessage}
+              onSelect={onSelectRoad}
+            />
             <button
               type="button"
               onClick={onGo}
@@ -131,6 +150,55 @@ export function DestinationSheet({
           </p>
         )}
       </div>
+    </div>
+  );
+}
+
+/** 着いた国の道を、町の道にする(絵がない国には出さない)。選んでいる国には印と、日本の道にもどすボタン */
+function RoadChoice({
+  destinationKey,
+  roadStyle,
+  busy,
+  message,
+  onSelect,
+}: {
+  destinationKey: string;
+  roadStyle: string;
+  busy: boolean;
+  message: string | null;
+  onSelect: (style: string) => void;
+}) {
+  const art = GROUND_ART[`road_${destinationKey}` as GroundArtKey];
+  const choice = roadChoice(destinationKey, roadStyle, !!art);
+  if (choice === "none" || !art) return null;
+  return (
+    <div className="flex flex-col gap-2 rounded-xl bg-[#f5efe1] p-3">
+      <div className="flex items-center gap-3">
+        <AssetImage asset={{ src: art.src, width: art.size, height: art.size }} size={48} className="rounded-xl" />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <span className="text-sm font-black">
+            <AutoFurigana text={roadName(destinationKey)} />
+          </span>
+          {choice === "selected" && (
+            <span className="text-[11px] font-black text-[#3b7f26]">
+              <AutoFurigana text="いまの町の道" />
+            </span>
+          )}
+        </div>
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => onSelect(choice === "selected" ? "jp" : destinationKey)}
+          className="h-10 shrink-0 rounded-xl bg-[#efe5cf] px-3 text-sm font-black disabled:opacity-60"
+        >
+          <AutoFurigana text={choice === "selected" ? "日本の道にもどす" : "この国の道にする"} />
+        </button>
+      </div>
+      {message && (
+        <p role="status" className="text-center text-xs font-black text-[#3b7f26]">
+          <AutoFurigana text={message} />
+        </p>
+      )}
     </div>
   );
 }
