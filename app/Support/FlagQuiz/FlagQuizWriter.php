@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Stage;
+use App\Support\QuestionExplanation;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -134,6 +135,7 @@ class FlagQuizWriter
             'prompt' => $spec['prompt'],
             'order' => $order,
             'meta' => self::questionMeta($spec),
+            'explanation' => QuestionExplanation::normalize($spec['explanation'] ?? null),
         ];
 
         $question = $existing[$spec['key']] ?? null;
