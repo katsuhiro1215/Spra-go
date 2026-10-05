@@ -12,6 +12,7 @@ export type GroundArtKey = Ground | "path" | "grove" | "meadow";
 export const GROUND_ART: Partial<Record<GroundArtKey, GroundArt>> = {
   grass: { src: "/spru/ground/grass_town.webp", size: 512 },
   path: { src: "/spru/ground/path.webp", size: 512 },
+  meadow: { src: "/spru/ground/meadow.webp", size: 512 },
 };
 
 /** 地面の上にばらまく小物(真上から見た絵)。シートが届いたら足す。空なら、小物は出ない */

@@ -63,10 +63,14 @@ def main() -> None:
         if not src.exists():
             print(f"飛ばした(元の絵がまだ無い): {key} ← {rel}")
             continue
-        img = seamless(Image.open(src))
+        raw = Image.open(src).convert("RGB").resize((SIZE, SIZE), Image.LANCZOS)
+        # もともとつながっている絵(比が1以下)は、そのまま使う。つながっていない絵だけ、なじませる
+        raw_ratio = edge_ratio(raw)
+        img = raw if raw_ratio <= 1.0 else seamless(raw)
         out = OUT / f"{key}.webp"
         img.save(out, "WEBP", quality=85)
-        print(f"{key}: {out.stat().st_size // 1024}KB つなぎ目の比 {edge_ratio(img):.2f}")
+        note = "もともとつながっている" if img is raw else f"なじませた(元は{raw_ratio:.2f})"
+        print(f"{key}: {out.stat().st_size // 1024}KB つなぎ目の比 {edge_ratio(img):.2f} {note}")
 
 
 if __name__ == "__main__":
