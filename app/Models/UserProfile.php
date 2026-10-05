@@ -297,6 +297,11 @@ class UserProfile extends Model
         return $this->hasMany(ProfileSouvenir::class);
     }
 
+    public function zukan(): HasMany
+    {
+        return $this->hasMany(ProfileZukan::class);
+    }
+
     /**
      * @param  array<string,int>  $deltas  type(hp/coin/xp/point) => delta
      * @return array{leveled_up: bool, deltas: array<string,int>}
