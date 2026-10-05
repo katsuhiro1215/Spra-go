@@ -231,7 +231,7 @@ it('3つ目を受け取ると、おまけの+30も付く', function () {
     $this->postJson('/api/errands/2/claim')->assertJsonPath('gained.bonus', 0);
     $this->postJson('/api/errands/3/claim')->assertOk()
         ->assertJsonPath('gained.bonus', 30)
-        ->assertJsonPath('errands.bonus', ['amount' => 30, 'claimed' => true]);
+        ->assertJsonPath('errands.bonus', ['amount' => 30, 'claimed' => true, 'gift_left' => 14]);
 
     expect($profile->fresh()->points)->toBe(90)
         ->and($profile->currencyLedger()->where('reason', 'errand_bonus')->count())->toBe(1);
@@ -269,4 +269,60 @@ it('無い番号のおつかいは見つからない', function () {
     createActiveProfile();
 
     $this->postJson('/api/errands/4/claim')->assertNotFound();
+});
+
+// パンとやさいのずかん(docs/design/2026-10-05-bread-zukan-design.md)
+it('3つ目を受け取ると、ずかんのおくりものが1つ付く。1つ目・2つ目では付かない', function () {
+    $profile = createActiveProfile();
+    recordErrandCorrect($profile, 10);
+    recordErrandStageClear($profile);
+
+    $this->postJson('/api/errands/1/claim')->assertOk()->assertJsonPath('gift', null);
+    $this->postJson('/api/errands/2/claim')->assertOk()->assertJsonPath('gift', null);
+    expect($profile->zukan()->count())->toBe(0);
+
+    $response = $this->postJson('/api/errands/3/claim')->assertOk()
+        ->assertJsonPath('gained', ['points' => 20, 'bonus' => 30, 'bond' => 0])
+        ->assertJsonStructure(['gift' => ['key', 'name', 'english', 'kind']]);
+
+    expect($profile->zukan()->pluck('item_key')->all())->toBe([$response->json('gift.key')]);
+});
+
+it('同じおつかいをもう一度受け取ろうとしても、おくりものは増えない', function () {
+    $profile = createActiveProfile();
+    recordErrandCorrect($profile, 10);
+    recordErrandStageClear($profile);
+    foreach ([1, 2, 3] as $slot) {
+        $this->postJson("/api/errands/{$slot}/claim")->assertOk();
+    }
+
+    $this->postJson('/api/errands/3/claim')->assertStatus(422)->assertJsonPath('message', 'もう受け取ったよ');
+
+    expect($profile->zukan()->count())->toBe(1);
+});
+
+it('ずかんが15個そろっている日は、おくりものは null で、ポイントとおまけは今までどおり', function () {
+    $profile = createActiveProfile();
+    foreach (array_keys(config('zukan.items')) as $key) {
+        $profile->zukan()->create(['item_key' => $key, 'received_at' => now()]);
+    }
+    recordErrandCorrect($profile, 10);
+    recordErrandStageClear($profile);
+
+    $this->postJson('/api/errands/1/claim')->assertOk();
+    $this->postJson('/api/errands/2/claim')->assertOk();
+    $this->postJson('/api/errands/3/claim')->assertOk()
+        ->assertJsonPath('gift', null)
+        ->assertJsonPath('gained.bonus', 30)
+        ->assertJsonPath('errands.bonus.gift_left', 0);
+
+    expect($profile->zukan()->count())->toBe(15)->and($profile->fresh()->points)->toBe(90);
+});
+
+it('町の窓口のおつかいに、あと何個贈れるか(gift_left)が出る', function () {
+    $profile = createActiveProfile();
+    $profile->zukan()->create(['item_key' => 'melon_bread', 'received_at' => now()]);
+    $profile->zukan()->create(['item_key' => 'anpan', 'received_at' => now()]);
+
+    $this->getJson('/api/world')->assertOk()->assertJsonPath('errands.bonus.gift_left', 13);
 });

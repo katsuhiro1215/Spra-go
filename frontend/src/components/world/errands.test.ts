@@ -20,7 +20,7 @@ const errand = (overrides: Partial<WorldErrand> = {}): WorldErrand => ({
   giver: { kind: "spru", key: null, name: "スプル" },
   ...overrides,
 });
-const errands = (items: WorldErrand[]): WorldErrands => ({ date: "2026-09-27", items, bonus: { amount: 30, claimed: false } });
+const errands = (items: WorldErrand[]): WorldErrands => ({ date: "2026-09-27", items, bonus: { amount: 30, claimed: false, gift_left: 15 } });
 const garden: WorldGarden = {
   x: 1,
   y: 2,

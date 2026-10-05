@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
+import { AssetImage } from "@/components/app/asset-image";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { OutingImage } from "@/components/spru/outing-image";
 import { prefersReducedMotion } from "@/lib/motion";
+import { zukanImage } from "@/lib/zukan";
 
 import { heartsText } from "./companions";
 import type { ErrandClaimResult, WorldErrand } from "./types";
@@ -12,12 +15,13 @@ import type { ErrandClaimResult, WorldErrand } from "./types";
 // 走ってくる動き(globals.css の outing-run-in)と同じ長さ
 const RUN_MS = 800;
 
-type Step = "run" | "reward" | "bonus";
+type Step = "run" | "reward" | "bonus" | "gift";
 
 const BUTTON = "mt-1 h-[52px] w-full rounded-2xl bg-[#3b7f26] text-base font-black text-white shadow-[0_4px_0_#285a19]";
 
 /** ［受け取る］の場面。リュックのスプルが走って帰ってきて、持っているものを見せる(設計書5-2) */
 export function ErrandReturn({ errand, result, onClose }: { errand: WorldErrand; result: ErrandClaimResult; onClose: () => void }) {
+  const router = useRouter();
   const [step, setStep] = useState<Step>("run");
 
   useEffect(() => {
@@ -26,6 +30,8 @@ export function ErrandReturn({ errand, result, onClose }: { errand: WorldErrand;
   }, []);
 
   const partner = result.partner;
+  const gift = result.gift;
+  const giftImage = gift ? zukanImage(gift.key) : null;
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-[rgba(38,48,28,0.55)] px-4">
       <div
@@ -83,8 +89,33 @@ export function ErrandReturn({ errand, result, onClose }: { errand: WorldErrand;
             <p className="text-2xl font-black text-[#2e6b1c]">
               <AutoFurigana text={`おまけ +${result.gained.bonus}pt`} />
             </p>
-            <button type="button" onClick={onClose} className={BUTTON}>
-              <AutoFurigana text="やったね" />
+            <button type="button" onClick={() => (gift ? setStep("gift") : onClose())} className={BUTTON}>
+              <AutoFurigana text={gift ? "つぎへ" : "やったね"} />
+            </button>
+          </>
+        )}
+        {step === "gift" && gift && (
+          <>
+            {giftImage && <AssetImage asset={giftImage} size={120} className="animate-spru-hop" />}
+            <h2 id="errand-return-title" className="text-xl font-black text-[#2e6b1c]">
+              <AutoFurigana text="パン屋さんから おくりもの！" />
+            </h2>
+            <p className="text-2xl font-black text-[#2e6b1c]">
+              <AutoFurigana text={gift.name} />
+            </p>
+            <p className="-mt-2 text-base font-bold text-[#6b5d45]">{gift.english}</p>
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                router.push("/zukan");
+              }}
+              className={BUTTON}
+            >
+              <AutoFurigana text="ずかんを見る" />
+            </button>
+            <button type="button" onClick={onClose} className="h-10 text-sm font-bold text-[#6b5d45]">
+              <AutoFurigana text="とじる" />
             </button>
           </>
         )}

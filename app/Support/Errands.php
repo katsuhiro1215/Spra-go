@@ -60,7 +60,7 @@ class Errands
         return min($count, $errand->target);
     }
 
-    /** @return array{date: string, items: list<array<string, mixed>>, bonus: array{amount: int, claimed: bool}} */
+    /** @return array{date: string, items: list<array<string, mixed>>, bonus: array{amount: int, claimed: bool, gift_left: int}} */
     public static function state(UserProfile $profile): array
     {
         $errands = self::today($profile);
@@ -81,6 +81,8 @@ class Errands
             'bonus' => [
                 'amount' => config('world.errands.bonus'),
                 'claimed' => $errands->every(fn (ProfileErrand $errand) => $errand->claimed_at !== null),
+                // ずかんにまだ贈れる物の数(0なら、おくりものは出ない。docs/design/2026-10-05-bread-zukan-design.md)
+                'gift_left' => max(0, count(Zukan::items()) - $profile->zukan()->count()),
             ],
         ];
     }
@@ -88,7 +90,7 @@ class Errands
     /**
      * おつかいのごほうびを渡す。呼び出し側で、プロフィールを lockForUpdate してから呼ぶ。
      *
-     * @return array{errands: array, points: int, gained: array{points: int, bonus: int, bond: int}, partner: ?array}
+     * @return array{errands: array, points: int, gained: array{points: int, bonus: int, bond: int}, partner: ?array, gift: ?array}
      */
     public static function claim(UserProfile $profile, int $slot): array
     {
@@ -102,9 +104,12 @@ class Errands
         $profile->applyEconomy(['point' => $reward], 'errand');
 
         $bonus = 0;
+        $gift = null;
         if (self::today($profile)->every(fn (ProfileErrand $e) => $e->claimed_at !== null)) {
             $bonus = config('world.errands.bonus');
             $profile->applyEconomy(['point' => $bonus], 'errand_bonus');
+            // パン屋さんからのおくりもの(ずかん)。おまけと同じ日に1回だけ
+            $gift = Zukan::gift($profile);
         }
 
         // 相棒のなかよし度は、受け取った時点の相棒に足す
@@ -115,6 +120,7 @@ class Errands
             'points' => $profile->points,
             'gained' => ['points' => $reward, 'bonus' => $bonus, 'bond' => $partner ? config('world.errands.partner_bond') : 0],
             'partner' => $partner,
+            'gift' => $gift,
         ];
     }
 
