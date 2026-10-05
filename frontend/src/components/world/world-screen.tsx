@@ -665,6 +665,7 @@ export function WorldScreen() {
           <TownMap land={world.land} focus={focus}>
             <WorldScene
               land={world.land}
+              roadStyle={world.road_style}
               items={world.items}
               validTiles={validTiles}
               placing={placing}

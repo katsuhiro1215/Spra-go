@@ -64,6 +64,8 @@ export type WorldProfile = {
 
 export type WorldData = {
   land: WorldLand;
+  /** 町の道のデザイン。日本は 'jp'、旅した国は行き先のキー(設計書 2026-10-05-road-style) */
+  road_style: string;
   items: WorldItem[];
   bag: WorldItem[];
   profile: WorldProfile;
@@ -206,6 +208,7 @@ export type FamilyMember = { id: number; name: string; level: number; greeted_to
 export type FamilyTown = {
   profile: { id: number; name: string; level: number };
   land: WorldLand;
+  road_style: string;
   items: WorldItem[];
   spru: { growth: number };
   garden: Pick<WorldGarden, "x" | "y" | "state" | "look">;

@@ -32,7 +32,7 @@ export type Destination = {
   greeting: { text: string; reading: string };
 };
 
-export type TravelData = { level: number; tickets: number; ticket_hint: string | null; destinations: Destination[] };
+export type TravelData = { level: number; road_style: string; tickets: number; ticket_hint: string | null; destinations: Destination[] };
 
 export type DepartResult = { first: boolean; destination: Destination };
 
