@@ -1,6 +1,7 @@
 // 国旗のはめ込み(番号の枠に、下の国旗をタップで入れる。docs/design/2026-10-05-flag-quiz-design.md 7-2)。画面を描かない部分だけをここに置く
 
-export type FitItem = { id: string; image: string };
+/** はめ込みの項目。国旗は絵(image)、都道府県クイズの県庁所在地は文字(text) */
+export type FitItem = { id: string; image?: string; text?: string };
 export type FitChoice = { id: number; label: string };
 export type FitResult = { item_id: string; correct: boolean; correct_choice_id: number };
 

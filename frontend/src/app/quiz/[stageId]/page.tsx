@@ -1,10 +1,12 @@
 "use client";
 
 import { use, useEffect, useState, type ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { AppHeader } from "@/components/app/app-header";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { useProfile } from "@/components/app/profile-provider";
 import { BadgeImage } from "@/components/app/badge-image";
@@ -65,12 +67,22 @@ export default function Page({
     const data = await res.json();
     // ステージクリアのコイン+100・学習ポイント+50をヘッダーにも反映する
     applyPartial({ coins: data.profile.coins, points: data.profile.points });
+    // 県の上級のボスを全問正解したときは、県のバッジの絵を大きく見せる(docs/design/2026-10-05-prefecture-quiz-design.md 7-2)
     const titleNote =
       data.title_granted && data.title ? (
-        <p className="flex items-center justify-center gap-2 text-sm font-black text-[#7a5a0e]">
-          <BadgeImage badge="crown" size={44} />
-          称号「{data.title}」を獲得しました！
-        </p>
+        data.title_badge ? (
+          <div className="flex flex-col items-center gap-2">
+            <Image src={data.title_badge} alt={`${data.title}のバッジ`} width={112} height={112} className="drop-shadow-lg" />
+            <p className="text-center text-sm font-black text-[#7a5a0e]">
+              <AutoFurigana text={`称号「${data.title}」と バッジを ゲット！`} />
+            </p>
+          </div>
+        ) : (
+          <p className="flex items-center justify-center gap-2 text-sm font-black text-[#7a5a0e]">
+            <BadgeImage badge="crown" size={44} />
+            称号「{data.title}」を獲得しました！
+          </p>
+        )
       ) : null;
     // ボスでチケットがもらえたときは、結果の画面にカードを出す(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-4)
     const ticketNote = data.ticket_earned ? <TicketEarnedCard /> : null;

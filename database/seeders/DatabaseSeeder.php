@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             StageSeeder::class,
             WorldItemSeeder::class,
             FlagQuizSeeder::class,
+            PrefectureQuizSeeder::class,
         ]);
     }
 }

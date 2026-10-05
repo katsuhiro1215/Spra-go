@@ -20,51 +20,78 @@ class FlagQuizWriter
     /** @return array{courses: int, stages: int, questions: int} */
     public static function write(array $plan): array
     {
-        return DB::transaction(function () use ($plan) {
+        return self::writeTree(self::ROOT_NAME, $plan);
+    }
+
+    /**
+     * コースの計画を、大もとのカテゴリー($rootName。コース親の目印つき)の下に書く。
+     * $nodes の要素が group => true なら、その名前の「地方」カテゴリー(これもコース親)を作り、courses をその子にする(都道府県クイズ)。
+     * group がなければ、大もとの直下のコースにする(国旗クイズ)。クイズの名前は「{大もと} {コース名} {級}」
+     *
+     * @return array{courses: int, stages: int, questions: int}
+     */
+    public static function writeTree(string $rootName, array $nodes): array
+    {
+        return DB::transaction(function () use ($rootName, $nodes) {
             $existing = self::existingQuestions();
 
-            $root = Category::updateOrCreate(['name' => self::ROOT_NAME, 'parent_id' => null], ['is_course_group' => true]);
+            $root = Category::updateOrCreate(['name' => $rootName, 'parent_id' => null], ['is_course_group' => true]);
 
-            $stages = 0;
-            $questions = 0;
+            $totals = ['courses' => 0, 'stages' => 0, 'questions' => 0];
 
-            foreach ($plan as $course) {
-                $category = Category::updateOrCreate(
-                    ['name' => $course['name'], 'parent_id' => $root->id],
-                    ['order' => $course['order']],
-                );
-
-                foreach ($course['levels'] as $level) {
-                    $quiz = Quiz::firstOrCreate(
-                        ['title' => self::ROOT_NAME." {$course['name']} {$level['difficulty']}"],
-                        ['difficulty' => $level['difficulty'], 'is_published' => true],
+            foreach ($nodes as $node) {
+                if ($node['group'] ?? false) {
+                    $group = Category::updateOrCreate(
+                        ['name' => $node['name'], 'parent_id' => $root->id],
+                        ['order' => $node['order'], 'is_course_group' => true],
                     );
-
-                    foreach ($level['stages'] as $stagePlan) {
-                        $stage = Stage::updateOrCreate(
-                            ['category_id' => $category->id, 'difficulty' => $level['difficulty'], 'stage_number' => $stagePlan['number']],
-                            [
-                                'country_id' => null,
-                                'question_count' => count($stagePlan['questions']),
-                                'is_boss' => $stagePlan['boss'],
-                                'title_reward' => $stagePlan['title_reward'],
-                            ],
-                        );
-
-                        $pivot = [];
-                        foreach ($stagePlan['questions'] as $index => $spec) {
-                            $question = self::question($quiz, $spec, $index + 1, $existing);
-                            $pivot[$question->id] = ['order' => $index + 1];
-                            $questions++;
-                        }
-                        $stage->questions()->sync($pivot);
-                        $stages++;
+                    foreach ($node['courses'] as $course) {
+                        self::writeCourse($rootName, $group, $course, $existing, $totals);
                     }
+                } else {
+                    self::writeCourse($rootName, $root, $node, $existing, $totals);
                 }
             }
 
-            return ['courses' => count($plan), 'stages' => $stages, 'questions' => $questions];
+            return $totals;
         });
+    }
+
+    private static function writeCourse(string $rootName, Category $parent, array $course, array &$existing, array &$totals): void
+    {
+        $category = Category::updateOrCreate(
+            ['name' => $course['name'], 'parent_id' => $parent->id],
+            ['order' => $course['order']],
+        );
+
+        foreach ($course['levels'] as $level) {
+            $quiz = Quiz::firstOrCreate(
+                ['title' => "{$rootName} {$course['name']} {$level['difficulty']}"],
+                ['difficulty' => $level['difficulty'], 'is_published' => true],
+            );
+
+            foreach ($level['stages'] as $stagePlan) {
+                $stage = Stage::updateOrCreate(
+                    ['category_id' => $category->id, 'difficulty' => $level['difficulty'], 'stage_number' => $stagePlan['number']],
+                    [
+                        'country_id' => null,
+                        'question_count' => count($stagePlan['questions']),
+                        'is_boss' => $stagePlan['boss'],
+                        'title_reward' => $stagePlan['title_reward'],
+                    ],
+                );
+
+                $pivot = [];
+                foreach ($stagePlan['questions'] as $index => $spec) {
+                    $question = self::question($quiz, $spec, $index + 1, $existing);
+                    $pivot[$question->id] = ['order' => $index + 1];
+                    $totals['questions']++;
+                }
+                $stage->questions()->sync($pivot);
+                $totals['stages']++;
+            }
+        }
+        $totals['courses']++;
     }
 
     /**
@@ -127,7 +154,10 @@ class FlagQuizWriter
             return [
                 'flag_key' => $spec['key'],
                 'layout' => $spec['layout'],
-                'items' => array_map(fn (array $item) => ['id' => $item['id'], 'image' => $item['image']], $spec['items']),
+                // 項目は、国旗なら絵、都道府県なら文字(text)。ある方だけ書く。名前(label)は選択肢のほうにあり、項目からは組が分からない
+                'items' => array_map(fn (array $item) => ['id' => $item['id']]
+                    + (($item['image'] ?? null) !== null ? ['image' => $item['image']] : [])
+                    + (($item['text'] ?? null) !== null ? ['text' => $item['text']] : []), $spec['items']),
             ];
         }
 
@@ -137,6 +167,9 @@ class FlagQuizWriter
         }
         if ($spec['catch_only'] ?? false) {
             $meta['catch_only'] = true;
+        }
+        if (($spec['plain'] ?? []) !== []) {
+            $meta['plain'] = $spec['plain'];
         }
 
         return $meta;

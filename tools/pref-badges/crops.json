@@ -1,0 +1,284 @@
+{
+  "hokkaido": {
+    "sheet": "sheet_01",
+    "cx": 279,
+    "cy": 254,
+    "r": 221
+  },
+  "aomori": {
+    "sheet": "sheet_01",
+    "cx": 767,
+    "cy": 251,
+    "r": 227
+  },
+  "iwate": {
+    "sheet": "sheet_01",
+    "cx": 1255,
+    "cy": 249,
+    "r": 221
+  },
+  "miyagi": {
+    "sheet": "sheet_01",
+    "cx": 272,
+    "cy": 727,
+    "r": 221
+  },
+  "akita": {
+    "sheet": "sheet_01",
+    "cx": 761,
+    "cy": 731,
+    "r": 223
+  },
+  "yamagata": {
+    "sheet": "sheet_01",
+    "cx": 1252,
+    "cy": 729,
+    "r": 229
+  },
+  "fukushima": {
+    "sheet": "sheet_02",
+    "cx": 282,
+    "cy": 241,
+    "r": 230
+  },
+  "ibaraki": {
+    "sheet": "sheet_02",
+    "cx": 767,
+    "cy": 246,
+    "r": 234
+  },
+  "tochigi": {
+    "sheet": "sheet_02",
+    "cx": 1263,
+    "cy": 243,
+    "r": 240
+  },
+  "gunma": {
+    "sheet": "sheet_02",
+    "cx": 270,
+    "cy": 734,
+    "r": 241
+  },
+  "saitama": {
+    "sheet": "sheet_02",
+    "cx": 769,
+    "cy": 732,
+    "r": 239
+  },
+  "chiba": {
+    "sheet": "sheet_02",
+    "cx": 1265,
+    "cy": 732,
+    "r": 241
+  },
+  "tokyo": {
+    "sheet": "sheet_03",
+    "cx": 287,
+    "cy": 237,
+    "r": 222
+  },
+  "kanagawa": {
+    "sheet": "sheet_03",
+    "cx": 767,
+    "cy": 237,
+    "r": 226
+  },
+  "niigata": {
+    "sheet": "sheet_03",
+    "cx": 1260,
+    "cy": 238,
+    "r": 222
+  },
+  "toyama": {
+    "sheet": "sheet_03",
+    "cx": 275,
+    "cy": 726,
+    "r": 236
+  },
+  "ishikawa": {
+    "sheet": "sheet_03",
+    "cx": 768,
+    "cy": 731,
+    "r": 230
+  },
+  "fukui": {
+    "sheet": "sheet_03",
+    "cx": 1259,
+    "cy": 728,
+    "r": 237
+  },
+  "yamanashi": {
+    "sheet": "sheet_04",
+    "cx": 272,
+    "cy": 249,
+    "r": 224
+  },
+  "nagano": {
+    "sheet": "sheet_04",
+    "cx": 769,
+    "cy": 247,
+    "r": 230
+  },
+  "gifu": {
+    "sheet": "sheet_04",
+    "cx": 1250,
+    "cy": 246,
+    "r": 228
+  },
+  "shizuoka": {
+    "sheet": "sheet_04",
+    "cx": 278,
+    "cy": 734,
+    "r": 237
+  },
+  "aichi": {
+    "sheet": "sheet_04",
+    "cx": 770,
+    "cy": 735,
+    "r": 234
+  },
+  "mie": {
+    "sheet": "sheet_04",
+    "cx": 1264,
+    "cy": 736,
+    "r": 223
+  },
+  "shiga": {
+    "sheet": "sheet_05",
+    "cx": 262,
+    "cy": 241,
+    "r": 222
+  },
+  "kyoto": {
+    "sheet": "sheet_05",
+    "cx": 768,
+    "cy": 248,
+    "r": 232
+  },
+  "osaka": {
+    "sheet": "sheet_05",
+    "cx": 1271,
+    "cy": 241,
+    "r": 224
+  },
+  "hyogo": {
+    "sheet": "sheet_05",
+    "cx": 261,
+    "cy": 731,
+    "r": 229
+  },
+  "nara": {
+    "sheet": "sheet_05",
+    "cx": 768,
+    "cy": 732,
+    "r": 231
+  },
+  "wakayama": {
+    "sheet": "sheet_05",
+    "cx": 1270,
+    "cy": 730,
+    "r": 232
+  },
+  "tottori": {
+    "sheet": "sheet_06",
+    "cx": 275,
+    "cy": 245,
+    "r": 227
+  },
+  "shimane": {
+    "sheet": "sheet_06",
+    "cx": 771,
+    "cy": 243,
+    "r": 228
+  },
+  "okayama": {
+    "sheet": "sheet_06",
+    "cx": 1281,
+    "cy": 242,
+    "r": 228
+  },
+  "hiroshima": {
+    "sheet": "sheet_06",
+    "cx": 262,
+    "cy": 719,
+    "r": 238
+  },
+  "yamaguchi": {
+    "sheet": "sheet_06",
+    "cx": 766,
+    "cy": 725,
+    "r": 237
+  },
+  "tokushima": {
+    "sheet": "sheet_06",
+    "cx": 1273,
+    "cy": 724,
+    "r": 236
+  },
+  "kagawa": {
+    "sheet": "sheet_07",
+    "cx": 280,
+    "cy": 245,
+    "r": 236
+  },
+  "ehime": {
+    "sheet": "sheet_07",
+    "cx": 773,
+    "cy": 245,
+    "r": 233
+  },
+  "kochi": {
+    "sheet": "sheet_07",
+    "cx": 1266,
+    "cy": 245,
+    "r": 233
+  },
+  "fukuoka": {
+    "sheet": "sheet_07",
+    "cx": 271,
+    "cy": 726,
+    "r": 235
+  },
+  "saga": {
+    "sheet": "sheet_07",
+    "cx": 764,
+    "cy": 729,
+    "r": 232
+  },
+  "nagasaki": {
+    "sheet": "sheet_07",
+    "cx": 1263,
+    "cy": 730,
+    "r": 237
+  },
+  "kumamoto": {
+    "sheet": "sheet_08",
+    "cx": 290,
+    "cy": 247,
+    "r": 228
+  },
+  "oita": {
+    "sheet": "sheet_08",
+    "cx": 768,
+    "cy": 248,
+    "r": 227
+  },
+  "miyazaki": {
+    "sheet": "sheet_08",
+    "cx": 1251,
+    "cy": 248,
+    "r": 228
+  },
+  "kagoshima": {
+    "sheet": "sheet_08",
+    "cx": 490,
+    "cy": 733,
+    "r": 249
+  },
+  "okinawa": {
+    "sheet": "sheet_08",
+    "cx": 1043,
+    "cy": 734,
+    "r": 251
+  }
+}

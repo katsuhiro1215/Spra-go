@@ -14,6 +14,8 @@ export type QuizQuestion = {
     baskets?: SortingBasket[];
     image?: string;
     layout?: "slots";
+    /** ふりがなを付けない語(難読地名の問題の、問われる漢字) */
+    plain?: string[];
   } | null;
   /** ステージに足した、出す日が来た前の問題(おさらい)。ステージの点数には入れない */
   review?: boolean;

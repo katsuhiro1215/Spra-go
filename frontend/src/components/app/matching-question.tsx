@@ -7,7 +7,7 @@ import { AutoFurigana } from "@/components/app/auto-furigana";
 import { Button } from "@/components/app/button";
 import { cn } from "@/lib/utils";
 
-export type MatchingItem = { id: string; image: string };
+export type MatchingItem = { id: string; image?: string; text?: string };
 export type MatchingChoice = { id: number; label: string };
 export type MatchingResult = {
   item_id: string;
@@ -94,7 +94,7 @@ export function MatchingQuestion({
               )}
             >
               <div className="relative h-14 w-20 overflow-hidden rounded-sm border border-[#e8dfcf]">
-                <Image src={item.image} alt="" fill className="object-cover" />
+                {item.image ? <Image src={item.image} alt="" fill className="object-cover" /> : <AutoFurigana text={item.text ?? ""} />}
               </div>
               <span className="min-h-5 text-xs font-medium text-[#6b5d45]">
                 {assignedLabel ? <AutoFurigana text={assignedLabel} /> : "？"}
