@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Support\FlagQuiz\FlagCatalog;
+use App\Support\FlagQuiz\FlagCatchPlanner;
 use App\Support\FlagQuiz\FlagQuizPlanner;
 use App\Support\FlagQuiz\FlagQuizWriter;
 use Illuminate\Database\Seeder;
@@ -12,8 +13,11 @@ class FlagQuizSeeder extends Seeder
 {
     public function run(): void
     {
-        $result = FlagQuizWriter::write(FlagQuizPlanner::plan(FlagCatalog::all()));
+        $catalog = FlagCatalog::all();
+        $quiz = FlagQuizWriter::write(FlagQuizPlanner::plan($catalog));
+        $catch = FlagQuizWriter::writeCatch(FlagCatchPlanner::plan($catalog));
 
-        $this->command?->info("国旗クイズ: コース{$result['courses']}・ステージ{$result['stages']}・問題{$result['questions']}");
+        $this->command?->info("国旗クイズ: コース{$quiz['courses']}・ステージ{$quiz['stages']}・問題{$quiz['questions']}");
+        $this->command?->info("国旗キャッチ: クイズ{$catch['quizzes']}・問題{$catch['questions']}");
     }
 }

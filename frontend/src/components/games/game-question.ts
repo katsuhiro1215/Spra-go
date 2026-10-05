@@ -2,7 +2,7 @@
  * ミニゲームで使う問題の形(docs/design/2026-09-29-spru-catch-design.md 8章)。
  * 1本目のスプルキャッチのほか、2本目以降のゲームも同じ形で受け取る
  */
-export type GameChoice = { id: number; label: string };
+export type GameChoice = { id: number; label: string; image?: string | null };
 
 export type GameQuestion = {
   id: number;

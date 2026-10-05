@@ -6,6 +6,7 @@ import { GROWTH_IMAGES, SPRU_BLOOM } from "@/components/spru/spru-assets";
 import { createCatchGame, throwAt, tick, type CatchState } from "./catch-engine";
 import {
   CATCH_HOW_TO,
+  CATCH_MODES,
   CATCH_MOVE_HINT,
   CATCH_TAP_HINT,
   CATCH_TITLE,
@@ -138,5 +139,39 @@ describe("説明の文", () => {
     expect(CATCH_HOW_TO.every((line) => line.length > 0)).toBe(true);
     expect(CATCH_TAP_HINT).toBe("答えをタップ！");
     expect(CATCH_MOVE_HINT).toContain("◀▶");
+  });
+});
+
+describe("ゲームの種類ごとの設定(CATCH_MODES)", () => {
+  it("英語は今までの名前・あそびかた・窓口。国旗は、こっきの名前・国旗向けのあそびかた・窓口", () => {
+    expect(CATCH_MODES.catch).toMatchObject({ title: "スプルキャッチ（えいたんご）", apiPath: "/api/games/catch", emptyLink: true });
+    expect(CATCH_MODES.catch.howTo).toBe(CATCH_HOW_TO);
+
+    expect(CATCH_MODES.flag_catch).toMatchObject({
+      title: "スプルキャッチ（こっき）",
+      apiPath: "/api/games/flag-catch",
+      missedHeading: "まちがえた国旗",
+      emptyLink: false,
+    });
+    expect(CATCH_MODES.flag_catch.howTo).toHaveLength(3);
+    expect(CATCH_MODES.flag_catch.howTo.every((line) => line.length > 0)).toBe(true);
+  });
+});
+
+describe("まちがえた言葉(国旗の絵)", () => {
+  it("正しい選択肢に国旗の絵があれば、answerImage に入る。なければ入らない", () => {
+    const flagQuestion = {
+      id: 1,
+      prompt: "「日本」の国旗は？",
+      choices: [
+        { id: 10, label: "日本", image: "/flag/Japan.svg" },
+        { id: 11, label: "韓国", image: "/flag/Korea-South.svg" },
+      ],
+      correctChoiceId: 10,
+    };
+    let state = createCatchGame([flagQuestion], { lanes: 2, fallMs: 1000 });
+    state = throwAt(state, 1); // まちがえる
+
+    expect(missedWords(state)).toEqual([{ focus: "日本", answer: "日本", answerImage: "/flag/Japan.svg" }]);
   });
 });

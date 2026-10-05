@@ -21,8 +21,7 @@ class FlagQuizWriter
     public static function write(array $plan): array
     {
         return DB::transaction(function () use ($plan) {
-            // 問題は、meta.flag_key で見つける。1問ごとに探すと遅いので、最初に全部読んでおく
-            $existing = Question::query()->whereNotNull('meta->flag_key')->get()->keyBy(fn (Question $question) => $question->meta['flag_key'])->all();
+            $existing = self::existingQuestions();
 
             $root = Category::updateOrCreate(['name' => self::ROOT_NAME, 'parent_id' => null], ['is_course_group' => true]);
 
@@ -68,6 +67,37 @@ class FlagQuizWriter
         });
     }
 
+    /**
+     * 国旗キャッチ専用の問題(ステージには入れない)を書く(docs/design/2026-10-05-flag-catch-design.md 4-2)。
+     * 何度実行しても重複しない
+     *
+     * @return array{quizzes: int, questions: int}
+     */
+    public static function writeCatch(array $plan): array
+    {
+        return DB::transaction(function () use ($plan) {
+            $existing = self::existingQuestions();
+            $questions = 0;
+
+            foreach ($plan as $level) {
+                $quiz = Quiz::firstOrCreate(['title' => $level['title']], ['difficulty' => $level['difficulty'], 'is_published' => true]);
+
+                foreach ($level['questions'] as $index => $spec) {
+                    self::question($quiz, $spec + ['catch_only' => true], $index + 1, $existing);
+                    $questions++;
+                }
+            }
+
+            return ['quizzes' => count($plan), 'questions' => $questions];
+        });
+    }
+
+    /** 問題は、meta.flag_key で見つける。1問ごとに探すと遅いので、最初に全部読んでおく @return array<string, Question> */
+    private static function existingQuestions(): array
+    {
+        return Question::query()->whereNotNull('meta->flag_key')->get()->keyBy(fn (Question $question) => $question->meta['flag_key'])->all();
+    }
+
     private static function question(Quiz $quiz, array $spec, int $order, array &$existing): Question
     {
         $attributes = [
@@ -101,7 +131,15 @@ class FlagQuizWriter
             ];
         }
 
-        return array_filter(['flag_key' => $spec['key'], 'image' => $spec['image']], fn ($value) => $value !== null);
+        $meta = ['flag_key' => $spec['key']];
+        if (($spec['image'] ?? null) !== null) {
+            $meta['image'] = $spec['image'];
+        }
+        if ($spec['catch_only'] ?? false) {
+            $meta['catch_only'] = true;
+        }
+
+        return $meta;
     }
 
     /** @return list<array{label: string, is_correct: bool, order: int, meta: ?array}> */

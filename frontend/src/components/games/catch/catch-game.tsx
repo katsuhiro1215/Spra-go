@@ -249,7 +249,13 @@ export function CatchGame({
                   )}
                   style={{ height: CARD_PX }}
                 >
-                  <AutoFurigana text={choice.label} />
+                  {choice.image ? (
+                    <span className="relative block h-12 w-full">
+                      <Image src={choice.image} alt={choice.label} fill sizes="96px" className="object-contain" />
+                    </span>
+                  ) : (
+                    <AutoFurigana text={choice.label} />
+                  )}
                 </div>
               ))}
             </div>

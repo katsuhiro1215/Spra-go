@@ -8,6 +8,12 @@ export const MINI_GAMES = [
     description: "落ちてくる英語の答えを、スプルがキャッチ！",
     href: "/games/catch",
   },
+  {
+    key: "flag-catch",
+    title: "スプルキャッチ（こっき）",
+    description: "流れてくる国旗を、スプルがキャッチ！",
+    href: "/games/flag-catch",
+  },
 ] as const;
 
 /** GET /api/mini-quizzes の1件 */

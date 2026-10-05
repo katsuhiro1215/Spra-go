@@ -1655,38 +1655,41 @@ Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(fu
     })->name('complete');
 });
 
-// ミニゲーム1本目「スプルキャッチ」(docs/design/2026-09-29-spru-catch-design.md 6-3)
-Route::middleware(['auth:sanctum'])->prefix('games/catch')->name('games.catch.')->group(function () {
-    Route::get('/', function (Request $request) {
-        return CatchGame::summary(ActiveProfile::require($request));
-    })->name('show');
+// ミニゲーム「スプルキャッチ」(docs/design/2026-09-29-spru-catch-design.md 6-3)と、国旗版「スプルキャッチ(こっき)」
+// (docs/design/2026-10-05-flag-catch-design.md 5章)。同じ処理を、ゲームの名前だけ変えて登録する
+foreach (['catch' => CatchGame::GAME, 'flag-catch' => CatchGame::FLAG_GAME] as $path => $game) {
+    Route::middleware(['auth:sanctum'])->prefix("games/{$path}")->name("games.{$path}.")->group(function () use ($game) {
+        Route::get('/', function (Request $request) use ($game) {
+            return CatchGame::summary(ActiveProfile::require($request), $game);
+        })->name('show');
 
-    Route::post('/plays', function (Request $request) {
-        $profile = ActiveProfile::require($request);
-        $data = $request->validate([
-            'difficulty' => ['required', 'string', Rule::in(array_keys(config('games.catch.difficulties')))],
-        ]);
+        Route::post('/plays', function (Request $request) use ($game) {
+            $profile = ActiveProfile::require($request);
+            $data = $request->validate([
+                'difficulty' => ['required', 'string', Rule::in(array_keys(config("games.{$game}.difficulties")))],
+            ]);
 
-        return CatchGame::start($profile, $data['difficulty']);
-    })->name('plays.store');
+            return CatchGame::start($profile, $data['difficulty'], $game);
+        })->name('plays.store');
 
-    Route::post('/plays/{play}/finish', function (Request $request, ProfileGamePlay $play) {
-        $profile = ActiveProfile::require($request);
-        abort_unless($play->user_profile_id === $profile->id && $play->game === CatchGame::GAME, 404);
-        $data = $request->validate([
-            'answers' => ['present', 'array'],
-            'answers.*.question_id' => ['required', 'integer'],
-            'answers.*.choice_id' => ['required', 'integer'],
-        ]);
+        Route::post('/plays/{play}/finish', function (Request $request, ProfileGamePlay $play) use ($game) {
+            $profile = ActiveProfile::require($request);
+            abort_unless($play->user_profile_id === $profile->id && $play->game === $game, 404);
+            $data = $request->validate([
+                'answers' => ['present', 'array'],
+                'answers.*.question_id' => ['required', 'integer'],
+                'answers.*.choice_id' => ['required', 'integer'],
+            ]);
 
-        return DB::transaction(function () use ($play, $data) {
-            $locked = ProfileGamePlay::query()->whereKey($play->id)->lockForUpdate()->firstOrFail();
-            abort_if($locked->finished_at !== null, 409, 'この回はもう終わっています。');
+            return DB::transaction(function () use ($play, $data) {
+                $locked = ProfileGamePlay::query()->whereKey($play->id)->lockForUpdate()->firstOrFail();
+                abort_if($locked->finished_at !== null, 409, 'この回はもう終わっています。');
 
-            return CatchGame::finish($locked, $data['answers']);
-        });
-    })->name('plays.finish');
-});
+                return CatchGame::finish($locked, $data['answers']);
+            });
+        })->name('plays.finish');
+    });
+}
 
 Route::middleware(['auth:sanctum'])->prefix('travel')->name('travel.')->group(function () {
     Route::get('/', function (Request $request) {
