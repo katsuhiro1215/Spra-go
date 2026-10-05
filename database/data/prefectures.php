@@ -13,7 +13,7 @@
 | foods(4つ以上): 名物・特産(簡単なものから)／sights(4つ以上): 名所・自然・建物(簡単なものから)
 | culture(3つ以上): お祭り・伝統工芸・歴史・人物(簡単なものから)
 | hard(3つ以上): 難読地名。word(漢字)・reading(正しい読み)・wrong(ありがちな読みまちがい3つ)
-| 事実がそろった県(foods・sights・culture・hard)だけ、県のコースができる。いまは中国・四国を除く5地方の38県。
+| 事実がそろった県(foods・sights・culture・hard)だけ、県のコースができる。いまは47県すべて。
 | 事実の正しさ、県庁所在地、となりの県、難読地名の読みは、公開前にOwnerが確認する。
 |
 */
@@ -384,15 +384,114 @@ return [
             ],
         ],
 
-        ['key' => 'tottori', 'name' => '鳥取県', 'region' => 'chugoku-shikoku', 'capital' => '鳥取市', 'neighbors' => ['hyogo', 'okayama', 'hiroshima', 'shimane']],
-        ['key' => 'shimane', 'name' => '島根県', 'region' => 'chugoku-shikoku', 'capital' => '松江市', 'neighbors' => ['tottori', 'hiroshima', 'yamaguchi']],
-        ['key' => 'okayama', 'name' => '岡山県', 'region' => 'chugoku-shikoku', 'capital' => '岡山市', 'neighbors' => ['hyogo', 'tottori', 'hiroshima']],
-        ['key' => 'hiroshima', 'name' => '広島県', 'region' => 'chugoku-shikoku', 'capital' => '広島市', 'neighbors' => ['tottori', 'shimane', 'okayama', 'yamaguchi']],
-        ['key' => 'yamaguchi', 'name' => '山口県', 'region' => 'chugoku-shikoku', 'capital' => '山口市', 'neighbors' => ['shimane', 'hiroshima']],
-        ['key' => 'tokushima', 'name' => '徳島県', 'region' => 'chugoku-shikoku', 'capital' => '徳島市', 'neighbors' => ['kagawa', 'ehime', 'kochi']],
-        ['key' => 'kagawa', 'name' => '香川県', 'region' => 'chugoku-shikoku', 'capital' => '高松市', 'neighbors' => ['tokushima', 'ehime']],
-        ['key' => 'ehime', 'name' => '愛媛県', 'region' => 'chugoku-shikoku', 'capital' => '松山市', 'neighbors' => ['kagawa', 'tokushima', 'kochi']],
-        ['key' => 'kochi', 'name' => '高知県', 'region' => 'chugoku-shikoku', 'capital' => '高知市', 'neighbors' => ['tokushima', 'ehime']],
+        [
+            'key' => 'tottori', 'name' => '鳥取県', 'region' => 'chugoku-shikoku', 'capital' => '鳥取市',
+            'neighbors' => ['hyogo', 'okayama', 'hiroshima', 'shimane'],
+            'foods' => ['二十世紀梨', '松葉ガニ', 'らっきょう', '牛骨ラーメン'],
+            'sights' => ['鳥取砂丘', '水木しげるロード', '大山', '投入堂'],
+            'culture' => ['因幡の白うさぎ', 'しゃんしゃん祭', '因州和紙'],
+            'hard' => [
+                ['word' => '倉吉', 'reading' => 'くらよし', 'wrong' => ['そうきち', 'くらきち', 'そうよし']],
+                ['word' => '境港', 'reading' => 'さかいみなと', 'wrong' => ['きょうこう', 'さかいこう', 'さかいがわみなと']],
+                ['word' => '米子', 'reading' => 'よなご', 'wrong' => ['こめこ', 'べいし', 'よねこ']],
+            ],
+        ],
+        [
+            'key' => 'shimane', 'name' => '島根県', 'region' => 'chugoku-shikoku', 'capital' => '松江市',
+            'neighbors' => ['tottori', 'hiroshima', 'yamaguchi'],
+            'foods' => ['宍道湖のしじみ', '出雲そば', 'あご野焼き', '隠岐の岩ガキ'],
+            'sights' => ['出雲大社', '松江城', '石見銀山', '足立美術館'],
+            'culture' => ['神在月', '出雲神楽', '小泉八雲'],
+            'hard' => [
+                ['word' => '出雲', 'reading' => 'いずも', 'wrong' => ['でぐも', 'しゅつうん', 'いでくも']],
+                ['word' => '益田', 'reading' => 'ますだ', 'wrong' => ['えきた', 'ましだ', 'えきだ']],
+                ['word' => '隠岐', 'reading' => 'おき', 'wrong' => ['かくれき', 'いんぎ', 'いんき']],
+            ],
+        ],
+        [
+            'key' => 'okayama', 'name' => '岡山県', 'region' => 'chugoku-shikoku', 'capital' => '岡山市',
+            'neighbors' => ['hyogo', 'tottori', 'hiroshima'],
+            'foods' => ['白桃', 'きびだんご', 'マスカット', 'ばら寿司'],
+            'sights' => ['後楽園', '岡山城', '倉敷美観地区', '鷲羽山'],
+            'culture' => ['桃太郎', '備前焼', '倉敷デニム'],
+            'hard' => [
+                ['word' => '総社', 'reading' => 'そうじゃ', 'wrong' => ['そうしゃ', 'ふさしゃ', 'そうやしろ']],
+                ['word' => '笠岡', 'reading' => 'かさおか', 'wrong' => ['りゅうおか', 'かさがおか', 'かさぎおか']],
+                ['word' => '井原', 'reading' => 'いばら', 'wrong' => ['いはら', 'いげん', 'いなばら']],
+            ],
+        ],
+        [
+            'key' => 'hiroshima', 'name' => '広島県', 'region' => 'chugoku-shikoku', 'capital' => '広島市',
+            'neighbors' => ['tottori', 'shimane', 'okayama', 'yamaguchi'],
+            'foods' => ['広島風お好み焼き', 'もみじまんじゅう', '広島のカキ', '尾道ラーメン'],
+            'sights' => ['厳島神社', '原爆ドーム', '平和記念公園', '尾道の坂道'],
+            'culture' => ['広島カープ', '熊野筆', '管絃祭'],
+            'hard' => [
+                ['word' => '尾道', 'reading' => 'おのみち', 'wrong' => ['おみち', 'びどう', 'おうどう']],
+                ['word' => '呉', 'reading' => 'くれ', 'wrong' => ['ご', 'ごう', 'ごお']],
+                ['word' => '三次', 'reading' => 'みよし', 'wrong' => ['さんじ', 'みつぎ', 'みじ']],
+            ],
+        ],
+        [
+            'key' => 'yamaguchi', 'name' => '山口県', 'region' => 'chugoku-shikoku', 'capital' => '山口市',
+            'neighbors' => ['shimane', 'hiroshima'],
+            'foods' => ['ふぐ', '瓦そば', '岩国寿司', '夏みかん'],
+            'sights' => ['錦帯橋', '秋芳洞', '角島大橋', '萩の城下町'],
+            'culture' => ['吉田松陰', '山口祇園祭', '萩焼'],
+            'hard' => [
+                ['word' => '下関', 'reading' => 'しものせき', 'wrong' => ['げかん', 'しもせき', 'したのせき']],
+                ['word' => '周南', 'reading' => 'しゅうなん', 'wrong' => ['すなん', 'まわりなん', 'しゅうみなみ']],
+                ['word' => '岩国', 'reading' => 'いわくに', 'wrong' => ['がんこく', 'いわぐに', 'いわこく']],
+            ],
+        ],
+        [
+            'key' => 'tokushima', 'name' => '徳島県', 'region' => 'chugoku-shikoku', 'capital' => '徳島市',
+            'neighbors' => ['kagawa', 'ehime', 'kochi'],
+            'foods' => ['すだち', '徳島ラーメン', '鳴門わかめ', '半田そうめん'],
+            'sights' => ['鳴門の渦潮', '祖谷のかずら橋', '大塚国際美術館', '眉山'],
+            'culture' => ['阿波おどり', '藍染', '人形浄瑠璃'],
+            'hard' => [
+                ['word' => '美馬', 'reading' => 'みま', 'wrong' => ['びば', 'みば', 'うま']],
+                ['word' => '阿南', 'reading' => 'あなん', 'wrong' => ['あなみ', 'あみなみ', 'おなん']],
+                ['word' => '海陽', 'reading' => 'かいよう', 'wrong' => ['うみひ', 'かいひ', 'うみよう']],
+            ],
+        ],
+        [
+            'key' => 'kagawa', 'name' => '香川県', 'region' => 'chugoku-shikoku', 'capital' => '高松市',
+            'neighbors' => ['tokushima', 'ehime'],
+            'foods' => ['さぬきうどん', 'オリーブ', '骨付鳥', '和三盆'],
+            'sights' => ['栗林公園', '金刀比羅宮', '小豆島', '瀬戸大橋'],
+            'culture' => ['空海', '丸亀うちわ', '讃岐漆器'],
+            'hard' => [
+                ['word' => '観音寺', 'reading' => 'かんおんじ', 'wrong' => ['かんのんじ', 'かんおんてら', 'かんのんてら']],
+                ['word' => '琴平', 'reading' => 'ことひら', 'wrong' => ['きんぺい', 'ことへい', 'こっぺい']],
+                ['word' => '坂出', 'reading' => 'さかいで', 'wrong' => ['さかで', 'さかしゅつ', 'はんしゅつ']],
+            ],
+        ],
+        [
+            'key' => 'ehime', 'name' => '愛媛県', 'region' => 'chugoku-shikoku', 'capital' => '松山市',
+            'neighbors' => ['kagawa', 'tokushima', 'kochi'],
+            'foods' => ['いよかん', '鯛めし', 'じゃこ天', '今治焼き鳥'],
+            'sights' => ['道後温泉', '松山城', 'しまなみ海道', '内子座'],
+            'culture' => ['坊っちゃん', '今治タオル', '正岡子規'],
+            'hard' => [
+                ['word' => '今治', 'reading' => 'いまばり', 'wrong' => ['こんじ', 'いまじ', 'いまはり']],
+                ['word' => '宇和島', 'reading' => 'うわじま', 'wrong' => ['うわしま', 'うおじま', 'うかしま']],
+                ['word' => '八幡浜', 'reading' => 'やわたはま', 'wrong' => ['はちまんはま', 'やはたはま', 'はちまんひん']],
+            ],
+        ],
+        [
+            'key' => 'kochi', 'name' => '高知県', 'region' => 'chugoku-shikoku', 'capital' => '高知市',
+            'neighbors' => ['tokushima', 'ehime'],
+            'foods' => ['カツオのたたき', 'ゆず', 'アイスクリン', 'ミレービスケット'],
+            'sights' => ['桂浜', '高知城', '四万十川', 'ひろめ市場'],
+            'culture' => ['よさこい祭り', '坂本龍馬', '土佐闘犬'],
+            'hard' => [
+                ['word' => '四万十', 'reading' => 'しまんと', 'wrong' => ['よんまんと', 'しまんじゅう', 'よんまんじゅう']],
+                ['word' => '安芸', 'reading' => 'あき', 'wrong' => ['やすき', 'あんげ', 'あげ']],
+                ['word' => '室戸', 'reading' => 'むろと', 'wrong' => ['しつど', 'むろど', 'むろこ']],
+            ],
+        ],
 
         [
             'key' => 'fukuoka', 'name' => '福岡県', 'region' => 'kyushu-okinawa', 'capital' => '福岡市',
