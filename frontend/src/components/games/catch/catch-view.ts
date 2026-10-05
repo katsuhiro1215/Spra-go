@@ -18,6 +18,42 @@ export const CATCH_HOW_TO = [
 export const CATCH_TAP_HINT = "答えをタップ！";
 export const CATCH_MOVE_HINT = "◀▶でスプルを動かしても取れるよ";
 
+export type CatchMode = "catch" | "flag_catch";
+
+/** ゲームの種類ごとの設定(docs/design/2026-10-05-flag-catch-design.md 6章)。英語は今までの文のまま */
+export const CATCH_MODES: Record<
+  CatchMode,
+  {
+    title: string;
+    intro: string;
+    howTo: readonly string[];
+    apiPath: string;
+    missedHeading: string;
+    emptyMessage: string;
+    /** 遊べないときに「せかいへ」のボタンを出すか(英語は旅の鍵があるので出す) */
+    emptyLink: boolean;
+  }
+> = {
+  catch: {
+    title: CATCH_TITLE,
+    intro: "落ちてくる答えを、スプルでキャッチしよう",
+    howTo: CATCH_HOW_TO,
+    apiPath: "/api/games/catch",
+    missedHeading: "まちがえた言葉",
+    emptyMessage: CATCH_LOCKED_MESSAGE,
+    emptyLink: true,
+  },
+  flag_catch: {
+    title: "スプルキャッチ（こっき）",
+    intro: "流れてくる国旗を、スプルでキャッチしよう",
+    howTo: ["「国名」の国旗が上に出るよ", "流れてくる国旗をタップ！スプルが種を投げてキャッチするよ", "10問やってみよう。ハートは3つ"],
+    apiPath: "/api/games/flag-catch",
+    missedHeading: "まちがえた国旗",
+    emptyMessage: "国旗の問題はじゅんびちゅうだよ",
+    emptyLink: false,
+  },
+};
+
 export type SpruPose = "back" | "throw" | "cheer" | "sad";
 
 /** スプルの絵の決まり。落ちている間は後ろ姿。種を投げた直後の少しの間は投げる絵。そのあとは正解なら喜び・まちがいならがっかり */
@@ -78,16 +114,18 @@ export function growthImage(stage: GrowthStage): SpruImage {
   return images[stage];
 }
 
-/** まちがえた問題の「」の中と正解の言葉(答えた順) */
-export function missedWords(state: CatchState): { focus: string; answer: string }[] {
+/** まちがえた問題の「」の中と正解の言葉(答えた順)。正解の選択肢に国旗の絵があれば、answerImage に入れる */
+export function missedWords(state: CatchState): { focus: string; answer: string; answerImage?: string }[] {
   return state.answers
     .filter((answer) => !answer.correct)
     .map((answer) => {
       const question = state.questions.find((q) => q.id === answer.questionId);
       if (!question) return { focus: "", answer: "" };
+      const correct = question.choices.find((choice) => choice.id === question.correctChoiceId);
       return {
         focus: splitPrompt(question.prompt).focus,
-        answer: question.choices.find((choice) => choice.id === question.correctChoiceId)?.label ?? "",
+        answer: correct?.label ?? "",
+        answerImage: correct?.image ?? undefined,
       };
     });
 }

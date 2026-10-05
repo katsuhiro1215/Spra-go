@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { CATCH_MODES } from "@/components/games/catch/catch-view";
+
 import { MINI_GAMES, MINI_QUIZ_EMPTY } from "./mini-app";
 
 describe("ミニゲームの一覧", () => {
@@ -23,4 +25,13 @@ describe("ミニゲームの一覧", () => {
   it("ミニクイズが無いときの文", () => {
     expect(MINI_QUIZ_EMPTY).toBe("ミニクイズは、じゅんびちゅうだよ");
   });
+
+  it("スプルキャッチ（こっき）が入っていて、画面の設定の名前と同じ", () => {
+    const flagCatch = MINI_GAMES.find((game) => game.key === "flag-catch");
+
+    expect(flagCatch).toMatchObject({ title: CATCH_MODES.flag_catch.title, href: "/games/flag-catch" });
+    expect(flagCatch?.description).toContain("国旗");
+    expect(MINI_GAMES.find((game) => game.key === "catch")?.title).toBe(CATCH_MODES.catch.title);
+  });
+
 });
