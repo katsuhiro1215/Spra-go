@@ -1,3 +1,5 @@
+import type { ZukanGift } from "@/lib/zukan";
+
 import type { ItemCategory } from "./categories";
 
 export type Tile = [number, number];
@@ -184,13 +186,15 @@ export type WorldErrand = {
   giver: { kind: "spru" | "partner"; key: string | null; name: string };
 };
 
-export type WorldErrands = { date: string; items: WorldErrand[]; bonus: { amount: number; claimed: boolean } };
+export type WorldErrands = { date: string; items: WorldErrand[]; bonus: { amount: number; claimed: boolean; gift_left: number } };
 
 export type ErrandClaimResult = {
   errands: WorldErrands;
   points: number;
   gained: { points: number; bonus: number; bond: number };
   partner: AnswerPartner | null;
+  /** パン屋さんからのおくりもの(ずかん)。3つ目の受け取りで、まだ贈れる物があるときだけ */
+  gift: ZukanGift | null;
 };
 
 /** 家族から届いた、まだ見ていないあいさつ */

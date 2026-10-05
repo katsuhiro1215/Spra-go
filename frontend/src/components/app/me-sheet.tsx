@@ -10,7 +10,7 @@ import { ProfileAvatar } from "@/components/app/avatar-badge";
 import { BadgeImage } from "@/components/app/badge-image";
 import { DisplaySettings } from "@/components/app/display-settings";
 import { useProfile } from "@/components/app/profile-provider";
-import { SPRU_ICONS } from "@/components/spru/spru-assets";
+import { SPRU_ICONS, SPRU_ITEMS } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
 
 /**
@@ -52,6 +52,7 @@ export function MeSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (
           <ul className="flex flex-col">
             <SheetLink href="/bag" icon={<AssetImage asset={SPRU_ICONS.bag} size={28} />} label="バッグ" onNavigate={close} />
             <SheetLink href="/passport" icon={<BadgeImage badge="passport" size={22} />} label="パスポート" onNavigate={close} />
+            <SheetLink href="/zukan" icon={<AssetImage asset={SPRU_ITEMS.zukan_melon_bread} size={26} />} label="パンとやさいのずかん" onNavigate={close} />
           </ul>
 
           <div className="my-3 rounded-2xl bg-[#f5efe1] p-3">

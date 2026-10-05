@@ -46,7 +46,13 @@ export function ErrandSheet({
           ))}
         </ul>
         <p className="text-center text-sm font-bold text-[#8a6a1c]">
-          <AutoFurigana text={errands.bonus.claimed ? "おまけも受け取ったよ" : `3つそろうと おまけ +${errands.bonus.amount}pt`} />
+          <AutoFurigana
+            text={
+              errands.bonus.claimed
+                ? "おまけも受け取ったよ"
+                : `3つそろうと おまけ +${errands.bonus.amount}pt${errands.bonus.gift_left > 0 ? " と おくりもの" : ""}`
+            }
+          />
         </p>
         <button type="button" onClick={onClose} className="h-11 text-sm font-bold text-[#6b5d45]">
           とじる
