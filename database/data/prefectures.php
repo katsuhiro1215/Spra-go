@@ -13,20 +13,97 @@
 | foods(4つ以上): 名物・特産(簡単なものから)／sights(4つ以上): 名所・自然・建物(簡単なものから)
 | culture(3つ以上): お祭り・伝統工芸・歴史・人物(簡単なものから)
 | hard(3つ以上): 難読地名。word(漢字)・reading(正しい読み)・wrong(ありがちな読みまちがい3つ)
-| 事実がそろった県(foods・sights・culture・hard)だけ、県のコースができる。いまは近畿・関東・中部・九州・沖縄の31県。
+| 事実がそろった県(foods・sights・culture・hard)だけ、県のコースができる。いまは中国・四国を除く5地方の38県。
 | 事実の正しさ、県庁所在地、となりの県、難読地名の読みは、公開前にOwnerが確認する。
 |
 */
 
 return [
     'prefectures' => [
-        ['key' => 'hokkaido', 'name' => '北海道', 'region' => 'hokkaido-tohoku', 'capital' => '札幌市', 'neighbors' => []],
-        ['key' => 'aomori', 'name' => '青森県', 'region' => 'hokkaido-tohoku', 'capital' => '青森市', 'neighbors' => ['iwate', 'akita']],
-        ['key' => 'iwate', 'name' => '岩手県', 'region' => 'hokkaido-tohoku', 'capital' => '盛岡市', 'neighbors' => ['aomori', 'akita', 'miyagi']],
-        ['key' => 'miyagi', 'name' => '宮城県', 'region' => 'hokkaido-tohoku', 'capital' => '仙台市', 'neighbors' => ['iwate', 'akita', 'yamagata', 'fukushima']],
-        ['key' => 'akita', 'name' => '秋田県', 'region' => 'hokkaido-tohoku', 'capital' => '秋田市', 'neighbors' => ['aomori', 'iwate', 'miyagi', 'yamagata']],
-        ['key' => 'yamagata', 'name' => '山形県', 'region' => 'hokkaido-tohoku', 'capital' => '山形市', 'neighbors' => ['akita', 'miyagi', 'fukushima', 'niigata']],
-        ['key' => 'fukushima', 'name' => '福島県', 'region' => 'hokkaido-tohoku', 'capital' => '福島市', 'neighbors' => ['miyagi', 'yamagata', 'niigata', 'gunma', 'tochigi', 'ibaraki']],
+        [
+            'key' => 'hokkaido', 'name' => '北海道', 'region' => 'hokkaido-tohoku', 'capital' => '札幌市',
+            'neighbors' => [],
+            'foods' => ['ジンギスカン', '札幌ラーメン', '石狩鍋', 'スープカレー'],
+            'sights' => ['札幌時計台', '旭山動物園', '函館山の夜景', '知床半島'],
+            'culture' => ['アイヌ文化', 'さっぽろ雪まつり', '屯田兵'],
+            'hard' => [
+                ['word' => '室蘭', 'reading' => 'むろらん', 'wrong' => ['しつらん', 'むろあん', 'むろいらん']],
+                ['word' => '稚内', 'reading' => 'わっかない', 'wrong' => ['ちない', 'わかない', 'わかうち']],
+                ['word' => '苫小牧', 'reading' => 'とまこまい', 'wrong' => ['とまこまき', 'とまごまい', 'ふんこまい']],
+            ],
+        ],
+        [
+            'key' => 'aomori', 'name' => '青森県', 'region' => 'hokkaido-tohoku', 'capital' => '青森市',
+            'neighbors' => ['iwate', 'akita'],
+            'foods' => ['青森りんご', 'ホタテ', 'にんにく', 'せんべい汁'],
+            'sights' => ['十和田湖', '奥入瀬渓流', '弘前城', '三内丸山遺跡'],
+            'culture' => ['ねぶた祭', '津軽塗', '津軽三味線'],
+            'hard' => [
+                ['word' => '弘前', 'reading' => 'ひろさき', 'wrong' => ['こうぜん', 'ひろまえ', 'ひろざき']],
+                ['word' => '八戸', 'reading' => 'はちのへ', 'wrong' => ['はっこ', 'やと', 'はちど']],
+                ['word' => '五所川原', 'reading' => 'ごしょがわら', 'wrong' => ['ごところがわら', 'いつところがわら', 'ごしょかわら']],
+            ],
+        ],
+        [
+            'key' => 'iwate', 'name' => '岩手県', 'region' => 'hokkaido-tohoku', 'capital' => '盛岡市',
+            'neighbors' => ['aomori', 'akita', 'miyagi'],
+            'foods' => ['わんこそば', '盛岡冷麺', 'じゃじゃ麺', '南部せんべい'],
+            'sights' => ['中尊寺金色堂', '龍泉洞', '小岩井農場', '浄土ヶ浜'],
+            'culture' => ['チャグチャグ馬コ', '南部鉄器', '宮沢賢治'],
+            'hard' => [
+                ['word' => '一関', 'reading' => 'いちのせき', 'wrong' => ['いちかん', 'ひとせき', 'いっかん']],
+                ['word' => '遠野', 'reading' => 'とおの', 'wrong' => ['えんや', 'とおや', 'えんの']],
+                ['word' => '久慈', 'reading' => 'くじ', 'wrong' => ['ひさじ', 'きゅうじ', 'ひさしじ']],
+            ],
+        ],
+        [
+            'key' => 'miyagi', 'name' => '宮城県', 'region' => 'hokkaido-tohoku', 'capital' => '仙台市',
+            'neighbors' => ['iwate', 'akita', 'yamagata', 'fukushima'],
+            'foods' => ['牛タン', 'ずんだもち', '笹かまぼこ', '松島のカキ'],
+            'sights' => ['松島', '仙台城跡', '蔵王のお釜', '鳴子温泉'],
+            'culture' => ['仙台七夕まつり', '伊達政宗', '鳴子こけし'],
+            'hard' => [
+                ['word' => '石巻', 'reading' => 'いしのまき', 'wrong' => ['いしまき', 'せきまき', 'いわまき']],
+                ['word' => '気仙沼', 'reading' => 'けせんぬま', 'wrong' => ['きせんぬま', 'けせんしょう', 'きせんしょう']],
+                ['word' => '登米', 'reading' => 'とよま', 'wrong' => ['のぼりこめ', 'とめ', 'とうまい']],
+            ],
+        ],
+        [
+            'key' => 'akita', 'name' => '秋田県', 'region' => 'hokkaido-tohoku', 'capital' => '秋田市',
+            'neighbors' => ['aomori', 'iwate', 'miyagi', 'yamagata'],
+            'foods' => ['きりたんぽ', '稲庭うどん', 'ハタハタ', 'あきたこまち'],
+            'sights' => ['田沢湖', '角館の武家屋敷', '男鹿半島', '乳頭温泉'],
+            'culture' => ['なまはげ', '竿燈まつり', '大曲の花火'],
+            'hard' => [
+                ['word' => '大館', 'reading' => 'おおだて', 'wrong' => ['だいかん', 'おおたち', 'おおやかた']],
+                ['word' => '鹿角', 'reading' => 'かづの', 'wrong' => ['しかつの', 'ろっかく', 'かつの']],
+                ['word' => '能代', 'reading' => 'のしろ', 'wrong' => ['のうだい', 'のうしろ', 'よししろ']],
+            ],
+        ],
+        [
+            'key' => 'yamagata', 'name' => '山形県', 'region' => 'hokkaido-tohoku', 'capital' => '山形市',
+            'neighbors' => ['akita', 'miyagi', 'fukushima', 'niigata'],
+            'foods' => ['さくらんぼ', '芋煮', '米沢牛', 'ラ・フランス'],
+            'sights' => ['蔵王の樹氷', '山寺', '銀山温泉', '最上川'],
+            'culture' => ['花笠まつり', '天童の将棋の駒', '出羽三山'],
+            'hard' => [
+                ['word' => '酒田', 'reading' => 'さかた', 'wrong' => ['しゅた', 'さけた', 'さかだ']],
+                ['word' => '鶴岡', 'reading' => 'つるおか', 'wrong' => ['かくこう', 'つるがおか', 'つるこう']],
+                ['word' => '寒河江', 'reading' => 'さがえ', 'wrong' => ['かんがえ', 'さむかわえ', 'さむがわえ']],
+            ],
+        ],
+        [
+            'key' => 'fukushima', 'name' => '福島県', 'region' => 'hokkaido-tohoku', 'capital' => '福島市',
+            'neighbors' => ['miyagi', 'yamagata', 'niigata', 'gunma', 'tochigi', 'ibaraki'],
+            'foods' => ['福島の桃', '喜多方ラーメン', 'いかにんじん', '円盤餃子'],
+            'sights' => ['鶴ヶ城', '大内宿', '磐梯山', '猪苗代湖'],
+            'culture' => ['会津塗', '赤べこ', '野口英世'],
+            'hard' => [
+                ['word' => '喜多方', 'reading' => 'きたかた', 'wrong' => ['きたほう', 'よしたかた', 'きたがた']],
+                ['word' => '猪苗代', 'reading' => 'いなわしろ', 'wrong' => ['いのなえしろ', 'ししなえだい', 'いなえしろ']],
+                ['word' => '二本松', 'reading' => 'にほんまつ', 'wrong' => ['にほんしょう', 'にもとまつ', 'ふたもとまつ']],
+            ],
+        ],
 
         [
             'key' => 'ibaraki', 'name' => '茨城県', 'region' => 'kanto', 'capital' => '水戸市',
