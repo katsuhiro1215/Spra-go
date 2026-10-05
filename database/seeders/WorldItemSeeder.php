@@ -67,7 +67,7 @@ class WorldItemSeeder extends Seeder
             ['name' => '大きな木', 'price' => 150, 'min_level' => 8, 'asset_key' => 'large_tree'],
             ['name' => 'はっぱの街灯', 'price' => 45, 'min_level' => 4, 'asset_key' => 'leaf_lamp'],
             ['name' => '木の橋', 'price' => 70, 'min_level' => 5, 'asset_key' => 'wooden_bridge'],
-            ['name' => '鳥居', 'price' => 90, 'min_level' => 6, 'asset_key' => 'torii'],
+            ['name' => '鳥居', 'price' => 90, 'min_level' => 6, 'asset_key' => 'woodland_torii'],
             ['name' => '種の倉庫', 'price' => 120, 'min_level' => 3, 'asset_key' => 'seed_storehouse'],
             ['name' => '村人の家', 'price' => 140, 'min_level' => 4, 'asset_key' => 'resident_cottage'],
             ['name' => '葉の屋根の家', 'price' => 160, 'min_level' => 5, 'asset_key' => 'leaf_cottage'],
