@@ -81,6 +81,16 @@ describe("夜の光の輪(設計書 2026-09-28-town-items 7-3)", () => {
     expect(c.cy).toBeCloseTo(-78.4);
   });
 
+  it("はっぱの街灯のランタンに、光の輪が1つ付く(絵の左側・中ほど)", () => {
+    const circles = lightCircles("leaf_lamp", 1);
+    const p = imagePlacement(SPRU_ITEMS.leaf_lamp, 1);
+    expect(circles).toHaveLength(1);
+    expect(circles[0].cx).toBeGreaterThan(p.x);
+    expect(circles[0].cx).toBeLessThan(p.x + p.width / 2);
+    expect(circles[0].cy).toBeGreaterThan(p.y + p.height * 0.3);
+    expect(circles[0].cy).toBeLessThan(p.y + p.height * 0.6);
+  });
+
   it("明かりのない物・画像のない物・キーなしは空", () => {
     expect(lightCircles("lamp", 1, images, {}, {})).toEqual([]);
     expect(lightCircles("tree", 1, images, { tree: [{ x: 0.5, y: 0.5, r: 5 }] }, {})).toEqual([]);
