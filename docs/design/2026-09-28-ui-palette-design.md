@@ -59,7 +59,7 @@
 
 ### 4-2. バッジ（mascot-9・mascot-10）
 
-素材集 `company/mascot/assets/mascot-9.png`（スプル入りのバッジ20個）・`mascot-10.png`（シンプルなバッジ26個）・`mascot-11.png`（難易度・ボス・連続プレイの節目・なかよし度・メダル・パスポート。文字ありと文字なし、スプル入りとなし）から、使うものだけを切り抜く。切り抜きは今のスプルの画像と同じ道具（`tools/spru-assets/crops.json`・`extract.py`）に「badges」の組として足し、光のふちを落とした透過のwebp（`public/spru/badges/`）にする。画面では `BadgeImage`（新規）で出す。
+素材集 `company/spra/mascot/assets/mascot-9.png`（スプル入りのバッジ20個）・`mascot-10.png`（シンプルなバッジ26個）・`mascot-11.png`（難易度・ボス・連続プレイの節目・なかよし度・メダル・パスポート。文字ありと文字なし、スプル入りとなし）から、使うものだけを切り抜く。切り抜きは今のスプルの画像と同じ道具（`tools/spru-assets/crops.json`・`extract.py`）に「badges」の組として足し、光のふちを落とした透過のwebp（`public/spru/badges/`）にする。画面では `BadgeImage`（新規）で出す。
 
 | キー | 素材 | 絵 | 使う場所 |
 |---|---|---|---|

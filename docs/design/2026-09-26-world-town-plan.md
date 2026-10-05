@@ -78,7 +78,7 @@
 - 変更: `app/globals.css`（アニメーション）
 
 **ドキュメント**
-- 変更: `SPEC.md`・`TASKS.md`・`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md`
+- 変更: `SPEC.md`・`TASKS.md`・`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md`
 
 ---
 
@@ -2205,7 +2205,7 @@ EOF
 
 - [ ] **Step 1: Spruの仮画像を置く**
 
-設定画（`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/assets/mascot-logo.png`）から切り抜き済みの画像を配置する:
+設定画（`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/assets/mascot-logo.png`）から切り抜き済みの画像を配置する:
 
 ```bash
 mkdir -p frontend/public/spru
@@ -2220,7 +2220,7 @@ cp /private/tmp/claude-501/-Users-katsuhiro-k1215-SmartSprouts/7b866672-2217-495
 python3 - <<'EOF'
 from PIL import Image
 from collections import deque
-src = Image.open('/Users/katsuhiro.k1215/SmartSprouts/company/mascot/assets/mascot-logo.png').convert('RGB')
+src = Image.open('/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/assets/mascot-logo.png').convert('RGB')
 for name, box in {'idle': (515, 575, 675, 815), 'front': (30, 575, 200, 815), 'joy': (745, 920, 930, 1110)}.items():
     im = src.crop(box); w, h = im.size; px = im.load()
     chroma = [[max(px[x, y]) - min(px[x, y]) for x in range(w)] for y in range(h)]
@@ -3483,7 +3483,7 @@ EOF
 ### Task 9: 仕上げ（通し確認・ドキュメント・マージ）
 
 **Files:**
-- Modify: `SPEC.md`、`TASKS.md`、`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md`
+- Modify: `SPEC.md`、`TASKS.md`、`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md`
 
 - [ ] **Step 1: 全テスト**
 
@@ -3522,7 +3522,7 @@ Expected: 全件PASS（既存97件＋本計画の追加分）
 
 - [ ] **Step 5: マスコット部の資料に追記する**
 
-`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md` の「主要な意思決定（サマリ）」に追記:
+`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md` の「主要な意思決定（サマリ）」に追記:
 
 「- **Spra-goで仮素材を使用（2026-09-26）**: Spra-goの町の画面（`projects/Spra-go/frontend/public/spru/`）で、`assets/mascot-logo.png` の設定画から切り抜いた仮画像（待機・喜ぶ・正面）を使用中。Spru Masterが完成したら、そこから書き出した画像に差し替える」
 

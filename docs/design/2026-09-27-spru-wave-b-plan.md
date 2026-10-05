@@ -17,7 +17,7 @@
 - 生まれるもの（`profile_seeds.result_key`）は、生まれるまで画面側へ送らない（町のAPI・種まきのAPIの応答に含めない）
 - コインで種を買う・育つのを早める・生まれる仲間を選び直す機能は作らない
 - スプル・畑・仲間のひとことは設計書3章の文言どおり
-- 素材集は `/Users/katsuhiro.k1215/SmartSprouts/company/mascot/assets/`（リポジトリの外）。`frontend/src/components/spru/spru-assets.ts` は `tools/spru-assets/extract.py` が生成する。手で直さない
+- 素材集は `/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/assets/`（リポジトリの外）。`frontend/src/components/spru/spru-assets.ts` は `tools/spru-assets/extract.py` が生成する。手で直さない
 - 画面に確認用の隠し機能を作らない。時刻はテスト用ブラウザの時計（Playwrightの `page.clock`）、日付や育ち具合は開発DBを `tinker` で調整して確かめ、確認後に元へ戻す
 - ESLint（`react-hooks`）の規則: 描画中にrefの `.current` を読まない、effectの中で直接setStateしない（setInterval・setTimeout・非同期のコールバックの中はよい）
 - 新しいUIのアイコンに絵文字を使わない。ドキュメント・コメントは日本語、コメントは「なぜ」が必要なときだけ1行
@@ -57,7 +57,7 @@
 - 変更: `components/quiz/level-up-overlay.tsx`、`app/quiz/[stageId]/page.tsx`、`app/owner/dashboard/shop-items/page.tsx`
 
 **ドキュメント**
-- 変更: `SPEC.md`・`TASKS.md`・`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md`
+- 変更: `SPEC.md`・`TASKS.md`・`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md`
 
 ---
 
@@ -1349,9 +1349,9 @@ EOF
 
 ```python
 #!/usr/bin/env python3
-"""スプルの素材集(company/mascot/assets/)から、ゲームで使う画像を1体ずつ切り抜く。
+"""スプルの素材集(company/spra/mascot/assets/)から、ゲームで使う画像を1体ずつ切り抜く。
 
-使い方(リポジトリ直下で): python3 tools/spru-assets/extract.py ../../company/mascot/assets
+使い方(リポジトリ直下で): python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets
 
 - 切り抜く範囲は同じフォルダの crops.json に書く(素材集上のピクセル座標 [左, 上, 右, 下])
 - 出力: frontend/public/spru/{group}/{key}.webp、表情の顔アイコン faces/、シーン scenes/、
@@ -1559,7 +1559,7 @@ if __name__ == "__main__":
 
 - [ ] **Step 3: スクリプトを実行する**
 
-Run（リポジトリ直下で）: `python3 tools/spru-assets/extract.py ../../company/mascot/assets`
+Run（リポジトリ直下で）: `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`
 Expected: `画像 26・顔 11・シーン 2・花 2・畑 2・仲間 5 を書き出しました`
 
 - [ ] **Step 4: 出来上がりを確かめる**
@@ -3236,7 +3236,7 @@ EOF
 ### Task 8: 仕上げ（通し確認・ドキュメント・マージ）
 
 **Files:**
-- Modify: `SPEC.md`、`TASKS.md`、`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md`
+- Modify: `SPEC.md`、`TASKS.md`、`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md`
 
 - [ ] **Step 1: 全テストと本番ビルド**
 
@@ -3274,7 +3274,7 @@ Expected: バックエンド175件PASS、フロント60件PASS、型・lintエ�
 
 - [ ] **Step 5: マスコット部の資料に追記する**
 
-`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md` の「Spra-goで仮素材を使用（2026-09-26）」の項目の最後のサブ項目（2026-09-27追記（A回））の次に、同じ形で追記する（既存の文は書き換えない）:
+`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md` の「Spra-goで仮素材を使用（2026-09-26）」の項目の最後のサブ項目（2026-09-27追記（A回））の次に、同じ形で追記する（既存の文は書き換えない）:
 
 「  - 2026-09-27追記（B回）: 仲間5人（Lumi・Momo・Kuru・Piko・Ruru）・種まき・種と芽・花とつぼみは mascot-6、水やりは mascot-4 のシーン、花の部品は mascot-5 から切り抜いて使用中。仲間は1人1枚のため、仲間ごとの表情・ポーズ集があると表現を増やせる」
 

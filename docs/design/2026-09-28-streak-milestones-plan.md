@@ -22,7 +22,7 @@
   - ボーナス「ボーナス +{coin}Coin」
   - パスポートの欄の見出し「連続プレイのバッジ」、下の行「いちばん長い連続: {N}日」
   - バッジの説明文「{days}日連続のバッジ（もらった）」「{days}日連続のバッジ（まだ）」
-- 画像の切り抜きは `python3 tools/spru-assets/extract.py ../../company/mascot/assets`（リポジトリ直下で。全素材を作り直すので数分かかる。バックグラウンドで流す）。`spru-assets.ts` は手で直さない
+- 画像の切り抜きは `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`（リポジトリ直下で。全素材を作り直すので数分かかる。バックグラウンドで流す）。`spru-assets.ts` は手で直さない
 - スクリーンショットは `/Users/katsuhiro.k1215/SmartSprouts/.playwright-mcp/` に置き、確かめたら消す
 - ブラウザ確認で変えた開発DBは、確認のあとに元へ戻す（テスト用ログイン `test@example.com` / `password`、プロフィール「町テスト」id 7）
 
@@ -386,7 +386,7 @@ Expected: FAIL（`Cannot find module './streak-milestone'`）
     { "key": "streak-30", "source": "m11", "box": [600, 466, 784, 630], "scale": 0.85 }
 ```
 
-Run（リポジトリ直下で、バックグラウンドで）: `python3 tools/spru-assets/extract.py ../../company/mascot/assets`
+Run（リポジトリ直下で、バックグラウンドで）: `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`
 Expected: 最後に「…・バッジ 18・スタンプ 7 を書き出しました」。`git status --short` で、変わったのが `crops.json`・`spru-assets.ts` と新しい3つの webp だけ（ほかの画像は作り直しても同じ）
 
 切り抜いた3枚を水色の背景に並べた確認用の画像を `/Users/katsuhiro.k1215/SmartSprouts/.playwright-mcp/streak-badges.png` に作って見る（枠や名前の文字が入っていない・炎が欠けていない）。見たら消す。
@@ -732,7 +732,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 **Files:**
 - Create（確認のあと消す）: `storage/app/private/streak-check.php`、`storage/app/private/streak-check-snapshot.json`（どちらも git に入らない）
 - Modify: `SPEC.md`、`TASKS.md`
-- Modify（追記のみ、git 管理外）: `/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md`
+- Modify（追記のみ、git 管理外）: `/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md`
 
 - [ ] **Step 1: 開発DBを記録・復元する道具を用意する**
 
@@ -843,7 +843,7 @@ Expected: Step 1 の前と同じ値
 - [ ] バッジ素材の残り（mascot-11 の相棒のなかよし度1〜3、文字なしの炎）を、その機能の画面を作るときに使う
 ```
 
-`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md` の最後に1行足す（追記のみ）。
+`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md` の最後に1行足す（追記のみ）。
 
 ```markdown
   - 2026-09-28追記（連続プレイの節目）: mascot-11 の「連続プレイの節目」から、文字入りの炎（3日・7日・30日）を切り抜いて、節目のお祝いの画面とパスポートに使用中（`badges/streak-3`・`streak-7`・`streak-30`）。文字なしの炎は未使用

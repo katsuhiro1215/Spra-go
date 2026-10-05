@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """アプリのアイコンと、SNSで共有したときの画像を作る(docs/design/2026-09-29-spru-icons-design.md 5・6章)。
 
-使い方(リポジトリ直下で): python3 tools/spru-assets/brand.py ../../company/mascot/assets
+使い方(リポジトリ直下で): python3 tools/spru-assets/brand.py ../../company/spra/mascot/assets
 
 - アイコンは image9(頭がS字の芽のスプル)、SNS画像は image10(家の前で手を振るスプル)から作る
 - SNS画像の字は M PLUS Rounded 1c(fonts/、SIL Open Font License)。ロゴのマークは frontend/public/logo.svg を

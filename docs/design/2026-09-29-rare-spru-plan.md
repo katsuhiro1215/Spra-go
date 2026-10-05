@@ -67,7 +67,7 @@
 | `frontend/src/components/world/roster-sheet.tsx` | なかまの一覧（新規） | 7 |
 | `frontend/src/components/world/town-buttons.tsx` | 「なかま」ボタン | 7 |
 | `frontend/src/components/world/companion-sheet.tsx` | おうちの子は相棒にできない | 7 |
-| `SPEC.md`・`TASKS.md`・`company/mascot/CLAUDE.md` | 文書 | 8 |
+| `SPEC.md`・`TASKS.md`・`company/spra/mascot/CLAUDE.md` | 文書 | 8 |
 
 ---
 
@@ -1686,7 +1686,7 @@ export const GROWTH_IMAGES = {{
 
 - [ ] **Step 5: 書き出す**
 
-Run: `git rm -q frontend/public/spru/garden/seed.webp frontend/public/spru/garden/sprout.webp && python3 tools/spru-assets/extract.py ../../company/mascot/assets`（5〜6分かかる）
+Run: `git rm -q frontend/public/spru/garden/seed.webp frontend/public/spru/garden/sprout.webp && python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`（5〜6分かかる）
 Expected: 最後に「…・育つ絵 44・仲間 15・…を書き出しました」。`git status --short frontend/public/spru` で、`companions/` の15枚（5枚は変更・10枚は新規）と `growth/` の44枚だけが増減し、ほかの絵は変わらない
 
 - [ ] **Step 6: 絵を目で確かめる**
@@ -2832,7 +2832,7 @@ git commit -m "#00290: feat:町のボタンに「なかま」を足し、なか�
 **Files:**
 - Modify: `SPEC.md`（4-9 ワールドの B回の行の後ろ）
 - Modify: `TASKS.md`（「特別な仲間（金色など）・記念の仲間・天井」の行）
-- Modify: `company/mascot/CLAUDE.md`（追記のみ）
+- Modify: `company/spra/mascot/CLAUDE.md`（追記のみ）
 
 - [ ] **Step 1: 開発用のデータの今の状態を控える**
 
@@ -2883,10 +2883,10 @@ Step 1 で控えた値に戻し、確かめるために作った仲間・畑の�
 ```markdown
 - [x] **レアスプルと特別な種**（2026-09-29。がんばった記念に種をもらい、畑でその色に育つ。町に立つのは5体まで・なかまの一覧。設計書 `docs/design/2026-09-29-rare-spru-design.md`、実装計画 `docs/design/2026-09-29-rare-spru-plan.md`。確率で出す仲間・天井は作らない）
 - [ ] レアスプルの条件の数字の見直し（試験で触ってから。数字は `config/companions.php` の `condition`。公開後はゆるめる方向だけにする）
-- [ ] リリ（幻、リシリヒナゲシ）の出し方（`company/mascot/assets/spru/riri.png`。レアスプルより希少な位置づけ）
+- [ ] リリ（幻、リシリヒナゲシ）の出し方（`company/spra/mascot/assets/spru/riri.png`。レアスプルより希少な位置づけ）
 ```
 
-`company/mascot/CLAUDE.md` の最後に追記:
+`company/spra/mascot/CLAUDE.md` の最後に追記:
 
 ```markdown
   - 2026-09-29追記（レアスプルと仲間の絵の使い道）: Spra-go で、`assets/spru/` の各シートの左上の大きい正面の絵を、仲間5人（差し替え）とレアスプル10色の町・一覧・お祝いの絵にした（`public/spru/companions/`）。下の段の成長の絵から「種・いちばん大きい芽・つぼみ・花」の4枚を、畑で育つ絵にした（`public/spru/growth/{色}/`。ふつうのスプルは `spru.png` から。仲間の種は、ふつうのスプルの緑の絵で育つ）。前の mascot-6 の畑の種・芽は使わなくなった。riri はまだ使っていない
@@ -2904,7 +2904,7 @@ git add SPEC.md TASKS.md
 git commit -m "#00291: docs:SPEC・TASKSにレアスプルと特別な種を書く(条件の数字の見直しとリリを未着手で足す)" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ```
 
-（`company/mascot/CLAUDE.md` はリポジトリの外なのでコミットしない）
+（`company/spra/mascot/CLAUDE.md` はリポジトリの外なのでコミットしない）
 
 ---
 

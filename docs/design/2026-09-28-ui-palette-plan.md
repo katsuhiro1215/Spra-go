@@ -307,7 +307,7 @@ export const BADGE_IMAGES = {{
 
 - [ ] **Step 3: 書き出す**
 
-Run: `python3 tools/spru-assets/extract.py ../../company/mascot/assets && ls frontend/public/spru/badges && git status --short frontend/public/spru frontend/src/components/spru`
+Run: `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets && ls frontend/public/spru/badges && git status --short frontend/public/spru frontend/src/components/spru`
 Expected: `badges/` に8枚（`coins.webp`・`crown.webp`・`hp.webp`・`medal.webp`・`points.webp`・`star.webp`・`streak.webp`・`trophy.webp`）。今までの画像は変わらない（`git status` に出るのは `badges/` と `spru-assets.ts` だけ。今までの画像が変わって出たら、書き出しが変わった原因を調べる）
 
 - [ ] **Step 4: バッジの部品（`badge-image.tsx`）**

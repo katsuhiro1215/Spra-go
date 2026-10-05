@@ -158,7 +158,7 @@ export type HouseImageKey = keyof typeof HOUSE_IMAGES;
 
 - [ ] **Step 4: 道具を流す（数分かかるので、ほかの作業の裏で）**
 
-Run: `python3 tools/spru-assets/extract.py ../../company/mascot/assets`（リポジトリ直下で）
+Run: `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`（リポジトリ直下で）
 Expected: 最後に `…・スタンプ 7・家 1 を書き出しました`。`git status` で増えたのは `frontend/public/spru/house/home.webp` と `spru-assets.ts` の変更だけ（ほかの画像は変わらない。変わっていたら差分を確かめる）
 
 - [ ] **Step 5: 出力の絵を確かめる**
@@ -1228,7 +1228,7 @@ git commit -m "#00199: feat:プロフィール選びをスプルの家の前に�
 **Files:**
 - Modify: `SPEC.md`（4-1 プロフィール周り、93行あたりの2026-09-28の行、フロントエンドのテスト件数）
 - Modify: `TASKS.md`（開発部門の「未ログインのトップを作り直す」「残りの仮のキャラクター」「追加の画像」）
-- Append: `/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md`（追記のみ）
+- Append: `/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md`（追記のみ）
 
 - [ ] **Step 1: 開発用データベースが元のままか確かめる**
 
@@ -1248,7 +1248,7 @@ Expected: `current_streak` 2・`best_streak` 2・`last_played_date` 2026-09-27�
 
 - [ ] **Step 4: マスコット部の記録に追記する**
 
-`company/mascot/CLAUDE.md` のいちばん後ろに1行足す（追記のみ）:
+`company/spra/mascot/CLAUDE.md` のいちばん後ろに1行足す（追記のみ）:
 
 ```markdown
   - 2026-09-28追記（入口の画面）: Spra-go の未ログインのトップとプロフィール選びで、スプルの家（image1。`tools/spru-assets/extract.py` で四隅から背景を抜いて `house/home.webp`）を使い始めた。プレイヤーのアバターは、Ownerの6種が届くまで仲間5人と笑顔のスプルを仮の絵にしている

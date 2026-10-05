@@ -15,13 +15,13 @@
 ## Global Constraints
 
 - 返答・ドキュメント・コミットの要約は日本語。コミットは `git commit -m "#NNNNN: type:要約" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"`
-- 使うシート: `company/mascot/assets/items/` の `item1-2`・`item2-2`・`item3-2`・`item4`・`item5-2`・`item6`・`item7`・`item8`・`item9`（`item1`・`item2`・`item3`・`item5` は使わない）
+- 使うシート: `company/spra/mascot/assets/items/` の `item1-2`・`item2-2`・`item3-2`・`item4`・`item5-2`・`item6`・`item7`・`item8`・`item9`（`item1`・`item2`・`item3`・`item5` は使わない）
 - 同じシートの物は同じ `scale`（設計書7-1の表）。町での幅は `画像の幅(px) × 0.225 × 調整の scale`（設計書7-2）
 - 明かりは `IMAGE_LIGHTS` に `{ x, y, r }`（x・y は画像の左上からの割合 0〜1、r はSVGの単位）で持つ（設計書7-3）
 - 新しい16点のレベルと値段は設計書5-2のとおり。2×2は パン屋・和風の家・カフェ・灯台
 - 種から咲くスプルの花とプレゼント箱の絵は消さない
 - 画面のテストは `frontend/` で `npx vitest run <ファイル>`、全部は `npm test`・`npm run typecheck`・`npm run lint`。サーバーのテストは リポジトリ直下で `./vendor/bin/sail test <ファイル>`（`--parallel` を付けない。結果は JSON の `"tool":"pest","result"` を見る）
-- 切り抜きは リポジトリ直下で `python3 tools/spru-assets/extract.py ../../company/mascot/assets`（2分を超えるので、長く待てる形で流す）
+- 切り抜きは リポジトリ直下で `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`（2分を超えるので、長く待てる形で流す）
 - 開発用のデータベースは `migrate:fresh` しない。品ぞろえは `db:seed --class=WorldItemSeeder`（何度流しても増えない）で足す。ブラウザで確かめたあとは町テストのデータを確認前の状態に戻す
 - 開発用の画面は `http://localhost:3000`（すでに動いている）
 
@@ -401,7 +401,7 @@ Expected: FAIL（今は `SPRU_ITEMS` が空なので、33キーの一覧が出�
 
 - [ ] **Step 4: 切り抜きを流す**
 
-Run（リポジトリ直下で。2分を超えるので長く待てる形で）: `python3 tools/spru-assets/extract.py ../../company/mascot/assets`
+Run（リポジトリ直下で。2分を超えるので長く待てる形で）: `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`
 Expected: 最後に「…・アイテム 48・アイコン 15・ステージ 3・アバター 6・旅 3・ページ 1 を書き出しました」
 
 Run: `git status --short`
@@ -1083,7 +1083,7 @@ Expected: Step 2 と同じ（体力の自然回復で `hp` だけ変わった場
 `SPEC.md` の4-9（ワールド・自分の町）の、町のアイテムのカテゴリ分け（2026-09-28）の行の次に足す:
 
 ```markdown
-- ✅（2026-09-29）**町のアイテム・おみやげ・目印をすべて画像にした**: Ownerのシート9枚（`company/mascot/assets/items/`、つやのある立体のタッチ）から48点を切り抜き、プログラムの絵を消した（種から咲くスプルの花と、画像のないときのプレゼント箱は残す）。町での幅は「画像の幅×0.225」で、同じシートの物は同じ縮尺で切り抜くので、シートの中の大きさの比率がそのまま町の大きさになる。夜の明かりは画像の中の位置（割合）で持つ。新しい16点（チューリップ・岩と草・ひまわり・まるい植え込み・もみじ・松・植木鉢・井戸・街灯・ポスト・小さな家・赤い屋根の家・パン屋・和風の家・カフェ・灯台）をショップに足し、町のアイテムは34種類になった（`docs/design/2026-09-28-town-items-design.md` 7〜8章）
+- ✅（2026-09-29）**町のアイテム・おみやげ・目印をすべて画像にした**: Ownerのシート9枚（`company/spra/mascot/assets/items/`、つやのある立体のタッチ）から48点を切り抜き、プログラムの絵を消した（種から咲くスプルの花と、画像のないときのプレゼント箱は残す）。町での幅は「画像の幅×0.225」で、同じシートの物は同じ縮尺で切り抜くので、シートの中の大きさの比率がそのまま町の大きさになる。夜の明かりは画像の中の位置（割合）で持つ。新しい16点（チューリップ・岩と草・ひまわり・まるい植え込み・もみじ・松・植木鉢・井戸・街灯・ポスト・小さな家・赤い屋根の家・パン屋・和風の家・カフェ・灯台）をショップに足し、町のアイテムは34種類になった（`docs/design/2026-09-28-town-items-design.md` 7〜8章）
 ```
 
 `TASKS.md` の「町のアイテムのカテゴリ分けと画像への差し替え」の下で:

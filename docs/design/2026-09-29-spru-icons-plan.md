@@ -22,7 +22,7 @@
 - 手紙・鍵のスプル（`icons/letter`・`icons/key`）は切り抜くだけで、画面では使わない
 - 有料の素材は使わない。書体は M PLUS Rounded 1c（SIL Open Font License）
 - 画面のテストは `cd frontend && npx vitest run <ファイル>`、全部は `npm test`・`npm run typecheck`・`npm run lint`（どれも `frontend/` で）
-- 切り抜きは リポジトリ直下（`projects/Spra-go/`）で `python3 tools/spru-assets/extract.py ../../company/mascot/assets`
+- 切り抜きは リポジトリ直下（`projects/Spra-go/`）で `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`
 - 開発用のデータベースは `migrate:fresh` しない。ブラウザで確かめたあとは確認前の状態に戻す
 - 開発用の画面は `http://localhost:3000`（すでに動いている。起動し直さない）
 
@@ -62,7 +62,7 @@
 | `tools/spru-assets/brand.py`・`tools/spru-assets/fonts/` | アプリのアイコン・SNS画像を作る道具と書体（新規） | 7 |
 | `frontend/src/app/favicon.ico`・`icon.png`・`apple-icon.png`・`opengraph-image.jpg`・`twitter-image.jpg`・`*.alt.txt`・`frontend/public/icons/` | 作った画像（道具が書き出す） | 7 |
 | `frontend/src/app/manifest.ts`・`manifest.test.ts`・`frontend/src/app/layout.tsx` | ホーム画面の名前・SNSのカード | 7 |
-| `SPEC.md`・`TASKS.md`・`company/mascot/CLAUDE.md` | ドキュメント | 8 |
+| `SPEC.md`・`TASKS.md`・`company/spra/mascot/CLAUDE.md` | ドキュメント | 8 |
 
 ---
 
@@ -315,7 +315,7 @@ export type SpruStageKey = keyof typeof SPRU_STAGES;
 
 - [ ] **Step 5: 切り抜きを流す**
 
-Run（`projects/Spra-go/` で）: `python3 tools/spru-assets/extract.py ../../company/mascot/assets`
+Run（`projects/Spra-go/` で）: `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`
 Expected: 最後に「…・アイコン 15・ステージ 3・アバター 6・旅 3・ページ 1 を書き出しました」
 
 Run: `git status --short`
@@ -1714,7 +1714,7 @@ git commit -q -m "#00238: feat:迷子のスプルの見つからないページ�
 - Modify: `frontend/src/app/layout.tsx`（`metadata`）
 
 **Interfaces:**
-- Consumes: `company/mascot/assets/image9.png`・`image10.png`、`frontend/public/logo.svg`
+- Consumes: `company/spra/mascot/assets/image9.png`・`image10.png`、`frontend/public/logo.svg`
 - Produces: なし（Next.jsが決まった名前のファイルを読む）
 
 - [ ] **Step 1: 失敗するテストを書く**
@@ -1772,7 +1772,7 @@ Expected: `TrueType Font data`、1行目が `Copyright 2016 The Rounded M+ Proje
 #!/usr/bin/env python3
 """アプリのアイコンと、SNSで共有したときの画像を作る(docs/design/2026-09-29-spru-icons-design.md 5・6章)。
 
-使い方(リポジトリ直下で): python3 tools/spru-assets/brand.py ../../company/mascot/assets
+使い方(リポジトリ直下で): python3 tools/spru-assets/brand.py ../../company/spra/mascot/assets
 
 - アイコンは image9(頭がS字の芽のスプル)、SNS画像は image10(家の前で手を振るスプル)から作る
 - SNS画像の字は M PLUS Rounded 1c(fonts/、SIL Open Font License)。ロゴのマークは frontend/public/logo.svg を
@@ -1867,7 +1867,7 @@ if __name__ == "__main__":
 Run（`projects/Spra-go/` で）:
 
 ```bash
-python3 tools/spru-assets/brand.py ../../company/mascot/assets
+python3 tools/spru-assets/brand.py ../../company/spra/mascot/assets
 python3 -c "
 from PIL import Image
 for p in ['frontend/src/app/favicon.ico','frontend/src/app/icon.png','frontend/src/app/apple-icon.png','frontend/public/icons/icon-192.png','frontend/public/icons/icon-512.png','frontend/src/app/opengraph-image.jpg','frontend/src/app/twitter-image.jpg']:
@@ -1977,7 +1977,7 @@ git commit -q -m "#00239: feat:S字の芽のスプルでアプリのアイコン
 **Files:**
 - Modify: `SPEC.md`（4-2 の「画面のまわりを整えた」の行の次）
 - Modify: `TASKS.md`（開発部門の29〜33行目あたり・51行目「ほかの小さな点」・公開前の確認）
-- Modify: `company/mascot/CLAUDE.md`（「主要な意思決定」の最後に追記。リポジトリの外なのでコミットしない）
+- Modify: `company/spra/mascot/CLAUDE.md`（「主要な意思決定」の最後に追記。リポジトリの外なのでコミットしない）
 
 **Interfaces:**
 - Consumes: Task 1〜7 のすべて
@@ -2028,7 +2028,7 @@ Expected: `hp` 以外が Step 1 と同じ（`hp` が変わったら、Step 1 の
 `SPEC.md` の4-2の「✅（2026-09-28）画面のまわりを整えた…」の行の次に足す:
 
 ```markdown
-- ✅（2026-09-29）**スプルのアイコン・画像を画面に入れた**: Ownerの画像（`company/mascot/assets/image4.png`〜`image6.png`・`image9.png`・`image10.png`）を切り抜いて使う。下のメニュー（学ぶ・せかい・まち・ショップ）はスプルのバッジで、真ん中の「まち」は大きく。「じぶん」はそのプレイヤーのアバター（パネルの上も）。「じぶん」のパネルのバッグ・プロフィールの切り替え・ログアウト、音のボタン（オン・オフ）、町の「つづきから学ぶ」・家族の町・バッグ、家族の町の「自分の町にもどる」（スプルの家の小さい絵）もスプルの絵にした（ふりがな・文字の大きさ・「おつかい」は今のまま）。ステージの丸は丸ごとバッジ（鍵・遊べる・クリア。まだのボスは赤い丸とボスの印）で、番号は丸の下の札。アバターはOwnerの6種（赤・橙・黄・青・紫・桃）。出発の場面の船・飛行機はスプルが乗った絵、チケットの絵も替えた。見つからないページ（迷子のスプル）を作った。ブラウザのタブ・ホーム画面のアイコンと、SNSで共有したときの画像（ロゴ・「Spra Go」・キャッチコピー入り）は、頭がS字の芽のスプル（image9・image10）から作る（`tools/spru-assets/brand.py`）。画面とタブの名前の表記は「Spra Go」にそろえた。SNSの画像のURLのもとになるドメインは `NEXT_PUBLIC_SITE_URL`（`docs/design/2026-09-29-spru-icons-design.md`）
+- ✅（2026-09-29）**スプルのアイコン・画像を画面に入れた**: Ownerの画像（`company/spra/mascot/assets/image4.png`〜`image6.png`・`image9.png`・`image10.png`）を切り抜いて使う。下のメニュー（学ぶ・せかい・まち・ショップ）はスプルのバッジで、真ん中の「まち」は大きく。「じぶん」はそのプレイヤーのアバター（パネルの上も）。「じぶん」のパネルのバッグ・プロフィールの切り替え・ログアウト、音のボタン（オン・オフ）、町の「つづきから学ぶ」・家族の町・バッグ、家族の町の「自分の町にもどる」（スプルの家の小さい絵）もスプルの絵にした（ふりがな・文字の大きさ・「おつかい」は今のまま）。ステージの丸は丸ごとバッジ（鍵・遊べる・クリア。まだのボスは赤い丸とボスの印）で、番号は丸の下の札。アバターはOwnerの6種（赤・橙・黄・青・紫・桃）。出発の場面の船・飛行機はスプルが乗った絵、チケットの絵も替えた。見つからないページ（迷子のスプル）を作った。ブラウザのタブ・ホーム画面のアイコンと、SNSで共有したときの画像（ロゴ・「Spra Go」・キャッチコピー入り）は、頭がS字の芽のスプル（image9・image10）から作る（`tools/spru-assets/brand.py`）。画面とタブの名前の表記は「Spra Go」にそろえた。SNSの画像のURLのもとになるドメインは `NEXT_PUBLIC_SITE_URL`（`docs/design/2026-09-29-spru-icons-design.md`）
 ```
 
 `TASKS.md` の開発部門で:
@@ -2040,7 +2040,7 @@ Expected: `hp` 以外が Step 1 と同じ（`hp` が変わったら、Step 1 の
 - 51行目「ほかの小さな点」の「ブラウザのタブの題名が「Create Next App」のまま（アプリの題名・説明の設定がない。タブのアイコン・SNSで共有したときの画像と一緒に直す）。」を消す（題名・アイコン・SNS画像は済んだ）
 - 公開前の確認（「本格公開」の判断の前の一覧、または6-5 本番デプロイの近くのタスク）に足す: `- [ ] 本番で `NEXT_PUBLIC_SITE_URL`（例: https://go.spra.jp）を設定する。ないとSNSで共有したときの画像のURLが localhost になる（`docs/design/2026-09-29-spru-icons-design.md` 6章）`
 
-`company/mascot/CLAUDE.md` の「主要な意思決定（サマリ）」の最後に追記する:
+`company/spra/mascot/CLAUDE.md` の「主要な意思決定（サマリ）」の最後に追記する:
 
 ```markdown
   - 2026-09-29追記（アイコン・アバター・アプリのアイコン）: Spra-go で、image4（入口の3種・下のメニュー4種・ステージの丸3種・船・飛行機・チケット・迷子のスプル）、image5（音オン・オフ・バッグ・ログアウト・つづきから学ぶ・家族の町・手紙・鍵）、image6（アバター6種）を切り抜いて使い始めた（`icons/`・`stages/`・`avatars/`・`travel/`・`pages/`）。image9（頭がS字の芽のスプル）からブラウザのタブ・ホーム画面のアイコン、image10（家の前で手を振るスプル）からSNSで共有したときの画像を作った（`tools/spru-assets/brand.py`）。image7・8は頭の形がちがうため使わない。ブランドのSは外から見える所（アイコン・SNS）で守り、画面の中のバッジは葉の形のままでよい（`company/secretary/notes/2026-09-29-decisions.md`）。image4 の自転車・電車・車、「学ぶ」の切り替え、404の看板は未使用

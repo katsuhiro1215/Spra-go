@@ -2,7 +2,7 @@
 
 - 作成日: 2026-09-29
 - ステータス: Owner合意済み（遊び方、React で作ること、初級・中級・上級、HP を使わないこと、ごほうびは1日3回まででコインなし、1回10問・ハート3つ、入口、当面作らないもの、旅の鍵の扱いを対話で確認）
-- 元の相談: `company/mascot/docs/mini-app.md`（Owner のまとめ）、見本の画面 `company/mascot/assets/samplegame.png`
+- 元の相談: `company/spra/mascot/docs/mini-app.md`（Owner のまとめ）、見本の画面 `company/spra/mascot/assets/samplegame.png`
 - 前提: 問題ごとの覚え具合（`docs/design/2026-09-29-spaced-review-design.md`）、旅の鍵（`docs/design/2026-09-28-travel-tickets-design.md` 3-6。鍵の国のステージはミニアプリにも出さない）、学ぶタブの「ミニアプリ」の引き出し、音（`components/app/sound-provider.tsx`）、スプルの絵（`public/spru/`）。どれも実装済み
 - 対応するタスク: `TASKS.md` 開発部門「ミニゲーム1本目：スプルキャッチ（英単語）」（新規）
 
@@ -353,7 +353,7 @@ return [
 
 | 使う所 | 絵・音 |
 |---|---|
-| ふだんのスプル | `spru/outing/back.webp`（2026-09-29 に、新しい設定画 `company/mascot/assets/spru/spru.png` の後ろ姿〔200×337〕に差し替えた。前は mascot-7 の小さい絵〔66×95〕。お出かけ・旅の出発の場面も同じ絵） |
+| ふだんのスプル | `spru/outing/back.webp`（2026-09-29 に、新しい設定画 `company/spra/mascot/assets/spru/spru.png` の後ろ姿〔200×337〕に差し替えた。前は mascot-7 の小さい絵〔66×95〕。お出かけ・旅の出発の場面も同じ絵） |
 | 正解のとき | `spru/actions/cheer.webp` |
 | まちがいのとき | `spru/expressions/sad.webp` |
 | 結果（ふつう） | `spru/expressions/happy.webp` |

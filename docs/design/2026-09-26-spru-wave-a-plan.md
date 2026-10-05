@@ -13,7 +13,7 @@
 ## 全体の制約
 
 - サーバー側（`app/`・`routes/`・`database/`）は変更しない。バックエンドの既存テスト（134件）はすべて通ること
-- 素材集は `/Users/katsuhiro.k1215/SmartSprouts/company/mascot/assets/`（リポジトリの外）。切り抜いた画像と一覧はリポジトリに含める
+- 素材集は `/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/assets/`（リポジトリの外）。切り抜いた画像と一覧はリポジトリに含める
 - `frontend/src/components/spru/spru-assets.ts` は `tools/spru-assets/extract.py` が生成する。手で直さない
 - スプルの吹き出しの言葉は設計書5章の文言どおり
 - 画面に確認用の隠し機能を作らない。時刻を変えた確認はテスト用ブラウザの時計（Playwrightの `page.clock`）で行う
@@ -54,7 +54,7 @@
 - 変更: `src/app/globals.css`
 
 **ドキュメント**
-- 変更: `SPEC.md`・`TASKS.md`・`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md`
+- 変更: `SPEC.md`・`TASKS.md`・`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md`
 
 ---
 
@@ -274,9 +274,9 @@ EOF
 
 ```python
 #!/usr/bin/env python3
-"""スプルの素材集(company/mascot/assets/)から、ゲームで使う画像を1体ずつ切り抜く。
+"""スプルの素材集(company/spra/mascot/assets/)から、ゲームで使う画像を1体ずつ切り抜く。
 
-使い方(リポジトリ直下で): python3 tools/spru-assets/extract.py ../../company/mascot/assets
+使い方(リポジトリ直下で): python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets
 
 - 切り抜く範囲は同じフォルダの crops.json に書く(素材集上のピクセル座標 [左, 上, 右, 下])
 - 出力: frontend/public/spru/{group}/{key}.webp、表情の顔アイコン frontend/public/spru/faces/{key}.webp、
@@ -423,7 +423,7 @@ if __name__ == "__main__":
 
 - [ ] **Step 3: スクリプトを実行する**
 
-Run（リポジトリ直下で）: `python3 tools/spru-assets/extract.py ../../company/mascot/assets`
+Run（リポジトリ直下で）: `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`
 Expected: `画像 23・顔 11・シーン 2 を書き出しました`
 
 - [ ] **Step 4: 出来上がりを確かめる**
@@ -2279,7 +2279,7 @@ EOF
 ### Task 7: 仕上げ（通し確認・ドキュメント・マージ）
 
 **Files:**
-- Modify: `SPEC.md`、`TASKS.md`、`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md`
+- Modify: `SPEC.md`、`TASKS.md`、`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md`
 
 - [ ] **Step 1: 全テストと本番ビルド**
 
@@ -2294,7 +2294,7 @@ Expected: バックエンド134件PASS、フロントのテストPASS、型・li
 
 `SPEC.md`:
 - 1章の「2026-09-26 コンセプト転換」の項目の次に追加: 「- **2026-09-26 仲間と成長の構想（Owner承認）**: 仲間（Lumi・Momo・Kuru・Piko・Ruru）を種から育てて手に入れ、相棒にしていく。スプルは学ぶと芽→つぼみ→花と育ち、種をまくと新しい芽（仲間）が生まれる。A〜Eの5回に分けて作る（A: 表情・ポーズの出し分け・演出・時間帯と季節（実装済み、`docs/design/2026-09-26-spru-wave-a-design.md`）、B: 成長サイクル・水やり・仲間の誕生、C: 相棒・仲間の成長・仲間からの復習問題、D: 今日のおつかい・にぎやか度・家族の町、E: 土地の解放と旅・おみやげ）。着せ替えと図鑑は後回し。コインで回すガチャは入れない」
-- 4-9の「⚠️ Spruは設定画から切り抜いた仮画像」の行を次に置き換える: 「- ✅（2026-09-26、A回）スプルの表情・ポーズの出し分け: 町では開いたときに手を振る、置く→ジャンプ、しまう→手を合わせる、通信エラー→がっかり、タップ→照れる・大笑い・応援と状況に合ったひとこと、30秒さわらない→座る、90秒→寝る。クイズでは正解・コンボ・不正解・結果・HP切れで表情が変わる。吹き出しの左に顔アイコン（`components/spru/mood.ts`・`hint.ts`）」「- ✅（A回）レベルアップの全画面演出（新しく買えるアイテムを表示）と、ステージ開始のカード（2秒で消える）」「- ✅（A回）時間帯（朝・昼・夕方・夜、端末の時計）と季節（桜・日差し・落ち葉・雪、端末の日付の月）で町の見た目が変わる。夜は窓・灯籠・ちょうちんに明かりがともり、22〜6時はスプルが寝ている（タップで起きる。遊ぶことは止めない）」「- ⚠️ スプルの画像は素材集（`company/mascot/assets/mascot-4〜6.png`・`mascot-logo.png`）から切り抜いた仮素材（`tools/spru-assets/` で再生成できる）。Spru Master（Blender）ができたら同じ名前で差し替える」
+- 4-9の「⚠️ Spruは設定画から切り抜いた仮画像」の行を次に置き換える: 「- ✅（2026-09-26、A回）スプルの表情・ポーズの出し分け: 町では開いたときに手を振る、置く→ジャンプ、しまう→手を合わせる、通信エラー→がっかり、タップ→照れる・大笑い・応援と状況に合ったひとこと、30秒さわらない→座る、90秒→寝る。クイズでは正解・コンボ・不正解・結果・HP切れで表情が変わる。吹き出しの左に顔アイコン（`components/spru/mood.ts`・`hint.ts`）」「- ✅（A回）レベルアップの全画面演出（新しく買えるアイテムを表示）と、ステージ開始のカード（2秒で消える）」「- ✅（A回）時間帯（朝・昼・夕方・夜、端末の時計）と季節（桜・日差し・落ち葉・雪、端末の日付の月）で町の見た目が変わる。夜は窓・灯籠・ちょうちんに明かりがともり、22〜6時はスプルが寝ている（タップで起きる。遊ぶことは止めない）」「- ⚠️ スプルの画像は素材集（`company/spra/mascot/assets/mascot-4〜6.png`・`mascot-logo.png`）から切り抜いた仮素材（`tools/spru-assets/` で再生成できる）。Spru Master（Blender）ができたら同じ名前で差し替える」
 - 3章（技術スタック）に、フロントエンドの自動テストとして Vitest（計算部分のみ）を導入したことを1行追記する
 
 - [ ] **Step 4: TASKS.md を更新する**
@@ -2315,7 +2315,7 @@ Expected: バックエンド134件PASS、フロントのテストPASS、型・li
 
 - [ ] **Step 5: マスコット部の資料に追記する**
 
-`/Users/katsuhiro.k1215/SmartSprouts/company/mascot/CLAUDE.md` の「Spra-goで仮素材を使用（2026-09-26）」の項目の末尾に追記:
+`/Users/katsuhiro.k1215/SmartSprouts/company/spra/mascot/CLAUDE.md` の「Spra-goで仮素材を使用（2026-09-26）」の項目の末尾に追記:
 
 「（A回で追加）表情・ポーズ・顔アイコンは mascot-6（「わくわく」のみ mascot-4）、レベルアップ・ステージ開始のシーンは mascot-logo から切り抜いて使用中。切り抜き範囲は `projects/Spra-go/tools/spru-assets/crops.json`。素材集を差し替えたら `extract.py` で作り直せる」
 

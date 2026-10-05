@@ -60,7 +60,7 @@
 - 変更: `components/world/types.ts`・`world-scene.tsx`（`readOnly`）・`world-screen.tsx`、`app/globals.css`（動き）
 
 **ドキュメント**
-- 変更: `SPEC.md`・`TASKS.md`・`docs/design/2026-09-27-spru-wave-d-design.md`（計画で決めたことの反映）、`../../company/mascot/CLAUDE.md`（追記のみ）
+- 変更: `SPEC.md`・`TASKS.md`・`docs/design/2026-09-27-spru-wave-d-design.md`（計画で決めたことの反映）、`../../company/spra/mascot/CLAUDE.md`（追記のみ）
 
 ---
 
@@ -1272,7 +1272,7 @@ export type CostumeKey = keyof typeof COSTUME_IMAGES;
 
 - [ ] **Step 3: 道具を動かす**
 
-Run（リポジトリ直下で）: `python3 tools/spru-assets/extract.py ../../company/mascot/assets`
+Run（リポジトリ直下で）: `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`
 Expected: `画像 26・顔 11・シーン 2・花 2・畑 2・仲間 5・お出かけ 6・衣装 4 を書き出しました`
 
 - [ ] **Step 4: 切り抜いた絵を目で確かめる**
@@ -3475,7 +3475,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ### Task 8: ブラウザでの確認とドキュメント
 
 **Files:**
-- Modify: `SPEC.md`（1章の構想の行・4-9・6-1）、`TASKS.md`（D回の行）、`../../company/mascot/CLAUDE.md`（主要な意思決定の末尾に追記）
+- Modify: `SPEC.md`（1章の構想の行・4-9・6-1）、`TASKS.md`（D回の行）、`../../company/spra/mascot/CLAUDE.md`（主要な意思決定の末尾に追記）
 - 画面の不具合が見つかったら、その部品のファイル（修正は1件ごとにコミット）
 
 **Interfaces:**
@@ -3535,7 +3535,7 @@ Step 1でメモした値に `tinker` で戻す（町テストの `update([...])`
 - ✅（D回）季節のあいさつ: ハロウィン（10月）・クリスマス（12/1〜25）・バレンタイン（2/1〜14）・夏休み（7/20〜8/31）の間に町を開くと、衣装のスプル（mascot-8）が世界のひとこと付きで1日1回あいさつする（端末の日付。「今日はもう出した」はブラウザに持つ）。あいさつの中の世界のひとことは公開前のコンテンツレビューで確かめる
 ```
 
-- 4-9 の「⚠️ スプルの画像は素材集（`company/mascot/assets/mascot-4〜6.png`・`mascot-logo.png`）から…」の `mascot-4〜6.png` を `mascot-4〜8.png` にする
+- 4-9 の「⚠️ スプルの画像は素材集（`company/spra/mascot/assets/mascot-4〜6.png`・`mascot-logo.png`）から…」の `mascot-4〜6.png` を `mascot-4〜8.png` にする
 - 6-1 の `2026-09-27時点で86件` をフロントのテスト数（Task 7の結果、122件）にする
 
 `TASKS.md`:
@@ -3547,7 +3547,7 @@ Step 1でメモした値に `tinker` で戻す（町テストの `update([...])`
 
 - 「後回し: 着せ替え（国ごとの帽子）、図鑑。…」の行に「季節の衣装（mascot-8）は、D回では季節のあいさつのカードだけで使っている」を足す
 
-`../../company/mascot/CLAUDE.md` の主要な意思決定の最後の行（B回の追記）の後に、同じ形で追記する（既存の行は変えない）:
+`../../company/spra/mascot/CLAUDE.md` の主要な意思決定の最後の行（B回の追記）の後に、同じ形で追記する（既存の行は変えない）:
 
 ```markdown
   - 2026-09-27追記（D回）: リュックを背負ったスプル（走る・歩く・後ろ姿・りんご／ハート／星を持つ）は mascot-7、期間限定の衣装4つ（ハロウィン・クリスマス・バレンタイン・夏）は mascot-8 から切り抜いて使用中（おつかいの受け取り・家族の町へのお出かけの場面・季節のあいさつ）。mascot-7-2 は頭の形がほかとちがうため未使用。町の道を歩き回る（コマ送り）は未実装
@@ -3565,4 +3565,4 @@ git commit -m "#00128: docs:スプルのD回(今日のおつかい・にぎや�
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ```
 
-`company/mascot/CLAUDE.md` はこのリポジトリの外（`SmartSprouts/company/`）にあるため、Spra-go のコミットには含めない（最終報告で追記したことを伝える）。
+`company/spra/mascot/CLAUDE.md` はこのリポジトリの外（`SmartSprouts/company/`）にあるため、Spra-go のコミットには含めない（最終報告で追記したことを伝える）。

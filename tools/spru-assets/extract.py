@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""スプルの素材集(company/mascot/assets/)から、ゲームで使う画像を1体ずつ切り抜く。
+"""スプルの素材集(company/spra/mascot/assets/)から、ゲームで使う画像を1体ずつ切り抜く。
 
-使い方(リポジトリ直下で): python3 tools/spru-assets/extract.py ../../company/mascot/assets
+使い方(リポジトリ直下で): python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets
 
 - 切り抜く範囲は同じフォルダの crops.json に書く(素材集上のピクセル座標 [左, 上, 右, 下])
 - 1点ごとに "width" を書くと、その幅(px)に縮める(アイテムは1マス256px・2×2は384px)
@@ -91,7 +91,7 @@ def clear_background(img: Image.Image) -> Image.Image:
 
 
 def clear_checker(img: Image.Image) -> Image.Image:
-    """背景の透明を灰色の格子模様で描いてしまった絵(company/mascot/assets/spru/ の多く)から、
+    """背景の透明を灰色の格子模様で描いてしまった絵(company/spra/mascot/assets/spru/ の多く)から、
     四辺につながる格子(色味のない灰色)を透明にする。もともと透明な所がある絵はそのまま返す。
     銀・真珠のように体の色が格子と近い絵は、体まで削れるので使わない(透明な絵に描き直してもらう)"""
     if img.getchannel("A").getextrema()[0] < 255:

@@ -903,7 +903,7 @@ export const SPRU_ITEMS = {{
 
 - [ ] **Step 4: 道具を流して、書き出しを確かめる**
 
-Run: `python3 tools/spru-assets/extract.py ../../company/mascot/assets && git status --short frontend/public/spru frontend/src/components/spru/spru-assets.ts`
+Run: `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets && git status --short frontend/public/spru frontend/src/components/spru/spru-assets.ts`
 Expected: 最後の行に「・アイテム 0 を書き出しました」。`git status` は `spru-assets.ts` だけが変わっている（`SPRU_ITEMS = {` が足される）。もし `frontend/public/spru` の画像も変わっていたら、画像の書き出しが同じにならない環境なので `git checkout -- frontend/public/spru` で元に戻し、ledgerに記録する
 
 - [ ] **Step 5: 合成した試しのシートで、アイテムの切り抜きを確かめる（コミットしない）**
@@ -919,7 +919,7 @@ d.ellipse((150, 150, 350, 330), fill="#6fbf5a", outline="#5a3a22", width=8)   # 
 d.rectangle((230, 320, 270, 420), fill="#9b6a45", outline="#5a3a22", width=6)  # 木の幹
 d.ellipse((600, 300, 640, 340), fill="#f48aa4", outline="#5a3a22", width=4)    # 離れた部品(花)
 d.ellipse((700, 300, 740, 340), fill="#ffd35c", outline="#5a3a22", width=4)
-img.save("../../company/mascot/assets/items-00.png")
+img.save("../../company/spra/mascot/assets/items-00.png")
 EOF
 cp tools/spru-assets/crops.json /private/tmp/claude-501/-Users-katsuhiro-k1215-SmartSprouts/7b866672-2217-4954-898a-6df8d903cf68/scratchpad/crops.backup.json
 python3 - <<'EOF'
@@ -933,7 +933,7 @@ spec["items"] = [
 ]
 json.dump(spec, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 EOF
-python3 tools/spru-assets/extract.py ../../company/mascot/assets
+python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets
 python3 - <<'EOF'
 from PIL import Image
 for key in ("test_tree", "test_flowers"):
@@ -949,10 +949,10 @@ Expected: `test_tree (256, …) corner alpha: 0`、`test_flowers (256, …) corn
 
 ```bash
 cp /private/tmp/claude-501/-Users-katsuhiro-k1215-SmartSprouts/7b866672-2217-4954-898a-6df8d903cf68/scratchpad/crops.backup.json tools/spru-assets/crops.json
-rm -f ../../company/mascot/assets/items-00.png
+rm -f ../../company/spra/mascot/assets/items-00.png
 rm -rf frontend/public/spru/items
-python3 tools/spru-assets/extract.py ../../company/mascot/assets
-git status --short tools frontend/public/spru frontend/src/components/spru ../../company/mascot/assets
+python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets
+git status --short tools frontend/public/spru frontend/src/components/spru ../../company/spra/mascot/assets
 ```
 
 Expected: 変わっているのは `extract.py`・`crops.json`・`spru-assets.ts` だけ（`SPRU_ITEMS` は空）
@@ -1238,7 +1238,7 @@ git commit -m "#00219: feat:町のアイテム・目印を、画像があれば�
 **Files:**
 - Modify: `SPEC.md`（4-5 ショップ・4-9 町・6章のテスト数）
 - Modify: `TASKS.md`（開発部門にタスクを足す）
-- Modify: `../../company/mascot/CLAUDE.md`（追記のみ）
+- Modify: `../../company/spra/mascot/CLAUDE.md`（追記のみ）
 
 **Interfaces:**
 - Consumes: Task 1〜5 のすべて
@@ -1303,12 +1303,12 @@ Expected: 確認の前と同じ値（確認を始める前に同じコマンド�
   - [x] 段階1: カテゴリ（ショップ・バッグのタブ、NEW、管理画面）と、画像を表示する仕組み（切り抜きの `items` の組・`SPRU_ITEMS`・置き方の計算）
   - [ ] 段階2: アイテム画像の試しの1枚（シート3: スプルの家・鳥居・木・ちょうちん・自動販売機・小さな家）が届いたら、町に置いて確かめ、調整値と決まりを直す
   - [ ] 段階3: 残りの8枚が届いたら全部を取り込み、新しい16点（設計書5-2）を設定と品ぞろえに足す。光の位置を測り直し、差し替えたプログラムの絵を消す
-  - アイテム画像の依頼（Ownerが追加の画像のあとに用意）: シート9枚・48点。プロンプトは設計書6章、シートは `company/mascot/assets/items-01.png`〜`items-09.png`
+  - アイテム画像の依頼（Ownerが追加の画像のあとに用意）: シート9枚・48点。プロンプトは設計書6章、シートは `company/spra/mascot/assets/items-01.png`〜`items-09.png`
 ```
 
-- [ ] **Step 6: company/mascot/CLAUDE.md に追記する**
+- [ ] **Step 6: company/spra/mascot/CLAUDE.md に追記する**
 
-`../../company/mascot/CLAUDE.md` の「主要な意思決定（サマリ）」の最後の追記の後ろに足す（既存の行は変えない）:
+`../../company/spra/mascot/CLAUDE.md` の「主要な意思決定（サマリ）」の最後の追記の後ろに足す（既存の行は変えない）:
 
 ```markdown
   - 2026-09-28追記（町のアイテムの画像）: Spra-go の町のアイテム・おみやげ・目印を、画像生成で作った画像に差し替える。タッチはスプルの絵（mascot-6）に合わせ、斜め上から見下ろす角度、正面は左下、地面と影は描かない、背景は透明か白。横長1枚に6点のシートで、`assets/items-01.png`〜`items-09.png` に置く（1回目は48点）。決まり・英語のプロンプト・一覧は `projects/Spra-go/docs/design/2026-09-28-town-items-design.md` 4〜6章。切り抜きは `tools/spru-assets/crops.json` の items の組
@@ -1326,4 +1326,4 @@ git add SPEC.md TASKS.md
 git commit -m "#00220: docs:町のアイテムのカテゴリ分けと画像を表示する仕組みをSPEC/TASKSに反映する" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ```
 
-（`company/mascot/CLAUDE.md` は Spra-go のリポジトリの外なので、このコミットには入らない。追記したことを最後の報告で伝える）
+（`company/spra/mascot/CLAUDE.md` は Spra-go のリポジトリの外なので、このコミットには入らない。追記したことを最後の報告で伝える）

@@ -7,7 +7,7 @@
 
 ## 1. 背景と目的
 
-下のメニューや「じぶん」などは線のアイコン、アバターやアプリのアイコンは仮の絵のままになっている。Ownerが画像生成でスプルのアイコン・画像を用意した（`company/mascot/assets/image4.png`〜`image6.png`・`image9.png`・`image10.png`）。これを切り抜いて画面に入れ、線のアイコンと仮の絵をなくす。
+下のメニューや「じぶん」などは線のアイコン、アバターやアプリのアイコンは仮の絵のままになっている。Ownerが画像生成でスプルのアイコン・画像を用意した（`company/spra/mascot/assets/image4.png`〜`image6.png`・`image9.png`・`image10.png`）。これを切り抜いて画面に入れ、線のアイコンと仮の絵をなくす。
 
 **うまくいった目安**
 
@@ -38,9 +38,9 @@
 
 | 名前 | ファイル | 中身 |
 |---|---|---|
-| `i4` | `company/mascot/assets/image4.png` | 入口の3種・下のメニュー4種・ステージ3種・乗り物・チケット・迷子のスプル |
-| `i5` | `company/mascot/assets/image5.png` | 音オン・音オフ・バッグ・ログアウト・つづきから学ぶ・家族の町・手紙・鍵 |
-| `i6` | `company/mascot/assets/image6.png` | アバター6種 |
+| `i4` | `company/spra/mascot/assets/image4.png` | 入口の3種・下のメニュー4種・ステージ3種・乗り物・チケット・迷子のスプル |
+| `i5` | `company/spra/mascot/assets/image5.png` | 音オン・音オフ・バッグ・ログアウト・つづきから学ぶ・家族の町・手紙・鍵 |
+| `i6` | `company/spra/mascot/assets/image6.png` | アバター6種 |
 
 ### 3-2. もやを消す
 
@@ -224,4 +224,4 @@ image4〜6は、背景を透明にした絵のまわりに、うすい半透明�
 
 - `SPEC.md`: 画面のまわり（下のメニュー・「じぶん」・音のボタン）とステージの丸の見た目、見つからないページ、アプリのアイコン・SNS画像、名前の表記「Spra Go」
 - `TASKS.md`: 「スプルのアイコン画像…」「追加の画像…」を完了にする。「メール確認・パスワード再設定のページを作る（公開前必須）」を足す。「ほかの小さな点」のタブの題名・アイコン・SNS画像の所を直す
-- `company/mascot/CLAUDE.md`: image4〜6・9・10 の使い方を追記する
+- `company/spra/mascot/CLAUDE.md`: image4〜6・9・10 の使い方を追記する
