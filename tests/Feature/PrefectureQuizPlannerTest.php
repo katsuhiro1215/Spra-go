@@ -252,3 +252,67 @@ it('上級の2問目は、県名と県庁所在地の名前がちがう県だけ
     $neighborCapitals = ['甲市', '丙府市', '丁市'];
     expect(collect($b['choices'])->pluck('label')->intersect($neighborCapitals)->count())->toBe(3);
 });
+
+it('地方まるごとは、その地方の全県の事実がそろったときだけ、県のコースの後ろに出る', function () {
+    $plan = PrefectureQuizPlanner::plan(prefectureTestCatalog());
+
+    // 関東は g・h・i・j の全部がそろっている → まるごとが出る。近畿は e が足りない → 出ない
+    $kanto = collect($plan)->firstWhere('key', 'kanto');
+    expect(collect($kanto['courses'])->pluck('name')->all())->toBe(['庚県', '辛県', '壬県', '癸県', '関東まるごと']);
+    expect(collect($kanto['courses'])->pluck('order')->all())->toBe([1, 2, 3, 4, 5]);
+    $kinki = collect($plan)->firstWhere('key', 'kinki');
+    expect(collect($kinki['courses'])->pluck('name')->contains('近畿まるごと'))->toBeFalse();
+});
+
+it('地方まるごとは、3級・各1ステージ(10問)のボス。称号は上級だけ「地方名はかせ」', function () {
+    $plan = PrefectureQuizPlanner::plan(prefectureTestCatalog());
+    $course = collect(collect($plan)->firstWhere('key', 'kanto')['courses'])->firstWhere('name', '関東まるごと');
+
+    expect(collect($course['levels'])->pluck('difficulty')->all())->toBe(['初級', '中級', '上級']);
+    foreach ($course['levels'] as $level) {
+        expect($level['stages'])->toHaveCount(1);
+        expect($level['stages'][0]['boss'])->toBeTrue();
+        expect($level['stages'][0]['questions'])->toHaveCount(10);
+        expect($level['stages'][0]['title_reward'])->toBe($level['code'] === 'advanced' ? '関東はかせ' : null);
+    }
+});
+
+it('地方まるごとの問いは、その地方の県が中心。初級は逆の問い、中級は県庁所在地と3・8問目のはめ込み、上級は難読地名が4問', function () {
+    $plan = PrefectureQuizPlanner::plan(prefectureTestCatalog());
+    $kantoNames = ['庚県', '辛県', '壬県', '癸県'];
+    $course = collect(collect($plan)->firstWhere('key', 'kanto')['courses'])->firstWhere('name', '関東まるごと');
+    $stage = fn (string $code) => collect($course['levels'])->firstWhere('code', $code)['stages'][0]['questions'];
+
+    // 初級: 逆の問い(「…で ゆうめいなのは どこ？」「…が あるのは どこ？」)。正解は地方の県
+    foreach ($stage('beginner') as $q) {
+        expect($q['prompt'])->toMatch('/で ゆうめいなのは どこ？|が あるのは どこ？/u');
+        expect($kantoNames)->toContain(prefectureCorrect($q));
+    }
+
+    // 中級: 3・8問目がはめ込み、そのほかは県庁所在地の問い
+    $middle = collect($stage('intermediate'));
+    expect($middle->keys()->filter(fn ($i) => $middle[$i]['type'] === 'matching')->map(fn ($i) => $i + 1)->values()->all())->toBe([3, 8]);
+    // 小さな表(4県)では、同じ県が3回当たって、3回目は予備の問いになる。ふつうの地方(7県以上)では、全部が県庁所在地の問い
+    expect($middle->filter(fn ($q) => $q['type'] === 'multiple_choice' && str_contains($q['prompt'], 'けんちょうしょざいち'))->count())->toBeGreaterThanOrEqual(6);
+
+    // 上級: 難読地名が1・4・7・10問目、3・8問目がはめ込み
+    $advanced = collect($stage('advanced'));
+    expect($advanced->keys()->filter(fn ($i) => ($advanced[$i]['plain'] ?? []) !== [])->map(fn ($i) => $i + 1)->values()->all())->toBe([1, 4, 7, 10]);
+    expect($advanced->keys()->filter(fn ($i) => $advanced[$i]['type'] === 'matching')->map(fn ($i) => $i + 1)->values()->all())->toBe([3, 8]);
+});
+
+it('地方まるごとも、正解が1つ・選択肢が重ならず、1ステージに同じ問いが2回出ず、同じ表から同じ計画', function () {
+    $first = PrefectureQuizPlanner::plan(prefectureTestCatalog());
+    expect($first)->toBe(PrefectureQuizPlanner::plan(prefectureTestCatalog()));
+
+    $course = collect(collect($first)->firstWhere('key', 'kanto')['courses'])->firstWhere('name', '関東まるごと');
+    foreach ($course['levels'] as $level) {
+        $questions = collect($level['stages'][0]['questions']);
+        $signatures = $questions->map(fn ($q) => $q['type'] === 'matching' ? 'fit:'.collect($q['items'])->pluck('id')->sort()->implode(',') : $q['prompt'].'|'.prefectureCorrect($q));
+        expect($signatures->unique())->toHaveCount(10);
+        foreach ($questions->where('type', 'multiple_choice') as $q) {
+            expect(collect($q['choices'])->where('correct', true))->toHaveCount(1);
+            expect(collect($q['choices'])->pluck('label')->unique())->toHaveCount(4);
+        }
+    }
+});

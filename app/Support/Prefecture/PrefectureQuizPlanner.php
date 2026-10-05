@@ -70,6 +70,16 @@ class PrefectureQuizPlanner
                 continue;
             }
 
+            // その地方の全県の事実がそろったときだけ、地方まるごとを足す
+            if (count($courses) === count($members)) {
+                $courses[] = [
+                    'key' => $regionKey,
+                    'name' => "{$regionName}まるごと",
+                    'order' => count($members) + 1,
+                    'levels' => self::regionLevels($catalog, $owners, $regionKey, $regionName, $members),
+                ];
+            }
+
             $regions[] = ['key' => $regionKey, 'name' => $regionName, 'order' => $regionOrder, 'group' => true, 'courses' => $courses];
         }
 
@@ -96,6 +106,66 @@ class PrefectureQuizPlanner
         return $levels;
     }
 
+    /** 地方まるごと。その地方の県を1つずつアンカーにして、級ごとの形で10問 */
+    private static function regionLevels(array $catalog, array $owners, string $regionKey, string $regionName, array $members): array
+    {
+        $levels = [];
+        foreach (self::LEVELS as $code => $difficulty) {
+            $prefix = "pref:{$regionKey}:all:{$code}:1";
+            $items = [];
+            foreach (self::anchors($members, $prefix) as $index => $anchor) {
+                $items[] = [$anchor['prefecture'], self::regionForm($code, $index + 1, $anchor['round'])];
+            }
+            $levels[] = [
+                'code' => $code,
+                'difficulty' => $difficulty,
+                'stages' => [[
+                    'number' => 1,
+                    'boss' => true,
+                    'title_reward' => $code === 'advanced' ? PrefectureCatalog::title($regionName) : null,
+                    // 地方のまちがいは、初級・中級ともに、同じ地方の県から(中級の選び方)
+                    'questions' => self::assemble($catalog, $owners, $prefix, $items, $code === 'beginner' ? 'intermediate' : $code),
+                ]],
+            ];
+        }
+
+        return $levels;
+    }
+
+    /** 地方まるごとの、$position問目(1始まり)の形。$round は、そのアンカーが何回目か(事実・難読地名の番号に使う) */
+    private static function regionForm(string $code, int $position, int $round): array
+    {
+        if ($code === 'beginner') {
+            return ['rev', $position % 2 === 1 ? 'foods' : 'sights', $round % 4];
+        }
+        if (in_array($position, [3, 8], true)) {
+            return ['fit'];
+        }
+        if ($code === 'intermediate') {
+            // 同じ県が2回出るときは、1回目は県庁所在地、2回目はその逆にする(同じ問いにならないように)
+            return $round % 2 === 0 ? ['capital'] : ['capital_rev'];
+        }
+
+        return match (true) {
+            in_array($position, [1, 4, 7, 10], true) => ['hard', $round % 3],
+            in_array($position, [2, 5, 9], true) => ['neighbor'],
+            default => ['rev', 'culture', $round % 3],
+        };
+    }
+
+    /** 県を10個になるまで繰り返して、名前から決まる順に並べる(同じ県が続かないように、何回目かも並べ方に入れる) */
+    private static function anchors(array $members, string $salt): array
+    {
+        $cycle = [];
+        $count = count($members);
+        for ($i = 0; $i < self::QUESTIONS_PER_STAGE; $i++) {
+            $cycle[] = ['prefecture' => $members[$i % $count], 'round' => intdiv($i, $count)];
+        }
+        usort($cycle, fn (array $a, array $b) => self::hash($salt, "{$a['prefecture']['key']}#{$a['round']}") <=> self::hash($salt, "{$b['prefecture']['key']}#{$b['round']}"));
+
+        return $cycle;
+    }
+
     /** 事実の文字 => その文字を持つ県のkey(名物・名所・お祭りなどを通して) */
     private static function factOwners(array $catalog): array
     {
@@ -111,13 +181,26 @@ class PrefectureQuizPlanner
         return array_map('array_keys', $owners);
     }
 
+    /** 県のコースの、級ごとの10問 */
     private static function questions(array $catalog, array $owners, string $prefix, array $prefecture, string $code): array
+    {
+        $items = array_map(fn (array $form) => [$prefecture, $form], self::PLANS[$code]);
+
+        return self::assemble($catalog, $owners, $prefix, $items, $code);
+    }
+
+    /**
+     * 問いの並び($items は [県, 形] の並び)から、10問を作る。作れない形・同じ問いになる形は、予備の問いに替える
+     *
+     * @param  list<array{0: array, 1: array}>  $items
+     */
+    private static function assemble(array $catalog, array $owners, string $prefix, array $items, string $code): array
     {
         $questions = [];
         $signatures = [];
         $usedFit = [];
 
-        foreach (self::PLANS[$code] as $index => $form) {
+        foreach ($items as $index => [$prefecture, $form]) {
             $key = "{$prefix}:q".($index + 1);
             $question = self::build($form, $key, $catalog, $owners, $prefecture, $code, $usedFit);
 
