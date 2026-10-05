@@ -73,3 +73,4 @@ Thumbs.db
 
 # 作業用(設計の話し合いのモックアップ・実装の記録)
 /.superpowers/
+__pycache__/

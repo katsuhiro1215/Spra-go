@@ -1435,6 +1435,16 @@ Route::middleware(['auth:sanctum'])->post('/shop/{shopItem}/purchase', function 
 })->name('shop.purchase');
 
 Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(function () {
+    // 町の道のデザインを選ぶ(docs/design/2026-10-05-road-style-design.md)。選べるのは、日本と、着いた国だけ
+    Route::put('/road', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $data = $request->validate(['style' => ['required', 'string', Rule::in(Travel::roadKeys())]]);
+        abort_unless($data['style'] === 'jp' || Travel::hasVisited($profile, $data['style']), 422, 'まだ着いていない国の道は、選べないよ');
+        $profile->update(['road_style' => $data['style']]);
+
+        return ['road_style' => Travel::roadStyle($profile)];
+    })->name('road');
+
     Route::get('/', function (Request $request) {
         $profile = ActiveProfile::require($request);
         $profile->regenerateHp();
@@ -1444,6 +1454,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
 
         return [
             'land' => WorldLand::toArray($profile->level),
+            'road_style' => Travel::roadStyle($profile),
             'items' => $items->filter->isPlaced()->values()->map->toWorldArray(),
             'bag' => $items->reject->isPlaced()->values()->map->toWorldArray(),
             'profile' => [
@@ -1701,7 +1712,7 @@ Route::middleware(['auth:sanctum'])->prefix('travel')->name('travel.')->group(fu
     Route::get('/', function (Request $request) {
         $profile = ActiveProfile::require($request);
 
-        return ['level' => $profile->level, ...Travel::overview($profile)];
+        return ['level' => $profile->level, 'road_style' => Travel::roadStyle($profile), ...Travel::overview($profile)];
     })->name('index');
 
     Route::get('/{key}', function (Request $request, string $key) {

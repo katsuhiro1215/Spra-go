@@ -86,6 +86,29 @@ class Travel
         ];
     }
 
+    /** 町の道に選べる道のキー: 日本('jp')と、旅の行き先のキー(docs/design/2026-10-05-road-style-design.md) */
+    public static function roadKeys(): array
+    {
+        return ['jp', ...array_column(self::destinations(), 'key')];
+    }
+
+    /** その国(行き先のキー)に着いているか */
+    public static function hasVisited(UserProfile $profile, string $key): bool
+    {
+        return in_array($key, self::visitedKeys($profile), true);
+    }
+
+    /** 選んでいる道。日本か、着いた国のキー。保存してあっても、その国に着いていなければ日本 */
+    public static function roadStyle(UserProfile $profile): string
+    {
+        $style = $profile->road_style;
+        if ($style === null || $style === 'jp') {
+            return 'jp';
+        }
+
+        return self::hasVisited($profile, $style) ? $style : 'jp';
+    }
+
     /** @return list<array<string, mixed>> */
     public static function state(UserProfile $profile): array
     {

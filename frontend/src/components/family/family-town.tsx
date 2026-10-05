@@ -217,6 +217,7 @@ function ReadyTown({
           <WorldScene
             readOnly
             land={town.land}
+            roadStyle={town.road_style}
             items={town.items}
             validTiles={NO_TILES}
             placing={false}

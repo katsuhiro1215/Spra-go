@@ -15,6 +15,8 @@ import {
 import { SpruFace } from "@/components/spru/spru-figure";
 
 import { TIME_THEME } from "./ambience";
+import { roadArt } from "@/components/travel/road";
+
 import { GROUND_ART, GROUND_DECALS, type GroundArtKey } from "./ground-art";
 import { blendCells, blendGroups, type BlendKind } from "./blend";
 import { decalAt, decalOffset, pathEdges, patternMatrix, plotPoints } from "./ground";
@@ -149,6 +151,7 @@ export function WorldScene({
   veil = null,
   preview = null,
   readOnly = false,
+  roadStyle = "jp",
 }: {
   land: WorldLand;
   items: WorldItem[];
@@ -172,6 +175,8 @@ export function WorldScene({
   veil?: { keys: string[]; fading: boolean } | null;
   preview?: { x: number; y: number; item: WorldItem } | null;
   readOnly?: boolean;
+  /** 町の道のデザイン(設計書 2026-10-05-road-style)。絵が無ければ日本の道 */
+  roadStyle?: string;
 }) {
   const theme = TIME_THEME[timeOfDay];
   // 夜は物を少し暗くする(明かりは暗くしない)
@@ -185,7 +190,9 @@ export function WorldScene({
   const openPlots = land.plots.filter((plot) => plot.unlocked);
   const artPlots = openPlots.filter((plot) => GROUND_ART[plot.ground]);
   const checkerTiles = tiles.filter(([x, y]) => !pathSet.has(tileKey(x, y)) && !GROUND_ART[plotAt(land, x, y)?.ground ?? "grass"]);
-  const pathArt = GROUND_ART.path;
+  const road = roadArt(roadStyle);
+  const pathArt = road?.art;
+  const pathFill = road ? `url(#ground-${road.key})` : PATH_COLOR;
   const artKeys = (Object.keys(GROUND_ART) as GroundArtKey[]).filter((key) => GROUND_ART[key]);
   const pathLines = useMemo(
     () => (pathArt ? pathEdges(land.paths, (x, y) => isOpenTile(land, x, y)) : []),
@@ -257,7 +264,8 @@ export function WorldScene({
   const landShapes = [
     ...edges.left.map(([x, y]) => leftFace(tileCenter(x, y).sx, tileCenter(x, y).sy, LAND_THICKNESS)),
     ...edges.right.map(([x, y]) => rightFace(tileCenter(x, y).sx, tileCenter(x, y).sy, LAND_THICKNESS)),
-    ...tiles.map(([x, y]) => tilePoints(x, y)),
+    // 地面は、マスごとでなく、開いた区画ごとの1つの菱形で重ねる(マスごとだと、重なりの縁に細い線が出るため)
+    ...openPlots.map((plot) => plotPoints(plot)),
   ];
   const previewTiles = preview ? footprintTiles(preview.x, preview.y, preview.item.footprint) : [];
   const previewCenter = preview ? footprintCenter(preview.x, preview.y, preview.item.footprint) : null;
@@ -392,8 +400,8 @@ export function WorldScene({
             <polygon
               key={`path-${x},${y}`}
               points={tilePoints(x, y)}
-              fill={pathArt ? "url(#ground-path)" : PATH_COLOR}
-              stroke={pathArt ? "url(#ground-path)" : undefined}
+              fill={pathFill}
+              stroke={pathArt ? pathFill : undefined}
               strokeWidth={pathArt ? 0.6 : undefined}
             />
           ))}
@@ -424,17 +432,17 @@ export function WorldScene({
           const decal = GROUND_DECALS[kind];
           const { sx, sy } = tileCenter(x, y);
           const { dx, dy } = decalOffset(x, y);
-          const width = 18;
+          // 草・石などは、立てて(つぶさずに)小さく置く。足元がマスの中心にくる
+          const width = 20;
           const height = (width * decal.height) / decal.width;
           return (
             <image
               key={key}
               href={decal.src}
-              x={-width / 2}
-              y={-height / 2}
+              x={sx + dx - width / 2}
+              y={sy + dy - height * 0.8}
               width={width}
               height={height}
-              transform={`translate(${sx + dx} ${sy + dy}) scale(1 0.5) rotate(45)`}
             />
           );
         })}
