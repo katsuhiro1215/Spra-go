@@ -14,7 +14,7 @@
 
 ## Global Constraints
 
-- 今の39点（キー・名前・値段・レベル）は変えない。ユーザーのデータは変えない
+- 今の38点（キー・名前・値段・レベル）は変えない。ユーザーのデータは変えない
 - `config/world.php` の `asset_keys`・`asset_categories`・`asset_footprints` と、`art-keys.ts` の `ITEM_ART_KEYS`・`ITEM_ART_CATEGORIES`・`BIG_ASSETS` は必ず一致させる（今のテストが確かめる）
 - `SPRU_ITEMS`（`spru-assets.ts`）は手で直さない。`extract.py` が書き出す
 - 追加の画像は合計1.5MB以内、1枚30〜80KB目安
@@ -43,7 +43,7 @@ spring | わき水の泉 | water/small_spring_source_01 | nature | 1 | 5 | 60
 large_tree | 大きな木 | nature/village_large_tree_01 | nature | 2 | 8 | 150
 leaf_lamp | はっぱの街灯 | decoration/leaf_village_lamp_01 | decor | 1 | 4 | 45
 wooden_bridge | 木の橋 | structure/small_wooden_bridge_01 | decor | 1 | 5 | 70
-torii | 鳥居 | structure/woodland_torii_01 | landmark | 1 | 6 | 90
+woodland_torii | 鳥居 | structure/woodland_torii_01 | landmark | 1 | 6 | 90
 seed_storehouse | 種の倉庫 | building/small_seed_supply_storehouse_01 | house | 1 | 3 | 120
 resident_cottage | 村人の家 | building/village_resident_cottage_01 | house | 1 | 4 | 140
 leaf_cottage | 葉の屋根の家 | building/spru_village_leaf_roof_cottage_01 | house | 1 | 5 | 160
@@ -118,7 +118,7 @@ saku_mall | サクモール | building/saku_mall_01 | landmark | 2 | 14 | 700
 
 ## Task 7: ドキュメントと全体の確認
 
-- [ ] `SPEC.md`（町のアイテムの品ぞろえ39→64）、`TASKS.md`（「Spra-worldの画像の活用」第1段階を完了、第2・3段階を残す）を更新する
+- [ ] `SPEC.md`（町のアイテムの品ぞろえ38→63）、`TASKS.md`（「Spra-worldの画像の活用」第1段階を完了、第2・3段階を残す）を更新する
 - [ ] 全体のテスト: `./vendor/bin/sail test`（626＋新規）、`cd frontend && npx vitest run && npx tsc --noEmit && npm run lint`（392＋新規）
 - [ ] Review Focus の4点を、1つずつ確かめる（2×2の重なり拒否は `WorldPlacementTest` に1件足す。画像の欠け・小さな絵・シーダー2回は上のテストとTask 6で確認）
 - [ ] 自分で見直す（最終見直しは自分によるもの）。コミット `#00368: docs:町のアイテム25点の追加をSPEC・TASKSに反映する`

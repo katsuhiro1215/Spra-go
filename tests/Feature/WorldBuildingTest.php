@@ -205,3 +205,17 @@ it('新しい16点は設計書 2026-09-28-town-items 5-2 のレベル・値段�
         ->and($row('カフェ'))->toBe([9, 320, 'cafe', 'house'])
         ->and($row('灯台'))->toBe([9, 350, 'lighthouse', 'landmark']);
 });
+
+it('Spra-worldの確定画像から足した2×2の建物(八百屋)も、4マスを使い、重なると置けない', function () {
+    $profile = createActiveProfile();
+    createPlacedBench($profile, 5, 5);
+    $shop = createBuilding($profile, 'greengrocer');
+
+    $this->patchJson("/api/world/items/{$shop->id}", ['x' => 4, 'y' => 4])
+        ->assertStatus(422)
+        ->assertJsonPath('message', 'そこにはもう置いてあります。');
+
+    $this->patchJson("/api/world/items/{$shop->id}", ['x' => 2, 'y' => 5])
+        ->assertOk()
+        ->assertJson(['asset_key' => 'greengrocer', 'footprint' => 2]);
+});
