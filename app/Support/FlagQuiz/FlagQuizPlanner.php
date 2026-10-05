@@ -133,7 +133,7 @@ class FlagQuizPlanner
     }
 
     /** まちがいの候補。上級は似ている国(足りなければ同じコースの国で足す)。ほかは、その級の国から */
-    private static function wrongCountries(array $country, string $code, array $levelCountries, array $courseCountries, array $catalog, string $salt): array
+    public static function wrongCountries(array $country, string $code, array $levelCountries, array $courseCountries, array $catalog, string $salt): array
     {
         if ($code === 'advanced') {
             $pool = [];
