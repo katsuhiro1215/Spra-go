@@ -13,7 +13,7 @@
 | foods(4つ以上): 名物・特産(簡単なものから)／sights(4つ以上): 名所・自然・建物(簡単なものから)
 | culture(3つ以上): お祭り・伝統工芸・歴史・人物(簡単なものから)
 | hard(3つ以上): 難読地名。word(漢字)・reading(正しい読み)・wrong(ありがちな読みまちがい3つ)
-| 事実がそろった県(foods・sights・culture・hard)だけ、県のコースができる。いまは近畿・関東・中部の23県。
+| 事実がそろった県(foods・sights・culture・hard)だけ、県のコースができる。いまは近畿・関東・中部・九州・沖縄の31県。
 | 事実の正しさ、県庁所在地、となりの県、難読地名の読みは、公開前にOwnerが確認する。
 |
 */
@@ -317,13 +317,101 @@ return [
         ['key' => 'ehime', 'name' => '愛媛県', 'region' => 'chugoku-shikoku', 'capital' => '松山市', 'neighbors' => ['kagawa', 'tokushima', 'kochi']],
         ['key' => 'kochi', 'name' => '高知県', 'region' => 'chugoku-shikoku', 'capital' => '高知市', 'neighbors' => ['tokushima', 'ehime']],
 
-        ['key' => 'fukuoka', 'name' => '福岡県', 'region' => 'kyushu-okinawa', 'capital' => '福岡市', 'neighbors' => ['saga', 'kumamoto', 'oita']],
-        ['key' => 'saga', 'name' => '佐賀県', 'region' => 'kyushu-okinawa', 'capital' => '佐賀市', 'neighbors' => ['fukuoka', 'nagasaki']],
-        ['key' => 'nagasaki', 'name' => '長崎県', 'region' => 'kyushu-okinawa', 'capital' => '長崎市', 'neighbors' => ['saga']],
-        ['key' => 'kumamoto', 'name' => '熊本県', 'region' => 'kyushu-okinawa', 'capital' => '熊本市', 'neighbors' => ['fukuoka', 'oita', 'miyazaki', 'kagoshima']],
-        ['key' => 'oita', 'name' => '大分県', 'region' => 'kyushu-okinawa', 'capital' => '大分市', 'neighbors' => ['fukuoka', 'kumamoto', 'miyazaki']],
-        ['key' => 'miyazaki', 'name' => '宮崎県', 'region' => 'kyushu-okinawa', 'capital' => '宮崎市', 'neighbors' => ['oita', 'kumamoto', 'kagoshima']],
-        ['key' => 'kagoshima', 'name' => '鹿児島県', 'region' => 'kyushu-okinawa', 'capital' => '鹿児島市', 'neighbors' => ['kumamoto', 'miyazaki']],
-        ['key' => 'okinawa', 'name' => '沖縄県', 'region' => 'kyushu-okinawa', 'capital' => '那覇市', 'neighbors' => []],
+        [
+            'key' => 'fukuoka', 'name' => '福岡県', 'region' => 'kyushu-okinawa', 'capital' => '福岡市',
+            'neighbors' => ['saga', 'kumamoto', 'oita'],
+            'foods' => ['明太子', 'とんこつラーメン', 'もつ鍋', 'あまおう'],
+            'sights' => ['太宰府天満宮', '福岡タワー', '門司港レトロ', '志賀島'],
+            'culture' => ['博多祇園山笠', '博多人形', '博多織'],
+            'hard' => [
+                ['word' => '太宰府', 'reading' => 'だざいふ', 'wrong' => ['たいさいふ', 'だざいぶ', 'おおざいふ']],
+                ['word' => '大牟田', 'reading' => 'おおむた', 'wrong' => ['だいむた', 'おおむだ', 'たいむた']],
+                ['word' => '糸島', 'reading' => 'いとしま', 'wrong' => ['いとじま', 'いとうしま', 'しじま']],
+            ],
+        ],
+        [
+            'key' => 'saga', 'name' => '佐賀県', 'region' => 'kyushu-okinawa', 'capital' => '佐賀市',
+            'neighbors' => ['fukuoka', 'nagasaki'],
+            'foods' => ['佐賀牛', '呼子のイカ', '佐賀のり', '嬉野茶'],
+            'sights' => ['吉野ヶ里遺跡', '唐津城', '虹の松原', '祐徳稲荷神社'],
+            'culture' => ['有田焼', '唐津くんち', 'バルーンフェスタ'],
+            'hard' => [
+                ['word' => '鳥栖', 'reading' => 'とす', 'wrong' => ['とりす', 'ちょうせい', 'とりくり']],
+                ['word' => '嬉野', 'reading' => 'うれしの', 'wrong' => ['うれしや', 'よろこびの', 'うれの']],
+                ['word' => '神埼', 'reading' => 'かんざき', 'wrong' => ['しんざき', 'かみさき', 'かみざき']],
+            ],
+        ],
+        [
+            'key' => 'nagasaki', 'name' => '長崎県', 'region' => 'kyushu-okinawa', 'capital' => '長崎市',
+            'neighbors' => ['saga'],
+            'foods' => ['カステラ', 'ちゃんぽん', '皿うどん', 'トルコライス'],
+            'sights' => ['出島', '軍艦島', 'グラバー園', 'ハウステンボス'],
+            'culture' => ['長崎くんち', '隠れキリシタン', 'ハタ揚げ'],
+            'hard' => [
+                ['word' => '諫早', 'reading' => 'いさはや', 'wrong' => ['かんそう', 'いさわや', 'いさそう']],
+                ['word' => '壱岐', 'reading' => 'いき', 'wrong' => ['いちき', 'いっき', 'ひとき']],
+                ['word' => '対馬', 'reading' => 'つしま', 'wrong' => ['たいば', 'ついま', 'たいま']],
+            ],
+        ],
+        [
+            'key' => 'kumamoto', 'name' => '熊本県', 'region' => 'kyushu-okinawa', 'capital' => '熊本市',
+            'neighbors' => ['fukuoka', 'oita', 'miyazaki', 'kagoshima'],
+            'foods' => ['馬刺し', 'からしれんこん', '太平燕', 'いきなり団子'],
+            'sights' => ['熊本城', '阿蘇山', '草千里ヶ浜', '黒川温泉'],
+            'culture' => ['くまモン', '加藤清正', '山鹿灯籠'],
+            'hard' => [
+                ['word' => '玉名', 'reading' => 'たまな', 'wrong' => ['ぎょくめい', 'たまみょう', 'たまめい']],
+                ['word' => '天草', 'reading' => 'あまくさ', 'wrong' => ['てんそう', 'あまぐさ', 'てんくさ']],
+                ['word' => '水俣', 'reading' => 'みなまた', 'wrong' => ['すいまた', 'みずまた', 'みなみまた']],
+            ],
+        ],
+        [
+            'key' => 'oita', 'name' => '大分県', 'region' => 'kyushu-okinawa', 'capital' => '大分市',
+            'neighbors' => ['fukuoka', 'kumamoto', 'miyazaki'],
+            'foods' => ['とり天', 'かぼす', '関あじ', 'だんご汁'],
+            'sights' => ['別府温泉', '由布院温泉', '地獄めぐり', '宇佐神宮'],
+            'culture' => ['別府竹細工', '日田祇園', '大友宗麟'],
+            'hard' => [
+                ['word' => '日田', 'reading' => 'ひた', 'wrong' => ['にちだ', 'ひだ', 'にた']],
+                ['word' => '臼杵', 'reading' => 'うすき', 'wrong' => ['きゅうしょ', 'うすぎ', 'うしょう']],
+                ['word' => '杵築', 'reading' => 'きつき', 'wrong' => ['しょうちく', 'きねつき', 'きづき']],
+            ],
+        ],
+        [
+            'key' => 'miyazaki', 'name' => '宮崎県', 'region' => 'kyushu-okinawa', 'capital' => '宮崎市',
+            'neighbors' => ['oita', 'kumamoto', 'kagoshima'],
+            'foods' => ['マンゴー', 'チキン南蛮', '宮崎牛', '地鶏の炭火焼'],
+            'sights' => ['高千穂峡', '青島神社', '鵜戸神宮', 'サンメッセ日南'],
+            'culture' => ['高千穂神楽', '神武天皇', '飫肥杉'],
+            'hard' => [
+                ['word' => '日向', 'reading' => 'ひゅうが', 'wrong' => ['にちこう', 'ひなた', 'ひむかい']],
+                ['word' => '都城', 'reading' => 'みやこのじょう', 'wrong' => ['とじょう', 'みやこじょう', 'つじょう']],
+                ['word' => '延岡', 'reading' => 'のべおか', 'wrong' => ['えんおか', 'のぶおか', 'のびおか']],
+            ],
+        ],
+        [
+            'key' => 'kagoshima', 'name' => '鹿児島県', 'region' => 'kyushu-okinawa', 'capital' => '鹿児島市',
+            'neighbors' => ['kumamoto', 'miyazaki'],
+            'foods' => ['黒豚', 'さつま揚げ', 'かるかん', '鶏飯'],
+            'sights' => ['桜島', '屋久島', '指宿の砂むし温泉', '仙巌園'],
+            'culture' => ['西郷隆盛', '薩摩切子', '大島紬'],
+            'hard' => [
+                ['word' => '指宿', 'reading' => 'いぶすき', 'wrong' => ['ゆびすき', 'ゆびやど', 'いしゅく']],
+                ['word' => '枕崎', 'reading' => 'まくらざき', 'wrong' => ['ちんざき', 'まくらさき', 'まくさき']],
+                ['word' => '種子島', 'reading' => 'たねがしま', 'wrong' => ['しゅしじま', 'たねしま', 'たねじま']],
+            ],
+        ],
+        [
+            'key' => 'okinawa', 'name' => '沖縄県', 'region' => 'kyushu-okinawa', 'capital' => '那覇市',
+            'neighbors' => [],
+            'foods' => ['ゴーヤーチャンプルー', '沖縄そば', '海ぶどう', 'サーターアンダギー'],
+            'sights' => ['首里城', '美ら海水族館', '万座毛', '竹富島'],
+            'culture' => ['エイサー', '三線', 'シーサー'],
+            'hard' => [
+                ['word' => '宜野湾', 'reading' => 'ぎのわん', 'wrong' => ['よしのわん', 'ぎやわん', 'ぎのうわん']],
+                ['word' => '読谷', 'reading' => 'よみたん', 'wrong' => ['どくたに', 'よみや', 'よみだに']],
+                ['word' => '西表', 'reading' => 'いりおもて', 'wrong' => ['にしおもて', 'せいひょう', 'にしひょう']],
+            ],
+        ],
     ],
 ];
