@@ -16,6 +16,7 @@ import { SpruFace } from "@/components/spru/spru-figure";
 
 import { TIME_THEME } from "./ambience";
 import { GROUND_ART, GROUND_DECALS, type GroundArtKey } from "./ground-art";
+import { blendCells, blendGroups, type BlendKind } from "./blend";
 import { decalAt, decalOffset, pathEdges, patternMatrix, plotPoints } from "./ground";
 import { GardenArt } from "./garden-art";
 import { HALF_H, HALF_W, LAND_THICKNESS, sceneViewBox, tileCenter, tileKey, tilePoints, toPercent } from "./iso";
@@ -50,6 +51,11 @@ const GROUND: Record<Ground, { tile: [string, string]; lip: [string, string] }> 
   hill: { tile: ["#c8eda9", "#bee69d"], lip: ["#9fd684", "#8cc672"] },
 };
 const PATH_COLOR = "#f1dfbb";
+// 林・花畑の地面の絵が届くまでの色(設計書 2026-10-05-town-blend 4-2)
+const BLEND_FALLBACK: Record<BlendKind, { color: string; opacity: number }> = {
+  grove: { color: "#5f9e47", opacity: 0.45 },
+  meadow: { color: "#f3b7d6", opacity: 0.35 },
+};
 const SOIL = { left: "#d7a574", right: "#bf8a5b" };
 
 type PlacedCompanion = WorldCompanion & { key: CompanionKey; x: number; y: number };
@@ -202,6 +208,21 @@ export function WorldScene({
     }
     return out;
   }, [land, items, companions]);
+  // 林・花畑: 木・花が3つ以上隣り合うまとまりの足元(まとまりのマスと周囲1マス。道・目印・スプル・仲間・ほかのアイテムのマスは除く)
+  const blendLayers = useMemo(() => {
+    const groups = blendGroups(items);
+    if (groups.length === 0) return [];
+    const fixed = [
+      ...land.blocked.map(([x, y]) => tileKey(x, y)),
+      tileKey(land.spru.x, land.spru.y),
+      ...companions.filter(isPlacedCompanion).map((c) => tileKey(c.x, c.y)),
+    ];
+    return groups.map((group) => {
+      const others = occupiedTiles(items.filter((item) => !group.itemIds.includes(item.id)), null);
+      const blocked = new Set([...fixed, ...others]);
+      return { kind: group.kind, cells: blendCells(group, blocked, (x, y) => isOpenTile(land, x, y)) };
+    });
+  }, [land, items, companions]);
   const lockedPlots = land.plots.filter((plot) => !plot.unlocked);
   const veiledPlots = veil ? land.plots.filter((plot) => veil.keys.includes(plot.key)) : [];
   const placed = items.filter((item): item is WorldItem & { x: number; y: number } => item.x !== null && item.y !== null);
@@ -323,6 +344,18 @@ export function WorldScene({
               </pattern>
             );
           })}
+          <filter id="blend-soft" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" />
+          </filter>
+          {blendLayers.map((layer, i) => (
+            <mask key={`blend-mask-${i}`} id={`blend-mask-${i}`} maskUnits="userSpaceOnUse" x={vb.x} y={vb.y} width={vb.width} height={vb.height}>
+              <g fill="white" filter="url(#blend-soft)">
+                {layer.cells.map(([x, y]) => (
+                  <polygon key={tileKey(x, y)} points={tilePoints(x, y)} />
+                ))}
+              </g>
+            </mask>
+          ))}
         </defs>
         <polygon points={sea} fill="#62b8d6" opacity={0.55} />
 
@@ -371,6 +404,22 @@ export function WorldScene({
             ))}
           </g>
         )}
+        {blendLayers.map((layer, i) => {
+          const art = GROUND_ART[layer.kind];
+          const fallback = BLEND_FALLBACK[layer.kind];
+          return (
+            <rect
+              key={`blend-${i}`}
+              x={vb.x}
+              y={vb.y}
+              width={vb.width}
+              height={vb.height}
+              fill={art ? `url(#ground-${layer.kind})` : fallback.color}
+              fillOpacity={art ? 1 : fallback.opacity}
+              mask={`url(#blend-mask-${i})`}
+            />
+          );
+        })}
         {decals.map(({ key, kind, x, y }) => {
           const decal = GROUND_DECALS[kind];
           const { sx, sy } = tileCenter(x, y);

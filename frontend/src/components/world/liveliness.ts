@@ -1,3 +1,4 @@
+import { blendBonus, blendGroups } from "./blend";
 import type { WorldItem } from "./types";
 
 /** にぎやか度の段階(設計書3-2)。E回で土地が広がったときに見直し、据え置いた(E回の設計書3-6) */
@@ -9,7 +10,11 @@ export const LIVELINESS_LEVELS = [
   { need: 42, label: "おまつり" },
 ] as const;
 
-export const LIVELINESS_HINTS = ["ちがう種類のアイテムを置くと、ぐんとにぎやかになるよ", "仲間が増えても、にぎやかになるよ"];
+export const LIVELINESS_HINTS = [
+  "ちがう種類のアイテムを置くと、ぐんとにぎやかになるよ",
+  "仲間が増えても、にぎやかになるよ",
+  "木や花を、3つ近くに並べると、足元が変わってにぎやかになるよ",
+];
 
 const FIRST_OF_KIND = 3;
 const SAME_KIND = 1;
@@ -17,9 +22,10 @@ const PER_COMPANION = 3;
 
 export type Liveliness = { score: number; level: number; label: string; next: { label: string; remaining: number } | null };
 
-type Countable = Pick<WorldItem, "shop_item_id" | "x" | "y"> & { footprint?: number };
+type Countable = Pick<WorldItem, "shop_item_id" | "x" | "y"> & { footprint?: number; id?: number; asset_key?: string | null };
 
-/** 置いたアイテムは種類ごとに1つ目+3・2つ目から+1(2×2の建物はその2倍)、仲間は1人+3。バッグのアイテムは数えない */
+/** 置いたアイテムは種類ごとに1つ目+3・2つ目から+1(2×2の建物はその2倍)、仲間は1人+3。バッグのアイテムは数えない。
+ * 木・花が3つ以上隣り合うまとまり(林・花畑)は、1つごとに+4(最大3つ。設計書 2026-10-05-town-blend 4-3) */
 export function livelinessScore(items: Countable[], companionCount: number): number {
   const perKind = new Map<number, { count: number; footprint: number }>();
   for (const item of items) {
@@ -29,7 +35,7 @@ export function livelinessScore(items: Countable[], companionCount: number): num
   }
   let score = companionCount * PER_COMPANION;
   for (const { count, footprint } of perKind.values()) score += (FIRST_OF_KIND + (count - 1) * SAME_KIND) * footprint;
-  return score;
+  return score + blendBonus(blendGroups(items.map((item, i) => ({ id: item.id ?? -1 - i, asset_key: item.asset_key ?? null, x: item.x, y: item.y, footprint: item.footprint }))));
 }
 
 export function levelForScore(score: number): Liveliness {

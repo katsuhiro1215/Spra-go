@@ -45,3 +45,24 @@ describe("にぎやか度の段階", () => {
     expect(livelinessUpLine("にぎやか")).toBe("町がにぎやかになったね！『にぎやか』になったよ");
   });
 });
+
+describe("町がなじむ: 林・花畑のにぎやか度(設計書 2026-10-05-town-blend 4-3)", () => {
+  const grove = (n: number, row = 0) =>
+    Array.from({ length: n }, (_, i) => ({ id: 100 + row * 10 + i, shop_item_id: 50 + row * 10 + i, x: i, y: row * 5, footprint: 1, asset_key: "tree" }));
+
+  it("木を3本、隣り合わせに置くと、アイテム自体の分に加えて +4", () => {
+    const base = livelinessScore(grove(3).map((t) => ({ ...t, asset_key: null })), 0);
+    expect(livelinessScore(grove(3), 0)).toBe(base + 4);
+  });
+
+  it("2本だけなら、加点なし", () => {
+    const base = livelinessScore(grove(2).map((t) => ({ ...t, asset_key: null })), 0);
+    expect(livelinessScore(grove(2), 0)).toBe(base);
+  });
+
+  it("まとまりが4つあっても、加点は最大3つ分(+12)", () => {
+    const items = [0, 1, 2, 3].flatMap((row) => grove(3, row));
+    const base = livelinessScore(items.map((t) => ({ ...t, asset_key: null })), 0);
+    expect(livelinessScore(items, 0)).toBe(base + 12);
+  });
+});
