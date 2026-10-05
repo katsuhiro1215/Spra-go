@@ -136,3 +136,28 @@ it('プレイヤーが持っている町のアイテムは、Ownerでも削除�
 
     expect(ShopItem::find($item->id))->not->toBeNull();
 });
+
+// Spra-worldの確定画像から足した25点(docs/design/2026-10-05-world-items-stage1-design.md)
+it('品ぞろえ: シーダーの全アイテムの絵のキーが asset_keys にあり、2回流しても重複しない', function () {
+    $this->seed(Database\Seeders\WorldItemSeeder::class);
+    $first = ShopItem::query()->where('type', 'decoration')->count();
+    $this->seed(Database\Seeders\WorldItemSeeder::class);
+
+    expect(ShopItem::query()->where('type', 'decoration')->count())->toBe($first)->toBe(63);
+    foreach (ShopItem::query()->where('type', 'decoration')->get() as $item) {
+        expect(config('world.asset_keys'))->toContain($item->assetKey());
+    }
+});
+
+it('品ぞろえ: 新しい25点のうち、2×2は10点で、ほかは1マス', function () {
+    $this->seed(Database\Seeders\WorldItemSeeder::class);
+    $big = ['large_tree', 'greengrocer', 'fish_shop', 'meat_shop', 'produce_shop', 'chief_hall', 'stone_tower_hall', 'windmill_garden', 'spru_mall', 'saku_mall'];
+    $small = ['young_tree', 'pathside_flowers', 'pathside_stone', 'stream', 'vegetable_bed', 'broadleaf_tree', 'spring', 'leaf_lamp', 'wooden_bridge', 'torii', 'seed_storehouse', 'resident_cottage', 'leaf_cottage', 'blue_flower_cottage', 'forest_flower_house'];
+
+    foreach ($big as $key) {
+        expect(ShopItem::query()->where('meta->asset_key', $key)->firstOrFail()->footprint())->toBe(2);
+    }
+    foreach ($small as $key) {
+        expect(ShopItem::query()->where('meta->asset_key', $key)->firstOrFail()->footprint())->toBe(1);
+    }
+});
