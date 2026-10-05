@@ -122,3 +122,56 @@ it('プロフィールを選んでいなければ、連続は0日でバッジは
     expect($response->json('best_streak'))->toBe(0);
     expect(collect($response->json('streak_milestones'))->pluck('earned')->all())->toBe([false, false, false]);
 });
+
+/*
+|--------------------------------------------------------------------------
+| 日本のバッジ(docs/design/2026-10-06-passport-prefecture-badges-design.md)
+|--------------------------------------------------------------------------
+*/
+
+it('prefecture_badges に47県が、地方の順に出る。もらっていなければ earned が偽で、コースの番号は null', function () {
+    createActiveProfile();
+
+    $badges = collect($this->getJson('/api/passport')->assertOk()->json('prefecture_badges'));
+
+    expect($badges)->toHaveCount(47);
+    expect($badges->pluck('region')->unique()->values()->all())->toBe(['hokkaido-tohoku', 'kanto', 'chubu', 'kinki', 'chugoku-shikoku', 'kyushu-okinawa']);
+    expect($badges->first())->toBe([
+        'key' => 'hokkaido', 'name' => '北海道', 'region' => 'hokkaido-tohoku', 'region_name' => '北海道・東北',
+        'badge' => '/badge/pref/hokkaido.webp', 'earned' => false, 'course_id' => null,
+    ]);
+    expect($badges->where('earned', true))->toHaveCount(0);
+});
+
+it('称号「◯◯はかせ」を持つ県だけ earned になる。別のプレイヤーの称号は数えない', function () {
+    $profile = createActiveProfile();
+    $other = createFamilyMember($profile);
+    ProfileTitle::create(['user_profile_id' => $profile->id, 'title' => '大阪府はかせ', 'unlocked_at' => now()]);
+    ProfileTitle::create(['user_profile_id' => $profile->id, 'title' => '近畿はかせ', 'unlocked_at' => now()]); // 地方の称号は、県のバッジではない
+    ProfileTitle::create(['user_profile_id' => $other->id, 'title' => '京都府はかせ', 'unlocked_at' => now()]);
+
+    $earned = collect($this->getJson('/api/passport')->assertOk()->json('prefecture_badges'))->where('earned', true);
+
+    expect($earned->pluck('key')->values()->all())->toBe(['osaka']);
+});
+
+it('その県のコースがあれば、course_id にその番号が付く(地方のカテゴリーの下の、県名のカテゴリー)', function () {
+    createActiveProfile();
+    $root = Category::create(['name' => '都道府県クイズ', 'is_course_group' => true]);
+    $region = Category::create(['name' => '近畿', 'parent_id' => $root->id, 'is_course_group' => true]);
+    $osaka = Category::create(['name' => '大阪府', 'parent_id' => $region->id]);
+    Category::create(['name' => '京都府']); // 地方の下にない、同じ名前のカテゴリーは使わない
+
+    $badges = collect($this->getJson('/api/passport')->assertOk()->json('prefecture_badges'))->keyBy('key');
+
+    expect($badges['osaka']['course_id'])->toBe($osaka->id);
+    expect($badges['kyoto']['course_id'])->toBeNull();
+});
+
+it('今の項目(countries・titles・trips など)は、これまでどおり返る', function () {
+    createActiveProfile();
+
+    $this->getJson('/api/passport')->assertOk()->assertJsonStructure([
+        'countries', 'titles', 'visited_count', 'best_streak', 'streak_milestones', 'trips', 'mastered_count', 'prefecture_badges',
+    ]);
+});
