@@ -853,6 +853,7 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
             ->pluck('stage_id')
             ->all()
         : [];
+    $bestScores = Stage::bestScores($profileId);
 
     $allStages = Stage::query()
         ->where('country_id', $country->id)
@@ -868,7 +869,7 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
 
     $groups = $directStages
         ->groupBy(fn (Stage $s) => $s->category_id.'|'.$s->difficulty)
-        ->map(function ($group) use ($clearedStageIds, $stagesByCategoryThenDifficulty) {
+        ->map(function ($group) use ($clearedStageIds, $stagesByCategoryThenDifficulty, $bestScores) {
             $clearedNumbers = $group
                 ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
                 ->pluck('stage_number')
@@ -883,7 +884,8 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
                 'locked' => Stage::isDifficultyLocked(
                     $stagesByCategoryThenDifficulty->get($categoryId) ?? collect(),
                     $difficulty,
-                    $clearedStageIds
+                    $clearedStageIds,
+                    $bestScores
                 ),
                 'stages' => $group->map(fn (Stage $s) => [
                     'id' => $s->id,
@@ -1041,6 +1043,7 @@ Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request 
             ->pluck('stage_id')
             ->all()
         : [];
+    $bestScores = Stage::bestScores($profileId);
 
     $ancestors = [];
     $current = $region->parent;
@@ -1080,7 +1083,7 @@ Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request 
 
         $groups = $stages
             ->groupBy(fn (Stage $s) => $s->category_id.'|'.$s->difficulty)
-            ->map(function ($group) use ($clearedStageIds, $stagesByCategoryThenDifficulty) {
+            ->map(function ($group) use ($clearedStageIds, $stagesByCategoryThenDifficulty, $bestScores) {
                 $clearedNumbers = $group
                     ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
                     ->pluck('stage_number')
@@ -1095,7 +1098,8 @@ Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request 
                     'locked' => Stage::isDifficultyLocked(
                         $stagesByCategoryThenDifficulty->get($categoryId) ?? collect(),
                         $difficulty,
-                        $clearedStageIds
+                        $clearedStageIds,
+                        $bestScores
                     ),
                     'stages' => $group->map(fn (Stage $s) => [
                         'id' => $s->id,
@@ -1135,6 +1139,7 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
             ->pluck('stage_id')
             ->all()
         : [];
+    $bestScores = Stage::bestScores($profileId);
 
     $locked = Travel::lockedCountryIds(ActiveProfile::find($request));
 
@@ -1154,7 +1159,7 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
     );
 
     return collect($difficulties)
-        ->map(function (string $difficulty) use ($stagesByDifficulty, $clearedStageIds) {
+        ->map(function (string $difficulty) use ($stagesByDifficulty, $clearedStageIds, $bestScores) {
             $stages = ($stagesByDifficulty->get($difficulty) ?? collect())->values();
             $clearedNumbers = $stages
                 ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
@@ -1163,7 +1168,7 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
 
             return [
                 'difficulty' => $difficulty,
-                'locked' => Stage::isDifficultyLocked($stagesByDifficulty, $difficulty, $clearedStageIds),
+                'locked' => Stage::isDifficultyLocked($stagesByDifficulty, $difficulty, $clearedStageIds, $bestScores),
                 'stages' => $stages->map(fn (Stage $stage) => [
                     'id' => $stage->id,
                     'stage_number' => $stage->stage_number,

@@ -15,6 +15,9 @@ return [
     'difficulties' => ['初級', '中級', '上級'],
 
     // ステージのクリアに要る正解の割合(%)。称号は、このほかに全問正解が要る(docs/design/2026-10-07-main-game-levels-design.md 4-3)
+    // 近道: 前の級で min_stages 以上遊び、合計の正答率が percent を超えていれば、ボス前でも次の級が開く
+    'shortcut' => ['percent' => 50, 'min_stages' => 3],
+
     'clear_percent' => ['normal' => 60, 'boss' => 80],
 
     // 上級のボスをクリアすると開く、挑戦枠の級。ステージがあるカテゴリーだけ、一覧の4つ目に出る(設計書 2章)
