@@ -1237,12 +1237,18 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         'user_profile_id' => $profile->id,
         'stage_id' => $stage->id,
     ]);
+    // クリアに要る正解の数(通常60%・ボス80%。端数は切り上げ)。届かないときは、遊んだ記録だけ残す
+    $required = (int) ceil($stage->playCount() * config('quiz.clear_percent')[$stage->is_boss ? 'boss' : 'normal'] / 100);
+    $passed = $score >= $required;
+
     $progress->attempts = ($progress->attempts ?? 0) + 1;
     $progress->best_score = max($progress->best_score ?? 0, $score);
-    $progress->cleared_at ??= now();
+    if ($passed) {
+        $progress->cleared_at ??= now();
+    }
     $progress->save();
 
-    $profile->applyEconomy(['coin' => intdiv(100 * $stage->reward_percent, 100), 'point' => intdiv(config('world.rewards.stage_clear') * $stage->reward_percent, 100)], 'stage_clear', null, $stage);
+    $passed && $profile->applyEconomy(['coin' => intdiv(100 * $stage->reward_percent, 100), 'point' => intdiv(config('world.rewards.stage_clear') * $stage->reward_percent, 100)], 'stage_clear', null, $stage);
 
     // このクリアで新しくチケットが増え、使えるときだけ知らせる(設計書4-3・5-4)
     $ticketEarned = Travel::earnedTickets($profile) > $earnedTicketsBefore && Travel::tickets($profile) > 0;
@@ -1276,6 +1282,8 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
             'points' => $profile->points,
             'level' => $profile->level,
         ],
+        'cleared' => $passed,
+        'required' => $required,
         'title_granted' => $titleGranted,
         'title' => $grantedTitle,
         // 称号が県のもの(例 大阪府はかせ・大阪府マスター)なら、その県のバッジの絵(docs/design/2026-10-05-prefecture-quiz-design.md 7-2)
