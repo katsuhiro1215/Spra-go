@@ -77,7 +77,7 @@ class Stage extends Model
 
     public static function isDifficultyLocked(Collection $stagesByDifficulty, string $difficulty, array $clearedStageIds): bool
     {
-        $order = config('quiz.difficulties');
+        $order = array_merge(config('quiz.difficulties'), config('quiz.extra_difficulties'));
         $index = array_search($difficulty, $order, true);
 
         if ($index === false || $index === 0) {
