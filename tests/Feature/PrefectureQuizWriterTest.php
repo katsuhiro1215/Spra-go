@@ -201,3 +201,43 @@ it('全国のボスを全問正解すると称号が付くが、県のバッジ�
     expect($response->json('title'))->toBe('全国はかせ');
     expect($response->json('title_badge'))->toBeNull();
 });
+
+function poolPlan(?int $draw): array
+{
+    $questions = array_map(fn (int $i) => [
+        'key' => "test:pool:{$i}", 'type' => 'multiple_choice', 'prompt' => "問題{$i}",
+        'choices' => [
+            ['label' => '正', 'correct' => true, 'image' => null],
+            ['label' => '誤1', 'correct' => false, 'image' => null],
+            ['label' => '誤2', 'correct' => false, 'image' => null],
+            ['label' => '誤3', 'correct' => false, 'image' => null],
+        ],
+    ], range(1, 20));
+
+    return [['key' => 'pool', 'name' => 'プールコース', 'order' => 1, 'levels' => [[
+        'code' => 'beginner', 'difficulty' => '初級',
+        'stages' => [['number' => 1, 'boss' => true, 'title_reward' => null, 'questions' => $questions]
+            + ($draw ? ['draw' => $draw, 'reward_percent' => 50] : [])],
+    ]]]];
+}
+
+it('計画の draw は、出す数(question_count)・プールの印・報酬の割合として書く', function () {
+    FlagQuizWriter::writeTree('テスト大もと', poolPlan(10));
+    FlagQuizWriter::writeTree('テスト大もと', poolPlan(10));
+
+    $stage = Stage::firstOrFail();
+    expect($stage->question_count)->toBe(10)
+        ->and($stage->is_pool)->toBeTrue()
+        ->and($stage->reward_percent)->toBe(50)
+        ->and($stage->questions()->count())->toBe(20)
+        ->and(Question::count())->toBe(20);
+});
+
+it('draw のない計画は、今まで通り(問題の数・プールでない・報酬100)', function () {
+    FlagQuizWriter::writeTree('テスト大もと', poolPlan(null));
+
+    $stage = Stage::firstOrFail();
+    expect($stage->question_count)->toBe(20)
+        ->and($stage->is_pool)->toBeFalse()
+        ->and($stage->reward_percent)->toBe(100);
+});

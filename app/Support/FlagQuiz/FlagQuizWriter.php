@@ -76,7 +76,10 @@ class FlagQuizWriter
                     ['category_id' => $category->id, 'difficulty' => $level['difficulty'], 'stage_number' => $stagePlan['number']],
                     [
                         'country_id' => null,
-                        'question_count' => count($stagePlan['questions']),
+                        // draw があるステージは、プールから draw 問を抽選して出す(docs/design/2026-10-06-prefecture-master-design.md 3章)
+                        'question_count' => $stagePlan['draw'] ?? count($stagePlan['questions']),
+                        'is_pool' => isset($stagePlan['draw']),
+                        'reward_percent' => $stagePlan['reward_percent'] ?? 100,
                         'is_boss' => $stagePlan['boss'],
                         'title_reward' => $stagePlan['title_reward'],
                     ],
@@ -172,6 +175,10 @@ class FlagQuizWriter
         }
         if (($spec['plain'] ?? []) !== []) {
             $meta['plain'] = $spec['plain'];
+        }
+        // 問題ごとの読み(地名など。同じ名前でも県で読みが違うので、辞書でなく問題に持たせる)
+        if (($spec['readings'] ?? []) !== []) {
+            $meta['readings'] = $spec['readings'];
         }
 
         return $meta;

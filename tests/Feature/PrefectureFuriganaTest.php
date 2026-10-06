@@ -111,3 +111,37 @@ it('難読地名の漢字は、辞書に入れない(辞書にあると、plain 
         }
     }
 });
+
+it('地名コースの文字は、問題ごとの読み(readings)を使うと、ふりがなが付かずに残る漢字がない', function () {
+    $dictionary = furiganaDictionary();
+    $left = [];
+    foreach (\App\Support\Prefecture\PlaceNameQuizPlanner::plan(PrefectureCatalog::all()) as $region) {
+        foreach ($region['courses'] as $course) {
+            foreach ($course['levels'] as $level) {
+                foreach ($level['stages'][0]['questions'] as $q) {
+                    $plain = $q['plain'] ?? [];
+                    $readings = $q['readings'] ?? [];
+                    $texts = [$q['prompt'], $q['explanation']['summary']];
+                    if ($plain === []) {
+                        array_push($texts, ...array_column($q['choices'], 'label'));
+                    }
+                    // 画面と同じく、問題ごとの読み(長い語から)を、辞書より先に照合する
+                    $words = array_keys($readings);
+                    usort($words, fn ($a, $b) => mb_strlen($b) <=> mb_strlen($a));
+                    $merged = array_fill_keys($words, '') + $dictionary;
+                    // 長い語を優先(同じ長さなら、問題ごとの読みが先)
+                    $order = array_keys($merged);
+                    usort($order, fn ($a, $b) => mb_strlen((string) $b) <=> mb_strlen((string) $a));
+                    $merged = array_fill_keys($order, '');
+                    foreach ($texts as $text) {
+                        foreach (barekanji(str_replace($plain, '', $text), $merged) as $kanji) {
+                            $left[$kanji] = ($left[$kanji] ?? 0) + 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    expect($left)->toBe([], '辞書にも readings にもない漢字: '.json_encode($left, JSON_UNESCAPED_UNICODE));
+});

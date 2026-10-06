@@ -18,6 +18,8 @@ class Stage extends Model
         'question_theme_id',
         'question_count',
         'is_boss',
+        'is_pool',
+        'reward_percent',
         'title_reward',
     ];
 
@@ -25,6 +27,7 @@ class Stage extends Model
     {
         return [
             'is_boss' => 'boolean',
+            'is_pool' => 'boolean',
         ];
     }
 
@@ -64,9 +67,17 @@ class Stage extends Model
      * @param  Collection<string, Collection<int, Stage>>  $stagesByDifficulty  同一category内でdifficultyごとにグループ化したStage一覧
      * @param  list<int>  $clearedStageIds
      */
+    /** 満点になる問題の数。プールのステージは、出す数(question_count)まで。そうでなければ割り当てた問題すべて */
+    public function playCount(): int
+    {
+        $pool = $this->questions()->count();
+
+        return $this->is_pool ? min($this->question_count, $pool) : $pool;
+    }
+
     public static function isDifficultyLocked(Collection $stagesByDifficulty, string $difficulty, array $clearedStageIds): bool
     {
-        $order = config('quiz.difficulties');
+        $order = array_merge(config('quiz.difficulties'), config('quiz.extra_difficulties'));
         $index = array_search($difficulty, $order, true);
 
         if ($index === false || $index === 0) {

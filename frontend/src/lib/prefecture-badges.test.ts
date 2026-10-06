@@ -1,14 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { badgeCountText, groupBadgesByRegion, type PrefectureBadge } from "./prefecture-badges";
+import { badgeCountText, badgeRingClass, groupBadgesByRegion, type PrefectureBadge } from "./prefecture-badges";
 
-const badge = (key: string, region: string, regionName: string, earned: boolean, courseId: number | null = null): PrefectureBadge => ({
+const badge = (key: string, region: string, regionName: string, earned: boolean, courseId: number | null = null, master = false): PrefectureBadge => ({
   key,
   name: key,
   region,
   region_name: regionName,
   badge: `/badge/pref/${key}.webp`,
   earned,
+  master,
   course_id: courseId,
 });
 
@@ -32,8 +33,16 @@ describe("日本のバッジ", () => {
     expect(groupBadgesByRegion([])).toEqual([]);
   });
 
-  it("もらった数の文は「もらった数/全部」", () => {
-    expect(badgeCountText([])).toBe("0/0");
-    expect(badgeCountText([badge("a", "r", "R", true), badge("b", "r", "R", false), badge("c", "r", "R", true)])).toBe("2/3");
+  it("もらった数の文は「はかせ もらった数/全部・マスター もらった数/全部」", () => {
+    expect(badgeCountText([])).toBe("はかせ 0/0・マスター 0/0");
+    expect(
+      badgeCountText([badge("a", "r", "R", true, null, true), badge("b", "r", "R", false), badge("c", "r", "R", true)]),
+    ).toBe("はかせ 2/3・マスター 1/3");
+  });
+
+  it("マスターの県だけ、金のふちのクラスが付く", () => {
+    expect(badgeRingClass(badge("a", "r", "R", true, null, true))).toContain("ring-[#d9a520]");
+    expect(badgeRingClass(badge("a", "r", "R", true))).toBe("");
+    expect(badgeRingClass(badge("a", "r", "R", false))).toBe("");
   });
 });

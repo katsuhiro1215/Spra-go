@@ -43,6 +43,8 @@ class PrefectureCatalog
 
     private const TITLE_SUFFIX = 'はかせ';
 
+    private const MASTER_SUFFIX = 'マスター';
+
     /** @return array<string, array{key: string, name: string, region: string, tier: int, capital: string, neighbors: list<string>, foods: list<string>, sights: list<string>, culture: list<string>, hard: list<array{word: string, reading: string, wrong: list<string>, note?: string}>}> */
     public static function all(): array
     {
@@ -76,14 +78,20 @@ class PrefectureCatalog
         return $name.self::TITLE_SUFFIX;
     }
 
-    /** 称号が県のものなら、その県のバッジの絵(そうでなければ null) */
+    /** 一般の上級と地名の上級の両方をクリアした県の称号(例: 大阪府マスター) */
+    public static function masterTitle(string $name): string
+    {
+        return $name.self::MASTER_SUFFIX;
+    }
+
+    /** 称号(はかせ・マスター)が県のものなら、その県のバッジの絵(そうでなければ null) */
     public static function badgeForTitle(?string $title): ?string
     {
         if ($title === null) {
             return null;
         }
         foreach (self::all() as $prefecture) {
-            if ($title === self::title($prefecture['name'])) {
+            if ($title === self::title($prefecture['name']) || $title === self::masterTitle($prefecture['name'])) {
                 return self::badge($prefecture['key']);
             }
         }
