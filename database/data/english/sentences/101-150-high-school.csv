@@ -1,0 +1,101 @@
+英語レベル,対象,テーマ,番号,問題種類,形,問題文,正解,まちがい1,まちがい2,まちがい3,解説(要約)
+101,高校生,時制,1,意味,4択,"「By the time I arrived, the train had left.」の意味は？",私が着いたときには列車は出発していました。,金曜日までには報告書を終えているでしょう。,彼女は3時間ずっと勉強しています。,私があなたなら謝ります。,過去のある時点より前の出来事は過去完了で表すよ。
+101,高校生,時制,2,穴埋め,4択,"「By the time I arrived, the train ___ left.」に入る語は？",had,has,was,did,過去のある時点より前の出来事は過去完了で表すよ。
+102,高校生,未来完了,1,意味,4択,「I will have finished the report by Friday.」の意味は？,金曜日までには報告書を終えているでしょう。,彼女は3時間ずっと勉強しています。,私があなたなら謝ります。,知っていたなら手伝ったでしょう。,will haveと過去分詞で未来完了を作るよ。
+102,高校生,未来完了,2,穴埋め,4択,「I will ___ finished the report by Friday.」に入る語は？,have,be,do,had,will haveと過去分詞で未来完了を作るよ。
+103,高校生,現在完了進行形,1,意味,4択,「She has been studying for three hours.」の意味は？,彼女は3時間ずっと勉強しています。,私があなたなら謝ります。,知っていたなら手伝ったでしょう。,もっと早く私に言うべきでした。,has beenとing形で継続中の動作を表すよ。
+103,高校生,現在完了進行形,2,穴埋め,4択,「She has ___ studying for three hours.」に入る語は？,been,being,be,had,has beenとing形で継続中の動作を表すよ。
+104,高校生,仮定法,1,意味,4択,"「If I were you, I would apologize.」の意味は？",私があなたなら謝ります。,知っていたなら手伝ったでしょう。,もっと早く私に言うべきでした。,長旅の後なので彼は疲れているに違いありません。,現実と異なる仮定では were を使うことがあるよ。
+104,高校生,仮定法,2,穴埋め,4択,"「If I ___ you, I would apologize.」に入る語は？",were,be,am,had,現実と異なる仮定では were を使うことがあるよ。
+105,高校生,仮定法過去完了,1,意味,4択,"「If I had known, I would have helped.」の意味は？",知っていたなら手伝ったでしょう。,もっと早く私に言うべきでした。,長旅の後なので彼は疲れているに違いありません。,彼女はバスに乗り遅れたのかもしれません。,過去の事実と異なる仮定には had と過去分詞を使うよ。
+105,高校生,仮定法過去完了,2,穴埋め,4択,"「If I ___ known, I would have helped.」に入る語は？",had,have,knew,was,過去の事実と異なる仮定には had と過去分詞を使うよ。
+106,高校生,助動詞,1,意味,4択,「You should have told me earlier.」の意味は？,もっと早く私に言うべきでした。,長旅の後なので彼は疲れているに違いありません。,彼女はバスに乗り遅れたのかもしれません。,その橋は修理中です。,should haveと過去分詞で過去への後悔を表せるよ。
+106,高校生,助動詞,2,穴埋め,4択,「You should ___ told me earlier.」に入る語は？,have,has,had,be,should haveと過去分詞で過去への後悔を表せるよ。
+107,高校生,推量,1,意味,4択,「He must be tired after the long trip.」の意味は？,長旅の後なので彼は疲れているに違いありません。,彼女はバスに乗り遅れたのかもしれません。,その橋は修理中です。,その問題は解決されました。,must be は強い確信を表すよ。
+107,高校生,推量,2,穴埋め,4択,「He ___ be tired after the long trip.」に入る語は？,must,is,did,was,must be は強い確信を表すよ。
+108,高校生,過去の推量,1,意味,4択,「She may have missed the bus.」の意味は？,彼女はバスに乗り遅れたのかもしれません。,その橋は修理中です。,その問題は解決されました。,他人を尊重することは重要です。,may haveと過去分詞で過去の推量を表すよ。
+108,高校生,過去の推量,2,穴埋め,4択,「She may ___ missed the bus.」に入る語は？,have,has,be,did,may haveと過去分詞で過去の推量を表すよ。
+109,高校生,受動態,1,意味,4択,「The bridge is being repaired.」の意味は？,その橋は修理中です。,その問題は解決されました。,他人を尊重することは重要です。,私が決めるのは難しいです。,is beingと過去分詞で進行中の受動態を作るよ。
+109,高校生,受動態,2,穴埋め,4択,「The bridge is ___ repaired.」に入る語は？,being,been,be,having,is beingと過去分詞で進行中の受動態を作るよ。
+110,高校生,完了受動態,1,意味,4択,「The problem has been solved.」の意味は？,その問題は解決されました。,他人を尊重することは重要です。,私が決めるのは難しいです。,私は彼が通りを渡るのを見ました。,has beenと過去分詞で完了の受動態を作るよ。
+110,高校生,完了受動態,2,穴埋め,4択,「The problem has ___ solved.」に入る語は？,been,being,be,had,has beenと過去分詞で完了の受動態を作るよ。
+111,高校生,不定詞,1,意味,4択,「It is important to respect others.」の意味は？,他人を尊重することは重要です。,私が決めるのは難しいです。,私は彼が通りを渡るのを見ました。,先生は私に作文を書き直させました。,形式主語itの後でto不定詞が内容を表すよ。
+111,高校生,不定詞,2,穴埋め,4択,「It is important ___ respect others.」に入る語は？,to,for,at,of,形式主語itの後でto不定詞が内容を表すよ。
+112,高校生,不定詞の意味上の主語,1,意味,4択,「It is difficult for me to decide.」の意味は？,私が決めるのは難しいです。,私は彼が通りを渡るのを見ました。,先生は私に作文を書き直させました。,ドアのそばに立っている少女は私の姉です。,for me が不定詞の動作主を表すよ。
+112,高校生,不定詞の意味上の主語,2,穴埋め,4択,「It is difficult ___ me to decide.」に入る語は？,for,of,by,with,for me が不定詞の動作主を表すよ。
+113,高校生,知覚動詞,1,意味,4択,「I saw him cross the street.」の意味は？,私は彼が通りを渡るのを見ました。,先生は私に作文を書き直させました。,ドアのそばに立っている少女は私の姉です。,そこで話されている言語はスペイン語です。,知覚動詞の後では目的語と動詞の原形を使えるよ。
+113,高校生,知覚動詞,2,穴埋め,4択,「I saw him ___ the street.」に入る語は？,cross,crossed,crosses,to,知覚動詞の後では目的語と動詞の原形を使えるよ。
+114,高校生,使役動詞,1,意味,4択,「My teacher made me rewrite the essay.」の意味は？,先生は私に作文を書き直させました。,ドアのそばに立っている少女は私の姉です。,そこで話されている言語はスペイン語です。,疲れていたので早く寝ました。,makeの後では目的語と動詞の原形を使うよ。
+114,高校生,使役動詞,2,穴埋め,4択,「My teacher made me ___ the essay.」に入る語は？,rewrite,rewrote,rewriting,to,makeの後では目的語と動詞の原形を使うよ。
+115,高校生,分詞,1,意味,4択,「The girl standing by the door is my sister.」の意味は？,ドアのそばに立っている少女は私の姉です。,そこで話されている言語はスペイン語です。,疲れていたので早く寝ました。,私が会った人は科学者でした。,現在分詞がgirlを後ろから説明しているよ。
+115,高校生,分詞,2,穴埋め,4択,「The girl ___ by the door is my sister.」に入る語は？,standing,stood,stands,stand,現在分詞がgirlを後ろから説明しているよ。
+116,高校生,過去分詞,1,意味,4択,「The language spoken there is Spanish.」の意味は？,そこで話されている言語はスペイン語です。,疲れていたので早く寝ました。,私が会った人は科学者でした。,ここは私たちが初めて会った場所です。,過去分詞がlanguageを説明しているよ。
+116,高校生,過去分詞,2,穴埋め,4択,「The language ___ there is Spanish.」に入る語は？,spoken,speaking,spoke,speaks,過去分詞がlanguageを説明しているよ。
+117,高校生,分詞構文,1,意味,4択,"「Feeling tired, I went to bed early.」の意味は？",疲れていたので早く寝ました。,私が会った人は科学者でした。,ここは私たちが初めて会った場所です。,札幌に住む私の父は医師です。,分詞構文が理由を表しているよ。
+117,高校生,分詞構文,2,穴埋め,4択,"「___ tired, I went to bed early.」に入る語は？",Feeling,Felt,Feel,To,分詞構文が理由を表しているよ。
+118,高校生,関係代名詞,1,意味,4択,「The person whom I met was a scientist.」の意味は？,私が会った人は科学者でした。,ここは私たちが初めて会った場所です。,札幌に住む私の父は医師です。,彼女の発言は皆を驚かせました。,目的格で人を説明するときwhomを使えるよ。
+118,高校生,関係代名詞,2,穴埋め,4択,「The person ___ I met was a scientist.」に入る語は？,whom,which,where,when,目的格で人を説明するときwhomを使えるよ。
+119,高校生,関係副詞,1,意味,4択,「This is the place where we first met.」の意味は？,ここは私たちが初めて会った場所です。,札幌に住む私の父は医師です。,彼女の発言は皆を驚かせました。,彼がうそをついたという事実に私たちは驚きました。,場所を説明する節にはwhereを使えるよ。
+119,高校生,関係副詞,2,穴埋め,4択,「This is the place ___ we first met.」に入る語は？,where,which,who,what,場所を説明する節にはwhereを使えるよ。
+120,高校生,非制限用法,1,意味,4択,"「My father, who lives in Sapporo, is a doctor.」の意味は？",札幌に住む私の父は医師です。,彼女の発言は皆を驚かせました。,彼がうそをついたという事実に私たちは驚きました。,窓を割ったのはトムでした。,コンマで挟んだwho節が補足説明をするよ。
+120,高校生,非制限用法,2,穴埋め,4択,"「My father, ___ lives in Sapporo, is a doctor.」に入る語は？",who,which,where,whom,コンマで挟んだwho節が補足説明をするよ。
+121,高校生,名詞節,1,意味,4択,「What she said surprised everyone.」の意味は？,彼女の発言は皆を驚かせました。,彼がうそをついたという事実に私たちは驚きました。,窓を割ったのはトムでした。,私はそのような景色を一度も見たことがありません。,What she said全体が主語になっているよ。
+121,高校生,名詞節,2,穴埋め,4択,「___ she said surprised everyone.」に入る語は？,What,That,Which,How,What she said全体が主語になっているよ。
+122,高校生,同格,1,意味,4択,「The fact that he lied shocked us.」の意味は？,彼がうそをついたという事実に私たちは驚きました。,窓を割ったのはトムでした。,私はそのような景色を一度も見たことがありません。,練習すればするほど上達します。,that節がfactの内容を説明しているよ。
+122,高校生,同格,2,穴埋め,4択,「The fact ___ he lied shocked us.」に入る語は？,that,what,which,where,that節がfactの内容を説明しているよ。
+123,高校生,強調構文,1,意味,4択,「It was Tom that broke the window.」の意味は？,窓を割ったのはトムでした。,私はそのような景色を一度も見たことがありません。,練習すればするほど上達します。,この本はあの本よりはるかに役立ちます。,It is ... thatで語を強調できるよ。
+123,高校生,強調構文,2,穴埋め,4択,「It was Tom ___ broke the window.」に入る語は？,that,what,where,when,It is ... thatで語を強調できるよ。
+124,高校生,倒置,1,意味,4択,「Never have I seen such a view.」の意味は？,私はそのような景色を一度も見たことがありません。,練習すればするほど上達します。,この本はあの本よりはるかに役立ちます。,雨が降っていましたが私たちは外出しました。,否定語を文頭に置くと倒置が起こるよ。
+124,高校生,倒置,2,穴埋め,4択,「Never ___ I seen such a view.」に入る語は？,have,has,did,was,否定語を文頭に置くと倒置が起こるよ。
+125,高校生,比較,1,意味,4択,"「The more you practice, the better you become.」の意味は？",練習すればするほど上達します。,この本はあの本よりはるかに役立ちます。,雨が降っていましたが私たちは外出しました。,失敗してももう一度挑戦できます。,"the比較級..., the比較級...で比例を表すよ。"
+125,高校生,比較,2,穴埋め,4択,"「The ___ you practice, the better you become.」に入る語は？",more,most,much,many,"the比較級..., the比較級...で比例を表すよ。"
+126,高校生,比較,1,意味,4択,「This book is far more useful than that one.」の意味は？,この本はあの本よりはるかに役立ちます。,雨が降っていましたが私たちは外出しました。,失敗してももう一度挑戦できます。,急がなければ列車に乗り遅れます。,farは比較級を強められるよ。
+126,高校生,比較,2,穴埋め,4択,「This book is ___ more useful than that one.」に入る語は？,far,very,most,many,farは比較級を強められるよ。
+127,高校生,譲歩,1,意味,4択,"「Although it was raining, we went out.」の意味は？",雨が降っていましたが私たちは外出しました。,失敗してももう一度挑戦できます。,急がなければ列車に乗り遅れます。,皆が理解できるように彼はゆっくり話しました。,althoughは譲歩を表すよ。
+127,高校生,譲歩,2,穴埋め,4択,"「___ it was raining, we went out.」に入る語は？",Although,So,Or,Than,althoughは譲歩を表すよ。
+128,高校生,譲歩,1,意味,4択,"「Even if you fail, you can try again.」の意味は？",失敗してももう一度挑戦できます。,急がなければ列車に乗り遅れます。,皆が理解できるように彼はゆっくり話しました。,彼女はとても疲れていたので眠ってしまいました。,even ifは「たとえ～でも」を表すよ。
+128,高校生,譲歩,2,穴埋め,4択,"「Even ___ you fail, you can try again.」に入る語は？",if,because,so,to,even ifは「たとえ～でも」を表すよ。
+129,高校生,条件,1,意味,4択,"「Unless you hurry, you will miss the train.」の意味は？",急がなければ列車に乗り遅れます。,皆が理解できるように彼はゆっくり話しました。,彼女はとても疲れていたので眠ってしまいました。,紅茶を好む人もいればコーヒーを好む人もいます。,unlessは「～しない限り」を表すよ。
+129,高校生,条件,2,穴埋め,4択,"「___ you hurry, you will miss the train.」に入る語は？",Unless,Because,While,Since,unlessは「～しない限り」を表すよ。
+130,高校生,目的,1,意味,4択,「He spoke slowly so that everyone could understand.」の意味は？,皆が理解できるように彼はゆっくり話しました。,彼女はとても疲れていたので眠ってしまいました。,紅茶を好む人もいればコーヒーを好む人もいます。,雨にもかかわらず試合は続きました。,so thatは目的を表せるよ。
+130,高校生,目的,2,穴埋め,4択,「He spoke slowly so ___ everyone could understand.」に入る語は？,that,what,which,where,so thatは目的を表せるよ。
+131,高校生,結果,1,意味,4択,「She was so tired that she fell asleep.」の意味は？,彼女はとても疲れていたので眠ってしまいました。,紅茶を好む人もいればコーヒーを好む人もいます。,雨にもかかわらず試合は続きました。,彼は懸命に努力して成功しました。,so ... thatで結果を表すよ。
+131,高校生,結果,2,穴埋め,4択,「She was so tired ___ she fell asleep.」に入る語は？,that,what,than,as,so ... thatで結果を表すよ。
+132,高校生,対比,1,意味,4択,"「Some prefer tea, whereas others prefer coffee.」の意味は？",紅茶を好む人もいればコーヒーを好む人もいます。,雨にもかかわらず試合は続きました。,彼は懸命に努力して成功しました。,それを心配しても意味がありません。,whereasは二つの事柄を対比するよ。
+132,高校生,対比,2,穴埋め,4択,"「Some prefer tea, ___ others prefer coffee.」に入る語は？",whereas,because,unless,since,whereasは二つの事柄を対比するよ。
+133,高校生,前置詞,1,意味,4択,"「Despite the rain, the game continued.」の意味は？",雨にもかかわらず試合は続きました。,彼は懸命に努力して成功しました。,それを心配しても意味がありません。,私は早起きに慣れています。,despiteの後には名詞を置くよ。
+133,高校生,前置詞,2,穴埋め,4択,"「___ the rain, the game continued.」に入る語は？",Despite,Because,Although,Than,despiteの後には名詞を置くよ。
+134,高校生,前置詞,1,意味,4択,「He succeeded by working hard.」の意味は？,彼は懸命に努力して成功しました。,それを心配しても意味がありません。,私は早起きに慣れています。,新しい方針によって費用が下がりました。,byとing形で手段を表せるよ。
+134,高校生,前置詞,2,穴埋め,4択,「He succeeded ___ working hard.」に入る語は？,by,for,at,from,byとing形で手段を表せるよ。
+135,高校生,動名詞,1,意味,4択,「There is no point in worrying about it.」の意味は？,それを心配しても意味がありません。,私は早起きに慣れています。,新しい方針によって費用が下がりました。,その事故は大雨が原因でした。,There is no point in ingで「～しても無駄」を表すよ。
+135,高校生,動名詞,2,穴埋め,4択,「There is no point ___ worrying about it.」に入る語は？,in,at,on,for,There is no point in ingで「～しても無駄」を表すよ。
+136,高校生,語法,1,意味,4択,「I am used to getting up early.」の意味は？,私は早起きに慣れています。,新しい方針によって費用が下がりました。,その事故は大雨が原因でした。,私たちは計画を実行する必要があります。,be used toのtoは前置詞なのでing形が続くよ。
+136,高校生,語法,2,穴埋め,4択,「I am used to ___ up early.」に入る語は？,getting,get,got,to,be used toのtoは前置詞なのでing形が続くよ。
+137,高校生,語法,1,意味,4択,「The new policy resulted in lower costs.」の意味は？,新しい方針によって費用が下がりました。,その事故は大雨が原因でした。,私たちは計画を実行する必要があります。,ご連絡を楽しみにしています。,result inは「～という結果になる」を表すよ。
+137,高校生,語法,2,穴埋め,4択,「The new policy resulted ___ lower costs.」に入る語は？,in,to,at,by,result inは「～という結果になる」を表すよ。
+138,高校生,語法,1,意味,4択,「The accident resulted from heavy rain.」の意味は？,その事故は大雨が原因でした。,私たちは計画を実行する必要があります。,ご連絡を楽しみにしています。,彼女はよい考えを思いつきました。,result fromは「～から生じる」を表すよ。
+138,高校生,語法,2,穴埋め,4択,「The accident resulted ___ heavy rain.」に入る語は？,from,to,at,with,result fromは「～から生じる」を表すよ。
+139,高校生,句動詞,1,意味,4択,「We need to carry out the plan.」の意味は？,私たちは計画を実行する必要があります。,ご連絡を楽しみにしています。,彼女はよい考えを思いつきました。,会議は月曜日まで延期されました。,carry outは「実行する」という意味だよ。
+139,高校生,句動詞,2,穴埋め,4択,「We need to carry ___ the plan.」に入る語は？,out,to,at,for,carry outは「実行する」という意味だよ。
+140,高校生,句動詞,1,意味,4択,「I look forward to hearing from you.」の意味は？,ご連絡を楽しみにしています。,彼女はよい考えを思いつきました。,会議は月曜日まで延期されました。,課題は難しかったですが、私たちは完成させました。,look forward toの後にはing形を置くよ。
+140,高校生,句動詞,2,穴埋め,4択,「I look forward to ___ from you.」に入る語は？,hearing,hear,heard,to,look forward toの後にはing形を置くよ。
+141,高校生,句動詞,1,意味,4択,「She came up with a good idea.」の意味は？,彼女はよい考えを思いつきました。,会議は月曜日まで延期されました。,課題は難しかったですが、私たちは完成させました。,雨が降っていたので私たちは家にいました。,come up withは「思いつく」という意味だよ。
+141,高校生,句動詞,2,穴埋め,4択,「She came up ___ a good idea.」に入る語は？,with,at,by,from,come up withは「思いつく」という意味だよ。
+142,高校生,句動詞,1,意味,4択,「The meeting was put off until Monday.」の意味は？,会議は月曜日まで延期されました。,課題は難しかったですが、私たちは完成させました。,雨が降っていたので私たちは家にいました。,その計画は安いうえに実用的です。,put offは「延期する」という意味だよ。
+142,高校生,句動詞,2,穴埋め,4択,「The meeting was put ___ until Monday.」に入る語は？,off,out,on,up,put offは「延期する」という意味だよ。
+143,高校生,接続副詞,1,意味,4択,"「The task was difficult; however, we completed it.」の意味は？",課題は難しかったですが、私たちは完成させました。,雨が降っていたので私たちは家にいました。,その計画は安いうえに実用的です。,結論として私たちはごみを減らすべきです。,howeverは逆接を表すよ。
+143,高校生,接続副詞,2,穴埋め,4択,"「The task was difficult; ___, we completed it.」に入る語は？",however,therefore,moreover,otherwise,howeverは逆接を表すよ。
+144,高校生,接続副詞,1,意味,4択,"「It was raining; therefore, we stayed home.」の意味は？",雨が降っていたので私たちは家にいました。,その計画は安いうえに実用的です。,結論として私たちはごみを減らすべきです。,リンゴなど多くの果物にはビタミンが含まれます。,thereforeは結果を表すよ。
+144,高校生,接続副詞,2,穴埋め,4択,"「It was raining; ___, we stayed home.」に入る語は？",therefore,however,meanwhile,instead,thereforeは結果を表すよ。
+145,高校生,接続副詞,1,意味,4択,"「The plan is cheap; moreover, it is practical.」の意味は？",その計画は安いうえに実用的です。,結論として私たちはごみを減らすべきです。,リンゴなど多くの果物にはビタミンが含まれます。,言い換えると新しい方法が必要です。,moreoverは情報を付け加えるよ。
+145,高校生,接続副詞,2,穴埋め,4択,"「The plan is cheap; ___, it is practical.」に入る語は？",moreover,because,although,unless,moreoverは情報を付け加えるよ。
+146,高校生,要約表現,1,意味,4択,"「In conclusion, we should reduce waste.」の意味は？",結論として私たちはごみを減らすべきです。,リンゴなど多くの果物にはビタミンが含まれます。,言い換えると新しい方法が必要です。,運動は健康を改善すると広く考えられています。,in conclusionは結論を示すよ。
+146,高校生,要約表現,2,穴埋め,4択,"「In ___, we should reduce waste.」に入る語は？",conclusion,front,mind,case,in conclusionは結論を示すよ。
+147,高校生,例示,1,意味,4択,"「Many fruits, for example apples, contain vitamins.」の意味は？",リンゴなど多くの果物にはビタミンが含まれます。,言い換えると新しい方法が必要です。,運動は健康を改善すると広く考えられています。,その提案は検討する価値があります。,for exampleは具体例を示すよ。
+147,高校生,例示,2,穴埋め,4択,"「Many fruits, for ___ apples, contain vitamins.」に入る語は？",example,result,reason,order,for exampleは具体例を示すよ。
+148,高校生,言い換え,1,意味,4択,"「In other words, we need a new approach.」の意味は？",言い換えると新しい方法が必要です。,運動は健康を改善すると広く考えられています。,その提案は検討する価値があります。,私が着いたときには列車は出発していました。,in other wordsは言い換えを示すよ。
+148,高校生,言い換え,2,穴埋め,4択,"「In other ___, we need a new approach.」に入る語は？",words,ways,times,cases,in other wordsは言い換えを示すよ。
+149,高校生,主張,1,意味,4択,「It is widely believed that exercise improves health.」の意味は？,運動は健康を改善すると広く考えられています。,その提案は検討する価値があります。,私が着いたときには列車は出発していました。,金曜日までには報告書を終えているでしょう。,It is believed thatは一般的な見解を示すよ。
+149,高校生,主張,2,穴埋め,4択,「It is widely ___ that exercise improves health.」に入る語は？,believed,believing,believe,belief,It is believed thatは一般的な見解を示すよ。
+150,高校生,評価,1,意味,4択,「The proposal is worth considering.」の意味は？,その提案は検討する価値があります。,私が着いたときには列車は出発していました。,金曜日までには報告書を終えているでしょう。,彼女は3時間ずっと勉強しています。,be worthの後にはing形を置くよ。
+150,高校生,評価,2,穴埋め,4択,「The proposal is worth ___.」に入る語は？,considering,consider,considered,to,be worthの後にはing形を置くよ。
