@@ -2,6 +2,9 @@
 
 namespace App\Support;
 
+use App\Models\ProfileWord;
+use App\Models\Question;
+
 /** 単語帳の決まり(docs/design/2026-10-07-word-book-design.md)。取り込み・API・出会いの記録 */
 class Words
 {
@@ -25,5 +28,22 @@ class Words
         $labels = config('words.pos_labels');
 
         return implode('・', array_map(fn (string $part) => $labels[trim($part)] ?? trim($part), explode('・', $pos)));
+    }
+
+    /**
+     * 問題に答えたとき、その問題の語に出会ったことにする(profile_words の seen_at。最初の日時のまま)。
+     * 語のない問題(meta.word_id がない)は何もしない。保存・苦手・覚えたのマークは変えない
+     */
+    public static function encounter(int $profileId, int $questionId): void
+    {
+        $wordId = Question::query()->find($questionId, ['id', 'meta'])?->meta['word_id'] ?? null;
+        if ($wordId === null) {
+            return;
+        }
+
+        $record = ProfileWord::query()->firstOrCreate(['user_profile_id' => $profileId, 'word_id' => (int) $wordId]);
+        if ($record->seen_at === null) {
+            $record->update(['seen_at' => now()]);
+        }
     }
 }

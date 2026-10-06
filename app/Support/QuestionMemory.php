@@ -19,6 +19,7 @@ class QuestionMemory
     public static function record(UserProfile $profile, int $questionId, bool $correct, ?string $today = null): void
     {
         self::apply($profile->id, $questionId, $correct, $today ?? Garden::today());
+        Words::encounter($profile->id, $questionId); // 単語帳: この問題の語に出会った(docs/design/2026-10-07-word-book-design.md 5章)
     }
 
     /**
