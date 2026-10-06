@@ -9,6 +9,7 @@ import { HpGauge } from "@/components/app/hp-gauge";
 import { LevelRing } from "@/components/app/level-ring";
 import { LogoMark } from "@/components/app/logo-mark";
 import { useProfile } from "@/components/app/profile-provider";
+import { StatusSheet } from "@/components/app/status-sheet";
 
 /**
  * ゲーム内の全画面共通ヘッダー(設計書4-1、docs/design/2026-10-07-header-level-design.md 5-1章)。
@@ -50,8 +51,7 @@ export function AppHeader() {
           <CurrencyIcon kind="coins" />
         </div>
       </div>
-      {/* 「じぶんの状態」パネルは、次のタスクで足す */}
-      {statusOpen && null}
+      <StatusSheet open={statusOpen} onOpenChange={setStatusOpen} />
     </header>
   );
 }
