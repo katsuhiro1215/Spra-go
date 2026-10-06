@@ -121,3 +121,46 @@ it('同じ問題文が、続けて並ばない', function () {
         expect($ordered[$i] === 'おなじ問題文' && $ordered[$i - 1] === 'おなじ問題文')->toBeFalse();
     }
 });
+
+it('プールのステージを開くと、出す数の問題が返る。ボスの先頭5問は毎回同じ', function () {
+    createActiveProfile();
+    $stage = createPoolStage(30);
+    $anchor = array_slice(poolIds($stage), 0, 5);
+
+    foreach (range(1, 3) as $_) {
+        $ids = collect($this->getJson("/api/stages/{$stage->id}")->assertOk()->json('questions'))->pluck('id')->all();
+        expect($ids)->toHaveCount(10)
+            ->and(array_diff($anchor, $ids))->toBe([]);
+    }
+});
+
+it('プールでないステージは、今まで通り割り当てた問題すべてを返す', function () {
+    createActiveProfile();
+    $stage = createPoolStage(12, 10, false);
+
+    expect($this->getJson("/api/stages/{$stage->id}")->assertOk()->json('questions'))->toHaveCount(12);
+});
+
+it('プールのステージのクリアは、出す数が満点。ボスの称号が付く', function () {
+    $profile = createActiveProfile();
+    $stage = createPoolStage(30);
+    $stage->update(['title_reward' => 'テストはかせ']);
+
+    $this->postJson("/api/stages/{$stage->id}/complete", ['score' => 9])->assertOk()->assertJsonPath('title_granted', false);
+    $this->postJson("/api/stages/{$stage->id}/complete", ['score' => 10])->assertOk()->assertJsonPath('title_granted', true);
+});
+
+it('クリアの報酬は、reward_percent の割合になる', function () {
+    $profile = createActiveProfile();
+    $half = createPoolStage(12, 10, false, false, '半分');
+    $half->update(['reward_percent' => 50]);
+    $full = createPoolStage(12, 10, false, false, '満額');
+
+    $coins = $profile->fresh()->coins;
+    $this->postJson("/api/stages/{$half->id}/complete", ['score' => 1])->assertOk();
+    expect($profile->fresh()->coins - $coins)->toBe(50);
+
+    $coins = $profile->fresh()->coins;
+    $this->postJson("/api/stages/{$full->id}/complete", ['score' => 1])->assertOk();
+    expect($profile->fresh()->coins - $coins)->toBe(100);
+});

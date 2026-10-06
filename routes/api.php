@@ -41,6 +41,7 @@ use App\Support\Prefecture\PrefectureBadges;
 use App\Support\Prefecture\PrefectureCatalog;
 use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
+use App\Support\StageDraw;
 use App\Support\RareSeeds;
 use App\Support\Review;
 use App\Support\Roster;
@@ -1181,6 +1182,13 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $r
 
     abort_if($questions->isEmpty(), 404);
 
+    // プールのステージは、抽選した問題だけを出す(docs/design/2026-10-06-prefecture-master-design.md 3章)
+    if ($stage->is_pool) {
+        $drawn = $profile ? StageDraw::pick($profile, $stage) : $questions->take($stage->playCount())->pluck('id')->all();
+        $questions = $questions->keyBy('id');
+        $questions = collect($drawn)->map(fn (int $id) => $questions[$id])->values();
+    }
+
     // おさらい(docs/design/2026-09-29-spaced-review-design.md 4-5)。ボス以外に、出す日が来た前の問題を足す
     $reviewIds = $profile && ! $stage->is_boss
         ? QuestionMemory::dueIds($profile, config('review.stage_mix'), $questions->pluck('id')->all(), $stage->country_id)
@@ -1210,7 +1218,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         'score' => ['required', 'integer', 'min:0'],
     ]);
     // 点数はステージの問題だけの正解数(おさらいの問題は数えない)。念のため問題の数までに抑える(設計書4-6)
-    $score = min($data['score'], $stage->questions()->count());
+    $score = min($data['score'], $stage->playCount());
 
     $profileId = $request->session()->get('active_profile_id');
     $profile = $profileId ? UserProfile::find($profileId) : null;
@@ -1227,13 +1235,13 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
     $progress->cleared_at ??= now();
     $progress->save();
 
-    $profile->applyEconomy(['coin' => 100, 'point' => config('world.rewards.stage_clear')], 'stage_clear', null, $stage);
+    $profile->applyEconomy(['coin' => intdiv(100 * $stage->reward_percent, 100), 'point' => intdiv(config('world.rewards.stage_clear') * $stage->reward_percent, 100)], 'stage_clear', null, $stage);
 
     // このクリアで新しくチケットが増え、使えるときだけ知らせる(設計書4-3・5-4)
     $ticketEarned = Travel::earnedTickets($profile) > $earnedTicketsBefore && Travel::tickets($profile) > 0;
 
     $titleGranted = false;
-    if ($stage->is_boss && $stage->title_reward && $score === $stage->questions()->count()) {
+    if ($stage->is_boss && $stage->title_reward && $score === $stage->playCount()) {
         $title = ProfileTitle::query()->firstOrCreate(
             ['user_profile_id' => $profile->id, 'title' => $stage->title_reward],
             ['source_stage_id' => $stage->id, 'unlocked_at' => now()]
