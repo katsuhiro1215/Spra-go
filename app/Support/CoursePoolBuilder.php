@@ -111,7 +111,7 @@ class CoursePoolBuilder
         foreach (config('courses.languages') as $key => $language) {
             $category = Category::query()->where('name', $language['category'])->first();
             $existing = $category ? Stage::query()->where('category_id', $category->id)->get() : collect();
-            if ($existing->isEmpty()) {
+            if ($existing->isEmpty() || self::isLeveled($existing)) {
                 continue;
             }
 
@@ -167,6 +167,15 @@ class CoursePoolBuilder
         }
 
         return $result;
+    }
+
+    /** 問題にレベル(meta.level)がついている言語のコースか。english:import が作ったもので、並べ直さない(docs/design/2026-10-07-english-levels-design.md 4-1) */
+    private static function isLeveled($stages): bool
+    {
+        return Question::query()
+            ->whereIn('id', DB::table('stage_questions')->whereIn('stage_id', $stages->pluck('id'))->select('question_id'))
+            ->whereNotNull('meta->level')
+            ->exists();
     }
 
     /** 言語のステージの問題を集めて、重複(問題文と正解が同じ)を除いたプールにする @return list<int> */

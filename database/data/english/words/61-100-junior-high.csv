@@ -1,0 +1,1001 @@
+英語レベル,対象,ジャンル,番号,品詞,CEFR,出題方向,形,英単語,日本語,問題文,正解,まちがい1,まちがい2,まちがい3,解説(要約)
+61,中学生前半,中学基礎・A2,1,adverb,A2,英日,4択,in,～の中に,「in」の意味は？,～の中に,のために,～の上に,として,in は「～の中に」という意味だよ。
+61,中学生前半,中学基礎・A2,2,noun,A2,英日,4択,it,それ,「it」の意味は？,それ,～の上に,として,それで,it は「それ」という意味だよ。
+61,中学生前半,中学基礎・A2,3,conjunction,A2,英日,4択,for,のために,「for」の意味は？,のために,として,それで,全て,for は「のために」という意味だよ。
+61,中学生前半,中学基礎・A2,4,adverb,A2,英日,4択,on,～の上に,「on」の意味は？,～の上に,それで,全て,上へ,on は「～の上に」という意味だよ。
+61,中学生前半,中学基礎・A2,5,conjunction,A2,英日,4択,as,として,「as」の意味は？,として,全て,上へ,ほとんど,as は「として」という意味だよ。
+61,中学生前半,中学基礎・A2,6,adverb,A2,英日,4択,so,それで,「so」の意味は？,それで,上へ,ほとんど,～を越えて,so は「それで」という意味だよ。
+61,中学生前半,中学基礎・A2,7,adverb,A2,英日,4択,all,全て,「all」の意味は？,全て,ほとんど,～を越えて,そのような,all は「全て」という意味だよ。
+61,中学生前半,中学基礎・A2,8,adverb,A2,英日,4択,up,上へ,「up」の意味は？,上へ,～を越えて,そのような,次,up は「上へ」という意味だよ。
+61,中学生前半,中学基礎・A2,9,adverb,A2,英日,4択,most,ほとんど,「most」の意味は？,ほとんど,そのような,次,家・家へ,most は「ほとんど」という意味だよ。
+61,中学生前半,中学基礎・A2,10,adverb,A2,英日,4択,over,～を越えて,「over」の意味は？,～を越えて,次,家・家へ,かもしれない,over は「～を越えて」という意味だよ。
+61,中学生前半,中学基礎・A2,11,determiner,A2,英日,4択,such,そのような,「such」の意味は？,そのような,家・家へ,かもしれない,しかし,such は「そのような」という意味だよ。
+61,中学生前半,中学基礎・A2,12,adverb,A2,英日,4択,next,次,「next」の意味は？,次,かもしれない,しかし,少し,next は「次」という意味だよ。
+61,中学生前半,中学基礎・A2,13,adverb,A2,英日,4択,home,家・家へ,「home」の意味は？,家・家へ,しかし,少し,置く・設定する,home は「家・家へ」という意味だよ。
+61,中学生前半,中学基礎・A2,14,modal auxiliary,A2,英日,4択,might,かもしれない,「might」の意味は？,かもしれない,少し,置く・設定する,システム,might は「かもしれない」という意味だよ。
+61,中学生前半,中学基礎・A2,15,adverb,A2,英日,4択,however,しかし,「however」の意味は？,しかし,置く・設定する,システム,少ない,however は「しかし」という意味だよ。
+61,中学生前半,中学基礎・A2,16,determiner,A2,英日,4択,few,少し,「few」の意味は？,少し,システム,少ない,眺め・見方,few は「少し」という意味だよ。
+61,中学生前半,中学基礎・A2,17,noun,A2,英日,4択,set,置く・設定する,「set」の意味は？,置く・設定する,少ない,眺め・見方,それよりも,set は「置く・設定する」という意味だよ。
+61,中学生前半,中学基礎・A2,18,noun,A2,日英,4択,system,システム,「システム」を表す英単語は？,system,view,rather,actually,「システム」は英語で system と言うよ。
+61,中学生前半,中学基礎・A2,19,adverb,A2,日英,4択,less,少ない,「少ない」を表す英単語は？,less,rather,actually,base,「少ない」は英語で less と言うよ。
+61,中学生前半,中学基礎・A2,20,noun,A2,日英,4択,view,眺め・見方,「眺め・見方」を表す英単語は？,view,actually,base,human,「眺め・見方」は英語で view と言うよ。
+61,中学生前半,中学基礎・A2,21,adverb,A2,日英,4択,rather,それよりも,「それよりも」を表す英単語は？,rather,base,human,several,「それよりも」は英語で rather と言うよ。
+61,中学生前半,中学基礎・A2,22,adverb,A2,日英,4択,actually,実は,「実は」を表す英単語は？,actually,human,several,in,「実は」は英語で actually と言うよ。
+61,中学生前半,中学基礎・A2,23,noun,A2,日英,4択,base,基礎,「基礎」を表す英単語は？,base,several,in,it,「基礎」は英語で base と言うよ。
+61,中学生前半,中学基礎・A2,24,adjective,A2,日英,4択,human,人間,「人間」を表す英単語は？,human,in,it,for,「人間」は英語で human と言うよ。
+61,中学生前半,中学基礎・A2,25,determiner,A2,日英,4択,several,いくつかの,「いくつかの」を表す英単語は？,several,it,for,on,「いくつかの」は英語で several と言うよ。
+62,中学生前半,中学基礎・A2,1,noun,A2,英日,4択,issue,問題,「issue」の意味は？,問題,残る,おそらく,割合,issue は「問題」という意味だよ。
+62,中学生前半,中学基礎・A2,2,adjective,A2,英日,4択,clear,明らかな,「clear」の意味は？,明らかな,おそらく,割合,懸念,clear は「明らかな」という意味だよ。
+62,中学生前半,中学基礎・A2,3,verb,A2,英日,4択,remain,残る,「remain」の意味は？,残る,割合,懸念,取引,remain は「残る」という意味だよ。
+62,中学生前半,中学基礎・A2,4,adjective,A2,英日,4択,likely,おそらく,「likely」の意味は？,おそらく,懸念,取引,数字・人物,likely は「おそらく」という意味だよ。
+62,中学生前半,中学基礎・A2,5,noun,A2,英日,4択,rate,割合,「rate」の意味は？,割合,取引,数字・人物,ステップ,rate は「割合」という意味だよ。
+62,中学生前半,中学基礎・A2,6,noun,A2,英日,4択,concern,懸念,「concern」の意味は？,懸念,数字・人物,ステップ,力,concern は「懸念」という意味だよ。
+62,中学生前半,中学基礎・A2,7,noun,A2,英日,4択,deal,取引,「deal」の意味は？,取引,ステップ,力,少し,deal は「取引」という意味だよ。
+62,中学生前半,中学基礎・A2,8,noun,A2,英日,4択,figure,数字・人物,「figure」の意味は？,数字・人物,力,少し,彼ら自身,figure は「数字・人物」という意味だよ。
+62,中学生前半,中学基礎・A2,9,noun,A2,英日,4択,step,ステップ,「step」の意味は？,ステップ,少し,彼ら自身,機会,step は「ステップ」という意味だよ。
+62,中学生前半,中学基礎・A2,10,noun,A2,英日,4択,power,力,「power」の意味は？,力,彼ら自身,機会,完成させる,power は「力」という意味だよ。
+62,中学生前半,中学基礎・A2,11,noun,A2,英日,4択,bit,少し,「bit」の意味は？,少し,機会,完成させる,注意,bit は「少し」という意味だよ。
+62,中学生前半,中学基礎・A2,12,pronoun,A2,英日,4択,themselves,彼ら自身,「themselves」の意味は？,彼ら自身,完成させる,注意,したがって,themselves は「彼ら自身」という意味だよ。
+62,中学生前半,中学基礎・A2,13,noun,A2,英日,4択,opportunity,機会,「opportunity」の意味は？,機会,注意,したがって,上げる,opportunity は「機会」という意味だよ。
+62,中学生前半,中学基礎・A2,14,adjective,A2,英日,4択,complete,完成させる,「complete」の意味は？,完成させる,したがって,上げる,世紀,complete は「完成させる」という意味だよ。
+62,中学生前半,中学基礎・A2,15,noun,A2,英日,4択,attention,注意,「attention」の意味は？,注意,上げる,世紀,材料,attention は「注意」という意味だよ。
+62,中学生前半,中学基礎・A2,16,adverb,A2,英日,4択,therefore,したがって,「therefore」の意味は？,したがって,世紀,材料,パフォーマンス,therefore は「したがって」という意味だよ。
+62,中学生前半,中学基礎・A2,17,verb,A2,英日,4択,raise,上げる,「raise」の意味は？,上げる,材料,パフォーマンス,仕える・役立つ,raise は「上げる」という意味だよ。
+62,中学生前半,中学基礎・A2,18,noun,A2,日英,4択,century,世紀,「世紀」を表す英単語は？,century,performance,serve,influence,「世紀」は英語で century と言うよ。
+62,中学生前半,中学基礎・A2,19,noun,A2,日英,4択,material,材料,「材料」を表す英単語は？,material,serve,influence,himself,「材料」は英語で material と言うよ。
+62,中学生前半,中学基礎・A2,20,noun,A2,日英,4択,performance,パフォーマンス,「パフォーマンス」を表す英単語は？,performance,influence,himself,position,「パフォーマンス」は英語で performance と言うよ。
+62,中学生前半,中学基礎・A2,21,verb,A2,日英,4択,serve,仕える・役立つ,「仕える・役立つ」を表す英単語は？,serve,himself,position,act,「仕える・役立つ」は英語で serve と言うよ。
+62,中学生前半,中学基礎・A2,22,noun,A2,日英,4択,influence,影響,「影響」を表す英単語は？,influence,position,act,issue,「影響」は英語で influence と言うよ。
+62,中学生前半,中学基礎・A2,23,pronoun,A2,日英,4択,himself,彼自身,「彼自身」を表す英単語は？,himself,act,issue,clear,「彼自身」は英語で himself と言うよ。
+62,中学生前半,中学基礎・A2,24,noun,A2,日英,4択,position,位置,「位置」を表す英単語は？,position,issue,clear,remain,「位置」は英語で position と言うよ。
+62,中学生前半,中学基礎・A2,25,noun,A2,日英,4択,act,行動する,「行動する」を表す英単語は？,act,clear,remain,likely,「行動する」は英語で act と言うよ。
+63,中学生前半,中学基礎・A2,1,adjective,A2,英日,4択,average,平均,「average」の意味は？,平均,声明,落とす,スタッフ,average は「平均」という意味だよ。
+63,中学生前半,中学基礎・A2,2,pronoun,A2,英日,4択,myself,自分自身,「myself」の意味は？,自分自身,落とす,スタッフ,行動,myself は「自分自身」という意味だよ。
+63,中学生前半,中学基礎・A2,3,noun,A2,英日,4択,statement,声明,「statement」の意味は？,声明,スタッフ,行動,入る,statement は「声明」という意味だよ。
+63,中学生前半,中学基礎・A2,4,noun,A2,英日,4択,drop,落とす,「drop」の意味は？,落とす,行動,入る,代表する,drop は「落とす」という意味だよ。
+63,中学生前半,中学基礎・A2,5,noun,A2,英日,4択,staff,スタッフ,「staff」の意味は？,スタッフ,入る,代表する,力,staff は「スタッフ」という意味だよ。
+63,中学生前半,中学基礎・A2,6,noun,A2,英日,4択,behavior,行動,「behavior」の意味は？,行動,代表する,力,追加,behavior は「行動」という意味だよ。
+63,中学生前半,中学基礎・A2,7,verb,A2,英日,4択,enter,入る,「enter」の意味は？,入る,力,追加,最後の,enter は「入る」という意味だよ。
+63,中学生前半,中学基礎・A2,8,verb,A2,英日,4択,represent,代表する,「represent」の意味は？,代表する,追加,最後の,著者,represent は「代表する」という意味だよ。
+63,中学生前半,中学基礎・A2,9,noun,A2,英日,4択,force,力,「force」の意味は？,力,最後の,著者,人口,force は「力」という意味だよ。
+63,中学生前半,中学基礎・A2,10,noun,A2,英日,4択,addition,追加,「addition」の意味は？,追加,著者,人口,詳細,addition は「追加」という意味だよ。
+63,中学生前半,中学基礎・A2,11,adjective,A2,英日,4択,final,最後の,「final」の意味は？,最後の,人口,詳細,適用する,final は「最後の」という意味だよ。
+63,中学生前半,中学基礎・A2,12,noun,A2,英日,4択,author,著者,「author」の意味は？,著者,詳細,適用する,応答,author は「著者」という意味だよ。
+63,中学生前半,中学基礎・A2,13,noun,A2,英日,4択,population,人口,「population」の意味は？,人口,適用する,応答,大学,population は「人口」という意味だよ。
+63,中学生前半,中学基礎・A2,14,noun,A2,英日,4択,detail,詳細,「detail」の意味は？,詳細,応答,大学,存在する,detail は「詳細」という意味だよ。
+63,中学生前半,中学基礎・A2,15,verb,A2,英日,4択,apply,適用する,「apply」の意味は？,適用する,大学,存在する,利点,apply は「適用する」という意味だよ。
+63,中学生前半,中学基礎・A2,16,noun,A2,英日,4択,response,応答,「response」の意味は？,応答,存在する,利点,トラブル,response は「応答」という意味だよ。
+63,中学生前半,中学基礎・A2,17,noun,A2,英日,4択,university,大学,「university」の意味は？,大学,利点,トラブル,単に,university は「大学」という意味だよ。
+63,中学生前半,中学基礎・A2,18,verb,A2,日英,4択,exist,存在する,「存在する」を表す英単語は？,exist,trouble,simply,lack,「存在する」は英語で exist と言うよ。
+63,中学生前半,中学基礎・A2,19,noun,A2,日英,4択,advantage,利点,「利点」を表す英単語は？,advantage,simply,lack,further,「利点」は英語で advantage と言うよ。
+63,中学生前半,中学基礎・A2,20,noun,A2,日英,4択,trouble,トラブル,「トラブル」を表す英単語は？,trouble,lack,further,source,「トラブル」は英語で trouble と言うよ。
+63,中学生前半,中学基礎・A2,21,adverb,A2,日英,4択,simply,単に,「単に」を表す英単語は？,simply,further,source,challenge,「単に」は英語で simply と言うよ。
+63,中学生前半,中学基礎・A2,22,noun,A2,日英,4択,lack,不足,「不足」を表す英単語は？,lack,source,challenge,average,「不足」は英語で lack と言うよ。
+63,中学生前半,中学基礎・A2,23,adjective,A2,日英,4択,further,さらに,「さらに」を表す英単語は？,further,challenge,average,myself,「さらに」は英語で further と言うよ。
+63,中学生前半,中学基礎・A2,24,noun,A2,日英,4択,source,源・情報源,「源・情報源」を表す英単語は？,source,average,myself,statement,「源・情報源」は英語で source と言うよ。
+63,中学生前半,中学基礎・A2,25,noun,A2,日英,4択,challenge,難題・挑戦,「難題・挑戦」を表す英単語は？,challenge,myself,statement,drop,「難題・挑戦」は英語で challenge と言うよ。
+64,中学生前半,中学基礎・A2,1,noun,A2,英日,4択,feature,特徴,「feature」の意味は？,特徴,失敗,範囲,アカウント,feature は「特徴」という意味だよ。
+64,中学生前半,中学基礎・A2,2,verb,A2,英日,4択,indicate,示す,「indicate」の意味は？,示す,範囲,アカウント,実行する,indicate は「示す」という意味だよ。
+64,中学生前半,中学基礎・A2,3,verb,A2,英日,4択,fail,失敗,「fail」の意味は？,失敗,アカウント,実行する,うん,fail は「失敗」という意味だよ。
+64,中学生前半,中学基礎・A2,4,noun,A2,英日,4択,range,範囲,「range」の意味は？,範囲,実行する,うん,自体,range は「範囲」という意味だよ。
+64,中学生前半,中学基礎・A2,5,noun,A2,英日,4択,account,アカウント,「account」の意味は？,アカウント,うん,自体,議論,account は「アカウント」という意味だよ。
+64,中学生前半,中学基礎・A2,6,verb,A2,英日,4択,perform,実行する,「perform」の意味は？,実行する,自体,議論,スタイル,perform は「実行する」という意味だよ。
+64,中学生前半,中学基礎・A2,7,adverb,A2,英日,4択,yeah,うん,「yeah」の意味は？,うん,議論,スタイル,死,yeah は「うん」という意味だよ。
+64,中学生前半,中学基礎・A2,8,pronoun,A2,英日,4択,itself,自体,「itself」の意味は？,自体,スタイル,死,毎日,itself は「自体」という意味だよ。
+64,中学生前半,中学基礎・A2,9,noun,A2,英日,4択,discussion,議論,「discussion」の意味は？,議論,死,毎日,証拠,discussion は「議論」という意味だよ。
+64,中学生前半,中学基礎・A2,10,noun,A2,英日,4択,style,スタイル,「style」の意味は？,スタイル,毎日,証拠,画像,style は「スタイル」という意味だよ。
+64,中学生前半,中学基礎・A2,11,noun,A2,英日,4択,death,死,「death」の意味は？,死,証拠,画像,タスク,death は「死」という意味だよ。
+64,中学生前半,中学基礎・A2,12,adjective,A2,英日,4択,daily,毎日,「daily」の意味は？,毎日,画像,タスク,恐れ,daily は「毎日」という意味だよ。
+64,中学生前半,中学基礎・A2,13,noun,A2,英日,4択,evidence,証拠,「evidence」の意味は？,証拠,タスク,恐れ,～しましょうか,evidence は「証拠」という意味だよ。
+64,中学生前半,中学基礎・A2,14,noun,A2,英日,4択,image,画像,「image」の意味は？,画像,恐れ,～しましょうか,試み,image は「画像」という意味だよ。
+64,中学生前半,中学基礎・A2,15,noun,A2,英日,4択,task,タスク,「task」の意味は？,タスク,～しましょうか,試み,重さ,task は「タスク」という意味だよ。
+64,中学生前半,中学基礎・A2,16,noun,A2,英日,4択,fear,恐れ,「fear」の意味は？,恐れ,試み,重さ,合う,fear は「恐れ」という意味だよ。
+64,中学生前半,中学基礎・A2,17,modal auxiliary,A2,英日,4択,shall,～しましょうか,「shall」の意味は？,～しましょうか,重さ,合う,主張する,shall は「～しましょうか」という意味だよ。
+64,中学生前半,中学基礎・A2,18,noun,A2,日英,4択,attempt,試み,「試み」を表す英単語は？,attempt,fit,argue,speaker,「試み」は英語で attempt と言うよ。
+64,中学生前半,中学基礎・A2,19,noun,A2,日英,4択,weight,重さ,「重さ」を表す英単語は？,weight,argue,speaker,whatever,「重さ」は英語で weight と言うよ。
+64,中学生前半,中学基礎・A2,20,adjective,A2,日英,4択,fit,合う,「合う」を表す英単語は？,fit,speaker,whatever,achieve,「合う」は英語で fit と言うよ。
+64,中学生前半,中学基礎・A2,21,verb,A2,日英,4択,argue,主張する,「主張する」を表す英単語は？,argue,whatever,achieve,shape,「主張する」は英語で argue と言うよ。
+64,中学生前半,中学基礎・A2,22,noun,A2,日英,4択,speaker,話し手,「話し手」を表す英単語は？,speaker,achieve,shape,feature,「話し手」は英語で speaker と言うよ。
+64,中学生前半,中学基礎・A2,23,determiner,A2,日英,4択,whatever,何でも,「何でも」を表す英単語は？,whatever,shape,feature,indicate,「何でも」は英語で whatever と言うよ。
+64,中学生前半,中学基礎・A2,24,verb,A2,日英,4択,achieve,成し遂げる,「成し遂げる」を表す英単語は？,achieve,feature,indicate,fail,「成し遂げる」は英語で achieve と言うよ。
+64,中学生前半,中学基礎・A2,25,noun,A2,日英,4択,shape,形,「形」を表す英単語は？,shape,indicate,fail,range,「形」は英語で shape と言うよ。
+65,中学生前半,中学基礎・A2,1,noun,A2,英日,4択,solution,解決,「solution」の意味は？,解決,程度,困難,国家,solution は「解決」という意味だよ。
+65,中学生前半,中学基礎・A2,2,verb,A2,英日,4択,refer,参照する,「refer」の意味は？,参照する,困難,国家,～の上に,refer は「参照する」という意味だよ。
+65,中学生前半,中学基礎・A2,3,noun,A2,英日,4択,degree,程度,「degree」の意味は？,程度,国家,～の上に,生産,degree は「程度」という意味だよ。
+65,中学生前半,中学基礎・A2,4,noun,A2,英日,4択,difficulty,困難,「difficulty」の意味は？,困難,～の上に,生産,元の・独創的な,difficulty は「困難」という意味だよ。
+65,中学生前半,中学基礎・A2,5,noun,A2,英日,4択,nation,国家,「nation」の意味は？,国家,生産,元の・独創的な,交換,nation は「国家」という意味だよ。
+65,中学生前半,中学基礎・A2,6,preposition,A2,英日,4択,upon,～の上に,「upon」の意味は？,～の上に,元の・独創的な,交換,専門家,upon は「～の上に」という意味だよ。
+65,中学生前半,中学基礎・A2,7,noun,A2,英日,4択,production,生産,「production」の意味は？,生産,交換,専門家,ともかく,production は「生産」という意味だよ。
+65,中学生前半,中学基礎・A2,8,adjective,A2,英日,4択,original,元の・独創的な,「original」の意味は？,元の・独創的な,専門家,ともかく,彼女自身,original は「元の・独創的な」という意味だよ。
+65,中学生前半,中学基礎・A2,9,noun,A2,英日,4択,exchange,交換,「exchange」の意味は？,交換,ともかく,彼女自身,反映する,exchange は「交換」という意味だよ。
+65,中学生前半,中学基礎・A2,10,adjective,A2,英日,4択,professional,専門家,「professional」の意味は？,専門家,彼女自身,反映する,を除外する,professional は「専門家」という意味だよ。
+65,中学生前半,中学基礎・A2,11,adverb,A2,英日,4択,anyway,ともかく,「anyway」の意味は？,ともかく,反映する,を除外する,ロック,anyway は「ともかく」という意味だよ。
+65,中学生前半,中学基礎・A2,12,pronoun,A2,英日,4択,herself,彼女自身,「herself」の意味は？,彼女自身,を除外する,ロック,適切な,herself は「彼女自身」という意味だよ。
+65,中学生前半,中学基礎・A2,13,verb,A2,英日,4択,reflect,反映する,「reflect」の意味は？,反映する,ロック,適切な,態度,reflect は「反映する」という意味だよ。
+65,中学生前半,中学基礎・A2,14,conjunction,A2,英日,4択,except,を除外する,「except」の意味は？,を除外する,適切な,態度,競争,except は「を除外する」という意味だよ。
+65,中学生前半,中学基礎・A2,15,noun,A2,英日,4択,rock,ロック,「rock」の意味は？,ロック,態度,競争,探す,rock は「ロック」という意味だよ。
+65,中学生前半,中学基礎・A2,16,adjective,A2,英日,4択,appropriate,適切な,「appropriate」の意味は？,適切な,競争,探す,スケジュール,appropriate は「適切な」という意味だよ。
+65,中学生前半,中学基礎・A2,17,noun,A2,英日,4択,attitude,態度,「attitude」の意味は？,態度,探す,スケジュール,戦略,attitude は「態度」という意味だよ。
+65,中学生前半,中学基礎・A2,18,noun,A2,日英,4択,competition,競争,「競争」を表す英単語は？,competition,schedule,strategy,prevent,「競争」は英語で competition と言うよ。
+65,中学生前半,中学基礎・A2,19,noun,A2,日英,4択,search,探す,「探す」を表す英単語は？,search,strategy,prevent,official,「探す」は英語で search と言うよ。
+65,中学生前半,中学基礎・A2,20,noun,A2,日英,4択,schedule,スケジュール,「スケジュール」を表す英単語は？,schedule,prevent,official,seek,「スケジュール」は英語で schedule と言うよ。
+65,中学生前半,中学基礎・A2,21,noun,A2,日英,4択,strategy,戦略,「戦略」を表す英単語は？,strategy,official,seek,establish,「戦略」は英語で strategy と言うよ。
+65,中学生前半,中学基礎・A2,22,verb,A2,日英,4択,prevent,防ぐ,「防ぐ」を表す英単語は？,prevent,seek,establish,solution,「防ぐ」は英語で prevent と言うよ。
+65,中学生前半,中学基礎・A2,23,adjective,A2,日英,4択,official,公式の,「公式の」を表す英単語は？,official,establish,solution,refer,「公式の」は英語で official と言うよ。
+65,中学生前半,中学基礎・A2,24,verb,A2,日英,4択,seek,求める,「求める」を表す英単語は？,seek,solution,refer,degree,「求める」は英語で seek と言うよ。
+65,中学生前半,中学基礎・A2,25,verb,A2,日英,4択,establish,確立する,「確立する」を表す英単語は？,establish,refer,degree,difficulty,「確立する」は英語で establish と言うよ。
+66,中学生前半,中学基礎・A2,1,verb,A2,英日,4択,replace,交換する,「replace」の意味は？,交換する,先に,得る,組織する,replace は「交換する」という意味だよ。
+66,中学生前半,中学基礎・A2,2,adjective,A2,英日,4択,straight,真っ直ぐ,「straight」の意味は？,真っ直ぐ,得る,組織する,もの,straight は「真っ直ぐ」という意味だよ。
+66,中学生前半,中学基礎・A2,3,adverb,A2,英日,4択,ahead,先に,「ahead」の意味は？,先に,組織する,もの,規則的な,ahead は「先に」という意味だよ。
+66,中学生前半,中学基礎・A2,4,verb,A2,英日,4択,earn,得る,「earn」の意味は？,得る,もの,規則的な,貿易,earn は「得る」という意味だよ。
+66,中学生前半,中学基礎・A2,5,verb,A2,英日,4択,organize,組織する,「organize」の意味は？,組織する,規則的な,貿易,題名,organize は「組織する」という意味だよ。
+66,中学生前半,中学基礎・A2,6,noun,A2,英日,4択,stuff,もの,「stuff」の意味は？,もの,貿易,題名,別,stuff は「もの」という意味だよ。
+66,中学生前半,中学基礎・A2,7,adjective,A2,英日,4択,regular,規則的な,「regular」の意味は？,規則的な,題名,別,重要性,regular は「規則的な」という意味だよ。
+66,中学生前半,中学基礎・A2,8,noun,A2,英日,4択,trade,貿易,「trade」の意味は？,貿易,別,重要性,ターゲット,trade は「貿易」という意味だよ。
+66,中学生前半,中学基礎・A2,9,noun,A2,英日,4択,title,題名,「title」の意味は？,題名,重要性,ターゲット,確かに,title は「題名」という意味だよ。
+66,中学生前半,中学基礎・A2,10,adjective,A2,英日,4択,separate,別,「separate」の意味は？,別,ターゲット,確かに,攻撃,separate は「別」という意味だよ。
+66,中学生前半,中学基礎・A2,11,noun,A2,英日,4択,importance,重要性,「importance」の意味は？,重要性,確かに,攻撃,重要な,importance は「重要性」という意味だよ。
+66,中学生前半,中学基礎・A2,12,noun,A2,英日,4択,target,ターゲット,「target」の意味は？,ターゲット,攻撃,重要な,南,target は「ターゲット」という意味だよ。
+66,中学生前半,中学基礎・A2,13,adverb,A2,英日,4択,indeed,確かに,「indeed」の意味は？,確かに,重要な,南,ネガティブ,indeed は「確かに」という意味だよ。
+66,中学生前半,中学基礎・A2,14,noun,A2,英日,4択,attack,攻撃,「attack」の意味は？,攻撃,南,ネガティブ,特定の,attack は「攻撃」という意味だよ。
+66,中学生前半,中学基礎・A2,15,adjective,A2,英日,4択,significant,重要な,「significant」の意味は？,重要な,ネガティブ,特定の,感謝する,significant は「重要な」という意味だよ。
+66,中学生前半,中学基礎・A2,16,adjective,A2,英日,4択,south,南,「south」の意味は？,南,特定の,感謝する,政治的,south は「南」という意味だよ。
+66,中学生前半,中学基礎・A2,17,adjective,A2,英日,4択,negative,ネガティブ,「negative」の意味は？,ネガティブ,感謝する,政治的,プレッシャー,negative は「ネガティブ」という意味だよ。
+66,中学生前半,中学基礎・A2,18,adjective,A2,日英,4択,specific,特定の,「特定の」を表す英単語は？,specific,political,pressure,survive,「特定の」は英語で specific と言うよ。
+66,中学生前半,中学基礎・A2,19,verb,A2,日英,4択,appreciate,感謝する,「感謝する」を表す英単語は？,appreciate,pressure,survive,scene,「感謝する」は英語で appreciate と言うよ。
+66,中学生前半,中学基礎・A2,20,adjective,A2,日英,4択,political,政治的,「政治的」を表す英単語は？,political,survive,scene,female,「政治的」は英語で political と言うよ。
+66,中学生前半,中学基礎・A2,21,noun,A2,日英,4択,pressure,プレッシャー,「プレッシャー」を表す英単語は？,pressure,scene,female,handle,「プレッシャー」は英語で pressure と言うよ。
+66,中学生前半,中学基礎・A2,22,verb,A2,日英,4択,survive,生き残る,「生き残る」を表す英単語は？,survive,female,handle,replace,「生き残る」は英語で survive と言うよ。
+66,中学生前半,中学基礎・A2,23,noun,A2,日英,4択,scene,シーン,「シーン」を表す英単語は？,scene,handle,replace,straight,「シーン」は英語で scene と言うよ。
+66,中学生前半,中学基礎・A2,24,adjective,A2,日英,4択,female,女性,「女性」を表す英単語は？,female,replace,straight,ahead,「女性」は英語で female と言うよ。
+66,中学生前半,中学基礎・A2,25,noun,A2,日英,4択,handle,扱う,「扱う」を表す英単語は？,handle,straight,ahead,earn,「扱う」は英語で handle と言うよ。
+67,中学生前半,中学基礎・A2,1,noun,A2,英日,4択,display,表示する,「display」の意味は？,表示する,疑い,対比,解放する・発売する,display は「表示する」という意味だよ。
+67,中学生前半,中学基礎・A2,2,noun,A2,英日,4択,heat,熱,「heat」の意味は？,熱,対比,解放する・発売する,観客,heat は「熱」という意味だよ。
+67,中学生前半,中学基礎・A2,3,noun,A2,英日,4択,doubt,疑い,「doubt」の意味は？,疑い,解放する・発売する,観客,余分な,doubt は「疑い」という意味だよ。
+67,中学生前半,中学基礎・A2,4,noun,A2,英日,4択,contrast,対比,「contrast」の意味は？,対比,観客,余分な,追加,contrast は「対比」という意味だよ。
+67,中学生前半,中学基礎・A2,5,noun,A2,英日,4択,release,解放する・発売する,「release」の意味は？,解放する・発売する,余分な,追加,ガス,release は「解放する・発売する」という意味だよ。
+67,中学生前半,中学基礎・A2,6,noun,A2,英日,4択,audience,観客,「audience」の意味は？,観客,追加,ガス,単位,audience は「観客」という意味だよ。
+67,中学生前半,中学基礎・A2,7,adjective,A2,英日,4択,extra,余分な,「extra」の意味は？,余分な,ガス,単位,新鮮な,extra は「余分な」という意味だよ。
+67,中学生前半,中学基礎・A2,8,adjective,A2,英日,4択,additional,追加,「additional」の意味は？,追加,単位,新鮮な,広める,additional は「追加」という意味だよ。
+67,中学生前半,中学基礎・A2,9,noun,A2,英日,4択,gas,ガス,「gas」の意味は？,ガス,新鮮な,広める,結婚する,gas は「ガス」という意味だよ。
+67,中学生前半,中学基礎・A2,10,noun,A2,英日,4択,unit,単位,「unit」の意味は？,単位,広める,結婚する,2倍の,unit は「単位」という意味だよ。
+67,中学生前半,中学基礎・A2,11,adjective,A2,英日,4択,fresh,新鮮な,「fresh」の意味は？,新鮮な,結婚する,2倍の,北,fresh は「新鮮な」という意味だよ。
+67,中学生前半,中学基礎・A2,12,noun,A2,英日,4択,spread,広める,「spread」の意味は？,広める,2倍の,北,群衆,spread は「広める」という意味だよ。
+67,中学生前半,中学基礎・A2,13,verb,A2,英日,4択,marry,結婚する,「marry」の意味は？,結婚する,北,群衆,スーツ,marry は「結婚する」という意味だよ。
+67,中学生前半,中学基礎・A2,14,adjective,A2,英日,4択,double,2倍の,「double」の意味は？,2倍の,群衆,スーツ,議論,double は「2倍の」という意味だよ。
+67,中学生前半,中学基礎・A2,15,adjective,A2,英日,4択,north,北,「north」の意味は？,北,スーツ,議論,スピード,north は「北」という意味だよ。
+67,中学生前半,中学基礎・A2,16,noun,A2,英日,4択,crowd,群衆,「crowd」の意味は？,群衆,議論,スピード,直接の,crowd は「群衆」という意味だよ。
+67,中学生前半,中学基礎・A2,17,noun,A2,英日,4択,suit,スーツ,「suit」の意味は？,スーツ,スピード,直接の,素早い,suit は「スーツ」という意味だよ。
+67,中学生前半,中学基礎・A2,18,noun,A2,日英,4択,debate,議論,「議論」を表す英単語は？,debate,direct,quick,extremely,「議論」は英語で debate と言うよ。
+67,中学生前半,中学基礎・A2,19,noun,A2,日英,4択,speed,スピード,「スピード」を表す英単語は？,speed,quick,extremely,background,「スピード」は英語で speed と言うよ。
+67,中学生前半,中学基礎・A2,20,adjective,A2,日英,4択,direct,直接の,「直接の」を表す英単語は？,direct,extremely,background,credit,「直接の」は英語で direct と言うよ。
+67,中学生前半,中学基礎・A2,21,adjective,A2,日英,4択,quick,素早い,「素早い」を表す英単語は？,quick,background,credit,twice,「素早い」は英語で quick と言うよ。
+67,中学生前半,中学基礎・A2,22,adverb,A2,日英,4択,extremely,非常に,「非常に」を表す英単語は？,extremely,credit,twice,display,「非常に」は英語で extremely と言うよ。
+67,中学生前半,中学基礎・A2,23,noun,A2,日英,4択,background,背景,「背景」を表す英単語は？,background,twice,display,heat,「背景」は英語で background と言うよ。
+67,中学生前半,中学基礎・A2,24,noun,A2,日英,4択,credit,クレジット,「クレジット」を表す英単語は？,credit,display,heat,doubt,「クレジット」は英語で credit と言うよ。
+67,中学生前半,中学基礎・A2,25,adverb,A2,日英,4択,twice,2回,「2回」を表す英単語は？,twice,heat,doubt,contrast,「2回」は英語で twice と言うよ。
+68,中学生前半,中学基礎・A2,1,pronoun,A2,英日,4択,nobody,誰でもない,「nobody」の意味は？,誰でもない,跡・進路,強さ,反対,nobody は「誰でもない」という意味だよ。
+68,中学生前半,中学基礎・A2,2,noun,A2,英日,4択,generation,世代,「generation」の意味は？,世代,強さ,反対,明らかにする,generation は「世代」という意味だよ。
+68,中学生前半,中学基礎・A2,3,noun,A2,英日,4択,track,跡・進路,「track」の意味は？,跡・進路,反対,明らかにする,危険,track は「跡・進路」という意味だよ。
+68,中学生前半,中学基礎・A2,4,noun,A2,英日,4択,strength,強さ,「strength」の意味は？,強さ,明らかにする,危険,表現,strength は「強さ」という意味だよ。
+68,中学生前半,中学基礎・A2,5,adjective,A2,英日,4択,opposite,反対,「opposite」の意味は？,反対,危険,表現,撃つ,opposite は「反対」という意味だよ。
+68,中学生前半,中学基礎・A2,6,verb,A2,英日,4択,reveal,明らかにする,「reveal」の意味は？,明らかにする,表現,撃つ,文章,reveal は「明らかにする」という意味だよ。
+68,中学生前半,中学基礎・A2,7,noun,A2,英日,4択,danger,危険,「danger」の意味は？,危険,撃つ,文章,指輪,danger は「危険」という意味だよ。
+68,中学生前半,中学基礎・A2,8,noun,A2,英日,4択,expression,表現,「expression」の意味は？,表現,文章,指輪,主催者,expression は「表現」という意味だよ。
+68,中学生前半,中学基礎・A2,9,verb,A2,英日,4択,shoot,撃つ,「shoot」の意味は？,撃つ,指輪,主催者,集める,shoot は「撃つ」という意味だよ。
+68,中学生前半,中学基礎・A2,10,noun,A2,英日,4択,text,文章,「text」の意味は？,文章,主催者,集める,どこかで,text は「文章」という意味だよ。
+68,中学生前半,中学基礎・A2,11,noun,A2,英日,4択,ring,指輪,「ring」の意味は？,指輪,集める,どこかで,離れて,ring は「指輪」という意味だよ。
+68,中学生前半,中学基礎・A2,12,noun,A2,英日,4択,host,主催者,「host」の意味は？,主催者,どこかで,離れて,構造,host は「主催者」という意味だよ。
+68,中学生前半,中学基礎・A2,13,verb,A2,英日,4択,gather,集める,「gather」の意味は？,集める,離れて,構造,年上の人,gather は「集める」という意味だよ。
+68,中学生前半,中学基礎・A2,14,adverb,A2,英日,4択,somewhere,どこかで,「somewhere」の意味は？,どこかで,構造,年上の人,手数料,somewhere は「どこかで」という意味だよ。
+68,中学生前半,中学基礎・A2,15,adverb,A2,英日,4択,apart,離れて,「apart」の意味は？,離れて,年上の人,手数料,通路・一節,apart は「離れて」という意味だよ。
+68,中学生前半,中学基礎・A2,16,noun,A2,英日,4択,structure,構造,「structure」の意味は？,構造,手数料,通路・一節,小道,structure は「構造」という意味だよ。
+68,中学生前半,中学基礎・A2,17,adjective,A2,英日,4択,senior,年上の人,「senior」の意味は？,年上の人,通路・一節,小道,木材,senior は「年上の人」という意味だよ。
+68,中学生前半,中学基礎・A2,18,noun,A2,日英,4択,fee,手数料,「手数料」を表す英単語は？,fee,path,wood,online,「手数料」は英語で fee と言うよ。
+68,中学生前半,中学基礎・A2,19,noun,A2,日英,4択,passage,通路・一節,「通路・一節」を表す英単語は？,passage,wood,online,mainly,「通路・一節」は英語で passage と言うよ。
+68,中学生前半,中学基礎・A2,20,noun,A2,日英,4択,path,小道,「小道」を表す英単語は？,path,online,mainly,admit,「小道」は英語で path と言うよ。
+68,中学生前半,中学基礎・A2,21,noun,A2,日英,4択,wood,木材,「木材」を表す英単語は？,wood,mainly,admit,wave,「木材」は英語で wood と言うよ。
+68,中学生前半,中学基礎・A2,22,adjective,A2,日英,4択,online,オンライン,「オンライン」を表す英単語は？,online,admit,wave,nobody,「オンライン」は英語で online と言うよ。
+68,中学生前半,中学基礎・A2,23,adverb,A2,日英,4択,mainly,主に,「主に」を表す英単語は？,mainly,wave,nobody,generation,「主に」は英語で mainly と言うよ。
+68,中学生前半,中学基礎・A2,24,verb,A2,日英,4択,admit,認める,「認める」を表す英単語は？,admit,nobody,generation,track,「認める」は英語で admit と言うよ。
+68,中学生前半,中学基礎・A2,25,noun,A2,日英,4択,wave,波,「波」を表す英単語は？,wave,generation,track,strength,「波」は英語で wave と言うよ。
+69,中学生前半,中学基礎・A2,1,verb,A2,英日,4択,remind,思い出させる,「remind」の意味は？,思い出させる,燃える,いつもの,操作する,remind は「思い出させる」という意味だよ。
+69,中学生前半,中学基礎・A2,2,adverb,A2,英日,4択,unfortunately,残念ながら,「unfortunately」の意味は？,残念ながら,いつもの,操作する,薬,unfortunately は「残念ながら」という意味だよ。
+69,中学生前半,中学基礎・A2,3,noun,A2,英日,4択,burn,燃える,「burn」の意味は？,燃える,操作する,薬,強力な,burn は「燃える」という意味だよ。
+69,中学生前半,中学基礎・A2,4,adjective,A2,英日,4択,usual,いつもの,「usual」の意味は？,いつもの,薬,強力な,涙,usual は「いつもの」という意味だよ。
+69,中学生前半,中学基礎・A2,5,verb,A2,英日,4択,operate,操作する,「operate」の意味は？,操作する,強力な,涙,探検する,operate は「操作する」という意味だよ。
+69,中学生前半,中学基礎・A2,6,noun,A2,英日,4択,drug,薬,「drug」の意味は？,薬,涙,探検する,荷造りする,drug は「薬」という意味だよ。
+69,中学生前半,中学基礎・A2,7,adjective,A2,英日,4択,powerful,強力な,「powerful」の意味は？,強力な,探検する,荷造りする,テープ,powerful は「強力な」という意味だよ。
+69,中学生前半,中学基礎・A2,8,noun,A2,英日,4択,tear,涙,「tear」の意味は？,涙,荷造りする,テープ,西,tear は「涙」という意味だよ。
+69,中学生前半,中学基礎・A2,9,verb,A2,英日,4択,explore,探検する,「explore」の意味は？,探検する,テープ,西,完全に,explore は「探検する」という意味だよ。
+69,中学生前半,中学基礎・A2,10,noun,A2,英日,4択,pack,荷造りする,「pack」の意味は？,荷造りする,西,完全に,遅れ,pack は「荷造りする」という意味だよ。
+69,中学生前半,中学基礎・A2,11,noun,A2,英日,4択,tape,テープ,「tape」の意味は？,テープ,完全に,遅れ,市民,tape は「テープ」という意味だよ。
+69,中学生前半,中学基礎・A2,12,adjective,A2,英日,4択,west,西,「west」の意味は？,西,遅れ,市民,リラックス,west は「西」という意味だよ。
+69,中学生前半,中学基礎・A2,13,adverb,A2,英日,4択,fully,完全に,「fully」の意味は？,完全に,市民,リラックス,属する,fully は「完全に」という意味だよ。
+69,中学生前半,中学基礎・A2,14,noun,A2,英日,4択,delay,遅れ,「delay」の意味は？,遅れ,リラックス,属する,説明,delay は「遅れ」という意味だよ。
+69,中学生前半,中学基礎・A2,15,noun,A2,英日,4択,citizen,市民,「citizen」の意味は？,市民,属する,説明,規模,citizen は「市民」という意味だよ。
+69,中学生前半,中学基礎・A2,16,verb,A2,英日,4択,relax,リラックス,「relax」の意味は？,リラックス,説明,規模,ネクタイ,relax は「リラックス」という意味だよ。
+69,中学生前半,中学基礎・A2,17,verb,A2,英日,4択,belong,属する,「belong」の意味は？,属する,規模,ネクタイ,成功する,belong は「属する」という意味だよ。
+69,中学生前半,中学基礎・A2,18,noun,A2,日英,4択,explanation,説明,「説明」を表す英単語は？,explanation,tie,succeed,rent,「説明」は英語で explanation と言うよ。
+69,中学生前半,中学基礎・A2,19,noun,A2,日英,4択,scale,規模,「規模」を表す英単語は？,scale,succeed,rent,award,「規模」は英語で scale と言うよ。
+69,中学生前半,中学基礎・A2,20,noun,A2,日英,4択,tie,ネクタイ,「ネクタイ」を表す英単語は？,tie,rent,award,musical,「ネクタイ」は英語で tie と言うよ。
+69,中学生前半,中学基礎・A2,21,verb,A2,日英,4択,succeed,成功する,「成功する」を表す英単語は？,succeed,award,musical,software,「成功する」は英語で succeed と言うよ。
+69,中学生前半,中学基礎・A2,22,noun,A2,日英,4択,rent,家賃,「家賃」を表す英単語は？,rent,musical,software,remind,「家賃」は英語で rent と言うよ。
+69,中学生前半,中学基礎・A2,23,noun,A2,日英,4択,award,賞,「賞」を表す英単語は？,award,software,remind,unfortunately,「賞」は英語で award と言うよ。
+69,中学生前半,中学基礎・A2,24,adjective,A2,日英,4択,musical,ミュージカル,「ミュージカル」を表す英単語は？,musical,remind,unfortunately,burn,「ミュージカル」は英語で musical と言うよ。
+69,中学生前半,中学基礎・A2,25,noun,A2,日英,4択,software,ソフトウェア,「ソフトウェア」を表す英単語は？,software,unfortunately,burn,usual,「ソフトウェア」は英語で software と言うよ。
+70,中学生前半,中学基礎・A2,1,adverb,A2,英日,4択,anywhere,どこでも,「anywhere」の意味は？,どこでも,多くの,逃げる,科学的な,anywhere は「どこでも」という意味だよ。
+70,中学生前半,中学基礎・A2,2,noun,A2,英日,4択,shock,ショック,「shock」の意味は？,ショック,逃げる,科学的な,おそらく,shock は「ショック」という意味だよ。
+70,中学生前半,中学基礎・A2,3,noun,A2,英日,4択,plenty,多くの,「plenty」の意味は？,多くの,科学的な,おそらく,適切な,plenty は「多くの」という意味だよ。
+70,中学生前半,中学基礎・A2,4,noun,A2,英日,4択,escape,逃げる,「escape」の意味は？,逃げる,おそらく,適切な,説明,escape は「逃げる」という意味だよ。
+70,中学生前半,中学基礎・A2,5,adjective,A2,英日,4択,scientific,科学的な,「scientific」の意味は？,科学的な,適切な,説明,満足する,scientific は「科学的な」という意味だよ。
+70,中学生前半,中学基礎・A2,6,adverb,A2,英日,4択,possibly,おそらく,「possibly」の意味は？,おそらく,説明,満足する,好意,possibly は「おそらく」という意味だよ。
+70,中学生前半,中学基礎・A2,7,adjective,A2,英日,4択,suitable,適切な,「suitable」の意味は？,適切な,満足する,好意,私たち自身,suitable は「適切な」という意味だよ。
+70,中学生前半,中学基礎・A2,8,noun,A2,英日,4択,description,説明,「description」の意味は？,説明,好意,私たち自身,柔らかい,description は「説明」という意味だよ。
+70,中学生前半,中学基礎・A2,9,verb,A2,英日,4択,satisfy,満足する,「satisfy」の意味は？,満足する,私たち自身,柔らかい,転がる,satisfy は「満足する」という意味だよ。
+70,中学生前半,中学基礎・A2,10,noun,A2,英日,4択,favor,好意,「favor」の意味は？,好意,柔らかい,転がる,外観,favor は「好意」という意味だよ。
+70,中学生前半,中学基礎・A2,11,pronoun,A2,英日,4択,ourselves,私たち自身,「ourselves」の意味は？,私たち自身,転がる,外観,破壊する,ourselves は「私たち自身」という意味だよ。
+70,中学生前半,中学基礎・A2,12,adjective,A2,英日,4択,soft,柔らかい,「soft」の意味は？,柔らかい,外観,破壊する,委員会,soft は「柔らかい」という意味だよ。
+70,中学生前半,中学基礎・A2,13,noun,A2,英日,4択,roll,転がる,「roll」の意味は？,転がる,破壊する,委員会,構成される,roll は「転がる」という意味だよ。
+70,中学生前半,中学基礎・A2,14,noun,A2,英日,4択,appearance,外観,「appearance」の意味は？,外観,委員会,構成される,見本,appearance は「外観」という意味だよ。
+70,中学生前半,中学基礎・A2,15,verb,A2,英日,4択,destroy,破壊する,「destroy」の意味は？,破壊する,構成される,見本,打つ,destroy は「破壊する」という意味だよ。
+70,中学生前半,中学基礎・A2,16,noun,A2,英日,4択,committee,委員会,「committee」の意味は？,委員会,見本,打つ,盗む,committee は「委員会」という意味だよ。
+70,中学生前半,中学基礎・A2,17,verb,A2,英日,4択,consist,構成される,「consist」の意味は？,構成される,打つ,盗む,基本的に,consist は「構成される」という意味だよ。
+70,中学生前半,中学基礎・A2,18,noun,A2,日英,4択,sample,見本,「見本」を表す英単語は？,sample,steal,basically,concentrate,「見本」は英語で sample と言うよ。
+70,中学生前半,中学基礎・A2,19,noun,A2,日英,4択,strike,打つ,「打つ」を表す英単語は？,strike,basically,concentrate,childhood,「打つ」は英語で strike と言うよ。
+70,中学生前半,中学基礎・A2,20,verb,A2,日英,4択,steal,盗む,「盗む」を表す英単語は？,steal,concentrate,childhood,square,「盗む」は英語で steal と言うよ。
+70,中学生前半,中学基礎・A2,21,adverb,A2,日英,4択,basically,基本的に,「基本的に」を表す英単語は？,basically,childhood,square,shout,「基本的に」は英語で basically と言うよ。
+70,中学生前半,中学基礎・A2,22,verb,A2,日英,4択,concentrate,集中する,「集中する」を表す英単語は？,concentrate,square,shout,anywhere,「集中する」は英語で concentrate と言うよ。
+70,中学生前半,中学基礎・A2,23,noun,A2,日英,4択,childhood,子供時代,「子供時代」を表す英単語は？,childhood,shout,anywhere,shock,「子供時代」は英語で childhood と言うよ。
+70,中学生前半,中学基礎・A2,24,adjective,A2,日英,4択,square,四角,「四角」を表す英単語は？,square,anywhere,shock,plenty,「四角」は英語で square と言うよ。
+70,中学生前半,中学基礎・A2,25,noun,A2,日英,4択,shout,叫ぶ,「叫ぶ」を表す英単語は？,shout,shock,plenty,escape,「叫ぶ」は英語で shout と言うよ。
+71,中学生前半,中学標準・A2,1,adverb,A2,英日,4択,seriously,真剣に,「seriously」の意味は？,真剣に,役立つ,広く,監督,seriously は「真剣に」という意味だよ。
+71,中学生前半,中学標準・A2,2,adjective,A2,英日,4択,proper,ちゃんとした,「proper」の意味は？,ちゃんとした,広く,監督,化学物質,proper は「ちゃんとした」という意味だよ。
+71,中学生前半,中学標準・A2,3,adjective,A2,英日,4択,helpful,役立つ,「helpful」の意味は？,役立つ,監督,化学物質,かなり,helpful は「役立つ」という意味だよ。
+71,中学生前半,中学標準・A2,4,adverb,A2,英日,4択,widely,広く,「widely」の意味は？,広く,化学物質,かなり,その上,widely は「広く」という意味だよ。
+71,中学生前半,中学標準・A2,5,noun,A2,英日,4択,director,監督,「director」の意味は？,監督,かなり,その上,機関・代理店,director は「監督」という意味だよ。
+71,中学生前半,中学標準・A2,6,adjective,A2,英日,4択,chemical,化学物質,「chemical」の意味は？,化学物質,その上,機関・代理店,とは異なり,chemical は「化学物質」という意味だよ。
+71,中学生前半,中学標準・A2,7,adverb,A2,英日,4択,fairly,かなり,「fairly」の意味は？,かなり,機関・代理店,とは異なり,器具・楽器,fairly は「かなり」という意味だよ。
+71,中学生前半,中学標準・A2,8,adverb,A2,英日,4択,besides,その上,「besides」の意味は？,その上,とは異なり,器具・楽器,退職,besides は「その上」という意味だよ。
+71,中学生前半,中学標準・A2,9,noun,A2,英日,4択,agency,機関・代理店,「agency」の意味は？,機関・代理店,器具・楽器,退職,ネイティブ,agency は「機関・代理店」という意味だよ。
+71,中学生前半,中学標準・A2,10,adjective,A2,英日,4択,unlike,とは異なり,「unlike」の意味は？,とは異なり,退職,ネイティブ,東,unlike は「とは異なり」という意味だよ。
+71,中学生前半,中学標準・A2,11,noun,A2,英日,4択,instrument,器具・楽器,「instrument」の意味は？,器具・楽器,ネイティブ,東,強く,instrument は「器具・楽器」という意味だよ。
+71,中学生前半,中学標準・A2,12,verb,A2,英日,4択,retire,退職,「retire」の意味は？,退職,東,強く,反対する,retire は「退職」という意味だよ。
+71,中学生前半,中学標準・A2,13,adjective,A2,英日,4択,native,ネイティブ,「native」の意味は？,ネイティブ,強く,反対する,消える,native は「ネイティブ」という意味だよ。
+71,中学生前半,中学標準・A2,14,adjective,A2,英日,4択,east,東,「east」の意味は？,東,反対する,消える,根,east は「東」という意味だよ。
+71,中学生前半,中学標準・A2,15,adverb,A2,英日,4択,strongly,強く,「strongly」の意味は？,強く,消える,根,ブランド,strongly は「強く」という意味だよ。
+71,中学生前半,中学標準・A2,16,verb,A2,英日,4択,oppose,反対する,「oppose」の意味は？,反対する,根,ブランド,冗談,oppose は「反対する」という意味だよ。
+71,中学生前半,中学標準・A2,17,verb,A2,英日,4択,disappear,消える,「disappear」の意味は？,消える,ブランド,冗談,普通でない,disappear は「消える」という意味だよ。
+71,中学生前半,中学標準・A2,18,noun,A2,日英,4択,root,根,「根」を表す英単語は？,root,joke,unusual,somebody,「根」は英語で root と言うよ。
+71,中学生前半,中学標準・A2,19,noun,A2,日英,4択,brand,ブランド,「ブランド」を表す英単語は？,brand,unusual,somebody,frame,「ブランド」は英語で brand と言うよ。
+71,中学生前半,中学標準・A2,20,noun,A2,日英,4択,joke,冗談,「冗談」を表す英単語は？,joke,somebody,frame,slide,「冗談」は英語で joke と言うよ。
+71,中学生前半,中学標準・A2,21,adjective,A2,日英,4択,unusual,普通でない,「普通でない」を表す英単語は？,unusual,frame,slide,upset,「普通でない」は英語で unusual と言うよ。
+71,中学生前半,中学標準・A2,22,pronoun,A2,日英,4択,somebody,誰か,「誰か」を表す英単語は？,somebody,slide,upset,seriously,「誰か」は英語で somebody と言うよ。
+71,中学生前半,中学標準・A2,23,noun,A2,日英,4択,frame,枠,「枠」を表す英単語は？,frame,upset,seriously,proper,「枠」は英語で frame と言うよ。
+71,中学生前半,中学標準・A2,24,noun,A2,日英,4択,slide,滑る,「滑る」を表す英単語は？,slide,seriously,proper,helpful,「滑る」は英語で slide と言うよ。
+71,中学生前半,中学標準・A2,25,adjective,A2,日英,4択,upset,動揺,「動揺」を表す英単語は？,upset,proper,helpful,widely,「動揺」は英語で upset と言うよ。
+72,中学生前半,中学標準・A2,1,noun,A2,英日,4択,youth,若者,「youth」の意味は？,若者,枝・支店,急ぐ,アシスタント,youth は「若者」という意味だよ。
+72,中学生前半,中学標準・A2,2,adjective,A2,英日,4択,attractive,魅力的,「attractive」の意味は？,魅力的,急ぐ,アシスタント,約束・予約,attractive は「魅力的」という意味だよ。
+72,中学生前半,中学標準・A2,3,noun,A2,英日,4択,branch,枝・支店,「branch」の意味は？,枝・支店,アシスタント,約束・予約,代理人,branch は「枝・支店」という意味だよ。
+72,中学生前半,中学標準・A2,4,noun,A2,英日,4択,rush,急ぐ,「rush」の意味は？,急ぐ,約束・予約,代理人,鍵をかける,rush は「急ぐ」という意味だよ。
+72,中学生前半,中学標準・A2,5,adjective,A2,英日,4択,assistant,アシスタント,「assistant」の意味は？,アシスタント,代理人,鍵をかける,美しさ,assistant は「アシスタント」という意味だよ。
+72,中学生前半,中学標準・A2,6,noun,A2,英日,4択,appointment,約束・予約,「appointment」の意味は？,約束・予約,鍵をかける,美しさ,結果,appointment は「約束・予約」という意味だよ。
+72,中学生前半,中学標準・A2,7,noun,A2,英日,4択,agent,代理人,「agent」の意味は？,代理人,美しさ,結果,本当に,agent は「代理人」という意味だよ。
+72,中学生前半,中学標準・A2,8,noun,A2,英日,4択,lock,鍵をかける,「lock」の意味は？,鍵をかける,結果,本当に,予測する,lock は「鍵をかける」という意味だよ。
+72,中学生前半,中学標準・A2,9,noun,A2,英日,4択,beauty,美しさ,「beauty」の意味は？,美しさ,本当に,予測する,軍隊,beauty は「美しさ」という意味だよ。
+72,中学生前半,中学標準・A2,10,noun,A2,英日,4択,consequence,結果,「consequence」の意味は？,結果,予測する,軍隊,才能,consequence は「結果」という意味だよ。
+72,中学生前半,中学標準・A2,11,adverb,A2,英日,4択,truly,本当に,「truly」の意味は？,本当に,軍隊,才能,方法・態度,truly は「本当に」という意味だよ。
+72,中学生前半,中学標準・A2,12,verb,A2,英日,4択,predict,予測する,「predict」の意味は？,予測する,才能,方法・態度,メートル,predict は「予測する」という意味だよ。
+72,中学生前半,中学標準・A2,13,adjective,A2,英日,4択,military,軍隊,「military」の意味は？,軍隊,方法・態度,メートル,チャート,military は「軍隊」という意味だよ。
+72,中学生前半,中学標準・A2,14,noun,A2,英日,4択,talent,才能,「talent」の意味は？,才能,メートル,チャート,人格,talent は「才能」という意味だよ。
+72,中学生前半,中学標準・A2,15,noun,A2,英日,4択,manner,方法・態度,「manner」の意味は？,方法・態度,チャート,人格,徐々に,manner は「方法・態度」という意味だよ。
+72,中学生前半,中学標準・A2,16,noun,A2,英日,4択,meter,メートル,「meter」の意味は？,メートル,人格,徐々に,ワイン,meter は「メートル」という意味だよ。
+72,中学生前半,中学標準・A2,17,noun,A2,英日,4択,chart,チャート,「chart」の意味は？,チャート,徐々に,ワイン,アパート,chart は「チャート」という意味だよ。
+72,中学生前半,中学標準・A2,18,noun,A2,日英,4択,personality,人格,「人格」を表す英単語は？,personality,wine,apartment,net,「人格」は英語で personality と言うよ。
+72,中学生前半,中学標準・A2,19,adverb,A2,日英,4択,gradually,徐々に,「徐々に」を表す英単語は？,gradually,apartment,net,license,「徐々に」は英語で gradually と言うよ。
+72,中学生前半,中学標準・A2,20,noun,A2,日英,4択,wine,ワイン,「ワイン」を表す英単語は？,wine,net,license,symbol,「ワイン」は英語で wine と言うよ。
+72,中学生前半,中学標準・A2,21,noun,A2,日英,4択,apartment,アパート,「アパート」を表す英単語は？,apartment,license,symbol,ill,「アパート」は英語で apartment と言うよ。
+72,中学生前半,中学標準・A2,22,adjective,A2,日英,4択,net,ネット,「ネット」を表す英単語は？,net,symbol,ill,youth,「ネット」は英語で net と言うよ。
+72,中学生前半,中学標準・A2,23,verb,A2,日英,4択,license,ライセンス,「ライセンス」を表す英単語は？,license,ill,youth,attractive,「ライセンス」は英語で license と言うよ。
+72,中学生前半,中学標準・A2,24,noun,A2,日英,4択,symbol,シンボル,「シンボル」を表す英単語は？,symbol,youth,attractive,branch,「シンボル」は英語で symbol と言うよ。
+72,中学生前半,中学標準・A2,25,adjective,A2,日英,4択,ill,病気,「病気」を表す英単語は？,ill,attractive,branch,rush,「病気」は英語で ill と言うよ。
+73,中学生前半,中学標準・A2,1,noun,A2,英日,4択,tip,ヒント,「tip」の意味は？,ヒント,広告,制服,エンターテインメント,tip は「ヒント」という意味だよ。
+73,中学生前半,中学標準・A2,2,adjective,A2,英日,4択,elderly,お年寄り,「elderly」の意味は？,お年寄り,制服,エンターテインメント,ボス,elderly は「お年寄り」という意味だよ。
+73,中学生前半,中学標準・A2,3,noun,A2,英日,4択,advertisement,広告,「advertisement」の意味は？,広告,エンターテインメント,ボス,セント,advertisement は「広告」という意味だよ。
+73,中学生前半,中学標準・A2,4,adjective,A2,英日,4択,uniform,制服,「uniform」の意味は？,制服,ボス,セント,どうやら,uniform は「制服」という意味だよ。
+73,中学生前半,中学標準・A2,5,noun,A2,英日,4択,entertainment,エンターテインメント,「entertainment」の意味は？,エンターテインメント,セント,どうやら,クリエイティブ,entertainment は「エンターテインメント」という意味だよ。
+73,中学生前半,中学標準・A2,6,noun,A2,英日,4択,boss,ボス,「boss」の意味は？,ボス,どうやら,クリエイティブ,誤り,boss は「ボス」という意味だよ。
+73,中学生前半,中学標準・A2,7,noun,A2,英日,4択,cent,セント,「cent」の意味は？,セント,クリエイティブ,誤り,携帯,cent は「セント」という意味だよ。
+73,中学生前半,中学標準・A2,8,adverb,A2,英日,4択,apparently,どうやら,「apparently」の意味は？,どうやら,誤り,携帯,主要な,apparently は「どうやら」という意味だよ。
+73,中学生前半,中学標準・A2,9,adjective,A2,英日,4択,creative,クリエイティブ,「creative」の意味は？,クリエイティブ,携帯,主要な,調整する,creative は「クリエイティブ」という意味だよ。
+73,中学生前半,中学標準・A2,10,noun,A2,英日,4択,error,誤り,「error」の意味は？,誤り,主要な,調整する,家具,error は「誤り」という意味だよ。
+73,中学生前半,中学標準・A2,11,adjective,A2,英日,4択,mobile,携帯,「mobile」の意味は？,携帯,調整する,家具,展示,mobile は「携帯」という意味だよ。
+73,中学生前半,中学標準・A2,12,adjective,A2,英日,4択,principal,主要な,「principal」の意味は？,主要な,家具,展示,追求する,principal は「主要な」という意味だよ。
+73,中学生前半,中学標準・A2,13,verb,A2,英日,4択,adjust,調整する,「adjust」の意味は？,調整する,展示,追求する,鎖,adjust は「調整する」という意味だよ。
+73,中学生前半,中学標準・A2,14,noun,A2,英日,4択,furniture,家具,「furniture」の意味は？,家具,追求する,鎖,注ぐ,furniture は「家具」という意味だよ。
+73,中学生前半,中学標準・A2,15,noun,A2,英日,4択,exhibition,展示,「exhibition」の意味は？,展示,鎖,注ぐ,秘書,exhibition は「展示」という意味だよ。
+73,中学生前半,中学標準・A2,16,verb,A2,英日,4択,pursue,追求する,「pursue」の意味は？,追求する,注ぐ,秘書,凍る,pursue は「追求する」という意味だよ。
+73,中学生前半,中学標準・A2,17,noun,A2,英日,4択,chain,鎖,「chain」の意味は？,鎖,秘書,凍る,吹く,chain は「鎖」という意味だよ。
+73,中学生前半,中学標準・A2,18,verb,A2,日英,4択,pour,注ぐ,「注ぐ」を表す英単語は？,pour,freeze,blow,gate,「注ぐ」は英語で pour と言うよ。
+73,中学生前半,中学標準・A2,19,noun,A2,日英,4択,secretary,秘書,「秘書」を表す英単語は？,secretary,blow,gate,association,「秘書」は英語で secretary と言うよ。
+73,中学生前半,中学標準・A2,20,verb,A2,日英,4択,freeze,凍る,「凍る」を表す英単語は？,freeze,gate,association,confident,「凍る」は英語で freeze と言うよ。
+73,中学生前半,中学標準・A2,21,noun,A2,日英,4択,blow,吹く,「吹く」を表す英単語は？,blow,association,confident,perfectly,「吹く」は英語で blow と言うよ。
+73,中学生前半,中学標準・A2,22,noun,A2,日英,4択,gate,門,「門」を表す英単語は？,gate,confident,perfectly,tip,「門」は英語で gate と言うよ。
+73,中学生前半,中学標準・A2,23,noun,A2,日英,4択,association,協会,「協会」を表す英単語は？,association,perfectly,tip,elderly,「協会」は英語で association と言うよ。
+73,中学生前半,中学標準・A2,24,adjective,A2,日英,4択,confident,自信に満ちている,「自信に満ちている」を表す英単語は？,confident,tip,elderly,advertisement,「自信に満ちている」は英語で confident と言うよ。
+73,中学生前半,中学標準・A2,25,adverb,A2,日英,4択,perfectly,完璧に,「完璧に」を表す英単語は？,perfectly,elderly,advertisement,uniform,「完璧に」は英語で perfectly と言うよ。
+74,中学生前半,中学標準・A2,1,noun,A2,英日,4択,honor,名誉,「honor」の意味は？,名誉,生き物,沈黙,銀,honor は「名誉」という意味だよ。
+74,中学生前半,中学標準・A2,2,noun,A2,英日,4択,affair,事件,「affair」の意味は？,事件,沈黙,銀,最近では,affair は「事件」という意味だよ。
+74,中学生前半,中学標準・A2,3,noun,A2,英日,4択,creature,生き物,「creature」の意味は？,生き物,銀,最近では,定期的に,creature は「生き物」という意味だよ。
+74,中学生前半,中学標準・A2,4,noun,A2,英日,4択,silence,沈黙,「silence」の意味は？,沈黙,最近では,定期的に,緊急,silence は「沈黙」という意味だよ。
+74,中学生前半,中学標準・A2,5,adjective,A2,英日,4択,silver,銀,「silver」の意味は？,銀,定期的に,緊急,噛む,silver は「銀」という意味だよ。
+74,中学生前半,中学標準・A2,6,adverb,A2,英日,4択,nowadays,最近では,「nowadays」の意味は？,最近では,緊急,噛む,文脈,nowadays は「最近では」という意味だよ。
+74,中学生前半,中学標準・A2,7,adverb,A2,英日,4択,regularly,定期的に,「regularly」の意味は？,定期的に,噛む,文脈,エッセイ,regularly は「定期的に」という意味だよ。
+74,中学生前半,中学標準・A2,8,noun,A2,英日,4択,emergency,緊急,「emergency」の意味は？,緊急,文脈,エッセイ,心地よい,emergency は「緊急」という意味だよ。
+74,中学生前半,中学標準・A2,9,noun,A2,英日,4択,bite,噛む,「bite」の意味は？,噛む,エッセイ,心地よい,スムーズ,bite は「噛む」という意味だよ。
+74,中学生前半,中学標準・A2,10,noun,A2,英日,4択,context,文脈,「context」の意味は？,文脈,心地よい,スムーズ,気分,context は「文脈」という意味だよ。
+74,中学生前半,中学標準・A2,11,noun,A2,英日,4択,essay,エッセイ,「essay」の意味は？,エッセイ,スムーズ,気分,編集者,essay は「エッセイ」という意味だよ。
+74,中学生前半,中学標準・A2,12,adjective,A2,英日,4択,pleasant,心地よい,「pleasant」の意味は？,心地よい,気分,編集者,未知,pleasant は「心地よい」という意味だよ。
+74,中学生前半,中学標準・A2,13,adjective,A2,英日,4択,smooth,スムーズ,「smooth」の意味は？,スムーズ,編集者,未知,負傷する,smooth は「スムーズ」という意味だよ。
+74,中学生前半,中学標準・A2,14,noun,A2,英日,4択,mood,気分,「mood」の意味は？,気分,未知,負傷する,クリーム,mood は「気分」という意味だよ。
+74,中学生前半,中学標準・A2,15,noun,A2,英日,4択,editor,編集者,「editor」の意味は？,編集者,負傷する,クリーム,ゾーン,editor は「編集者」という意味だよ。
+74,中学生前半,中学標準・A2,16,adjective,A2,英日,4択,unknown,未知,「unknown」の意味は？,未知,クリーム,ゾーン,ひどい,unknown は「未知」という意味だよ。
+74,中学生前半,中学標準・A2,17,verb,A2,英日,4択,injure,負傷する,「injure」の意味は？,負傷する,ゾーン,ひどい,成功,injure は「負傷する」という意味だよ。
+74,中学生前半,中学標準・A2,18,adjective,A2,日英,4択,cream,クリーム,「クリーム」を表す英単語は？,cream,awful,successfully,crazy,「クリーム」は英語で cream と言うよ。
+74,中学生前半,中学標準・A2,19,noun,A2,日英,4択,zone,ゾーン,「ゾーン」を表す英単語は？,zone,successfully,crazy,admire,「ゾーン」は英語で zone と言うよ。
+74,中学生前半,中学標準・A2,20,adjective,A2,日英,4択,awful,ひどい,「ひどい」を表す英単語は？,awful,crazy,admire,greatly,「ひどい」は英語で awful と言うよ。
+74,中学生前半,中学標準・A2,21,adverb,A2,日英,4択,successfully,成功,「成功」を表す英単語は？,successfully,admire,greatly,intelligence,「成功」は英語で successfully と言うよ。
+74,中学生前半,中学標準・A2,22,adjective,A2,日英,4択,crazy,クレイジー,「クレイジー」を表す英単語は？,crazy,greatly,intelligence,honor,「クレイジー」は英語で crazy と言うよ。
+74,中学生前半,中学標準・A2,23,verb,A2,日英,4択,admire,感心する,「感心する」を表す英単語は？,admire,intelligence,honor,affair,「感心する」は英語で admire と言うよ。
+74,中学生前半,中学標準・A2,24,adverb,A2,日英,4択,greatly,非常に,「非常に」を表す英単語は？,greatly,honor,affair,creature,「非常に」は英語で greatly と言うよ。
+74,中学生前半,中学標準・A2,25,noun,A2,日英,4択,intelligence,知能,「知能」を表す英単語は？,intelligence,affair,creature,silence,「知能」は英語で intelligence と言うよ。
+75,中学生前半,中学標準・A2,1,adjective,A2,英日,4択,enormous,巨大な,「enormous」の意味は？,巨大な,欠点・責任,ノック,想像,enormous は「巨大な」という意味だよ。
+75,中学生前半,中学標準・A2,2,adverb,A2,英日,4択,badly,ひどく,「badly」の意味は？,ひどく,ノック,想像,荷物,badly は「ひどく」という意味だよ。
+75,中学生前半,中学標準・A2,3,noun,A2,英日,4択,fault,欠点・責任,「fault」の意味は？,欠点・責任,想像,荷物,金属,fault は「欠点・責任」という意味だよ。
+75,中学生前半,中学標準・A2,4,noun,A2,英日,4択,knock,ノック,「knock」の意味は？,ノック,荷物,金属,労働,knock は「ノック」という意味だよ。
+75,中学生前半,中学標準・A2,5,noun,A2,英日,4択,imagination,想像,「imagination」の意味は？,想像,金属,労働,百万,imagination は「想像」という意味だよ。
+75,中学生前半,中学標準・A2,6,noun,A2,英日,4択,load,荷物,「load」の意味は？,荷物,労働,百万,突然,load は「荷物」という意味だよ。
+75,中学生前半,中学標準・A2,7,noun,A2,英日,4択,metal,金属,「metal」の意味は？,金属,百万,突然,内側,metal は「金属」という意味だよ。
+75,中学生前半,中学標準・A2,8,noun,A2,英日,4択,labor,労働,「labor」の意味は？,労働,突然,内側,建築,labor は「労働」という意味だよ。
+75,中学生前半,中学標準・A2,9,number,A2,英日,4択,million,百万,「million」の意味は？,百万,内側,建築,まとめ,million は「百万」という意味だよ。
+75,中学生前半,中学標準・A2,10,adjective,A2,英日,4択,sudden,突然,「sudden」の意味は？,突然,建築,まとめ,ゆるい,sudden は「突然」という意味だよ。
+75,中学生前半,中学標準・A2,11,adjective,A2,英日,4択,inner,内側,「inner」の意味は？,内側,まとめ,ゆるい,インチ,inner は「内側」という意味だよ。
+75,中学生前半,中学標準・A2,12,noun,A2,英日,4択,architecture,建築,「architecture」の意味は？,建築,ゆるい,インチ,異なる,architecture は「建築」という意味だよ。
+75,中学生前半,中学標準・A2,13,noun,A2,英日,4択,summary,まとめ,「summary」の意味は？,まとめ,インチ,異なる,悲鳴,summary は「まとめ」という意味だよ。
+75,中学生前半,中学標準・A2,14,adjective,A2,英日,4択,loose,ゆるい,「loose」の意味は？,ゆるい,異なる,悲鳴,アラーム,loose は「ゆるい」という意味だよ。
+75,中学生前半,中学標準・A2,15,noun,A2,英日,4択,inch,インチ,「inch」の意味は？,インチ,悲鳴,アラーム,乱す,inch は「インチ」という意味だよ。
+75,中学生前半,中学標準・A2,16,adverb,A2,英日,4択,differently,異なる,「differently」の意味は？,異なる,アラーム,乱す,トリック,differently は「異なる」という意味だよ。
+75,中学生前半,中学標準・A2,17,noun,A2,英日,4択,scream,悲鳴,「scream」の意味は？,悲鳴,乱す,トリック,兵士,scream は「悲鳴」という意味だよ。
+75,中学生前半,中学標準・A2,18,noun,A2,日英,4択,alarm,アラーム,「アラーム」を表す英単語は？,alarm,trick,soldier,elsewhere,「アラーム」は英語で alarm と言うよ。
+75,中学生前半,中学標準・A2,19,verb,A2,日英,4択,disturb,乱す,「乱す」を表す英単語は？,disturb,soldier,elsewhere,adventure,「乱す」は英語で disturb と言うよ。
+75,中学生前半,中学標準・A2,20,noun,A2,日英,4択,trick,トリック,「トリック」を表す英単語は？,trick,elsewhere,adventure,hero,「トリック」は英語で trick と言うよ。
+75,中学生前半,中学標準・A2,21,noun,A2,日英,4択,soldier,兵士,「兵士」を表す英単語は？,soldier,adventure,hero,weigh,「兵士」は英語で soldier と言うよ。
+75,中学生前半,中学標準・A2,22,adverb,A2,日英,4択,elsewhere,他の場所,「他の場所」を表す英単語は？,elsewhere,hero,weigh,enormous,「他の場所」は英語で elsewhere と言うよ。
+75,中学生前半,中学標準・A2,23,noun,A2,日英,4択,adventure,アドベンチャー,「アドベンチャー」を表す英単語は？,adventure,weigh,enormous,badly,「アドベンチャー」は英語で adventure と言うよ。
+75,中学生前半,中学標準・A2,24,noun,A2,日英,4択,hero,ヒーロー,「ヒーロー」を表す英単語は？,hero,enormous,badly,fault,「ヒーロー」は英語で hero と言うよ。
+75,中学生前半,中学標準・A2,25,verb,A2,日英,4択,weigh,重さがある,「重さがある」を表す英単語は？,weigh,badly,fault,knock,「重さがある」は英語で weigh と言うよ。
+76,中学生前半,中学標準・A2,1,adjective,A2,英日,4択,classic,クラシック,「classic」の意味は？,クラシック,勝者,もう,トレーニング,classic は「クラシック」という意味だよ。
+76,中学生前半,中学標準・A2,2,noun,A2,英日,4択,permission,許可,「permission」の意味は？,許可,もう,トレーニング,ひも,permission は「許可」という意味だよ。
+76,中学生前半,中学標準・A2,3,noun,A2,英日,4択,winner,勝者,「winner」の意味は？,勝者,トレーニング,ひも,素晴らしい,winner は「勝者」という意味だよ。
+76,中学生前半,中学標準・A2,4,adverb,A2,英日,4択,anymore,もう,「anymore」の意味は？,もう,ひも,素晴らしい,ショット,anymore は「もう」という意味だよ。
+76,中学生前半,中学標準・A2,5,noun,A2,英日,4択,training,トレーニング,「training」の意味は？,トレーニング,素晴らしい,ショット,重,training は「トレーニング」という意味だよ。
+76,中学生前半,中学標準・A2,6,noun,A2,英日,4択,string,ひも,「string」の意味は？,ひも,ショット,重,いる,string は「ひも」という意味だよ。
+76,中学生前半,中学標準・A2,7,adjective,A2,英日,4択,fantastic,素晴らしい,「fantastic」の意味は？,素晴らしい,重,いる,浮く,fantastic は「素晴らしい」という意味だよ。
+76,中学生前半,中学標準・A2,8,noun,A2,英日,4択,shot,ショット,「shot」の意味は？,ショット,いる,浮く,インパクト,shot は「ショット」という意味だよ。
+76,中学生前半,中学標準・A2,9,adverb,A2,英日,4択,heavily,重,「heavily」の意味は？,重,浮く,インパクト,心配している,heavily は「重」という意味だよ。
+76,中学生前半,中学標準・A2,10,noun,A2,英日,4択,being,いる,「being」の意味は？,いる,インパクト,心配している,文章・書くこと,being は「いる」という意味だよ。
+76,中学生前半,中学標準・A2,11,noun,A2,英日,4択,float,浮く,「float」の意味は？,浮く,心配している,文章・書くこと,考え,float は「浮く」という意味だよ。
+76,中学生前半,中学標準・A2,12,noun,A2,英日,4択,impact,インパクト,「impact」の意味は？,インパクト,文章・書くこと,考え,批判する,impact は「インパクト」という意味だよ。
+76,中学生前半,中学標準・A2,13,adjective,A2,英日,4択,anxious,心配している,「anxious」の意味は？,心配している,考え,批判する,おい,anxious は「心配している」という意味だよ。
+76,中学生前半,中学標準・A2,14,noun,A2,英日,4択,writing,文章・書くこと,「writing」の意味は？,文章・書くこと,批判する,おい,スナック,writing は「文章・書くこと」という意味だよ。
+76,中学生前半,中学標準・A2,15,noun,A2,英日,4択,thought,考え,「thought」の意味は？,考え,おい,スナック,有害,thought は「考え」という意味だよ。
+76,中学生前半,中学標準・A2,16,verb,A2,英日,4択,criticize,批判する,「criticize」の意味は？,批判する,スナック,有害,銃,criticize は「批判する」という意味だよ。
+76,中学生前半,中学標準・A2,17,interjection,A2,英日,4択,hey,おい,「hey」の意味は？,おい,有害,銃,トラップ,hey は「おい」という意味だよ。
+76,中学生前半,中学標準・A2,18,noun,A2,日英,4択,snack,スナック,「スナック」を表す英単語は？,snack,gun,trap,raw,「スナック」は英語で snack と言うよ。
+76,中学生前半,中学標準・A2,19,adjective,A2,日英,4択,harmful,有害,「有害」を表す英単語は？,harmful,trap,raw,suitcase,「有害」は英語で harmful と言うよ。
+76,中学生前半,中学標準・A2,20,noun,A2,日英,4択,gun,銃,「銃」を表す英単語は？,gun,raw,suitcase,convenience,「銃」は英語で gun と言うよ。
+76,中学生前半,中学標準・A2,21,noun,A2,日英,4択,trap,トラップ,「トラップ」を表す英単語は？,trap,suitcase,convenience,impress,「トラップ」は英語で trap と言うよ。
+76,中学生前半,中学標準・A2,22,adjective,A2,日英,4択,raw,生の,「生の」を表す英単語は？,raw,convenience,impress,classic,「生の」は英語で raw と言うよ。
+76,中学生前半,中学標準・A2,23,noun,A2,日英,4択,suitcase,スーツケース,「スーツケース」を表す英単語は？,suitcase,impress,classic,permission,「スーツケース」は英語で suitcase と言うよ。
+76,中学生前半,中学標準・A2,24,noun,A2,日英,4択,convenience,利便性,「利便性」を表す英単語は？,convenience,classic,permission,winner,「利便性」は英語で convenience と言うよ。
+76,中学生前半,中学標準・A2,25,verb,A2,日英,4択,impress,印象づける,「印象づける」を表す英単語は？,impress,permission,winner,anymore,「印象づける」は英語で impress と言うよ。
+77,中学生前半,中学標準・A2,1,noun,A2,英日,4択,campus,キャンパス,「campus」の意味は？,キャンパス,見知らぬ人,スキー,沈む,campus は「キャンパス」という意味だよ。
+77,中学生前半,中学標準・A2,2,adjective,A2,英日,4択,wise,賢い,「wise」の意味は？,賢い,スキー,沈む,料理,wise は「賢い」という意味だよ。
+77,中学生前半,中学標準・A2,3,noun,A2,英日,4択,stranger,見知らぬ人,「stranger」の意味は？,見知らぬ人,沈む,料理,幸せ,stranger は「見知らぬ人」という意味だよ。
+77,中学生前半,中学標準・A2,4,noun,A2,英日,4択,ski,スキー,「ski」の意味は？,スキー,料理,幸せ,毎週,ski は「スキー」という意味だよ。
+77,中学生前半,中学標準・A2,5,noun,A2,英日,4択,sink,沈む,「sink」の意味は？,沈む,幸せ,毎週,高度な,sink は「沈む」という意味だよ。
+77,中学生前半,中学標準・A2,6,noun,A2,英日,4択,cooking,料理,「cooking」の意味は？,料理,毎週,高度な,ありがたい,cooking は「料理」という意味だよ。
+77,中学生前半,中学標準・A2,7,noun,A2,英日,4択,happiness,幸せ,「happiness」の意味は？,幸せ,高度な,ありがたい,電気の,happiness は「幸せ」という意味だよ。
+77,中学生前半,中学標準・A2,8,adjective,A2,英日,4択,weekly,毎週,「weekly」の意味は？,毎週,ありがたい,電気の,くちびる,weekly は「毎週」という意味だよ。
+77,中学生前半,中学標準・A2,9,adjective,A2,英日,4択,advanced,高度な,「advanced」の意味は？,高度な,電気の,くちびる,木製,advanced は「高度な」という意味だよ。
+77,中学生前半,中学標準・A2,10,adjective,A2,英日,4択,grateful,ありがたい,「grateful」の意味は？,ありがたい,くちびる,木製,守る,grateful は「ありがたい」という意味だよ。
+77,中学生前半,中学標準・A2,11,adjective,A2,英日,4択,electric,電気の,「electric」の意味は？,電気の,木製,守る,静かに,electric は「電気の」という意味だよ。
+77,中学生前半,中学標準・A2,12,noun,A2,英日,4択,lip,くちびる,「lip」の意味は？,くちびる,守る,静かに,スタンプ,lip は「くちびる」という意味だよ。
+77,中学生前半,中学標準・A2,13,adjective,A2,英日,4択,wooden,木製,「wooden」の意味は？,木製,静かに,スタンプ,レジャー,wooden は「木製」という意味だよ。
+77,中学生前半,中学標準・A2,14,noun,A2,英日,4択,guard,守る,「guard」の意味は？,守る,スタンプ,レジャー,エピソード,guard は「守る」という意味だよ。
+77,中学生前半,中学標準・A2,15,adverb,A2,英日,4択,quietly,静かに,「quietly」の意味は？,静かに,レジャー,エピソード,心理学者,quietly は「静かに」という意味だよ。
+77,中学生前半,中学標準・A2,16,noun,A2,英日,4択,stamp,スタンプ,「stamp」の意味は？,スタンプ,エピソード,心理学者,違法の,stamp は「スタンプ」という意味だよ。
+77,中学生前半,中学標準・A2,17,noun,A2,英日,4択,leisure,レジャー,「leisure」の意味は？,レジャー,心理学者,違法の,誇り,leisure は「レジャー」という意味だよ。
+77,中学生前半,中学標準・A2,18,noun,A2,日英,4択,episode,エピソード,「エピソード」を表す英単語は？,episode,illegal,pride,treasure,「エピソード」は英語で episode と言うよ。
+77,中学生前半,中学標準・A2,19,noun,A2,日英,4択,psychologist,心理学者,「心理学者」を表す英単語は？,psychologist,pride,treasure,landscape,「心理学者」は英語で psychologist と言うよ。
+77,中学生前半,中学標準・A2,20,adjective,A2,日英,4択,illegal,違法の,「違法の」を表す英単語は？,illegal,treasure,landscape,towards,「違法の」は英語で illegal と言うよ。
+77,中学生前半,中学標準・A2,21,noun,A2,日英,4択,pride,誇り,「誇り」を表す英単語は？,pride,landscape,towards,artificial,「誇り」は英語で pride と言うよ。
+77,中学生前半,中学標準・A2,22,noun,A2,日英,4択,treasure,宝物,「宝物」を表す英単語は？,treasure,towards,artificial,campus,「宝物」は英語で treasure と言うよ。
+77,中学生前半,中学標準・A2,23,noun,A2,日英,4択,landscape,風景,「風景」を表す英単語は？,landscape,artificial,campus,wise,「風景」は英語で landscape と言うよ。
+77,中学生前半,中学標準・A2,24,preposition,A2,日英,4択,towards,〜に向かって,「〜に向かって」を表す英単語は？,towards,campus,wise,stranger,「〜に向かって」は英語で towards と言うよ。
+77,中学生前半,中学標準・A2,25,adjective,A2,日英,4択,artificial,人工的な,「人工的な」を表す英単語は？,artificial,wise,stranger,ski,「人工的な」は英語で artificial と言うよ。
+78,中学生前半,中学標準・A2,1,adjective,A2,英日,4択,acceptable,許容できる,「acceptable」の意味は？,許容できる,作る人・会社,結婚式,キロメートル,acceptable は「許容できる」という意味だよ。
+78,中学生前半,中学標準・A2,2,noun,A2,英日,4択,hiking,ハイキング,「hiking」の意味は？,ハイキング,結婚式,キロメートル,ライフスタイル,hiking は「ハイキング」という意味だよ。
+78,中学生前半,中学標準・A2,3,noun,A2,英日,4択,maker,作る人・会社,「maker」の意味は？,作る人・会社,キロメートル,ライフスタイル,アスリート,maker は「作る人・会社」という意味だよ。
+78,中学生前半,中学標準・A2,4,noun,A2,英日,4択,wedding,結婚式,「wedding」の意味は？,結婚式,ライフスタイル,アスリート,発明,wedding は「結婚式」という意味だよ。
+78,中学生前半,中学標準・A2,5,noun,A2,英日,4択,kilometer,キロメートル,「kilometer」の意味は？,キロメートル,アスリート,発明,軽くたたく,kilometer は「キロメートル」という意味だよ。
+78,中学生前半,中学標準・A2,6,noun,A2,英日,4択,lifestyle,ライフスタイル,「lifestyle」の意味は？,ライフスタイル,発明,軽くたたく,分ける,lifestyle は「ライフスタイル」という意味だよ。
+78,中学生前半,中学標準・A2,7,noun,A2,英日,4択,athlete,アスリート,「athlete」の意味は？,アスリート,軽くたたく,分ける,キャンプ,athlete は「アスリート」という意味だよ。
+78,中学生前半,中学標準・A2,8,noun,A2,英日,4択,invention,発明,「invention」の意味は？,発明,分ける,キャンプ,永遠に,invention は「発明」という意味だよ。
+78,中学生前半,中学標準・A2,9,noun,A2,英日,4択,tap,軽くたたく,「tap」の意味は？,軽くたたく,キャンプ,永遠に,知的,tap は「軽くたたく」という意味だよ。
+78,中学生前半,中学標準・A2,10,adjective,A2,英日,4択,split,分ける,「split」の意味は？,分ける,永遠に,知的,埋める,split は「分ける」という意味だよ。
+78,中学生前半,中学標準・A2,11,noun,A2,英日,4択,camping,キャンプ,「camping」の意味は？,キャンプ,知的,埋める,出版する,camping は「キャンプ」という意味だよ。
+78,中学生前半,中学標準・A2,12,adverb,A2,英日,4択,forever,永遠に,「forever」の意味は？,永遠に,埋める,出版する,不快,forever は「永遠に」という意味だよ。
+78,中学生前半,中学標準・A2,13,adjective,A2,英日,4択,intelligent,知的,「intelligent」の意味は？,知的,出版する,不快,喜び,intelligent は「知的」という意味だよ。
+78,中学生前半,中学標準・A2,14,verb,A2,英日,4択,bury,埋める,「bury」の意味は？,埋める,不快,喜び,革,bury は「埋める」という意味だよ。
+78,中学生前半,中学標準・A2,15,verb,A2,英日,4択,publish,出版する,「publish」の意味は？,出版する,喜び,革,独立,publish は「出版する」という意味だよ。
+78,中学生前半,中学標準・A2,16,adjective,A2,英日,4択,uncomfortable,不快,「uncomfortable」の意味は？,不快,革,独立,教科書,uncomfortable は「不快」という意味だよ。
+78,中学生前半,中学標準・A2,17,noun,A2,英日,4択,joy,喜び,「joy」の意味は？,喜び,独立,教科書,不利,joy は「喜び」という意味だよ。
+78,中学生前半,中学標準・A2,18,noun,A2,日英,4択,leather,革,「革」を表す英単語は？,leather,textbook,disadvantage,fiction,「革」は英語で leather と言うよ。
+78,中学生前半,中学標準・A2,19,noun,A2,日英,4択,independence,独立,「独立」を表す英単語は？,independence,disadvantage,fiction,mystery,「独立」は英語で independence と言うよ。
+78,中学生前半,中学標準・A2,20,noun,A2,日英,4択,textbook,教科書,「教科書」を表す英単語は？,textbook,fiction,mystery,recycle,「教科書」は英語で textbook と言うよ。
+78,中学生前半,中学標準・A2,21,noun,A2,日英,4択,disadvantage,不利,「不利」を表す英単語は？,disadvantage,mystery,recycle,storm,「不利」は英語で disadvantage と言うよ。
+78,中学生前半,中学標準・A2,22,noun,A2,日英,4択,fiction,フィクション,「フィクション」を表す英単語は？,fiction,recycle,storm,acceptable,「フィクション」は英語で fiction と言うよ。
+78,中学生前半,中学標準・A2,23,noun,A2,日英,4択,mystery,ミステリー,「ミステリー」を表す英単語は？,mystery,storm,acceptable,hiking,「ミステリー」は英語で mystery と言うよ。
+78,中学生前半,中学標準・A2,24,verb,A2,日英,4択,recycle,リサイクル,「リサイクル」を表す英単語は？,recycle,acceptable,hiking,maker,「リサイクル」は英語で recycle と言うよ。
+78,中学生前半,中学標準・A2,25,noun,A2,日英,4択,storm,嵐,「嵐」を表す英単語は？,storm,hiking,maker,wedding,「嵐」は英語で storm と言うよ。
+79,中学生前半,中学標準・A2,1,noun,A2,英日,4択,cafeteria,カフェテリア,「cafeteria」の意味は？,カフェテリア,不安,魔法,周年,cafeteria は「カフェテリア」という意味だよ。
+79,中学生前半,中学標準・A2,2,noun,A2,英日,4択,gender,性別,「gender」の意味は？,性別,魔法,周年,自動的に,gender は「性別」という意味だよ。
+79,中学生前半,中学標準・A2,3,adjective,A2,英日,4択,uneasy,不安,「uneasy」の意味は？,不安,周年,自動的に,ハニー,uneasy は「不安」という意味だよ。
+79,中学生前半,中学標準・A2,4,adjective,A2,英日,4択,magic,魔法,「magic」の意味は？,魔法,自動的に,ハニー,嫌い,magic は「魔法」という意味だよ。
+79,中学生前半,中学標準・A2,5,noun,A2,英日,4択,anniversary,周年,「anniversary」の意味は？,周年,ハニー,嫌い,輝く,anniversary は「周年」という意味だよ。
+79,中学生前半,中学標準・A2,6,adverb,A2,英日,4択,automatically,自動的に,「automatically」の意味は？,自動的に,嫌い,輝く,愛好家,automatically は「自動的に」という意味だよ。
+79,中学生前半,中学標準・A2,7,noun,A2,英日,4択,honey,ハニー,「honey」の意味は？,ハニー,輝く,愛好家,田舎,honey は「ハニー」という意味だよ。
+79,中学生前半,中学標準・A2,8,noun,A2,英日,4択,dislike,嫌い,「dislike」の意味は？,嫌い,愛好家,田舎,年下の人,dislike は「嫌い」という意味だよ。
+79,中学生前半,中学標準・A2,9,verb,A2,英日,4択,shine,輝く,「shine」の意味は？,輝く,田舎,年下の人,モール,shine は「輝く」という意味だよ。
+79,中学生前半,中学標準・A2,10,noun,A2,英日,4択,lover,愛好家,「lover」の意味は？,愛好家,年下の人,モール,垣根,lover は「愛好家」という意味だよ。
+79,中学生前半,中学標準・A2,11,noun,A2,英日,4択,countryside,田舎,「countryside」の意味は？,田舎,モール,垣根,謎めいた,countryside は「田舎」という意味だよ。
+79,中学生前半,中学標準・A2,12,adjective,A2,英日,4択,junior,年下の人,「junior」の意味は？,年下の人,垣根,謎めいた,景色,junior は「年下の人」という意味だよ。
+79,中学生前半,中学標準・A2,13,noun,A2,英日,4択,mall,モール,「mall」の意味は？,モール,謎めいた,景色,旅行者,mall は「モール」という意味だよ。
+79,中学生前半,中学標準・A2,14,noun,A2,英日,4択,fence,垣根,「fence」の意味は？,垣根,景色,旅行者,屋内,fence は「垣根」という意味だよ。
+79,中学生前半,中学標準・A2,15,adjective,A2,英日,4択,mysterious,謎めいた,「mysterious」の意味は？,謎めいた,旅行者,屋内,語彙,mysterious は「謎めいた」という意味だよ。
+79,中学生前半,中学標準・A2,16,noun,A2,英日,4択,scenery,景色,「scenery」の意味は？,景色,屋内,語彙,階段,scenery は「景色」という意味だよ。
+79,中学生前半,中学標準・A2,17,noun,A2,英日,4択,traveler,旅行者,「traveler」の意味は？,旅行者,語彙,階段,さまよう,traveler は「旅行者」という意味だよ。
+79,中学生前半,中学標準・A2,18,adjective,A2,日英,4択,indoor,屋内,「屋内」を表す英単語は？,indoor,stair,wander,cycling,「屋内」は英語で indoor と言うよ。
+79,中学生前半,中学標準・A2,19,noun,A2,日英,4択,vocabulary,語彙,「語彙」を表す英単語は？,vocabulary,wander,cycling,web,「語彙」は英語で vocabulary と言うよ。
+79,中学生前半,中学標準・A2,20,noun,A2,日英,4択,stair,階段,「階段」を表す英単語は？,stair,cycling,web,luckily,「階段」は英語で stair と言うよ。
+79,中学生前半,中学標準・A2,21,verb,A2,日英,4択,wander,さまよう,「さまよう」を表す英単語は？,wander,web,luckily,occupation,「さまよう」は英語で wander と言うよ。
+79,中学生前半,中学標準・A2,22,noun,A2,日英,4択,cycling,サイクリング,「サイクリング」を表す英単語は？,cycling,luckily,occupation,cafeteria,「サイクリング」は英語で cycling と言うよ。
+79,中学生前半,中学標準・A2,23,noun,A2,日英,4択,web,ウェブ,「ウェブ」を表す英単語は？,web,occupation,cafeteria,gender,「ウェブ」は英語で web と言うよ。
+79,中学生前半,中学標準・A2,24,adverb,A2,日英,4択,luckily,幸運にも,「幸運にも」を表す英単語は？,luckily,cafeteria,gender,uneasy,「幸運にも」は英語で luckily と言うよ。
+79,中学生前半,中学標準・A2,25,noun,A2,日英,4択,occupation,職業,「職業」を表す英単語は？,occupation,gender,uneasy,magic,「職業」は英語で occupation と言うよ。
+80,中学生前半,中学標準・A2,1,adjective,A2,英日,4択,surprising,驚くべき,「surprising」の意味は？,驚くべき,遠く離れた,カレー,怖がらせる,surprising は「驚くべき」という意味だよ。
+80,中学生前半,中学標準・A2,2,adjective,A2,英日,4択,confused,混乱した,「confused」の意味は？,混乱した,カレー,怖がらせる,デザート,confused は「混乱した」という意味だよ。
+80,中学生前半,中学標準・A2,3,adjective,A2,英日,4択,remote,遠く離れた,「remote」の意味は？,遠く離れた,怖がらせる,デザート,羽,remote は「遠く離れた」という意味だよ。
+80,中学生前半,中学標準・A2,4,noun,A2,英日,4択,curry,カレー,「curry」の意味は？,カレー,デザート,羽,海岸,curry は「カレー」という意味だよ。
+80,中学生前半,中学標準・A2,5,verb,A2,英日,4択,frighten,怖がらせる,「frighten」の意味は？,怖がらせる,羽,海岸,いつか,frighten は「怖がらせる」という意味だよ。
+80,中学生前半,中学標準・A2,6,noun,A2,英日,4択,dessert,デザート,「dessert」の意味は？,デザート,海岸,いつか,容器,dessert は「デザート」という意味だよ。
+80,中学生前半,中学標準・A2,7,noun,A2,英日,4択,feather,羽,「feather」の意味は？,羽,いつか,容器,正しく,feather は「羽」という意味だよ。
+80,中学生前半,中学標準・A2,8,noun,A2,英日,4択,shore,海岸,「shore」の意味は？,海岸,容器,正しく,小道・車線,shore は「海岸」という意味だよ。
+80,中学生前半,中学標準・A2,9,adverb,A2,英日,4択,someday,いつか,「someday」の意味は？,いつか,正しく,小道・車線,鏡,someday は「いつか」という意味だよ。
+80,中学生前半,中学標準・A2,10,noun,A2,英日,4択,container,容器,「container」の意味は？,容器,小道・車線,鏡,バーベキュー,container は「容器」という意味だよ。
+80,中学生前半,中学標準・A2,11,adverb,A2,英日,4択,correctly,正しく,「correctly」の意味は？,正しく,鏡,バーベキュー,ベルト,correctly は「正しく」という意味だよ。
+80,中学生前半,中学標準・A2,12,noun,A2,英日,4択,lane,小道・車線,「lane」の意味は？,小道・車線,バーベキュー,ベルト,列・柱,lane は「小道・車線」という意味だよ。
+80,中学生前半,中学標準・A2,13,noun,A2,英日,4択,mirror,鏡,「mirror」の意味は？,鏡,ベルト,列・柱,胸,mirror は「鏡」という意味だよ。
+80,中学生前半,中学標準・A2,14,noun,A2,英日,4択,barbecue,バーベキュー,「barbecue」の意味は？,バーベキュー,列・柱,胸,一瞬,barbecue は「バーベキュー」という意味だよ。
+80,中学生前半,中学標準・A2,15,noun,A2,英日,4択,belt,ベルト,「belt」の意味は？,ベルト,胸,一瞬,不快,belt は「ベルト」という意味だよ。
+80,中学生前半,中学標準・A2,16,noun,A2,英日,4択,column,列・柱,「column」の意味は？,列・柱,一瞬,不快,正確な,column は「列・柱」という意味だよ。
+80,中学生前半,中学標準・A2,17,noun,A2,英日,4択,chest,胸,「chest」の意味は？,胸,不快,正確な,カラフル,chest は「胸」という意味だよ。
+80,中学生前半,中学標準・A2,18,adjective,A2,日英,4択,instant,一瞬,「一瞬」を表す英単語は？,instant,precise,colorful,pile,「一瞬」は英語で instant と言うよ。
+80,中学生前半,中学標準・A2,19,adjective,A2,日英,4択,unpleasant,不快,「不快」を表す英単語は？,unpleasant,colorful,pile,grandchild,「不快」は英語で unpleasant と言うよ。
+80,中学生前半,中学標準・A2,20,adjective,A2,日英,4択,precise,正確な,「正確な」を表す英単語は？,precise,pile,grandchild,highway,「正確な」は英語で precise と言うよ。
+80,中学生前半,中学標準・A2,21,adjective,A2,日英,4択,colorful,カラフル,「カラフル」を表す英単語は？,colorful,grandchild,highway,gallery,「カラフル」は英語で colorful と言うよ。
+80,中学生前半,中学標準・A2,22,noun,A2,日英,4択,pile,積み重ね,「積み重ね」を表す英単語は？,pile,highway,gallery,surprising,「積み重ね」は英語で pile と言うよ。
+80,中学生前半,中学標準・A2,23,noun,A2,日英,4択,grandchild,孫,「孫」を表す英単語は？,grandchild,gallery,surprising,confused,「孫」は英語で grandchild と言うよ。
+80,中学生前半,中学標準・A2,24,noun,A2,日英,4択,highway,高速道路,「高速道路」を表す英単語は？,highway,surprising,confused,remote,「高速道路」は英語で highway と言うよ。
+80,中学生前半,中学標準・A2,25,noun,A2,日英,4択,gallery,ギャラリー,「ギャラリー」を表す英単語は？,gallery,confused,remote,curry,「ギャラリー」は英語で gallery と言うよ。
+81,中学生後半,中学発展・B1,1,adverb,B1,英日,4択,more,もっと,「more」の意味は？,もっと,話す,できる,導く,more は「もっと」という意味だよ。
+81,中学生後半,中学発展・B1,2,adverb,B1,英日,4択,last,最後,「last」の意味は？,最後,できる,導く,かどうか,last は「最後」という意味だよ。
+81,中学生後半,中学発展・B1,3,noun,B1,英日,4択,talk,話す,「talk」の意味は？,話す,導く,かどうか,最も少ない,talk は「話す」という意味だよ。
+81,中学生後半,中学発展・B1,4,adjective,B1,英日,4択,able,できる,「able」の意味は？,できる,かどうか,最も少ない,落ちる,able は「できる」という意味だよ。
+81,中学生後半,中学発展・B1,5,adjective,B1,英日,4択,lead,導く,「lead」の意味は？,導く,最も少ない,落ちる,半分,lead は「導く」という意味だよ。
+81,中学生後半,中学発展・B1,6,conjunction,B1,英日,4択,whether,かどうか,「whether」の意味は？,かどうか,落ちる,半分,トップ,whether は「かどうか」という意味だよ。
+81,中学生後半,中学発展・B1,7,adverb,B1,英日,4択,least,最も少ない,「least」の意味は？,最も少ない,半分,トップ,近くに,least は「最も少ない」という意味だよ。
+81,中学生後半,中学発展・B1,8,noun,B1,英日,4択,fall,落ちる,「fall」の意味は？,落ちる,トップ,近くに,水準,fall は「落ちる」という意味だよ。
+81,中学生後半,中学発展・B1,9,adverb,B1,英日,4択,half,半分,「half」の意味は？,半分,近くに,水準,発達,half は「半分」という意味だよ。
+81,中学生後半,中学発展・B1,10,adjective,B1,英日,4択,top,トップ,「top」の意味は？,トップ,水準,発達,量,top は「トップ」という意味だよ。
+81,中学生後半,中学発展・B1,11,adjective,B1,英日,4択,near,近くに,「near」の意味は？,近くに,発達,量,過程,near は「近くに」という意味だよ。
+81,中学生後半,中学発展・B1,12,adjective,B1,英日,4択,level,水準,「level」の意味は？,水準,量,過程,～につき,level は「水準」という意味だよ。
+81,中学生後半,中学発展・B1,13,noun,B1,英日,4択,development,発達,「development」の意味は？,発達,過程,～につき,～より上に,development は「発達」という意味だよ。
+81,中学生後半,中学発展・B1,14,noun,B1,英日,4択,amount,量,「amount」の意味は？,量,～につき,～より上に,選ぶ,amount は「量」という意味だよ。
+81,中学生後半,中学発展・B1,15,noun,B1,英日,4択,process,過程,「process」の意味は？,過程,～より上に,選ぶ,利点,process は「過程」という意味だよ。
+81,中学生後半,中学発展・B1,16,preposition,B1,英日,4択,per,～につき,「per」の意味は？,～につき,選ぶ,利点,期間・用語,per は「～につき」という意味だよ。
+81,中学生後半,中学発展・B1,17,adjective,B1,英日,4択,above,～より上に,「above」の意味は？,～より上に,利点,期間・用語,上がる,above は「～より上に」という意味だよ。
+81,中学生後半,中学発展・B1,18,noun,B1,日英,4択,pick,選ぶ,「選ぶ」を表す英単語は？,pick,term,rise,various,「選ぶ」は英語で pick と言うよ。
+81,中学生後半,中学発展・B1,19,noun,B1,日英,4択,benefit,利点,「利点」を表す英単語は？,benefit,rise,various,record,「利点」は英語で benefit と言うよ。
+81,中学生後半,中学発展・B1,20,noun,B1,日英,4択,term,期間・用語,「期間・用語」を表す英単語は？,term,various,record,involve,「期間・用語」は英語で term と言うよ。
+81,中学生後半,中学発展・B1,21,noun,B1,日英,4択,rise,上がる,「上がる」を表す英単語は？,rise,record,involve,wonder,「上がる」は英語で rise と言うよ。
+81,中学生後半,中学発展・B1,22,adjective,B1,日英,4択,various,様々な,「様々な」を表す英単語は？,various,involve,wonder,more,「様々な」は英語で various と言うよ。
+81,中学生後半,中学発展・B1,23,noun,B1,日英,4択,record,記録,「記録」を表す英単語は？,record,wonder,more,last,「記録」は英語で record と言うよ。
+81,中学生後半,中学発展・B1,24,verb,B1,日英,4択,involve,関与する,「関与する」を表す英単語は？,involve,more,last,talk,「関与する」は英語で involve と言うよ。
+81,中学生後半,中学発展・B1,25,noun,B1,日英,4択,wonder,不思議に思う,「不思議に思う」を表す英単語は？,wonder,last,talk,able,「不思議に思う」は英語で wonder と言うよ。
+82,中学生後半,中学発展・B1,1,noun,B1,英日,4択,percent,パーセント,「percent」の意味は？,パーセント,個人,品質,影響する,percent は「パーセント」という意味だよ。
+82,中学生後半,中学発展・B1,2,adjective,B1,英日,4択,total,合計,「total」の意味は？,合計,品質,影響する,～と思う,total は「合計」という意味だよ。
+82,中学生後半,中学発展・B1,3,adjective,B1,英日,4択,individual,個人,「individual」の意味は？,個人,影響する,～と思う,リスク,individual は「個人」という意味だよ。
+82,中学生後半,中学発展・B1,4,adjective,B1,英日,4択,quality,品質,「quality」の意味は？,品質,～と思う,リスク,近づく・方法,quality は「品質」という意味だよ。
+82,中学生後半,中学発展・B1,5,verb,B1,英日,4択,affect,影響する,「affect」の意味は？,影響する,リスク,近づく・方法,経済,affect は「影響する」という意味だよ。
+82,中学生後半,中学発展・B1,6,verb,B1,英日,4択,suppose,～と思う,「suppose」の意味は？,～と思う,近づく・方法,経済,測る,suppose は「～と思う」という意味だよ。
+82,中学生後半,中学発展・B1,7,noun,B1,英日,4択,risk,リスク,「risk」の意味は？,リスク,経済,測る,関係する,risk は「リスク」という意味だよ。
+82,中学生後半,中学発展・B1,8,noun,B1,英日,4択,approach,近づく・方法,「approach」の意味は？,近づく・方法,測る,関係する,認識する,approach は「近づく・方法」という意味だよ。
+82,中学生後半,中学発展・B1,9,adjective,B1,英日,4択,economic,経済,「economic」の意味は？,経済,関係する,認識する,笑う,economic は「経済」という意味だよ。
+82,中学生後半,中学発展・B1,10,noun,B1,英日,4択,measure,測る,「measure」の意味は？,測る,認識する,笑う,料金・充電する,measure は「測る」という意味だよ。
+82,中学生後半,中学発展・B1,11,verb,B1,英日,4択,relate,関係する,「relate」の意味は？,関係する,笑う,料金・充電する,制限,relate は「関係する」という意味だよ。
+82,中学生後半,中学発展・B1,12,verb,B1,英日,4択,recognize,認識する,「recognize」の意味は？,認識する,料金・充電する,制限,ポリシー,recognize は「認識する」という意味だよ。
+82,中学生後半,中学発展・B1,13,noun,B1,英日,4択,laugh,笑う,「laugh」の意味は？,笑う,制限,ポリシー,要求,laugh は「笑う」という意味だよ。
+82,中学生後半,中学発展・B1,14,noun,B1,英日,4択,charge,料金・充電する,「charge」の意味は？,料金・充電する,ポリシー,要求,得る,charge は「料金・充電する」という意味だよ。
+82,中学生後半,中学発展・B1,15,noun,B1,英日,4択,limit,制限,「limit」の意味は？,制限,要求,得る,コメント,limit は「制限」という意味だよ。
+82,中学生後半,中学発展・B1,16,noun,B1,英日,4択,policy,ポリシー,「policy」の意味は？,ポリシー,得る,コメント,現在の,policy は「ポリシー」という意味だよ。
+82,中学生後半,中学発展・B1,17,noun,B1,英日,4択,demand,要求,「demand」の意味は？,要求,コメント,現在の,傾向がある,demand は「要求」という意味だよ。
+82,中学生後半,中学発展・B1,18,noun,B1,日英,4択,gain,得る,「得る」を表す英単語は？,gain,current,tend,occur,「得る」は英語で gain と言うよ。
+82,中学生後半,中学発展・B1,19,noun,B1,日英,4択,comment,コメント,「コメント」を表す英単語は？,comment,tend,occur,round,「コメント」は英語で comment と言うよ。
+82,中学生後半,中学発展・B1,20,adjective,B1,日英,4択,current,現在の,「現在の」を表す英単語は？,current,occur,round,option,「現在の」は英語で current と言うよ。
+82,中学生後半,中学発展・B1,21,verb,B1,日英,4択,tend,傾向がある,「傾向がある」を表す英単語は？,tend,round,option,sort,「傾向がある」は英語で tend と言うよ。
+82,中学生後半,中学発展・B1,22,verb,B1,日英,4択,occur,起こる,「起こる」を表す英単語は？,occur,option,sort,percent,「起こる」は英語で occur と言うよ。
+82,中学生後半,中学発展・B1,23,adjective,B1,日英,4択,round,丸い,「丸い」を表す英単語は？,round,sort,percent,total,「丸い」は英語で round と言うよ。
+82,中学生後半,中学発展・B1,24,noun,B1,日英,4択,option,オプション,「オプション」を表す英単語は？,option,percent,total,individual,「オプション」は英語で option と言うよ。
+82,中学生後半,中学発展・B1,25,noun,B1,日英,4択,sort,種類・分類する,「種類・分類する」を表す英単語は？,sort,total,individual,quality,「種類・分類する」は英語で sort と言うよ。
+83,中学生後半,中学発展・B1,1,noun,B1,英日,4択,hit,打つ,「hit」の意味は？,打つ,モデル,バラエティ,主張する,hit は「打つ」という意味だよ。
+83,中学生後半,中学発展・B1,2,verb,B1,英日,4択,attend,出席する,「attend」の意味は？,出席する,バラエティ,主張する,したがって,attend は「出席する」という意味だよ。
+83,中学生後半,中学発展・B1,3,adjective,B1,英日,4択,model,モデル,「model」の意味は？,モデル,主張する,したがって,機能,model は「モデル」という意味だよ。
+83,中学生後半,中学発展・B1,4,noun,B1,英日,4択,variety,バラエティ,「variety」の意味は？,バラエティ,したがって,機能,成長,variety は「バラエティ」という意味だよ。
+83,中学生後半,中学発展・B1,5,noun,B1,英日,4択,claim,主張する,「claim」の意味は？,主張する,機能,成長,物体,claim は「主張する」という意味だよ。
+83,中学生後半,中学発展・B1,6,adverb,B1,英日,4択,thus,したがって,「thus」の意味は？,したがって,成長,物体,にもかかわらず,thus は「したがって」という意味だよ。
+83,中学生後半,中学発展・B1,7,noun,B1,英日,4択,function,機能,「function」の意味は？,機能,物体,にもかかわらず,全体を通して,function は「機能」という意味だよ。
+83,中学生後半,中学発展・B1,8,noun,B1,英日,4択,growth,成長,「growth」の意味は？,成長,にもかかわらず,全体を通して,アクセス,growth は「成長」という意味だよ。
+83,中学生後半,中学発展・B1,9,noun,B1,英日,4択,object,物体,「object」の意味は？,物体,全体を通して,アクセス,決定する,object は「物体」という意味だよ。
+83,中学生後半,中学発展・B1,10,preposition,B1,英日,4択,despite,にもかかわらず,「despite」の意味は？,にもかかわらず,アクセス,決定する,組織,despite は「にもかかわらず」という意味だよ。
+83,中学生後半,中学発展・B1,11,preposition,B1,英日,4択,throughout,全体を通して,「throughout」の意味は？,全体を通して,決定する,組織,維持する,throughout は「全体を通して」という意味だよ。
+83,中学生後半,中学発展・B1,12,noun,B1,英日,4択,access,アクセス,「access」の意味は？,アクセス,組織,維持する,実例,access は「アクセス」という意味だよ。
+83,中学生後半,中学発展・B1,13,verb,B1,英日,4択,determine,決定する,「determine」の意味は？,決定する,維持する,実例,部門,determine は「決定する」という意味だよ。
+83,中学生後半,中学発展・B1,14,noun,B1,英日,4択,organization,組織,「organization」の意味は？,組織,実例,部門,パターン,organization は「組織」という意味だよ。
+83,中学生後半,中学発展・B1,15,verb,B1,英日,4択,maintain,維持する,「maintain」の意味は？,維持する,部門,パターン,細胞,maintain は「維持する」という意味だよ。
+83,中学生後半,中学発展・B1,16,noun,B1,英日,4択,instance,実例,「instance」の意味は？,実例,パターン,細胞,特に,instance は「実例」という意味だよ。
+83,中学生後半,中学発展・B1,17,noun,B1,英日,4択,department,部門,「department」の意味は？,部門,細胞,特に,金融,department は「部門」という意味だよ。
+83,中学生後半,中学発展・B1,18,noun,B1,日英,4択,pattern,パターン,「パターン」を表す英単語は？,pattern,particularly,financial,prove,「パターン」は英語で pattern と言うよ。
+83,中学生後半,中学発展・B1,19,noun,B1,日英,4択,cell,細胞,「細胞」を表す英単語は？,cell,financial,prove,suffer,「細胞」は英語で cell と言うよ。
+83,中学生後半,中学発展・B1,20,adverb,B1,日英,4択,particularly,特に,「特に」を表す英単語は？,particularly,prove,suffer,huge,「特に」は英語で particularly と言うよ。
+83,中学生後半,中学発展・B1,21,adjective,B1,日英,4択,financial,金融,「金融」を表す英単語は？,financial,suffer,huge,movement,「金融」は英語で financial と言うよ。
+83,中学生後半,中学発展・B1,22,verb,B1,日英,4択,prove,証明する,「証明する」を表す英単語は？,prove,huge,movement,hit,「証明する」は英語で prove と言うよ。
+83,中学生後半,中学発展・B1,23,verb,B1,日英,4択,suffer,苦しむ,「苦しむ」を表す英単語は？,suffer,movement,hit,attend,「苦しむ」は英語で suffer と言うよ。
+83,中学生後半,中学発展・B1,24,adjective,B1,日英,4択,huge,巨大な,「巨大な」を表す英単語は？,huge,hit,attend,model,「巨大な」は英語で huge と言うよ。
+83,中学生後半,中学発展・B1,25,noun,B1,日英,4択,movement,運動,「運動」を表す英単語は？,movement,attend,model,variety,「運動」は英語で movement と言うよ。
+84,中学生後半,中学発展・B1,1,adjective,B1,英日,4択,welcome,いらっしゃいませ,「welcome」の意味は？,いらっしゃいませ,マイル,行う,結論,welcome は「いらっしゃいませ」という意味だよ。
+84,中学生後半,中学発展・B1,2,noun,B1,英日,4択,economy,経済,「economy」の意味は？,経済,行う,結論,ストレス,economy は「経済」という意味だよ。
+84,中学生後半,中学発展・B1,3,noun,B1,英日,4択,mile,マイル,「mile」の意味は？,マイル,結論,ストレス,治療・扱い,mile は「マイル」という意味だよ。
+84,中学生後半,中学発展・B1,4,noun,B1,英日,4択,conduct,行う,「conduct」の意味は？,行う,ストレス,治療・扱い,価値,conduct は「行う」という意味だよ。
+84,中学生後半,中学発展・B1,5,noun,B1,英日,4択,conclusion,結論,「conclusion」の意味は？,結論,治療・扱い,価値,診る,conclusion は「結論」という意味だよ。
+84,中学生後半,中学発展・B1,6,noun,B1,英日,4択,stress,ストレス,「stress」の意味は？,ストレス,価値,診る,推薦する,stress は「ストレス」という意味だよ。
+84,中学生後半,中学発展・B1,7,noun,B1,英日,4択,treatment,治療・扱い,「treatment」の意味は？,治療・扱い,診る,推薦する,ポジティブ,treatment は「治療・扱い」という意味だよ。
+84,中学生後半,中学発展・B1,8,adjective,B1,英日,4択,worth,価値,「worth」の意味は？,価値,推薦する,ポジティブ,地域,worth は「価値」という意味だよ。
+84,中学生後半,中学発展・B1,9,verb,B1,英日,4択,examine,診る,「examine」の意味は？,診る,ポジティブ,地域,リンク,examine は「診る」という意味だよ。
+84,中学生後半,中学発展・B1,10,verb,B1,英日,4択,recommend,推薦する,「recommend」の意味は？,推薦する,地域,リンク,業界,recommend は「推薦する」という意味だよ。
+84,中学生後半,中学発展・B1,11,adjective,B1,英日,4択,positive,ポジティブ,「positive」の意味は？,ポジティブ,リンク,業界,申し込み・応用,positive は「ポジティブ」という意味だよ。
+84,中学生後半,中学発展・B1,12,noun,B1,英日,4択,region,地域,「region」の意味は？,地域,業界,申し込み・応用,損害,region は「地域」という意味だよ。
+84,中学生後半,中学発展・B1,13,noun,B1,英日,4択,link,リンク,「link」の意味は？,リンク,申し込み・応用,損害,安全・警備,link は「リンク」という意味だよ。
+84,中学生後半,中学発展・B1,14,noun,B1,英日,4択,industry,業界,「industry」の意味は？,業界,損害,安全・警備,損失,industry は「業界」という意味だよ。
+84,中学生後半,中学発展・B1,15,noun,B1,英日,4択,application,申し込み・応用,「application」の意味は？,申し込み・応用,安全・警備,損失,供給,application は「申し込み・応用」という意味だよ。
+84,中学生後半,中学発展・B1,16,noun,B1,英日,4択,damage,損害,「damage」の意味は？,損害,損失,供給,職業・経歴,damage は「損害」という意味だよ。
+84,中学生後半,中学発展・B1,17,noun,B1,英日,4択,security,安全・警備,「security」の意味は？,安全・警備,供給,職業・経歴,扱う,security は「安全・警備」という意味だよ。
+84,中学生後半,中学発展・B1,18,noun,B1,日英,4択,loss,損失,「損失」を表す英単語は？,loss,career,treat,previous,「損失」は英語で loss と言うよ。
+84,中学生後半,中学発展・B1,19,noun,B1,日英,4択,supply,供給,「供給」を表す英単語は？,supply,treat,previous,responsibility,「供給」は英語で supply と言うよ。
+84,中学生後半,中学発展・B1,20,noun,B1,日英,4択,career,職業・経歴,「職業・経歴」を表す英単語は？,career,previous,responsibility,select,「職業・経歴」は英語で career と言うよ。
+84,中学生後半,中学発展・B1,21,noun,B1,日英,4択,treat,扱う,「扱う」を表す英単語は？,treat,responsibility,select,slightly,「扱う」は英語で treat と言うよ。
+84,中学生後半,中学発展・B1,22,adjective,B1,日英,4択,previous,前の,「前の」を表す英単語は？,previous,select,slightly,welcome,「前の」は英語で previous と言うよ。
+84,中学生後半,中学発展・B1,23,noun,B1,日英,4択,responsibility,責任,「責任」を表す英単語は？,responsibility,slightly,welcome,economy,「責任」は英語で responsibility と言うよ。
+84,中学生後半,中学発展・B1,24,adjective,B1,日英,4択,select,選ぶ,「選ぶ」を表す英単語は？,select,welcome,economy,mile,「選ぶ」は英語で select と言うよ。
+84,中学生後半,中学発展・B1,25,adverb,B1,日英,4択,slightly,わずかに,「わずかに」を表す英単語は？,slightly,economy,mile,conduct,「わずかに」は英語で slightly と言うよ。
+85,中学生後半,中学発展・B1,1,adjective,B1,英日,4択,medium,中くらい,「medium」の意味は？,中くらい,一般的に,バランス,目標,medium は「中くらい」という意味だよ。
+85,中学生後半,中学発展・B1,2,noun,B1,英日,4択,equipment,装置,「equipment」の意味は？,装置,バランス,目標,効果的,equipment は「装置」という意味だよ。
+85,中学生後半,中学発展・B1,3,adverb,B1,英日,4択,generally,一般的に,「generally」の意味は？,一般的に,目標,効果的,前者,generally は「一般的に」という意味だよ。
+85,中学生後半,中学発展・B1,4,noun,B1,英日,4択,balance,バランス,「balance」の意味は？,バランス,効果的,前者,表面,balance は「バランス」という意味だよ。
+85,中学生後半,中学発展・B1,5,noun,B1,英日,4択,aim,目標,「aim」の意味は？,目標,前者,表面,関連づける,aim は「目標」という意味だよ。
+85,中学生後半,中学発展・B1,6,adjective,B1,英日,4択,effective,効果的,「effective」の意味は？,効果的,表面,関連づける,最終的に,effective は「効果的」という意味だよ。
+85,中学生後半,中学発展・B1,7,adjective,B1,英日,4択,former,前者,「former」の意味は？,前者,関連づける,最終的に,観察する,former は「前者」という意味だよ。
+85,中学生後半,中学発展・B1,8,noun,B1,英日,4択,surface,表面,「surface」の意味は？,表面,最終的に,観察する,なし,surface は「表面」という意味だよ。
+85,中学生後半,中学発展・B1,9,verb,B1,英日,4択,associate,関連づける,「associate」の意味は？,関連づける,観察する,なし,基礎,associate は「関連づける」という意味だよ。
+85,中学生後半,中学発展・B1,10,adverb,B1,英日,4択,eventually,最終的に,「eventually」の意味は？,最終的に,なし,基礎,男,eventually は「最終的に」という意味だよ。
+85,中学生後半,中学発展・B1,11,verb,B1,英日,4択,observe,観察する,「observe」の意味は？,観察する,基礎,男,仮定する,observe は「観察する」という意味だよ。
+85,中学生後半,中学発展・B1,12,pronoun,B1,英日,4択,none,なし,「none」の意味は？,なし,男,仮定する,長さ,none は「なし」という意味だよ。
+85,中学生後半,中学発展・B1,13,noun,B1,英日,4択,basis,基礎,「basis」の意味は？,基礎,仮定する,長さ,届ける,basis は「基礎」という意味だよ。
+85,中学生後半,中学発展・B1,14,adjective,B1,英日,4択,male,男,「male」の意味は？,男,長さ,届ける,位置,male は「男」という意味だよ。
+85,中学生後半,中学発展・B1,15,verb,B1,英日,4択,assume,仮定する,「assume」の意味は？,仮定する,届ける,位置,一時停止,assume は「仮定する」という意味だよ。
+85,中学生後半,中学発展・B1,16,noun,B1,英日,4択,length,長さ,「length」の意味は？,長さ,位置,一時停止,引きつける,length は「長さ」という意味だよ。
+85,中学生後半,中学発展・B1,17,verb,B1,英日,4択,deliver,届ける,「deliver」の意味は？,届ける,一時停止,引きつける,推進する,deliver は「届ける」という意味だよ。
+85,中学生後半,中学発展・B1,18,noun,B1,日英,4択,location,位置,「位置」を表す英単語は？,location,attract,promote,global,「位置」は英語で location と言うよ。
+85,中学生後半,中学発展・B1,19,noun,B1,日英,4択,pause,一時停止,「一時停止」を表す英単語は？,pause,promote,global,possibility,「一時停止」は英語で pause と言うよ。
+85,中学生後半,中学発展・B1,20,verb,B1,日英,4択,attract,引きつける,「引きつける」を表す英単語は？,attract,global,possibility,count,「引きつける」は英語で attract と言うよ。
+85,中学生後半,中学発展・B1,21,verb,B1,日英,4択,promote,推進する,「推進する」を表す英単語は？,promote,possibility,count,researcher,「推進する」は英語で promote と言うよ。
+85,中学生後半,中学発展・B1,22,adjective,B1,日英,4択,global,グローバル,「グローバル」を表す英単語は？,global,count,researcher,medium,「グローバル」は英語で global と言うよ。
+85,中学生後半,中学発展・B1,23,noun,B1,日英,4択,possibility,可能性,「可能性」を表す英単語は？,possibility,researcher,medium,equipment,「可能性」は英語で possibility と言うよ。
+85,中学生後半,中学発展・B1,24,noun,B1,日英,4択,count,数える,「数える」を表す英単語は？,count,medium,equipment,generally,「数える」は英語で count と言うよ。
+85,中学生後半,中学発展・B1,25,noun,B1,日英,4択,researcher,研究者,「研究者」を表す英単語は？,researcher,equipment,generally,balance,「研究者」は英語で researcher と言うよ。
+86,中学生後半,中学発展・B1,1,noun,B1,英日,4択,resource,リソース,「resource」の意味は？,リソース,等しい,無駄,～もまた…ない,resource は「リソース」という意味だよ。
+86,中学生後半,中学発展・B1,2,adjective,B1,英日,4択,essential,不可欠,「essential」の意味は？,不可欠,無駄,～もまた…ない,参加する,essential は「不可欠」という意味だよ。
+86,中学生後半,中学発展・B1,3,adjective,B1,英日,4択,equal,等しい,「equal」の意味は？,等しい,～もまた…ない,参加する,非常に,equal は「等しい」という意味だよ。
+86,中学生後半,中学発展・B1,4,adjective,B1,英日,4択,waste,無駄,「waste」の意味は？,無駄,参加する,非常に,理論,waste は「無駄」という意味だよ。
+86,中学生後半,中学発展・B1,5,conjunction,B1,英日,4択,nor,～もまた…ない,「nor」の意味は？,～もまた…ない,非常に,理論,シリーズ,nor は「～もまた…ない」という意味だよ。
+86,中学生後半,中学発展・B1,6,verb,B1,英日,4択,participate,参加する,「participate」の意味は？,参加する,理論,シリーズ,過半数,participate は「参加する」という意味だよ。
+86,中学生後半,中学発展・B1,7,adverb,B1,英日,4択,highly,非常に,「highly」の意味は？,非常に,シリーズ,過半数,減少,highly は「非常に」という意味だよ。
+86,中学生後半,中学発展・B1,8,noun,B1,英日,4択,theory,理論,「theory」の意味は？,理論,過半数,減少,改善,theory は「理論」という意味だよ。
+86,中学生後半,中学発展・B1,9,noun,B1,英日,4択,series,シリーズ,「series」の意味は？,シリーズ,減少,改善,定義する,series は「シリーズ」という意味だよ。
+86,中学生後半,中学発展・B1,10,noun,B1,英日,4択,majority,過半数,「majority」の意味は？,過半数,改善,定義する,わかっている,majority は「過半数」という意味だよ。
+86,中学生後半,中学発展・B1,11,noun,B1,英日,4択,decrease,減少,「decrease」の意味は？,減少,定義する,わかっている,貢献する,decrease は「減少」という意味だよ。
+86,中学生後半,中学発展・B1,12,noun,B1,英日,4択,improvement,改善,「improvement」の意味は？,改善,わかっている,貢献する,分ける,improvement は「改善」という意味だよ。
+86,中学生後半,中学発展・B1,13,verb,B1,英日,4択,define,定義する,「define」の意味は？,定義する,貢献する,分ける,書類,define は「定義する」という意味だよ。
+86,中学生後半,中学発展・B1,14,adjective,B1,英日,4択,aware,わかっている,「aware」の意味は？,わかっている,分ける,書類,導入,aware は「わかっている」という意味だよ。
+86,中学生後半,中学発展・B1,15,verb,B1,英日,4択,contribute,貢献する,「contribute」の意味は？,貢献する,書類,導入,所得,contribute は「貢献する」という意味だよ。
+86,中学生後半,中学発展・B1,16,noun,B1,英日,4択,divide,分ける,「divide」の意味は？,分ける,導入,所得,安全性,divide は「分ける」という意味だよ。
+86,中学生後半,中学発展・B1,17,noun,B1,英日,4択,document,書類,「document」の意味は？,書類,所得,安全性,技術,document は「書類」という意味だよ。
+86,中学生後半,中学発展・B1,18,noun,B1,日英,4択,introduction,導入,「導入」を表す英単語は？,introduction,safety,technique,flow,「導入」は英語で introduction と言うよ。
+86,中学生後半,中学発展・B1,19,noun,B1,日英,4択,income,所得,「所得」を表す英単語は？,income,technique,flow,transport,「所得」は英語で income と言うよ。
+86,中学生後半,中学発展・B1,20,noun,B1,日英,4択,safety,安全性,「安全性」を表す英単語は？,safety,flow,transport,surround,「安全性」は英語で safety と言うよ。
+86,中学生後半,中学発展・B1,21,noun,B1,日英,4択,technique,技術,「技術」を表す英単語は？,technique,transport,surround,adopt,「技術」は英語で technique と言うよ。
+86,中学生後半,中学発展・B1,22,noun,B1,日英,4択,flow,流れ,「流れ」を表す英単語は？,flow,surround,adopt,resource,「流れ」は英語で flow と言うよ。
+86,中学生後半,中学発展・B1,23,noun,B1,日英,4択,transport,輸送,「輸送」を表す英単語は？,transport,adopt,resource,essential,「輸送」は英語で transport と言うよ。
+86,中学生後半,中学発展・B1,24,verb,B1,日英,4択,surround,囲む,「囲む」を表す英単語は？,surround,resource,essential,equal,「囲む」は英語で surround と言うよ。
+86,中学生後半,中学発展・B1,25,verb,B1,日英,4択,adopt,採用する,「採用する」を表す英単語は？,adopt,essential,equal,waste,「採用する」は英語で adopt と言うよ。
+87,中学生後半,中学発展・B1,1,verb,B1,英日,4択,arrange,整える,「arrange」の意味は？,整える,信念,消費者,衰退,arrange は「整える」という意味だよ。
+87,中学生後半,中学発展・B1,2,adjective,B1,英日,4択,entire,全体,「entire」の意味は？,全体,消費者,衰退,関係,entire は「全体」という意味だよ。
+87,中学生後半,中学発展・B1,3,noun,B1,英日,4択,belief,信念,「belief」の意味は？,信念,衰退,関係,伸ばす,belief は「信念」という意味だよ。
+87,中学生後半,中学発展・B1,4,noun,B1,英日,4択,consumer,消費者,「consumer」の意味は？,消費者,関係,伸ばす,施設,consumer は「消費者」という意味だよ。
+87,中学生後半,中学発展・B1,5,noun,B1,英日,4択,decline,衰退,「decline」の意味は？,衰退,伸ばす,施設,繋がり,decline は「衰退」という意味だよ。
+87,中学生後半,中学発展・B1,6,noun,B1,英日,4択,relation,関係,「relation」の意味は？,関係,施設,繋がり,～の上へ,relation は「関係」という意味だよ。
+87,中学生後半,中学発展・B1,7,verb,B1,英日,4択,extend,伸ばす,「extend」の意味は？,伸ばす,繋がり,～の上へ,提案する,extend は「伸ばす」という意味だよ。
+87,中学生後半,中学発展・B1,8,noun,B1,英日,4択,facility,施設,「facility」の意味は？,施設,～の上へ,提案する,傾向,facility は「施設」という意味だよ。
+87,中学生後半,中学発展・B1,9,noun,B1,英日,4択,connection,繋がり,「connection」の意味は？,繋がり,提案する,傾向,デバイス,connection は「繋がり」という意味だよ。
+87,中学生後半,中学発展・B1,10,preposition,B1,英日,4択,onto,～の上へ,「onto」の意味は？,～の上へ,傾向,デバイス,欲望,onto は「～の上へ」という意味だよ。
+87,中学生後半,中学発展・B1,11,verb,B1,英日,4択,propose,提案する,「propose」の意味は？,提案する,デバイス,欲望,原理,propose は「提案する」という意味だよ。
+87,中学生後半,中学発展・B1,12,noun,B1,英日,4択,trend,傾向,「trend」の意味は？,傾向,欲望,原理,訴える,trend は「傾向」という意味だよ。
+87,中学生後半,中学発展・B1,13,noun,B1,英日,4択,device,デバイス,「device」の意味は？,デバイス,原理,訴える,プレゼンテーション,device は「デバイス」という意味だよ。
+87,中学生後半,中学発展・B1,14,noun,B1,英日,4択,desire,欲望,「desire」の意味は？,欲望,訴える,プレゼンテーション,拡大する,desire は「欲望」という意味だよ。
+87,中学生後半,中学発展・B1,15,noun,B1,英日,4択,principle,原理,「principle」の意味は？,原理,プレゼンテーション,拡大する,ネットワーク,principle は「原理」という意味だよ。
+87,中学生後半,中学発展・B1,16,noun,B1,英日,4択,appeal,訴える,「appeal」の意味は？,訴える,拡大する,ネットワーク,組み合わせる,appeal は「訴える」という意味だよ。
+87,中学生後半,中学発展・B1,17,noun,B1,英日,4択,presentation,プレゼンテーション,「presentation」の意味は？,プレゼンテーション,ネットワーク,組み合わせる,基金,presentation は「プレゼンテーション」という意味だよ。
+87,中学生後半,中学発展・B1,18,verb,B1,日英,4択,expand,拡大する,「拡大する」を表す英単語は？,expand,combine,fund,conclude,「拡大する」は英語で expand と言うよ。
+87,中学生後半,中学発展・B1,19,noun,B1,日英,4択,network,ネットワーク,「ネットワーク」を表す英単語は？,network,fund,conclude,relatively,「ネットワーク」は英語で network と言うよ。
+87,中学生後半,中学発展・B1,20,verb,B1,日英,4択,combine,組み合わせる,「組み合わせる」を表す英単語は？,combine,conclude,relatively,locate,「組み合わせる」は英語で combine と言うよ。
+87,中学生後半,中学発展・B1,21,noun,B1,日英,4択,fund,基金,「基金」を表す英単語は？,fund,relatively,locate,category,「基金」は英語で fund と言うよ。
+87,中学生後半,中学発展・B1,22,verb,B1,日英,4択,conclude,結論する,「結論する」を表す英単語は？,conclude,locate,category,arrange,「結論する」は英語で conclude と言うよ。
+87,中学生後半,中学発展・B1,23,adverb,B1,日英,4択,relatively,比較的,「比較的」を表す英単語は？,relatively,category,arrange,entire,「比較的」は英語で relatively と言うよ。
+87,中学生後半,中学発展・B1,24,verb,B1,日英,4択,locate,位置を特定する,「位置を特定する」を表す英単語は？,locate,arrange,entire,belief,「位置を特定する」は英語で locate と言うよ。
+87,中学生後半,中学発展・B1,25,noun,B1,日英,4択,category,カテゴリ,「カテゴリ」を表す英単語は？,category,entire,belief,consumer,「カテゴリ」は英語で category と言うよ。
+88,中学生後半,中学発展・B1,1,noun,B1,英日,4択,hate,嫌い,「hate」の意味は？,嫌い,さもないと,参加者,現実,hate は「嫌い」という意味だよ。
+88,中学生後半,中学発展・B1,2,noun,B1,英日,4択,discount,割引,「discount」の意味は？,割引,参加者,現実,絶対に,discount は「割引」という意味だよ。
+88,中学生後半,中学発展・B1,3,adverb,B1,英日,4択,otherwise,さもないと,「otherwise」の意味は？,さもないと,現実,絶対に,自信,otherwise は「さもないと」という意味だよ。
+88,中学生後半,中学発展・B1,4,noun,B1,英日,4択,participant,参加者,「participant」の意味は？,参加者,絶対に,自信,無視する,participant は「参加者」という意味だよ。
+88,中学生後半,中学発展・B1,5,noun,B1,英日,4択,reality,現実,「reality」の意味は？,現実,自信,無視する,個性的,reality は「現実」という意味だよ。
+88,中学生後半,中学発展・B1,6,adverb,B1,英日,4択,absolutely,絶対に,「absolutely」の意味は？,絶対に,無視する,個性的,コマーシャル,absolutely は「絶対に」という意味だよ。
+88,中学生後半,中学発展・B1,7,noun,B1,英日,4択,confidence,自信,「confidence」の意味は？,自信,個性的,コマーシャル,普通,confidence は「自信」という意味だよ。
+88,中学生後半,中学発展・B1,8,verb,B1,英日,4択,ignore,無視する,「ignore」の意味は？,無視する,コマーシャル,普通,援助,ignore は「無視する」という意味だよ。
+88,中学生後半,中学発展・B1,9,adjective,B1,英日,4択,unique,個性的,「unique」の意味は？,個性的,普通,援助,管理,unique は「個性的」という意味だよ。
+88,中学生後半,中学発展・B1,10,adjective,B1,英日,4択,commercial,コマーシャル,「commercial」の意味は？,コマーシャル,援助,管理,可能にする,commercial は「コマーシャル」という意味だよ。
+88,中学生後半,中学発展・B1,11,adjective,B1,英日,4択,ordinary,普通,「ordinary」の意味は？,普通,管理,可能にする,平らな,ordinary は「普通」という意味だよ。
+88,中学生後半,中学発展・B1,12,noun,B1,英日,4択,aid,援助,「aid」の意味は？,援助,可能にする,平らな,頻繁に,aid は「援助」という意味だよ。
+88,中学生後半,中学発展・B1,13,noun,B1,英日,4択,management,管理,「management」の意味は？,管理,平らな,頻繁に,意図する,management は「管理」という意味だよ。
+88,中学生後半,中学発展・B1,14,verb,B1,英日,4択,enable,可能にする,「enable」の意味は？,可能にする,頻繁に,意図する,代替,enable は「可能にする」という意味だよ。
+88,中学生後半,中学発展・B1,15,adjective,B1,英日,4択,flat,平らな,「flat」の意味は？,平らな,意図する,代替,組み合わせ,flat は「平らな」という意味だよ。
+88,中学生後半,中学発展・B1,16,adverb,B1,英日,4択,frequently,頻繁に,「frequently」の意味は？,頻繁に,代替,組み合わせ,卒業する,frequently は「頻繁に」という意味だよ。
+88,中学生後半,中学発展・B1,17,verb,B1,英日,4択,intend,意図する,「intend」の意味は？,意図する,組み合わせ,卒業する,歴史的,intend は「意図する」という意味だよ。
+88,中学生後半,中学発展・B1,18,adjective,B1,日英,4択,alternative,代替,「代替」を表す英単語は？,alternative,graduate,historical,secret,「代替」は英語で alternative と言うよ。
+88,中学生後半,中学発展・B1,19,noun,B1,日英,4択,combination,組み合わせ,「組み合わせ」を表す英単語は？,combination,historical,secret,demonstrate,「組み合わせ」は英語で combination と言うよ。
+88,中学生後半,中学発展・B1,20,noun,B1,日英,4択,graduate,卒業する,「卒業する」を表す英単語は？,graduate,secret,demonstrate,print,「卒業する」は英語で graduate と言うよ。
+88,中学生後半,中学発展・B1,21,adjective,B1,日英,4択,historical,歴史的,「歴史的」を表す英単語は？,historical,demonstrate,print,moreover,「歴史的」は英語で historical と言うよ。
+88,中学生後半,中学発展・B1,22,adjective,B1,日英,4択,secret,秘密,「秘密」を表す英単語は？,secret,print,moreover,hate,「秘密」は英語で secret と言うよ。
+88,中学生後半,中学発展・B1,23,verb,B1,日英,4択,demonstrate,実証する,「実証する」を表す英単語は？,demonstrate,moreover,hate,discount,「実証する」は英語で demonstrate と言うよ。
+88,中学生後半,中学発展・B1,24,noun,B1,日英,4択,print,印刷,「印刷」を表す英単語は？,print,hate,discount,otherwise,「印刷」は英語で print と言うよ。
+88,中学生後半,中学発展・B1,25,adverb,B1,日英,4択,moreover,さらに,「さらに」を表す英単語は？,moreover,discount,otherwise,participant,「さらに」は英語で moreover と言うよ。
+89,中学生後半,中学発展・B1,1,noun,B1,英日,4択,property,財産,「property」の意味は？,財産,明らかに,苦闘する,分析,property は「財産」という意味だよ。
+89,中学生後半,中学発展・B1,2,noun,B1,英日,4択,atmosphere,雰囲気,「atmosphere」の意味は？,雰囲気,苦闘する,分析,教授,atmosphere は「雰囲気」という意味だよ。
+89,中学生後半,中学発展・B1,3,adverb,B1,英日,4択,obviously,明らかに,「obviously」の意味は？,明らかに,分析,教授,コンセプト,obviously は「明らかに」という意味だよ。
+89,中学生後半,中学発展・B1,4,noun,B1,英日,4択,struggle,苦闘する,「struggle」の意味は？,苦闘する,教授,コンセプト,変化する,struggle は「苦闘する」という意味だよ。
+89,中学生後半,中学発展・B1,5,noun,B1,英日,4択,analysis,分析,「analysis」の意味は？,分析,コンセプト,変化する,実用的,analysis は「分析」という意味だよ。
+89,中学生後半,中学発展・B1,6,noun,B1,英日,4択,professor,教授,「professor」の意味は？,教授,変化する,実用的,与える,professor は「教授」という意味だよ。
+89,中学生後半,中学発展・B1,7,noun,B1,英日,4択,concept,コンセプト,「concept」の意味は？,コンセプト,実用的,与える,完全に,concept は「コンセプト」という意味だよ。
+89,中学生後半,中学発展・B1,8,verb,B1,英日,4択,vary,変化する,「vary」の意味は？,変化する,与える,完全に,スイッチ,vary は「変化する」という意味だよ。
+89,中学生後半,中学発展・B1,9,adjective,B1,英日,4択,practical,実用的,「practical」の意味は？,実用的,完全に,スイッチ,思い出す,practical は「実用的」という意味だよ。
+89,中学生後半,中学発展・B1,10,noun,B1,英日,4択,grant,与える,「grant」の意味は？,与える,スイッチ,思い出す,知らせる,grant は「与える」という意味だよ。
+89,中学生後半,中学発展・B1,11,adverb,B1,英日,4択,totally,完全に,「totally」の意味は？,完全に,思い出す,知らせる,確保する,totally は「完全に」という意味だよ。
+89,中学生後半,中学発展・B1,12,noun,B1,英日,4択,switch,スイッチ,「switch」の意味は？,スイッチ,知らせる,確保する,従事する,switch は「スイッチ」という意味だよ。
+89,中学生後半,中学発展・B1,13,verb,B1,英日,4択,recall,思い出す,「recall」の意味は？,思い出す,確保する,従事する,印象,recall は「思い出す」という意味だよ。
+89,中学生後半,中学発展・B1,14,verb,B1,英日,4択,inform,知らせる,「inform」の意味は？,知らせる,従事する,印象,広告,inform は「知らせる」という意味だよ。
+89,中学生後半,中学発展・B1,15,verb,B1,英日,4択,ensure,確保する,「ensure」の意味は？,確保する,印象,広告,絶対に,ensure は「確保する」という意味だよ。
+89,中学生後半,中学発展・B1,16,verb,B1,英日,4択,engage,従事する,「engage」の意味は？,従事する,広告,絶対に,親族・相対的な,engage は「従事する」という意味だよ。
+89,中学生後半,中学発展・B1,17,noun,B1,英日,4択,impression,印象,「impression」の意味は？,印象,絶対に,親族・相対的な,配達,impression は「印象」という意味だよ。
+89,中学生後半,中学発展・B1,18,verb,B1,日英,4択,advertise,広告,「広告」を表す英単語は？,advertise,relative,delivery,currently,「広告」は英語で advertise と言うよ。
+89,中学生後半,中学発展・B1,19,adverb,B1,日英,4択,definitely,絶対に,「絶対に」を表す英単語は？,definitely,delivery,currently,lift,「絶対に」は英語で definitely と言うよ。
+89,中学生後半,中学発展・B1,20,adjective,B1,日英,4択,relative,親族・相対的な,「親族・相対的な」を表す英単語は？,relative,currently,lift,construction,「親族・相対的な」は英語で relative と言うよ。
+89,中学生後半,中学発展・B1,21,noun,B1,日英,4択,delivery,配達,「配達」を表す英単語は？,delivery,lift,construction,broad,「配達」は英語で delivery と言うよ。
+89,中学生後半,中学発展・B1,22,adverb,B1,日英,4択,currently,現在,「現在」を表す英単語は？,currently,construction,broad,property,「現在」は英語で currently と言うよ。
+89,中学生後半,中学発展・B1,23,noun,B1,日英,4択,lift,リフト,「リフト」を表す英単語は？,lift,broad,property,atmosphere,「リフト」は英語で lift と言うよ。
+89,中学生後半,中学発展・B1,24,noun,B1,日英,4択,construction,工事,「工事」を表す英単語は？,construction,property,atmosphere,obviously,「工事」は英語で construction と言うよ。
+89,中学生後半,中学発展・B1,25,adjective,B1,日英,4択,broad,広範囲,「広範囲」を表す英単語は？,broad,atmosphere,obviously,struggle,「広範囲」は英語で broad と言うよ。
+90,中学生後半,中学発展・B1,1,noun,B1,英日,4択,package,パッケージ,「package」の意味は？,パッケージ,年間,要件,わざわざ,package は「パッケージ」という意味だよ。
+90,中学生後半,中学発展・B1,2,verb,B1,英日,4択,rely,頼る,「rely」の意味は？,頼る,要件,わざわざ,一枚の紙,rely は「頼る」という意味だよ。
+90,中学生後半,中学発展・B1,3,adjective,B1,英日,4択,annual,年間,「annual」の意味は？,年間,わざわざ,一枚の紙,押す,annual は「年間」という意味だよ。
+90,中学生後半,中学発展・B1,4,noun,B1,英日,4択,requirement,要件,「requirement」の意味は？,要件,一枚の紙,押す,考慮,requirement は「要件」という意味だよ。
+90,中学生後半,中学発展・B1,5,noun,B1,英日,4択,bother,わざわざ,「bother」の意味は？,わざわざ,押す,考慮,角,bother は「わざわざ」という意味だよ。
+90,中学生後半,中学発展・B1,6,noun,B1,英日,4択,sheet,一枚の紙,「sheet」の意味は？,一枚の紙,考慮,角,電子,sheet は「一枚の紙」という意味だよ。
+90,中学生後半,中学発展・B1,7,noun,B1,英日,4択,press,押す,「press」の意味は？,押す,角,電子,順位,press は「押す」という意味だよ。
+90,中学生後半,中学発展・B1,8,noun,B1,英日,4択,consideration,考慮,「consideration」の意味は？,考慮,電子,順位,確認する,consideration は「考慮」という意味だよ。
+90,中学生後半,中学発展・B1,9,noun,B1,英日,4択,edge,角,「edge」の意味は？,角,順位,確認する,添付,edge は「角」という意味だよ。
+90,中学生後半,中学発展・B1,10,adjective,B1,英日,4択,electronic,電子,「electronic」の意味は？,電子,確認する,添付,納得させる,electronic は「電子」という意味だよ。
+90,中学生後半,中学発展・B1,11,noun,B1,英日,4択,rank,順位,「rank」の意味は？,順位,添付,納得させる,主張する,rank は「順位」という意味だよ。
+90,中学生後半,中学発展・B1,12,verb,B1,英日,4択,confirm,確認する,「confirm」の意味は？,確認する,納得させる,主張する,通常,confirm は「確認する」という意味だよ。
+90,中学生後半,中学発展・B1,13,verb,B1,英日,4択,attach,添付,「attach」の意味は？,添付,主張する,通常,典型的な,attach は「添付」という意味だよ。
+90,中学生後半,中学発展・B1,14,verb,B1,英日,4択,convince,納得させる,「convince」の意味は？,納得させる,通常,典型的な,要素,convince は「納得させる」という意味だよ。
+90,中学生後半,中学発展・B1,15,verb,B1,英日,4択,insist,主張する,「insist」の意味は？,主張する,典型的な,要素,家庭,insist は「主張する」という意味だよ。
+90,中学生後半,中学発展・B1,16,adverb,B1,英日,4択,normally,通常,「normally」の意味は？,通常,要素,家庭,合理的,normally は「通常」という意味だよ。
+90,中学生後半,中学発展・B1,17,adjective,B1,英日,4択,typical,典型的な,「typical」の意味は？,典型的な,家庭,合理的,回復する,typical は「典型的な」という意味だよ。
+90,中学生後半,中学発展・B1,18,noun,B1,日英,4択,element,要素,「要素」を表す英単語は？,element,reasonable,recover,arrangement,「要素」は英語で element と言うよ。
+90,中学生後半,中学発展・B1,19,noun,B1,日英,4択,household,家庭,「家庭」を表す英単語は？,household,recover,arrangement,increasingly,「家庭」は英語で household と言うよ。
+90,中学生後半,中学発展・B1,20,adjective,B1,日英,4択,reasonable,合理的,「合理的」を表す英単語は？,reasonable,arrangement,increasingly,resident,「合理的」は英語で reasonable と言うよ。
+90,中学生後半,中学発展・B1,21,verb,B1,日英,4択,recover,回復する,「回復する」を表す英単語は？,recover,increasingly,resident,pound,「回復する」は英語で recover と言うよ。
+90,中学生後半,中学発展・B1,22,noun,B1,日英,4択,arrangement,配置,「配置」を表す英単語は？,arrangement,resident,pound,package,「配置」は英語で arrangement と言うよ。
+90,中学生後半,中学発展・B1,23,adverb,B1,日英,4択,increasingly,ますます,「ますます」を表す英単語は？,increasingly,pound,package,rely,「ますます」は英語で increasingly と言うよ。
+90,中学生後半,中学発展・B1,24,adjective,B1,日英,4択,resident,居住者,「居住者」を表す英単語は？,resident,package,rely,annual,「居住者」は英語で resident と言うよ。
+90,中学生後半,中学発展・B1,25,noun,B1,日英,4択,pound,ポンド,「ポンド」を表す英単語は？,pound,rely,annual,requirement,「ポンド」は英語で pound と言うよ。
+91,中学生後半,中学応用・B1,1,adjective,B1,英日,4択,mass,質量,「mass」の意味は？,質量,工業,明らか,スタジオ,mass は「質量」という意味だよ。
+91,中学生後半,中学応用・B1,2,adjective,B1,英日,4択,unable,できない,「unable」の意味は？,できない,明らか,スタジオ,指示,unable は「できない」という意味だよ。
+91,中学生後半,中学応用・B1,3,adjective,B1,英日,4択,industrial,工業,「industrial」の意味は？,工業,スタジオ,指示,精神,industrial は「工業」という意味だよ。
+91,中学生後半,中学応用・B1,4,adjective,B1,英日,4択,obvious,明らか,「obvious」の意味は？,明らか,指示,精神,費用,obvious は「明らか」という意味だよ。
+91,中学生後半,中学応用・B1,5,noun,B1,英日,4択,studio,スタジオ,「studio」の意味は？,スタジオ,精神,費用,サイクル,studio は「スタジオ」という意味だよ。
+91,中学生後半,中学応用・B1,6,noun,B1,英日,4択,instruction,指示,「instruction」の意味は？,指示,費用,サイクル,会社・堅い,instruction は「指示」という意味だよ。
+91,中学生後半,中学応用・B1,7,noun,B1,英日,4択,spirit,精神,「spirit」の意味は？,精神,サイクル,会社・堅い,置く,spirit は「精神」という意味だよ。
+91,中学生後半,中学応用・B1,8,noun,B1,英日,4択,expense,費用,「expense」の意味は？,費用,会社・堅い,置く,さらに,expense は「費用」という意味だよ。
+91,中学生後半,中学応用・B1,9,noun,B1,英日,4択,cycle,サイクル,「cycle」の意味は？,サイクル,置く,さらに,貴重な,cycle は「サイクル」という意味だよ。
+91,中学生後半,中学応用・B1,10,adjective,B1,英日,4択,firm,会社・堅い,「firm」の意味は？,会社・堅い,さらに,貴重な,提案,firm は「会社・堅い」という意味だよ。
+91,中学生後半,中学応用・B1,11,verb,B1,英日,4択,lay,置く,「lay」の意味は？,置く,貴重な,提案,呼吸,lay は「置く」という意味だよ。
+91,中学生後半,中学応用・B1,12,adverb,B1,英日,4択,furthermore,さらに,「furthermore」の意味は？,さらに,提案,呼吸,登録する,furthermore は「さらに」という意味だよ。
+91,中学生後半,中学応用・B1,13,adjective,B1,英日,4択,valuable,貴重な,「valuable」の意味は？,貴重な,呼吸,登録する,比較,valuable は「貴重な」という意味だよ。
+91,中学生後半,中学応用・B1,14,noun,B1,英日,4択,proposal,提案,「proposal」の意味は？,提案,登録する,比較,ビジョン,proposal は「提案」という意味だよ。
+91,中学生後半,中学応用・B1,15,noun,B1,英日,4択,breath,呼吸,「breath」の意味は？,呼吸,比較,ビジョン,簡単な,breath は「呼吸」という意味だよ。
+91,中学生後半,中学応用・B1,16,noun,B1,英日,4択,register,登録する,「register」の意味は？,登録する,ビジョン,簡単な,現れる,register は「登録する」という意味だよ。
+91,中学生後半,中学応用・B1,17,noun,B1,英日,4択,comparison,比較,「comparison」の意味は？,比較,簡単な,現れる,密接に,comparison は「比較」という意味だよ。
+91,中学生後半,中学応用・B1,18,noun,B1,日英,4択,vision,ビジョン,「ビジョン」を表す英単語は？,vision,emerge,closely,plus,「ビジョン」は英語で vision と言うよ。
+91,中学生後半,中学応用・B1,19,adjective,B1,日英,4択,brief,簡単な,「簡単な」を表す英単語は？,brief,closely,plus,emotion,「簡単な」は英語で brief と言うよ。
+91,中学生後半,中学応用・B1,20,verb,B1,日英,4択,emerge,現れる,「現れる」を表す英単語は？,emerge,plus,emotion,tiny,「現れる」は英語で emerge と言うよ。
+91,中学生後半,中学応用・B1,21,adverb,B1,日英,4択,closely,密接に,「密接に」を表す英単語は？,closely,emotion,tiny,volume,「密接に」は英語で closely と言うよ。
+91,中学生後半,中学応用・B1,22,conjunction,B1,日英,4択,plus,プラス,「プラス」を表す英単語は？,plus,tiny,volume,mass,「プラス」は英語で plus と言うよ。
+91,中学生後半,中学応用・B1,23,noun,B1,日英,4択,emotion,感情,「感情」を表す英単語は？,emotion,volume,mass,unable,「感情」は英語で emotion と言うよ。
+91,中学生後半,中学応用・B1,24,adjective,B1,日英,4択,tiny,小さい,「小さい」を表す英単語は？,tiny,mass,unable,industrial,「小さい」は英語で tiny と言うよ。
+91,中学生後半,中学応用・B1,25,noun,B1,日英,4択,volume,量・音量,「量・音量」を表す英単語は？,volume,unable,industrial,obvious,「量・音量」は英語で volume と言うよ。
+92,中学生後半,中学応用・B1,1,noun,B1,英日,4択,definition,意味,「definition」の意味は？,意味,拒否する,場合・機会,燃料,definition は「意味」という意味だよ。
+92,中学生後半,中学応用・B1,2,verb,B1,英日,4択,hire,雇う,「hire」の意味は？,雇う,場合・機会,燃料,容量,hire は「雇う」という意味だよ。
+92,中学生後半,中学応用・B1,3,verb,B1,英日,4択,reject,拒否する,「reject」の意味は？,拒否する,燃料,容量,フレーズ,reject は「拒否する」という意味だよ。
+92,中学生後半,中学応用・B1,4,noun,B1,英日,4択,occasion,場合・機会,「occasion」の意味は？,場合・機会,容量,フレーズ,割合,occasion は「場合・機会」という意味だよ。
+92,中学生後半,中学応用・B1,5,noun,B1,英日,4択,fuel,燃料,「fuel」の意味は？,燃料,フレーズ,割合,それにもかかわらず,fuel は「燃料」という意味だよ。
+92,中学生後半,中学応用・B1,6,noun,B1,英日,4択,capacity,容量,「capacity」の意味は？,容量,割合,それにもかかわらず,がっかりする,capacity は「容量」という意味だよ。
+92,中学生後半,中学応用・B1,7,noun,B1,英日,4択,phrase,フレーズ,「phrase」の意味は？,フレーズ,それにもかかわらず,がっかりする,不明,phrase は「フレーズ」という意味だよ。
+92,中学生後半,中学応用・B1,8,noun,B1,英日,4択,proportion,割合,「proportion」の意味は？,割合,がっかりする,不明,北部,proportion は「割合」という意味だよ。
+92,中学生後半,中学応用・B1,9,adverb,B1,英日,4択,nevertheless,それにもかかわらず,「nevertheless」の意味は？,それにもかかわらず,不明,北部,疲れさせる,nevertheless は「それにもかかわらず」という意味だよ。
+92,中学生後半,中学応用・B1,10,verb,B1,英日,4択,disappoint,がっかりする,「disappoint」の意味は？,がっかりする,北部,疲れさせる,鋭い,disappoint は「がっかりする」という意味だよ。
+92,中学生後半,中学応用・B1,11,adjective,B1,英日,4択,unclear,不明,「unclear」の意味は？,不明,疲れさせる,鋭い,余裕がある,unclear は「不明」という意味だよ。
+92,中学生後半,中学応用・B1,12,adjective,B1,英日,4択,northern,北部,「northern」の意味は？,北部,鋭い,余裕がある,まで,northern は「北部」という意味だよ。
+92,中学生後半,中学応用・B1,13,verb,B1,英日,4択,tire,疲れさせる,「tire」の意味は？,疲れさせる,余裕がある,まで,許可する,tire は「疲れさせる」という意味だよ。
+92,中学生後半,中学応用・B1,14,adjective,B1,英日,4択,sharp,鋭い,「sharp」の意味は？,鋭い,まで,許可する,手術・操作,sharp は「鋭い」という意味だよ。
+92,中学生後半,中学応用・B1,15,verb,B1,英日,4択,afford,余裕がある,「afford」の意味は？,余裕がある,許可する,手術・操作,保存する,afford は「余裕がある」という意味だよ。
+92,中学生後半,中学応用・B1,16,conjunction,B1,英日,4択,till,まで,「till」の意味は？,まで,手術・操作,保存する,分析する,till は「まで」という意味だよ。
+92,中学生後半,中学応用・B1,17,verb,B1,英日,4択,permit,許可する,「permit」の意味は？,許可する,保存する,分析する,競争する,permit は「許可する」という意味だよ。
+92,中学生後半,中学応用・B1,18,noun,B1,日英,4択,operation,手術・操作,「手術・操作」を表す英単語は？,operation,analyze,compete,monitor,「手術・操作」は英語で operation と言うよ。
+92,中学生後半,中学応用・B1,19,verb,B1,日英,4択,preserve,保存する,「保存する」を表す英単語は？,preserve,compete,monitor,bore,「保存する」は英語で preserve と言うよ。
+92,中学生後半,中学応用・B1,20,verb,B1,日英,4択,analyze,分析する,「分析する」を表す英単語は？,analyze,monitor,bore,vehicle,「分析する」は英語で analyze と言うよ。
+92,中学生後半,中学応用・B1,21,verb,B1,日英,4択,compete,競争する,「競争する」を表す英単語は？,compete,bore,vehicle,neighborhood,「競争する」は英語で compete と言うよ。
+92,中学生後半,中学応用・B1,22,noun,B1,日英,4択,monitor,モニター,「モニター」を表す英単語は？,monitor,vehicle,neighborhood,definition,「モニター」は英語で monitor と言うよ。
+92,中学生後半,中学応用・B1,23,verb,B1,日英,4択,bore,退屈させる,「退屈させる」を表す英単語は？,bore,neighborhood,definition,hire,「退屈させる」は英語で bore と言うよ。
+92,中学生後半,中学応用・B1,24,noun,B1,日英,4択,vehicle,車両,「車両」を表す英単語は？,vehicle,definition,hire,reject,「車両」は英語で vehicle と言うよ。
+92,中学生後半,中学応用・B1,25,noun,B1,日英,4択,neighborhood,近所,「近所」を表す英単語は？,neighborhood,hire,reject,occasion,「近所」は英語で neighborhood と言うよ。
+93,中学生後半,中学応用・B1,1,noun,B1,英日,4択,conflict,対立,「conflict」の意味は？,対立,きっと,脅威,投資する,conflict は「対立」という意味だよ。
+93,中学生後半,中学応用・B1,2,noun,B1,英日,4択,prize,賞,「prize」の意味は？,賞,脅威,投資する,支援,prize は「賞」という意味だよ。
+93,中学生後半,中学応用・B1,3,adverb,B1,英日,4択,surely,きっと,「surely」の意味は？,きっと,投資する,支援,解決する,surely は「きっと」という意味だよ。
+93,中学生後半,中学応用・B1,4,noun,B1,英日,4択,threat,脅威,「threat」の意味は？,脅威,支援,解決する,いつでも,threat は「脅威」という意味だよ。
+93,中学生後半,中学応用・B1,5,verb,B1,英日,4択,invest,投資する,「invest」の意味は？,投資する,解決する,いつでも,存在・出席,invest は「投資する」という意味だよ。
+93,中学生後半,中学応用・B1,6,noun,B1,英日,4択,assistance,支援,「assistance」の意味は？,支援,いつでも,存在・出席,取得する,assistance は「支援」という意味だよ。
+93,中学生後半,中学応用・B1,7,verb,B1,英日,4択,settle,解決する,「settle」の意味は？,解決する,存在・出席,取得する,セッション,settle は「解決する」という意味だよ。
+93,中学生後半,中学応用・B1,8,adverb,B1,英日,4択,whenever,いつでも,「whenever」の意味は？,いつでも,取得する,セッション,異なる,whenever は「いつでも」という意味だよ。
+93,中学生後半,中学応用・B1,9,noun,B1,英日,4択,presence,存在・出席,「presence」の意味は？,存在・出席,セッション,異なる,当然,presence は「存在・出席」という意味だよ。
+93,中学生後半,中学応用・B1,10,verb,B1,英日,4択,acquire,取得する,「acquire」の意味は？,取得する,異なる,当然,効率的,acquire は「取得する」という意味だよ。
+93,中学生後半,中学応用・B1,11,noun,B1,英日,4択,session,セッション,「session」の意味は？,セッション,当然,効率的,きちんと,session は「セッション」という意味だよ。
+93,中学生後半,中学応用・B1,12,verb,B1,英日,4択,differ,異なる,「differ」の意味は？,異なる,効率的,きちんと,どうにか,differ は「異なる」という意味だよ。
+93,中学生後半,中学応用・B1,13,adverb,B1,英日,4択,naturally,当然,「naturally」の意味は？,当然,きちんと,どうにか,選択,naturally は「当然」という意味だよ。
+93,中学生後半,中学応用・B1,14,adjective,B1,英日,4択,efficient,効率的,「efficient」の意味は？,効率的,どうにか,選択,保護,efficient は「効率的」という意味だよ。
+93,中学生後半,中学応用・B1,15,adverb,B1,英日,4択,properly,きちんと,「properly」の意味は？,きちんと,選択,保護,近く,properly は「きちんと」という意味だよ。
+93,中学生後半,中学応用・B1,16,adverb,B1,英日,4択,somehow,どうにか,「somehow」の意味は？,どうにか,保護,近く,滑る,somehow は「どうにか」という意味だよ。
+93,中学生後半,中学応用・B1,17,noun,B1,英日,4択,selection,選択,「selection」の意味は？,選択,近く,滑る,水路・通信路,selection は「選択」という意味だよ。
+93,中学生後半,中学応用・B1,18,noun,B1,日英,4択,protection,保護,「保護」を表す英単語は？,protection,slip,channel,contribution,「保護」は英語で protection と言うよ。
+93,中学生後半,中学応用・B1,19,adjective,B1,日英,4択,nearby,近く,「近く」を表す英単語は？,nearby,channel,contribution,equally,「近く」は英語で nearby と言うよ。
+93,中学生後半,中学応用・B1,20,noun,B1,日英,4択,slip,滑る,「滑る」を表す英単語は？,slip,contribution,equally,stable,「滑る」は英語で slip と言うよ。
+93,中学生後半,中学応用・B1,21,noun,B1,日英,4択,channel,水路・通信路,「水路・通信路」を表す英単語は？,channel,equally,stable,rapidly,「水路・通信路」は英語で channel と言うよ。
+93,中学生後半,中学応用・B1,22,noun,B1,日英,4択,contribution,貢献,「貢献」を表す英単語は？,contribution,stable,rapidly,conflict,「貢献」は英語で contribution と言うよ。
+93,中学生後半,中学応用・B1,23,adverb,B1,日英,4択,equally,同様に,「同様に」を表す英単語は？,equally,rapidly,conflict,prize,「同様に」は英語で equally と言うよ。
+93,中学生後半,中学応用・B1,24,adjective,B1,日英,4択,stable,安定した,「安定した」を表す英単語は？,stable,conflict,prize,surely,「安定した」は英語で stable と言うよ。
+93,中学生後半,中学応用・B1,25,adverb,B1,日英,4択,rapidly,急速に,「急速に」を表す英単語は？,rapidly,prize,surely,threat,「急速に」は英語で rapidly と言うよ。
+94,中学生後半,中学応用・B1,1,adjective,B1,英日,4択,religious,宗教的,「religious」の意味は？,宗教的,国境,癌,核,religious は「宗教的」という意味だよ。
+94,中学生後半,中学応用・B1,2,adjective,B1,英日,4択,critical,批判的な・重大な,「critical」の意味は？,批判的な・重大な,癌,核,予約する・取っておく,critical は「批判的な・重大な」という意味だよ。
+94,中学生後半,中学応用・B1,3,noun,B1,英日,4択,border,国境,「border」の意味は？,国境,核,予約する・取っておく,安全な,border は「国境」という意味だよ。
+94,中学生後半,中学応用・B1,4,noun,B1,英日,4択,cancer,癌,「cancer」の意味は？,癌,予約する・取っておく,安全な,南部,cancer は「癌」という意味だよ。
+94,中学生後半,中学応用・B1,5,adjective,B1,英日,4択,nuclear,核,「nuclear」の意味は？,核,安全な,南部,フォーマル,nuclear は「核」という意味だよ。
+94,中学生後半,中学応用・B1,6,noun,B1,英日,4択,reserve,予約する・取っておく,「reserve」の意味は？,予約する・取っておく,南部,フォーマル,入場・記入,reserve は「予約する・取っておく」という意味だよ。
+94,中学生後半,中学応用・B1,7,adjective,B1,英日,4択,secure,安全な,「secure」の意味は？,安全な,フォーマル,入場・記入,学問の,secure は「安全な」という意味だよ。
+94,中学生後半,中学応用・B1,8,adjective,B1,英日,4択,southern,南部,「southern」の意味は？,南部,入場・記入,学問の,判断,southern は「南部」という意味だよ。
+94,中学生後半,中学応用・B1,9,adjective,B1,英日,4択,formal,フォーマル,「formal」の意味は？,フォーマル,学問の,判断,戦い,formal は「フォーマル」という意味だよ。
+94,中学生後半,中学応用・B1,10,noun,B1,英日,4択,entry,入場・記入,「entry」の意味は？,入場・記入,判断,戦い,保険,entry は「入場・記入」という意味だよ。
+94,中学生後半,中学応用・B1,11,adjective,B1,英日,4択,academic,学問の,「academic」の意味は？,学問の,戦い,保険,地区,academic は「学問の」という意味だよ。
+94,中学生後半,中学応用・B1,12,noun,B1,英日,4択,judgment,判断,「judgment」の意味は？,判断,保険,地区,調査,judgment は「判断」という意味だよ。
+94,中学生後半,中学応用・B1,13,noun,B1,英日,4択,battle,戦い,「battle」の意味は？,戦い,地区,調査,敵,battle は「戦い」という意味だよ。
+94,中学生後半,中学応用・B1,14,noun,B1,英日,4択,insurance,保険,「insurance」の意味は？,保険,調査,敵,さらす,insurance は「保険」という意味だよ。
+94,中学生後半,中学応用・B1,15,noun,B1,英日,4択,district,地区,「district」の意味は？,地区,敵,さらす,軍,district は「地区」という意味だよ。
+94,中学生後半,中学応用・B1,16,noun,B1,英日,4択,investigation,調査,「investigation」の意味は？,調査,さらす,軍,身元,investigation は「調査」という意味だよ。
+94,中学生後半,中学応用・B1,17,noun,B1,英日,4択,enemy,敵,「enemy」の意味は？,敵,軍,身元,極端な,enemy は「敵」という意味だよ。
+94,中学生後半,中学応用・B1,18,verb,B1,日英,4択,expose,さらす,「さらす」を表す英単語は？,expose,identity,extreme,employment,「さらす」は英語で expose と言うよ。
+94,中学生後半,中学応用・B1,19,noun,B1,日英,4択,army,軍,「軍」を表す英単語は？,army,extreme,employment,observation,「軍」は英語で army と言うよ。
+94,中学生後半,中学応用・B1,20,noun,B1,日英,4択,identity,身元,「身元」を表す英単語は？,identity,employment,observation,construct,「身元」は英語で identity と言うよ。
+94,中学生後半,中学応用・B1,21,adjective,B1,日英,4択,extreme,極端な,「極端な」を表す英単語は？,extreme,observation,construct,muscle,「極端な」は英語で extreme と言うよ。
+94,中学生後半,中学応用・B1,22,noun,B1,日英,4択,employment,雇用,「雇用」を表す英単語は？,employment,construct,muscle,religious,「雇用」は英語で employment と言うよ。
+94,中学生後半,中学応用・B1,23,noun,B1,日英,4択,observation,観察,「観察」を表す英単語は？,observation,muscle,religious,critical,「観察」は英語で observation と言うよ。
+94,中学生後半,中学応用・B1,24,verb,B1,日英,4択,construct,構築する,「構築する」を表す英単語は？,construct,religious,critical,border,「構築する」は英語で construct と言うよ。
+94,中学生後半,中学応用・B1,25,noun,B1,日英,4択,muscle,筋,「筋」を表す英単語は？,muscle,critical,border,cancer,「筋」は英語で muscle と言うよ。
+95,中学生後半,中学応用・B1,1,noun,B1,英日,4択,achievement,成果,「achievement」の意味は？,成果,病気,感情的,ミッション,achievement は「成果」という意味だよ。
+95,中学生後半,中学応用・B1,2,verb,B1,英日,4択,launch,打ち上げ,「launch」の意味は？,打ち上げ,感情的,ミッション,リーダーシップ,launch は「打ち上げ」という意味だよ。
+95,中学生後半,中学応用・B1,3,noun,B1,英日,4択,illness,病気,「illness」の意味は？,病気,ミッション,リーダーシップ,発見,illness は「病気」という意味だよ。
+95,中学生後半,中学応用・B1,4,adjective,B1,英日,4択,emotional,感情的,「emotional」の意味は？,感情的,リーダーシップ,発見,ダース,emotional は「感情的」という意味だよ。
+95,中学生後半,中学応用・B1,5,noun,B1,英日,4択,mission,ミッション,「mission」の意味は？,ミッション,発見,ダース,危機,mission は「ミッション」という意味だよ。
+95,中学生後半,中学応用・B1,6,noun,B1,英日,4択,leadership,リーダーシップ,「leadership」の意味は？,リーダーシップ,ダース,危機,準備,leadership は「リーダーシップ」という意味だよ。
+95,中学生後半,中学応用・B1,7,noun,B1,英日,4択,discovery,発見,「discovery」の意味は？,発見,危機,準備,衝突する,discovery は「発見」という意味だよ。
+95,中学生後半,中学応用・B1,8,determiner,B1,英日,4択,dozen,ダース,「dozen」の意味は？,ダース,準備,衝突する,出会い,dozen は「ダース」という意味だよ。
+95,中学生後半,中学応用・B1,9,noun,B1,英日,4択,crisis,危機,「crisis」の意味は？,危機,衝突する,出会い,捕らえる,crisis は「危機」という意味だよ。
+95,中学生後半,中学応用・B1,10,noun,B1,英日,4択,preparation,準備,「preparation」の意味は？,準備,出会い,捕らえる,講義,preparation は「準備」という意味だよ。
+95,中学生後半,中学応用・B1,11,noun,B1,英日,4択,crash,衝突する,「crash」の意味は？,衝突する,捕らえる,講義,見詰める,crash は「衝突する」という意味だよ。
+95,中学生後半,中学応用・B1,12,noun,B1,英日,4択,encounter,出会い,「encounter」の意味は？,出会い,講義,見詰める,小川・流れ,encounter は「出会い」という意味だよ。
+95,中学生後半,中学応用・B1,13,noun,B1,英日,4択,capture,捕らえる,「capture」の意味は？,捕らえる,見詰める,小川・流れ,全体的に,capture は「捕らえる」という意味だよ。
+95,中学生後半,中学応用・B1,14,noun,B1,英日,4択,lecture,講義,「lecture」の意味は？,講義,小川・流れ,全体的に,計算する,lecture は「講義」という意味だよ。
+95,中学生後半,中学応用・B1,15,verb,B1,英日,4択,stare,見詰める,「stare」の意味は？,見詰める,全体的に,計算する,長・主要な,stare は「見詰める」という意味だよ。
+95,中学生後半,中学応用・B1,16,noun,B1,英日,4択,stream,小川・流れ,「stream」の意味は？,小川・流れ,計算する,長・主要な,発生する,stream は「小川・流れ」という意味だよ。
+95,中学生後半,中学応用・B1,17,adverb,B1,英日,4択,entirely,全体的に,「entirely」の意味は？,全体的に,長・主要な,発生する,満足,entirely は「全体的に」という意味だよ。
+95,中学生後半,中学応用・B1,18,verb,B1,日英,4択,calculate,計算する,「計算する」を表す英単語は？,calculate,arise,satisfaction,engine,「計算する」は英語で calculate と言うよ。
+95,中学生後半,中学応用・B1,19,adjective,B1,日英,4択,chief,長・主要な,「長・主要な」を表す英単語は？,chief,satisfaction,engine,debt,「長・主要な」は英語で chief と言うよ。
+95,中学生後半,中学応用・B1,20,verb,B1,日英,4択,arise,発生する,「発生する」を表す英単語は？,arise,engine,debt,representative,「発生する」は英語で arise と言うよ。
+95,中学生後半,中学応用・B1,21,noun,B1,日英,4択,satisfaction,満足,「満足」を表す英単語は？,satisfaction,debt,representative,loud,「満足」は英語で satisfaction と言うよ。
+95,中学生後半,中学応用・B1,22,noun,B1,日英,4択,engine,エンジン,「エンジン」を表す英単語は？,engine,representative,loud,achievement,「エンジン」は英語で engine と言うよ。
+95,中学生後半,中学応用・B1,23,noun,B1,日英,4択,debt,借金,「借金」を表す英単語は？,debt,loud,achievement,launch,「借金」は英語で debt と言うよ。
+95,中学生後半,中学応用・B1,24,noun,B1,日英,4択,representative,代表,「代表」を表す英単語は？,representative,achievement,launch,illness,「代表」は英語で representative と言うよ。
+95,中学生後半,中学応用・B1,25,adjective,B1,日英,4択,loud,うるさい,「うるさい」を表す英単語は？,loud,launch,illness,emotional,「うるさい」は英語で loud と言うよ。
+96,中学生後半,中学応用・B1,1,noun,B1,英日,4択,laughter,笑い,「laughter」の意味は？,笑い,到着,交通機関,前へ,laughter は「笑い」という意味だよ。
+96,中学生後半,中学応用・B1,2,noun,B1,英日,4択,incident,事件,「incident」の意味は？,事件,交通機関,前へ,好み,incident は「事件」という意味だよ。
+96,中学生後半,中学応用・B1,3,noun,B1,英日,4択,arrival,到着,「arrival」の意味は？,到着,前へ,好み,かなり,arrival は「到着」という意味だよ。
+96,中学生後半,中学応用・B1,4,noun,B1,英日,4択,transportation,交通機関,「transportation」の意味は？,交通機関,好み,かなり,層,transportation は「交通機関」という意味だよ。
+96,中学生後半,中学応用・B1,5,adverb,B1,英日,4択,forth,前へ,「forth」の意味は？,前へ,かなり,層,非難,forth は「前へ」という意味だよ。
+96,中学生後半,中学応用・B1,6,noun,B1,英日,4択,preference,好み,「preference」の意味は？,好み,層,非難,勝利,preference は「好み」という意味だよ。
+96,中学生後半,中学応用・B1,7,adjective,B1,英日,4択,considerable,かなり,「considerable」の意味は？,かなり,非難,勝利,被害者,considerable は「かなり」という意味だよ。
+96,中学生後半,中学応用・B1,8,noun,B1,英日,4択,layer,層,「layer」の意味は？,層,勝利,被害者,説得する,layer は「層」という意味だよ。
+96,中学生後半,中学応用・B1,9,noun,B1,英日,4択,blame,非難,「blame」の意味は？,非難,被害者,説得する,保証,blame は「非難」という意味だよ。
+96,中学生後半,中学応用・B1,10,noun,B1,英日,4択,victory,勝利,「victory」の意味は？,勝利,説得する,保証,量,victory は「勝利」という意味だよ。
+96,中学生後半,中学応用・B1,11,noun,B1,英日,4択,victim,被害者,「victim」の意味は？,被害者,保証,量,集中,victim は「被害者」という意味だよ。
+96,中学生後半,中学応用・B1,12,verb,B1,英日,4択,persuade,説得する,「persuade」の意味は？,説得する,量,集中,起源,persuade は「説得する」という意味だよ。
+96,中学生後半,中学応用・B1,13,noun,B1,英日,4択,guarantee,保証,「guarantee」の意味は？,保証,集中,起源,約,guarantee は「保証」という意味だよ。
+96,中学生後半,中学応用・B1,14,noun,B1,英日,4択,quantity,量,「quantity」の意味は？,量,起源,約,証拠,quantity は「量」という意味だよ。
+96,中学生後半,中学応用・B1,15,noun,B1,英日,4択,concentration,集中,「concentration」の意味は？,集中,約,証拠,宗教,concentration は「集中」という意味だよ。
+96,中学生後半,中学応用・B1,16,noun,B1,英日,4択,origin,起源,「origin」の意味は？,起源,証拠,宗教,正確な,origin は「起源」という意味だよ。
+96,中学生後半,中学応用・B1,17,adverb,B1,英日,4択,approximately,約,「approximately」の意味は？,約,宗教,正確な,ストレッチ,approximately は「約」という意味だよ。
+96,中学生後半,中学応用・B1,18,noun,B1,日英,4択,proof,証拠,「証拠」を表す英単語は？,proof,accurate,stretch,minor,「証拠」は英語で proof と言うよ。
+96,中学生後半,中学応用・B1,19,noun,B1,日英,4択,religion,宗教,「宗教」を表す英単語は？,religion,stretch,minor,literature,「宗教」は英語で religion と言うよ。
+96,中学生後半,中学応用・B1,20,adjective,B1,日英,4択,accurate,正確な,「正確な」を表す英単語は？,accurate,minor,literature,permanent,「正確な」は英語で accurate と言うよ。
+96,中学生後半,中学応用・B1,21,verb,B1,日英,4択,stretch,ストレッチ,「ストレッチ」を表す英単語は？,stretch,literature,permanent,rarely,「ストレッチ」は英語で stretch と言うよ。
+96,中学生後半,中学応用・B1,22,adjective,B1,日英,4択,minor,小さい・重要でない,「小さい・重要でない」を表す英単語は？,minor,permanent,rarely,laughter,「小さい・重要でない」は英語で minor と言うよ。
+96,中学生後半,中学応用・B1,23,noun,B1,日英,4択,literature,文学,「文学」を表す英単語は？,literature,rarely,laughter,incident,「文学」は英語で literature と言うよ。
+96,中学生後半,中学応用・B1,24,adjective,B1,日英,4択,permanent,永続,「永続」を表す英単語は？,permanent,laughter,incident,arrival,「永続」は英語で permanent と言うよ。
+96,中学生後半,中学応用・B1,25,adverb,B1,日英,4択,rarely,めったに,「めったに」を表す英単語は？,rarely,incident,arrival,transportation,「めったに」は英語で rarely と言うよ。
+97,中学生後半,中学応用・B1,1,verb,B1,英日,4択,assist,手伝う,「assist」の意味は？,手伝う,固体,快適さ・慰め,十分な,assist は「手伝う」という意味だよ。
+97,中学生後半,中学応用・B1,2,adjective,B1,英日,4択,severe,厳しい,「severe」の意味は？,厳しい,快適さ・慰め,十分な,主に,severe は「厳しい」という意味だよ。
+97,中学生後半,中学応用・B1,3,adjective,B1,英日,4択,solid,固体,「solid」の意味は？,固体,十分な,主に,強調する,solid は「固体」という意味だよ。
+97,中学生後半,中学応用・B1,4,noun,B1,英日,4択,comfort,快適さ・慰め,「comfort」の意味は？,快適さ・慰め,主に,強調する,犯す・専念する,comfort は「快適さ・慰め」という意味だよ。
+97,中学生後半,中学応用・B1,5,adjective,B1,英日,4択,sufficient,十分な,「sufficient」の意味は？,十分な,強調する,犯す・専念する,安定した,sufficient は「十分な」という意味だよ。
+97,中学生後半,中学応用・B1,6,adverb,B1,英日,4択,largely,主に,「largely」の意味は？,主に,犯す・専念する,安定した,同行する,largely は「主に」という意味だよ。
+97,中学生後半,中学応用・B1,7,verb,B1,英日,4択,emphasize,強調する,「emphasize」の意味は？,強調する,安定した,同行する,交流,emphasize は「強調する」という意味だよ。
+97,中学生後半,中学応用・B1,8,verb,B1,英日,4択,commit,犯す・専念する,「commit」の意味は？,犯す・専念する,同行する,交流,法律上の,commit は「犯す・専念する」という意味だよ。
+97,中学生後半,中学応用・B1,9,adjective,B1,英日,4択,steady,安定した,「steady」の意味は？,安定した,交流,法律上の,告発する,steady は「安定した」という意味だよ。
+97,中学生後半,中学応用・B1,10,verb,B1,英日,4択,accompany,同行する,「accompany」の意味は？,同行する,法律上の,告発する,劇的,accompany は「同行する」という意味だよ。
+97,中学生後半,中学応用・B1,11,noun,B1,英日,4択,interaction,交流,「interaction」の意味は？,交流,告発する,劇的,すぐに,interaction は「交流」という意味だよ。
+97,中学生後半,中学応用・B1,12,adjective,B1,英日,4択,legal,法律上の,「legal」の意味は？,法律上の,劇的,すぐに,反応する,legal は「法律上の」という意味だよ。
+97,中学生後半,中学応用・B1,13,verb,B1,英日,4択,accuse,告発する,「accuse」の意味は？,告発する,すぐに,反応する,疑う,accuse は「告発する」という意味だよ。
+97,中学生後半,中学応用・B1,14,adjective,B1,英日,4択,dramatic,劇的,「dramatic」の意味は？,劇的,反応する,疑う,承認する,dramatic は「劇的」という意味だよ。
+97,中学生後半,中学応用・B1,15,adjective,B1,英日,4択,immediate,すぐに,「immediate」の意味は？,すぐに,疑う,承認する,デジタル,immediate は「すぐに」という意味だよ。
+97,中学生後半,中学応用・B1,16,verb,B1,英日,4択,react,反応する,「react」の意味は？,反応する,承認する,デジタル,常に,react は「反応する」という意味だよ。
+97,中学生後半,中学応用・B1,17,noun,B1,英日,4択,suspect,疑う,「suspect」の意味は？,疑う,デジタル,常に,キャンセル,suspect は「疑う」という意味だよ。
+97,中学生後半,中学応用・B1,18,verb,B1,日英,4択,approve,承認する,「承認する」を表す英単語は？,approve,constantly,cancel,temporary,「承認する」は英語で approve と言うよ。
+97,中学生後半,中学応用・B1,19,adjective,B1,日英,4択,digital,デジタル,「デジタル」を表す英単語は？,digital,cancel,temporary,crop,「デジタル」は英語で digital と言うよ。
+97,中学生後半,中学応用・B1,20,adverb,B1,日英,4択,constantly,常に,「常に」を表す英単語は？,constantly,temporary,crop,unemployment,「常に」は英語で constantly と言うよ。
+97,中学生後半,中学応用・B1,21,verb,B1,日英,4択,cancel,キャンセル,「キャンセル」を表す英単語は？,cancel,crop,unemployment,hunt,「キャンセル」は英語で cancel と言うよ。
+97,中学生後半,中学応用・B1,22,adjective,B1,日英,4択,temporary,一時的,「一時的」を表す英単語は？,temporary,unemployment,hunt,assist,「一時的」は英語で temporary と言うよ。
+97,中学生後半,中学応用・B1,23,noun,B1,日英,4択,crop,作物,「作物」を表す英単語は？,crop,hunt,assist,severe,「作物」は英語で crop と言うよ。
+97,中学生後半,中学応用・B1,24,noun,B1,日英,4択,unemployment,失業,「失業」を表す英単語は？,unemployment,assist,severe,solid,「失業」は英語で unemployment と言うよ。
+97,中学生後半,中学応用・B1,25,noun,B1,日英,4択,hunt,狩る・探す,「狩る・探す」を表す英単語は？,hunt,severe,solid,comfort,「狩る・探す」は英語で hunt と言うよ。
+98,中学生後半,中学応用・B1,1,noun,B1,英日,4択,graph,グラフ,「graph」の意味は？,グラフ,暴力,ルーティーン,有能,graph は「グラフ」という意味だよ。
+98,中学生後半,中学応用・B1,2,verb,B1,英日,4択,behave,振る舞う,「behave」の意味は？,振る舞う,ルーティーン,有能,強く勧める,behave は「振る舞う」という意味だよ。
+98,中学生後半,中学応用・B1,3,noun,B1,英日,4択,violence,暴力,「violence」の意味は？,暴力,有能,強く勧める,区別する,violence は「暴力」という意味だよ。
+98,中学生後半,中学応用・B1,4,noun,B1,英日,4択,routine,ルーティーン,「routine」の意味は？,ルーティーン,強く勧める,区別する,上の,routine は「ルーティーン」という意味だよ。
+98,中学生後半,中学応用・B1,5,adjective,B1,英日,4択,capable,有能,「capable」の意味は？,有能,区別する,上の,借りている,capable は「有能」という意味だよ。
+98,中学生後半,中学応用・B1,6,noun,B1,英日,4択,urge,強く勧める,「urge」の意味は？,強く勧める,上の,借りている,指示,urge は「強く勧める」という意味だよ。
+98,中学生後半,中学応用・B1,7,verb,B1,英日,4択,distinguish,区別する,「distinguish」の意味は？,区別する,借りている,指示,生成する,distinguish は「区別する」という意味だよ。
+98,中学生後半,中学応用・B1,8,adjective,B1,英日,4択,upper,上の,「upper」の意味は？,上の,指示,生成する,克服する,upper は「上の」という意味だよ。
+98,中学生後半,中学応用・B1,9,verb,B1,英日,4択,owe,借りている,「owe」の意味は？,借りている,生成する,克服する,鼓舞する,owe は「借りている」という意味だよ。
+98,中学生後半,中学応用・B1,10,noun,B1,英日,4択,command,指示,「command」の意味は？,指示,克服する,鼓舞する,水槽・戦車,command は「指示」という意味だよ。
+98,中学生後半,中学応用・B1,11,verb,B1,英日,4択,generate,生成する,「generate」の意味は？,生成する,鼓舞する,水槽・戦車,脇に,generate は「生成する」という意味だよ。
+98,中学生後半,中学応用・B1,12,verb,B1,英日,4択,overcome,克服する,「overcome」の意味は？,克服する,水槽・戦車,脇に,範囲,overcome は「克服する」という意味だよ。
+98,中学生後半,中学応用・B1,13,verb,B1,英日,4択,inspire,鼓舞する,「inspire」の意味は？,鼓舞する,脇に,範囲,強調,inspire は「鼓舞する」という意味だよ。
+98,中学生後半,中学応用・B1,14,noun,B1,英日,4択,tank,水槽・戦車,「tank」の意味は？,水槽・戦車,範囲,強調,放棄する,tank は「水槽・戦車」という意味だよ。
+98,中学生後半,中学応用・B1,15,adverb,B1,英日,4択,aside,脇に,「aside」の意味は？,脇に,強調,放棄する,ペース,aside は「脇に」という意味だよ。
+98,中学生後半,中学応用・B1,16,noun,B1,英日,4択,extent,範囲,「extent」の意味は？,範囲,放棄する,ペース,人々,extent は「範囲」という意味だよ。
+98,中学生後半,中学応用・B1,17,noun,B1,英日,4択,emphasis,強調,「emphasis」の意味は？,強調,ペース,人々,静かな,emphasis は「強調」という意味だよ。
+98,中学生後半,中学応用・B1,18,verb,B1,日英,4択,abandon,放棄する,「放棄する」を表す英単語は？,abandon,folk,silent,eastern,「放棄する」は英語で abandon と言うよ。
+98,中学生後半,中学応用・B1,19,noun,B1,日英,4択,pace,ペース,「ペース」を表す英単語は？,pace,silent,eastern,reward,「ペース」は英語で pace と言うよ。
+98,中学生後半,中学応用・B1,20,noun,B1,日英,4択,folk,人々,「人々」を表す英単語は？,folk,eastern,reward,specialist,「人々」は英語で folk と言うよ。
+98,中学生後半,中学応用・B1,21,adjective,B1,日英,4択,silent,静かな,「静かな」を表す英単語は？,silent,reward,specialist,absence,「静かな」は英語で silent と言うよ。
+98,中学生後半,中学応用・B1,22,adjective,B1,日英,4択,eastern,東部,「東部」を表す英単語は？,eastern,specialist,absence,graph,「東部」は英語で eastern と言うよ。
+98,中学生後半,中学応用・B1,23,noun,B1,日英,4択,reward,褒美,「褒美」を表す英単語は？,reward,absence,graph,behave,「褒美」は英語で reward と言うよ。
+98,中学生後半,中学応用・B1,24,noun,B1,日英,4択,specialist,専門家,「専門家」を表す英単語は？,specialist,graph,behave,violence,「専門家」は英語で specialist と言うよ。
+98,中学生後半,中学応用・B1,25,noun,B1,日英,4択,absence,不在,「不在」を表す英単語は？,absence,behave,violence,routine,「不在」は英語で absence と言うよ。
+99,中学生後半,中学応用・B1,1,verb,B1,英日,4択,resolve,解決する,「resolve」の意味は？,解決する,傾向,巨人・巨大な,生存,resolve は「解決する」という意味だよ。
+99,中学生後半,中学応用・B1,2,verb,B1,英日,4択,bet,賭ける,「bet」の意味は？,賭ける,巨人・巨大な,生存,閉める,bet は「賭ける」という意味だよ。
+99,中学生後半,中学応用・B1,3,noun,B1,英日,4択,tendency,傾向,「tendency」の意味は？,傾向,生存,閉める,シェルター,tendency は「傾向」という意味だよ。
+99,中学生後半,中学応用・B1,4,adjective,B1,英日,4択,giant,巨人・巨大な,「giant」の意味は？,巨人・巨大な,閉める,シェルター,驚くべきことに,giant は「巨人・巨大な」という意味だよ。
+99,中学生後半,中学応用・B1,5,noun,B1,英日,4択,survival,生存,「survival」の意味は？,生存,シェルター,驚くべきことに,試験・検査,survival は「生存」という意味だよ。
+99,中学生後半,中学応用・B1,6,adjective,B1,英日,4択,shut,閉める,「shut」の意味は？,閉める,驚くべきことに,試験・検査,通常,shut は「閉める」という意味だよ。
+99,中学生後半,中学応用・B1,7,noun,B1,英日,4択,shelter,シェルター,「shelter」の意味は？,シェルター,試験・検査,通常,会員,shelter は「シェルター」という意味だよ。
+99,中学生後半,中学応用・B1,8,adverb,B1,英日,4択,surprisingly,驚くべきことに,「surprisingly」の意味は？,驚くべきことに,通常,会員,状態,surprisingly は「驚くべきことに」という意味だよ。
+99,中学生後半,中学応用・B1,9,noun,B1,英日,4択,examination,試験・検査,「examination」の意味は？,試験・検査,会員,状態,満足,examination は「試験・検査」という意味だよ。
+99,中学生後半,中学応用・B1,10,adverb,B1,英日,4択,typically,通常,「typically」の意味は？,通常,状態,満足,適応する,typically は「通常」という意味だよ。
+99,中学生後半,中学応用・B1,11,noun,B1,英日,4択,membership,会員,「membership」の意味は？,会員,満足,適応する,その間,membership は「会員」という意味だよ。
+99,中学生後半,中学応用・B1,12,noun,B1,英日,4択,status,状態,「status」の意味は？,状態,適応する,その間,クリック,status は「状態」という意味だよ。
+99,中学生後半,中学応用・B1,13,adjective,B1,英日,4択,satisfied,満足,「satisfied」の意味は？,満足,その間,クリック,農業,satisfied は「満足」という意味だよ。
+99,中学生後半,中学応用・B1,14,verb,B1,英日,4択,adapt,適応する,「adapt」の意味は？,適応する,クリック,農業,包む,adapt は「適応する」という意味だよ。
+99,中学生後半,中学応用・B1,15,adverb,B1,英日,4択,meanwhile,その間,「meanwhile」の意味は？,その間,農業,包む,一目,meanwhile は「その間」という意味だよ。
+99,中学生後半,中学応用・B1,16,noun,B1,英日,4択,click,クリック,「click」の意味は？,クリック,包む,一目,競争力,click は「クリック」という意味だよ。
+99,中学生後半,中学応用・B1,17,adjective,B1,英日,4択,agricultural,農業,「agricultural」の意味は？,農業,一目,競争力,評判,agricultural は「農業」という意味だよ。
+99,中学生後半,中学応用・B1,18,noun,B1,日英,4択,wrap,包む,「包む」を表す英単語は？,wrap,competitive,reputation,declare,「包む」は英語で wrap と言うよ。
+99,中学生後半,中学応用・B1,19,noun,B1,日英,4択,glance,一目,「一目」を表す英単語は？,glance,reputation,declare,educate,「一目」は英語で glance と言うよ。
+99,中学生後半,中学応用・B1,20,adjective,B1,日英,4択,competitive,競争力,「競争力」を表す英単語は？,competitive,declare,educate,frequency,「競争力」は英語で competitive と言うよ。
+99,中学生後半,中学応用・B1,21,noun,B1,日英,4択,reputation,評判,「評判」を表す英単語は？,reputation,educate,frequency,pupil,「評判」は英語で reputation と言うよ。
+99,中学生後半,中学応用・B1,22,verb,B1,日英,4択,declare,宣言する,「宣言する」を表す英単語は？,declare,frequency,pupil,resolve,「宣言する」は英語で declare と言うよ。
+99,中学生後半,中学応用・B1,23,verb,B1,日英,4択,educate,教育する,「教育する」を表す英単語は？,educate,pupil,resolve,bet,「教育する」は英語で educate と言うよ。
+99,中学生後半,中学応用・B1,24,noun,B1,日英,4択,frequency,頻度,「頻度」を表す英単語は？,frequency,resolve,bet,tendency,「頻度」は英語で frequency と言うよ。
+99,中学生後半,中学応用・B1,25,noun,B1,日英,4択,pupil,生徒,「生徒」を表す英単語は？,pupil,bet,tendency,giant,「生徒」は英語で pupil と言うよ。
+100,中学生後半,中学応用・B1,1,noun,B1,英日,4択,disaster,災害,「disaster」の意味は？,災害,魅了する,放送,ためらう,disaster は「災害」という意味だよ。
+100,中学生後半,中学応用・B1,2,noun,B1,英日,4択,anger,怒り,「anger」の意味は？,怒り,放送,ためらう,ありそうもない,anger は「怒り」という意味だよ。
+100,中学生後半,中学応用・B1,3,verb,B1,英日,4択,fascinate,魅了する,「fascinate」の意味は？,魅了する,ためらう,ありそうもない,意識,fascinate は「魅了する」という意味だよ。
+100,中学生後半,中学応用・B1,4,noun,B1,英日,4択,broadcast,放送,「broadcast」の意味は？,放送,ありそうもない,意識,評議会,broadcast は「放送」という意味だよ。
+100,中学生後半,中学応用・B1,5,verb,B1,英日,4択,hesitate,ためらう,「hesitate」の意味は？,ためらう,意識,評議会,招待,hesitate は「ためらう」という意味だよ。
+100,中学生後半,中学応用・B1,6,adjective,B1,英日,4択,unlikely,ありそうもない,「unlikely」の意味は？,ありそうもない,評議会,招待,同様に,unlikely は「ありそうもない」という意味だよ。
+100,中学生後半,中学応用・B1,7,noun,B1,英日,4択,awareness,意識,「awareness」の意味は？,意識,招待,同様に,古典の,awareness は「意識」という意味だよ。
+100,中学生後半,中学応用・B1,8,noun,B1,英日,4択,council,評議会,「council」の意味は？,評議会,同様に,古典の,チャット,council は「評議会」という意味だよ。
+100,中学生後半,中学応用・B1,9,noun,B1,英日,4択,invitation,招待,「invitation」の意味は？,招待,古典の,チャット,遺伝子,invitation は「招待」という意味だよ。
+100,中学生後半,中学応用・B1,10,adverb,B1,英日,4択,similarly,同様に,「similarly」の意味は？,同様に,チャット,遺伝子,ブログ,similarly は「同様に」という意味だよ。
+100,中学生後半,中学応用・B1,11,adjective,B1,英日,4択,classical,古典の,「classical」の意味は？,古典の,遺伝子,ブログ,急速な,classical は「古典の」という意味だよ。
+100,中学生後半,中学応用・B1,12,noun,B1,英日,4択,chat,チャット,「chat」の意味は？,チャット,ブログ,急速な,すき間,chat は「チャット」という意味だよ。
+100,中学生後半,中学応用・B1,13,noun,B1,英日,4択,gene,遺伝子,「gene」の意味は？,遺伝子,急速な,すき間,粗い・おおよその,gene は「遺伝子」という意味だよ。
+100,中学生後半,中学応用・B1,14,noun,B1,英日,4択,blog,ブログ,「blog」の意味は？,ブログ,すき間,粗い・おおよその,市民の,blog は「ブログ」という意味だよ。
+100,中学生後半,中学応用・B1,15,adjective,B1,英日,4択,rapid,急速な,「rapid」の意味は？,急速な,粗い・おおよその,市民の,依存している,rapid は「急速な」という意味だよ。
+100,中学生後半,中学応用・B1,16,noun,B1,英日,4択,gap,すき間,「gap」の意味は？,すき間,市民の,依存している,側面,gap は「すき間」という意味だよ。
+100,中学生後半,中学応用・B1,17,adjective,B1,英日,4択,rough,粗い・おおよその,「rough」の意味は？,粗い・おおよその,依存している,側面,新たに,rough は「粗い・おおよその」という意味だよ。
+100,中学生後半,中学応用・B1,18,adjective,B1,日英,4択,civil,市民の,「市民の」を表す英単語は？,civil,aspect,newly,assign,「市民の」は英語で civil と言うよ。
+100,中学生後半,中学応用・B1,19,adjective,B1,日英,4択,dependent,依存している,「依存している」を表す英単語は？,dependent,newly,assign,rescue,「依存している」は英語で dependent と言うよ。
+100,中学生後半,中学応用・B1,20,noun,B1,日英,4択,aspect,側面,「側面」を表す英単語は？,aspect,assign,rescue,grab,「側面」は英語で aspect と言うよ。
+100,中学生後半,中学応用・B1,21,adverb,B1,日英,4択,newly,新たに,「新たに」を表す英単語は？,newly,rescue,grab,liquid,「新たに」は英語で newly と言うよ。
+100,中学生後半,中学応用・B1,22,verb,B1,日英,4択,assign,割り当てる,「割り当てる」を表す英単語は？,assign,grab,liquid,disaster,「割り当てる」は英語で assign と言うよ。
+100,中学生後半,中学応用・B1,23,noun,B1,日英,4択,rescue,救助する,「救助する」を表す英単語は？,rescue,liquid,disaster,anger,「救助する」は英語で rescue と言うよ。
+100,中学生後半,中学応用・B1,24,verb,B1,日英,4択,grab,掴む,「掴む」を表す英単語は？,grab,disaster,anger,fascinate,「掴む」は英語で grab と言うよ。
+100,中学生後半,中学応用・B1,25,adjective,B1,日英,4択,liquid,液体,「液体」を表す英単語は？,liquid,anger,fascinate,broadcast,「液体」は英語で liquid と言うよ。

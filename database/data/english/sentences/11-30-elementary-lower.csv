@@ -1,0 +1,41 @@
+英語レベル,対象,テーマ,番号,問題種類,形,問題文,正解,まちがい1,まちがい2,まちがい3,解説(要約)
+11,小学1・2年生,朝のあいさつ,1,場面,4択,朝、友達に会いました。どの表現を使う？,Good morning.,Good afternoon.,Good evening.,See you.,Good morning. は「おはよう。」という意味だよ。
+11,小学1・2年生,朝のあいさつ,2,意味,4択,「Good morning.」の意味は？,おはよう。,こんにちは。,こんばんは。,またね。,Good morning. は「おはよう。」という意味だよ。
+12,小学1・2年生,昼のあいさつ,1,場面,4択,昼に先生に会いました。どの表現を使う？,Good afternoon.,Good evening.,See you.,Thank you.,Good afternoon. は「こんにちは。」という意味だよ。
+12,小学1・2年生,昼のあいさつ,2,意味,4択,「Good afternoon.」の意味は？,こんにちは。,こんばんは。,またね。,ありがとう。,Good afternoon. は「こんにちは。」という意味だよ。
+13,小学1・2年生,夜のあいさつ,1,場面,4択,夕方、友達に会いました。どの表現を使う？,Good evening.,See you.,Thank you.,You're welcome.,Good evening. は「こんばんは。」という意味だよ。
+13,小学1・2年生,夜のあいさつ,2,意味,4択,「Good evening.」の意味は？,こんばんは。,またね。,ありがとう。,どういたしまして。,Good evening. は「こんばんは。」という意味だよ。
+14,小学1・2年生,別れのあいさつ,1,場面,4択,友達と別れます。どの表現を使う？,See you.,Thank you.,You're welcome.,I'm sorry.,See you. は「またね。」という意味だよ。
+14,小学1・2年生,別れのあいさつ,2,意味,4択,「See you.」の意味は？,またね。,ありがとう。,どういたしまして。,ごめんなさい。,See you. は「またね。」という意味だよ。
+15,小学1・2年生,お礼,1,場面,4択,友達に助けてもらいました。どの表現を使う？,Thank you.,You're welcome.,I'm sorry.,Excuse me.,Thank you. は「ありがとう。」という意味だよ。
+15,小学1・2年生,お礼,2,意味,4択,「Thank you.」の意味は？,ありがとう。,どういたしまして。,ごめんなさい。,すみません。,Thank you. は「ありがとう。」という意味だよ。
+16,小学1・2年生,お礼の返事,1,場面,4択,相手からお礼を言われました。どの表現を使う？,You're welcome.,I'm sorry.,Excuse me.,Nice to meet you.,You're welcome. は「どういたしまして。」という意味だよ。
+16,小学1・2年生,お礼の返事,2,意味,4択,「You're welcome.」の意味は？,どういたしまして。,ごめんなさい。,すみません。,はじめまして。,You're welcome. は「どういたしまして。」という意味だよ。
+17,小学1・2年生,謝る,1,場面,4択,友達の足を踏んでしまいました。どの表現を使う？,I'm sorry.,Excuse me.,Nice to meet you.,My name is Ken.,I'm sorry. は「ごめんなさい。」という意味だよ。
+17,小学1・2年生,謝る,2,意味,4択,「I'm sorry.」の意味は？,ごめんなさい。,すみません。,はじめまして。,私の名前はケンです。,I'm sorry. は「ごめんなさい。」という意味だよ。
+18,小学1・2年生,呼びかけ,1,場面,4択,知らない人に声をかけます。どの表現を使う？,Excuse me.,Nice to meet you.,My name is Ken.,What's your name?,Excuse me. は「すみません。」という意味だよ。
+18,小学1・2年生,呼びかけ,2,意味,4択,「Excuse me.」の意味は？,すみません。,はじめまして。,私の名前はケンです。,あなたの名前は何ですか。,Excuse me. は「すみません。」という意味だよ。
+19,小学1・2年生,初対面,1,場面,4択,初めて会った人にあいさつします。どの表現を使う？,Nice to meet you.,My name is Ken.,What's your name?,How are you?,Nice to meet you. は「はじめまして。」という意味だよ。
+19,小学1・2年生,初対面,2,意味,4択,「Nice to meet you.」の意味は？,はじめまして。,私の名前はケンです。,あなたの名前は何ですか。,お元気ですか。,Nice to meet you. は「はじめまして。」という意味だよ。
+20,小学1・2年生,名前,1,場面,4択,自分の名前を伝えます。どの表現を使う？,My name is Ken.,What's your name?,How are you?,I'm fine.,My name is Ken. は「私の名前はケンです。」という意味だよ。
+20,小学1・2年生,名前,2,意味,4択,「My name is Ken.」の意味は？,私の名前はケンです。,あなたの名前は何ですか。,お元気ですか。,元気です。,My name is Ken. は「私の名前はケンです。」という意味だよ。
+21,小学1・2年生,名前を聞く,1,場面,4択,相手の名前を尋ねます。どの表現を使う？,What's your name?,How are you?,I'm fine.,I like cats.,What's your name? は「あなたの名前は何ですか。」という意味だよ。
+21,小学1・2年生,名前を聞く,2,意味,4択,「What's your name?」の意味は？,あなたの名前は何ですか。,お元気ですか。,元気です。,私は猫が好きです。,What's your name? は「あなたの名前は何ですか。」という意味だよ。
+22,小学1・2年生,元気か聞く,1,場面,4択,相手が元気か尋ねます。どの表現を使う？,How are you?,I'm fine.,I like cats.,I want water.,How are you? は「お元気ですか。」という意味だよ。
+22,小学1・2年生,元気か聞く,2,意味,4択,「How are you?」の意味は？,お元気ですか。,元気です。,私は猫が好きです。,私は水が欲しいです。,How are you? は「お元気ですか。」という意味だよ。
+23,小学1・2年生,元気と答える,1,場面,4択,元気だと答えます。どの表現を使う？,I'm fine.,I like cats.,I want water.,What is this?,I'm fine. は「元気です。」という意味だよ。
+23,小学1・2年生,元気と答える,2,意味,4択,「I'm fine.」の意味は？,元気です。,私は猫が好きです。,私は水が欲しいです。,これは何ですか。,I'm fine. は「元気です。」という意味だよ。
+24,小学1・2年生,好きなもの,1,場面,4択,猫が好きだと伝えます。どの表現を使う？,I like cats.,I want water.,What is this?,I can swim.,I like cats. は「私は猫が好きです。」という意味だよ。
+24,小学1・2年生,好きなもの,2,意味,4択,「I like cats.」の意味は？,私は猫が好きです。,私は水が欲しいです。,これは何ですか。,私は泳げます。,I like cats. は「私は猫が好きです。」という意味だよ。
+25,小学1・2年生,欲しいもの,1,場面,4択,水が欲しいと伝えます。どの表現を使う？,I want water.,What is this?,I can swim.,Please sit down.,I want water. は「私は水が欲しいです。」という意味だよ。
+25,小学1・2年生,欲しいもの,2,意味,4択,「I want water.」の意味は？,私は水が欲しいです。,これは何ですか。,私は泳げます。,座ってください。,I want water. は「私は水が欲しいです。」という意味だよ。
+26,小学1・2年生,近くのもの,1,場面,4択,手元のものが何か尋ねます。どの表現を使う？,What is this?,I can swim.,Please sit down.,It is sunny today.,What is this? は「これは何ですか。」という意味だよ。
+26,小学1・2年生,近くのもの,2,意味,4択,「What is this?」の意味は？,これは何ですか。,私は泳げます。,座ってください。,今日は晴れです。,What is this? は「これは何ですか。」という意味だよ。
+27,小学1・2年生,できること,1,場面,4択,泳げると伝えます。どの表現を使う？,I can swim.,Please sit down.,It is sunny today.,She is my friend.,I can swim. は「私は泳げます。」という意味だよ。
+27,小学1・2年生,できること,2,意味,4択,「I can swim.」の意味は？,私は泳げます。,座ってください。,今日は晴れです。,彼女は私の友達です。,I can swim. は「私は泳げます。」という意味だよ。
+28,小学1・2年生,お願い,1,場面,4択,座ってほしいと丁寧に伝えます。どの表現を使う？,Please sit down.,It is sunny today.,She is my friend.,Good morning.,Please sit down. は「座ってください。」という意味だよ。
+28,小学1・2年生,お願い,2,意味,4択,「Please sit down.」の意味は？,座ってください。,今日は晴れです。,彼女は私の友達です。,おはよう。,Please sit down. は「座ってください。」という意味だよ。
+29,小学1・2年生,天気,1,場面,4択,今日が晴れだと伝えます。どの表現を使う？,It is sunny today.,She is my friend.,Good morning.,Good afternoon.,It is sunny today. は「今日は晴れです。」という意味だよ。
+29,小学1・2年生,天気,2,意味,4択,「It is sunny today.」の意味は？,今日は晴れです。,彼女は私の友達です。,おはよう。,こんにちは。,It is sunny today. は「今日は晴れです。」という意味だよ。
+30,小学1・2年生,友達の紹介,1,場面,4択,女の子の友達を紹介します。どの表現を使う？,She is my friend.,Good morning.,Good afternoon.,Good evening.,She is my friend. は「彼女は私の友達です。」という意味だよ。
+30,小学1・2年生,友達の紹介,2,意味,4択,「She is my friend.」の意味は？,彼女は私の友達です。,おはよう。,こんにちは。,こんばんは。,She is my friend. は「彼女は私の友達です。」という意味だよ。

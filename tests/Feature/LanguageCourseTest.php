@@ -163,3 +163,15 @@ it('並べ直しのあとに、内容を入れ直してもう一度並べ直し�
 
     expect($question->fresh()->meta['kind'])->toBe('sentence');
 });
+
+it('レベルのついた問題(english:import で作った英語)は、並べ直さない(ステージもプールもそのまま)', function () {
+    $category = Category::firstOrCreate(['name' => '英語を学ぶ'], ['is_language_mode' => true]);
+    $quiz = Quiz::create(['title' => '英語を学ぶ 初級', 'difficulty' => '初級']);
+    $stage = Stage::create(['category_id' => $category->id, 'country_id' => null, 'difficulty' => '初級', 'stage_number' => 1, 'question_count' => 10, 'is_pool' => true]);
+    $q = Question::create(['quiz_id' => $quiz->id, 'prompt' => '「cat」の意味は？', 'meta' => ['kind' => 'word', 'level' => 3]]);
+    $stage->questions()->attach($q->id, ['order' => 1]);
+
+    $result = CoursePoolBuilder::buildLanguages();
+
+    expect($result)->toBe([])->and(englishStages())->toHaveCount(1)->and($stage->fresh()->questions()->count())->toBe(1);
+});
