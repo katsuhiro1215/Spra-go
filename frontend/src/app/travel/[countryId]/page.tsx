@@ -13,11 +13,13 @@ import { Furigana } from "@/components/app/furigana";
 import { Panel } from "@/components/app/panel";
 import { SkyPage, SkyText } from "@/components/app/sky-page";
 import { LoadingScreen } from "@/components/app/spru-loading";
-import { StagePath } from "@/components/app/stage-path";
+import { StageMap } from "@/components/app/stage-map";
 import { BadgeImage } from "@/components/app/badge-image";
 import { difficultyBadge } from "@/components/app/palette";
 import { LockedCountry } from "@/components/travel/locked-country";
 import { apiFetch } from "@/lib/api";
+import { roadArt } from "@/components/travel/road";
+import { groupsLevel, levelRatio, levelText } from "@/lib/course-levels";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
 
 type StageSummary = {
@@ -53,6 +55,9 @@ type CountryDetail = {
   achievement: { cleared: number; total: number };
   regions: RegionSummary[];
   groups: StageGroup[];
+  /** その国の言語のコース(国に結びつかない)。ステージのある言語だけ。なければ null */
+  language: { key: string; name: string } | null;
+  language_groups: StageGroup[];
 };
 
 function regionPercent(region: RegionSummary): number {
@@ -127,21 +132,11 @@ export default function Page({
     );
   }
 
-  const percent =
-    country.achievement.total > 0
-      ? Math.round(
-          (country.achievement.cleared / country.achievement.total) * 100,
-        )
-      : 0;
-
+  // コースの道は、国のメインの道(groups)か、言語のコース(language_groups)。レベルはクリアしたステージの数
+  const courseGroups = mode === "language" ? country.language_groups : country.groups;
+  const { level, max } = groupsLevel(courseGroups);
   const filteredGroups = DIFFICULTY_ORDER.flatMap((difficulty) => {
-    const group = country.groups.find(
-      (g) =>
-        g.difficulty === difficulty &&
-        (mode === "language"
-          ? g.category.is_language_mode
-          : !g.category.is_language_mode),
-    );
+    const group = courseGroups.find((g) => g.difficulty === difficulty);
     return group ? [group] : [];
   });
   const activeDifficulty =
@@ -173,16 +168,16 @@ export default function Page({
             </div>
             <div className="flex items-center gap-3">
               <div className="h-2.5 w-full max-w-xs overflow-hidden rounded-full bg-[#efe5cf]">
-                <div className="h-full rounded-full bg-[#5bb33e]" style={{ width: `${percent}%` }} />
+                <div className="h-full rounded-full bg-[#5bb33e]" style={{ width: `${Math.round(levelRatio(level, max) * 100)}%` }} />
               </div>
               <span className="text-xs font-bold whitespace-nowrap text-[#6b5d45]">
-                達成率 {percent}%({country.achievement.cleared}/{country.achievement.total})
+                {mode === "language" ? `${country.language?.name ?? ""}レベル` : `${country.name}レベル`} {levelText(level, max)}
               </span>
             </div>
           </Panel>
         </div>
 
-        {country.groups.some((g) => g.category.is_language_mode) && (
+        {country.language && (
           <div className="flex gap-2">
             <button
               type="button"
@@ -196,7 +191,7 @@ export default function Page({
                   : "bg-[#fffaf0] text-[#3b3226] hover:bg-white"
               }`}
             >
-              {country.name}について学ぶ
+              {country.name}を学ぶ
             </button>
             <button
               type="button"
@@ -210,13 +205,12 @@ export default function Page({
                   : "bg-[#fffaf0] text-[#3b3226] hover:bg-white"
               }`}
             >
-              {country.groups.find((g) => g.category.is_language_mode)
-                ?.category.name ?? "言語を学ぶ"}
+              {country.language.name}を学ぶ
             </button>
           </div>
         )}
 
-        {country.regions.length === 0 && country.groups.length === 0 ? (
+        {country.regions.length === 0 && courseGroups.length === 0 ? (
           <SkyText muted className="text-sm">
             まだこの国のクイズがありません。お楽しみに。
           </SkyText>
@@ -293,14 +287,16 @@ export default function Page({
 
                 {activeGroup?.locked ? (
                   <SkyText muted className="text-xs">
-                    ひとつ前の難易度をクリアすると挑戦できます。
+                    ひとつ前の難易度のボスをクリアするか、正答率が50%をこえると挑戦できます。
                   </SkyText>
                 ) : (
                   activeGroup && (
                     // 次に遊ぶステージの「START」の吹き出しがタブに重ならないよう、上をあける
                     <div className="pt-6">
-                      <StagePath
+                      <StageMap
                         stages={activeGroup.stages}
+                        roadArt={roadArt(country.code.toLowerCase())?.art ?? null}
+                        walkKey={`${countryId}:${mode}:${activeGroup.difficulty}`}
                         onSelect={(stage) => router.push(`/quiz/${stage.id}`)}
                       />
                     </div>

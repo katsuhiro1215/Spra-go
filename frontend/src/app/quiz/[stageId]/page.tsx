@@ -17,6 +17,7 @@ import type { QuizQuestion } from "@/components/quiz/types";
 import { LockedCountry } from "@/components/travel/locked-country";
 import { TicketEarnedCard } from "@/components/travel/ticket-earned-card";
 import { apiFetch } from "@/lib/api";
+import { retryMessage } from "@/lib/stage-result";
 
 type StagePlayData = {
   id: number;
@@ -41,6 +42,8 @@ export default function Page({
   );
 
   const [locked, setLocked] = useState(false);
+  // 「もういちど」で、ステージを読み直す(ステージの問題は、開くたびに抽選し直す)
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     apiFetch(`/api/stages/${stageId}`)
@@ -56,7 +59,7 @@ export default function Page({
         setStage(res.ok ? await res.json() : null);
       })
       .catch(() => setStage(null));
-  }, [stageId, router]);
+  }, [stageId, router, attempt]);
 
   async function completeStage(score: number): Promise<ReactNode> {
     const res = await apiFetch(`/api/stages/${stageId}/complete`, {
@@ -86,8 +89,28 @@ export default function Page({
       ) : null;
     // ボスでチケットがもらえたときは、結果の画面にカードを出す(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-4)
     const ticketNote = data.ticket_earned ? <TicketEarnedCard /> : null;
-    return titleNote || ticketNote ? (
+    // クリアに届かなかったときは、あと何問かと、「もういちど」(読み直して、新しく挑戦する)
+    const message = data.cleared === false ? retryMessage(data.required, score) : null;
+    const retryNote = message ? (
+      <div className="flex flex-col items-center gap-2">
+        <p className="text-center text-sm font-black text-[#3b3226]">
+          <AutoFurigana text={message} />
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            setStage(undefined);
+            setAttempt((n) => n + 1);
+          }}
+          className="rounded-full bg-[#3b7f26] px-5 py-2 text-sm font-black text-white shadow"
+        >
+          もういちど
+        </button>
+      </div>
+    ) : null;
+    return titleNote || ticketNote || retryNote ? (
       <>
+        {retryNote}
         {titleNote}
         {ticketNote}
       </>
