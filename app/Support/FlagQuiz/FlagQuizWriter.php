@@ -76,7 +76,10 @@ class FlagQuizWriter
                     ['category_id' => $category->id, 'difficulty' => $level['difficulty'], 'stage_number' => $stagePlan['number']],
                     [
                         'country_id' => null,
-                        'question_count' => count($stagePlan['questions']),
+                        // draw があるステージは、プールから draw 問を抽選して出す(docs/design/2026-10-06-prefecture-master-design.md 3章)
+                        'question_count' => $stagePlan['draw'] ?? count($stagePlan['questions']),
+                        'is_pool' => isset($stagePlan['draw']),
+                        'reward_percent' => $stagePlan['reward_percent'] ?? 100,
                         'is_boss' => $stagePlan['boss'],
                         'title_reward' => $stagePlan['title_reward'],
                     ],
