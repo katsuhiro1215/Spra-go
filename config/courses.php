@@ -34,6 +34,16 @@ return [
     // 言語コースの問題の種類。元のステージのテーマ(question_themes.key) => word(単語) / sentence(文章)。テーマがなければ word
     'language_kind_by_theme' => ['vocabulary' => 'word', 'phrase' => 'sentence', 'grammar' => 'sentence'],
 
+    // 言語コースの文章の割合(%)。級 => [ステージ1, ステージ7]。間は直線でつなぎ、ステージ7以降は同じ。ボスは割合なし(docs/design/2026-10-07-language-course-mix-design.md 4-2)
+    'language_mix' => [
+        '初級' => [10, 30],
+        '中級' => [20, 40],
+        '上級' => [30, 50],
+    ],
+
+    // 言語コースで、答えたことのある問題(ミニゲームでもメインでも)を先に選ぶ割合(%)
+    'learned_share' => 70,
+
     // ステージクリアの報酬の割合(%)。ステージが増える分、通常は半分、ボスは今のまま
     'normal_reward_percent' => 50,
     'boss_reward_percent' => 100,
