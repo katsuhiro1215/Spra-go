@@ -15,9 +15,10 @@ export const IMAGE_LIGHTS: Partial<Record<string, ImageLight[]>> = {
   tower: [{ x: 0.5, y: 0.05, r: 7 }],
   liberty: [{ x: 0.34, y: 0.03, r: 7 }],
   lighthouse: [{ x: 0.45, y: 0.18, r: 10 }],
+  // 2×2の家(正式な絵 spru_house_01): 左のランタンと、右の丸い窓
   spru_house: [
-    { x: 0.09, y: 0.675, r: 6 },
-    { x: 0.71, y: 0.71, r: 6 },
+    { x: 0.1, y: 0.565, r: 11 },
+    { x: 0.8, y: 0.69, r: 12 },
   ],
   big_ben: [
     { x: 0.526, y: 0.416, r: 6 },
