@@ -1330,12 +1330,12 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
 
         $economyResult = $isCorrect
             ? $profile->applyEconomy([
-                'hp' => -1,
+                'hp' => config('world.hp.correct'),
                 'xp' => config('world.rewards.xp_by_difficulty')[$question->quiz?->difficulty] ?? 10,
                 'coin' => 5,
                 'point' => config('world.rewards.answer_correct'),
             ], 'answer_correct', $question)
-            : $profile->applyEconomy(['hp' => -2], 'answer_wrong', $question);
+            : $profile->applyEconomy(['hp' => config('world.hp.wrong')], 'answer_wrong', $question);
 
         // 問題ごとの覚え具合(docs/design/2026-09-29-spaced-review-design.md 4-4)
         QuestionMemory::record($profile, $question->id, $isCorrect);

@@ -27,7 +27,7 @@ it('フルHPから減り始めると回復タイマーが起動する', function
     $this->postJson("/api/questions/{$question->id}/answer", ['choice_id' => $wrong->id]);
 
     $profile->refresh();
-    expect($profile->hp)->toBe(18);
+    expect($profile->hp)->toBe(19);
     expect($profile->hp_updated_at)->not->toBeNull();
 });
 
@@ -38,15 +38,15 @@ it('4.5分ごとに1HP回復する', function () {
     [$question, , $wrong] = createQuestionWithChoices();
     $this->postJson("/api/questions/{$question->id}/answer", ['choice_id' => $wrong->id]);
     $profile->refresh();
-    expect($profile->hp)->toBe(18);
+    expect($profile->hp)->toBe(19);
 
     Carbon::setTestNow(Carbon::parse('2026-08-01 10:04:00'));
     $profile->regenerateHp();
-    expect($profile->fresh()->hp)->toBe(18); // まだ4.5分経っていない
+    expect($profile->fresh()->hp)->toBe(19); // まだ4.5分経っていない
 
     Carbon::setTestNow(Carbon::parse('2026-08-01 10:05:00'));
     $profile->regenerateHp();
-    expect($profile->fresh()->hp)->toBe(19);
+    expect($profile->fresh()->hp)->toBe(20);
 
     Carbon::setTestNow(Carbon::parse('2026-08-01 11:40:00'));
     $profile->regenerateHp();
@@ -78,5 +78,5 @@ it('回復に必要な時間が経てば再び回答できる', function () {
     $response = $this->postJson("/api/questions/{$question->id}/answer", ['choice_id' => $correct->id]);
 
     $response->assertOk();
-    expect($response->json('profile.hp'))->toBe(0); // 正解でも-1されて0のまま(max(0,...))
+    expect($response->json('profile.hp'))->toBe(1); // 5分で1回復。正解ではHPは減らない
 });
