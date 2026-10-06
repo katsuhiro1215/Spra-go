@@ -94,6 +94,11 @@ export default function Page() {
           <SkyText muted className="mt-1 text-sm">
             着いた国で学べるよ
           </SkyText>
+          <Link href="/words" className="mt-3 inline-block">
+            <AppButton variant="warning" size="sm" className="shadow">
+              📖 <AutoFurigana text="単語帳" />
+            </AppButton>
+          </Link>
         </div>
 
         {!countries ? (
