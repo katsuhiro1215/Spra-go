@@ -145,3 +145,21 @@ it('言語のコースにまとめるとき、問題にテーマから種類(wor
     expect($kinds)->toBe(['Dog' => 'word', 'How are you?' => 'sentence', 'I am a student.' => 'sentence', 'Cat' => 'word'])
         ->and(Question::where('prompt', 'Dog')->first()->meta['flag_key'])->toBe('既存Dog');
 });
+
+it('並べ直しのあとに、内容を入れ直してもう一度並べ直しても、テーマから種類が付く(テーマなしのステージに邪魔されない)', function () {
+    $us = createTravelCountry('us', 'アメリカ');
+    createThemedEnglish($us, 1, 'vocabulary', 'How are you?'); // 1回目はテーマ vocabulary(単語)として入っていた
+    CoursePoolBuilder::buildLanguages(); // テーマなしの10ステージ(同じ問題つき)ができる
+    $question = Question::where('prompt', 'How are you?')->first();
+    $question->update(['meta' => ['flag_key' => '既存']]); // 種類の印を消す
+
+    // 入れ直し: 同じ問題が、テーマ phrase(文章)のステージに、もう一度つながる
+    $english = Category::where('name', '英語を学ぶ')->first();
+    $theme = QuestionTheme::firstOrCreate(['key' => 'phrase'], ['label' => 'phrase']);
+    $stage = Stage::create(['category_id' => $english->id, 'country_id' => $us->id, 'difficulty' => '初級', 'stage_number' => 1, 'question_theme_id' => $theme->id]);
+    $stage->questions()->attach($question->id, ['order' => 1]);
+
+    CoursePoolBuilder::buildLanguages();
+
+    expect($question->fresh()->meta['kind'])->toBe('sentence');
+});

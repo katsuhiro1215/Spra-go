@@ -208,6 +208,7 @@ class CoursePoolBuilder
         $rows = DB::table('stage_questions')
             ->join('stages', 'stages.id', '=', 'stage_questions.stage_id')
             ->whereIn('stage_questions.stage_id', $stages->pluck('id'))
+            ->whereNotNull('stages.question_theme_id') // 並べ直しで作ったステージ(テーマなし)は、種類の手がかりにしない
             ->orderBy('stages.stage_number')->orderBy('stages.id')
             ->get(['stage_questions.question_id', 'stages.question_theme_id']);
         foreach ($rows as $row) {
