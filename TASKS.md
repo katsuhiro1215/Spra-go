@@ -69,6 +69,8 @@
 
 8. [x] **メインゲームの作り直し**（2026-10-07完了。[設計書](docs/design/2026-10-07-main-game-levels-design.md)・[計画](docs/design/2026-10-07-main-game-levels-plan.md)）: 各級10ステージ・クリア率・近道・HP・国レベル・言語コース・ステージの道（StageMap）・パスポートのレベル
    - [ ] **問題を増やす（国）**: 日本・アメリカ・フランスの国旗コースを、プール 初級60・中級80・上級100問以上に（いまは各級60問の使い回し）。Codex・Claudeで下書きし、Ownerが確認する。入れたら `content:import` → `course:build`
+   - [x] **言語コースの出し方**（2026-10-07完了。単語中心・文章を少しずつ増やす・答えたことのある単語を優先。[設計書](docs/design/2026-10-07-language-course-mix-design.md)・[計画](docs/design/2026-10-07-language-course-mix-plan.md)）
+   - [ ] **英語の単語を増やす**（一般会話で使う2,000〜3,000語を目標に、絵つきの単語の問題も。いまの英語のプールは、初級 単語60・文章18、中級 単語38・文章64、上級 単語30・文章78で、中級・上級は単語が少なく文章に偏っている。Codex・Claudeで下書きし、Ownerが確認する。入れたら `content:import` → `course:build`）
    - [ ] **フランス語のコース**: 「フランス語を学ぶ」の問題を作る（カテゴリー名は `config/courses.php` の `languages`）。作るとフランスの言語ボタンが出る
    - [ ] **小さな国のコース定義**: バチカン・東ティモールなど。`database/data/country-courses.php` に、級・ステージ数を書く
    - [ ] **日本の道の絵**: Ownerが用意（`public/spru/ground/`、`components/world/ground-art.ts`）。届くまで共通の道
