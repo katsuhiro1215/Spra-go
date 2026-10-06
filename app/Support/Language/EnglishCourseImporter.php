@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Stage;
+use App\Models\Word;
+use App\Support\Words;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -20,19 +22,21 @@ class EnglishCourseImporter
     /** 幼児のレベル(日本語→英語を作らない) */
     private const PRESCHOOL_MAX = 10;
 
-    /** @return array{questions: int, stages: int} */
+    /** @return array{questions: int, stages: int, details: array{applied: int, problems: list<string>}} */
     public static function import(string $path, array $titles = []): array
     {
         $words = self::readWords($path);
         $sentences = self::readSentences($path);
 
-        return DB::transaction(function () use ($words, $sentences, $titles) {
+        return DB::transaction(function () use ($path, $words, $sentences, $titles) {
             $category = Category::query()->firstOrCreate(['parent_id' => null, 'name' => self::CATEGORY], ['is_language_mode' => true]);
             $totals = ['questions' => 0, 'stages' => 0];
+            $wordIds = self::writeWords($words);
+            $totals['details'] = self::applyDetails($path, $wordIds);
 
             foreach (config('courses.language_levels') as $difficulty => [$from, $to]) {
                 $specs = [
-                    ...self::wordSpecs(array_values(array_filter($words, fn (array $w) => $w['level'] >= $from && $w['level'] <= $to)), $words),
+                    ...self::wordSpecs(array_values(array_filter($words, fn (array $w) => $w['level'] >= $from && $w['level'] <= $to)), $words, $wordIds),
                     ...array_map(self::sentenceSpec(...), array_values(array_filter($sentences, fn (array $s) => $s['level'] >= $from && $s['level'] <= $to))),
                 ];
                 if ($specs === []) {
@@ -83,12 +87,13 @@ class EnglishCourseImporter
                 $stages->delete();
             }
             Quiz::query()->where('title', 'like', self::CATEGORY.'%')->delete();
+            Word::query()->where('language', 'en')->delete();
 
             return $titles;
         });
     }
 
-    /** @return list<array{level: int, pos: string, direction: string, en: string, ja: string, prompt: string, correct: string, wrong: list<string>, summary: string}> */
+    /** @return list<array{level: int, pos: string, cefr: ?string, direction: string, en: string, ja: string, prompt: string, correct: string, wrong: list<string>, summary: string}> */
     private static function readWords(string $path): array
     {
         $words = [];
@@ -96,6 +101,7 @@ class EnglishCourseImporter
             $words[] = [
                 'level' => (int) $row['英語レベル'],
                 'pos' => $row['品詞'],
+                'cefr' => ($row['CEFR'] ?? '') !== '' ? $row['CEFR'] : null,
                 'direction' => $row['出題方向'] === '日英' ? 'ja_en' : 'en_ja',
                 'en' => $row['英単語'],
                 'ja' => $row['日本語'],
@@ -131,7 +137,9 @@ class EnglishCourseImporter
         foreach ($files as $file) {
             $handle = fopen($file, 'r');
             $header = null;
+            $lineNumber = 0;
             while (($line = fgetcsv($handle, 0, ',', '"', '')) !== false) {
+                $lineNumber++;
                 if ($line === [null]) {
                     continue;
                 }
@@ -140,7 +148,7 @@ class EnglishCourseImporter
 
                     continue;
                 }
-                $rows[] = array_combine($header, array_pad($line, count($header), ''));
+                $rows[] = array_combine($header, array_pad(array_slice($line, 0, count($header)), count($header), '')) + ['__file' => $file, '__line' => $lineNumber];
             }
             fclose($handle);
         }
@@ -153,13 +161,15 @@ class EnglishCourseImporter
      *
      * @param  list<array<string, mixed>>  $tier
      * @param  list<array<string, mixed>>  $all  反対向きの選択肢を選ぶ元(全部の語)
+     * @param  array<string, int>  $wordIds  語のキー(小文字) => 単語帳の語の番号
      * @return list<array<string, mixed>>
      */
-    private static function wordSpecs(array $tier, array $all): array
+    private static function wordSpecs(array $tier, array $all, array $wordIds): array
     {
         $specs = [];
         foreach ($tier as $word) {
-            $meta = ['kind' => 'word', 'level' => $word['level'], 'word' => mb_strtolower($word['en'])];
+            $key = mb_strtolower($word['en']);
+            $meta = ['kind' => 'word', 'level' => $word['level'], 'word' => $key, 'word_id' => $wordIds[$key]];
             $preschool = $word['level'] <= self::PRESCHOOL_MAX;
 
             if (! ($preschool && $word['direction'] === 'ja_en')) {
@@ -182,6 +192,134 @@ class EnglishCourseImporter
         }
 
         return $specs;
+    }
+
+    /**
+     * 単語帳の語を、語ごとに1行書く(同じ語は、最初に出るレベルで1つ)。何度実行しても増えず、番号も変わらない(子どもの記録が結びついているため)。
+     * 発音記号・例文などの内容は、ここでは触らない(word-details の取り込みが書く)
+     *
+     * @param  list<array<string, mixed>>  $words
+     * @return array<string, int> 語のキー(小文字) => 語の番号
+     */
+    private static function writeWords(array $words): array
+    {
+        $first = [];
+        foreach ($words as $word) {
+            $key = mb_strtolower($word['en']);
+            if (! isset($first[$key]) || $word['level'] < $first[$key]['level']) {
+                $first[$key] = $word;
+            }
+        }
+
+        $ids = [];
+        foreach ($first as $key => $word) {
+            $model = Word::query()->firstOrNew(['language' => 'en', 'key' => $key]);
+            $isNew = ! $model->exists;
+            $model->fill([
+                'word' => $word['en'],
+                'level' => $word['level'],
+                'pos' => Words::posLabel($word['pos']),
+                'cefr' => $word['cefr'],
+                // 内容の原稿が書いた意味・重要度は、取り込みの再実行で上書きしない
+                'meanings' => $isNew ? [['pos' => Words::posLabel($word['pos']), 'ja' => [$word['ja']]]] : $model->meanings,
+                'importance' => $isNew ? Words::defaultImportance($word['level']) : $model->importance,
+            ])->save();
+            $ids[$key] = $model->id;
+        }
+
+        return $ids;
+    }
+
+    /**
+     * 単語の内容の原稿(word-details/*.csv。設計書 7章)を、語に書く。空の列は、すでにある内容を消さない。
+     * 形式の誤りは、取り込みを止めずに「ファイル名 行N: …」で集める(その列だけ飛ばし、ほかの列は入れる)。原稿にない語は飛ばす
+     *
+     * @param  array<string, int>  $wordIds
+     * @return array{applied: int, problems: list<string>}
+     */
+    private static function applyDetails(string $path, array $wordIds): array
+    {
+        $applied = 0;
+        $problems = [];
+
+        foreach (self::readCsv("{$path}/word-details") as $row) {
+            $where = basename($row['__file']).' 行'.$row['__line'];
+            $name = trim($row['英単語'] ?? '');
+            $id = $wordIds[mb_strtolower($name)] ?? null;
+            if ($id === null) {
+                $problems[] = "{$where}: 単語の原稿にない語「{$name}」は飛ばしました";
+
+                continue;
+            }
+
+            $changes = [];
+            $cell = fn (string $column) => trim($row[$column] ?? '');
+
+            if (($ipa = trim($cell('発音記号'), " \t[]/")) !== '') {
+                $changes['ipa'] = $ipa;
+            }
+            if (($usage = $cell('使われる場面')) !== '') {
+                $changes['usage'] = $usage;
+            }
+            if (($text = $cell('品詞別の意味')) !== '') {
+                $meanings = self::parseMeanings($text);
+                $meanings === null ? $problems[] = "{$where}: 品詞別の意味「{$text}」は「名詞:理由,根拠／動詞:…」の形で書いてください" : $changes['meanings'] = $meanings;
+            }
+            $examples = [];
+            for ($i = 1; $i <= 6; $i++) {
+                if ($cell("例文{$i}") !== '') {
+                    $examples[] = ['text' => $cell("例文{$i}")] + ($cell("例文{$i}の訳") !== '' ? ['translation' => $cell("例文{$i}の訳")] : []);
+                }
+            }
+            if ($examples !== []) {
+                $changes['examples'] = array_slice($examples, 0, 3);
+            }
+            if (($text = $cell('似た語')) !== '') {
+                $synonyms = self::parseSynonyms($text);
+                $synonyms === null ? $problems[] = "{$where}: 似た語「{$text}」は「語:説明|語:説明」の形で書いてください" : $changes['synonyms'] = array_slice($synonyms, 0, 5);
+            }
+            if (($text = $cell('重要度')) !== '') {
+                in_array($text, ['1', '2', '3'], true) ? $changes['importance'] = (int) $text : $problems[] = "{$where}: 重要度「{$text}」は1〜3で書いてください";
+            }
+
+            if ($changes !== []) {
+                Word::query()->findOrFail($id)->fill($changes)->save();
+            }
+            $applied++;
+        }
+
+        return ['applied' => $applied, 'problems' => $problems];
+    }
+
+    /** 「名詞:理由,根拠／動詞:論理的に考える」 → [{pos: 名, ja: [理由, 根拠]}, …]。形が違えば null @return list<array{pos: string, ja: list<string>}>|null */
+    private static function parseMeanings(string $text): ?array
+    {
+        $meanings = [];
+        foreach (preg_split('/／/u', $text) as $part) {
+            $pair = preg_split('/[:：]/u', $part, 2);
+            $ja = array_values(array_filter(array_map('trim', preg_split('/[,、，]/u', $pair[1] ?? ''))));
+            if (count($pair) < 2 || trim($pair[0]) === '' || $ja === []) {
+                return null;
+            }
+            $meanings[] = ['pos' => Words::posLabel(trim($pair[0])), 'ja' => $ja];
+        }
+
+        return $meanings;
+    }
+
+    /** 「cause:原因|excuse:言い訳」 → [{term, note}, …]。説明のない語など、形が違えば null @return list<array{term: string, note: string}>|null */
+    private static function parseSynonyms(string $text): ?array
+    {
+        $synonyms = [];
+        foreach (explode('|', $text) as $part) {
+            $pair = preg_split('/[:：]/u', $part, 2);
+            if (count($pair) < 2 || trim($pair[0]) === '' || trim($pair[1]) === '') {
+                return null;
+            }
+            $synonyms[] = ['term' => trim($pair[0]), 'note' => trim($pair[1])];
+        }
+
+        return $synonyms;
     }
 
     /** @return array<string, mixed> */

@@ -21,37 +21,37 @@ use App\Models\ShopItem;
 use App\Models\Stage;
 use App\Models\User;
 use App\Models\UserProfile;
-use App\Models\UserSchema;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\Analytics;
 use App\Support\AppSettings;
 use App\Support\Bond;
 use App\Support\CatchGame;
+use App\Support\ContinueStage;
+use App\Support\CourseLevels;
 use App\Support\Courses;
 use App\Support\Csv;
-use App\Support\ContinueStage;
 use App\Support\Errands;
 use App\Support\Family;
 use App\Support\Garden;
-use App\Support\PlayTime;
 use App\Support\LevelCurve;
 use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
-use App\Support\CourseLevels;
+use App\Support\PlayTime;
 use App\Support\Prefecture\PrefectureBadges;
 use App\Support\Prefecture\PrefectureCatalog;
 use App\Support\Prefecture\PrefectureMaster;
 use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
-use App\Support\StageDraw;
 use App\Support\RareSeeds;
 use App\Support\Review;
 use App\Support\Roster;
+use App\Support\StageDraw;
 use App\Support\Travel;
+use App\Support\Words;
 use App\Support\WorldLand;
-use App\Support\Zukan;
 use App\Support\WorldPlacement;
+use App\Support\Zukan;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -956,6 +956,22 @@ Route::middleware(['auth:sanctum'])->get('/zukan', function (Request $request) {
     return Zukan::list(ActiveProfile::require($request));
 })->name('zukan');
 
+// 単語帳(docs/design/2026-10-07-word-book-design.md)。出会った語と、単語帳に保存した語だけ
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/words', fn (Request $request) => Words::list(
+        ActiveProfile::require($request),
+        in_array($request->query('filter'), ['saved', 'weak', 'learned'], true) ? $request->query('filter') : 'all',
+        (string) $request->query('q', ''),
+        (int) $request->query('page', 1),
+    ))->name('words.index');
+    Route::get('/words/{word}', fn (Request $request, int $word) => Words::detail(ActiveProfile::require($request), $word))->whereNumber('word')->name('words.show');
+    Route::put('/words/{word}/mark', function (Request $request, int $word) {
+        $input = $request->validate(['status' => ['nullable', Rule::in(['weak', 'learned'])], 'saved' => ['sometimes', 'boolean']]);
+
+        return Words::mark(ActiveProfile::require($request), $word, array_intersect_key($input, array_flip(array_filter(['status', 'saved'], fn (string $key) => $request->has($key)))));
+    })->whereNumber('word')->name('words.mark');
+});
+
 Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request) {
     $profileId = $request->session()->get('active_profile_id');
 
@@ -1424,6 +1440,8 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
         'results' => $result['results'] ?? null,
         // 答えたあとだけ見せる解説(答える前の取得には出ない。Question の $hidden)
         'explanation' => $question->explanation,
+        // 単語帳の語(英語の単語の問題)。答えて出会った語として記録したときだけ返す
+        'word_id' => $question->meta['word_id'] ?? null,
         'profile' => $economy,
     ];
 })->name('questions.answer');
@@ -2083,7 +2101,7 @@ Route::post('/stripe/webhook', function (Request $request) {
             $request->header('Stripe-Signature', ''),
             $webhookSecret
         );
-    } catch (SignatureVerificationException|\UnexpectedValueException $e) {
+    } catch (SignatureVerificationException|UnexpectedValueException $e) {
         return response()->json(['error' => 'invalid signature'], 400);
     }
 

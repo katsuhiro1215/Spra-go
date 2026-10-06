@@ -150,6 +150,8 @@ export function QuizSession({
   const [answered, setAnswered] = useState(false);
   // 答えのAPIが返す、その問題の解説(なければ null)。答えのカードに出す
   const [explanation, setExplanation] = useState<QuestionExplanation | null>(null);
+  // 英語の単語の問題に答えたときの、単語帳の語の番号(「この単語を見る」リンクに使う。語のない問題・やり直しでは null)
+  const [wordId, setWordId] = useState<number | null>(null);
   const [lastCorrect, setLastCorrect] = useState(false);
   const [lastDelta, setLastDelta] = useState<EconomyDelta | null>(null);
   const [combo, setCombo] = useState<ComboInfo | null>(null);
@@ -321,6 +323,7 @@ export function QuizSession({
       setCorrectChoiceId(data.correct_choice_id ?? null);
       setMatchingResults(data.results ?? null);
       setExplanation(data.explanation ?? null);
+      setWordId(typeof data.word_id === "number" ? data.word_id : null);
       setAnswered(true);
       setLastCorrect(Boolean(data.correct));
       playSound(data.correct ? "correct" : "incorrect");
@@ -411,6 +414,7 @@ export function QuizSession({
     setCorrectChoiceId(null);
     setMatchingResults(null);
     setExplanation(null);
+    setWordId(null);
     setAnswered(false);
     setLastDelta(null);
     setPartnerUp(null);
@@ -455,6 +459,7 @@ export function QuizSession({
     setCorrectChoiceId(null);
     setMatchingResults(null);
     setExplanation(null);
+    setWordId(null);
     setAnswered(false);
     setLastDelta(null);
     setCombo(null);
@@ -741,6 +746,16 @@ export function QuizSession({
               plain={question.meta?.plain}
               readings={question.meta?.readings}
             />
+            {wordId !== null && (
+              <a
+                href={`/words/${wordId}`}
+                target="_blank"
+                rel="noopener"
+                className="self-start rounded-full bg-[#fffaf0] px-3 py-1 text-sm font-black text-[#2b6fa3] underline shadow-[0_2px_6px_rgba(59,50,38,0.15)]"
+              >
+                📖 この単語を見る
+              </a>
+            )}
             {streak?.streak_extended_today && (
               <p className="flex items-center gap-1 text-sm font-bold text-[#c2402c]">
                 <BadgeImage badge="streak" size={20} />

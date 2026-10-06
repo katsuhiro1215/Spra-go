@@ -37,7 +37,10 @@ class ImportEnglishCommand extends Command
         }
 
         $result = EnglishCourseImporter::import($path, $titles);
-        $this->info("英語コース: 問題{$result['questions']}・ステージ{$result['stages']}");
+        $this->info("英語コース: 問題{$result['questions']}・ステージ{$result['stages']}・単語の内容{$result['details']['applied']}語");
+        foreach ($result['details']['problems'] as $problem) {
+            $this->warn($problem);
+        }
 
         return self::SUCCESS;
     }
