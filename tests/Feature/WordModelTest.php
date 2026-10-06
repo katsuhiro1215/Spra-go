@@ -26,7 +26,7 @@ it('語は、言語と小文字の見出し語で一意。意味・例文・似�
     ]);
 
     $fresh = $word->fresh();
-    expect($fresh->meanings)->toBe([['pos' => '名詞', 'ja' => ['理由']]])
+    expect($fresh->meanings)->toEqual([['pos' => '名詞', 'ja' => ['理由']]])
         ->and($fresh->examples[0]['text'])->toBe('Give me one good reason.')
         ->and($fresh->synonyms[0]['term'])->toBe('cause')
         ->and($fresh->level)->toBe(61);
