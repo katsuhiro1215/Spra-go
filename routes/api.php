@@ -1276,6 +1276,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             'correct' => $isCorrect,
             'correct_choice_id' => $result['correct_choice_id'] ?? null,
             'results' => $result['results'] ?? null,
+            'explanation' => $question->explanation,
             'profile' => null,
         ];
     }
@@ -1357,6 +1358,8 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
         'correct' => $isCorrect,
         'correct_choice_id' => $result['correct_choice_id'] ?? null,
         'results' => $result['results'] ?? null,
+        // 答えたあとだけ見せる解説(答える前の取得には出ない。Question の $hidden)
+        'explanation' => $question->explanation,
         'profile' => $economy,
     ];
 })->name('questions.answer');

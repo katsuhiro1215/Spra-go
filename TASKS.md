@@ -57,6 +57,11 @@
    - [x] **段階4: パスポートの「日本のバッジ」**（2026-10-06完了。[設計書](docs/design/2026-10-06-passport-prefecture-badges-design.md)。もらった数/47と、地方ごとの一覧。押すとその県のコースへ）
    - 小さな点: 「近畿まるごと」のカードは、バッジのカードより縦に引き伸ばされて見える（見た目だけ）／県の名物などの文字は、ふりがなを辞書で付けているので、辞書にない語は読みなしで出る（段階2で、テストが知らせる）
 
+6. [x] **問題の解説（段階1）**（2026-10-06完了。[設計書](docs/design/2026-10-06-question-explanation-design.md)・[計画](docs/design/2026-10-06-question-explanation-plan.md)）: 答えのカードに、問題ごとの解説（要約・くわしく見る〔例文・使いどころ・似た語〕）。入れものは `questions.explanation`（JSON）。答えのAPIだけが返し、問題の取得には出さない。都道府県クイズの全1,750問に要約を付けた。難読地名141語には、その地名の説明（`hard` の `note`）を付けた
+   - [ ] **段階2: 英語の解説**: まず「基本のあいさつ100選」に、例文・使いどころ・似た表現を付ける（`content:import` の表に列を足す）。例文などはCEOが下書きし、Ownerが見直す
+   - [ ] **段階3: ほかの問題へ**: 名物・名所・お祭りの個別の説明（例: 広島風お好み焼き）など、じわじわ足す。必要なら、解説に「読み上げ」「覚え方」などの項目を足す
+   - [ ] **難読地名の説明141語をOwnerに確認**（`database/data/prefectures.php` の `hard` の `note`。確かな事実だけを、やさしい言葉で書いたつもりだが、公開前に確認してほしい。直したら `php artisan db:seed --class=PrefectureQuizSeeder` で反映される）。「美馬牛」のような難読地名を足したいときも、`hard` に足す
+
 ### Spra-worldの確定画像の活用（2026-10-05。Ownerが `company/spra/spra-world/assets/approved/` に確定した画像のうち、Spra-goで使えるもの）
 
 1. [x] **第1段階：町のアイテム25点の追加**（2026-10-05完了。[設計書](docs/design/2026-10-05-world-items-stage1-design.md)・[計画](docs/design/2026-10-05-world-items-stage1-plan.md)。建物14・木・水・飾り・橋・鳥居。品ぞろえ38→63点、Lv.1〜14）

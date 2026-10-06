@@ -20,3 +20,11 @@ export type QuizQuestion = {
   /** ステージに足した、出す日が来た前の問題(おさらい)。ステージの点数には入れない */
   review?: boolean;
 };
+
+/** 答えたあとに見せる解説(答えのAPIが返す)。どの項目も任意。docs/design/2026-10-06-question-explanation-design.md */
+export type QuestionExplanation = {
+  summary?: string;
+  example?: { text: string; translation?: string };
+  usage?: string;
+  related?: { term: string; note?: string }[];
+};

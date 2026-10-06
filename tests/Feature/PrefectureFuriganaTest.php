@@ -31,6 +31,7 @@ function barekanji(string $text, array $dictionary): array
         foreach ($dictionary as $word => $reading) {
             if (str_starts_with($rest, (string) $word)) {
                 $i += mb_strlen((string) $word);
+
                 continue 2;
             }
         }
@@ -43,7 +44,7 @@ function barekanji(string $text, array $dictionary): array
     return $bare;
 }
 
-/** 計画に出る、画面に見える文字(問題文・選択肢・はめ込みの項目と枠)。ふりがなを付けない語は除く @return list<string> */
+/** 計画に出る、画面に見える文字(問題文・選択肢・はめ込みの項目と枠・解説の要約)。ふりがなを付けない語は除く @return list<string> */
 function prefectureVisibleTexts(array $plan): array
 {
     $texts = [];
@@ -59,6 +60,8 @@ function prefectureVisibleTexts(array $plan): array
                     foreach ($stage['questions'] as $question) {
                         $prompt = str_replace($question['plain'] ?? [], '', $question['prompt']);
                         $texts[] = $prompt;
+                        // 答えたあとの解説(要約)。問われた漢字は、ふりがなを付けないので、除く
+                        $texts[] = str_replace($question['plain'] ?? [], '', $question['explanation']['summary'] ?? '');
                         if (($question['plain'] ?? []) !== []) {
                             continue; // 難読地名の選択肢は、ひらがな
                         }
