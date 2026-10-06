@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\Category;
 use App\Models\Country;
 use App\Models\ProfileStageProgress;
 use App\Models\ShopItem;
@@ -263,11 +264,15 @@ class Travel
             ->join('stages', 'stages.id', '=', 'profile_stage_progress.stage_id')
             ->where('profile_stage_progress.user_profile_id', $profile->id)
             ->whereNotNull('profile_stage_progress.cleared_at')
-            ->get(['stages.country_id', 'stages.difficulty', 'stages.is_boss']);
+            ->get(['stages.country_id', 'stages.category_id', 'stages.difficulty', 'stages.is_boss']);
+        // チケットは、国のメインの道(ルート「国旗」の下の国のカテゴリー)の初級のボスだけが数える。英語・世界遺産のボスでは増えない
+        $mainCategoryIds = Category::query()
+            ->whereIn('parent_id', Category::query()->where('name', config('courses.country_root'))->whereNull('parent_id')->select('id'))
+            ->pluck('id')->map(fn ($id) => (int) $id)->all();
         $countries = self::countryIdsByCode();
         $visited = self::visitedKeys($profile);
         $bossCountries = $cleared
-            ->filter(fn ($stage) => $stage->difficulty === '初級' && (bool) $stage->is_boss && $stage->country_id !== null)
+            ->filter(fn ($stage) => $stage->difficulty === '初級' && (bool) $stage->is_boss && $stage->country_id !== null && in_array((int) $stage->category_id, $mainCategoryIds, true))
             ->pluck('country_id')->map(fn ($id) => (int) $id)->unique()->values()->all();
         $learnable = self::learnablePlaces($countries, $visited);
         $earned = collect($learnable)->filter(fn (array $place) => in_array($place['country_id'], $bossCountries, true))->count();

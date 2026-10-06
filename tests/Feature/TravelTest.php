@@ -68,7 +68,7 @@ it('同じ国で初級のボスを2つ倒しても、チケットは1枚', funct
     $profile = createActiveProfile();
     $japan = createTravelCountry('jp', '日本');
     $secondBoss = Stage::create([
-        'category_id' => Category::create(['name' => '日本の世界遺産'])->id,
+        'category_id' => Category::create(['name' => '日本の国旗2', 'parent_id' => Category::where('name', '国旗')->value('id')])->id,
         'country_id' => $japan->id,
         'difficulty' => '初級',
         'stage_number' => 1,
@@ -211,4 +211,20 @@ it('設定: はじまりの国は日本。2個目のおみやげは2×2、1個�
             expect($assetKeys)->not->toContain($souvenir['key']);
         }
     }
+});
+
+it('チケットは、国のメインの道(国旗)の初級のボスだけが数える。英語・世界遺産のボスでは増えない', function () {
+    $profile = createActiveProfile();
+    $japan = createTravelCountry('jp', '日本');
+    $english = Category::firstOrCreate(['name' => '英語を学ぶ'], ['is_language_mode' => true]);
+    $heritage = Category::create(['name' => '世界遺産']);
+    foreach ([$english, $heritage] as $category) {
+        $boss = Stage::create(['category_id' => $category->id, 'country_id' => $japan->id, 'difficulty' => '初級', 'stage_number' => 9, 'is_boss' => true]);
+        ProfileStageProgress::create(['user_profile_id' => $profile->id, 'stage_id' => $boss->id, 'cleared_at' => now()]);
+    }
+
+    $this->getJson('/api/travel')->assertOk()->assertJsonPath('tickets', 0);
+
+    clearCountryStage($profile, $japan, '初級', true);
+    $this->getJson('/api/travel')->assertOk()->assertJsonPath('tickets', 1);
 });
