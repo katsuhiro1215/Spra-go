@@ -191,15 +191,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </article>
       </main>
 
-      {/* 下の固定ボタン(ナビの上) */}
-      <div className="fixed inset-x-0 bottom-[68px] z-30 mx-auto grid max-w-[480px] grid-cols-3 gap-2 px-3 pb-2">
+      {/* 下の固定ボタン(ナビの上)。右の余白は、右下に浮いている仲間のアイコンを避けるため */}
+      <div className="fixed inset-x-0 bottom-[68px] z-30 mx-auto grid max-w-[480px] grid-cols-3 gap-2 pr-[72px] pl-3 pb-2">
         <AppButton
           type="button"
           variant={word.status === "weak" ? "danger" : "default"}
           aria-pressed={word.status === "weak"}
           disabled={busy}
           onClick={() => void mark({ status: statusAfterToggle(word.status, "weak") })}
-          className="px-1 shadow"
+          className="px-1 text-[13px] shadow"
         >
           ✖ <AutoFurigana text="苦手" />
         </AppButton>
@@ -209,7 +209,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           aria-pressed={word.status === "learned"}
           disabled={busy}
           onClick={() => void mark({ status: statusAfterToggle(word.status, "learned") })}
-          className="px-1 shadow"
+          className="px-1 text-[13px] shadow"
         >
           💡 <AutoFurigana text="覚えた！" />
         </AppButton>
@@ -218,7 +218,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           variant="primary"
           disabled={nextId === null}
           onClick={() => nextId !== null && router.push(`/words/${nextId}`)}
-          className="px-1 shadow"
+          className="px-1 text-[13px] shadow"
         >
           ➡️ <AutoFurigana text="次へ" />
         </AppButton>
