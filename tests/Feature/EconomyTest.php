@@ -16,7 +16,7 @@ use App\Models\Stage;
 |
 */
 
-it('正解するとXPとコインが増え、HPが1減る', function () {
+it('正解するとXPとコインが増え、HPは減らない', function () {
     $profile = createActiveProfile();
     [$question, $correct] = createQuestionWithChoices();
 
@@ -29,7 +29,7 @@ it('正解するとXPとコインが増え、HPが1減る', function () {
     $profile->refresh();
     expect($profile->xp)->toBe(10);
     expect($profile->coins)->toBe(5);
-    expect($profile->hp)->toBe(19);
+    expect($profile->hp)->toBe(20); // 正解ではHPが減らない
 });
 
 it('連続正解でコンボが増える', function () {
@@ -78,7 +78,7 @@ it('5連続正解でボーナスコインが付与される', function () {
     expect($profile->fresh()->coins)->toBe(5 * 5 + 20);
 });
 
-it('不正解だとHPが2減り、XPとコインは増えない', function () {
+it('不正解だとHPが1減り、XPとコインは増えない', function () {
     $profile = createActiveProfile();
     [$question, , $wrong] = createQuestionWithChoices();
 
@@ -87,7 +87,7 @@ it('不正解だとHPが2減り、XPとコインは増えない', function () {
     ])->assertOk()->assertJson(['correct' => false]);
 
     $profile->refresh();
-    expect($profile->hp)->toBe(18);
+    expect($profile->hp)->toBe(19);
     expect($profile->xp)->toBe(0);
     expect($profile->coins)->toBe(0);
 });

@@ -208,7 +208,9 @@ function createTravelCountry(string $code, string $name): Country
         'name_en' => $name,
         'country_code' => random_int(100, 999),
     ]);
-    $category = Category::create(['name' => $name.'カテゴリ']);
+    // 国のメインの道は、ルート「国旗」の子のカテゴリー(config/courses.php の country_root)
+    $root = Category::firstOrCreate(['name' => config('courses.country_root'), 'parent_id' => null]);
+    $category = Category::create(['name' => $name.'カテゴリ', 'parent_id' => $root->id]);
 
     foreach ([['初級', 1, false], ['初級', 2, true], ['中級', 1, true]] as [$difficulty, $number, $boss]) {
         Stage::create([

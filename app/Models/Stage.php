@@ -75,7 +75,7 @@ class Stage extends Model
         return $this->is_pool ? min($this->question_count, $pool) : $pool;
     }
 
-    public static function isDifficultyLocked(Collection $stagesByDifficulty, string $difficulty, array $clearedStageIds): bool
+    public static function isDifficultyLocked(Collection $stagesByDifficulty, string $difficulty, array $clearedStageIds, array $bestScores = []): bool
     {
         $order = array_merge(config('quiz.difficulties'), config('quiz.extra_difficulties'));
         $index = array_search($difficulty, $order, true);
@@ -84,10 +84,29 @@ class Stage extends Model
             return false;
         }
 
-        $previousDifficulty = $order[$index - 1];
-        $previousBoss = ($stagesByDifficulty->get($previousDifficulty) ?? collect())
-            ->first(fn (Stage $stage) => $stage->is_boss);
+        $previousStages = $stagesByDifficulty->get($order[$index - 1]) ?? collect();
+        $previousBoss = $previousStages->first(fn (Stage $stage) => $stage->is_boss);
 
-        return ! $previousBoss || ! in_array($previousBoss->id, $clearedStageIds, true);
+        if ($previousBoss && in_array($previousBoss->id, $clearedStageIds, true)) {
+            return false;
+        }
+
+        // 近道: 前の級で、3ステージ以上遊び、合計の正答率が50%を超えていれば、ボス前でも開く(docs/design/2026-10-07-main-game-levels-design.md 4-4)
+        $shortcut = config('quiz.shortcut');
+        $played = $previousStages->filter(fn (Stage $stage) => isset($bestScores[$stage->id]));
+        if ($played->count() < $shortcut['min_stages']) {
+            return true;
+        }
+        $total = $played->sum(fn (Stage $stage) => $stage->playCount());
+
+        return $total === 0 || $played->sum(fn (Stage $stage) => $bestScores[$stage->id]) * 100 <= $shortcut['percent'] * $total;
+    }
+
+    /** 遊んだことのあるステージの、いちばん良かった点(ステージの番号 → 点) @return array<int, int> */
+    public static function bestScores(?int $profileId): array
+    {
+        return $profileId
+            ? ProfileStageProgress::query()->where('user_profile_id', $profileId)->where('attempts', '>', 0)->pluck('best_score', 'stage_id')->map(fn ($score) => (int) $score)->all()
+            : [];
     }
 }

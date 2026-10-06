@@ -157,10 +157,10 @@ it('クリアの報酬は、reward_percent の割合になる', function () {
     $full = createPoolStage(12, 10, false, false, '満額');
 
     $coins = $profile->fresh()->coins;
-    $this->postJson("/api/stages/{$half->id}/complete", ['score' => 1])->assertOk();
+    $this->postJson("/api/stages/{$half->id}/complete", ['score' => 12])->assertOk();
     expect($profile->fresh()->coins - $coins)->toBe(50);
 
     $coins = $profile->fresh()->coins;
-    $this->postJson("/api/stages/{$full->id}/complete", ['score' => 1])->assertOk();
+    $this->postJson("/api/stages/{$full->id}/complete", ['score' => 12])->assertOk();
     expect($profile->fresh()->coins - $coins)->toBe(100);
 });

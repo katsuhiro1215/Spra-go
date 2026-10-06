@@ -21,6 +21,7 @@ use App\Models\ShopItem;
 use App\Models\Stage;
 use App\Models\User;
 use App\Models\UserProfile;
+use App\Models\UserSchema;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\Analytics;
@@ -37,6 +38,7 @@ use App\Support\PlayTime;
 use App\Support\LevelCurve;
 use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
+use App\Support\CourseLevels;
 use App\Support\Prefecture\PrefectureBadges;
 use App\Support\Prefecture\PrefectureCatalog;
 use App\Support\Prefecture\PrefectureMaster;
@@ -813,8 +815,11 @@ Route::middleware(['auth:sanctum'])->get('/countries', function (Request $reques
     // 今のプロフィールがそのうちクリアしたステージを、国の数によらずまとめて1回ずつ読む
     $stageCountries = Stage::query()
         ->whereIn('country_id', $countries->pluck('id'))
+        ->whereIn('category_id', CourseLevels::mainCategoryIds())
         ->whereHas('questions')
         ->pluck('country_id', 'id');
+    $homeCountry = CourseLevels::homeCountry($profile);
+    $availableLanguages = CourseLevels::availableLanguageKeys();
     $clearedStageIds = $profile
         ? ProfileStageProgress::query()
             ->where('user_profile_id', $profile->id)
@@ -830,10 +835,9 @@ Route::middleware(['auth:sanctum'])->get('/countries', function (Request $reques
         ->map(fn (Country $country) => [
             ...$country->toArray(),
             'locked' => in_array($country->id, $locked, true),
-            'has_language_mode' => $country->stages()
-                ->whereHas('category', fn ($q) => $q->where('is_language_mode', true))
-                ->whereHas('questions')
-                ->exists(),
+            // 国の言語のコース({key, name})。ステージのある言語だけ。母国の言語は出さない
+            'language' => CourseLevels::languageForCountry($country->code, $homeCountry, $availableLanguages),
+            'has_language_mode' => CourseLevels::languageForCountry($country->code, $homeCountry, $availableLanguages) !== null,
             'achievement' => [
                 'cleared' => $clearedCountries->filter(fn ($countryId) => (int) $countryId === $country->id)->count(),
                 'total' => $stageCountries->filter(fn ($countryId) => (int) $countryId === $country->id)->count(),
@@ -853,6 +857,7 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
             ->pluck('stage_id')
             ->all()
         : [];
+    $bestScores = Stage::bestScores($profileId);
 
     $allStages = Stage::query()
         ->where('country_id', $country->id)
@@ -860,43 +865,56 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
         ->orderBy('stage_number')
         ->get();
 
-    $directStages = $allStages->whereNull('region_id');
+    // 級ごとのグループを作る(国のメインの道と、言語のコースで共通)
+    $presentGroups = function ($stages) use ($clearedStageIds, $bestScores) {
+        $stagesByCategoryThenDifficulty = $stages
+            ->groupBy('category_id')
+            ->map(fn ($categoryStages) => $categoryStages->groupBy('difficulty'));
 
-    $stagesByCategoryThenDifficulty = $directStages
-        ->groupBy('category_id')
-        ->map(fn ($stages) => $stages->groupBy('difficulty'));
+        return $stages
+            ->groupBy(fn (Stage $s) => $s->category_id.'|'.$s->difficulty)
+            ->map(function ($group) use ($clearedStageIds, $stagesByCategoryThenDifficulty, $bestScores) {
+                $clearedNumbers = $group
+                    ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
+                    ->pluck('stage_number')
+                    ->all();
 
-    $groups = $directStages
-        ->groupBy(fn (Stage $s) => $s->category_id.'|'.$s->difficulty)
-        ->map(function ($group) use ($clearedStageIds, $stagesByCategoryThenDifficulty) {
-            $clearedNumbers = $group
-                ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
-                ->pluck('stage_number')
-                ->all();
+                $categoryId = $group->first()->category_id;
+                $difficulty = $group->first()->difficulty;
 
-            $categoryId = $group->first()->category_id;
-            $difficulty = $group->first()->difficulty;
+                return [
+                    'category' => $group->first()->category,
+                    'difficulty' => $difficulty,
+                    'locked' => Stage::isDifficultyLocked(
+                        $stagesByCategoryThenDifficulty->get($categoryId) ?? collect(),
+                        $difficulty,
+                        $clearedStageIds,
+                        $bestScores
+                    ),
+                    'stages' => $group->map(fn (Stage $s) => [
+                        'id' => $s->id,
+                        'stage_number' => $s->stage_number,
+                        'is_boss' => $s->is_boss,
+                        'title_reward' => $s->title_reward,
+                        'cleared' => in_array($s->id, $clearedStageIds, true),
+                        'locked' => $s->stage_number > 1
+                            && ! in_array($s->stage_number - 1, $clearedNumbers, true),
+                    ])->values(),
+                ];
+            })
+            ->values();
+    };
 
-            return [
-                'category' => $group->first()->category,
-                'difficulty' => $difficulty,
-                'locked' => Stage::isDifficultyLocked(
-                    $stagesByCategoryThenDifficulty->get($categoryId) ?? collect(),
-                    $difficulty,
-                    $clearedStageIds
-                ),
-                'stages' => $group->map(fn (Stage $s) => [
-                    'id' => $s->id,
-                    'stage_number' => $s->stage_number,
-                    'is_boss' => $s->is_boss,
-                    'title_reward' => $s->title_reward,
-                    'cleared' => in_array($s->id, $clearedStageIds, true),
-                    'locked' => $s->stage_number > 1
-                        && ! in_array($s->stage_number - 1, $clearedNumbers, true),
-                ])->values(),
-            ];
-        })
-        ->values();
+    // 国の画面の道は、国のメインの道(国旗)だけ。英語・世界遺産は出さない(docs/design/2026-10-07-main-game-levels-design.md 4-1)
+    $mainCategoryIds = CourseLevels::mainCategoryIds();
+    $mainStages = $allStages->whereNull('region_id')->whereIn('category_id', $mainCategoryIds);
+    $groups = $presentGroups($mainStages);
+
+    // その国の言語のコース(国に結びつかない)。母国の言語・ステージのない言語は出さない
+    $language = CourseLevels::languageForCountry($country->code, CourseLevels::homeCountry(ActiveProfile::find($request)));
+    $languageGroups = $language
+        ? $presentGroups(Stage::query()->whereNull('country_id')->whereHas('category', fn ($q) => $q->where('name', config("courses.languages.{$language['key']}.category")))->with('category')->orderBy('stage_number')->get())
+        : collect();
 
     $allRegions = Region::query()->where('country_id', $country->id)->get(['id', 'parent_id', 'name']);
 
@@ -923,11 +941,13 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
         'mood_emoji' => $country->mood_emoji,
         'intro_message' => $country->intro_message,
         'achievement' => [
-            'cleared' => $allStages->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))->count(),
-            'total' => $allStages->count(),
+            'cleared' => $mainStages->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))->count(),
+            'total' => $mainStages->count(),
         ],
         'regions' => $regions,
         'groups' => $groups,
+        'language' => $language,
+        'language_groups' => $languageGroups,
     ];
 })->name('countries.show');
 
@@ -954,11 +974,13 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
         ->orderBy('order')
         ->get()
         ->map(function (Country $country) use ($clearedProgress, $difficultyOrder) {
-            $stages = Stage::query()->where('country_id', $country->id)->get();
+            // スタンプ・鍵は、国のメインの道(国旗)のステージだけで決める(英語・世界遺産は含めない。docs/design/2026-10-07-main-game-levels-design.md 4-5)
+            $stages = Stage::query()->where('country_id', $country->id)->whereIn('category_id', CourseLevels::mainCategoryIds())->get();
             $stagesByDifficulty = $stages->groupBy('difficulty');
 
             $unlockedDifficulties = [];
             $stampTier = 'none';
+            $previousAllCleared = true;
             $tierByDifficulty = ['初級' => 'bronze', '中級' => 'silver', '上級' => 'gold'];
 
             foreach ($difficultyOrder as $index => $difficulty) {
@@ -978,9 +1000,11 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
                 }
 
                 $allCleared = $diffStages->every(fn (Stage $s) => $clearedProgress->has($s->id));
-                if ($allCleared) {
+                // 前の級をすべてクリアしていないときは、上の段位を付けない(銅なしの金は付かない)
+                if ($allCleared && $previousAllCleared) {
                     $stampTier = $tierByDifficulty[$difficulty];
                 }
+                $previousAllCleared = $previousAllCleared && $allCleared;
             }
 
             $firstClearedAt = $stages
@@ -1013,8 +1037,13 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
         : 0;
     $activeProfile = ActiveProfile::find($request);
 
+    $homeCountry = CourseLevels::homeCountry($activeProfile);
+
     return [
         'countries' => $countries,
+        // 国レベルと言語レベル(クリアしたステージの数)。母国の言語は出さない(docs/design/2026-10-07-main-game-levels-design.md 4-5)
+        'country_levels' => $activeProfile ? CourseLevels::forCountries($activeProfile) : [],
+        'language_levels' => $activeProfile ? CourseLevels::forLanguages($activeProfile, $homeCountry) : [],
         'titles' => $titles,
         'visited_count' => $countries->filter(fn ($c) => $c['stamp_tier'] !== 'none')->count(),
         'best_streak' => $bestStreak,
@@ -1041,6 +1070,7 @@ Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request 
             ->pluck('stage_id')
             ->all()
         : [];
+    $bestScores = Stage::bestScores($profileId);
 
     $ancestors = [];
     $current = $region->parent;
@@ -1080,7 +1110,7 @@ Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request 
 
         $groups = $stages
             ->groupBy(fn (Stage $s) => $s->category_id.'|'.$s->difficulty)
-            ->map(function ($group) use ($clearedStageIds, $stagesByCategoryThenDifficulty) {
+            ->map(function ($group) use ($clearedStageIds, $stagesByCategoryThenDifficulty, $bestScores) {
                 $clearedNumbers = $group
                     ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
                     ->pluck('stage_number')
@@ -1095,7 +1125,8 @@ Route::middleware(['auth:sanctum'])->get('/regions/{region}', function (Request 
                     'locked' => Stage::isDifficultyLocked(
                         $stagesByCategoryThenDifficulty->get($categoryId) ?? collect(),
                         $difficulty,
-                        $clearedStageIds
+                        $clearedStageIds,
+                        $bestScores
                     ),
                     'stages' => $group->map(fn (Stage $s) => [
                         'id' => $s->id,
@@ -1135,6 +1166,7 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
             ->pluck('stage_id')
             ->all()
         : [];
+    $bestScores = Stage::bestScores($profileId);
 
     $locked = Travel::lockedCountryIds(ActiveProfile::find($request));
 
@@ -1154,7 +1186,7 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
     );
 
     return collect($difficulties)
-        ->map(function (string $difficulty) use ($stagesByDifficulty, $clearedStageIds) {
+        ->map(function (string $difficulty) use ($stagesByDifficulty, $clearedStageIds, $bestScores) {
             $stages = ($stagesByDifficulty->get($difficulty) ?? collect())->values();
             $clearedNumbers = $stages
                 ->filter(fn (Stage $s) => in_array($s->id, $clearedStageIds, true))
@@ -1163,7 +1195,7 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
 
             return [
                 'difficulty' => $difficulty,
-                'locked' => Stage::isDifficultyLocked($stagesByDifficulty, $difficulty, $clearedStageIds),
+                'locked' => Stage::isDifficultyLocked($stagesByDifficulty, $difficulty, $clearedStageIds, $bestScores),
                 'stages' => $stages->map(fn (Stage $stage) => [
                     'id' => $stage->id,
                     'stage_number' => $stage->stage_number,
@@ -1237,12 +1269,18 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         'user_profile_id' => $profile->id,
         'stage_id' => $stage->id,
     ]);
+    // クリアに要る正解の数(通常60%・ボス80%。端数は切り上げ)。届かないときは、遊んだ記録だけ残す
+    $required = (int) ceil($stage->playCount() * config('quiz.clear_percent')[$stage->is_boss ? 'boss' : 'normal'] / 100);
+    $passed = $score >= $required;
+
     $progress->attempts = ($progress->attempts ?? 0) + 1;
     $progress->best_score = max($progress->best_score ?? 0, $score);
-    $progress->cleared_at ??= now();
+    if ($passed) {
+        $progress->cleared_at ??= now();
+    }
     $progress->save();
 
-    $profile->applyEconomy(['coin' => intdiv(100 * $stage->reward_percent, 100), 'point' => intdiv(config('world.rewards.stage_clear') * $stage->reward_percent, 100)], 'stage_clear', null, $stage);
+    $passed && $profile->applyEconomy(['coin' => intdiv(100 * $stage->reward_percent, 100), 'point' => intdiv(config('world.rewards.stage_clear') * $stage->reward_percent, 100)], 'stage_clear', null, $stage);
 
     // このクリアで新しくチケットが増え、使えるときだけ知らせる(設計書4-3・5-4)
     $ticketEarned = Travel::earnedTickets($profile) > $earnedTicketsBefore && Travel::tickets($profile) > 0;
@@ -1276,6 +1314,8 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
             'points' => $profile->points,
             'level' => $profile->level,
         ],
+        'cleared' => $passed,
+        'required' => $required,
         'title_granted' => $titleGranted,
         'title' => $grantedTitle,
         // 称号が県のもの(例 大阪府はかせ・大阪府マスター)なら、その県のバッジの絵(docs/design/2026-10-05-prefecture-quiz-design.md 7-2)
@@ -1330,12 +1370,12 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
 
         $economyResult = $isCorrect
             ? $profile->applyEconomy([
-                'hp' => -1,
+                'hp' => config('world.hp.correct'),
                 'xp' => config('world.rewards.xp_by_difficulty')[$question->quiz?->difficulty] ?? 10,
                 'coin' => 5,
                 'point' => config('world.rewards.answer_correct'),
             ], 'answer_correct', $question)
-            : $profile->applyEconomy(['hp' => -2], 'answer_wrong', $question);
+            : $profile->applyEconomy(['hp' => config('world.hp.wrong')], 'answer_wrong', $question);
 
         // 問題ごとの覚え具合(docs/design/2026-09-29-spaced-review-design.md 4-4)
         QuestionMemory::record($profile, $question->id, $isCorrect);

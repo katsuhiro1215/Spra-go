@@ -17,6 +17,7 @@ import { LoadingScreen } from "@/components/app/spru-loading";
 import { streakMilestoneBadge } from "@/components/quiz/streak-milestone";
 import { STAMP_IMAGES } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
+import { levelRatio, levelText, type CountryLevel, type LanguageLevel } from "@/lib/course-levels";
 import { badgeCountText, badgeRingClass, groupBadgesByRegion, type PrefectureBadge } from "@/lib/prefecture-badges";
 
 type PassportCountry = {
@@ -37,6 +38,9 @@ type PassportData = {
   trips: { key: string; name: string; flag: string; transport: "ship" | "plane"; arrived_at: string | null }[];
   mastered_count: number;
   prefecture_badges?: PrefectureBadge[];
+  /** 国レベル・言語レベル(クリアしたステージの数。docs/design/2026-10-07-main-game-levels-design.md 4-5)。母国の言語は出ない */
+  country_levels?: CountryLevel[];
+  language_levels?: LanguageLevel[];
 };
 
 const ALL_DIFFICULTIES = ["初級", "中級", "上級"];
@@ -231,6 +235,30 @@ export default function Page() {
               </div>
             )}
           </section>
+
+          {/* 国レベルと言語レベル(クリアしたステージの数) */}
+          {[
+            { heading: "国レベル", rows: (data.country_levels ?? []).map((l) => ({ key: l.code, name: l.name, level: l.level, max: l.max })) },
+            { heading: "言語レベル", rows: (data.language_levels ?? []).map((l) => ({ key: l.key, name: l.name, level: l.level, max: l.max })) },
+          ].map(
+            (table) =>
+              table.rows.length > 0 && (
+                <section key={table.heading} className="mt-8">
+                  <h2 className="mb-3 text-sm font-bold tracking-wide text-[#6b5d45]">{table.heading}</h2>
+                  <ul className="flex flex-col gap-2">
+                    {table.rows.map((row) => (
+                      <li key={row.key} className="flex items-center gap-3 rounded-xl bg-[#fffaf0] px-3 py-2 shadow-sm">
+                        <span className="w-24 shrink-0 text-sm font-black text-[#3b3226]">{row.name}</span>
+                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-[#efe5cf]" role="progressbar" aria-label={`${row.name}のレベル`} aria-valuemin={0} aria-valuemax={row.max} aria-valuenow={row.level}>
+                          <div className="h-full rounded-full bg-[#5bb33e]" style={{ width: `${Math.round(levelRatio(row.level, row.max) * 100)}%` }} />
+                        </div>
+                        <span className="w-24 shrink-0 text-right text-xs font-bold whitespace-nowrap text-[#6b5d45]">{levelText(row.level, row.max)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ),
+          )}
 
           {/* 日本のバッジ(県の上級のボスを全問正解でもらう。docs/design/2026-10-06-passport-prefecture-badges-design.md) */}
           {prefectureBadges.length > 0 && (

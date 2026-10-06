@@ -19,7 +19,8 @@ type CountryStart = {
   name: string;
   mood_emoji: string | null;
   intro_message: string | null;
-  groups: { category: { name: string; is_language_mode: boolean } }[];
+  /** その国の言語のコース(国に結びつかない)。ステージのある言語だけ。なければ null */
+  language: { key: string; name: string } | null;
 };
 
 export default function Page({
@@ -72,9 +73,7 @@ export default function Page({
     );
   }
 
-  const languageGroup = country.groups.find(
-    (group) => group.category.is_language_mode,
-  );
+
 
   return (
     <SkyPage>
@@ -112,9 +111,9 @@ export default function Page({
             className="w-full normal-case"
             onClick={() => router.push(`/travel/${countryId}?mode=trivia`)}
           >
-            {country.name}について学ぶ
+            {country.name}を学ぶ
           </AppButton>
-          {languageGroup && (
+          {country.language && (
             <AppButton
               variant="secondary"
               size="lg"
@@ -123,7 +122,7 @@ export default function Page({
                 router.push(`/travel/${countryId}?mode=language`)
               }
             >
-              {languageGroup.category.name}
+              {country.language.name}を学ぶ
             </AppButton>
           )}
           <Link

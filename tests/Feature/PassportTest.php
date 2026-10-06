@@ -28,7 +28,8 @@ function createCountryWithDifficultyStages(string $code, string $name): Country
         'country_code' => random_int(100, 999),
     ]);
 
-    $category = Category::create(['name' => $name.'カテゴリ']);
+    $root = Category::firstOrCreate(['name' => config('courses.country_root'), 'parent_id' => null]);
+    $category = Category::create(['name' => $name.'カテゴリ', 'parent_id' => $root->id]);
 
     foreach (['初級', '中級', '上級'] as $stageNumber => $difficulty) {
         $stage = Stage::create([
@@ -187,4 +188,40 @@ it('今の項目(countries・titles・trips など)は、これまでどおり�
     $this->getJson('/api/passport')->assertOk()->assertJsonStructure([
         'countries', 'titles', 'visited_count', 'best_streak', 'streak_milestones', 'trips', 'mastered_count', 'prefecture_badges',
     ]);
+});
+
+it('スタンプは、国のメインの道(国旗)だけで決まる。英語のステージを残していても銅が付く', function () {
+    $profile = createActiveProfile();
+    $country = createCountryWithDifficultyStages('zz', 'テスト国Z');
+    $english = Category::firstOrCreate(['name' => '英語を学ぶ'], ['is_language_mode' => true]);
+    Stage::create(['category_id' => $english->id, 'country_id' => $country->id, 'difficulty' => '初級', 'stage_number' => 1, 'is_boss' => true]);
+    $main = Stage::where('country_id', $country->id)->where('difficulty', '初級')->whereHas('category', fn ($q) => $q->whereNotNull('parent_id'))->first();
+    ProfileStageProgress::create(['user_profile_id' => $profile->id, 'stage_id' => $main->id, 'cleared_at' => now()]);
+
+    $countryData = collect($this->getJson('/api/passport')->assertOk()->json('countries'))->firstWhere('code', 'zz');
+
+    expect($countryData['stamp_tier'])->toBe('bronze');
+});
+
+it('スタンプは、前の級をすべてクリアしていないと上の段位が付かない(銅なしの金は付かない)', function () {
+    $profile = createActiveProfile();
+    $country = createCountryWithDifficultyStages('zz', 'テスト国Z');
+    $advanced = Stage::where('country_id', $country->id)->where('difficulty', '上級')->first();
+    ProfileStageProgress::create(['user_profile_id' => $profile->id, 'stage_id' => $advanced->id, 'cleared_at' => now()]);
+
+    $countryData = collect($this->getJson('/api/passport')->assertOk()->json('countries'))->firstWhere('code', 'zz');
+
+    expect($countryData['stamp_tier'])->toBe('none');
+});
+
+it('country_levels と language_levels を返す。母国(日本)の言語は出ない', function () {
+    $profile = createActiveProfile();
+    createCountryWithDifficultyStages('zz', 'テスト国Z');
+    $english = Category::firstOrCreate(['name' => '英語を学ぶ'], ['is_language_mode' => true]);
+    Stage::create(['category_id' => $english->id, 'country_id' => null, 'difficulty' => '初級', 'stage_number' => 1, 'is_boss' => true]);
+
+    $response = $this->getJson('/api/passport')->assertOk();
+
+    expect(collect($response->json('country_levels'))->firstWhere('code', 'zz'))->toMatchArray(['level' => 0, 'max' => 3])
+        ->and(collect($response->json('language_levels'))->pluck('key')->all())->toBe(['en']);
 });

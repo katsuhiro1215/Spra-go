@@ -12,6 +12,9 @@ return [
     |
     */
 
+    // 答えたときのHPの増減。正解では減らず、不正解のときだけ減る(docs/design/2026-10-07-main-game-levels-design.md 3章)
+    'hp' => ['correct' => 0, 'wrong' => -1],
+
     'rewards' => [
         'answer_correct' => 10,
         'stage_clear' => 50,
