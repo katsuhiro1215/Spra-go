@@ -29,9 +29,10 @@ class CoursePoolBuilder
     public static function buildCountry(Country $country, ?array $definition = null): array
     {
         $definition ??= self::definition($country->code);
+        // カテゴリーの名前は国名と一致しないことがある(アメリカ合衆国)ので、その国のステージが付いている、ルート直下のカテゴリーを探す
         $category = Category::query()
-            ->where('name', $country->name)
             ->whereIn('parent_id', Category::query()->where('name', config('courses.country_root'))->whereNull('parent_id')->select('id'))
+            ->whereHas('stages', fn ($query) => $query->where('country_id', $country->id))
             ->first();
         if (! $category) {
             return ['stages' => 0, 'pool' => 0];

@@ -89,3 +89,10 @@ it('ステージがない国・級は何も作らない', function () {
     expect(CoursePoolBuilder::buildCountry($country))->toBe(['stages' => 0, 'pool' => 0])
         ->and(Stage::count())->toBe(0);
 });
+
+it('カテゴリーの名前が国名と違っても(アメリカ合衆国)、国のステージから見つけて並べ直す', function () {
+    $country = createFlagCourse('us', 'アメリカ合衆国');
+    $country->update(['name' => 'アメリカ']);
+
+    expect(CoursePoolBuilder::buildCountry($country->fresh()))->toBe(['stages' => 10, 'pool' => 60]);
+});
