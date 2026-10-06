@@ -63,7 +63,8 @@
    - [ ] **難読地名の説明141語をOwnerに確認**（`database/data/prefectures.php` の `hard` の `note`。確かな事実だけを、やさしい言葉で書いたつもりだが、公開前に確認してほしい。直したら `php artisan db:seed --class=PrefectureQuizSeeder` で反映される）。「美馬牛」のような難読地名を足したいときも、`hard` に足す
 
 7. [x] **県マスターと地名コース**（2026-10-07完了。[設計書](docs/design/2026-10-06-prefecture-master-design.md)・[計画](docs/design/2026-10-06-prefecture-master-plan.md)）: 地名コース47県2,125問・プールからの抽選・称号「◯◯マスター」・パスポートの金のふち・最高難易度の級
-   - [ ] **地名問題2,125問をOwnerに確認**（`database/data/place-names/*.csv`。直したら `db:seed --class=PlaceNameQuizSeeder`。元は `company/` 側。両方そろえる）。Ownerが後回しにした
+   - [x] **地名問題の機械点検**（2026-10-07。日本郵便のデータと照合 `tools/place-names/verify_readings.py`。市区町村の読み・「ある市は どれ？」1,456問は誤りなし、町域名の655問も一致。直した誤り: 登米の読み〔とよま→とめ〕、「郡」を含む市町村名の壊れ6問〔郡山市・郡上市・蒲郡市・上郡町・大和郡山市・小郡市〕と、選択肢の壊れ4か所、北海道の「福島」〔福島町があるため甲府に〕。元原稿 `company/` 側も同じに直した）
+   - [ ] **地名問題2,125問をOwnerに確認**（機械で確かめられない分: 北海道の最高難易度など、郵便データにない難読地名17問〔来止臥・老者舞・重蘭窮・賤夫向・初無敵・烏山・吾妻・御徒町・信楽・太秦・放出・十三・隠岐・種子島など〕と、解説文の言い回し。`database/data/place-names/*.csv`。直したら `db:seed --class=PlaceNameQuizSeeder`。元は `company/` 側。両方そろえる）。Ownerが後回しにした
    - [x] **地名のふりがな**（2026-10-07完了。問題ごとの読み `meta.readings` を、日本郵便のデータから作った表で付ける。網羅テスト付き。地名の問題を足したら、`db:seed --class=PlaceNameQuizSeeder` と `PrefectureFuriganaTest` で確かめる）
 
 ### Spra-worldの確定画像の活用（2026-10-05。Ownerが `company/spra/spra-world/assets/approved/` に確定した画像のうち、Spra-goで使えるもの）
