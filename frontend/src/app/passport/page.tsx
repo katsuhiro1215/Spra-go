@@ -17,7 +17,7 @@ import { LoadingScreen } from "@/components/app/spru-loading";
 import { streakMilestoneBadge } from "@/components/quiz/streak-milestone";
 import { STAMP_IMAGES } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
-import { badgeCountText, groupBadgesByRegion, type PrefectureBadge } from "@/lib/prefecture-badges";
+import { badgeCountText, badgeRingClass, groupBadgesByRegion, type PrefectureBadge } from "@/lib/prefecture-badges";
 
 type PassportCountry = {
   code: string;
@@ -250,7 +250,7 @@ export default function Page() {
                       {group.badges.map((badge) => {
                         const content = (
                           <>
-                            <span className="relative block aspect-square w-full max-w-14">
+                            <span className={`relative block aspect-square w-full max-w-14 ${badgeRingClass(badge)}`}>
                               <Image
                                 src={badge.badge}
                                 alt=""
@@ -262,7 +262,7 @@ export default function Page() {
                             <span className="text-[11px] leading-tight font-bold text-[#3b3226]">{badge.name}</span>
                           </>
                         );
-                        const label = `${badge.name}のバッジ（${badge.earned ? "もらった" : "まだ"}）`;
+                        const label = `${badge.name}のバッジ（${badge.master ? "マスター" : badge.earned ? "もらった" : "まだ"}）`;
                         return (
                           <li key={badge.key} className="flex">
                             {badge.course_id ? (

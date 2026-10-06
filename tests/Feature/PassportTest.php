@@ -138,7 +138,7 @@ it('prefecture_badges に47県が、地方の順に出る。もらっていな�
     expect($badges->pluck('region')->unique()->values()->all())->toBe(['hokkaido-tohoku', 'kanto', 'chubu', 'kinki', 'chugoku-shikoku', 'kyushu-okinawa']);
     expect($badges->first())->toBe([
         'key' => 'hokkaido', 'name' => '北海道', 'region' => 'hokkaido-tohoku', 'region_name' => '北海道・東北',
-        'badge' => '/badge/pref/hokkaido.webp', 'earned' => false, 'course_id' => null,
+        'badge' => '/badge/pref/hokkaido.webp', 'earned' => false, 'master' => false, 'course_id' => null,
     ]);
     expect($badges->where('earned', true))->toHaveCount(0);
 });
@@ -153,6 +153,19 @@ it('称号「◯◯はかせ」を持つ県だけ earned になる。別のプ�
     $earned = collect($this->getJson('/api/passport')->assertOk()->json('prefecture_badges'))->where('earned', true);
 
     expect($earned->pluck('key')->values()->all())->toBe(['osaka']);
+});
+
+it('称号「◯◯マスター」を持つ県は master が真。はかせだけの県は earned だけが真', function () {
+    $profile = createActiveProfile();
+    ProfileTitle::create(['user_profile_id' => $profile->id, 'title' => '大阪府はかせ', 'unlocked_at' => now()]);
+    ProfileTitle::create(['user_profile_id' => $profile->id, 'title' => '大阪府マスター', 'unlocked_at' => now()]);
+    ProfileTitle::create(['user_profile_id' => $profile->id, 'title' => '京都府はかせ', 'unlocked_at' => now()]);
+
+    $badges = collect($this->getJson('/api/passport')->assertOk()->json('prefecture_badges'))->keyBy('key');
+
+    expect($badges['osaka']['earned'])->toBeTrue()->and($badges['osaka']['master'])->toBeTrue()
+        ->and($badges['kyoto']['earned'])->toBeTrue()->and($badges['kyoto']['master'])->toBeFalse()
+        ->and(collect($badges)->where('master', true))->toHaveCount(1);
 });
 
 it('その県のコースがあれば、course_id にその番号が付く(地方のカテゴリーの下の、県名のカテゴリー)', function () {

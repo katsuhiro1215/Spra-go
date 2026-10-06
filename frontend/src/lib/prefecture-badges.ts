@@ -8,6 +8,7 @@ export type PrefectureBadge = {
   region_name: string;
   badge: string;
   earned: boolean;
+  master: boolean;
   course_id: number | null;
 };
 
@@ -27,7 +28,14 @@ export function groupBadgesByRegion(badges: PrefectureBadge[]): PrefectureBadgeG
   return groups;
 }
 
-/** 「もらった数/全部」(例 12/47) */
+/** 「はかせ もらった数/全部・マスター もらった数/全部」(例 はかせ 12/47・マスター 3/47) */
 export function badgeCountText(badges: PrefectureBadge[]): string {
-  return `${badges.filter((b) => b.earned).length}/${badges.length}`;
+  const hakase = badges.filter((b) => b.earned).length;
+  const master = badges.filter((b) => b.master).length;
+  return `はかせ ${hakase}/${badges.length}・マスター ${master}/${badges.length}`;
+}
+
+/** マスターの県のバッジに付ける、金のふち(絵は、はかせと同じ) */
+export function badgeRingClass(badge: PrefectureBadge): string {
+  return badge.master ? "rounded-full ring-2 ring-[#d9a520] ring-offset-1" : "";
 }
