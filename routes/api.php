@@ -39,6 +39,7 @@ use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
 use App\Support\Prefecture\PrefectureBadges;
 use App\Support\Prefecture\PrefectureCatalog;
+use App\Support\Prefecture\PrefectureMaster;
 use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
 use App\Support\StageDraw;
@@ -1146,7 +1147,13 @@ Route::middleware(['auth:sanctum'])->get('/categories/{category}/stages', functi
         ->reject(fn (Stage $stage) => in_array($stage->country_id, $locked, true))
         ->groupBy('difficulty');
 
-    return collect(config('quiz.difficulties'))
+    // 最高難易度は、そのステージがあるカテゴリーだけ4つ目に足す
+    $difficulties = array_merge(
+        config('quiz.difficulties'),
+        array_values(array_filter(config('quiz.extra_difficulties'), fn (string $difficulty) => $stagesByDifficulty->has($difficulty))),
+    );
+
+    return collect($difficulties)
         ->map(function (string $difficulty) use ($stagesByDifficulty, $clearedStageIds) {
             $stages = ($stagesByDifficulty->get($difficulty) ?? collect())->values();
             $clearedNumbers = $stages
@@ -1249,6 +1256,15 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         $titleGranted = $title->wasRecentlyCreated;
     }
 
+    // 県の上級のボスを全問正解したら、県マスターの条件を見る(はかせと地名の両方。順番は問わない)
+    $grantedTitle = $stage->title_reward;
+    if ($score === $stage->playCount() && ($prefectureName = PrefectureMaster::prefectureOf($stage))) {
+        if ($master = PrefectureMaster::grantIfReady($profile, $prefectureName)) {
+            $titleGranted = true;
+            $grantedTitle = $master->title;
+        }
+    }
+
     return [
         'progress' => $progress,
         'profile' => [
@@ -1261,9 +1277,9 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
             'level' => $profile->level,
         ],
         'title_granted' => $titleGranted,
-        'title' => $stage->title_reward,
-        // 称号が県のもの(例 大阪府はかせ)なら、その県のバッジの絵(docs/design/2026-10-05-prefecture-quiz-design.md 7-2)
-        'title_badge' => PrefectureCatalog::badgeForTitle($stage->title_reward),
+        'title' => $grantedTitle,
+        // 称号が県のもの(例 大阪府はかせ・大阪府マスター)なら、その県のバッジの絵(docs/design/2026-10-05-prefecture-quiz-design.md 7-2)
+        'title_badge' => PrefectureCatalog::badgeForTitle($grantedTitle),
         'ticket_earned' => $ticketEarned,
     ];
 })->name('stages.complete');
