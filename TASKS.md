@@ -62,6 +62,11 @@
    - [ ] **段階3: ほかの問題へ**: 名物・名所・お祭りの個別の説明（例: 広島風お好み焼き）など、じわじわ足す。必要なら、解説に「読み上げ」「覚え方」などの項目を足す
    - [ ] **難読地名の説明141語をOwnerに確認**（`database/data/prefectures.php` の `hard` の `note`。確かな事実だけを、やさしい言葉で書いたつもりだが、公開前に確認してほしい。直したら `php artisan db:seed --class=PrefectureQuizSeeder` で反映される）。「美馬牛」のような難読地名を足したいときも、`hard` に足す
 
+7. [x] **県マスターと地名コース**（2026-10-07完了。[設計書](docs/design/2026-10-06-prefecture-master-design.md)・[計画](docs/design/2026-10-06-prefecture-master-plan.md)）: 地名コース47県2,125問・プールからの抽選・称号「◯◯マスター」・パスポートの金のふち・最高難易度の級
+   - [ ] **地名問題2,125問をOwnerに確認**（`database/data/place-names/*.csv`。直したら `db:seed --class=PlaceNameQuizSeeder`。元は `company/` 側。両方そろえる）。Ownerが後回しにした
+   - [ ] **地名のふりがなを決める**: 解説と「◯◯町はどれ？」の選択肢にある、辞書にない漢字（約570語。「町」など単漢字が多い）が、読みなしで出る。直し方は、①地名ごとの読みの辞書を足す（読みの元データが要る）、②その問いの選択肢と解説の地名をふりがななしにする、のどちらか。取り込みの前に決めたかったが、後回しになっている
+   - [ ] **ふりがなの網羅テストを地名にも足す**（上の決定のあと）
+
 ### Spra-worldの確定画像の活用（2026-10-05。Ownerが `company/spra/spra-world/assets/approved/` に確定した画像のうち、Spra-goで使えるもの）
 
 1. [x] **第1段階：町のアイテム25点の追加**（2026-10-05完了。[設計書](docs/design/2026-10-05-world-items-stage1-design.md)・[計画](docs/design/2026-10-05-world-items-stage1-plan.md)。建物14・木・水・飾り・橋・鳥居。品ぞろえ38→63点、Lv.1〜14）

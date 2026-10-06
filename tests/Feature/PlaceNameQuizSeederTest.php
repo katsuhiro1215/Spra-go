@@ -58,3 +58,15 @@ it('最高難易度のステージがないカテゴリーは、今まで通り3
 
     expect(collect($levels)->pluck('difficulty')->all())->toBe(['初級', '中級', '上級']);
 });
+
+it('地方のコース一覧に、地名コースが県のコースと並んで出る(称号・バッジはなし)', function () {
+    createActiveProfile();
+    writeSmallPlaceNamePlan();
+    $group = Category::where('name', '北海道・東北')->firstOrFail();
+
+    $courses = collect($this->getJson("/api/categories/{$group->id}/courses")->assertOk()->json())->keyBy('name');
+
+    expect($courses->keys()->all())->toBe(['北海道 地名', '青森県 地名']);
+    expect($courses['北海道 地名']['title'] ?? null)->toBeNull()
+        ->and($courses['北海道 地名']['earned'] ?? false)->toBeFalse();
+});
