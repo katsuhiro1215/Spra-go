@@ -3,8 +3,8 @@
 namespace App\Support;
 
 /**
- * レベルの上がり方(docs/design/2026-09-27-spru-wave-b-design.md 3-6)。
- * 上限を付けて、上がらなさすぎてやめてしまわないようにする。
+ * レベルの上がり方(docs/design/2026-10-07-header-level-design.md 6章。もとは 2026-09-27-spru-wave-b-design.md 3-6)。
+ * 100から始めて、だんだん必要なXPが増える(頭打ちなし)。国が増えても、上がり続けられるようにする。
  */
 class LevelCurve
 {
@@ -12,8 +12,10 @@ class LevelCurve
     public static function xpToNext(int $level): int
     {
         $curve = config('world.level_curve');
+        $n = $level - 1;
+        $xp = $curve['base'] + $curve['linear'] * $n + $curve['square'] * $n * $n;
 
-        return min($curve['base'] + $curve['step'] * ($level - 1), $curve['max']);
+        return (int) (round($xp / $curve['round']) * $curve['round']);
     }
 
     /** そのレベルに届くまでの合計XP(Lv.1は0) */

@@ -16,7 +16,7 @@
 ### 1. レベルの上がり方（#00516）
 - `config/world.php` の `level_curve` を `['base' => 100, 'linear' => 10, 'square' => 0.5, 'round' => 5]` に変える。`LevelCurve::xpToNext` を `round5(base + linear×(L−1) + square×(L−1)²)`（`max` はなくす）にする。
 - `GET /api/profiles/active` に `level_xp`（`LevelCurve::progress($profile->level)`）を足す（ヘッダーの輪が使う）。
-- テスト: `tests/Feature/LevelCurveTest.php` を新しい数字に直す（合計XPの表: Lv.2=100・Lv.3=210・Lv.6=615・Lv.11=1,590・Lv.16=3,055・Lv.21=5,130・Lv.31=11,620・Lv.51=37,450）。頭打ちがない（Lv.50でも次までが増え続ける）。`levelForXp` と `totalXpFor` が境目で一致。前の計算で上がっていたレベルは下がらない（既存のテストを残す）。`profiles/active` が `level_xp` を返す。`CatchGameFinishTest` のレベルアップのテストが、新しい数字でも通ることを確認（通らなければ直す）。
+- テスト: `tests/Feature/LevelCurveTest.php` を新しい数字に直す（合計XPの表: Lv.2=100・Lv.3=210・Lv.6=615・Lv.11=1,595・Lv.16=3,060・Lv.21=5,140・Lv.31=11,635・Lv.51=37,475）。頭打ちがない（Lv.50でも次までが増え続ける）。`levelForXp` と `totalXpFor` が境目で一致。前の計算で上がっていたレベルは下がらない（既存のテストを残す）。`profiles/active` が `level_xp` を返す。`CatchGameFinishTest` のレベルアップのテストが、新しい数字でも通ることを確認（通らなければ直す）。
 
 ### 2. ヘッダーのレベルの輪と、絵だけのPT・コイン（#00517）
 - `lib/level-ring.ts`（新）: `ringFraction(xp, {floor, next})`（0〜1、範囲外は丸める。`next <= floor` は0）、`xpToNextText(xp, {floor, next})`（「あと 120 XP」）。と、Vitest のテスト（0%・50%・100%・次のレベルに届いた直後・不正な範囲）。

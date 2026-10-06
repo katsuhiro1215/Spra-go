@@ -36,11 +36,11 @@ return [
     ],
 
     /*
-    | レベルの上がり方: 次のレベルまでに必要なXP = min(base + step × (今のレベル − 1), max)。
-    | 最初は上がりやすく、続けるほど上がりにくい(docs/design/2026-09-27-spru-wave-b-design.md 3-6)。
+    | レベルの上がり方: 次のレベルまでに必要なXP = round(base + linear × n + square × n², round の倍数に)。n = 今のレベル − 1。
+    | 100から始まり、続けるほど上がりにくい。頭打ちはなし(docs/design/2026-10-07-header-level-design.md 6章)。
     */
 
-    'level_curve' => ['base' => 100, 'step' => 20, 'max' => 300],
+    'level_curve' => ['base' => 100, 'linear' => 10, 'square' => 0.5, 'round' => 5],
 
     /*
     | 町のアイテムの絵として用意済みのキー。フロントの components/world/art-keys.ts と
