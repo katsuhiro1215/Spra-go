@@ -1,5 +1,5 @@
 import { HALF_H, HALF_W, tileCenter, tileKey } from "./iso";
-import type { Tile, WorldItem, WorldLand, WorldPlot } from "./types";
+import type { Landmark, Tile, WorldItem, WorldLand, WorldPlot } from "./types";
 
 type Plots = Pick<WorldLand, "plots">;
 type Rect = Pick<WorldPlot, "x" | "y" | "w" | "h">;
