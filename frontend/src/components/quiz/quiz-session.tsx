@@ -79,7 +79,7 @@ function flagEmojiToCountryCode(text: string): string | null {
     .toLowerCase();
 }
 
-function ChoiceLabel({ label }: { label: string }) {
+function ChoiceLabel({ label, readings }: { label: string; readings?: Record<string, string> }) {
   const [imageFailed, setImageFailed] = useState(false);
   const flagCode = flagEmojiToCountryCode(label);
 
@@ -89,7 +89,7 @@ function ChoiceLabel({ label }: { label: string }) {
     // しまう。1つのspanで包んで、その中で通常のテキスト折り返しにする。
     return (
       <span>
-        <AutoFurigana text={label} />
+        <AutoFurigana text={label} readings={readings} />
       </span>
     );
   }
@@ -573,7 +573,7 @@ export function QuizSession({
               )
             )}
             <h1 className="mt-2 text-xl font-black">
-              <AutoFurigana text={question.prompt} plain={question.meta?.plain} />
+              <AutoFurigana text={question.prompt} plain={question.meta?.plain} readings={question.meta?.readings} />
             </h1>
           </div>
 
@@ -640,12 +640,12 @@ export function QuizSession({
                         </span>
                         {answered && (
                           <span className="text-xs">
-                            <AutoFurigana text={choice.label} />
+                            <AutoFurigana text={choice.label} readings={question.meta?.readings} />
                           </span>
                         )}
                       </span>
                     ) : (
-                      <ChoiceLabel label={choice.label} />
+                      <ChoiceLabel label={choice.label} readings={question.meta?.readings} />
                     )}
                   </AppButton>
                 );
@@ -730,7 +730,7 @@ export function QuizSession({
                 )}
                 {correctChoiceLabel && (
                   <span className="flex items-center gap-1">
-                    こたえは「<ChoiceLabel label={correctChoiceLabel} />」
+                    こたえは「<ChoiceLabel label={correctChoiceLabel} readings={question.meta?.readings} />」
                   </span>
                 )}
               </div>
@@ -739,6 +739,7 @@ export function QuizSession({
               key={`${runId}:${mode}:${currentIndex}`}
               explanation={explanation}
               plain={question.meta?.plain}
+              readings={question.meta?.readings}
             />
             {streak?.streak_extended_today && (
               <p className="flex items-center gap-1 text-sm font-bold text-[#c2402c]">

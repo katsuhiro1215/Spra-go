@@ -176,6 +176,10 @@ class FlagQuizWriter
         if (($spec['plain'] ?? []) !== []) {
             $meta['plain'] = $spec['plain'];
         }
+        // 問題ごとの読み(地名など。同じ名前でも県で読みが違うので、辞書でなく問題に持たせる)
+        if (($spec['readings'] ?? []) !== []) {
+            $meta['readings'] = $spec['readings'];
+        }
 
         return $meta;
     }

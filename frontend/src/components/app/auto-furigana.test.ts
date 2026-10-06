@@ -122,3 +122,24 @@ describe("自動ふりがな(ふりがなを付けない語。難読地名の問
     expect(rubyPlain("京都府と京都", ["京都"])).not.toContain("京都(きょうと)");
   });
 });
+
+describe("問題ごとの読み(readings)", () => {
+  const rubyWith = (text: string, readings: Record<string, string>, plain: string[] = []) =>
+    tokenize(text, plain, readings)
+      .filter((segment) => typeof segment !== "string")
+      .map((segment) => `${segment.text}(${segment.reading})`);
+
+  it("問題ごとの読みを付ける。同じ名前でも、問題ごとに別の読みにできる", () => {
+    expect(rubyWith("朝日町は、山形県にあるよ。", { 朝日町: "あさひまち" })).toContain("朝日町(あさひまち)");
+    expect(rubyWith("朝日町は、三重県にあるよ。", { 朝日町: "あさひちょう" })).toContain("朝日町(あさひちょう)");
+  });
+
+  it("辞書の語のほうが長いときは、辞書を使う(秋田の読みで、秋田犬が分かれない)", () => {
+    expect(rubyWith("秋田犬", { 秋田: "あきた" })).toEqual(["秋田犬(あきたいぬ)"]);
+  });
+
+  it("同じ長さなら、問題ごとの読みを先にする。plain の語は、読みがあっても付けない", () => {
+    expect(rubyWith("北海道", { 北海道: "ほっかいどう" })).toEqual(["北海道(ほっかいどう)"]);
+    expect(rubyWith("『旭川』は", { 旭川: "あさひかわ" }, ["旭川"])).toEqual([]);
+  });
+});

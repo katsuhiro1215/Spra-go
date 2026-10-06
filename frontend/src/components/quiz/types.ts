@@ -16,6 +16,8 @@ export type QuizQuestion = {
     layout?: "slots";
     /** ふりがなを付けない語(難読地名の問題の、問われる漢字) */
     plain?: string[];
+    /** その問題だけの読み(地名など。名前 → ひらがな) */
+    readings?: Record<string, string>;
   } | null;
   /** ステージに足した、出す日が来た前の問題(おさらい)。ステージの点数には入れない */
   review?: boolean;

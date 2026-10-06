@@ -95,3 +95,35 @@ it('同じ問題文と正解の重複がない', function () {
         }
     }
 });
+
+use App\Support\Prefecture\MunicipalityReadings;
+
+it('問題に出る地名の読み(readings)が付く。解説の地域名・選択肢の町名も読める', function () {
+    $questions = collect(placeNameCourse(placeNamePlan(), 'hokkaido')['levels'])->flatMap(fn ($level) => $level['stages'][0]['questions']);
+
+    $asahikawa = $questions->first(fn ($q) => $q['plain'] === ['旭川']);
+    expect($asahikawa['readings'])->toHaveKey('上川', 'かみかわ');
+
+    $yamaguchi = collect(placeNamePlan())->pluck('courses')->flatten(1)->firstWhere('key', 'yamaguchi-place')['levels'];
+    $hirao = collect($yamaguchi)->flatMap(fn ($level) => $level['stages'][0]['questions'])->first(fn ($q) => str_contains($q['explanation']['summary'], '平生町'));
+    expect($hirao['readings']['平生町'])->toBe('ひらおちょう');
+});
+
+it('読みはひらがなだけ。同じ名前が別の県にもあるときは、その県の読みを使う', function () {
+    $own = MunicipalityReadings::table();
+    foreach (placeNamePlan() as $region) {
+        foreach ($region['courses'] as $course) {
+            $prefecture = collect(PrefectureCatalog::all())->first(fn ($p) => $p['key'].'-place' === $course['key'])['name'];
+            foreach ($course['levels'] as $level) {
+                foreach ($level['stages'][0]['questions'] as $q) {
+                    foreach ($q['readings'] ?? [] as $word => $reading) {
+                        expect($reading)->toMatch('/^[ぁ-んー]+$/u');
+                        if (isset($own[$prefecture][$word])) {
+                            expect($reading)->toBe($own[$prefecture][$word]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+});

@@ -17,9 +17,12 @@ type Segment = string | { text: string; reading: string };
 
 /**
  * 辞書の最長一致で、ふりがなを付ける語と、そのままの文字に分ける(テストでも使う)。
- * plain に入れた語(難読地名の問題の、問われる漢字)は、辞書にあっても、ふりがなを付けずにそのまま出す
+ * plain に入れた語(難読地名の問題の、問われる漢字)は、辞書にあっても、ふりがなを付けずにそのまま出す。
+ * readings は、その問題だけの読み(地名など。同じ名前でも県で読みが違うので、辞書でなく問題に持たせる)。
+ * 辞書の語と readings の語が同じ位置で当たるときは、長いほうを使う(同じ長さなら readings)
  */
-export function tokenize(text: string, plain: string[] = []): Segment[] {
+export function tokenize(text: string, plain: string[] = [], readings: Record<string, string> = {}): Segment[] {
+  const readingWords = Object.keys(readings).sort((a, b) => b.length - a.length);
   const segments: Segment[] = [];
   let i = 0;
 
@@ -43,12 +46,17 @@ export function tokenize(text: string, plain: string[] = []): Segment[] {
       i += counter.length;
       continue;
     }
-    for (const [word, reading] of dictionaryEntries) {
-      if (text.startsWith(word, i)) {
-        segments.push({ text: word, reading });
-        i += word.length;
-        continue outer;
-      }
+    const ownWord = readingWords.find((word) => word !== "" && text.startsWith(word, i));
+    const entry = dictionaryEntries.find(([word]) => text.startsWith(word, i));
+    if (ownWord && (!entry || ownWord.length >= entry[0].length)) {
+      segments.push({ text: ownWord, reading: readings[ownWord] });
+      i += ownWord.length;
+      continue outer;
+    }
+    if (entry) {
+      segments.push({ text: entry[0], reading: entry[1] });
+      i += entry[0].length;
+      continue outer;
     }
 
     const last = segments[segments.length - 1];
@@ -70,8 +78,8 @@ export function tokenize(text: string, plain: string[] = []): Segment[] {
  * 用語辞書を使い、表示側で変換する(元のprompt/choiceテキストは一切変更しない)。
  * 表示/非表示の切り替え自体はFuriganaコンポーネント側(CSSの data-furigana)が担う。
  */
-export function AutoFurigana({ text, plain }: { text: string; plain?: string[] }) {
-  const segments = tokenize(text, plain);
+export function AutoFurigana({ text, plain, readings }: { text: string; plain?: string[]; readings?: Record<string, string> }) {
+  const segments = tokenize(text, plain, readings);
 
   return (
     <>

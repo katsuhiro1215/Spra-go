@@ -70,3 +70,16 @@ it('地方のコース一覧に、地名コースが県のコースと並んで�
     expect($courses['北海道 地名']['title'] ?? null)->toBeNull()
         ->and($courses['北海道 地名']['earned'] ?? false)->toBeFalse();
 });
+
+it('問題ごとの読み(readings)が、問題の meta に書かれ、問題の取得で返る', function () {
+    createActiveProfile();
+    writeSmallPlaceNamePlan();
+
+    $question = Question::where('prompt', '北海道の『旭川』は、なんて よむ？')->firstOrFail();
+    expect($question->meta['readings']['上川'])->toBe('かみかわ')
+        ->and($question->meta['plain'])->toBe(['旭川']);
+
+    $stage = Stage::where('is_pool', true)->whereHas('category', fn ($q) => $q->where('name', '北海道 地名'))->where('difficulty', '初級')->firstOrFail();
+    $questions = collect($this->getJson("/api/stages/{$stage->id}")->assertOk()->json('questions'));
+    expect($questions->contains(fn ($q) => isset($q['meta']['readings'])))->toBeTrue();
+});

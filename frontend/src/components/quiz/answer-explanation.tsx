@@ -12,14 +12,16 @@ import type { QuestionExplanation } from "./types";
  * 答えのカードに出す、問題の解説(docs/design/2026-10-06-question-explanation-design.md 5章)。
  * 要約(summary)を出し、例文・使いどころ・似た語があれば「くわしく見る」で開く。解説のない問題は、何も出さない。
  * 問題が変わるたびに閉じた状態に戻したいので、呼ぶ側が key を付けて作り直す。
- * plain は、ふりがなを付けない語(難読地名の問われた漢字)
+ * plain は、ふりがなを付けない語(難読地名の問われた漢字)。readings は、その問題だけの読み(地名)
  */
 export function AnswerExplanation({
   explanation,
   plain,
+  readings,
 }: {
   explanation: QuestionExplanation | null;
   plain?: string[];
+  readings?: Record<string, string>;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -31,7 +33,7 @@ export function AnswerExplanation({
     <div className="flex w-full flex-col items-start gap-1 rounded-2xl bg-[#f5ecd5] px-4 py-3 text-left">
       {summary && (
         <p className="text-sm font-bold leading-relaxed">
-          <AutoFurigana text={summary} plain={plain} />
+          <AutoFurigana text={summary} plain={plain} readings={readings} />
         </p>
       )}
       {hasDetails(explanation) && (
@@ -56,7 +58,7 @@ export function AnswerExplanation({
                   </p>
                   {example.translation && (
                     <p className="text-[#6b5d45]">
-                      <AutoFurigana text={example.translation} plain={plain} />
+                      <AutoFurigana text={example.translation} plain={plain} readings={readings} />
                     </p>
                   )}
                 </section>
@@ -65,7 +67,7 @@ export function AnswerExplanation({
                 <section>
                   <h3 className="text-xs font-black text-[#7a6a4a]">つかいどころ</h3>
                   <p className="font-bold leading-relaxed">
-                    <AutoFurigana text={usage} plain={plain} />
+                    <AutoFurigana text={usage} plain={plain} readings={readings} />
                   </p>
                 </section>
               )}
@@ -78,7 +80,7 @@ export function AnswerExplanation({
                         {item.term}
                         {item.note && (
                           <span className="ml-2 font-normal text-[#6b5d45]">
-                            <AutoFurigana text={item.note} plain={plain} />
+                            <AutoFurigana text={item.note} plain={plain} readings={readings} />
                           </span>
                         )}
                       </li>

@@ -100,6 +100,12 @@ class PlaceNameQuizPlanner
         [, , , , $prompt, $correct, $wrong1, $wrong2, $wrong3, $summary] = $row;
         preg_match_all('/『(.+?)』/u', $prompt, $matches);
 
+        // 問われた地名の読みを選ぶ問いは、選択肢がひらがな。地名を選ぶ問いは、選択肢にも読みが要る
+        $texts = [$prompt, $summary];
+        if ($matches[1] === []) {
+            array_push($texts, $correct, $wrong1, $wrong2, $wrong3);
+        }
+
         return [
             'key' => "pref:{$prefecture['region']}:{$prefecture['key']}:place:{$code}:{$number}",
             'type' => 'multiple_choice',
@@ -110,6 +116,7 @@ class PlaceNameQuizPlanner
                 array_map(fn (string $label) => ['label' => $label, 'correct' => false, 'image' => null], [$wrong1, $wrong2, $wrong3]),
             ),
             'plain' => $matches[1],
+            'readings' => MunicipalityReadings::forTexts($prefecture['name'], $texts, $matches[1]),
             'explanation' => ['summary' => $summary],
         ];
     }

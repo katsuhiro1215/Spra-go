@@ -64,8 +64,7 @@
 
 7. [x] **県マスターと地名コース**（2026-10-07完了。[設計書](docs/design/2026-10-06-prefecture-master-design.md)・[計画](docs/design/2026-10-06-prefecture-master-plan.md)）: 地名コース47県2,125問・プールからの抽選・称号「◯◯マスター」・パスポートの金のふち・最高難易度の級
    - [ ] **地名問題2,125問をOwnerに確認**（`database/data/place-names/*.csv`。直したら `db:seed --class=PlaceNameQuizSeeder`。元は `company/` 側。両方そろえる）。Ownerが後回しにした
-   - [ ] **地名のふりがなを決める**: 解説と「◯◯町はどれ？」の選択肢にある、辞書にない漢字（約570語。「町」など単漢字が多い）が、読みなしで出る。直し方は、①地名ごとの読みの辞書を足す（読みの元データが要る）、②その問いの選択肢と解説の地名をふりがななしにする、のどちらか。取り込みの前に決めたかったが、後回しになっている
-   - [ ] **ふりがなの網羅テストを地名にも足す**（上の決定のあと）
+   - [x] **地名のふりがな**（2026-10-07完了。問題ごとの読み `meta.readings` を、日本郵便のデータから作った表で付ける。網羅テスト付き。地名の問題を足したら、`db:seed --class=PlaceNameQuizSeeder` と `PrefectureFuriganaTest` で確かめる）
 
 ### Spra-worldの確定画像の活用（2026-10-05。Ownerが `company/spra/spra-world/assets/approved/` に確定した画像のうち、Spra-goで使えるもの）
 
