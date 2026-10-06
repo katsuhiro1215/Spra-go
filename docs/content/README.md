@@ -57,3 +57,10 @@ php artisan content:import docs/content/drafts/jp_beginner.json
 ## 既知の注意事項
 
 - 開発環境のDB（`SpraGo`）は `countries` テーブルの一部カラム（`three_code` / `name_en` / `country_code`）がマイグレーションファイルとずれており実テーブルに存在しない状態。既存国（jp/us/fr）はこの3カラムなしで登録されている。**イギリス（GB）は開発DBに未登録**のため、`gb_beginner.json` を取り込む前に `Country::create(['code' => 'GB', 'name' => 'イギリス'])` 相当の登録が必要（`CountrySeeder`の該当行を使うか、Ownerダッシュボードから追加する）。このスキーマ不整合自体は本タスクのスコープ外の別問題として認識している。
+
+## インポートのあとの並べ直し（`course:build`）
+
+`php artisan content:import ...` で入れた国旗（国のメインの道）の内容は、そのあとに
+`php artisan course:build [国のコード]` を実行して、級ごとに10ステージ（最後がボス）のプールに並べ直す
+（`docs/design/2026-10-07-main-game-levels-design.md`）。内容を足したときも、`content:import` → `course:build` の順に実行する。
+国ごとのステージ数・出す数は `database/data/country-courses.php`（載っていない国は `config/courses.php` の既定）。

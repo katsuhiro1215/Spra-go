@@ -13,4 +13,15 @@ return [
     */
 
     'country_root' => '国旗',
+
+    // 国のコースの既定。級 => [ステージ数, 通常ステージの出す数, ボスの出す数]。国ごとの上書きは database/data/country-courses.php
+    'default' => [
+        '初級' => ['stages' => 10, 'draw' => 10, 'boss' => 15],
+        '中級' => ['stages' => 10, 'draw' => 15, 'boss' => 20],
+        '上級' => ['stages' => 10, 'draw' => 20, 'boss' => 25],
+    ],
+
+    // ステージクリアの報酬の割合(%)。ステージが増える分、通常は半分、ボスは今のまま
+    'normal_reward_percent' => 50,
+    'boss_reward_percent' => 100,
 ];
