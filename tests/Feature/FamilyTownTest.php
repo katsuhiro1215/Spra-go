@@ -65,7 +65,7 @@ it('家族の町は、置いたアイテム・仲間・スプル・畑の見た�
         ->assertJsonCount(1, 'items')
         ->assertJsonPath('items.0.id', $placed->id)
         ->assertJsonPath('spru.growth', 1)
-        ->assertJsonPath('garden', ['x' => 1, 'y' => 2, 'state' => 'sprout', 'look' => 'spru'])
+        ->assertJsonPath('garden', ['x' => 0, 'y' => 2, 'state' => 'sprout', 'look' => 'spru'])
         ->assertJsonPath('companions.0.name', 'ピカ')
         ->assertJsonPath('companions.0.is_partner', true)
         ->assertJsonPath('land.width', 12)

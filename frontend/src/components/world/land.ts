@@ -45,6 +45,11 @@ export function landEdges(land: Plots): { left: Tile[]; right: Tile[] } {
 }
 
 /** (x, y) を奥のマスにして使うマス */
+/** 目印の大きさ(N×NのN)。footprint がない目印は1マス(Spruの家だけ2。config/world.php の land.landmarks) */
+export function landmarkFootprint(landmark: Pick<Landmark, "footprint">): number {
+  return landmark.footprint ?? 1;
+}
+
 export function footprintTiles(x: number, y: number, footprint: number): Tile[] {
   const tiles: Tile[] = [];
   for (let dy = 0; dy < footprint; dy++) {

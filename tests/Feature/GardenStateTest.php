@@ -21,13 +21,13 @@ it('新しいプロフィールは育ち具合0から始まる', function () {
     $this->getJson('/api/world')->assertOk()->assertJsonPath('spru.growth', 0);
 });
 
-it('畑はスプルの家の前のマスにあり、アイテムを置けないマスになる', function () {
+it('畑はスプルの家の左隣のマス(0,2)にあり、アイテムを置けないマスになる', function () {
     createActiveProfile();
 
     $response = $this->getJson('/api/world')->assertOk();
 
-    expect($response->json('land.blocked'))->toContain([1, 2]);
-    $response->assertJsonPath('garden.x', 1)
+    expect($response->json('land.blocked'))->toContain([0, 2]);
+    $response->assertJsonPath('garden.x', 0)
         ->assertJsonPath('garden.y', 2)
         ->assertJsonPath('garden.state', 'empty');
 });

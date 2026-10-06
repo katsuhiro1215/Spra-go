@@ -32,6 +32,7 @@ import {
   footprintTiles,
   isOpenTile,
   landEdges,
+  landmarkFootprint,
   occupiedTiles,
   openTiles,
   plotAt,
@@ -64,7 +65,7 @@ type PlacedCompanion = WorldCompanion & { key: CompanionKey; x: number; y: numbe
 
 // x, y は重なり順に使うマス(大きな建物は手前のマス)、sx, sy は絵を描く位置
 type SceneObject =
-  | { kind: "landmark"; id: string; x: number; y: number; sx: number; sy: number; landmarkKey: string }
+  | { kind: "landmark"; id: string; x: number; y: number; sx: number; sy: number; landmarkKey: string; footprint: number }
   | { kind: "item"; id: string; x: number; y: number; sx: number; sy: number; item: WorldItem }
   | { kind: "companion"; id: string; x: number; y: number; sx: number; sy: number; companion: PlacedCompanion; index: number }
   | { kind: "spru"; id: string; x: number; y: number; sx: number; sy: number };
@@ -243,7 +244,14 @@ export function WorldScene({
   const at = (x: number, y: number) => ({ x, y, ...tileCenter(x, y) });
   // 奥から手前へ描くことで、手前の物が奥の物に重なる
   const objects: SceneObject[] = [
-    ...land.landmarks.map((l, i) => ({ kind: "landmark" as const, id: `landmark-${i}`, ...at(l.x, l.y), landmarkKey: l.key })),
+    ...land.landmarks.map((l, i) => ({
+      kind: "landmark" as const,
+      id: `landmark-${i}`,
+      ...depthTile(l.x, l.y, landmarkFootprint(l)),
+      ...footprintCenter(l.x, l.y, landmarkFootprint(l)),
+      landmarkKey: l.key,
+      footprint: landmarkFootprint(l),
+    })),
     ...placed.map((item) => ({
       kind: "item" as const,
       id: `item-${item.id}`,
@@ -325,10 +333,25 @@ export function WorldScene({
     : [{ id: "garden-button", ...at(garden.x, garden.y), label: "畑", onTap: onGardenTap, halfWidth: 22, up: 36, down: 12 }];
   // スプルの家は、地面と同じく目印なので、アイテム・仲間のタップより奥(最初)に置き、近くのタップをじゃましない
   const house = land.landmarks.find((landmark) => landmark.key === "spru_house");
+  // 家は2×2。押せる範囲と寝ているときの印は、4マスの真ん中・手前の角に合わせる
+  const houseCenter = house
+    ? { ...depthTile(house.x, house.y, landmarkFootprint(house)), ...footprintCenter(house.x, house.y, landmarkFootprint(house)) }
+    : { x: 0, y: 0, sx: 0, sy: 0 };
   const houseTarget: TapTarget[] =
     readOnly || !onHouseTap || !house
       ? []
-      : [{ id: "house-button", ...at(house.x, house.y), label: "スプルの家(中をのぞく)", onTap: onHouseTap, halfWidth: 30, up: 52, down: 8, spru: true }];
+      : [
+          {
+            id: "house-button",
+            ...houseCenter,
+            label: "スプルの家(中をのぞく)",
+            onTap: onHouseTap,
+            halfWidth: 60,
+            up: 110,
+            down: 20,
+            spru: true,
+          },
+        ];
   const tapTargets: TapTarget[] = placing
     ? []
     : [
@@ -513,11 +536,11 @@ export function WorldScene({
                     {o.landmarkKey === "garden" ? (
                       <GardenArt state={garden.state} look={garden.look} />
                     ) : (
-                      <LandmarkArt landmarkKey={o.landmarkKey} />
+                      <LandmarkArt landmarkKey={o.landmarkKey} footprint={o.footprint} />
                     )}
                   </g>
                   {theme.lit &&
-                    lightCircles(o.landmarkKey, 1).map((light, index) => (
+                    lightCircles(o.landmarkKey, o.footprint).map((light, index) => (
                       <circle key={index} cx={light.cx} cy={light.cy} r={light.r} fill="#ffd98a" opacity={0.5} />
                     ))}
                 </>
@@ -565,7 +588,7 @@ export function WorldScene({
           );
         })}
 
-        {spru.sleeping && house && <SleepMark x={at(house.x, house.y).sx + 14} y={at(house.x, house.y).sy - 58} quiet={quiet} />}
+        {spru.sleeping && house && <SleepMark x={houseCenter.sx + 14} y={houseCenter.sy - 86} quiet={quiet} />}
 
         {preview && previewCenter && (
           <g transform={`translate(${previewCenter.sx} ${previewCenter.sy})`} opacity={0.6}>

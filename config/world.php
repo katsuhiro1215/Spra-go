@@ -124,9 +124,10 @@ return [
             ['key' => 'stone_lantern', 'x' => 2, 'y' => 0],
             ['key' => 'torii', 'x' => 3, 'y' => 0],
             ['key' => 'stone_lantern', 'x' => 4, 'y' => 0],
-            ['key' => 'spru_house', 'x' => 1, 'y' => 1],
-            // スプルの家の前の畑。種をまいて水やりする(目印なのでアイテムは置けない)
-            ['key' => 'garden', 'x' => 1, 'y' => 2],
+            // スプルの家は2×2。(1,1) を奥のマスにして4マス使う(footprint がない目印は1マス。docs/design/2026-10-07-town-sizes-design.md 4-3)
+            ['key' => 'spru_house', 'x' => 1, 'y' => 1, 'footprint' => 2],
+            // スプルの家の左隣の畑。種をまいて水やりする(目印なのでアイテムは置けない)
+            ['key' => 'garden', 'x' => 0, 'y' => 2],
             ['key' => 'bamboo_grove', 'x' => 8, 'y' => 0],
             ['key' => 'bamboo_grove', 'x' => 10, 'y' => 1],
             ['key' => 'bamboo_grove', 'x' => 11, 'y' => 5],
