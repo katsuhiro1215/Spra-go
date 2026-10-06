@@ -21,6 +21,7 @@ use App\Models\ShopItem;
 use App\Models\Stage;
 use App\Models\User;
 use App\Models\UserProfile;
+use App\Models\UserSchema;
 use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\Analytics;
@@ -37,6 +38,7 @@ use App\Support\PlayTime;
 use App\Support\LevelCurve;
 use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
+use App\Support\CourseLevels;
 use App\Support\Prefecture\PrefectureBadges;
 use App\Support\Prefecture\PrefectureCatalog;
 use App\Support\Prefecture\PrefectureMaster;
@@ -956,11 +958,13 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
         ->orderBy('order')
         ->get()
         ->map(function (Country $country) use ($clearedProgress, $difficultyOrder) {
-            $stages = Stage::query()->where('country_id', $country->id)->get();
+            // スタンプ・鍵は、国のメインの道(国旗)のステージだけで決める(英語・世界遺産は含めない。docs/design/2026-10-07-main-game-levels-design.md 4-5)
+            $stages = Stage::query()->where('country_id', $country->id)->whereIn('category_id', CourseLevels::mainCategoryIds())->get();
             $stagesByDifficulty = $stages->groupBy('difficulty');
 
             $unlockedDifficulties = [];
             $stampTier = 'none';
+            $previousAllCleared = true;
             $tierByDifficulty = ['初級' => 'bronze', '中級' => 'silver', '上級' => 'gold'];
 
             foreach ($difficultyOrder as $index => $difficulty) {
@@ -980,9 +984,11 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
                 }
 
                 $allCleared = $diffStages->every(fn (Stage $s) => $clearedProgress->has($s->id));
-                if ($allCleared) {
+                // 前の級をすべてクリアしていないときは、上の段位を付けない(銅なしの金は付かない)
+                if ($allCleared && $previousAllCleared) {
                     $stampTier = $tierByDifficulty[$difficulty];
                 }
+                $previousAllCleared = $previousAllCleared && $allCleared;
             }
 
             $firstClearedAt = $stages
@@ -1015,8 +1021,13 @@ Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request
         : 0;
     $activeProfile = ActiveProfile::find($request);
 
+    $homeCountry = $activeProfile ? (string) (UserSchema::query()->whereKey($activeProfile->user_schema_id)->value('home_country') ?? 'jp') : 'jp';
+
     return [
         'countries' => $countries,
+        // 国レベルと言語レベル(クリアしたステージの数)。母国の言語は出さない(docs/design/2026-10-07-main-game-levels-design.md 4-5)
+        'country_levels' => $activeProfile ? CourseLevels::forCountries($activeProfile) : [],
+        'language_levels' => $activeProfile ? CourseLevels::forLanguages($activeProfile, $homeCountry) : [],
         'titles' => $titles,
         'visited_count' => $countries->filter(fn ($c) => $c['stamp_tier'] !== 'none')->count(),
         'best_streak' => $bestStreak,
