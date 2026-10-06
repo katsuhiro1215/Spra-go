@@ -31,6 +31,9 @@ return [
     // 国(国コード・小文字) => その国の言語のキー。母国の言語は、パスポートの言語レベルに出さない
     'country_language' => ['us' => 'en', 'gb' => 'en', 'fr' => 'fr', 'jp' => 'ja'],
 
+    // 言語コースの問題の種類。元のステージのテーマ(question_themes.key) => word(単語) / sentence(文章)。テーマがなければ word
+    'language_kind_by_theme' => ['vocabulary' => 'word', 'phrase' => 'sentence', 'grammar' => 'sentence'],
+
     // ステージクリアの報酬の割合(%)。ステージが増える分、通常は半分、ボスは今のまま
     'normal_reward_percent' => 50,
     'boss_reward_percent' => 100,

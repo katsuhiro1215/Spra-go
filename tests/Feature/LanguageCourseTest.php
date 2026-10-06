@@ -115,3 +115,33 @@ it('国の画面の groups は、国のメインの道(国旗)だけ。英語・
 
     expect($groups->pluck('category.name')->unique()->all())->toBe(['アメリカカテゴリ']);
 });
+
+use App\Models\QuestionTheme;
+
+/** テーマ($themeKey。null ならテーマなし)つきの、国に結びついた英語のステージを作る */
+function createThemedEnglish(Country $country, int $number, ?string $themeKey, string $prompt): void
+{
+    $english = Category::firstOrCreate(['name' => '英語を学ぶ'], ['is_language_mode' => true]);
+    $quiz = Quiz::firstOrCreate(['title' => "英語テーマ{$country->code}"], ['difficulty' => '初級', 'country_id' => $country->id]);
+    $theme = $themeKey ? QuestionTheme::firstOrCreate(['key' => $themeKey], ['label' => $themeKey]) : null;
+    $stage = Stage::create(['category_id' => $english->id, 'country_id' => $country->id, 'difficulty' => '初級', 'stage_number' => $number, 'question_theme_id' => $theme?->id, 'is_boss' => false]);
+    $q = Question::create(['quiz_id' => $quiz->id, 'prompt' => $prompt, 'meta' => ['flag_key' => "既存{$prompt}"]]);
+    $q->choices()->create(['label' => '正', 'is_correct' => true, 'order' => 1]);
+    $q->choices()->create(['label' => '誤', 'is_correct' => false, 'order' => 2]);
+    $stage->questions()->attach($q->id, ['order' => 1]);
+}
+
+it('言語のコースにまとめるとき、問題にテーマから種類(word/sentence)を付ける。既存の meta は残す', function () {
+    $us = createTravelCountry('us', 'アメリカ');
+    createThemedEnglish($us, 1, 'vocabulary', 'Dog');
+    createThemedEnglish($us, 2, 'phrase', 'How are you?');
+    createThemedEnglish($us, 3, 'grammar', 'I am a student.');
+    createThemedEnglish($us, 4, null, 'Cat');
+
+    CoursePoolBuilder::buildLanguages();
+    CoursePoolBuilder::buildLanguages();
+
+    $kinds = Question::all()->mapWithKeys(fn ($q) => [$q->prompt => $q->meta['kind'] ?? null])->all();
+    expect($kinds)->toBe(['Dog' => 'word', 'How are you?' => 'sentence', 'I am a student.' => 'sentence', 'Cat' => 'word'])
+        ->and(Question::where('prompt', 'Dog')->first()->meta['flag_key'])->toBe('既存Dog');
+});
