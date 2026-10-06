@@ -6,7 +6,7 @@ SRC="${1:-../../company/spra/spra-go/content/english}"
 DEST="$(dirname "$0")/../../database/data/english"
 
 rm -rf "$DEST"
-mkdir -p "$DEST/words" "$DEST/sentences"
+mkdir -p "$DEST/words" "$DEST/sentences" "$DEST/word-details"
 
 for dir in "$SRC"/words/levels/*/; do
   name=$(basename "$dir")
@@ -18,5 +18,10 @@ for dir in "$SRC"/sentences/levels/*/; do
   [ "$name" = "11-30-elementary" ] && continue
   cp "$dir/questions.csv" "$DEST/sentences/$name.csv"
 done
+
+# 単語の内容の原稿(発音記号・例文など)。あるときだけ
+if [ -d "$SRC/words/details" ]; then
+  cp "$SRC"/words/details/*.csv "$DEST/word-details/" 2>/dev/null || true
+fi
 
 echo "コピーしました: $(ls "$DEST/words" | wc -l | tr -d ' ') 個の単語CSV、$(ls "$DEST/sentences" | wc -l | tr -d ' ') 個の文章CSV"
