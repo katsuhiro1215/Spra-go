@@ -78,4 +78,4 @@ for k, v in issues.items():
     print('\n##', k, len(v))
     for x in v[:25]:
         print('  ', x)
-print('\nunknown sample', unknown[:25])
+print('\n照合できなかった問い(町域名など):', len(unknown))
