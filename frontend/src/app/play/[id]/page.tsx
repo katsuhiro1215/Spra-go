@@ -18,7 +18,7 @@ import { LoadingScreen, SpruLoading } from "@/components/app/spru-loading";
 import { StagePath } from "@/components/app/stage-path";
 import { CourseSelect, type Course } from "@/components/quiz/course-select";
 import { apiFetch } from "@/lib/api";
-import { DIFFICULTY_READINGS } from "@/lib/difficulty";
+import { DIFFICULTY_READINGS, difficultiesFor } from "@/lib/difficulty";
 import { courseSelectPrompt } from "@/lib/prefecture-quiz";
 
 type Category = {
@@ -28,7 +28,7 @@ type Category = {
   name: string;
 };
 
-type Difficulty = "初級" | "中級" | "上級";
+type Difficulty = string;
 
 type StageSummary = {
   id: number;
@@ -47,7 +47,6 @@ type DifficultyGroup = {
   stages: StageSummary[];
 };
 
-const DIFFICULTIES: Difficulty[] = ["初級", "中級", "上級"];
 
 type StageIntro = {
   stageId: number;
@@ -153,6 +152,7 @@ export default function Page({
     );
   }
 
+  const DIFFICULTIES = difficultiesFor(groups);
   const groupsByDifficulty = new Map(
     DIFFICULTIES.map((difficulty) => [
       difficulty,
