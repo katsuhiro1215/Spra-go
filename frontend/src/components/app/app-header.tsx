@@ -13,7 +13,7 @@ import { StatusSheet } from "@/components/app/status-sheet";
 
 /**
  * ゲーム内の全画面共通ヘッダー(設計書4-1、docs/design/2026-10-07-header-level-design.md 5-1章)。
- * 左にロゴのマーク。右は縦2段で、上にレベルの輪と体力ゲージ、下に連続日数と学習ポイント・コインの絵(数字は出さない)。
+ * 左にロゴのマーク。右は縦2段で、上に体力ゲージとレベルの輪(輪は一番右)、下に連続日数と学習ポイント・コインの絵(数字は出さない)。
  * 輪を押すと「じぶんの状態」が開く。プロフィールの切り替え・ログアウトは下のメニューの「じぶん」にある。
  * RootLayoutに置かないのは、ログイン前/マーケティングページでは表示したくないため。
  * プロフィール情報は`ProfileProvider`から取得する(回答APIの結果がすぐに反映される)
@@ -34,8 +34,8 @@ export function AppHeader() {
 
       <div className="flex w-[204px] flex-col items-end gap-1">
         <div className="flex w-full items-center gap-1.5">
-          <LevelRing level={profile?.level ?? 1} xp={profile?.xp ?? 0} range={profile?.level_xp} onClick={() => setStatusOpen(true)} />
           <HpGauge value={profile?.hp ?? 0} max={profile?.max_hp ?? 20} className="min-w-0 flex-1" />
+          <LevelRing level={profile?.level ?? 1} xp={profile?.xp ?? 0} range={profile?.level_xp} onClick={() => setStatusOpen(true)} />
         </div>
         <div className="flex items-center gap-1">
           {typeof profile?.current_streak === "number" && profile.current_streak > 0 && (
