@@ -67,6 +67,14 @@
    - [ ] **地名問題2,125問をOwnerに確認**（機械で確かめられない分: 北海道の最高難易度など、郵便データにない難読地名17問〔来止臥・老者舞・重蘭窮・賤夫向・初無敵・烏山・吾妻・御徒町・信楽・太秦・放出・十三・隠岐・種子島など〕と、解説文の言い回し。`database/data/place-names/*.csv`。直したら `db:seed --class=PlaceNameQuizSeeder`。元は `company/` 側。両方そろえる）。Ownerが後回しにした
    - [x] **地名のふりがな**（2026-10-07完了。問題ごとの読み `meta.readings` を、日本郵便のデータから作った表で付ける。網羅テスト付き。地名の問題を足したら、`db:seed --class=PlaceNameQuizSeeder` と `PrefectureFuriganaTest` で確かめる）
 
+8. [x] **メインゲームの作り直し**（2026-10-07完了。[設計書](docs/design/2026-10-07-main-game-levels-design.md)・[計画](docs/design/2026-10-07-main-game-levels-plan.md)）: 各級10ステージ・クリア率・近道・HP・国レベル・言語コース・ステージの道（StageMap）・パスポートのレベル
+   - [ ] **問題を増やす（国）**: 日本・アメリカ・フランスの国旗コースを、プール 初級60・中級80・上級100問以上に（いまは各級60問の使い回し）。Codex・Claudeで下書きし、Ownerが確認する。入れたら `content:import` → `course:build`
+   - [ ] **フランス語のコース**: 「フランス語を学ぶ」の問題を作る（カテゴリー名は `config/courses.php` の `languages`）。作るとフランスの言語ボタンが出る
+   - [ ] **小さな国のコース定義**: バチカン・東ティモールなど。`database/data/country-courses.php` に、級・ステージ数を書く
+   - [ ] **日本の道の絵**: Ownerが用意（`public/spru/ground/`、`components/world/ground-art.ts`）。届くまで共通の道
+   - [ ] **世界遺産などの別の道**: いまはメインの道（国旗）だけが画面・レベル・スタンプの対象。世界遺産の内容は、別の道を作るまで遊べない
+   - 小さな点: ミニクイズの結果の「◯／◯問正解」には、おさらいの問題も入る（ステージの点数には入らない）。「ステージを やりなおす」と「もう一度」（練習）の2つが並ぶので、見た目を整理したい
+
 ### Spra-worldの確定画像の活用（2026-10-05。Ownerが `company/spra/spra-world/assets/approved/` に確定した画像のうち、Spra-goで使えるもの）
 
 1. [x] **第1段階：町のアイテム25点の追加**（2026-10-05完了。[設計書](docs/design/2026-10-05-world-items-stage1-design.md)・[計画](docs/design/2026-10-05-world-items-stage1-plan.md)。建物14・木・水・飾り・橋・鳥居。品ぞろえ38→63点、Lv.1〜14）

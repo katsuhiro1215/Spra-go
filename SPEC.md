@@ -187,6 +187,15 @@ Owner構想:「旅の成果がすべて残る場所」。世界地図が埋ま�
   - 県マスター: 「◯◯はかせ」（一般の上級ボス全問正解。今のまま）を持ち、かつ地名の上級ボスを全問正解したときに、称号「◯◯マスター」（`PrefectureMaster::grantIfReady`。順番は問わない・二重に付かない）。バッジの絵は、はかせと同じ。パスポートの `prefecture_badges` に `master` を足し、マスターの県は金のふち、数の文は「はかせ 12/47・マスター 3/47」
   - ふりがな（地名）: 同じ名前でも県で読みが違う（朝日町など）ので、辞書には入れず、**問題ごとの読み** `questions.meta.readings`（名前→ひらがな）を持たせる。`PlaceNameQuizPlanner` が `MunicipalityReadings::forTexts` で、問題文・選択肢・解説に出る地名の読みを付ける（同じ県の読みを優先。ほかの県の名前は多数決。北海道の地域名・政令市・「市」を除いた言い方も含む）。元データ `database/data/municipality-readings.json` は、日本郵便の郵便番号データから `tools/place-names/build_municipality_readings.py` で作る。画面は `tokenize(text, plain, readings)`（辞書の語と読みの語が同じ位置で当たるときは長いほう、同じ長さなら読み）。`PrefectureFuriganaTest` が、地名コースの全文に読みなしの漢字が残らないことを確かめる
   - 最高難易度の級は、`config('quiz.extra_difficulties')`。`/categories/{id}/stages` は、そのステージがあるコースだけ4つ目に足す。画面は `lib/difficulty.ts` の `difficultiesFor`
+- ✅（2026-10-07）**メインゲームの作り直し（国レベル・言語コース・長いステージ）**（`docs/design/2026-10-07-main-game-levels-design.md`・計画 `docs/design/2026-10-07-main-game-levels-plan.md`）:
+  - コースと級: 国の「◯◯を学ぶ」（メインの道＝ルート「国旗」の下の国のカテゴリー。`config('courses.country_root')`）は、級ごとに**10ステージ**（通常 初級10・中級15・上級20問、ボス 15・20・25問）。国ごとの大きさは `database/data/country-courses.php`（載っていない国は `config/courses.php` の既定）。問題は級のプールとして全ステージにつなぎ、`StageDraw` で抽選（`is_pool`）。内容は `content:import` のあとに **`php artisan course:build`**（`CoursePoolBuilder`）で並べ直す（国旗は国のステージから、言語は `buildLanguages` で国に結びつけないコースにまとめる）
+  - クリア: 通常ステージは正答率60%以上・ボス80%以上でクリア（`config/quiz.php` の `clear_percent`）。届かないと `cleared_at` は付かず、ステージの報酬もなし（`best_score`・`attempts` は残す）。称号は全問正解のときだけ。`POST /api/stages/{id}/complete` が `cleared`・`required` を返し、結果の画面に「あと◯問」と「ステージを やりなおす」を出す。ステージクリアの報酬は `stages.reward_percent`（国の通常ステージ50・ボス100・地名50）
+  - 級の鍵: 前の級のボスをクリアするか、近道（前の級で3ステージ以上遊び、合計正答率が50%を超える。`config('quiz.shortcut')`・`Stage::isDifficultyLocked` に `bestScores`）で開く
+  - HP: 正解では減らず、不正解のとき−1（`config('world.hp')`。最大20）
+  - チケット: 国のメインの道の初級のボスだけが数える（英語・世界遺産は数えない。`Travel::context`）
+  - レベル: 国レベル＝その国のメインの道のクリアしたステージ数、言語レベル＝その言語のコースのクリア数（最大＝全ステージ数。`CourseLevels`）。パスポート（`GET /api/passport`）に `country_levels`・`language_levels`。母国は `user_schemas.home_country`（今は全員 `jp`）で、母国の言語は言語レベルに出さない。スタンプ（銅・銀・金）は、メインの道だけで、前の級をすべてクリアしたときだけ上の段位が付く
+  - 言語のコース: 言語ごとに1つ（`config('courses.languages')`・`country_language`。国に結びつけない `country_id` null のステージ）。アメリカ・イギリスは同じ英語のコース。`GET /api/countries` の各国に `language`、`GET /api/countries/{id}` に `language`・`language_groups`（`groups` は国のメインの道だけ）。ステージのない言語（フランス語など）は、言語のボタンを出さない
+  - 画面: ステージの道は `StageMap`（国の道の絵を曲がる道として敷き、周りは草の地面。スプルが次に遊ぶステージの横に立ち、クリア後は前の位置から歩く。動きを減らす設定では動かさない。`lib/stage-map.ts`）。国の画面は「◯◯を学ぶ」「◯◯語を学ぶ」と「◯◯レベル Lv.x / y」。日本の道の絵は、届くまで今の共通の道
 - ✅ **スプルキャッチ（えいたんご）**: 学ぶタブの「ミニアプリ」の引き出しと「英語を学ぶ」の画面から遊ぶ（`/games/catch`）。1問ごとに選択肢が横一列で落ちてくるので、スプルを左右に動かして正解の列で受け取る。1回10問・ハート3つ
   - ✅（2026-10-04）**種を投げて先に答える**: 落ちている言葉を**タップ**すると、スプルが種を投げて、その言葉で答えがすぐ決まる（言葉はその高さで止まる）。◀▶ボタン・矢印キーでスプルを動かして、受け取る線で受け取る遊び方も残る。点数・コンボ・ハート・ごほうび・サーバーの採点は変わらない。まちがえて列をタップすると、その列の答えで決まる（説明の「あそびかた」に書いてある）
   - ✅（2026-10-04）**説明**: 難しさを選ぶ画面に「あそびかた」の3つの手順、ゲーム中に「答えをタップ！」と「◀▶でスプルを動かしても取れるよ」のヒント。国旗のキャッチは別のゲームとして、あとで足す（TASKS）

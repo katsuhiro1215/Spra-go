@@ -104,7 +104,7 @@ export default function Page({
           }}
           className="rounded-full bg-[#3b7f26] px-5 py-2 text-sm font-black text-white shadow"
         >
-          もういちど
+          ステージを やりなおす
         </button>
       </div>
     ) : null;
