@@ -5,6 +5,7 @@ namespace App\Support;
 use App\Models\Category;
 use App\Models\Stage;
 use App\Models\UserProfile;
+use App\Models\UserSchema;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -57,5 +58,36 @@ class CourseLevels
         }
 
         return $levels;
+    }
+
+    /** 母国(国コード・小文字)。プロフィールの家族アカウントの設定。なければ日本 */
+    public static function homeCountry(?UserProfile $profile): string
+    {
+        return $profile ? (string) (UserSchema::query()->whereKey($profile->user_schema_id)->value('home_country') ?? 'jp') : 'jp';
+    }
+
+    /** ステージのある言語のキー(国に結びつかない言語のコースがあるもの) @return list<string> */
+    public static function availableLanguageKeys(): array
+    {
+        $names = Stage::query()
+            ->join('categories', 'categories.id', '=', 'stages.category_id')
+            ->whereNull('stages.country_id')
+            ->whereIn('categories.name', array_column(config('courses.languages'), 'category'))
+            ->distinct()->pluck('categories.name')->all();
+
+        return array_keys(array_filter(config('courses.languages'), fn (array $language) => in_array($language['category'], $names, true)));
+    }
+
+    /** 国で選べる言語のコース({key, name})。その国の言語にステージがなく、または母国の言語なら null */
+    public static function languageForCountry(string $countryCode, string $homeCountry, ?array $available = null): ?array
+    {
+        $key = config('courses.country_language')[strtolower($countryCode)] ?? null;
+        $homeKey = config('courses.country_language')[strtolower($homeCountry)] ?? null;
+        $available ??= self::availableLanguageKeys();
+        if ($key === null || $key === $homeKey || ! in_array($key, $available, true)) {
+            return null;
+        }
+
+        return ['key' => $key, 'name' => config("courses.languages.{$key}.name")];
     }
 }

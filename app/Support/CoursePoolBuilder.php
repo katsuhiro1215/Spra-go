@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Category;
 use App\Models\Country;
+use App\Models\Question;
 use App\Models\Stage;
 use Illuminate\Support\Facades\DB;
 
@@ -94,5 +95,101 @@ class CoursePoolBuilder
             ->where('stage_number', '>', $level['stages'])->delete();
 
         return ['stages' => $level['stages'], 'pool' => count($poolIds)];
+    }
+
+    /**
+     * 言語のコース(「◯◯語を学ぶ」)を、国に結びつかない10ステージ×級のプールに並べ直す(設計書 4-1)。
+     * 国ごとに別々にあった同じ言語のステージの問題を、1つのプールにまとめる(問題文と正解が同じ問題は1つ)。
+     * ステージのない言語は何もしない。何度実行しても同じ結果になる
+     *
+     * @return array<string, array{stages: int, pool: int}>
+     */
+    public static function buildLanguages(): array
+    {
+        $result = [];
+
+        foreach (config('courses.languages') as $key => $language) {
+            $category = Category::query()->where('name', $language['category'])->first();
+            $existing = $category ? Stage::query()->where('category_id', $category->id)->get() : collect();
+            if ($existing->isEmpty()) {
+                continue;
+            }
+
+            $totals = DB::transaction(function () use ($category, $existing, $language) {
+                $totals = ['stages' => 0, 'pool' => 0];
+                $definition = config('courses.default');
+
+                foreach ($existing->groupBy('difficulty') as $difficulty => $stages) {
+                    if (! isset($definition[$difficulty])) {
+                        continue;
+                    }
+                    $level = $definition[$difficulty];
+                    $poolIds = self::languagePool($stages);
+                    if ($poolIds === []) {
+                        continue;
+                    }
+                    $title = $stages->sortBy('id')->first(fn (Stage $stage) => $stage->is_boss && $stage->title_reward)?->title_reward;
+                    $sync = [];
+                    foreach ($poolIds as $index => $id) {
+                        $sync[$id] = ['order' => $index + 1];
+                    }
+
+                    for ($number = 1; $number <= $level['stages']; $number++) {
+                        $boss = $number === $level['stages'];
+                        $stage = Stage::query()->updateOrCreate(
+                            ['category_id' => $category->id, 'country_id' => null, 'difficulty' => $difficulty, 'stage_number' => $number],
+                            [
+                                'question_count' => $boss ? $level['boss'] : $level['draw'],
+                                'is_boss' => $boss,
+                                'is_pool' => true,
+                                'reward_percent' => config($boss ? 'courses.boss_reward_percent' : 'courses.normal_reward_percent'),
+                                'title_reward' => $boss ? $title : null,
+                            ],
+                        );
+                        $stage->questions()->sync($sync);
+                    }
+                    $totals['stages'] += $level['stages'];
+                    $totals['pool'] += count($poolIds);
+                }
+
+                // 国に結びついていた、元のステージと、10を超える番号のステージを消す(公開前の作り直し)
+                Stage::query()->where('category_id', $category->id)
+                    ->where(fn ($query) => $query->whereNotNull('country_id')->orWhere('stage_number', '>', 10))
+                    ->delete();
+
+                return $totals;
+            });
+
+            if ($totals['stages'] > 0) {
+                $result[$key] = $totals;
+            }
+        }
+
+        return $result;
+    }
+
+    /** 言語のステージの問題を集めて、重複(問題文と正解が同じ)を除いたプールにする @return list<int> */
+    private static function languagePool($stages): array
+    {
+        $ids = DB::table('stage_questions')
+            ->whereIn('stage_id', $stages->pluck('id'))
+            ->join('stages', 'stages.id', '=', 'stage_questions.stage_id')
+            ->orderBy('stages.stage_number')->orderBy('stage_questions.order')->orderBy('stages.id')
+            ->pluck('stage_questions.question_id')->unique()->values()->all();
+
+        $questions = Question::query()->with('choices')->whereIn('id', $ids)->get()->keyBy('id');
+        $seen = [];
+        $pool = [];
+        foreach ($ids as $id) {
+            $question = $questions[$id];
+            $key = $question->prompt.'|'.$question->choices->firstWhere('is_correct', true)?->label;
+            if (isset($seen[$key])) {
+                continue;
+            }
+            $seen[$key] = true;
+            $pool[] = (int) $id;
+        }
+
+        return $pool;
     }
 }

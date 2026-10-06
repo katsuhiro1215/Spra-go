@@ -25,7 +25,8 @@ function createCountryWithStageContent(string $code, string $name): Country
         'country_code' => random_int(100, 999),
     ]);
 
-    $category = Category::create(['name' => $name.'カテゴリ']);
+    $root = Category::firstOrCreate(['name' => config('courses.country_root'), 'parent_id' => null]);
+    $category = Category::create(['name' => $name.'カテゴリ', 'parent_id' => $root->id]);
     $stage = Stage::create([
         'category_id' => $category->id,
         'country_id' => $country->id,
@@ -72,7 +73,7 @@ it('推定した国の印(is_suggested)は返さない', function () {
     expect($response->json('0'))->not->toHaveKey('is_suggested');
 });
 
-it('言語学習モードのステージがある国だけhas_language_modeがtrue', function () {
+it('言語のコース(国に結びつかない)がある言語の国だけhas_language_modeがtrue', function () {
     createActiveProfile();
     $us = createCountryWithStageContent('us', 'アメリカ');
     createCountryWithStageContent('jp', '日本');
@@ -80,7 +81,7 @@ it('言語学習モードのステージがある国だけhas_language_modeがtr
     $languageCategory = Category::create(['name' => '英語を学ぶ', 'is_language_mode' => true]);
     $stage = Stage::create([
         'category_id' => $languageCategory->id,
-        'country_id' => $us->id,
+        'country_id' => null, // 言語のコースは国に結びつけない(アメリカの言語は英語)
         'difficulty' => '初級',
         'stage_number' => 1,
     ]);
@@ -98,7 +99,7 @@ it('国ごとに、問題のあるステージの数と今のプロフィール�
     $japan = createCountryWithStageContent('jp', '日本');
     createCountryWithStageContent('us', 'アメリカ');
 
-    $category = Category::create(['name' => '日本の2つ目']);
+    $category = Category::create(['name' => '日本の2つ目', 'parent_id' => Category::where('name', config('courses.country_root'))->value('id')]);
     $second = Stage::create(['category_id' => $category->id, 'country_id' => $japan->id, 'difficulty' => '初級', 'stage_number' => 2]);
     [$question] = createQuestionWithChoices();
     $second->questions()->attach($question->id, ['order' => 1]);

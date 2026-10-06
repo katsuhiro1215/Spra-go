@@ -26,6 +26,13 @@ class BuildCoursesCommand extends Command
             }
         }
 
+        // 言語のコース(国に結びつけない)。国を指定したときは、触らない
+        if (! $this->argument('code')) {
+            foreach (CoursePoolBuilder::buildLanguages() as $key => $result) {
+                $this->info(config("courses.languages.{$key}.name").": ステージ{$result['stages']}・プール{$result['pool']}");
+            }
+        }
+
         return self::SUCCESS;
     }
 }
