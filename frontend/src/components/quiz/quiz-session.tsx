@@ -338,6 +338,7 @@ export function QuizSession({
           points: data.profile.points,
           xp: data.profile.xp,
           level: data.profile.level,
+          level_xp: data.profile.level_xp,
           current_streak: data.profile.streak,
         });
         const growth: number = data.profile.spru_growth ?? 0;
