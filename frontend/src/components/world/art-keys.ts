@@ -228,42 +228,48 @@ export const ITEM_ART_CATEGORIES: Record<ItemArtKey, ItemCategory> = {
 
 /** 管理画面の絵の選択肢の名前。カテゴリと、2×2なら大きさを添える(例: 「五重塔（名所・2×2）」) */
 export function artOptionLabel(key: ItemArtKey): string {
-  const size = isBigAsset(key) ? "・2×2" : "";
+  const footprint = assetFootprint(key);
+  const size = footprint > 1 ? `・${footprint}×${footprint}` : "";
   return `${ITEM_ART_LABELS[key]}（${CATEGORY_LABELS[ITEM_ART_CATEGORIES[key]]}${size}）`;
 }
 
-/** 2×2マスの絵(設計書3-4)。config/world.php の asset_footprints と必ず一致させる */
-export const BIG_ASSETS: readonly ArtKey[] = [
-  "fountain",
-  "pagoda",
-  "castle",
-  "tower",
-  "boat_large",
-  "borobudur",
-  "bulguksa",
-  "liberty",
-  "stonehenge",
-  "mont_saint_michel",
-  "bakery",
-  "japanese_house",
-  "cafe",
-  "lighthouse",
-  "kinkakuji",
-  "sungnyemun",
-  "arc_de_triomphe",
-  "big_ben",
-  "large_tree",
-  "greengrocer",
-  "fish_shop",
-  "meat_shop",
-  "produce_shop",
-  "chief_hall",
-  "stone_tower_hall",
-  "windmill_garden",
-  "spru_mall",
-  "saku_mall",
-];
+/** 2×2・3×3マスの絵の大きさ(設計書 2026-09-27-wave-e 3-4、2026-10-07-town-sizes 4-1)。書いていない絵は1×1。config/world.php の asset_footprints と必ず一致させる */
+export const ASSET_FOOTPRINTS: Readonly<Partial<Record<ArtKey, number>>> = {
+  fountain: 2,
+  pagoda: 2,
+  castle: 2,
+  tower: 2,
+  boat_large: 2,
+  borobudur: 2,
+  bulguksa: 2,
+  liberty: 2,
+  stonehenge: 2,
+  mont_saint_michel: 2,
+  bakery: 2,
+  japanese_house: 2,
+  cafe: 2,
+  lighthouse: 2,
+  kinkakuji: 2,
+  sungnyemun: 2,
+  arc_de_triomphe: 2,
+  big_ben: 2,
+  large_tree: 2,
+  greengrocer: 2,
+  fish_shop: 2,
+  meat_shop: 2,
+  produce_shop: 2,
+  chief_hall: 3,
+  stone_tower_hall: 2,
+  windmill_garden: 3,
+  spru_mall: 3,
+  saku_mall: 3,
+};
+
+/** 絵の大きさ(N×NのN)。1(小)・2(中)・3(大)。絵がなければ1 */
+export function assetFootprint(key: string | null): number {
+  return key === null ? 1 : ((ASSET_FOOTPRINTS as Record<string, number | undefined>)[key] ?? 1);
+}
 
 export function isBigAsset(key: string | null): boolean {
-  return key !== null && (BIG_ASSETS as readonly string[]).includes(key);
+  return assetFootprint(key) > 1;
 }

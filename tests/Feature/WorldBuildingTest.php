@@ -160,15 +160,17 @@ it('町のAPIのバッグのアイテムにも大きさが付く', function () {
     $this->getJson('/api/world')->assertOk()->assertJsonPath('bag.0.footprint', 2);
 });
 
-it('品ぞろえのシーダーで大きな建物23(特別の名所4つとSpra-worldの確定画像10を含む)を含む63種類がそろい、2回実行しても増えない', function () {
+it('品ぞろえのシーダーで、2×2の建物19・3×3の建物4(モール2つ・村長の家・風車の庭)を含む63種類がそろい、2回実行しても増えない', function () {
     $this->seed(WorldItemSeeder::class);
     $this->seed(WorldItemSeeder::class);
 
     $items = ShopItem::query()->where('type', 'decoration')->get();
     $big = $items->filter(fn (ShopItem $item) => $item->footprint() === 2)->pluck('name');
+    $large = $items->filter(fn (ShopItem $item) => $item->footprint() === 3)->pluck('name');
 
     expect($items)->toHaveCount(63)
-        ->and($big)->toHaveCount(23)
+        ->and($big)->toHaveCount(19)
+        ->and($large)->toHaveCount(4)
         ->and($big->all())->toContain('お城', 'カフェ', 'タワー', 'パン屋', 'ビッグ・ベン', '五重塔', '凱旋門', '南大門', '和風の家', '噴水', '大きな船', '灯台', '金閣寺')
         ->and($items->firstWhere('name', 'タワー')->only(['price', 'min_level']))->toBe(['price' => 500, 'min_level' => 12]);
 });
@@ -218,4 +220,59 @@ it('Spra-worldの確定画像から足した2×2の建物(八百屋)も、4マ�
     $this->patchJson("/api/world/items/{$shop->id}", ['x' => 2, 'y' => 5])
         ->assertOk()
         ->assertJson(['asset_key' => 'greengrocer', 'footprint' => 2]);
+});
+
+/*
+|--------------------------------------------------------------------------
+| 大きな建物(3×3)(docs/design/2026-10-07-town-sizes-design.md)
+|--------------------------------------------------------------------------
+|
+| スプルモール・さくモール・村長の家・風車と水車の庭は3×3で、(x, y) を奥のマスにして9マス使う。
+|
+*/
+
+it('空いた9マスに3×3の建物を置け、大きさ3で返る', function (string $assetKey) {
+    $profile = createActiveProfile();
+    $mall = createBuilding($profile, $assetKey);
+
+    $this->patchJson("/api/world/items/{$mall->id}", ['x' => 4, 'y' => 4])
+        ->assertOk()
+        ->assertJson(['id' => $mall->id, 'x' => 4, 'y' => 4, 'asset_key' => $assetKey, 'footprint' => 3]);
+})->with(['spru_mall', 'saku_mall', 'chief_hall', 'windmill_garden']);
+
+it('3×3の建物の9マスのどれかが1マスのアイテムと重なると置けない', function (int $benchX, int $benchY) {
+    $profile = createActiveProfile();
+    createPlacedBench($profile, $benchX, $benchY);
+    $mall = createBuilding($profile, 'spru_mall');
+
+    $this->patchJson("/api/world/items/{$mall->id}", ['x' => 4, 'y' => 4])
+        ->assertStatus(422)
+        ->assertJsonPath('message', 'そこにはもう置いてあります。');
+    expect($mall->fresh()->isPlaced())->toBeFalse();
+})->with([
+    '奥' => [4, 4],
+    '真ん中' => [5, 5],
+    '手前の角' => [6, 6],
+    '右の端' => [6, 4],
+]);
+
+it('3×3の建物は、使うマスが雲にかかる場所には置けない(2×2なら収まる場所でも)', function () {
+    $profile = createActiveProfile();
+    $mall = createBuilding($profile, 'spru_mall');
+    $castle = createBuilding($profile, 'castle');
+
+    $this->patchJson("/api/world/items/{$mall->id}", ['x' => 5, 'y' => 4])
+        ->assertStatus(422)
+        ->assertJsonPath('message', 'まだ雲に隠れているよ。');
+    $this->patchJson("/api/world/items/{$castle->id}", ['x' => 5, 'y' => 4])->assertOk();
+});
+
+it('3×3の建物が、道や目印のマスにかかると置けない', function () {
+    $profile = createActiveProfile();
+    $mall = createBuilding($profile, 'spru_mall');
+
+    // (3,3) は横の道のマス
+    $this->patchJson("/api/world/items/{$mall->id}", ['x' => 2, 'y' => 3])
+        ->assertStatus(422)
+        ->assertJsonPath('message', 'そこには置けません。');
 });

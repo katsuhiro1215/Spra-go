@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import { SPRU_BLOOM } from "@/components/spru/spru-assets";
 
-import { isBigAsset } from "./art-keys";
+import { assetFootprint } from "./art-keys";
 import { iconViewBox, imagePlacement, itemImage } from "./item-image";
 import { ImageArt } from "./item-image-art";
 import { ITEM_IMAGE_FIT } from "./item-image-fit";
@@ -35,7 +35,7 @@ const FALLBACK: ReactNode = (
 export function ItemArt({ assetKey }: { assetKey: string | null }) {
   const image = itemImage(assetKey);
   if (image && assetKey) {
-    return <ImageArt image={image} footprint={isBigAsset(assetKey) ? 2 : 1} fit={ITEM_IMAGE_FIT[assetKey]} />;
+    return <ImageArt image={image} footprint={assetFootprint(assetKey)} fit={ITEM_IMAGE_FIT[assetKey]} />;
   }
   return <>{assetKey === "spru_flower" ? SPRU_FLOWER : FALLBACK}</>;
 }
@@ -53,7 +53,7 @@ export function ItemIcon({
   // 画像の物は画像の範囲に合わせる。スプルの花・プレゼント箱は1マスの範囲
   const viewBox =
     image && assetKey
-      ? iconViewBox(imagePlacement(image, isBigAsset(assetKey) ? 2 : 1, ITEM_IMAGE_FIT[assetKey]))
+      ? iconViewBox(imagePlacement(image, assetFootprint(assetKey), ITEM_IMAGE_FIT[assetKey]))
       : "-34 -62 68 72";
   return (
     <svg viewBox={viewBox} width={size} height={size} aria-hidden className={className}>
