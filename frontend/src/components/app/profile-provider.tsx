@@ -10,6 +10,7 @@ import {
 } from "react";
 
 import { apiFetch } from "@/lib/api";
+import type { LevelXp } from "@/lib/level-ring";
 
 export type Profile = {
   id: number;
@@ -23,6 +24,8 @@ export type Profile = {
   points: number;
   xp: number;
   level: number;
+  /** 今のレベルに届いた合計XPと、次のレベルの合計XP(ヘッダーのレベルの輪に使う) */
+  level_xp?: LevelXp;
   current_streak: number;
 };
 

@@ -1892,7 +1892,7 @@ Route::middleware(['auth:sanctum'])->prefix('profiles')->name('profiles.')->grou
         $profile?->regenerateHp();
 
         $payload = $profile
-            ? [...$profile->toArray(), 'hp_regen_seconds' => $profile->secondsUntilNextHp()]
+            ? [...$profile->toArray(), 'hp_regen_seconds' => $profile->secondsUntilNextHp(), 'level_xp' => LevelCurve::progress($profile->level)]
             : null;
 
         // response()->json(null) は Symfony の JsonResponse の仕様で

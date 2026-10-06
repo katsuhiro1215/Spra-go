@@ -14,7 +14,8 @@ import { SPRU_ICONS, SPRU_ITEMS } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
 
 /**
- * 下のメニューの「じぶん」で開く、下から出るパネル(設計書4-4)。外側のタップ・Escで閉じ、
+ * 下のメニューの「じぶん」で開く、下から出るパネル(設計書4-4)。持ち物と設定(バッグ・パスポート・ずかん・単語帳・表示・切り替え・ログアウト)。
+ * いまの状態(レベル・XP・数字)は、ヘッダーの輪から開く「じぶんの状態」(status-sheet.tsx)。外側のタップ・Escで閉じ、
  * 開いている間はパネルの中だけをキーボードで行き来できる(radix-ui の Dialog)
  */
 export function MeSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
@@ -53,6 +54,7 @@ export function MeSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (
             <SheetLink href="/bag" icon={<AssetImage asset={SPRU_ICONS.bag} size={28} />} label="バッグ" onNavigate={close} />
             <SheetLink href="/passport" icon={<BadgeImage badge="passport" size={22} />} label="パスポート" onNavigate={close} />
             <SheetLink href="/zukan" icon={<AssetImage asset={SPRU_ITEMS.zukan_melon_bread} size={26} />} label="パンとやさいのずかん" onNavigate={close} />
+            <SheetLink href="/words" icon={<span aria-hidden className="text-xl">📖</span>} label="単語帳" onNavigate={close} />
           </ul>
 
           <div className="my-3 rounded-2xl bg-[#f5efe1] p-3">

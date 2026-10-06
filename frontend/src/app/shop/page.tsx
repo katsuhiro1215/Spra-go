@@ -11,11 +11,10 @@ import { BackLink } from "@/components/app/back-link";
 import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
-import { LearnPointsBadge } from "@/components/app/learn-points-badge";
-import { PointsBadge } from "@/components/app/points-badge";
 import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { LoadingScreen } from "@/components/app/spru-loading";
+import { WalletCards } from "@/components/app/wallet-cards";
 import { isEmailVerified } from "@/components/auth/auth-flow";
 import { EmailVerifyNotice } from "@/components/auth/email-verify-notice";
 import {
@@ -216,18 +215,14 @@ function ShopContent() {
       <AppHeader />
 
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-12 pb-24">
-        <div className="flex items-center justify-between">
-          <div>
-            <BackLink />
-            <SkyTitle className="mt-2 flex items-center gap-2 text-3xl">
-              <Store aria-hidden className="h-7 w-7" />
-              ショップ
-            </SkyTitle>
-          </div>
-          <div className="flex items-center gap-2">
-            <LearnPointsBadge value={profile?.points ?? 0} />
-            <PointsBadge value={profile?.coins ?? 0} />
-          </div>
+        <div className="flex flex-col gap-3">
+          <BackLink />
+          <SkyTitle className="flex items-center gap-2 text-3xl whitespace-nowrap">
+            <Store aria-hidden className="h-7 w-7 shrink-0" />
+            ショップ
+          </SkyTitle>
+          {/* ヘッダーは絵だけなので、ここで数字を見せる。2列で並べ、足りなければ1列に積む(右に置くと、タイトルや戻るボタンが崩れる) */}
+          <WalletCards points={profile?.points ?? 0} coins={profile?.coins ?? 0} />
         </div>
 
         {message && (
