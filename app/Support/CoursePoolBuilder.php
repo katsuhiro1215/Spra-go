@@ -125,6 +125,7 @@ class CoursePoolBuilder
                     }
                     $level = $definition[$difficulty];
                     $poolIds = self::languagePool($stages);
+                    self::tagKinds($stages, $poolIds);
                     if ($poolIds === []) {
                         continue;
                     }
@@ -191,5 +192,35 @@ class CoursePoolBuilder
         }
 
         return $pool;
+    }
+
+    /**
+     * 言語コースの問題に、種類(meta.kind = word / sentence)を、元のステージのテーマから付ける。
+     * すでに付いている問題は変えない(並べ直しをやり直しても、元のテーマがなくなっているため)。既存の meta は残す
+     *
+     * @param  list<int>  $poolIds
+     */
+    private static function tagKinds($stages, array $poolIds): void
+    {
+        $themeKeys = DB::table('question_themes')->pluck('key', 'id');
+        $kindByTheme = config('courses.language_kind_by_theme');
+        $found = [];
+        $rows = DB::table('stage_questions')
+            ->join('stages', 'stages.id', '=', 'stage_questions.stage_id')
+            ->whereIn('stage_questions.stage_id', $stages->pluck('id'))
+            ->whereNotNull('stages.question_theme_id') // 並べ直しで作ったステージ(テーマなし)は、種類の手がかりにしない
+            ->orderBy('stages.stage_number')->orderBy('stages.id')
+            ->get(['stage_questions.question_id', 'stages.question_theme_id']);
+        foreach ($rows as $row) {
+            $found[$row->question_id] ??= $kindByTheme[$themeKeys[$row->question_theme_id] ?? ''] ?? 'word';
+        }
+
+        foreach (Question::query()->whereIn('id', $poolIds)->get() as $question) {
+            $meta = $question->meta ?? [];
+            if (isset($meta['kind'])) {
+                continue;
+            }
+            $question->update(['meta' => $meta + ['kind' => $found[$question->id] ?? 'word']]);
+        }
     }
 }
