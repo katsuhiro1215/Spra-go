@@ -48,6 +48,7 @@ use App\Support\Review;
 use App\Support\Roster;
 use App\Support\StageDraw;
 use App\Support\Travel;
+use App\Support\Words;
 use App\Support\WorldLand;
 use App\Support\WorldPlacement;
 use App\Support\Zukan;
@@ -954,6 +955,22 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
 Route::middleware(['auth:sanctum'])->get('/zukan', function (Request $request) {
     return Zukan::list(ActiveProfile::require($request));
 })->name('zukan');
+
+// 単語帳(docs/design/2026-10-07-word-book-design.md)。出会った語と、単語帳に保存した語だけ
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/words', fn (Request $request) => Words::list(
+        ActiveProfile::require($request),
+        in_array($request->query('filter'), ['saved', 'weak', 'learned'], true) ? $request->query('filter') : 'all',
+        (string) $request->query('q', ''),
+        (int) $request->query('page', 1),
+    ))->name('words.index');
+    Route::get('/words/{word}', fn (Request $request, int $word) => Words::detail(ActiveProfile::require($request), $word))->whereNumber('word')->name('words.show');
+    Route::put('/words/{word}/mark', function (Request $request, int $word) {
+        $input = $request->validate(['status' => ['nullable', Rule::in(['weak', 'learned'])], 'saved' => ['sometimes', 'boolean']]);
+
+        return Words::mark(ActiveProfile::require($request), $word, array_intersect_key($input, array_flip(array_filter(['status', 'saved'], fn (string $key) => $request->has($key)))));
+    })->whereNumber('word')->name('words.mark');
+});
 
 Route::middleware(['auth:sanctum'])->get('/passport', function (Request $request) {
     $profileId = $request->session()->get('active_profile_id');
