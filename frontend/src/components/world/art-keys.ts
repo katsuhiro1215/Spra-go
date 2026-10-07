@@ -236,8 +236,8 @@ export function artOptionLabel(key: ItemArtKey): string {
 /** 2×2・3×3マスの絵の大きさ(設計書 2026-09-27-wave-e 3-4、2026-10-07-town-sizes 4-1)。書いていない絵は1×1。config/world.php の asset_footprints と必ず一致させる */
 export const ASSET_FOOTPRINTS: Readonly<Partial<Record<ArtKey, number>>> = {
   fountain: 2,
-  pagoda: 2,
-  castle: 2,
+  pagoda: 3,
+  castle: 3,
   tower: 2,
   boat_large: 2,
   borobudur: 2,

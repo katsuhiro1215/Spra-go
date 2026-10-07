@@ -83,7 +83,9 @@
     "zukan_carrot": "../../spra-world/assets/approved/item/harvested_carrot_01.png",
     "zukan_potato": "../../spra-world/assets/approved/item/harvested_potato_01.png",
     "zukan_onion": "../../spra-world/assets/approved/item/harvested_onion_01.png",
-    "world_spru_house": "../../spra-world/assets/approved/building/spru_house_01.png"
+    "world_spru_house": "../../spra-world/assets/approved/building/spru_house_01.png",
+    "world_pagoda": "../../spra-world/assets/approved/現代建築/五重塔と緑の庭園.png",
+    "world_castle": "../../spra-world/assets/approved/現代建築/大阪城風のかわいい立体城郭.png"
   },
   "figures": [
     { "key": "front", "group": "basic", "source": "m6", "box": [30, 48, 158, 258] },
@@ -267,8 +269,8 @@
     { "key": "phone_box", "source": "item6", "box": [1240, 52, 1584, 656], "background": "flood", "scale": 0.388 },
     { "key": "eiffel", "source": "item6", "box": [1744, 96, 2116, 656], "background": "flood", "scale": 0.388 },
     { "key": "fountain", "source": "item7", "box": [44, 144, 544, 504], "background": "flood", "scale": 1.0 },
-    { "key": "pagoda", "source": "item7", "box": [576, 12, 952, 504], "background": "flood", "scale": 1.0 },
-    { "key": "castle", "source": "item7", "box": [1000, 64, 1500, 508], "background": "flood", "scale": 1.0 },
+    {"key": "pagoda", "source": "world_pagoda", "box": [0, 0, 1254, 1254], "width": 880},
+    {"key": "castle", "source": "world_castle", "box": [0, 0, 1284, 1225], "width": 800},
     { "key": "boat_large", "source": "item7", "box": [64, 612, 548, 916], "background": "flood", "scale": 1.0 },
     { "key": "tower", "source": "item7", "box": [600, 508, 948, 980], "background": "flood", "scale": 1.0 },
     { "key": "lighthouse", "source": "item7", "box": [1080, 548, 1472, 972], "background": "flood", "scale": 1.0 },

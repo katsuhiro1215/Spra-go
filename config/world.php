@@ -70,7 +70,7 @@ return [
     */
 
     'asset_footprints' => [
-        'fountain' => 2, 'pagoda' => 2, 'castle' => 2, 'tower' => 2, 'boat_large' => 2,
+        'fountain' => 2, 'pagoda' => 3, 'castle' => 3, 'tower' => 2, 'boat_large' => 2,
         'borobudur' => 2, 'bulguksa' => 2, 'liberty' => 2, 'stonehenge' => 2, 'mont_saint_michel' => 2,
         'bakery' => 2, 'japanese_house' => 2, 'cafe' => 2, 'lighthouse' => 2,
         'kinkakuji' => 2, 'sungnyemun' => 2, 'arc_de_triomphe' => 2, 'big_ben' => 2,

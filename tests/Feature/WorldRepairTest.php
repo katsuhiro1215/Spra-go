@@ -50,7 +50,7 @@ it('雲に隠れた区画・地図の外にある物は、バッグに戻る', f
 it('置ける物は動かさない。バッグの中の物もそのまま。2回目は何も戻さない', function () {
     $profile = createActiveProfile();
     $kept = createPlacedBench($profile, 5, 5);
-    $bag = createBuilding($profile, 'castle');
+    $bag = createBuilding($profile, 'fountain');
     createPlacedBench($profile, 2, 2); // 家の下にある
 
     $this->artisan('world:repair')->expectsOutputToContain('1個')->assertSuccessful();

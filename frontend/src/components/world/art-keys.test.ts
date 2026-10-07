@@ -37,7 +37,9 @@ describe("町のアイテムの絵のキー", () => {
 
   it("大きさは、1(書いていない物)・2・3。大きな物(2以上)が isBigAsset", () => {
     expect(assetFootprint("bench")).toBe(1);
-    expect(assetFootprint("pagoda")).toBe(2);
+    expect(assetFootprint("pagoda")).toBe(3);
+    expect(assetFootprint("castle")).toBe(3);
+    expect(assetFootprint("fountain")).toBe(2);
     expect(assetFootprint("spru_mall")).toBe(3);
     expect(assetFootprint("chief_hall")).toBe(3);
     expect(assetFootprint(null)).toBe(1);
@@ -59,7 +61,8 @@ describe("町のアイテムの絵のキー", () => {
 
   it("管理画面の絵の選択肢は、名前にカテゴリと大きさを添える", () => {
     expect(artOptionLabel("bench")).toBe("ベンチ（かざり）");
-    expect(artOptionLabel("pagoda")).toBe("五重塔（名所・2×2）");
+    expect(artOptionLabel("pagoda")).toBe("五重塔（名所・3×3）");
+    expect(artOptionLabel("fountain")).toBe("噴水（かざり・2×2）");
     expect(artOptionLabel("boat_large")).toBe("大きな船（のりもの・2×2）");
     expect(artOptionLabel("spru_mall")).toBe("スプルモール（名所・3×3）");
   });
