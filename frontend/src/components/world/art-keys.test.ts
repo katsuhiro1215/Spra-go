@@ -4,12 +4,13 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
-  BIG_ASSETS,
+  ASSET_FOOTPRINTS,
   ITEM_ART_CATEGORIES,
   ITEM_ART_KEYS,
   ITEM_ART_LABELS,
   SOUVENIR_ART_KEYS,
   artOptionLabel,
+  assetFootprint,
   isBigAsset,
 } from "./art-keys";
 
@@ -29,9 +30,22 @@ describe("町のアイテムの絵のキー", () => {
     expect([...ITEM_ART_KEYS].sort()).toEqual(keys.sort());
   });
 
-  it("2×2の絵は config/world.php の asset_footprints と同じ", () => {
-    const big = [...phpArray("asset_footprints").matchAll(/'([a-z_]+)'\s*=>\s*2/g)].map((m) => m[1]);
-    expect([...BIG_ASSETS].sort()).toEqual(big.sort());
+  it("絵の大きさは config/world.php の asset_footprints と同じ(2×2・3×3)", () => {
+    const sizes = Object.fromEntries([...phpArray("asset_footprints").matchAll(/'([a-z_]+)'\s*=>\s*(\d+)/g)].map((m) => [m[1], Number(m[2])]));
+    expect({ ...ASSET_FOOTPRINTS }).toEqual(sizes);
+  });
+
+  it("大きさは、1(書いていない物)・2・3。大きな物(2以上)が isBigAsset", () => {
+    expect(assetFootprint("bench")).toBe(1);
+    expect(assetFootprint("pagoda")).toBe(3);
+    expect(assetFootprint("castle")).toBe(3);
+    expect(assetFootprint("fountain")).toBe(2);
+    expect(assetFootprint("spru_mall")).toBe(3);
+    expect(assetFootprint("chief_hall")).toBe(3);
+    expect(assetFootprint(null)).toBe(1);
+    expect(isBigAsset("bench")).toBe(false);
+    expect(isBigAsset("spru_mall")).toBe(true);
+    expect(isBigAsset(null)).toBe(false);
   });
 
   it("管理画面(ショップ編集)の絵の選択肢の名前が、すべての絵にある", () => {
@@ -47,8 +61,10 @@ describe("町のアイテムの絵のキー", () => {
 
   it("管理画面の絵の選択肢は、名前にカテゴリと大きさを添える", () => {
     expect(artOptionLabel("bench")).toBe("ベンチ（かざり）");
-    expect(artOptionLabel("pagoda")).toBe("五重塔（名所・2×2）");
+    expect(artOptionLabel("pagoda")).toBe("五重塔（名所・3×3）");
+    expect(artOptionLabel("fountain")).toBe("噴水（かざり・2×2）");
     expect(artOptionLabel("boat_large")).toBe("大きな船（のりもの・2×2）");
+    expect(artOptionLabel("spru_mall")).toBe("スプルモール（名所・3×3）");
   });
 
   it("おみやげの絵のキーは config/travel.php のおみやげと同じ", () => {

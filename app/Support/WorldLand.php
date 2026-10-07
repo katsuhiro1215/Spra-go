@@ -75,7 +75,7 @@ class WorldLand
         return array_map(fn (array $plot) => $plot['key'], $plots);
     }
 
-    /** @return list<array{key: string, x: int, y: int}> 全区画の目印 */
+    /** @return list<array{key: string, x: int, y: int, footprint?: int}> 全区画の目印。footprint(N×Nマス)がなければ1マス */
     public static function landmarks(): array
     {
         return config('world.land.landmarks');
@@ -90,7 +90,15 @@ class WorldLand
     /** @return list<array{0: int, 1: int}> 目印と道のマス(置けないマス。全区画) */
     public static function blocked(): array
     {
-        $tiles = array_map(fn (array $landmark) => [$landmark['x'], $landmark['y']], self::landmarks());
+        $tiles = [];
+        foreach (self::landmarks() as $landmark) {
+            $size = $landmark['footprint'] ?? 1;
+            for ($dy = 0; $dy < $size; $dy++) {
+                for ($dx = 0; $dx < $size; $dx++) {
+                    $tiles[] = [$landmark['x'] + $dx, $landmark['y'] + $dy];
+                }
+            }
+        }
 
         foreach (self::paths() as [$x, $y]) {
             $tiles[] = [$x, $y];

@@ -2,8 +2,9 @@
 
 use App\Models\ProfileWorldItem;
 use App\Models\User;
+use App\Models\UserProfile;
 
-function createBagItem(\App\Models\UserProfile $profile): ProfileWorldItem
+function createBagItem(UserProfile $profile): ProfileWorldItem
 {
     return $profile->worldItems()->create(['shop_item_id' => createDecoration()->id]);
 }
@@ -70,7 +71,11 @@ it('目印や道のマスには置けない', function (int $x, int $y) {
         ->assertStatus(422)
         ->assertJsonPath('message', 'そこには置けません。');
 })->with([
-    'Spruの家' => [1, 1],
+    'Spruの家(奥)' => [1, 1],
+    'Spruの家(右)' => [2, 1],
+    'Spruの家(左手前)' => [1, 2],
+    'Spruの家(手前)' => [2, 2],
+    '畑' => [0, 2],
     '鳥居' => [3, 0],
     '道' => [3, 2],
 ]);

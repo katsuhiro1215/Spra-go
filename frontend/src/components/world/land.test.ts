@@ -11,6 +11,7 @@ import {
   hasAnchorsOutside,
   isOpenTile,
   landEdges,
+  landmarkFootprint,
   occupiedTiles,
   openTiles,
   openedLine,
@@ -188,5 +189,24 @@ describe("雲とお祝いの文", () => {
     const town = plotOf("town");
     expect(hasAnchorsOutside(validAnchors(landAt(1), [], 1, null), town)).toBe(false);
     expect(hasAnchorsOutside(validAnchors(landAt(4), [], 1, null), town)).toBe(true);
+  });
+});
+
+describe("目印の大きさ(Spruの家は2×2)", () => {
+  it("footprint がない目印は1マス、あれば N×N", () => {
+    expect(landmarkFootprint({ key: "torii", x: 3, y: 0 })).toBe(1);
+    expect(landmarkFootprint({ key: "spru_house", x: 1, y: 1, footprint: 2 })).toBe(2);
+  });
+
+  it("家(1,1)の2×2は、(2,2)が手前の角で、絵は4マスの真ん中", () => {
+    const size = landmarkFootprint({ key: "spru_house", x: 1, y: 1, footprint: 2 });
+    expect(depthTile(1, 1, size)).toEqual({ x: 2, y: 2 });
+    expect(footprintCenter(1, 1, size)).toEqual(tileCenter(1.5, 1.5));
+    expect(footprintTiles(1, 1, size)).toEqual([
+      [1, 1],
+      [2, 1],
+      [1, 2],
+      [2, 2],
+    ]);
   });
 });

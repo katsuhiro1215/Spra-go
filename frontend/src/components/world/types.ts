@@ -8,6 +8,8 @@ export type Landmark = {
   key: "spru_house" | "torii" | "stone_lantern" | "garden" | "bamboo_grove" | "pier";
   x: number;
   y: number;
+  /** N×Nマス使う目印(Spruの家は2)。なければ1マス */
+  footprint?: number;
 };
 
 export type WorldItem = {

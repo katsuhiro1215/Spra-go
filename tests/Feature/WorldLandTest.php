@@ -1,5 +1,7 @@
 <?php
 
+use App\Support\WorldLand;
+
 /*
 |--------------------------------------------------------------------------
 | 広がる地図と雲の区画(docs/design/2026-09-27-spru-wave-e-design.md 3-1・3-2・4-4)
@@ -124,4 +126,21 @@ it('家族の町の土地は、見に行った人ではなくその人のレベ�
         ->all();
 
     expect($plots)->toBe(['town' => true, 'bamboo' => true, 'beach' => true, 'hill' => false]);
+});
+
+it('Spruの家は2×2。(1,1)から4マスが置けないマスで、畑は家の左隣(0,2)、道は動かない', function () {
+    createActiveProfile();
+
+    $land = $this->getJson('/api/world')->assertOk()->json('land');
+
+    expect(collect($land['landmarks'])->firstWhere('key', 'spru_house'))->toBe(['key' => 'spru_house', 'x' => 1, 'y' => 1, 'footprint' => 2])
+        ->and(collect($land['landmarks'])->firstWhere('key', 'garden'))->toBe(['key' => 'garden', 'x' => 0, 'y' => 2])
+        ->and($land['blocked'])->toContain([1, 1])->toContain([2, 1])->toContain([1, 2])->toContain([2, 2])->toContain([0, 2])
+        ->and($land['paths'])->toContain([3, 1])->toContain([3, 2])->toContain([0, 3])->toContain([1, 3])->toContain([2, 3])
+        ->and($land['paths'])->not->toContain([0, 2])
+        ->and($land['spru'])->toBe(['x' => 1, 'y' => 3]);
+});
+
+it('目印の大きさ(footprint)がない目印は、1マスだけがブロックされる', function () {
+    expect(WorldLand::blocked())->toContain([2, 0])->toContain([3, 0])->toContain([4, 0])->not->toContain([5, 0])->not->toContain([5, 1]);
 });

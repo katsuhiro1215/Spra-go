@@ -2,6 +2,7 @@
 
 use App\Models\Owner;
 use App\Models\ShopItem;
+use Database\Seeders\WorldItemSeeder;
 
 it('ショップ一覧に町のアイテムが通貨・必要レベル・絵の指定・ロック状態つきで返る', function () {
     createActiveProfile();
@@ -139,9 +140,9 @@ it('プレイヤーが持っている町のアイテムは、Ownerでも削除�
 
 // Spra-worldの確定画像から足した25点(docs/design/2026-10-05-world-items-stage1-design.md)
 it('品ぞろえ: シーダーの全アイテムの絵のキーが asset_keys にあり、2回流しても重複しない', function () {
-    $this->seed(Database\Seeders\WorldItemSeeder::class);
+    $this->seed(WorldItemSeeder::class);
     $first = ShopItem::query()->where('type', 'decoration')->count();
-    $this->seed(Database\Seeders\WorldItemSeeder::class);
+    $this->seed(WorldItemSeeder::class);
 
     expect(ShopItem::query()->where('type', 'decoration')->count())->toBe($first)->toBe(63);
     foreach (ShopItem::query()->where('type', 'decoration')->get() as $item) {
@@ -149,13 +150,17 @@ it('品ぞろえ: シーダーの全アイテムの絵のキーが asset_keys �
     }
 });
 
-it('品ぞろえ: 新しい25点のうち、2×2は10点で、ほかは1マス', function () {
-    $this->seed(Database\Seeders\WorldItemSeeder::class);
-    $big = ['large_tree', 'greengrocer', 'fish_shop', 'meat_shop', 'produce_shop', 'chief_hall', 'stone_tower_hall', 'windmill_garden', 'spru_mall', 'saku_mall'];
+it('品ぞろえ: 新しい25点のうち、2×2は6点・3×3は4点で、ほかは1マス', function () {
+    $this->seed(WorldItemSeeder::class);
+    $big = ['large_tree', 'greengrocer', 'fish_shop', 'meat_shop', 'produce_shop', 'stone_tower_hall'];
+    $large = ['chief_hall', 'windmill_garden', 'spru_mall', 'saku_mall'];
     $small = ['young_tree', 'pathside_flowers', 'pathside_stone', 'stream', 'vegetable_bed', 'broadleaf_tree', 'spring', 'leaf_lamp', 'wooden_bridge', 'woodland_torii', 'seed_storehouse', 'resident_cottage', 'leaf_cottage', 'blue_flower_cottage', 'forest_flower_house'];
 
     foreach ($big as $key) {
         expect(ShopItem::query()->where('meta->asset_key', $key)->firstOrFail()->footprint())->toBe(2);
+    }
+    foreach ($large as $key) {
+        expect(ShopItem::query()->where('meta->asset_key', $key)->firstOrFail()->footprint())->toBe(3);
     }
     foreach ($small as $key) {
         expect(ShopItem::query()->where('meta->asset_key', $key)->firstOrFail()->footprint())->toBe(1);

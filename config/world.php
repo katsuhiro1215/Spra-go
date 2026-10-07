@@ -63,18 +63,19 @@ return [
     ],
 
     /*
-    | 2×2マス使う絵(docs/design/2026-09-27-spru-wave-e-design.md 3-4)。書いていない絵は1マス。
-    | Ownerがアイテムごとに大きさを変えられないよう、絵で決める。フロントの art-keys.ts の BIG_ASSETS と必ず一致させる。
+    | 2×2・3×3マス使う絵(docs/design/2026-09-27-spru-wave-e-design.md 3-4、2026-10-07-town-sizes-design.md)。書いていない絵は1マス。
+    | 形は正方形だけ(1・2・3。4×4は、もっと大きな物を考えるときに足す)。
+    | Ownerがアイテムごとに大きさを変えられないよう、絵で決める。フロントの art-keys.ts の ASSET_FOOTPRINTS と必ず一致させる。
     | おみやげ(config/travel.php)の2個目もここに書く(F回)
     */
 
     'asset_footprints' => [
-        'fountain' => 2, 'pagoda' => 2, 'castle' => 2, 'tower' => 2, 'boat_large' => 2,
+        'fountain' => 2, 'pagoda' => 3, 'castle' => 3, 'tower' => 2, 'boat_large' => 2,
         'borobudur' => 2, 'bulguksa' => 2, 'liberty' => 2, 'stonehenge' => 2, 'mont_saint_michel' => 2,
         'bakery' => 2, 'japanese_house' => 2, 'cafe' => 2, 'lighthouse' => 2,
         'kinkakuji' => 2, 'sungnyemun' => 2, 'arc_de_triomphe' => 2, 'big_ben' => 2,
         'large_tree' => 2, 'greengrocer' => 2, 'fish_shop' => 2, 'meat_shop' => 2, 'produce_shop' => 2,
-        'chief_hall' => 2, 'stone_tower_hall' => 2, 'windmill_garden' => 2, 'spru_mall' => 2, 'saku_mall' => 2,
+        'chief_hall' => 3, 'stone_tower_hall' => 2, 'windmill_garden' => 3, 'spru_mall' => 3, 'saku_mall' => 3,
     ],
 
     /*
@@ -123,9 +124,10 @@ return [
             ['key' => 'stone_lantern', 'x' => 2, 'y' => 0],
             ['key' => 'torii', 'x' => 3, 'y' => 0],
             ['key' => 'stone_lantern', 'x' => 4, 'y' => 0],
-            ['key' => 'spru_house', 'x' => 1, 'y' => 1],
-            // スプルの家の前の畑。種をまいて水やりする(目印なのでアイテムは置けない)
-            ['key' => 'garden', 'x' => 1, 'y' => 2],
+            // スプルの家は2×2。(1,1) を奥のマスにして4マス使う(footprint がない目印は1マス。docs/design/2026-10-07-town-sizes-design.md 4-3)
+            ['key' => 'spru_house', 'x' => 1, 'y' => 1, 'footprint' => 2],
+            // スプルの家の左隣の畑。種をまいて水やりする(目印なのでアイテムは置けない)
+            ['key' => 'garden', 'x' => 0, 'y' => 2],
             ['key' => 'bamboo_grove', 'x' => 8, 'y' => 0],
             ['key' => 'bamboo_grove', 'x' => 10, 'y' => 1],
             ['key' => 'bamboo_grove', 'x' => 11, 'y' => 5],
