@@ -1,7 +1,7 @@
 # 町の広がりとレベルのごほうび（領地拡大・新キャラ・好きな名所1つ）— 設計書
 
 - 作成日: 2026-10-08
-- ステータス: ドラフト（方向はOwner合意済み。区画の大きさ・新しい仲間の順番は7章で確認する）
+- ステータス: 実装済み（2026-10-08。区画の大きさは仮、新しい仲間はLavi・Sakuの絵が届いてから足す）
 - 前提: `docs/design/2026-09-27-spru-wave-e-design.md`（広がる地図）、`docs/design/2026-09-27-spru-wave-b-design.md`（畑・仲間）、`docs/design/2026-09-29-rare-spru-design.md`（レアスプル）、`docs/design/2026-10-07-header-level-design.md`（レベルの曲線）、`docs/design/2026-10-07-town-sizes-design.md`（建物の大きさ）
 
 ## 1. 目的
