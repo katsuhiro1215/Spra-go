@@ -39,8 +39,8 @@ it('家のマス・畑のマス・道のマスにある物は、バッグに戻�
 
 it('雲に隠れた区画・地図の外にある物は、バッグに戻る', function () {
     $profile = createActiveProfile();
-    $cloud = createPlacedBench($profile, 8, 1); // 竹林(Lv.4)。Lv.1では雲
-    $outside = createPlacedBench($profile, 12, 0);
+    $cloud = createPlacedBench($profile, 8, 1); // 竹林(Lv.5)。Lv.1では雲
+    $outside = createPlacedBench($profile, 17, 0);
 
     $this->artisan('world:repair')->assertSuccessful();
 
@@ -81,9 +81,9 @@ it('子ども(プロフィール)ごとに調べる。ほかの子の置き物�
     expect(isPlacedNow($mine))->toBeTrue()->and(isPlacedNow($theirs))->toBeTrue();
 });
 
-it('レベルが開く区画は、その子のレベルで調べる(Lv.4なら竹林の物は残る)', function () {
+it('レベルが開く区画は、その子のレベルで調べる(Lv.5なら竹林の物は残る)', function () {
     $profile = createActiveProfile();
-    $profile->update(['level' => 4]);
+    $profile->update(['level' => 5]);
     $item = createPlacedBench($profile, 9, 1);
 
     $this->artisan('world:repair')->assertSuccessful();

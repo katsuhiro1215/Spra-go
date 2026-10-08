@@ -91,10 +91,10 @@ it('ほかの2×2の建物のとなりには、ぴったり並べて置ける', 
 
 it('地図の端からはみ出す位置には置けない', function () {
     $profile = createActiveProfile();
-    $profile->update(['level' => 10]);
+    $profile->update(['level' => 30]);
     $castle = createBuilding($profile);
 
-    $this->patchJson("/api/world/items/{$castle->id}", ['x' => 11, 'y' => 8])
+    $this->patchJson("/api/world/items/{$castle->id}", ['x' => 16, 'y' => 16])
         ->assertStatus(422)
         ->assertJsonPath('message', '土地の外には置けません。');
 });
@@ -135,8 +135,8 @@ it('いくつも理由があるときは、地図の外→雲→道・目印の�
     $profile->update(['level' => 3]);
     $castle = createBuilding($profile);
 
-    // (12,2) が地図の外、(11,2) が雲
-    $this->patchJson("/api/world/items/{$castle->id}", ['x' => 11, 'y' => 2])
+    // (17,2) が地図の外、(16,2) が雲
+    $this->patchJson("/api/world/items/{$castle->id}", ['x' => 16, 'y' => 2])
         ->assertJsonPath('message', '土地の外には置けません。');
     // (7,2)・(7,3) が雲、(6,3) が道
     $this->patchJson("/api/world/items/{$castle->id}", ['x' => 6, 'y' => 2])
