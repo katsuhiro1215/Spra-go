@@ -188,6 +188,19 @@ class Garden
         );
     }
 
+    /** 町の人数の上限と、最初の相棒の決まりを守って仲間を入れる(畑・レベルの両方から呼ぶ) */
+    public static function addCompanion(UserProfile $profile, string $key): void
+    {
+        // 町がいっぱいなら、おうちで休む(docs/design/2026-09-29-rare-spru-design.md 3-5)
+        $inTown = $profile->companions()->where('in_town', true)->count() < config('companions.town_limit');
+        $profile->companions()->firstOrCreate(['companion_key' => $key], ['in_town' => $inTown]);
+        if ($profile->partner_companion_key === null) {
+            // 最初の仲間は自動で相棒になる(C回、設計書3-1)
+            $profile->partner_companion_key = $key;
+            $profile->save();
+        }
+    }
+
     /** @return array<string, mixed> */
     private static function bloom(UserProfile $profile, string $resultKey): array
     {
@@ -197,14 +210,7 @@ class Garden
             return ['kind' => 'item', 'world_item' => $worldItem->load('shopItem')->toWorldArray()];
         }
 
-        // 町がいっぱいなら、おうちで休む(docs/design/2026-09-29-rare-spru-design.md 3-5)
-        $inTown = $profile->companions()->where('in_town', true)->count() < config('companions.town_limit');
-        $profile->companions()->firstOrCreate(['companion_key' => $resultKey], ['in_town' => $inTown]);
-        if ($profile->partner_companion_key === null) {
-            // 最初の仲間は自動で相棒になる(C回、設計書3-1)
-            $profile->partner_companion_key = $resultKey;
-            $profile->save();
-        }
+        self::addCompanion($profile, $resultKey);
 
         return ['kind' => 'companion', ...collect(self::companions($profile))->firstWhere('key', $resultKey)];
     }

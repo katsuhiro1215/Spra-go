@@ -34,6 +34,7 @@ use App\Support\Csv;
 use App\Support\Errands;
 use App\Support\Family;
 use App\Support\Garden;
+use App\Support\LevelCompanions;
 use App\Support\LevelCurve;
 use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
@@ -1541,6 +1542,14 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
         $profile->regenerateHp();
         // 条件を満たした特別な種を先に渡す(種のふくろに入る。docs/design/2026-09-29-rare-spru-design.md 3-2)
         $newSeeds = RareSeeds::grantLocked($profile);
+        // レベルで会える通常の仲間(docs/design/2026-10-08-town-growth-design.md 4-2)
+        $newCompanions = DB::transaction(function () use ($profile) {
+            $locked = UserProfile::query()->whereKey($profile->id)->lockForUpdate()->firstOrFail();
+            $new = LevelCompanions::grantDue($locked);
+            $profile->refresh();
+
+            return $new;
+        });
         $items = $profile->worldItems()->with('shopItem')->orderBy('id')->get();
 
         return [
@@ -1570,6 +1579,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'plots_new' => WorldLand::newPlotKeys($profile->level, $profile->world_plots_seen ?? []),
             'tickets' => Travel::tickets($profile),
             'new_seeds' => RareSeeds::present($newSeeds),
+            'new_companions' => $newCompanions,
         ];
     })->name('show');
 
