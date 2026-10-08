@@ -46,19 +46,6 @@ it('畑に種が育っていると、次の種はまけない', function () {
         ->assertJsonPath('message', '畑に芽が育っているよ');
 });
 
-it('生まれるのは、まだ生まれていない仲間で、種まきの応答には出さない', function () {
-    $profile = createActiveProfile();
-    $profile->update(['level' => 4, 'bloom_base_level' => 1]);
-    foreach (['lumi', 'momo', 'kuru', 'piko'] as $key) {
-        $profile->companions()->create(['companion_key' => $key]);
-    }
-
-    $response = $this->postJson('/api/world/garden/sow')->assertOk();
-
-    expect($profile->seeds()->first()->result_key)->toBe('ruru')
-        ->and($response->getContent())->not->toContain('ruru');
-});
-
 it('仲間が全員生まれていれば、種からはスプルの花が咲く', function () {
     $profile = createActiveProfile();
     $profile->update(['level' => 4, 'bloom_base_level' => 1]);
@@ -170,4 +157,29 @@ it('Ownerはスプルの花を編集できない', function () {
     ])->assertStatus(422);
 
     expect($flower->fresh()->name)->toBe('スプルの花');
+});
+
+it('ふつうの種をまくと、いつも「スプルの花」の種になり、仲間は選ばれない', function () {
+    $profile = createActiveProfile();
+    $profile->update(['level' => 4, 'bloom_base_level' => 1]);
+
+    $this->postJson('/api/world/garden/sow')->assertOk();
+
+    expect($profile->seeds()->first()->result_key)->toBe('spru_flower');
+});
+
+it('ふつうの種を3回水やりすると、「スプルの花」がバッグに入る(仲間は生まれない)', function () {
+    $profile = createActiveProfile();
+    $profile->update(['level' => 4, 'bloom_base_level' => 1]);
+    $this->postJson('/api/world/garden/sow')->assertOk();
+
+    foreach ([0, 1, 2] as $day) {
+        Carbon::setTestNow(Carbon::parse('2026-10-08 10:00', 'Asia/Tokyo')->addDays($day));
+        $profile->update(['last_correct_on' => Garden::today()]);
+        $response = $this->postJson('/api/world/garden/water')->assertOk();
+    }
+
+    $response->assertJsonPath('born.kind', 'item');
+    expect($profile->companions()->count())->toBe(0)
+        ->and($profile->worldItems()->count())->toBe(1);
 });

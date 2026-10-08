@@ -101,27 +101,13 @@ class Garden
             ->all();
     }
 
-    /** まだ生まれていない仲間から「出やすさ」の重みで1人選ぶ。全員生まれていれば spru_flower */
+    /**
+     * ふつうの種が育つもの。仲間はレベルで会える形になったので、いつも「スプルの花」
+     * (docs/design/2026-10-08-town-growth-design.md 4-3)
+     */
     public static function pickResult(UserProfile $profile): string
     {
-        $born = $profile->companions()->pluck('companion_key')->all();
-        $candidates = collect(config('companions.list'))
-            ->reject(fn (array $def, string $key) => in_array($key, $born, true))
-            ->filter(fn (array $def) => ($def['weight'] ?? 0) > 0);
-
-        if ($candidates->isEmpty()) {
-            return config('companions.flower_result');
-        }
-
-        $roll = random_int(1, $candidates->sum('weight'));
-        foreach ($candidates as $key => $def) {
-            $roll -= $def['weight'];
-            if ($roll <= 0) {
-                return $key;
-            }
-        }
-
-        return $candidates->keys()->last();
+        return config('companions.flower_result');
     }
 
     /**
