@@ -38,6 +38,9 @@ import { PlacementBar } from "./placement-bar";
 import { PlotUnlockCard } from "./plot-unlock-card";
 import { ReviewCard } from "./review-card";
 import { RosterSheet } from "./roster-sheet";
+import { CompanionGift } from "./companion-gift";
+import { GiftPicker } from "./gift-picker";
+import type { PendingGift } from "./gifts";
 import { SeedGift } from "./seed-gift";
 import { SeedPicker } from "./seed-picker";
 import {
@@ -109,6 +112,11 @@ export function WorldScreen() {
   const [pickerOpen, setPickerOpen] = useState(false);
   // 新しくもらった特別な種(ほかのお祝いの後に出す。docs/design/2026-09-29-rare-spru-design.md 5-2)
   const [seedGifts, setSeedGifts] = useState<NewSeed[]>([]);
+  // レベルで会えた新しい仲間(1人ずつ出す)と、好きな名所を選ぶ回(あとで選ぶと今回は出さない)
+  const [newCompanions, setNewCompanions] = useState<WorldCompanion[]>([]);
+  const [pendingGifts, setPendingGifts] = useState<PendingGift[]>([]);
+  const [giftBusy, setGiftBusy] = useState(false);
+  const [giftError, setGiftError] = useState<string | null>(null);
   // なかまの一覧(開いたときに読む)と、町に出す・休ませるの通信中
   const [roster, setRoster] = useState<RosterData | null>(null);
   const [townBusy, setTownBusy] = useState(false);
@@ -160,6 +168,14 @@ export function WorldScreen() {
         setWorld(data);
         setGreetings(data.greetings);
         setSeedGifts((shown) => mergeNewSeeds(shown, data.new_seeds));
+        setNewCompanions(data.new_companions);
+        if (data.gifts_pending.length > 0) {
+          apiFetch("/api/world/gifts")
+            .then(async (giftRes) => {
+              if (giftRes.ok) setPendingGifts((await giftRes.json()).pending);
+            })
+            .catch(() => null);
+        }
         const opened = new Date();
         if (shouldShowSeasonGreeting(opened, readSeasonShown(data.profile.id))) setSeason(seasonGreeting(opened));
         applyPartial({ points: data.profile.points });
@@ -279,6 +295,25 @@ export function WorldScreen() {
   }
 
   // なかまの一覧を開く。一覧を開いたときにもらった種があれば、お祝いを出し、畑のふくろを読み直す
+  async function chooseGift(shopItemId: number) {
+    const gift = pendingGifts[0];
+    if (!gift || giftBusy) return;
+    setGiftBusy(true);
+    setGiftError(null);
+    const res = await apiFetch(`/api/world/gifts/${gift.level}`, {
+      method: "POST",
+      body: JSON.stringify({ shop_item_id: shopItemId }),
+    }).catch(() => null);
+    setGiftBusy(false);
+    if (!res || !res.ok) {
+      setGiftError("うまくいかなかったよ。もういちど ためしてね");
+      return;
+    }
+    const data: { item: WorldItem } = await res.json();
+    setWorld((current) => (current ? { ...current, bag: [...current.bag, data.item] } : current));
+    setPendingGifts((rest) => rest.slice(1));
+  }
+
   async function openRoster() {
     const res = await apiFetch("/api/world/roster").catch(() => null);
     const data = res ? await res.json().catch(() => ({})) : {};
@@ -784,6 +819,25 @@ export function WorldScreen() {
 
       {calm && greetings.length === 0 && !season && !born && seedGifts.length > 0 && (
         <SeedGift seeds={seedGifts} onClose={() => setSeedGifts([])} />
+      )}
+
+      {calm && greetings.length === 0 && !season && !born && seedGifts.length === 0 && newCompanions.length > 0 && (
+        <CompanionGift
+          companion={newCompanions[0]}
+          last={newCompanions.length === 1}
+          onNext={() => setNewCompanions((rest) => rest.slice(1))}
+        />
+      )}
+
+      {calm && greetings.length === 0 && !season && !born && seedGifts.length === 0 && newCompanions.length === 0 && pendingGifts.length > 0 && (
+        <GiftPicker
+          key={pendingGifts[0].level}
+          gift={pendingGifts[0]}
+          busy={giftBusy}
+          error={giftError}
+          onChoose={chooseGift}
+          onLater={() => setPendingGifts([])}
+        />
       )}
 
       {born && <BornOverlay born={born} onClose={handleBornClose} />}
