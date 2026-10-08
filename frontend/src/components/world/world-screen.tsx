@@ -168,7 +168,8 @@ export function WorldScreen() {
         setWorld(data);
         setGreetings(data.greetings);
         setSeedGifts((shown) => mergeNewSeeds(shown, data.new_seeds));
-        setNewCompanions(data.new_companions);
+        // 読み込みが2回走っても(開発時)、先に受け取った仲間のお祝いを消さない
+        setNewCompanions((shown) => [...shown, ...data.new_companions.filter((c) => !shown.some((s) => s.key === c.key))]);
         if (data.gifts_pending.length > 0) {
           apiFetch("/api/world/gifts")
             .then(async (giftRes) => {

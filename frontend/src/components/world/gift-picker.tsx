@@ -28,7 +28,7 @@ export function GiftPicker({
         role="dialog"
         aria-modal="true"
         aria-labelledby="gift-title"
-        className="animate-pop-in flex max-h-[88vh] w-full max-w-[360px] flex-col gap-3 overflow-y-auto rounded-3xl bg-[#fffaf0] px-4 pt-5 pb-4 text-center text-[#3b3226] shadow-[0_16px_36px_rgba(0,0,0,0.25)]"
+        className="animate-pop-in flex max-h-[88vh] w-full max-w-[360px] flex-col gap-3 rounded-3xl bg-[#fffaf0] px-4 pt-5 pb-4 text-center text-[#3b3226] shadow-[0_16px_36px_rgba(0,0,0,0.25)]"
       >
         <h2 id="gift-title" className="text-2xl font-black text-[#2e6b1c]">
           <AutoFurigana text={giftTitle(gift.level)} />
@@ -36,7 +36,7 @@ export function GiftPicker({
         <p className="text-sm font-bold text-[#6b5d45]">
           <AutoFurigana text={giftLine()} />
         </p>
-        <ul className="grid grid-cols-2 gap-2">
+        <ul className="grid min-h-0 flex-1 grid-cols-2 gap-2 overflow-y-auto">
           {gift.candidates.map((candidate) => {
             const on = selected === candidate.shop_item_id;
             return (
@@ -45,7 +45,7 @@ export function GiftPicker({
                   type="button"
                   aria-pressed={on}
                   onClick={() => setSelected(candidate.shop_item_id)}
-                  className={`flex min-h-[132px] w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 px-2 py-2 ${
+                  className={`flex min-h-[120px] w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 px-2 py-2 ${
                     on ? "border-[#3f8f2b] bg-[#eef7e6]" : "border-transparent bg-[#f5efe1]"
                   }`}
                 >

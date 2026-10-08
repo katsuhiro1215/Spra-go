@@ -43,7 +43,7 @@ class LevelGifts
         $max = self::maxFootprint($giftLevel);
 
         return ShopItem::query()->where('type', 'decoration')->orderBy('id')->get()
-            ->filter(fn (ShopItem $item) => $item->category() === 'landmark' && $item->footprint() <= $max)
+            ->filter(fn (ShopItem $item) => $item->category() === 'landmark' && $item->footprint() >= 2 && $item->footprint() <= $max)
             ->values();
     }
 

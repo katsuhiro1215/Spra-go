@@ -96,3 +96,11 @@ it('町を開くと、選べる回があることがわかる', function () {
 
     $this->getJson('/api/world')->assertOk()->assertJsonPath('gifts_pending', [12]);
 });
+
+it('1×1の物は名所の候補に入らない', function () {
+    landmarkItem('金閣寺', 'kinkakuji');
+    landmarkItem('鳥居', 'woodland_torii');
+    config(['world.asset_categories.woodland_torii' => 'landmark']);
+
+    expect(LevelGifts::candidates(12)->pluck('name')->all())->toBe(['金閣寺']);
+});
