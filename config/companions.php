@@ -136,6 +136,15 @@ return [
             ]],
     ],
 
+    /*
+    | 通常キャラがレベルで会える順(docs/design/2026-10-08-town-growth-design.md 4-2)。
+    | level_first のレベルから level_step レベルおきに、先頭から1人ずつ(3・8・13・18・23)。
+    | 新しい仲間は、絵とセリフがそろったらこの並びの後ろに足す(足せば 28・33… と続く)
+    */
+    'level_order' => ['lumi', 'momo', 'kuru', 'piko', 'ruru'],
+    'level_first' => 3,
+    'level_step' => 5,
+
     // 種ができるまでのレベルアップの回数(ふつう → つぼみ → 花 → 種)
     'growth_steps' => 3,
 
