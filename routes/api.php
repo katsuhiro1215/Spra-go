@@ -35,6 +35,7 @@ use App\Support\Errands;
 use App\Support\Family;
 use App\Support\Garden;
 use App\Support\LevelCompanions;
+use App\Support\LevelGifts;
 use App\Support\LevelCurve;
 use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
@@ -1580,6 +1581,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'tickets' => Travel::tickets($profile),
             'new_seeds' => RareSeeds::present($newSeeds),
             'new_companions' => $newCompanions,
+            'gifts_pending' => LevelGifts::pending($profile),
         ];
     })->name('show');
 
@@ -1599,6 +1601,32 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             return ['granted' => true, 'points' => $profile->points];
         });
     })->name('welcome');
+
+    // 好きな名所を1つ選ぶ(docs/design/2026-10-08-town-growth-design.md 4-4)
+    Route::get('/gifts', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+
+        return ['pending' => collect(LevelGifts::pending($profile))->map(fn (int $level) => [
+            'level' => $level,
+            'candidates' => LevelGifts::candidates($level)->map(fn ($item) => [
+                'shop_item_id' => $item->id,
+                'name' => $item->name,
+                'asset_key' => $item->assetKey(),
+                'footprint' => $item->footprint(),
+            ])->values(),
+        ])->values()];
+    })->name('gifts.index');
+
+    Route::post('/gifts/{level}', function (Request $request, int $level) {
+        $activeProfile = ActiveProfile::require($request);
+        $data = $request->validate(['shop_item_id' => ['required', 'integer']]);
+
+        return DB::transaction(function () use ($activeProfile, $level, $data) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+
+            return ['item' => LevelGifts::choose($profile, $level, $data['shop_item_id'])->toWorldArray()];
+        });
+    })->name('gifts.choose');
 
     Route::post('/garden/sow', function (Request $request) {
         $activeProfile = ActiveProfile::require($request);

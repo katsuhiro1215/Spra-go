@@ -47,6 +47,13 @@ return [
     | 必ず一致させる(Ownerが絵の無いアイテムを登録できないようにするため。art-keys.test.ts で確かめる)。
     */
 
+    /*
+    | 好きな名所を1つ選ぶ回(docs/design/2026-10-08-town-growth-design.md 4-4)。first から step おき(12・22・32…)。
+    | footprints は、その回に選べる大きさの上限(書いていない回は max_footprint)
+    */
+
+    'gifts' => ['first' => 12, 'step' => 10, 'footprints' => [12 => 2, 22 => 3], 'max_footprint' => 4],
+
     'asset_keys' => [
         'bench', 'flowerbed', 'chochin', 'tree', 'sakura', 'vending', 'bicycle', 'stall',
         'stone_lantern', 'bamboo', 'fountain', 'palm', 'parasol', 'pagoda', 'castle', 'tower',
