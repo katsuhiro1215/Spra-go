@@ -69,3 +69,55 @@ export function pathEdges(paths: [number, number][], isOpen: (x: number, y: numb
   }
   return edges;
 }
+
+const round2 = (n: number) => Math.round(n * 100) / 100;
+const pt = (x: number, y: number) => `${round2(x)},${round2(y)}`;
+// マス(x,y)の中心(SVGの座標)
+const tileCenter = (x: number, y: number): [number, number] => [(x - y) * HALF_W, (x + y + 1) * HALF_H];
+
+/**
+ * アスファルトの道のしるし(設計書 2026-10-09-road-look 3章)。center は中心線(つながる道のマスの中心を結ぶ。
+ * 交差点のマス=3方向以上につながるマス の真ん中には線を引かず、手前で止める)、crossings は交差点に入る
+ * 手前のマスの横断歩道(道の向きに平行な白い縞4本)。閉じた区画(isOpen が false)のマスは数えない
+ */
+export function roadMarks(
+  paths: [number, number][],
+  isOpen: (x: number, y: number) => boolean,
+): { center: string[]; crossings: string[] } {
+  const set = new Set(paths.filter(([x, y]) => isOpen(x, y)).map(([x, y]) => `${x},${y}`));
+  const has = (x: number, y: number) => set.has(`${x},${y}`);
+  const DIRS: [number, number][] = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+  const degree = (x: number, y: number) => DIRS.filter(([dx, dy]) => has(x + dx, y + dy)).length;
+  const center: string[] = [];
+  const crossings: string[] = [];
+  // 縞は、渡る向き(もう一方のマスの軸)に並べる。長さ=マス間の距離の0.2、間隔=0.16
+  const gridStep = (dx: number, dy: number): [number, number] => [(dx - dy) * HALF_W, (dx + dy) * HALF_H];
+  for (const key of set) {
+    const [x, y] = key.split(",").map(Number);
+    const junction = degree(x, y) >= 3;
+    const [cx, cy] = tileCenter(x, y);
+    for (const [dx, dy] of DIRS) {
+      if (!has(x + dx, y + dy)) continue;
+      const neighborJunction = degree(x + dx, y + dy) >= 3;
+      const [ux, uy] = gridStep(dx, dy); // このマスから隣のマスの中心へのベクトル
+      if (junction) continue;
+      if (neighborJunction) {
+        // 交差点の手前: 中心線は短い切れ端で止め、交差点側に横断歩道
+        center.push(`M${pt(cx, cy)} L${pt(cx + ux * 0.16, cy + uy * 0.16)}`);
+        const [vx, vy] = gridStep(dy === 0 ? 0 : 1, dx === 0 ? 0 : 1);
+        const px = cx + ux * 0.42;
+        const py = cy + uy * 0.42;
+        const stripes = [-0.24, -0.08, 0.08, 0.24].map((t) => {
+          const sx = px + vx * t;
+          const sy = py + vy * t;
+          return `M${pt(sx - ux * 0.1, sy - uy * 0.1)} L${pt(sx + ux * 0.1, sy + uy * 0.1)}`;
+        });
+        crossings.push(stripes.join(" "));
+      } else if (dx > 0 || dy > 0) {
+        center.push(`M${pt(cx, cy)} L${pt(cx + ux, cy + uy)}`);
+      }
+    }
+  }
+
+  return { center, crossings };
+}

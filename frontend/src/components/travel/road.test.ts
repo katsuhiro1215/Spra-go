@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import type { GroundArt } from "@/components/world/ground-art";
 
-import { ROAD_STYLE_NAMES, roadArt, roadArtKey, roadChoice, roadName } from "./road";
+import { ROAD_STYLE_NAMES, roadArt, roadArtKey, roadChoice, roadEdge, roadName } from "./road";
 
 const art = (name: string): GroundArt => ({ src: `/spru/ground/${name}.webp`, size: 512 });
 
@@ -39,5 +39,38 @@ describe("国の道の絵(設計書 2026-10-05-road-style 4章)", () => {
 
   it("知らないキーの名前は、キーのまま(画面が壊れない)", () => {
     expect(roadName("zz")).toBe("zzの道");
+  });
+});
+
+describe("道の縁(設計書 2026-10-09-road-look 3章)", () => {
+  it("日本とインドネシアは土の道で、縁の帯はない", () => {
+    expect(roadEdge("jp").band).toBeNull();
+    expect(roadEdge("id").band).toBeNull();
+  });
+
+  it("アメリカ・韓国・イギリス・フランスは縁の帯がある", () => {
+    for (const style of ["us", "kr", "gb", "fr"]) {
+      const edge = roadEdge(style);
+      expect(edge.band).not.toBeNull();
+      expect(edge.bandWidth).toBeGreaterThan(0);
+    }
+  });
+
+  it("国ごとに帯の色が違い、知らない種類は日本と同じ", () => {
+    const colors = ["us", "kr", "gb", "fr"].map((style) => roadEdge(style).band);
+    expect(new Set(colors).size).toBe(4);
+    expect(roadEdge("zz")).toEqual(roadEdge("jp"));
+  });
+
+  it("中心線と横断歩道は、アメリカの道だけ", () => {
+    expect(roadEdge("us").marks).toBe(true);
+    for (const style of ["jp", "id", "kr", "gb", "fr"]) expect(roadEdge(style).marks).toBe(false);
+  });
+
+  it("外線は、どの道にも付く", () => {
+    for (const style of Object.keys(ROAD_STYLE_NAMES)) {
+      expect(roadEdge(style).lineWidth).toBeGreaterThan(0);
+      expect(roadEdge(style).lineOpacity).toBeGreaterThan(0);
+    }
   });
 });

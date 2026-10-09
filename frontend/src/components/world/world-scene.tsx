@@ -15,11 +15,11 @@ import {
 import { SpruFace } from "@/components/spru/spru-figure";
 
 import { TIME_THEME } from "./ambience";
-import { roadArt } from "@/components/travel/road";
+import { roadArt, roadEdge } from "@/components/travel/road";
 
 import { GROUND_ART, GROUND_DECALS, type GroundArtKey } from "./ground-art";
 import { blendCells, blendGroups, type BlendKind } from "./blend";
-import { decalAt, decalOffset, pathEdges, patternMatrix, plotPoints } from "./ground";
+import { decalAt, decalOffset, pathEdges, patternMatrix, plotPoints, roadMarks } from "./ground";
 import { GardenArt } from "./garden-art";
 import { HALF_H, HALF_W, LAND_THICKNESS, sceneViewBox, tileCenter, tileKey, tilePoints, toPercent } from "./iso";
 import { ItemArt } from "./item-art";
@@ -198,11 +198,17 @@ export function WorldScene({
   const checkerTiles = tiles.filter(([x, y]) => !pathSet.has(tileKey(x, y)) && !GROUND_ART[plotAt(land, x, y)?.ground ?? "grass"]);
   const road = roadArt(roadStyle);
   const pathArt = road?.art;
+  const edge = roadEdge(roadStyle);
+  const pathTiles = tiles.filter(([x, y]) => pathSet.has(tileKey(x, y)));
   const pathFill = road ? `url(#ground-${road.key})` : PATH_COLOR;
   const artKeys = (Object.keys(GROUND_ART) as GroundArtKey[]).filter((key) => GROUND_ART[key]);
   const pathLines = useMemo(
     () => (pathArt ? pathEdges(land.paths, (x, y) => isOpenTile(land, x, y)) : []),
     [land, pathArt],
+  );
+  const marks = useMemo(
+    () => (pathArt && edge.marks ? roadMarks(land.paths, (x, y) => isOpenTile(land, x, y)) : null),
+    [land, pathArt, edge.marks],
   );
   // 小物は、道・目印・アイテム・スプル・仲間が立たないマスに、マスの座標から決まる位置へ置く(毎回同じ)
   const decals = useMemo(() => {
@@ -431,23 +437,61 @@ export function WorldScene({
         {checkerTiles.map(([x, y]) => (
           <polygon key={tileKey(x, y)} points={tilePoints(x, y)} fill={groundOf(x, y).tile[(x + y) % 2]} />
         ))}
-        {tiles
-          .filter(([x, y]) => pathSet.has(tileKey(x, y)))
-          .map(([x, y]) => (
-            <polygon
-              key={`path-${x},${y}`}
-              points={tilePoints(x, y)}
-              fill={pathFill}
-              stroke={pathArt ? pathFill : undefined}
-              strokeWidth={pathArt ? 0.6 : undefined}
-            />
-          ))}
+        {pathTiles.map(([x, y]) => (
+          <polygon
+            key={`path-${x},${y}`}
+            points={tilePoints(x, y)}
+            fill={pathFill}
+            stroke={pathArt ? pathFill : undefined}
+            strokeWidth={pathArt ? 1 : undefined}
+          />
+        ))}
         {pathLines.length > 0 && (
-          <g stroke="#8a6a1c" strokeOpacity={0.18} strokeWidth={1} fill="none">
-            {pathLines.map((d, i) => (
-              <path key={i} d={d} />
-            ))}
-          </g>
+          <>
+            {edge.band && (
+              <>
+                <clipPath id="road-inner-clip">
+                  {pathTiles.map(([x, y]) => (
+                    <polygon key={`clip-${x},${y}`} points={tilePoints(x, y)} />
+                  ))}
+                </clipPath>
+                <g
+                  clipPath="url(#road-inner-clip)"
+                  stroke={edge.band}
+                  strokeWidth={edge.bandWidth * 2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                >
+                  {pathLines.map((d, i) => (
+                    <path key={i} d={d} />
+                  ))}
+                </g>
+              </>
+            )}
+            {marks && (
+              <g fill="none" stroke="#fffdf5" strokeOpacity={0.88} strokeLinecap="butt">
+                {marks.center.map((d, i) => (
+                  <path key={`center-${i}`} d={d} strokeWidth={1.4} strokeDasharray="4 3" />
+                ))}
+                {marks.crossings.map((d, i) => (
+                  <path key={`cross-${i}`} d={d} strokeWidth={1.8} />
+                ))}
+              </g>
+            )}
+            <g
+              stroke={edge.line}
+              strokeOpacity={edge.lineOpacity}
+              strokeWidth={edge.lineWidth}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            >
+              {pathLines.map((d, i) => (
+                <path key={i} d={d} />
+              ))}
+            </g>
+          </>
         )}
         {blendLayers.map((layer, i) => {
           const art = GROUND_ART[layer.kind];
