@@ -164,7 +164,7 @@ export function FlagFitQuestion({ questionId, items, choices, answered, results,
 
       {!answered && full && (
         <Button variant="primary" size="lg" disabled={submitting} onClick={() => submit(slots)}>
-          答え合わせ
+          <AutoFurigana text="答え合わせ" />
         </Button>
       )}
     </div>

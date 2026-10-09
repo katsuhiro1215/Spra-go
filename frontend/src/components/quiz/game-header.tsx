@@ -10,6 +10,7 @@ import { useRegisterMenu } from "@/components/app/menu-presence";
 import { useProfile } from "@/components/app/profile-provider";
 
 import { quizQuitTarget } from "./quit";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 const ROUND_BUTTON =
   "flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#fffaf0] text-[#6b5d45] shadow-[0_2px_6px_rgba(59,50,38,0.15)] outline-none focus-visible:ring-2 focus-visible:ring-[#2b6fa3]";
@@ -38,7 +39,7 @@ export function GameHeader() {
           <AlertDialogPrimitive.Content className="fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-[340px] -translate-x-1/2 -translate-y-1/2 flex-col gap-3 rounded-3xl bg-[#fffaf0] p-5 text-center text-[#3b3226] shadow-[0_16px_36px_rgba(0,0,0,0.25)] outline-none">
             <AlertDialogPrimitive.Title className="text-lg font-black">クイズをやめる？</AlertDialogPrimitive.Title>
             <AlertDialogPrimitive.Description className="text-sm font-bold text-[#6b5d45]">
-              ここまでのポイントやコインはそのまま残るよ
+              <AutoFurigana text="ここまでのポイントやコインはそのまま残るよ" />
             </AlertDialogPrimitive.Description>
             <div className="mt-1 flex gap-2">
               <AlertDialogPrimitive.Cancel className="h-12 flex-1 rounded-2xl border-b-4 border-[#285a19] bg-[#3b7f26] text-base font-black text-white">

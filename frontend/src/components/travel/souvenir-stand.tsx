@@ -67,7 +67,7 @@ export function SouvenirStand({
             <AutoFurigana text={message.text} />
             {message.ok && (
               <Link href="/bag" className="ml-2 font-black text-[#2b6fa3] underline">
-                バッグを見る
+                <AutoFurigana text="バッグを見る" />
               </Link>
             )}
           </p>

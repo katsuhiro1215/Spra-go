@@ -148,6 +148,25 @@
   html:not([data-furigana="on"]) ruby rt {
     display: none;
   }
+
+  /*
+   * ボタン・タブの中のふりがなは、行の高さに入れず、文字の上に浮かせる。
+   * 高さに入れると、ふりがなの分だけ本文が下にずれて、ボタンの中で中央に並ばない。
+   */
+  html[data-furigana="on"] :is(button, [role="tab"], [role="button"]) ruby {
+    position: relative;
+    display: inline-block;
+  }
+  html[data-furigana="on"] :is(button, [role="tab"], [role="button"]) ruby rt {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: -0.1em;
+    font-size: 0.55em;
+    line-height: 1;
+    white-space: nowrap;
+  }
 }
 
 @layer utilities {

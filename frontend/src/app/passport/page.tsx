@@ -19,6 +19,7 @@ import { STAMP_IMAGES } from "@/components/spru/spru-assets";
 import { apiFetch } from "@/lib/api";
 import { levelRatio, levelText, type CountryLevel, type LanguageLevel } from "@/lib/course-levels";
 import { badgeCountText, badgeRingClass, groupBadgesByRegion, type PrefectureBadge } from "@/lib/prefecture-badges";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 type PassportCountry = {
   code: string;
@@ -81,7 +82,7 @@ export default function Page() {
   if (data === null) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
-        読み込みに失敗しました。
+        <AutoFurigana text="読み込みに失敗しました。" />
       </div>
     );
   }
@@ -114,7 +115,7 @@ export default function Page() {
             マイパスポート
           </SkyTitle>
           <SkyText muted className="mt-1 text-sm">
-            旅の成果がすべて残る場所
+            <AutoFurigana text="旅の成果がすべて残る場所" />
           </SkyText>
         </div>
 
@@ -134,11 +135,11 @@ export default function Page() {
           {/* スタンプ一覧 */}
           <section>
             <h2 className="mb-3 text-sm font-bold tracking-wide text-[#6b5d45]">
-              国スタンプ
+              <AutoFurigana text="国スタンプ" />
             </h2>
             {countries.length === 0 ? (
               <p className="text-sm text-[#8a7a5a]">
-                まだ国が登録されていません。
+                <AutoFurigana text="まだ国が登録されていません。" />
               </p>
             ) : (
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -190,7 +191,7 @@ export default function Page() {
           <section className="mt-8">
             <h2 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-wide text-[#6b5d45]">
               <BadgeImage badge="streak" size={24} />
-              連続プレイのバッジ
+              <AutoFurigana text="連続プレイのバッジ" />
             </h2>
             <div className="flex flex-wrap items-end gap-4">
               {streakMilestones.map(({ days, earned }) => {
@@ -215,11 +216,11 @@ export default function Page() {
           <section className="mt-8">
             <h2 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-wide text-[#6b5d45]">
               <BadgeImage badge="crown" size={32} />
-              獲得した称号
+              <AutoFurigana text="獲得した称号" />
             </h2>
             {titles.length === 0 ? (
               <p className="text-sm text-[#8a7a5a]">
-                まだ称号を獲得していません。ボスステージをクリアしてみよう。
+                <AutoFurigana text="まだ称号を獲得していません。ボスステージをクリアしてみよう。" />
               </p>
             ) : (
               <div className="flex flex-wrap gap-2">
@@ -264,11 +265,11 @@ export default function Page() {
           {prefectureBadges.length > 0 && (
             <section className="mt-8">
               <h2 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-wide text-[#6b5d45]">
-                日本のバッジ
+                <AutoFurigana text="日本のバッジ" />
                 <span className="rounded-full bg-[#fff4d6] px-2 py-0.5 text-xs font-black text-[#7a5a0e]">{badgeCountText(prefectureBadges)}</span>
               </h2>
               {!prefectureBadges.some((b) => b.earned) && (
-                <p className="mb-3 text-sm text-[#8a7a5a]">県の上級を ぜんぶ正解すると、バッジがもらえるよ</p>
+                <p className="mb-3 text-sm text-[#8a7a5a]"><AutoFurigana text="県の上級を ぜんぶ正解すると、バッジがもらえるよ" /></p>
               )}
               <div className="flex flex-col gap-4">
                 {badgeGroups.map((group) => (
@@ -319,11 +320,11 @@ export default function Page() {
           {/* 旅した国(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-7) */}
           <section className="mt-8">
             <h2 className="mb-3 text-sm font-bold tracking-wide text-[#6b5d45]">
-              旅した国
+              <AutoFurigana text="旅した国" />
             </h2>
             {trips.length === 0 ? (
               <p className="text-sm text-[#8a7a5a]">
-                チケットを使って国へ行くと、ここにふえるよ
+                <AutoFurigana text="チケットを使って国へ行くと、ここにふえるよ" />
               </p>
             ) : (
               <div className="flex flex-wrap gap-3">
@@ -350,11 +351,11 @@ export default function Page() {
           {/* 旅の思い出 */}
           <section className="mt-8">
             <h2 className="mb-3 text-sm font-bold tracking-wide text-[#6b5d45]">
-              旅の思い出
+              <AutoFurigana text="旅の思い出" />
             </h2>
             {visitedCountries.length === 0 ? (
               <p className="text-sm text-[#8a7a5a]">
-                まだ思い出がありません。
+                <AutoFurigana text="まだ思い出がありません。" />
               </p>
             ) : (
               <ul className="flex flex-col gap-2 text-sm">
@@ -377,7 +378,7 @@ export default function Page() {
                         <PartyPopper aria-hidden className="mr-1 inline h-4 w-4 text-[#c98f12]" />
                         {country.mood_emoji ? `${country.mood_emoji} ` : ""}
                         {country.name}
-                        を初めて制覇した！
+                        <AutoFurigana text="を初めて制覇した！" />
                       </span>
                     </li>
                   ))}

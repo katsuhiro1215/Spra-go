@@ -19,6 +19,7 @@ import { EmailVerifyNotice } from "@/components/auth/email-verify-notice";
 import { SPRU_ICONS } from "@/components/spru/spru-assets";
 import { SpruHouse } from "@/components/spru/spru-house";
 import { apiFetch } from "@/lib/api";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 type Profile = SheetProfile;
 
@@ -120,7 +121,7 @@ export default function Page() {
           <>
             {profiles.length === 0 && (
               <p className="mb-4 rounded-full bg-[#fffaf0] px-4 py-1.5 text-sm font-bold text-[#3b3226]">
-                まだプレイヤーがいません。最初のプレイヤーを作ろう！
+                <AutoFurigana text="まだプレイヤーがいません。最初のプレイヤーを作ろう！" />
               </p>
             )}
             <ul className="flex max-w-md flex-wrap justify-center gap-x-2 gap-y-4">
@@ -154,7 +155,7 @@ export default function Page() {
                   <span className="flex h-[76px] w-[76px] items-center justify-center rounded-full border-[3px] border-dashed border-[#fffaf0] bg-[rgba(255,250,240,0.55)] transition-transform group-hover:scale-105">
                     <AssetImage asset={SPRU_ICONS["add-player"]} size={64} />
                   </span>
-                  <span className={PLATE}>追加</span>
+                  <span className={PLATE}><AutoFurigana text="追加" /></span>
                 </button>
               </li>
             </ul>

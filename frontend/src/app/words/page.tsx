@@ -123,7 +123,7 @@ export default function Page() {
 
         <div className="rounded-3xl border-4 border-[#e8dfcf] bg-[#fffaf0] p-2 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
           {failed ? (
-            <p className="p-6 text-center text-sm font-bold">読み込みに失敗しました。</p>
+            <p className="p-6 text-center text-sm font-bold"><AutoFurigana text="読み込みに失敗しました。" /></p>
           ) : !items || items.length === 0 ? (
             <p className="p-6 text-center text-sm font-bold text-[#6b5d45]">
               <AutoFurigana

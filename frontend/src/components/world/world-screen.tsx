@@ -72,6 +72,7 @@ import type {
 import { WelcomeGift } from "./welcome-gift";
 import { WorldHud } from "./world-hud";
 import { WorldScene } from "./world-scene";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 const WELCOME_AMOUNT = 100;
 const TAP_IMAGES = ["shy", "laugh", "cheer"] as const;
@@ -687,7 +688,7 @@ export function WorldScreen() {
         )}
 
         <p className="mx-auto mt-3 rounded-full bg-[rgba(255,250,240,0.94)] px-3 py-1 text-[12.5px] font-black shadow-[0_2px_6px_rgba(59,50,38,0.12)]">
-          日本 · はじまりの町
+          <AutoFurigana text="日本 · はじまりの町" />
         </p>
 
         {!placingItem && (
@@ -740,7 +741,7 @@ export function WorldScreen() {
             className="mx-auto mt-4 flex h-[52px] items-center gap-2 rounded-full bg-[#3b7f26] pr-6 pl-3 text-base font-black text-white shadow-[0_5px_0_#285a19,0_10px_18px_rgba(40,90,25,0.28)]"
           >
             <AssetImage asset={SPRU_ICONS.continue} size={36} />
-            つづきから学ぶ
+            <AutoFurigana text="つづきから学ぶ" />
           </Link>
         )}
       </div>

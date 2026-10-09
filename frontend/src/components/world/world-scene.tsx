@@ -787,7 +787,7 @@ function PartnerTag() {
     <g transform="translate(0 7)">
       <rect x={-13} y={-5.5} width={26} height={11} rx={5.5} fill="#3b7f26" stroke="#fff" strokeWidth={1} />
       <text y={3} textAnchor="middle" fontSize={7.5} fontWeight={900} fill="#fff">
-        相棒
+        <AutoFurigana text="相棒" />
       </text>
     </g>
   );

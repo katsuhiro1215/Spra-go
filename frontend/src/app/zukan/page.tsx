@@ -44,7 +44,7 @@ export default function Page() {
   if (data === null) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#8fd4e9] text-sm text-[#3b3226]">
-        読み込みに失敗しました。
+        <AutoFurigana text="読み込みに失敗しました。" />
       </div>
     );
   }

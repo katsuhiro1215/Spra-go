@@ -11,6 +11,7 @@ import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { LoadingScreen } from "@/components/app/spru-loading";
 import { LockedCountry } from "@/components/travel/locked-country";
 import { apiFetch } from "@/lib/api";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 type StageSummary = {
   id: number;
@@ -90,10 +91,10 @@ export default function Page({
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#8fd4e9] text-[#3b3226]">
         <p className="text-sm">
-          この地域は見つかりませんでした。
+          <AutoFurigana text="この地域は見つかりませんでした。" />
         </p>
         <Link href="/" className="text-sm text-[#2b5d7a] underline">
-          ホームに戻る
+          <AutoFurigana text="ホームに戻る" />
         </Link>
       </div>
     );
@@ -145,7 +146,7 @@ export default function Page({
 
         {region.children.length === 0 && region.groups.length === 0 ? (
           <SkyText muted className="text-sm">
-            まだこの地域のクイズがありません。お楽しみに。
+            <AutoFurigana text="まだこの地域のクイズがありません。お楽しみに。" />
           </SkyText>
         ) : region.children.length > 0 ? (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">

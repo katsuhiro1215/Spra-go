@@ -21,6 +21,7 @@ import { apiFetch } from "@/lib/api";
 import { roadArt } from "@/components/travel/road";
 import { groupsLevel, levelRatio, levelText } from "@/lib/course-levels";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 type StageSummary = {
   id: number;
@@ -123,10 +124,10 @@ export default function Page({
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#8fd4e9] text-[#3b3226]">
         <p className="text-sm">
-          この国は見つかりませんでした。
+          <AutoFurigana text="この国は見つかりませんでした。" />
         </p>
         <Link href="/" className="text-sm text-[#2b5d7a] underline">
-          ホームに戻る
+          <AutoFurigana text="ホームに戻る" />
         </Link>
       </div>
     );
@@ -212,7 +213,7 @@ export default function Page({
 
         {country.regions.length === 0 && courseGroups.length === 0 ? (
           <SkyText muted className="text-sm">
-            まだこの国のクイズがありません。お楽しみに。
+            <AutoFurigana text="まだこの国のクイズがありません。お楽しみに。" />
           </SkyText>
         ) : (
           <div className="flex flex-col gap-8">
@@ -220,7 +221,7 @@ export default function Page({
               <div className="flex flex-col gap-3">
                 <h2>
                   <SkyText as="span" className="text-sm">
-                    地域を選ぶ
+                    <AutoFurigana text="地域を選ぶ" />
                   </SkyText>
                 </h2>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -287,7 +288,7 @@ export default function Page({
 
                 {activeGroup?.locked ? (
                   <SkyText muted className="text-xs">
-                    ひとつ前の難易度のボスをクリアするか、正答率が50%をこえると挑戦できます。
+                    <AutoFurigana text="ひとつ前の難易度のボスをクリアするか、正答率が50%をこえると挑戦できます。" />
                   </SkyText>
                 ) : (
                   activeGroup && (

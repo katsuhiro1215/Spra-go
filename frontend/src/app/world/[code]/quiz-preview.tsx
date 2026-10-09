@@ -48,11 +48,11 @@ export function QuizPreview({ data }: { data: SampleQuiz }) {
         </p>
         <p className="text-sm text-white/85">
           続きは無料登録して、{data.country.name}
-          をもっと冒険しよう。国旗・地理・言語など全ジャンルが遊び放題です。
+          <AutoFurigana text="をもっと冒険しよう。国旗・地理・言語など全ジャンルが遊び放題です。" />
         </p>
         <Link href="/register" className="w-full">
           <AppButton variant="primary" size="lg" className="w-full normal-case">
-            無料ではじめる
+            <AutoFurigana text="無料ではじめる" />
           </AppButton>
         </Link>
       </div>

@@ -137,10 +137,10 @@ export default function Page({
         <AppHeader />
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-3">
           <SkyText muted className="text-sm">
-            このステージは見つかりませんでした。
+            <AutoFurigana text="このステージは見つかりませんでした。" />
           </SkyText>
           <Link href="/" className="rounded-full bg-[#fffaf0] px-3 py-1.5 text-sm font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white">
-            ホームに戻る
+            <AutoFurigana text="ホームに戻る" />
           </Link>
         </div>
         <BottomNav />

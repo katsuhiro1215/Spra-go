@@ -5,6 +5,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/app/button";
 import { apiFetch } from "@/lib/api";
 import { WRITTEN_KINDS } from "@/lib/feedback";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 const MAX_LENGTH = 2000;
 
@@ -58,12 +59,12 @@ export function FeedbackForm({ className }: { className?: string }) {
             setOpen(true);
           }}
         >
-          ご意見・ご要望をおくる
+          <AutoFurigana text="ご意見・ご要望をおくる" />
         </Button>
       ) : (
         <form onSubmit={handleSubmit} className="flex w-full flex-col gap-3 rounded-2xl bg-[#fffaf0] p-4 text-left text-[#3b3226] shadow-lg">
           <fieldset className="flex flex-wrap gap-2">
-            <legend className="mb-1 text-sm font-black">ご意見の種類</legend>
+            <legend className="mb-1 text-sm font-black"><AutoFurigana text="ご意見の種類" /></legend>
             {WRITTEN_KINDS.map((item) => (
               <label
                 key={item.value}
@@ -86,7 +87,7 @@ export function FeedbackForm({ className }: { className?: string }) {
 
           <div className="flex flex-col gap-1">
             <label htmlFor="feedback-body" className="text-sm font-black">
-              ご意見・ご要望
+              <AutoFurigana text="ご意見・ご要望" />
             </label>
             <textarea
               id="feedback-body"

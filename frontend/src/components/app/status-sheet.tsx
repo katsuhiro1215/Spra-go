@@ -12,6 +12,7 @@ import { apiFetch } from "@/lib/api";
 import { levelRatio, levelText, type CountryLevel, type LanguageLevel } from "@/lib/course-levels";
 import { ringFraction, xpToNextText } from "@/lib/level-ring";
 import { topLevels } from "@/lib/status-sheet";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 type Passport = { country_levels?: CountryLevel[]; language_levels?: LanguageLevel[] };
 
@@ -102,7 +103,7 @@ export function StatusSheet({ open, onOpenChange }: { open: boolean; onOpenChang
             className="mt-4 flex h-11 w-full items-center justify-center gap-2 rounded-2xl border-b-4 border-[#285a19] bg-[#3b7f26] text-sm font-black text-white hover:bg-[#438b2d]"
           >
             <BadgeImage badge="passport" size={20} />
-            パスポートを見る
+            <AutoFurigana text="パスポートを見る" />
           </Link>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
@@ -125,11 +126,11 @@ function LevelRows({
     <section className="mt-4">
       <h3 className="mb-1 text-xs font-black text-[#6b5d45]">{heading}</h3>
       {loading ? (
-        <p className="text-xs font-bold text-[#8a7a5a]">読み込み中...</p>
+        <p className="text-xs font-bold text-[#8a7a5a]"><AutoFurigana text="読み込み中..." /></p>
       ) : failed ? (
-        <p className="text-xs font-bold text-[#8a7a5a]">読み込めなかったよ</p>
+        <p className="text-xs font-bold text-[#8a7a5a]"><AutoFurigana text="読み込めなかったよ" /></p>
       ) : rows.length === 0 ? (
-        <p className="text-xs font-bold text-[#8a7a5a]">まだないよ。ステージをクリアすると上がるよ</p>
+        <p className="text-xs font-bold text-[#8a7a5a]"><AutoFurigana text="まだないよ。ステージをクリアすると上がるよ" /></p>
       ) : (
         <ul className="flex flex-col gap-1.5">
           {rows.map((row) => (

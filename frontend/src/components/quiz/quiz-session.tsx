@@ -276,9 +276,9 @@ export function QuizSession({
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
           <div className="flex flex-col items-center gap-4 rounded-3xl bg-[#fffaf0] p-8 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
             <SpruFigure image="sleep" standHeight={96} />
-            <h1 className="text-xl font-black">これ以上続けられません</h1>
+            <h1 className="text-xl font-black"><AutoFurigana text="これ以上続けられません" /></h1>
             <p className="text-sm text-[#6b5d45]">
-              スプルもひと休み。HPが回復したらまた遊ぼう
+              <AutoFurigana text="スプルもひと休み。HPが回復したらまた遊ぼう" />
             </p>
             {hpBlockedSecondsLeft > 0 ? (
               <p className="text-3xl font-bold text-[#2e6b1c]">
@@ -286,11 +286,11 @@ export function QuizSession({
               </p>
             ) : (
               <p className="text-sm text-[#6b5d45]">
-                確認しています...
+                <AutoFurigana text="確認しています..." />
               </p>
             )}
             <Link href="/">
-              <AppButton variant="default">ホームに戻る</AppButton>
+              <AppButton variant="default"><AutoFurigana text="ホームに戻る" /></AppButton>
             </Link>
           </div>
         </div>
@@ -532,7 +532,7 @@ export function QuizSession({
               )}
               {allowRestart && !practice && (
                 <AppButton variant={missedCount > 0 ? "default" : "primary"} onClick={handleRestart}>
-                  もう一度
+                  <AutoFurigana text="もう一度" />
                 </AppButton>
               )}
               <Link href="/">
@@ -787,7 +787,7 @@ export function QuizSession({
                 rel="noopener"
                 className="self-start rounded-full bg-[#fffaf0] px-3 py-1 text-sm font-black text-[#2b6fa3] underline shadow-[0_2px_6px_rgba(59,50,38,0.15)]"
               >
-                📖 この単語を見る
+                <AutoFurigana text="📖 この単語を見る" />
               </a>
             )}
             {streak?.streak_extended_today && (

@@ -92,7 +92,7 @@ export default function Page() {
             どこから<Furigana text="冒険" reading="ぼうけん" />する？
           </SkyTitle>
           <SkyText muted className="mt-1 text-sm">
-            着いた国で学べるよ
+            <AutoFurigana text="着いた国で学べるよ" />
           </SkyText>
           <Link href="/words" className="mt-3 inline-block">
             <AppButton variant="warning" size="sm" className="shadow">
@@ -105,7 +105,7 @@ export default function Page() {
           <SpruLoading />
         ) : countries.length === 0 ? (
           <SkyText muted className="text-sm">
-            まだ国が登録されていません。お楽しみに。
+            <AutoFurigana text="まだ国が登録されていません。お楽しみに。" />
           </SkyText>
         ) : (
           <div className="flex w-full max-w-3xl flex-col gap-8">
@@ -188,7 +188,7 @@ export default function Page() {
             ))}
             <h3 className="text-xs font-black text-[#6b5d45]">ミニクイズ</h3>
             {!miniQuizzes ? (
-              <p className="text-xs text-[#6b5d45]">読み込み中...</p>
+              <p className="text-xs text-[#6b5d45]"><AutoFurigana text="読み込み中..." /></p>
             ) : miniQuizzes.length === 0 ? (
               <p className="text-xs text-[#6b5d45]">
                 <AutoFurigana text={MINI_QUIZ_EMPTY} />

@@ -6,6 +6,7 @@ import { AlertDialog as AlertDialogPrimitive, Dialog as DialogPrimitive } from "
 import { AvatarBadge } from "@/components/app/avatar-badge";
 import { AVATAR_KEYS, avatarKeyOf, firstUnusedAvatar, type AvatarKey } from "@/components/app/avatars";
 import { apiFetch } from "@/lib/api";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 export type SheetProfile = { id: number; name: string; avatar: string | null };
 
@@ -133,7 +134,7 @@ export function ProfileSheet({
             <AlertDialogPrimitive.Root>
               <AlertDialogPrimitive.Trigger asChild>
                 <button type="button" className="mx-auto mt-4 block text-sm font-bold text-[#c2402c] underline underline-offset-2">
-                  このプロフィールを削除
+                  <AutoFurigana text="このプロフィールを削除" />
                 </button>
               </AlertDialogPrimitive.Trigger>
               <AlertDialogPrimitive.Portal>
@@ -143,7 +144,7 @@ export function ProfileSheet({
                     「{target.name}」を削除する？
                   </AlertDialogPrimitive.Title>
                   <AlertDialogPrimitive.Description className="text-sm font-bold text-[#6b5d45]">
-                    冒険の記録も消えます
+                    <AutoFurigana text="冒険の記録も消えます" />
                   </AlertDialogPrimitive.Description>
                   <div className="mt-1 flex gap-2">
                     <AlertDialogPrimitive.Cancel className="h-12 flex-1 rounded-2xl border-2 border-b-4 border-[#e8dfcf] bg-white text-base font-black">
@@ -153,7 +154,7 @@ export function ProfileSheet({
                       onClick={handleDelete}
                       className="h-12 flex-1 rounded-2xl border-b-4 border-[#8f2f1f] bg-[#c2402c] text-base font-black text-white"
                     >
-                      削除する
+                      <AutoFurigana text="削除する" />
                     </AlertDialogPrimitive.Action>
                   </div>
                 </AlertDialogPrimitive.Content>
