@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\DB;
  */
 class QuestionMemory
 {
+    /** 問題の「所」: 国があれば c{国id}、なければステージのカテゴリ(子は親)の k{id}。どちらもなければ NULL */
+    private const AREA = "COALESCE(CONCAT('c', questions.country_id), CONCAT('k', (SELECT COALESCE(cat.parent_id, cat.id) FROM stage_questions sq JOIN stages st ON st.id = sq.stage_id JOIN categories cat ON cat.id = st.category_id WHERE sq.question_id = questions.id ORDER BY st.id LIMIT 1)))";
+
     /**
      * 答えを覚え具合に書く。返すのは、復習の一言の種類(docs/design/2026-10-09-review-variety-design.md 5章)。出さないときは null
      *
@@ -70,7 +73,13 @@ class QuestionMemory
         $today = Garden::today();
         $config = config('review.priority');
 
+        $hot = $slot === 'now' ? self::hotArea($profile) : null;
+        if ($slot === 'now' && $hot === null) {
+            return [];
+        }
+
         $query = match ($slot) {
+            'now' => self::dueQuery($profile)->whereRaw(self::AREA.' = ?', [$hot]),
             'recent_wrong' => self::dueQuery($profile)
                 ->where('profile_question_memories.wrong_on', '>=', self::daysAfter($today, -$config['recent_wrong_days'])),
             'weak' => self::weakQuery($profile, $today, $config['weak_gap_days']),
@@ -80,7 +89,7 @@ class QuestionMemory
         match ($slot) {
             'recent_wrong' => $query->orderByDesc('profile_question_memories.wrong_on'),
             'weak' => $query->orderBy('profile_question_memories.last_answered_on'),
-            'almost' => $query->orderBy('profile_question_memories.due_on'),
+            'almost', 'now' => $query->orderBy('profile_question_memories.due_on'),
         };
 
         return $query
@@ -89,6 +98,24 @@ class QuestionMemory
             ->pluck('profile_question_memories.question_id')
             ->map(fn ($id) => (int) $id)
             ->all();
+    }
+
+    /**
+     * 今学んでいる所(docs/design/2026-10-09-review-now-area-design.md): 直近 window_days 日に答えた問題を所ごとに数え、最も多い所
+     * (同数は最後に答えた日が新しいほう)。所のない問題は数えない。記録がなければ null
+     */
+    public static function hotArea(UserProfile $profile): ?string
+    {
+        $since = self::daysAfter(Garden::today(), -(config('review.priority.window_days') - 1));
+
+        return self::baseQuery($profile)
+            ->where('profile_question_memories.last_answered_on', '>=', $since)
+            ->whereRaw(self::AREA.' IS NOT NULL')
+            ->groupBy(DB::raw(self::AREA))
+            ->orderByRaw('COUNT(*) DESC')
+            ->orderByRaw('MAX(profile_question_memories.last_answered_on) DESC')
+            ->selectRaw(self::AREA.' AS area')
+            ->value('area');
     }
 
     public static function masteredCount(UserProfile $profile): int

@@ -44,10 +44,11 @@ return [
     */
 
     'priority' => [
-        'daily' => ['recent_wrong' => 3, 'weak' => 2, 'almost' => 2],
+        'daily' => ['recent_wrong' => 3, 'weak' => 2, 'almost' => 2, 'now' => 2],
         'stage' => ['recent_wrong', 'weak', 'almost'],
         'recent_wrong_days' => 7,
         'weak_gap_days' => 3,
+        'window_days' => 7, // 「今学んでいる所」を決める、直近の日数
     ],
 
 ];

@@ -265,3 +265,67 @@ it('出す日より前の苦手の語: 正解しても段階と出す日は変�
     $memory->refresh();
     expect([$memory->level, $memory->due_on->toDateString()])->toBe([1, '2026-10-10']);
 });
+
+/** 国つきの覚え具合を作る。$answeredOn はいつ答えたか、$due は出す日 */
+function pickerCountry(UserProfile $profile, $country, string $answeredOn, string $due = '2026-10-08'): Question
+{
+    $question = pickerMemory($profile, ['last_answered_on' => $answeredOn, 'due_on' => $due]);
+    $question->update(['country_id' => $country->id]);
+
+    return $question;
+}
+
+it('今学んでいる所: 直近7日でいちばん多く答えた国の、出す日が来た問題が古い順に出る。別の国は出ない', function () {
+    $profile = createActiveProfile();
+    $a = createTravelCountry('fr', 'フランス');
+    $b = createTravelCountry('de', 'ドイツ');
+    $profile->trips()->createMany([['destination' => 'fr', 'arrived_at' => now()], ['destination' => 'de', 'arrived_at' => now()]]);
+    $a2 = pickerCountry($profile, $a, '2026-10-08', '2026-10-07');
+    $a1 = pickerCountry($profile, $a, '2026-10-07', '2026-10-01');
+    pickerCountry($profile, $a, '2026-10-06', '2026-10-20'); // まだ出す日が来ていない(数には入る)
+    pickerCountry($profile, $b, '2026-10-08', '2026-10-01');
+    foreach (range(1, 5) as $i) {
+        pickerCountry($profile, $b, '2026-09-20', '2026-10-20'); // 7日より前の答えは数えない
+    }
+
+    expect(QuestionMemory::slotIds($profile, 'now', 10))->toBe([$a1->id, $a2->id]);
+});
+
+it('今学んでいる所: 同数なら最後に答えた日が新しいほう。答えた記録がなければ空', function () {
+    $profile = createActiveProfile();
+    expect(QuestionMemory::slotIds($profile, 'now', 10))->toBe([]);
+
+    $a = createTravelCountry('fr', 'フランス');
+    $b = createTravelCountry('de', 'ドイツ');
+    $profile->trips()->createMany([['destination' => 'fr', 'arrived_at' => now()], ['destination' => 'de', 'arrived_at' => now()]]);
+    pickerCountry($profile, $a, '2026-10-05');
+    $newer = pickerCountry($profile, $b, '2026-10-08');
+
+    expect(QuestionMemory::slotIds($profile, 'now', 10))->toBe([$newer->id]);
+});
+
+it('今学んでいる所: 国のない問題は、ステージのカテゴリ(子は親)で数える', function () {
+    $profile = createActiveProfile();
+    $root = Category::create(['name' => '親'.uniqid()]);
+    $child = Category::create(['name' => '子'.uniqid(), 'parent_id' => $root->id]);
+    $stage = Stage::create(['category_id' => $child->id, 'difficulty' => '初級', 'stage_number' => 1, 'is_boss' => false, 'question_count' => 2]);
+    $one = pickerMemory($profile, ['last_answered_on' => '2026-10-08', 'due_on' => '2026-10-01']);
+    $two = pickerMemory($profile, ['last_answered_on' => '2026-10-08', 'due_on' => '2026-10-02']);
+    $stage->questions()->attach([$one->id => ['order' => 1], $two->id => ['order' => 2]]);
+    pickerMemory($profile, ['last_answered_on' => '2026-10-08', 'due_on' => '2026-10-01']); // 所なし: 数えない・出ない
+
+    expect(QuestionMemory::slotIds($profile, 'now', 10))->toBe([$one->id, $two->id]);
+});
+
+it('毎日の復習: 今学んでいる所が2問入り、古い順が1問以上残る', function () {
+    $profile = createActiveProfile();
+    $a = createTravelCountry('fr', 'フランス');
+    $profile->trips()->create(['destination' => 'fr', 'arrived_at' => now()]);
+    $overdue = pickerOverdue($profile, 5);
+    $mine = collect(range(1, 4))->map(fn () => pickerCountry($profile, $a, '2026-10-08', '2026-10-05')->id)->all();
+
+    $ids = ReviewPicker::daily($profile);
+
+    expect(array_slice($ids, 0, 2))->toBe(array_slice($mine, 0, 2))
+        ->and($ids)->toContain($overdue[0]);
+});
