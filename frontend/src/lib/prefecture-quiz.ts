@@ -4,6 +4,7 @@ import { WORLD_COURSE_NAME, WORLD_COURSE_NOTE } from "./flag-quiz";
 
 export const PREFECTURE_ROOT_NAME = "都道府県クイズ";
 export const NATIONAL_COURSE_NAME = "全国";
+const FLAG_ROOT_NAME = "国旗クイズ";
 
 /** 県のコースのカードに出すバッジの様子。バッジがなければ none、もらったら earned(カラー)、まだなら locked(白黒で薄く) */
 export function courseBadgeState(course: { badge?: string | null; earned?: boolean }): "none" | "earned" | "locked" {
@@ -18,11 +19,12 @@ export function courseCardKind(course: { group?: boolean; badge?: string | null 
   return "plain";
 }
 
-/** コースの選択の副題。都道府県クイズの大もと＝地方、その下の地方＝県、国旗クイズ＝大陸 */
+/** コースの選択の副題。都道府県クイズの大もと＝地方、その下の地方＝県、国旗クイズ＝大陸、それ以外（宇宙など）＝コース */
 export function courseSelectPrompt(category: { name: string }, hasParent: boolean): string {
   if (category.name === PREFECTURE_ROOT_NAME) return "どの地方にする？";
   if (hasParent) return "どの県にする？";
-  return "どの大陸にする？";
+  if (category.name === FLAG_ROOT_NAME) return "どの大陸にする？";
+  return "どのコースにする？";
 }
 
 /** コースのカードに添える札。いちばん難しいコース(国旗クイズの世界ぜんぶ・都道府県クイズの全国)だけ「ちょうむずかしい」 */
