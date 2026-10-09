@@ -47,6 +47,13 @@ return [
     | 必ず一致させる(Ownerが絵の無いアイテムを登録できないようにするため。art-keys.test.ts で確かめる)。
     */
 
+    /*
+    | 好きな名所を1つ選ぶ回(docs/design/2026-10-08-town-growth-design.md 4-4)。first から step おき(12・22・32…)。
+    | footprints は、その回に選べる大きさの上限(書いていない回は max_footprint)
+    */
+
+    'gifts' => ['first' => 12, 'step' => 10, 'footprints' => [12 => 2, 22 => 3], 'max_footprint' => 4],
+
     'asset_keys' => [
         'bench', 'flowerbed', 'chochin', 'tree', 'sakura', 'vending', 'bicycle', 'stall',
         'stone_lantern', 'bamboo', 'fountain', 'palm', 'parasol', 'pagoda', 'castle', 'tower',
@@ -108,7 +115,7 @@ return [
     ],
 
     /*
-    | 土地(docs/design/2026-09-27-spru-wave-e-design.md 3-1)。x,yは0始まり。地図は区画を並べたもの(今は12×12)で、
+    | 土地(docs/design/2026-09-27-spru-wave-e-design.md 3-1)。x,yは0始まり。地図は区画を並べたもの(今は17×17。区画は7つ、Lv5ごとに開く)で、
     | 町の手前(xとyが大きくなる向き)へ広がる。形は全員同じなのでDBに持たず、人によって違うのは
     | レベルでどこまで開いているかだけ。目印・道がどの区画のものかは座標で決まる。目印と道のマスには置けない。
     */
@@ -116,9 +123,12 @@ return [
     'land' => [
         'plots' => [
             ['key' => 'town', 'name' => 'はじまりの町', 'x' => 0, 'y' => 0, 'w' => 7, 'h' => 7, 'min_level' => 1, 'ground' => 'grass'],
-            ['key' => 'bamboo', 'name' => '竹林', 'x' => 7, 'y' => 0, 'w' => 5, 'h' => 7, 'min_level' => 4, 'ground' => 'bamboo'],
-            ['key' => 'beach', 'name' => '海辺', 'x' => 0, 'y' => 7, 'w' => 7, 'h' => 5, 'min_level' => 7, 'ground' => 'sand'],
-            ['key' => 'hill', 'name' => '丘', 'x' => 7, 'y' => 7, 'w' => 5, 'h' => 5, 'min_level' => 10, 'ground' => 'hill'],
+            ['key' => 'bamboo', 'name' => '竹林', 'x' => 7, 'y' => 0, 'w' => 5, 'h' => 7, 'min_level' => 5, 'ground' => 'bamboo'],
+            ['key' => 'beach', 'name' => '海辺', 'x' => 0, 'y' => 7, 'w' => 7, 'h' => 5, 'min_level' => 10, 'ground' => 'sand'],
+            ['key' => 'hill', 'name' => '丘', 'x' => 7, 'y' => 7, 'w' => 5, 'h' => 5, 'min_level' => 15, 'ground' => 'hill'],
+            ['key' => 'river', 'name' => '川辺', 'x' => 12, 'y' => 0, 'w' => 5, 'h' => 12, 'min_level' => 20, 'ground' => 'grass'],
+            ['key' => 'plateau', 'name' => '高原', 'x' => 0, 'y' => 12, 'w' => 12, 'h' => 5, 'min_level' => 25, 'ground' => 'hill'],
+            ['key' => 'island', 'name' => '離島', 'x' => 12, 'y' => 12, 'w' => 5, 'h' => 5, 'min_level' => 30, 'ground' => 'sand'],
         ],
         'landmarks' => [
             ['key' => 'stone_lantern', 'x' => 2, 'y' => 0],
@@ -139,6 +149,10 @@ return [
             [0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3], [6, 3],
             // 竹林へ続く町の道
             [7, 3], [8, 3], [9, 3], [10, 3], [11, 3],
+            // 川辺へ続く道
+            [12, 3], [13, 3], [14, 3], [15, 3], [16, 3],
+            // 海辺・高原へ続く道
+            [3, 7], [3, 8], [3, 9], [3, 10], [3, 11], [3, 12], [3, 13], [3, 14], [3, 15], [3, 16],
         ],
         // Spruが立っている道のマス(道なのでアイテムと重ならない)
         'spru' => ['x' => 1, 'y' => 3],

@@ -120,11 +120,11 @@ it('特別な種に3回水をあげると、そのレアスプルが生まれる
         ->assertJsonPath('born.x', 0);
 });
 
-it('スプルの種からレアスプルは生まれない', function () {
+it('スプルの種からレアスプルも仲間も生まれず、いつもスプルの花になる', function () {
     $profile = createActiveProfile();
 
-    foreach (range(1, 40) as $i) {
-        expect(Garden::pickResult($profile))->toBeIn(['lumi', 'momo', 'kuru', 'piko', 'ruru']);
+    foreach (range(1, 10) as $i) {
+        expect(Garden::pickResult($profile))->toBe('spru_flower');
     }
 });
 

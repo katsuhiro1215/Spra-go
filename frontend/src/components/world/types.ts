@@ -86,6 +86,10 @@ export type WorldData = {
   tickets: number;
   /** この読み込みで新しくもらった特別な種(docs/design/2026-09-29-rare-spru-design.md 5-2) */
   new_seeds: NewSeed[];
+  /** この読み込みでレベルで会えた通常の仲間(docs/design/2026-10-08-town-growth-design.md 4-2) */
+  new_companions: WorldCompanion[];
+  /** 届いたが、まだ名所を選んでいない回のレベル(同 4-4) */
+  gifts_pending: number[];
 };
 
 export type ShopListItem = {

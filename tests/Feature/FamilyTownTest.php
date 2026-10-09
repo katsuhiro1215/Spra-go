@@ -68,7 +68,7 @@ it('家族の町は、置いたアイテム・仲間・スプル・畑の見た�
         ->assertJsonPath('garden', ['x' => 0, 'y' => 2, 'state' => 'sprout', 'look' => 'spru'])
         ->assertJsonPath('companions.0.name', 'ピカ')
         ->assertJsonPath('companions.0.is_partner', true)
-        ->assertJsonPath('land.width', 12)
+        ->assertJsonPath('land.width', 17)
         ->assertJsonPath('greeted_today', false);
 
     expect(array_keys($response->json()))->toEqualCanonicalizing(['profile', 'land', 'road_style', 'items', 'spru', 'garden', 'companions', 'greeted_today'])

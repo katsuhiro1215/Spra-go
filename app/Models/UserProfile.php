@@ -245,6 +245,11 @@ class UserProfile extends Model
         return $this->hasMany(ProfileCurrencyLedger::class);
     }
 
+    public function gifts(): HasMany
+    {
+        return $this->hasMany(ProfileGift::class);
+    }
+
     public function worldItems(): HasMany
     {
         return $this->hasMany(ProfileWorldItem::class);
