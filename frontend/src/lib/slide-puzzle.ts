@@ -7,6 +7,17 @@ export function solvedBoard(cols: number, rows: number): Board {
   return [...Array.from({ length: cols * rows - 1 }, (_, i) => i + 1), 0];
 }
 
+/**
+ * 空きマス以外のピースが、完成の並びになっているか(最後のピースを入れる前の状態)。
+ * kinds(ピースの見た目の種類の並び。同じ見た目は同じ数。最後が空きマスの場所の絵)があれば、見た目が合えば並んでいるとみなす。
+ * なければ、ピースの番号が合っているかで見る
+ */
+export function arranged(board: Board, kinds?: number[]): boolean {
+  const last = board.length - 1;
+  if (board[last] !== 0) return false;
+  return board.every((tile, index) => index === last || (kinds ? kinds[tile - 1] === kinds[index] : tile === index + 1));
+}
+
 export function isSolved(board: Board): boolean {
   return board.every((tile, index) => tile === (index === board.length - 1 ? 0 : index + 1));
 }
@@ -33,20 +44,20 @@ export function distanceToSolved(board: Board, cols: number): number {
 }
 
 /** 並べ替えの下限(盤の大きさごと)。これより簡単な並びは、手を足してずらす */
-export const MIN_DISTANCE: Record<string, number> = { "2x2": 3, "3x2": 5, "2x3": 5, "3x3": 8 };
+export const MIN_DISTANCE: Record<string, number> = { "2x2": 3, "3x3": 8, "4x4": 14 };
 
 /**
  * 完成形から、合法な手(空きマスの隣のピースを動かす)をランダムに重ねて並べる。必ず解ける。
- * すぐ戻る手は使わない。完成形に近すぎるとき(MIN_DISTANCE より小さいとき)は、手を足して、ずらす。rng は 0以上1未満の乱数(テスト用に差し替えられる)
+ * すぐ戻る手は使わない。完成形に近すぎるとき(MIN_DISTANCE より小さいとき)・見た目が完成の並びのときは、手を足して、ずらす。rng は 0以上1未満の乱数(テスト用に差し替えられる)
  */
-export function scramble(cols: number, rows: number, rng: () => number = Math.random): Board {
+export function scramble(cols: number, rows: number, rng: () => number = Math.random, kinds?: number[]): Board {
   const board = solvedBoard(cols, rows);
   let blank = board.length - 1;
   let previous = -1;
   const moves = cols * rows * 12;
 
   const minimum = MIN_DISTANCE[`${cols}x${rows}`] ?? 2;
-  for (let step = 0; step < moves || distanceToSolved(board, cols) < minimum; step++) {
+  for (let step = 0; step < moves || distanceToSolved(board, cols) < minimum || arranged(board, kinds); step++) {
     const options = neighbours(blank, cols, rows).filter((i) => i !== previous);
     const target = options[Math.floor(rng() * options.length)];
     [board[blank], board[target]] = [board[target], board[blank]];

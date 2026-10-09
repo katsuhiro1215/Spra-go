@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { distanceToSolved, formatTime, isSolved, MIN_DISTANCE, scramble, slide, solvedBoard, tilePosition } from "./slide-puzzle";
+import { arranged, distanceToSolved, formatTime, isSolved, MIN_DISTANCE, scramble, slide, solvedBoard, tilePosition } from "./slide-puzzle";
 
 /** 乱数を決まった並びにする */
 function seeded(seed: number) {
@@ -31,7 +31,7 @@ describe("スライドパズル", () => {
   });
 
   it("並べ替えは、いつも解ける並びで、完成形と同じにならない(何度やっても)", () => {
-    for (const [cols, rows] of [[2, 2], [3, 2], [2, 3], [3, 3]] as const) {
+    for (const [cols, rows] of [[2, 2], [3, 3], [4, 4]] as const) {
       for (let seed = 1; seed <= 60; seed++) {
         const board = scramble(cols, rows, seeded(seed));
         expect(board).toHaveLength(cols * rows);
@@ -46,10 +46,28 @@ describe("スライドパズル", () => {
     expect(distanceToSolved([1, 2, 3, 0], 2)).toBe(0);
     expect(distanceToSolved([1, 2, 0, 3], 2)).toBe(1); // 3だけが1つ離れている
     expect(distanceToSolved([2, 1, 3, 0], 2)).toBe(2);
-    for (const [cols, rows] of [[2, 2], [3, 2], [2, 3], [3, 3]] as const) {
+    for (const [cols, rows] of [[2, 2], [3, 3], [4, 4]] as const) {
       for (let seed = 1; seed <= 60; seed++) {
         expect(distanceToSolved(scramble(cols, rows, seeded(seed)), cols)).toBeGreaterThanOrEqual(MIN_DISTANCE[`${cols}x${rows}`]);
       }
+    }
+  });
+
+  it("見た目が同じピースは入れ替わっても完成: 種類の並びが合い、空きマスが最後なら「ならんだ」", () => {
+    // 2×2。ピース1と2は、同じ見た目(種類0)。3は種類1、最後(空きマスの場所)は種類2
+    const kinds = [0, 0, 1, 2];
+    expect(arranged([1, 2, 3, 0], kinds)).toBe(true);
+    expect(arranged([2, 1, 3, 0], kinds)).toBe(true); // 1と2は同じ見た目なので、入れ替わっていてもよい
+    expect(arranged([3, 2, 1, 0], kinds)).toBe(false); // 3と1は別の見た目
+    expect(arranged([1, 2, 0, 3], kinds)).toBe(false); // 空きマスが最後にない
+    expect(arranged([2, 1, 3, 0])).toBe(false); // 種類がなければ、ピースの番号で見る
+    expect(arranged([1, 2, 3, 0])).toBe(true);
+  });
+
+  it("見た目が同じピースがある盤でも、並べ替えは「ならんだ」状態から始まらない", () => {
+    const kinds = [0, 0, 0, 1, 1, 1, 2, 2, 2]; // 3×3で、横の線が3本(ハンガリーのような旗)
+    for (let seed = 1; seed <= 60; seed++) {
+      expect(arranged(scramble(3, 3, seeded(seed), kinds), kinds)).toBe(false);
     }
   });
 

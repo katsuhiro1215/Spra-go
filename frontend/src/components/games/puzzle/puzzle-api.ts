@@ -12,7 +12,8 @@ export type PuzzleFinish = CatchFinish & {
 
 export type PuzzleAnswer = { question_id: number; choice_id: number };
 
-export type PuzzleQuestion = PuzzleStart["questions"][number];
+/** 1枚分の問題。tile_kinds は、ピースの見た目の種類の並び(同じ見た目は同じ数)。なければ、ピースはすべて別の見た目 */
+export type PuzzleQuestion = PuzzleStart["questions"][number] & { tile_kinds?: number[] };
 
 /** 正解の選択肢の絵(パズルの絵) */
 export function pictureOf(question: PuzzleQuestion): string {

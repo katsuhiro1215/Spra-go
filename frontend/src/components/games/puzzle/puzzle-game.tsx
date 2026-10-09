@@ -5,12 +5,13 @@ import { useEffect, useRef, useState } from "react";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { Button as AppButton } from "@/components/app/button";
 import { useSound } from "@/components/app/sound-provider";
-import { formatTime, isSolved, scramble, slide } from "@/lib/slide-puzzle";
+import { SkyText } from "@/components/app/sky-page";
+import { arranged, formatTime, scramble, slide } from "@/lib/slide-puzzle";
 
-import { pictureOf, type PuzzleAnswer, type PuzzleQuestion, type PuzzleStart } from "./puzzle-api";
+import { answerOf, pictureOf, type PuzzleAnswer, type PuzzleQuestion, type PuzzleStart } from "./puzzle-api";
 import { PuzzleBoard, useImageAspect } from "./puzzle-board";
 
-/** 1枚分: パズル → 完成 → 「これはなんでしょう」(docs/design/2026-10-09-slide-puzzle-design.md 1章) */
+/** 1枚分: パズル → 最後のピースを入れて完成 → 「これはなんでしょう」(docs/design/2026-10-09-slide-puzzle-design.md 1章) */
 function PuzzleRound({
   question,
   grid,
@@ -30,25 +31,32 @@ function PuzzleRound({
   const { play: playSound } = useSound();
   const picture = pictureOf(question);
   const aspect = useImageAspect(picture);
-  const [board, setBoard] = useState(() => scramble(cols, rows));
+  const [board, setBoard] = useState(() => scramble(cols, rows, Math.random, question.tile_kinds));
   const [elapsed, setElapsed] = useState(0);
+  const [complete, setComplete] = useState(false);
   const [picked, setPicked] = useState<number | null>(null);
   const startedAt = useRef<number | null>(null);
-  const solved = isSolved(board);
+  const ready = arranged(board, question.tile_kinds);
 
-  // 最初に動かしてから完成までの時間。表示は、動かしているあいだだけ進める
+  // 最初に動かしてから、最後のピースを入れるまでの時間。表示は、動かしているあいだだけ進める
   useEffect(() => {
-    if (solved || startedAt.current === null) return;
+    if (complete || startedAt.current === null) return;
     const timer = window.setInterval(() => setElapsed(performance.now() - (startedAt.current ?? performance.now())), 100);
     return () => window.clearInterval(timer);
-  }, [solved, board]);
+  }, [complete, board]);
 
   function tap(index: number) {
+    if (ready) return;
     const next = slide(board, cols, index);
     if (!next) return;
     if (startedAt.current === null) startedAt.current = performance.now();
     setBoard(next);
-    if (isSolved(next)) setElapsed(performance.now() - (startedAt.current ?? performance.now()));
+  }
+
+  function insert() {
+    if (!ready || complete) return;
+    setElapsed(performance.now() - (startedAt.current ?? performance.now()));
+    setComplete(true);
   }
 
   function pick(choiceId: number) {
@@ -59,38 +67,49 @@ function PuzzleRound({
 
   return (
     <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center gap-4 px-6 py-6 pb-24 text-center">
-      <div className="flex w-full items-center justify-between text-sm font-black text-[#3b3226]">
+      <SkyText className="flex w-full items-center justify-between text-sm font-black">
         <span>
           {number}/{total}
         </span>
         <span aria-live="off">{formatTime(elapsed)}</span>
-      </div>
+      </SkyText>
 
-      {!solved && (
-        <>
-          <div className="flex flex-col items-center gap-1">
-            <p className="text-xs font-bold text-[#3b3226]">
-              <AutoFurigana text="見本" />
-            </p>
-            <div
-              aria-hidden
-              className="w-24 rounded-lg bg-[#1d2a55] bg-contain bg-center bg-no-repeat shadow"
-              style={{ backgroundImage: `url(${picture})`, aspectRatio: String(aspect) }}
-            />
-          </div>
-          <PuzzleBoard image={picture} cols={cols} rows={rows} board={board} aspect={aspect} onTap={tap} />
-          <p className="text-xs font-bold text-[#3b3226]">
-            <AutoFurigana text="空いているところの そばのピースをタップ！" />
-          </p>
-        </>
+      {!complete && (
+        <div className="flex flex-col items-center gap-1">
+          <SkyText className="text-xs">
+            <AutoFurigana text="見本" />
+          </SkyText>
+          <div
+            aria-hidden
+            className="w-24 rounded-lg bg-[#1d2a55] bg-contain bg-center bg-no-repeat shadow"
+            style={{ backgroundImage: `url(${picture})`, aspectRatio: String(aspect) }}
+          />
+        </div>
       )}
 
-      {solved && (
+      <PuzzleBoard
+        image={picture}
+        cols={cols}
+        rows={rows}
+        board={board}
+        aspect={aspect}
+        arranged={ready}
+        complete={complete}
+        onTap={tap}
+        onInsert={insert}
+      />
+
+      {!complete && (
+        <SkyText className="text-sm">
+          <AutoFurigana text={ready ? "さいごのピースを 右の はしから いれよう！" : "空いているところの そばのピースをタップ！"} />
+        </SkyText>
+      )}
+
+      {complete && (
         <>
-          <PuzzleBoard image={picture} cols={cols} rows={rows} board={board} aspect={aspect} onTap={() => {}} />
-          <p className="text-lg font-black text-[#3b3226]">
+          <SkyText className="text-lg font-black">
             <AutoFurigana text="できた！ これはなんでしょう？" />
-          </p>
+          </SkyText>
           <div className="grid w-full grid-cols-2 gap-3">
             {question.choices.map((choice) => {
               const isCorrect = choice.id === question.correct_choice_id;
@@ -104,9 +123,11 @@ function PuzzleRound({
           </div>
           {picked !== null && (
             <>
-              <p role="status" className="text-base font-black text-[#3b3226]">
-                <AutoFurigana text={picked === question.correct_choice_id ? "せいかい！" : "ざんねん！ こたえは " + (question.choices.find((c) => c.id === question.correct_choice_id)?.label ?? "")} />
-              </p>
+              <SkyText as="p" className="text-base font-black">
+                <span role="status">
+                  <AutoFurigana text={picked === question.correct_choice_id ? "せいかい！" : "ざんねん！ こたえは " + answerOf(question)} />
+                </span>
+              </SkyText>
               <AppButton variant="warning" size="lg" onClick={() => onDone(picked, elapsed)} className="w-full">
                 <AutoFurigana text={last ? "けっかを見る" : "つぎへ"} />
               </AppButton>
@@ -160,9 +181,11 @@ export function PuzzleGame({
             </AppButton>
           </div>
         ) : (
-          <AppButton variant="ghost" size="sm" onClick={() => setConfirmQuit(true)}>
-            <AutoFurigana text="やめる" />
-          </AppButton>
+          <button type="button" onClick={() => setConfirmQuit(true)} className="rounded-full px-3 py-1 text-sm underline underline-offset-2">
+            <SkyText as="span">
+              <AutoFurigana text="やめる" />
+            </SkyText>
+          </button>
         )}
       </div>
       <PuzzleRound
