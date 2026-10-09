@@ -55,4 +55,32 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | うちゅう旅行(宇宙のミニゲーム)
+    |--------------------------------------------------------------------------
+    |
+    | docs/design/2026-10-09-space-trip-design.md 2・3・6章。ロケットで進み、隕石をよけ、星を集めて、答えの門をくぐる。
+    | 問題は、カテゴリー category(の子)のステージの問題を、難しさ(ステージの級)で選ぶ。点数の決まり(score)は英語と共通。
+    | obstacle_rows は隕石の段の数、destinations は到着する星(正解を10問に換算した数の上限 => 星のキー)。
+    |
+    */
+
+    'space_trip' => [
+        'category' => '宇宙',
+        'question_count' => 10,
+        'review_max' => 6,
+        'daily_rewarded_plays' => 3,
+        'difficulties' => [
+            '初級' => ['lanes' => 2, 'fall_ms' => 8000, 'obstacle_rows' => 2, 'reward' => ['xp' => 3, 'point' => 3]],
+            '中級' => ['lanes' => 3, 'fall_ms' => 6000, 'obstacle_rows' => 3, 'reward' => ['xp' => 4, 'point' => 3]],
+            '上級' => ['lanes' => 4, 'fall_ms' => 4500, 'obstacle_rows' => 4, 'reward' => ['xp' => 5, 'point' => 3]],
+        ],
+        'max_stars_per_question' => 3,
+        'destinations' => [2 => 'moon', 4 => 'mars', 6 => 'jupiter', 8 => 'saturn', 9 => 'neptune', 10 => 'pluto'],
+        'messages' => [
+            'empty' => '宇宙の問題はじゅんびちゅうだよ',
+        ],
+    ],
+
 ];
