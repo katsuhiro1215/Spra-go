@@ -20,6 +20,18 @@ export const MINI_GAMES = [
     description: "ロケットで隕石をよけて、答えの門をくぐろう！",
     href: "/games/space-trip",
   },
+  {
+    key: "puzzle-flag",
+    title: "スライドパズル（こっき）",
+    description: "バラバラの国旗を、スライドして完成させよう！",
+    href: "/games/puzzle-flag",
+  },
+  {
+    key: "puzzle-space",
+    title: "スライドパズル（うちゅう）",
+    description: "バラバラの宇宙の絵を、スライドして完成させよう！",
+    href: "/games/puzzle-space",
+  },
 ] as const;
 
 /** GET /api/games の1件(docs/design/2026-10-09-minigame-rollout-design.md 3-3)。出ているゲームだけが返る */

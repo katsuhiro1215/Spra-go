@@ -5,7 +5,15 @@ export type CatchDifficulty = "初級" | "中級" | "上級";
 
 export type CatchSummary = {
   category_id: number | null;
-  difficulties: { difficulty: CatchDifficulty; lanes: number; available: number; best_score: number | null }[];
+  difficulties: {
+    difficulty: CatchDifficulty;
+    lanes: number;
+    available: number;
+    best_score: number | null;
+    /** スライドパズルだけ: 盤の大きさ [列, 行] と、自己ベストの時間(ミリ秒) */
+    grid?: [number, number];
+    best_ms?: number | null;
+  }[];
   rewarded_plays_left: number;
   /** 今週のミニゲーム(ごほうびが1.5倍) */
   featured?: boolean;

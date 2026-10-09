@@ -8,6 +8,7 @@ import { Furigana } from "@/components/app/furigana";
 import { SkyText, SkyTitle } from "@/components/app/sky-page";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
+import { formatTime } from "@/lib/slide-puzzle";
 
 import type { CatchDifficulty, CatchSummary } from "./catch-api";
 import { CATCH_MODES, laneLabel, rewardLeftText, type CatchMode } from "./catch-view";
@@ -75,10 +76,18 @@ export function CatchSelect({
             >
               <span className="flex items-center gap-2">
                 <Furigana text={d.difficulty} reading={DIFFICULTY_READINGS[d.difficulty] ?? ""} />
-                <span className="text-xs opacity-80">{laneLabel(d.lanes)}</span>
+                <span className="text-xs opacity-80">{d.grid ? `${d.grid[0]}×${d.grid[1]}` : laneLabel(d.lanes)}</span>
               </span>
               <span className="text-xs opacity-80">
-                {d.available === 0 ? "準備中" : d.best_score !== null ? `ベスト ${d.best_score}点` : "はじめて"}
+                {d.available === 0
+                  ? "準備中"
+                  : d.grid
+                    ? d.best_ms != null
+                      ? `ベスト ${formatTime(d.best_ms)}`
+                      : "はじめて"
+                    : d.best_score !== null
+                      ? `ベスト ${d.best_score}点`
+                      : "はじめて"}
               </span>
             </AppButton>
           ))}
