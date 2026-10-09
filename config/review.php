@@ -20,4 +20,21 @@ return [
     // ボス以外のステージに足す、出す日が来た前の問題の最大数
     'stage_mix' => 2,
 
+    /*
+    | 出し方の変化(docs/design/2026-10-09-review-variety-design.md 2・3章)。
+    | spelling: 前に答えたことのある英単語を、文字のタイルを並べる形にして出す。
+    | 1ステージの最大数・単語の長さ(英字だけ)・まちがいの文字の数(レベル preschool_max_level 以下は preschool_extra_letters)
+    */
+
+    'variants' => [
+        'spelling' => [
+            'max_per_stage' => 2,
+            'min_length' => 3,
+            'max_length' => 8,
+            'extra_letters' => 2,
+            'preschool_extra_letters' => 1,
+            'preschool_max_level' => 10,
+        ],
+    ],
+
 ];
