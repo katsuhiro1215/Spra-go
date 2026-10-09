@@ -27,6 +27,10 @@ describe("コースの選択の副題", () => {
     expect(courseSelectPrompt({ name: "近畿" }, true)).toBe("どの県にする？");
     expect(courseSelectPrompt({ name: "国旗クイズ" }, false)).toBe("どの大陸にする？");
   });
+
+  it("国旗クイズでも都道府県クイズでもない大もと(宇宙など)は、「どのコースにする？」", () => {
+    expect(courseSelectPrompt({ name: "宇宙" }, false)).toBe("どのコースにする？");
+  });
 });
 
 describe("コースのカードの札", () => {

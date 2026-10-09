@@ -1,7 +1,7 @@
 # 宇宙の問題の取り込みと「宇宙」クイズ — 設計書
 
 - 作成日: 2026-10-09
-- ステータス: Owner合意済み（2026-10-09。8章はすべて私のおすすめで決定）
+- ステータス: 実装済み（2026-10-09。8章はすべて私のおすすめで決定）
 - 前提: 国旗クイズ（`docs/design/2026-10-05-flag-quiz-design.md`。コース・ステージ・絵の選択肢）、スプルキャッチ（`docs/design/2026-09-29-spru-catch-design.md`、英語のゲームは「英語を学ぶ」の問題を使う）、国旗キャッチ（`docs/design/2026-10-05-flag-catch-design.md`）、ミニアプリの整理（`docs/design/2026-10-04-mini-app-tidy-design.md`。ステージが3つ以上のカテゴリーがミニクイズに自動で出る）
 - 問題の原稿（Codex作成・Claude確認済み）: `company/spra/spra-go/content/space/`（`questions.csv` 60問・`pictures.csv` 35種・`sources.md` 出典・`validation-report.md`）。依頼書: `company/spra/spra-go/docs/space-question-request.md`
 - このあとの設計（別）: ミニゲーム2本目「うちゅう旅行」の遊び（ロケットのスプルが、隕石をよけて、答えの門をくぐる）、絵の依頼文（ChatGPT。画像は後回し）
