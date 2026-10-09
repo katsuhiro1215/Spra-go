@@ -2,16 +2,24 @@ import { Fragment } from "react";
 
 import { Furigana } from "@/components/app/furigana";
 import furiganaDictionary from "@/lib/furigana-dictionary.json";
+import generatedDictionary from "@/lib/furigana-generated.json";
 
 import { counterAt } from "./counter-reading";
 
-// JSONのキー順(挿入順)は文字数の長い語から並んでいる前提
-// (frontend/src/lib/furigana-dictionary.json生成時に保証済み)。
-// 長い語から先にマッチさせないと「日本語」が「日本」+「語」に
-// 分割されてしまうなど、誤ったルビ分割になる。
-const dictionaryEntries = Object.entries(
-  furiganaDictionary as Record<string, string>,
-);
+// 辞書 = 形態素解析で作った辞書(furigana-generated.json。tools/furigana/build_generated.py)に、
+// 手で直した辞書(furigana-dictionary.json)を上書きしたもの。同じ語は手の辞書が勝つ。
+// 長い語から先にマッチさせないと「日本語」が「日本」+「語」に分割されてしまうなど、
+// 誤ったルビ分割になるので、長い語が先。最初の1文字ごとの索引を作り、全語を順に調べない
+const merged: Record<string, string> = {
+  ...(generatedDictionary as Record<string, string>),
+  ...(furiganaDictionary as Record<string, string>),
+};
+const dictionaryIndex = new Map<string, [string, string][]>();
+for (const entry of Object.entries(merged).sort((a, b) => b[0].length - a[0].length)) {
+  const list = dictionaryIndex.get(entry[0][0]);
+  if (list) list.push(entry);
+  else dictionaryIndex.set(entry[0][0], [entry]);
+}
 
 type Segment = string | { text: string; reading: string };
 
@@ -47,7 +55,7 @@ export function tokenize(text: string, plain: string[] = [], readings: Record<st
       continue;
     }
     const ownWord = readingWords.find((word) => word !== "" && text.startsWith(word, i));
-    const entry = dictionaryEntries.find(([word]) => text.startsWith(word, i));
+    const entry = dictionaryIndex.get(text[i])?.find(([word]) => text.startsWith(word, i));
     if (ownWord && (!entry || ownWord.length >= entry[0].length)) {
       segments.push({ text: ownWord, reading: readings[ownWord] });
       i += ownWord.length;
