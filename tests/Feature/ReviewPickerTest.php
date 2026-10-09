@@ -5,6 +5,7 @@ use App\Models\ProfileWord;
 use App\Models\Question;
 use App\Models\UserProfile;
 use App\Support\QuestionMemory;
+use App\Support\ReviewPicker;
 use Illuminate\Support\Carbon;
 
 /*
@@ -109,4 +110,95 @@ it('枠の共通の決まり: 除く問題・国旗キャッチ専用・鍵の�
 
     expect($ids)->toBe([$mine->id, $other->id])
         ->and(QuestionMemory::slotIds($profile, 'recent_wrong', 0))->toBe([]);
+});
+
+/** いちばん遅れている問題(まちがえていない・段階1・出す日が古い)を $count 個作る。出す日は 9/02 から1日ずつ後ろへ */
+function pickerOverdue(UserProfile $profile, int $count): array
+{
+    return collect(range(1, $count))->map(fn (int $i) => pickerMemory($profile, [
+        'due_on' => Carbon::parse('2026-09-01')->addDays($i)->toDateString(),
+        'last_answered_on' => '2026-08-31',
+    ]))->pluck('id')->all();
+}
+
+it('毎日の復習: 出す日が来た古い問題が山のようにあっても、最近まちがえた問題が先に入る(最大3問)。残りは古い順', function () {
+    $profile = createActiveProfile();
+    $overdue = pickerOverdue($profile, 20);
+    $wrong = collect(range(1, 4))->map(fn (int $i) => pickerMemory($profile, [
+        'wrong_on' => Carbon::parse('2026-10-04')->addDays($i)->toDateString(), 'due_on' => '2026-10-08',
+    ])->id)->all(); // wrong_on 10/05〜10/08
+
+    $ids = ReviewPicker::daily($profile);
+
+    // 新しい順の上位3問(10/08, 10/07, 10/06)。4問目は古い順の山に回り、出す日が10/08なので入らない
+    expect($ids)->toHaveCount(10)
+        ->and(array_slice($ids, 0, 3))->toBe([$wrong[3], $wrong[2], $wrong[1]])
+        ->and(array_slice($ids, 3))->toBe(array_slice($overdue, 0, 7));
+});
+
+it('毎日の復習: 各枠が上限まで入り、「いちばん遅れている問題」が3問残る。同じ問題は2回入らない', function () {
+    $profile = createActiveProfile();
+    $overdue = pickerOverdue($profile, 6);
+    $wrong = collect(range(1, 5))->map(fn () => pickerMemory($profile, ['wrong_on' => '2026-10-07', 'due_on' => '2026-10-08'])->id)->all();
+    $weak = collect(range(1, 5))->map(fn () => pickerWeak($profile, ['level' => 3, 'due_on' => '2026-10-20', 'last_answered_on' => '2026-10-01'])->id)->all();
+    $almost = collect(range(1, 5))->map(fn () => pickerMemory($profile, ['level' => 5, 'due_on' => '2026-10-08'])->id)->all();
+    // まちがえた＋苦手＋段階5の問題は、1回だけ入る
+    $triple = pickerWeak($profile, ['level' => 5, 'wrong_on' => '2026-10-08', 'due_on' => '2026-10-08', 'last_answered_on' => '2026-10-08']);
+
+    $ids = ReviewPicker::daily($profile);
+
+    expect($ids)->toHaveCount(10)
+        ->and(array_unique($ids))->toHaveCount(10)
+        ->and(count(array_intersect($ids, [...$wrong, $triple->id])))->toBe(3)
+        ->and(count(array_intersect($ids, $weak)))->toBe(2)
+        ->and(count(array_intersect($ids, $almost)))->toBe(2)
+        ->and(array_slice($ids, 7))->toBe(array_slice($overdue, 0, 3)); // 古い順の最後の3問(山の先頭)
+});
+
+it('毎日の復習: 使われなかった枠は古い順で埋まる。出す日が来た問題が少ないときは、今までと同じ古い順', function () {
+    $profile = createActiveProfile();
+    $overdue = pickerOverdue($profile, 4);
+
+    expect(ReviewPicker::daily($profile))->toBe($overdue);
+});
+
+it('毎日の復習: 出す日が来た問題がなく、苦手の語だけがあるときも、その語を出す。枠の合計より小さい limit は、枠の順に切り詰める', function () {
+    $profile = createActiveProfile();
+    $weak = pickerWeak($profile, ['level' => 3, 'due_on' => '2026-10-20', 'last_answered_on' => '2026-10-01']);
+
+    expect(ReviewPicker::daily($profile))->toBe([$weak->id]);
+
+    $wrong = collect(range(1, 3))->map(fn () => pickerMemory($profile, ['wrong_on' => '2026-10-07', 'due_on' => '2026-10-08'])->id)->all();
+
+    expect(ReviewPicker::daily($profile, 2))->toHaveCount(2)
+        ->and(array_diff(ReviewPicker::daily($profile, 2), $wrong))->toBe([]);
+});
+
+it('ステージのおさらい: 先頭の1問は最近まちがえた問題(その国を先に)。残りは古い順。ステージ自身の問題は除く', function () {
+    $profile = createActiveProfile();
+    $gb = createTravelCountry('gb', 'イギリス');
+    $profile->trips()->create(['destination' => 'gb', 'arrived_at' => now()]);
+    $overdue = pickerOverdue($profile, 3);
+    $otherWrong = pickerMemory($profile, ['wrong_on' => '2026-10-08', 'due_on' => '2026-10-09']);
+    $mineWrong = pickerMemory($profile, ['wrong_on' => '2026-10-06', 'due_on' => '2026-10-07']);
+    $mineWrong->update(['country_id' => $gb->id]);
+    $stageOwn = pickerMemory($profile, ['wrong_on' => '2026-10-08', 'due_on' => '2026-10-09']);
+
+    $ids = ReviewPicker::stage($profile, [$stageOwn->id], $gb->id);
+
+    // 先頭 = その国のまちがえた問題(国を先に)。2問目 = 古い順(ステージの問題と先頭の問題は除く)
+    expect($ids)->toBe([$mineWrong->id, $overdue[0]]);
+    expect(ReviewPicker::stage($profile, [$stageOwn->id], null)[0])->toBe($otherWrong->id);
+});
+
+it('ステージのおさらい: まちがえた問題がなければ、苦手の語 → あと1回の順。何もなければ空', function () {
+    $profile = createActiveProfile();
+
+    expect(ReviewPicker::stage($profile, [], null))->toBe([]);
+
+    $almost = pickerMemory($profile, ['level' => 5, 'due_on' => '2026-10-01']);
+    $weak = pickerWeak($profile, ['level' => 3, 'due_on' => '2026-10-20', 'last_answered_on' => '2026-10-01']);
+
+    // 先頭は苦手の語(まちがえた問題がないので)。2問目はいちばん遅れている問題(段階5の問題。出す日が来ている)
+    expect(ReviewPicker::stage($profile, [], null))->toBe([$weak->id, $almost->id]);
 });
