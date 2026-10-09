@@ -62,6 +62,11 @@ describe("道の縁(設計書 2026-10-09-road-look 3章)", () => {
     expect(roadEdge("zz")).toEqual(roadEdge("jp"));
   });
 
+  it("中心線と横断歩道は、アメリカの道だけ", () => {
+    expect(roadEdge("us").marks).toBe(true);
+    for (const style of ["jp", "id", "kr", "gb", "fr"]) expect(roadEdge(style).marks).toBe(false);
+  });
+
   it("外線は、どの道にも付く", () => {
     for (const style of Object.keys(ROAD_STYLE_NAMES)) {
       expect(roadEdge(style).lineWidth).toBeGreaterThan(0);

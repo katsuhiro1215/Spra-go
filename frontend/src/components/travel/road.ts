@@ -42,17 +42,25 @@ export function roadChoice(style: string, selected: string, hasArt: boolean): "s
  * 道の縁(設計書 2026-10-09-road-look 3章)。band は道の内側に引く縁の帯(土の道は null)、
  * line は道と草地の境の細い外線。日本の土の道の外線は、今までと同じ薄い茶色
  */
-export type RoadEdge = { band: string | null; bandWidth: number; line: string; lineOpacity: number; lineWidth: number };
+export type RoadEdge = {
+  band: string | null;
+  bandWidth: number;
+  line: string;
+  lineOpacity: number;
+  lineWidth: number;
+  /** 中心線と横断歩道(アスファルトの道だけ) */
+  marks: boolean;
+};
 
-const DIRT_EDGE: RoadEdge = { band: null, bandWidth: 0, line: "#8a6a1c", lineOpacity: 0.18, lineWidth: 1 };
+const DIRT_EDGE: RoadEdge = { band: null, bandWidth: 0, line: "#8a6a1c", lineOpacity: 0.18, lineWidth: 1, marks: false };
 
 const ROAD_EDGES: Record<string, RoadEdge> = {
   jp: DIRT_EDGE,
   id: { ...DIRT_EDGE, line: "#7a3f28", lineOpacity: 0.22 },
-  us: { band: "#cfcdc6", bandWidth: 5, line: "#46464b", lineOpacity: 0.5, lineWidth: 1.2 },
-  kr: { band: "#9a978f", bandWidth: 4, line: "#55524b", lineOpacity: 0.4, lineWidth: 1.2 },
-  gb: { band: "#656a72", bandWidth: 4, line: "#3d4045", lineOpacity: 0.45, lineWidth: 1.2 },
-  fr: { band: "#e4dac5", bandWidth: 4, line: "#8d8068", lineOpacity: 0.4, lineWidth: 1.2 },
+  us: { band: "#cfcdc6", bandWidth: 5, line: "#46464b", lineOpacity: 0.5, lineWidth: 1.2, marks: true },
+  kr: { band: "#9a978f", bandWidth: 4, line: "#55524b", lineOpacity: 0.4, lineWidth: 1.2, marks: false },
+  gb: { band: "#656a72", bandWidth: 4, line: "#3d4045", lineOpacity: 0.45, lineWidth: 1.2, marks: false },
+  fr: { band: "#e4dac5", bandWidth: 4, line: "#8d8068", lineOpacity: 0.4, lineWidth: 1.2, marks: false },
 };
 
 export function roadEdge(style: string): RoadEdge {

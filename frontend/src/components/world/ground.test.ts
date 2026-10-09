@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { decalAt, decalOffset, pathEdges, patternMatrix, plotPoints } from "./ground";
+import { HALF_H, HALF_W } from "./iso";
+import { decalAt, decalOffset, pathEdges, patternMatrix, plotPoints, roadMarks } from "./ground";
 
 describe("地面の絵の変形(設計書 2026-10-05-town-blend 3-1)", () => {
   it("4×4マスをおおう絵(512px)を、菱形に変形する行列", () => {
@@ -83,5 +84,39 @@ describe("道のふち(道が草地に接する辺だけ)", () => {
   it("線は、マスの辺の2つの角を結ぶ(例: (0,0)の奥の辺は上の角から右の角)", () => {
     const edges = pathEdges([[0, 0]], (x, y) => x === 0 && y === -1);
     expect(edges).toEqual(["M0,0 L32,16"]);
+  });
+});
+
+describe("道のしるし(中心線と横断歩道。設計書 2026-10-09-road-look 3章)", () => {
+  const all = () => true;
+
+  it("1マスだけの道には、しるしを付けない", () => {
+    expect(roadMarks([[2, 2]], all)).toEqual({ center: [], crossings: [] });
+  });
+
+  it("まっすぐな3マスは、中心線が2本で、横断歩道はない", () => {
+    const marks = roadMarks([[2, 2], [3, 2], [4, 2]], all);
+    expect(marks.center).toHaveLength(2);
+    expect(marks.crossings).toHaveLength(0);
+  });
+
+  it("T字の交差点は、3方向の手前に横断歩道が付き、交差点のマスの真ん中には線が来ない", () => {
+    const tee = [[3, 3], [2, 3], [4, 3], [3, 4]] as [number, number][];
+    const marks = roadMarks(tee, all);
+    expect(marks.crossings).toHaveLength(3);
+    // 交差点(3,3)のマスの中心。中心線は、そこを通らない
+    const junction = `${(3 - 3) * HALF_W},${(3 + 3 + 1) * HALF_H}`;
+    for (const d of marks.center) expect(d).not.toContain(junction);
+    expect(marks.center).toHaveLength(3);
+  });
+
+  it("十字の交差点は、4方向に横断歩道が付く", () => {
+    const cross = [[3, 3], [2, 3], [4, 3], [3, 2], [3, 4]] as [number, number][];
+    expect(roadMarks(cross, all).crossings).toHaveLength(4);
+  });
+
+  it("閉じた区画のマスは、しるしの数に入れない", () => {
+    const onlyFirst = (x: number) => x === 2;
+    expect(roadMarks([[2, 2], [3, 2]], onlyFirst)).toEqual({ center: [], crossings: [] });
   });
 });
