@@ -3,6 +3,7 @@
 use App\Support\FlagQuiz\FlagCatchPlanner;
 use App\Support\FlagQuiz\FlagQuizWriter;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,25 @@ beforeEach(function () {
     config(['games.puzzle_space.catalog' => ['released_on' => null, 'season' => null]]);
 });
 
-function preparePuzzleFlag(): void
+/**
+ * 国旗の問題を登録し、ピースの種類の一覧(本物は database/data/puzzle/flags.json)を、テスト用に作る。
+ * どの絵も、ピースはすべて別の種類。$excluded の名前の旗だけ、使えない旗として一覧に入れない
+ */
+function preparePuzzleFlag(array $excluded = []): void
 {
     FlagQuizWriter::writeCatch(FlagCatchPlanner::plan(flagTestCatalog()));
+
+    $kinds = ['2x2' => [], '3x3' => [], '4x4' => []];
+    foreach (DB::table('question_choices')->where('is_correct', true)->get(['label', 'meta']) as $choice) {
+        $image = json_decode($choice->meta, true)['image'] ?? null;
+        if ($image === null || in_array($choice->label, $excluded, true)) {
+            continue;
+        }
+        foreach (['2x2' => 4, '3x3' => 9, '4x4' => 16] as $grid => $count) {
+            $kinds[$grid][$image] = range(0, $count - 1);
+        }
+    }
+    config(['games.puzzle_flag.image_kinds' => $kinds]);
 }
 
 /** 始めて、全部の問題に答える @return array{0: array, 1: list<array{question_id: int, choice_id: int}>} */
@@ -46,30 +63,50 @@ it('難しさごとの盤の大きさ・使える問題の数・自己ベスト�
     $this->getJson('/api/games/puzzle-flag')
         ->assertOk()
         ->assertJsonPath('difficulties.0', ['difficulty' => '初級', 'lanes' => 4, 'available' => 6, 'best_score' => 90, 'grid' => [2, 2], 'best_ms' => 45000])
-        ->assertJsonPath('difficulties.1.grid', [3, 2])
+        ->assertJsonPath('difficulties.1.grid', [3, 3])
         ->assertJsonPath('difficulties.1.best_ms', null)
-        ->assertJsonPath('difficulties.2.grid', [3, 3])
+        ->assertJsonPath('difficulties.2.grid', [4, 4])
         ->assertJsonPath('rewarded_plays_left', 2);
 });
 
-it('始めると、3問・4つの選択肢・盤の大きさ・正解の国旗の絵を返す', function () {
+it('難しさごとに、問題の数・盤の大きさ・ピースの種類の並びが決まる(初級3問・2×2、中級2問・3×3、上級1問・4×4)。選択肢は4つで、正解の国旗の絵がある', function () {
     createActiveProfile();
     preparePuzzleFlag();
 
-    $response = $this->postJson('/api/games/puzzle-flag/plays', ['difficulty' => '中級'])
-        ->assertOk()
-        ->assertJsonPath('grid', [3, 2])
-        ->assertJsonCount(3, 'questions');
+    foreach ([['初級', 3, [2, 2], 4], ['中級', 2, [3, 3], 9], ['上級', 1, [4, 4], 16]] as [$difficulty, $count, $grid, $pieces]) {
+        $response = $this->postJson('/api/games/puzzle-flag/plays', ['difficulty' => $difficulty])
+            ->assertOk()
+            ->assertJsonPath('grid', $grid)
+            ->assertJsonCount($count, 'questions');
 
-    foreach ($response->json('questions') as $question) {
-        $correct = collect($question['choices'])->firstWhere('id', $question['correct_choice_id']);
-        expect($question['choices'])->toHaveCount(4)
-            ->and($correct['image'])->toStartWith('/flag/');
+        foreach ($response->json('questions') as $question) {
+            $correct = collect($question['choices'])->firstWhere('id', $question['correct_choice_id']);
+            expect($question['choices'])->toHaveCount(4)
+                ->and($correct['image'])->toStartWith('/flag/')
+                ->and($question['tile_kinds'])->toHaveCount($pieces);
+        }
+        $this->assertDatabaseHas('profile_game_plays', ['game' => 'puzzle_flag', 'difficulty' => $difficulty]);
     }
-    $this->assertDatabaseHas('profile_game_plays', ['game' => 'puzzle_flag', 'difficulty' => '中級']);
 });
 
-it('終えると、時間と自己ベストを返して保存する。遅い回では、自己ベストは変わらない', function () {
+it('ピースが同じ色ばかりの国旗(ハンガリーなど)は、一覧にないので出ない', function () {
+    createActiveProfile();
+    preparePuzzleFlag(excluded: ['よーろっぱ1', 'よーろっぱ2', 'あじあ1']); // 初級の6問のうち3問を、使えない旗にする
+
+    $this->getJson('/api/games/puzzle-flag')->assertOk()->assertJsonPath('difficulties.0.available', 3);
+
+    $labels = [];
+    foreach (range(1, 6) as $i) {
+        $response = $this->postJson('/api/games/puzzle-flag/plays', ['difficulty' => '初級'])->assertOk();
+        foreach ($response->json('questions') as $question) {
+            $labels[] = collect($question['choices'])->firstWhere('id', $question['correct_choice_id'])['label'];
+        }
+    }
+
+    expect(array_unique($labels))->not->toContain('よーろっぱ1', 'よーろっぱ2', 'あじあ1');
+});
+
+it('終えると、時間と自己ベストを返して保存する。遅い回では、自己ベストは変わらない。ごほうびは難しさで決まる', function () {
     $profile = createActiveProfile();
     preparePuzzleFlag();
 
@@ -120,4 +157,28 @@ it('出す日の前のパズルは404', function () {
 
     $this->getJson('/api/games/puzzle-flag')->assertNotFound();
     expect(collect($this->getJson('/api/games')->json())->pluck('key')->all())->not->toContain('puzzle-flag');
+});
+
+it('ごほうびは、全部正解で、中級 経験値36・ポイント30、上級 経験値40・ポイント30', function () {
+    createActiveProfile();
+    preparePuzzleFlag();
+
+    foreach ([['中級', ['xp' => 36, 'point' => 30]], ['上級', ['xp' => 40, 'point' => 30]]] as [$difficulty, $reward]) {
+        [$start, $answers] = startPuzzle($this, 'puzzle-flag', $difficulty);
+        $this->postJson("/api/games/puzzle-flag/plays/{$start['play_id']}/finish", ['answers' => $answers, 'elapsed_ms' => 30000])
+            ->assertOk()
+            ->assertJsonPath('reward', $reward);
+    }
+});
+
+it('本物のピースの一覧: ハンガリー・イタリア・フランス・ドイツは、どの盤の大きさにも入らない。複雑な旗(韓国・イギリス)は入る', function () {
+    $kinds = json_decode(file_get_contents(base_path('database/data/puzzle/flags.json')), true);
+
+    foreach (['2x2' => 4, '3x3' => 9, '4x4' => 16] as $grid => $pieces) {
+        foreach (['Hungary', 'Italy', 'France', 'Germany'] as $name) {
+            expect($kinds[$grid])->not->toHaveKey("/flag/{$name}.svg");
+        }
+        expect($kinds[$grid])->toHaveKey('/flag/Korea-South.svg')
+            ->and($kinds[$grid]['/flag/Korea-South.svg'])->toHaveCount($pieces);
+    }
 });

@@ -70,7 +70,7 @@ class CatchGame
         $pool = self::pool($profile, $difficulty, $game);
         abort_if($pool->isEmpty(), 422, self::emptyMessage($profile, $game));
 
-        $ids = self::pick($profile, $pool->pluck('id')->all(), $game);
+        $ids = self::pick($profile, $pool->pluck('id')->all(), $game, $settings['question_count'] ?? null);
         $play = $profile->gamePlays()->create(['game' => $game, 'difficulty' => $difficulty, 'question_ids' => $ids]);
         $byId = $pool->keyBy('id');
 
@@ -81,7 +81,7 @@ class CatchGame
             'fall_ms' => $settings['fall_ms'],
         ] + (isset($settings['obstacle_rows']) ? ['obstacle_rows' => $settings['obstacle_rows']] : [])
           + (isset($settings['grid']) ? ['grid' => $settings['grid']] : []) + [
-            'questions' => array_map(fn (int $id) => self::present($byId[$id], $settings['lanes']), $ids),
+            'questions' => array_map(fn (int $id) => self::present($byId[$id], $settings['lanes'], $settings), $ids),
         ];
     }
 
@@ -251,7 +251,10 @@ class CatchGame
     /** @return array{lanes: int, fall_ms: int, max_label_width?: int, quiz?: string, reward: array{xp: int, point: int}} */
     private static function settings(string $difficulty, string $game): array
     {
-        return config("games.{$game}.difficulties")[$difficulty] + ['image_required' => (bool) config("games.{$game}.image_required")];
+        return config("games.{$game}.difficulties")[$difficulty] + [
+            'image_required' => (bool) config("games.{$game}.image_required"),
+            'image_kinds' => self::imageKinds($game),
+        ];
     }
 
     /** ゲームの問題を探すカテゴリー。ゲームごとの category があればそれ、なければ英語のもの */
@@ -356,7 +359,7 @@ class CatchGame
     {
         return $question->choices->where('is_correct', true)->count() === 1
             // スライドパズルは、正解の選択肢に絵があるものだけ(設計書3-1)
-            && (! ($settings['image_required'] ?? false) || ($question->choices->firstWhere('is_correct', true)->meta['image'] ?? null) !== null)
+            && (! ($settings['image_required'] ?? false) || self::puzzleImage($question, $settings) !== null)
             && $question->choices->where('is_correct', false)->count() >= $settings['lanes'] - 1
             && (! isset($settings['max_label_width'])
                 || $question->choices->every(fn (QuestionChoice $choice) => mb_strwidth($choice->label) <= $settings['max_label_width']));
@@ -369,23 +372,24 @@ class CatchGame
      * @param  list<int>  $poolIds
      * @return list<int>
      */
-    private static function pick(UserProfile $profile, array $poolIds, string $game): array
+    private static function pick(UserProfile $profile, array $poolIds, string $game, ?int $count = null): array
     {
-        $reviewMax = config("games.{$game}.review_max");
+        $count ??= config("games.{$game}.question_count");
+        $reviewMax = min(config("games.{$game}.review_max"), $count);
         $wrong = QuestionMemory::wrongIdsAmong($profile, $poolIds, count($poolIds));
         $due = QuestionMemory::dueIdsAmong($profile, array_values(array_diff($poolIds, $wrong)), count($poolIds));
         $review = [...$wrong, ...$due];
         $fresh = collect($poolIds)->diff($review)->shuffle()->values()->all();
 
         return collect([...array_slice($review, 0, $reviewMax), ...$fresh, ...array_slice($review, $reviewMax)])
-            ->take(config("games.{$game}.question_count"))
+            ->take($count)
             ->shuffle()
             ->values()
             ->all();
     }
 
     /** 正解と、まちがいからランダムに「列の数−1」個をまぜて列の順にする(設計書4-3)。国旗の絵があれば image を付ける */
-    private static function present(Question $question, int $lanes): array
+    private static function present(Question $question, int $lanes, array $settings = []): array
     {
         $correct = $question->choices->firstWhere('is_correct', true);
         $choices = $question->choices
@@ -405,6 +409,56 @@ class CatchGame
                 return ['id' => $choice->id, 'label' => $choice->label] + ($image !== null ? ['image' => $image] : []);
             })->all(),
             'correct_choice_id' => $correct->id,
-        ];
+        ] + (($kinds = self::tileKinds($question, $settings)) !== null ? ['tile_kinds' => $kinds] : []);
+    }
+
+    /**
+     * スライドパズルの、正解の絵のピースの種類の並び(見た目が同じピースは同じ数。盤の大きさごと)。
+     * 一覧(image_kinds)のないゲーム・一覧にない絵は null(ピースはすべて別の種類)
+     *
+     * @return list<int>|null
+     */
+    private static function tileKinds(Question $question, array $settings): ?array
+    {
+        $image = $question->choices->firstWhere('is_correct', true)?->meta['image'] ?? null;
+        if (! isset($settings['grid']) || ($settings['image_kinds'] ?? null) === null || $image === null) {
+            return null;
+        }
+
+        return $settings['image_kinds'][implode('x', $settings['grid'])][$image] ?? null;
+    }
+
+    /** スライドパズルで使える絵(正解の選択肢の絵)。一覧があれば、盤の大きさに合う絵だけ(ピースの種類が少なすぎる国旗は使わない) */
+    private static function puzzleImage(Question $question, array $settings): ?string
+    {
+        $image = $question->choices->firstWhere('is_correct', true)?->meta['image'] ?? null;
+        if ($image === null) {
+            return null;
+        }
+        if (($settings['image_kinds'] ?? null) === null) {
+            return $image;
+        }
+
+        return self::tileKinds($question, $settings) === null ? null : $image;
+    }
+
+    /**
+     * ゲームのピースの種類の一覧(config の image_kinds。なければ image_kinds_file のJSON)。なければ null
+     *
+     * @return array<string, array<string, list<int>>>|null
+     */
+    private static function imageKinds(string $game): ?array
+    {
+        static $files = [];
+        $inline = config("games.{$game}.image_kinds");
+        if (is_array($inline)) {
+            return $inline;
+        }
+        $file = config("games.{$game}.image_kinds_file");
+        if (! is_string($file)) {
+            return null;
+        }
+
+        return $files[$file] ??= json_decode((string) file_get_contents(base_path($file)), true);
     }
 }
