@@ -19,6 +19,7 @@ class ProfileGamePlay extends Model
         'score',
         'best_combo',
         'stars',
+        'elapsed_ms',
         'rewarded',
     ];
 

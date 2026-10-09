@@ -1820,7 +1820,7 @@ Route::middleware(['auth:sanctum'])->get('/games', fn (Request $request) => Game
 
 // ミニゲーム「スプルキャッチ」(docs/design/2026-09-29-spru-catch-design.md 6-3)と、国旗版「スプルキャッチ(こっき)」
 // (docs/design/2026-10-05-flag-catch-design.md 5章)。同じ処理を、ゲームの名前だけ変えて登録する
-foreach (['catch' => CatchGame::GAME, 'flag-catch' => CatchGame::FLAG_GAME, 'space-trip' => CatchGame::SPACE_GAME] as $path => $game) {
+foreach (GameRollout::PATHS as $path => $game) {
     Route::middleware(['auth:sanctum', EnsureGameAvailable::class.":{$game}"])->prefix("games/{$path}")->name("games.{$path}.")->group(function () use ($game) {
         Route::get('/', function (Request $request) use ($game) {
             return CatchGame::summary(ActiveProfile::require($request), $game);
@@ -1844,13 +1844,15 @@ foreach (['catch' => CatchGame::GAME, 'flag-catch' => CatchGame::FLAG_GAME, 'spa
                 'answers.*.choice_id' => ['required', 'integer'],
                 // うちゅう旅行の星(その問題で集めた数。設計書3-5)。ほかのゲームは送らない
                 'answers.*.stars' => ['nullable', 'integer', 'min:0', 'max:'.config('games.space_trip.max_stars_per_question')],
+                // スライドパズルの、パズルにかかった時間の合計(ミリ秒。1時間まで。設計書3-1)
+                'elapsed_ms' => ['nullable', 'integer', 'min:0', 'max:3600000'],
             ]);
 
             return DB::transaction(function () use ($play, $data) {
                 $locked = ProfileGamePlay::query()->whereKey($play->id)->lockForUpdate()->firstOrFail();
                 abort_if($locked->finished_at !== null, 409, 'この回はもう終わっています。');
 
-                return CatchGame::finish($locked, $data['answers']);
+                return CatchGame::finish($locked, $data['answers'], $data['elapsed_ms'] ?? null);
             });
         })->name('plays.finish');
     });

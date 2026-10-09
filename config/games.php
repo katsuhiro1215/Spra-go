@@ -88,6 +88,51 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | スライドパズル(国旗・宇宙)
+    |--------------------------------------------------------------------------
+    |
+    | docs/design/2026-10-09-slide-puzzle-design.md 2・3-1。1回は3枚。lanes は最後の4択の数、grid は [列, 行]。
+    | image_required は、正解の選択肢に絵がある問題だけを使う。reward は正解1問あたり(3問で 30〜42 の経験値)。
+    | puzzle_flag は国旗キャッチの問題(quiz)、puzzle_space は宇宙のカテゴリーの絵の問題を使う。
+    |
+    */
+
+    'puzzle_flag' => [
+        'catalog' => ['released_on' => null, 'season' => null],
+        'question_count' => 3,
+        'review_max' => 2,
+        'daily_rewarded_plays' => 3,
+        'image_required' => true,
+        'difficulties' => [
+            '初級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [2, 2], 'quiz' => '国旗キャッチ 初級', 'reward' => ['xp' => 10, 'point' => 10]],
+            '中級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [3, 2], 'quiz' => '国旗キャッチ 中級', 'reward' => ['xp' => 12, 'point' => 10]],
+            '上級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [3, 3], 'quiz' => '国旗キャッチ 上級', 'reward' => ['xp' => 14, 'point' => 10]],
+        ],
+        'messages' => [
+            'empty' => 'この難しさの問題はまだないよ',
+        ],
+    ],
+
+    'puzzle_space' => [
+        // 宇宙の絵が届くまで出さない(絵を入れて space:import したら、出す日を今日にする)
+        'catalog' => ['released_on' => '2099-01-01', 'season' => null],
+        'category' => '宇宙',
+        'question_count' => 3,
+        'review_max' => 2,
+        'daily_rewarded_plays' => 3,
+        'image_required' => true,
+        'difficulties' => [
+            '初級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [2, 2], 'reward' => ['xp' => 10, 'point' => 10]],
+            '中級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [2, 3], 'reward' => ['xp' => 12, 'point' => 10]],
+            '上級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [3, 3], 'reward' => ['xp' => 14, 'point' => 10]],
+        ],
+        'messages' => [
+            'empty' => '宇宙の絵はじゅんびちゅうだよ',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | ミニゲームの小出し(docs/design/2026-10-09-minigame-rollout-design.md)
     |--------------------------------------------------------------------------
     |

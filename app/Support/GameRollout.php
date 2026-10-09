@@ -16,6 +16,8 @@ class GameRollout
         'catch' => CatchGame::GAME,
         'flag-catch' => CatchGame::FLAG_GAME,
         'space-trip' => CatchGame::SPACE_GAME,
+        'puzzle-flag' => CatchGame::PUZZLE_FLAG_GAME,
+        'puzzle-space' => CatchGame::PUZZLE_SPACE_GAME,
     ];
 
     /**

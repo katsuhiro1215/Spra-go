@@ -26,6 +26,11 @@ class CatchGame
 
     public const SPACE_GAME = 'space_trip';
 
+    /** スライドパズル(国旗・宇宙。docs/design/2026-10-09-slide-puzzle-design.md) */
+    public const PUZZLE_FLAG_GAME = 'puzzle_flag';
+
+    public const PUZZLE_SPACE_GAME = 'puzzle_space';
+
     /** 難しさを選ぶ画面に出すもの(設計書6-3) */
     public static function summary(UserProfile $profile, string $game = self::GAME): array
     {
@@ -34,6 +39,12 @@ class CatchGame
             ->whereNotNull('finished_at')
             ->groupBy('difficulty')
             ->selectRaw('difficulty, MAX(score) AS best')
+            ->pluck('best', 'difficulty');
+        $bestMs = $profile->gamePlays()
+            ->where('game', $game)
+            ->whereNotNull('elapsed_ms')
+            ->groupBy('difficulty')
+            ->selectRaw('difficulty, MIN(elapsed_ms) AS best')
             ->pluck('best', 'difficulty');
 
         return [
@@ -44,7 +55,7 @@ class CatchGame
                     'lanes' => $settings['lanes'],
                     'available' => self::pool($profile, $difficulty, $game)->count(),
                     'best_score' => isset($best[$difficulty]) ? (int) $best[$difficulty] : null,
-                ])
+                ] + (isset($settings['grid']) ? ['grid' => $settings['grid'], 'best_ms' => isset($bestMs[$difficulty]) ? (int) $bestMs[$difficulty] : null] : []))
                 ->values()
                 ->all(),
             'rewarded_plays_left' => self::rewardedPlaysLeft($profile, $game),
@@ -68,7 +79,8 @@ class CatchGame
             'difficulty' => $difficulty,
             'lanes' => $settings['lanes'],
             'fall_ms' => $settings['fall_ms'],
-        ] + (isset($settings['obstacle_rows']) ? ['obstacle_rows' => $settings['obstacle_rows']] : []) + [
+        ] + (isset($settings['obstacle_rows']) ? ['obstacle_rows' => $settings['obstacle_rows']] : [])
+          + (isset($settings['grid']) ? ['grid' => $settings['grid']] : []) + [
             'questions' => array_map(fn (int $id) => self::present($byId[$id], $settings['lanes']), $ids),
         ];
     }
@@ -92,7 +104,7 @@ class CatchGame
      *
      * @param  list<array{question_id: int|string, choice_id: int|string}>  $answers  答えた順
      */
-    public static function finish(ProfileGamePlay $play, array $answers): array
+    public static function finish(ProfileGamePlay $play, array $answers, ?int $elapsedMs = null): array
     {
         $game = $play->game;
         $dealt = array_map('intval', $play->question_ids);
@@ -136,6 +148,11 @@ class CatchGame
             ->where('difficulty', $play->difficulty)
             ->whereNotNull('finished_at')
             ->max('score');
+        $previousBestMs = $elapsedMs === null ? null : $profile->gamePlays()
+            ->where('game', $game)
+            ->where('difficulty', $play->difficulty)
+            ->whereNotNull('finished_at')
+            ->min('elapsed_ms');
         $left = self::rewardedPlaysLeft($profile, $game);
         $previousLevel = $profile->level;
         $reward = null;
@@ -159,6 +176,7 @@ class CatchGame
             'score' => $score,
             'best_combo' => $bestCombo,
             'stars' => $game === self::SPACE_GAME ? $totalStars : null,
+            'elapsed_ms' => $elapsedMs,
             'rewarded' => $reward !== null,
         ])->save();
 
@@ -177,6 +195,10 @@ class CatchGame
         ] + ($game === self::SPACE_GAME ? [
             'stars' => $totalStars,
             'destination' => self::spaceDestination($correctCount, count($dealt)),
+        ] : []) + (isset(config("games.{$game}.difficulties")[$play->difficulty]['grid']) ? [
+            'elapsed_ms' => $elapsedMs,
+            'best_ms' => $elapsedMs === null ? ($previousBestMs ?? null) : min($elapsedMs, (int) ($previousBestMs ?? $elapsedMs)),
+            'new_best_time' => $elapsedMs !== null && ($previousBestMs === null || $elapsedMs < $previousBestMs),
         ] : []);
     }
 
@@ -229,7 +251,7 @@ class CatchGame
     /** @return array{lanes: int, fall_ms: int, max_label_width?: int, quiz?: string, reward: array{xp: int, point: int}} */
     private static function settings(string $difficulty, string $game): array
     {
-        return config("games.{$game}.difficulties")[$difficulty];
+        return config("games.{$game}.difficulties")[$difficulty] + ['image_required' => (bool) config("games.{$game}.image_required")];
     }
 
     /** ゲームの問題を探すカテゴリー。ゲームごとの category があればそれ、なければ英語のもの */
@@ -333,6 +355,8 @@ class CatchGame
     private static function fits(Question $question, array $settings): bool
     {
         return $question->choices->where('is_correct', true)->count() === 1
+            // スライドパズルは、正解の選択肢に絵があるものだけ(設計書3-1)
+            && (! ($settings['image_required'] ?? false) || ($question->choices->firstWhere('is_correct', true)->meta['image'] ?? null) !== null)
             && $question->choices->where('is_correct', false)->count() >= $settings['lanes'] - 1
             && (! isset($settings['max_label_width'])
                 || $question->choices->every(fn (QuestionChoice $choice) => mb_strwidth($choice->label) <= $settings['max_label_width']));
