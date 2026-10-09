@@ -1803,7 +1803,7 @@ Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(fu
 
 // ミニゲーム「スプルキャッチ」(docs/design/2026-09-29-spru-catch-design.md 6-3)と、国旗版「スプルキャッチ(こっき)」
 // (docs/design/2026-10-05-flag-catch-design.md 5章)。同じ処理を、ゲームの名前だけ変えて登録する
-foreach (['catch' => CatchGame::GAME, 'flag-catch' => CatchGame::FLAG_GAME] as $path => $game) {
+foreach (['catch' => CatchGame::GAME, 'flag-catch' => CatchGame::FLAG_GAME, 'space-trip' => CatchGame::SPACE_GAME] as $path => $game) {
     Route::middleware(['auth:sanctum'])->prefix("games/{$path}")->name("games.{$path}.")->group(function () use ($game) {
         Route::get('/', function (Request $request) use ($game) {
             return CatchGame::summary(ActiveProfile::require($request), $game);
@@ -1825,6 +1825,8 @@ foreach (['catch' => CatchGame::GAME, 'flag-catch' => CatchGame::FLAG_GAME] as $
                 'answers' => ['present', 'array'],
                 'answers.*.question_id' => ['required', 'integer'],
                 'answers.*.choice_id' => ['required', 'integer'],
+                // うちゅう旅行の星(その問題で集めた数。設計書3-5)。ほかのゲームは送らない
+                'answers.*.stars' => ['nullable', 'integer', 'min:0', 'max:'.config('games.space_trip.max_stars_per_question')],
             ]);
 
             return DB::transaction(function () use ($play, $data) {

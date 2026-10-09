@@ -24,6 +24,8 @@ class CatchGame
 
     public const FLAG_GAME = 'flag_catch';
 
+    public const SPACE_GAME = 'space_trip';
+
     /** 難しさを選ぶ画面に出すもの(設計書6-3) */
     public static function summary(UserProfile $profile, string $game = self::GAME): array
     {
@@ -35,7 +37,7 @@ class CatchGame
             ->pluck('best', 'difficulty');
 
         return [
-            'category_id' => $game === self::GAME ? self::categoryId() : null,
+            'category_id' => $game === self::GAME ? self::rootCategoryId($game) : null,
             'difficulties' => collect(config("games.{$game}.difficulties"))
                 ->map(fn (array $settings, string $difficulty) => [
                     'difficulty' => $difficulty,
@@ -65,6 +67,7 @@ class CatchGame
             'difficulty' => $difficulty,
             'lanes' => $settings['lanes'],
             'fall_ms' => $settings['fall_ms'],
+        ] + (isset($settings['obstacle_rows']) ? ['obstacle_rows' => $settings['obstacle_rows']] : []) + [
             'questions' => array_map(fn (int $id) => self::present($byId[$id], $settings['lanes']), $ids),
         ];
     }
@@ -103,11 +106,15 @@ class CatchGame
             ->whereIn('id', array_map(fn (array $answer) => (int) $answer['choice_id'], $answers))
             ->get(['id', 'question_id', 'is_correct'])
             ->keyBy('id');
-        $results = array_map(function (array $answer) use ($choices) {
+        $maxStars = (int) config('games.space_trip.max_stars_per_question');
+        $results = array_map(function (array $answer) use ($choices, $maxStars) {
             $choice = $choices->get((int) $answer['choice_id']);
             abort_if(! $choice || (int) $choice->question_id !== (int) $answer['question_id'], 422, '答えが正しくありません。');
+            // 星は、うちゅう旅行だけ(省略なら0)。範囲だけを確かめる(設計書3-5)
+            $stars = $answer['stars'] ?? 0;
+            abort_if(! is_int($stars) && ! (is_string($stars) && ctype_digit($stars)) || (int) $stars < 0 || (int) $stars > $maxStars, 422, '星の数が正しくありません。');
 
-            return ['question_id' => (int) $choice->question_id, 'correct' => $choice->is_correct];
+            return ['question_id' => (int) $choice->question_id, 'correct' => $choice->is_correct, 'stars' => (int) $stars];
         }, $answers);
 
         $profile = UserProfile::query()->whereKey($play->user_profile_id)->lockForUpdate()->firstOrFail();
@@ -117,7 +124,9 @@ class CatchGame
         }
 
         $flags = array_column($results, 'correct');
-        ['score' => $score, 'best_combo' => $bestCombo] = self::score($flags);
+        $starCounts = array_column($results, 'stars');
+        $totalStars = array_sum($starCounts);
+        ['score' => $score, 'best_combo' => $bestCombo] = self::score($flags, $starCounts);
         $correctCount = count(array_filter($flags));
         $previousBest = (int) $profile->gamePlays()
             ->where('game', $game)
@@ -142,6 +151,7 @@ class CatchGame
             'correct_count' => $correctCount,
             'score' => $score,
             'best_combo' => $bestCombo,
+            'stars' => $game === self::SPACE_GAME ? $totalStars : null,
             'rewarded' => $reward !== null,
         ])->save();
 
@@ -157,17 +167,38 @@ class CatchGame
             'leveled_up' => $leveledUp,
             'previous_level' => $previousLevel,
             'level' => $profile->level,
-        ];
+        ] + ($game === self::SPACE_GAME ? [
+            'stars' => $totalStars,
+            'destination' => self::spaceDestination($correctCount, count($dealt)),
+        ] : []);
+    }
+
+    /**
+     * 到着する星(設計書2章)。正解の数を、出した問題の数で10問に換算して、config('games.space_trip.destinations') の区切りで決める
+     */
+    public static function spaceDestination(int $correct, int $dealt): string
+    {
+        $converted = $dealt > 0 ? (int) round($correct * 10 / $dealt) : 0;
+        foreach (config('games.space_trip.destinations') as $limit => $key) {
+            if ($converted <= $limit) {
+                return $key;
+            }
+        }
+
+        return array_key_last(array_flip(config('games.space_trip.destinations')));
     }
 
     /**
      * 答えの並び(正解か)から、点数といちばん長いコンボ(設計書3-5)。画面の scoreOf と同じ決まり。
      * 点数の決まりは、英語と国旗で共通(games.catch.score)
      *
+     * 星(うちゅう旅行。答えごとの数)は、そのまま点数に足す。省略なら足さない
+     *
      * @param  list<bool>  $results
+     * @param  list<int>  $stars
      * @return array{score: int, best_combo: int}
      */
-    public static function score(array $results): array
+    public static function score(array $results, array $stars = []): array
     {
         $rules = config('games.catch.score');
         $score = 0;
@@ -185,7 +216,7 @@ class CatchGame
             $score += $rules['correct'] + ($combo >= $rules['combo_bonus_from'] ? $rules['combo_bonus'] : 0);
         }
 
-        return ['score' => $score, 'best_combo' => $best];
+        return ['score' => $score + array_sum($stars), 'best_combo' => $best];
     }
 
     /** @return array{lanes: int, fall_ms: int, max_label_width?: int, quiz?: string, reward: array{xp: int, point: int}} */
@@ -194,17 +225,35 @@ class CatchGame
         return config("games.{$game}.difficulties")[$difficulty];
     }
 
-    private static function categoryId(): ?int
+    /** ゲームの問題を探すカテゴリー。ゲームごとの category があればそれ、なければ英語のもの */
+    private static function rootCategoryId(string $game): ?int
     {
-        $id = Category::query()->where('name', config('games.catch.category'))->value('id');
+        $name = config("games.{$game}.category") ?? config('games.catch.category');
+        $id = Category::query()->where('name', $name)->whereNull('parent_id')->value('id')
+            ?? Category::query()->where('name', $name)->value('id');
 
         return $id === null ? null : (int) $id;
+    }
+
+    /**
+     * そのカテゴリーと、その子(宇宙の「宇宙たんけん」のように、ステージが子のカテゴリーにあるもの)の番号
+     *
+     * @return list<int>
+     */
+    private static function categoryIds(string $game): array
+    {
+        $root = self::rootCategoryId($game);
+        if ($root === null) {
+            return [];
+        }
+
+        return [$root, ...Category::query()->where('parent_id', $root)->pluck('id')->map(fn ($id) => (int) $id)->all()];
     }
 
     /** 使える問題が0のときの文。英語は、どの国にも着いていなければ「着くと遊べるよ」、国旗は「まだないよ」 */
     private static function emptyMessage(UserProfile $profile, string $game): string
     {
-        if ($game === self::GAME && self::stageQuestionIds($profile, null) === []) {
+        if ($game === self::GAME && self::stageQuestionIds($profile, null, $game) === []) {
             return config('games.catch.messages.locked');
         }
 
@@ -216,17 +265,17 @@ class CatchGame
      *
      * @return list<int>
      */
-    private static function stageQuestionIds(UserProfile $profile, ?string $difficulty): array
+    private static function stageQuestionIds(UserProfile $profile, ?string $difficulty, string $game = self::GAME): array
     {
-        $categoryId = self::categoryId();
-        if ($categoryId === null) {
+        $categoryIds = self::categoryIds($game);
+        if ($categoryIds === []) {
             return [];
         }
         $locked = Travel::lockedCountryIds($profile);
 
         return DB::table('stage_questions')
             ->join('stages', 'stages.id', '=', 'stage_questions.stage_id')
-            ->where('stages.category_id', $categoryId)
+            ->whereIn('stages.category_id', $categoryIds)
             ->when($difficulty !== null, fn ($query) => $query->where('stages.difficulty', $difficulty))
             ->when($locked !== [], fn ($query) => $query->where(
                 fn ($inner) => $inner->whereNull('stages.country_id')->orWhereNotIn('stages.country_id', $locked),
@@ -261,7 +310,7 @@ class CatchGame
         $settings = self::settings($difficulty, $game);
         $ids = isset($settings['quiz'])
             ? self::quizQuestionIds($settings['quiz'])
-            : self::stageQuestionIds($profile, $difficulty);
+            : self::stageQuestionIds($profile, $difficulty, $game);
 
         return Question::query()
             ->with('choices')

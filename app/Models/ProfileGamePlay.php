@@ -18,6 +18,7 @@ class ProfileGamePlay extends Model
         'correct_count',
         'score',
         'best_combo',
+        'stars',
         'rewarded',
     ];
 
@@ -31,6 +32,7 @@ class ProfileGamePlay extends Model
             'correct_count' => 'integer',
             'score' => 'integer',
             'best_combo' => 'integer',
+            'stars' => 'integer',
             'rewarded' => 'boolean',
         ];
     }

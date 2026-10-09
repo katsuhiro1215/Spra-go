@@ -14,6 +14,12 @@ export const MINI_GAMES = [
     description: "流れてくる国旗を、スプルがキャッチ！",
     href: "/games/flag-catch",
   },
+  {
+    key: "space-trip",
+    title: "うちゅう旅行",
+    description: "ロケットで隕石をよけて、答えの門をくぐろう！",
+    href: "/games/space-trip",
+  },
 ] as const;
 
 /** GET /api/mini-quizzes の1件 */
