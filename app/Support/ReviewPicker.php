@@ -35,9 +35,10 @@ class ReviewPicker
      */
     public static function stage(UserProfile $profile, array $excludeIds, ?int $countryId): array
     {
+        $size = config('review.stage_mix');
         $first = [];
         foreach (config('review.priority.stage') as $slot) {
-            $first = QuestionMemory::slotIds($profile, $slot, 1, $excludeIds, $countryId);
+            $first = QuestionMemory::slotIds($profile, $slot, min(1, $size), $excludeIds, $countryId);
             if ($first !== []) {
                 break;
             }
@@ -45,7 +46,7 @@ class ReviewPicker
 
         return [
             ...$first,
-            ...QuestionMemory::dueIds($profile, config('review.stage_mix') - count($first), [...$excludeIds, ...$first], $countryId),
+            ...QuestionMemory::dueIds($profile, $size - count($first), [...$excludeIds, ...$first], $countryId),
         ];
     }
 }

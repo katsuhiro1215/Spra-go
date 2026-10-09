@@ -238,3 +238,30 @@ it('ステージのおさらい: 山があっても、昨日まちがえた問�
     expect($questions->where('review', true)->pluck('id')->sort()->values()->all())
         ->toBe(collect([$yesterday->id, $overdue[0]])->sort()->values()->all());
 });
+
+it('ステージのおさらい: stage_mix が0なら足さない。1なら優先の1問だけ', function () {
+    $profile = createActiveProfile();
+    pickerMemory($profile, ['wrong_on' => '2026-10-08', 'due_on' => '2026-10-09']);
+    pickerOverdue($profile, 3);
+
+    config(['review.stage_mix' => 0]);
+    expect(ReviewPicker::stage($profile, [], null))->toBe([]);
+
+    config(['review.stage_mix' => 1]);
+    expect(ReviewPicker::stage($profile, [], null))->toHaveCount(1);
+});
+
+it('出す日より前の苦手の語: 正解しても段階と出す日は変わらず、最後に答えた日だけ今日になる。まちがえると段階1・次の日に戻る', function () {
+    $profile = createActiveProfile();
+    $question = pickerWeak($profile, ['level' => 3, 'due_on' => '2026-10-14', 'last_answered_on' => '2026-10-01']);
+
+    QuestionMemory::record($profile, $question->id, true);
+    $memory = ProfileQuestionMemory::where('question_id', $question->id)->sole();
+    expect([$memory->level, $memory->due_on->toDateString(), $memory->last_answered_on->toDateString()])->toBe([3, '2026-10-14', '2026-10-09']);
+    // 答えた直後は3日あいていないので、苦手の枠には出ない
+    expect(QuestionMemory::slotIds($profile, 'weak', 10))->toBe([]);
+
+    QuestionMemory::record($profile, $question->id, false);
+    $memory->refresh();
+    expect([$memory->level, $memory->due_on->toDateString()])->toBe([1, '2026-10-10']);
+});
