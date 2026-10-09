@@ -4,10 +4,12 @@ namespace App\Support;
 
 use App\Models\ProfileCurrencyLedger;
 use App\Models\ProfileQuestionMemory;
+use App\Models\ProfileWord;
 use App\Models\Question;
 use App\Models\UserProfile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 問題ごとの覚え具合(docs/design/2026-09-29-spaced-review-design.md 3章)。
@@ -42,15 +44,46 @@ class QuestionMemory
             return [];
         }
 
-        return self::dueQuery($profile)
-            // 国旗キャッチ専用の問題は、ステージのおさらいと仲間の復習には出さない(国旗キャッチの中は dueIdsAmong)
-            ->whereNull('questions.meta->catch_only')
-            ->when($excludeIds !== [], fn (Builder $query) => $query->whereNotIn('profile_question_memories.question_id', $excludeIds))
-            ->when($preferCountryId !== null, fn (Builder $query) => $query->orderByRaw(
-                'CASE WHEN questions.country_id = ? THEN 0 ELSE 1 END',
-                [$preferCountryId],
-            ))
+        return self::narrow(self::dueQuery($profile), $excludeIds, $preferCountryId)
             ->orderBy('profile_question_memories.due_on')
+            ->orderBy('profile_question_memories.id')
+            ->limit($limit)
+            ->pluck('profile_question_memories.question_id')
+            ->map(fn ($id) => (int) $id)
+            ->all();
+    }
+
+    /**
+     * 優先の枠(docs/design/2026-10-09-review-priority-design.md 4-2)で、問題を最大 $limit 個返す。
+     * $slot: recent_wrong(7日以内にまちがえた・出す日が来た・新しい順) / weak(苦手の語・出す日が来たか、3日あいた・古い順) /
+     * almost(段階5で出す日が来た・出す日が古い順)。覚えた問題・鍵の国・国旗キャッチ専用・$excludeIds は出さない(苦手の語は覚えた問題も出す)
+     *
+     * @param  list<int>  $excludeIds
+     * @return list<int>
+     */
+    public static function slotIds(UserProfile $profile, string $slot, int $limit, array $excludeIds = [], ?int $preferCountryId = null): array
+    {
+        if ($limit <= 0) {
+            return [];
+        }
+
+        $today = Garden::today();
+        $config = config('review.priority');
+
+        $query = match ($slot) {
+            'recent_wrong' => self::dueQuery($profile)
+                ->where('profile_question_memories.wrong_on', '>=', self::daysAfter($today, -$config['recent_wrong_days'])),
+            'weak' => self::weakQuery($profile, $today, $config['weak_gap_days']),
+            'almost' => self::dueQuery($profile)->where('profile_question_memories.level', '>=', 5),
+        };
+        self::narrow($query, $excludeIds, $preferCountryId);
+        match ($slot) {
+            'recent_wrong' => $query->orderByDesc('profile_question_memories.wrong_on'),
+            'weak' => $query->orderBy('profile_question_memories.last_answered_on'),
+            'almost' => $query->orderBy('profile_question_memories.due_on'),
+        };
+
+        return $query
             ->orderBy('profile_question_memories.id')
             ->limit($limit)
             ->pluck('profile_question_memories.question_id')
@@ -139,18 +172,58 @@ class QuestionMemory
             });
     }
 
-    /** 出す日が来た問題(覚えていない・鍵の国の問題でない)。国のない問題は鍵にならない */
-    private static function dueQuery(UserProfile $profile): Builder
+    /** 覚え具合の行と問題を結んだもの(鍵の国の問題でない。国のない問題は鍵にならない) */
+    private static function baseQuery(UserProfile $profile): Builder
     {
         $locked = Travel::lockedCountryIds($profile);
 
         return ProfileQuestionMemory::query()
             ->join('questions', 'questions.id', '=', 'profile_question_memories.question_id')
             ->where('profile_question_memories.user_profile_id', $profile->id)
-            ->whereNull('profile_question_memories.mastered_on')
-            ->where('profile_question_memories.due_on', '<=', Garden::today())
             ->when($locked !== [], fn (Builder $query) => $query->where(
                 fn (Builder $inner) => $inner->whereNull('questions.country_id')->orWhereNotIn('questions.country_id', $locked),
+            ));
+    }
+
+    /** 出す日が来た問題(覚えていない・鍵の国の問題でない)。国のない問題は鍵にならない */
+    private static function dueQuery(UserProfile $profile): Builder
+    {
+        return self::baseQuery($profile)
+            ->whereNull('profile_question_memories.mastered_on')
+            ->where('profile_question_memories.due_on', '<=', Garden::today());
+    }
+
+    /** 苦手にした語(profile_words.status = weak)の問題で、出す日が来たもの、または最後に答えてから $gapDays 日以上あいたもの(覚えた問題も含む) */
+    private static function weakQuery(UserProfile $profile, string $today, int $gapDays): Builder
+    {
+        $weakWordIds = ProfileWord::query()
+            ->where('user_profile_id', $profile->id)
+            ->where('status', ProfileWord::WEAK)
+            ->select('word_id');
+
+        return self::baseQuery($profile)
+            ->whereIn(DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(questions.meta, "$.word_id")) AS UNSIGNED)'), $weakWordIds)
+            ->where(fn (Builder $inner) => $inner
+                ->where(fn (Builder $due) => $due
+                    ->whereNull('profile_question_memories.mastered_on')
+                    ->where('profile_question_memories.due_on', '<=', $today))
+                ->orWhere('profile_question_memories.last_answered_on', '<=', self::daysAfter($today, -$gapDays)));
+    }
+
+    /**
+     * 出す問題の共通の絞り込み: 国旗キャッチ専用の問題は、ステージのおさらいと仲間の復習には出さない(国旗キャッチの中は dueIdsAmong)。
+     * $excludeIds は出さない。$preferCountryId の国の問題を先に並べる(並べ替えの先頭に足す)
+     *
+     * @param  list<int>  $excludeIds
+     */
+    private static function narrow(Builder $query, array $excludeIds, ?int $preferCountryId): Builder
+    {
+        return $query
+            ->whereNull('questions.meta->catch_only')
+            ->when($excludeIds !== [], fn (Builder $inner) => $inner->whereNotIn('profile_question_memories.question_id', $excludeIds))
+            ->when($preferCountryId !== null, fn (Builder $inner) => $inner->orderByRaw(
+                'CASE WHEN questions.country_id = ? THEN 0 ELSE 1 END',
+                [$preferCountryId],
             ));
     }
 
