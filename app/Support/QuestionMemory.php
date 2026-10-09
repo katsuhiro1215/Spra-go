@@ -41,13 +41,13 @@ class QuestionMemory
      * @param  list<int>  $excludeIds
      * @return list<int>
      */
-    public static function dueIds(UserProfile $profile, int $limit, array $excludeIds = [], ?int $preferCountryId = null): array
+    public static function dueIds(UserProfile $profile, int $limit, array $excludeIds = [], ?int $preferCountryId = null, ?int $rootCategoryId = null): array
     {
         if ($limit <= 0) {
             return [];
         }
 
-        return self::narrow(self::dueQuery($profile), $excludeIds, $preferCountryId)
+        return self::narrow(self::dueQuery($profile), $excludeIds, $preferCountryId, $rootCategoryId)
             ->orderBy('profile_question_memories.due_on')
             ->orderBy('profile_question_memories.id')
             ->limit($limit)
@@ -64,7 +64,7 @@ class QuestionMemory
      * @param  list<int>  $excludeIds
      * @return list<int>
      */
-    public static function slotIds(UserProfile $profile, string $slot, int $limit, array $excludeIds = [], ?int $preferCountryId = null): array
+    public static function slotIds(UserProfile $profile, string $slot, int $limit, array $excludeIds = [], ?int $preferCountryId = null, ?int $rootCategoryId = null): array
     {
         if ($limit <= 0) {
             return [];
@@ -85,7 +85,7 @@ class QuestionMemory
             'weak' => self::weakQuery($profile, $today, $config['weak_gap_days']),
             'almost' => self::dueQuery($profile)->where('profile_question_memories.level', '>=', 5),
         };
-        self::narrow($query, $excludeIds, $preferCountryId);
+        self::narrow($query, $excludeIds, $preferCountryId, $rootCategoryId);
         match ($slot) {
             'recent_wrong' => $query->orderByDesc('profile_question_memories.wrong_on'),
             'weak' => $query->orderBy('profile_question_memories.last_answered_on'),
@@ -239,14 +239,22 @@ class QuestionMemory
 
     /**
      * 出す問題の共通の絞り込み: 国旗キャッチ専用の問題は、ステージのおさらいと仲間の復習には出さない(国旗キャッチの中は dueIdsAmong)。
-     * $excludeIds は出さない。$preferCountryId の国の問題を先に並べる(並べ替えの先頭に足す)
+     * $excludeIds は出さない。$preferCountryId の国の問題を先に並べる(並べ替えの先頭に足す)。
+     * $rootCategoryId があれば、その大もとのカテゴリのステージにある問題だけ(ステージのおさらいで、ほかのカテゴリの問題を混ぜない)
      *
      * @param  list<int>  $excludeIds
      */
-    private static function narrow(Builder $query, array $excludeIds, ?int $preferCountryId): Builder
+    private static function narrow(Builder $query, array $excludeIds, ?int $preferCountryId, ?int $rootCategoryId = null): Builder
     {
         return $query
             ->whereNull('questions.meta->catch_only')
+            ->when($rootCategoryId !== null, fn (Builder $inner) => $inner->whereExists(fn ($sub) => $sub
+                ->selectRaw('1')
+                ->from('stage_questions as sq')
+                ->join('stages as st', 'st.id', '=', 'sq.stage_id')
+                ->join('categories as cat', 'cat.id', '=', 'st.category_id')
+                ->whereColumn('sq.question_id', 'profile_question_memories.question_id')
+                ->whereRaw('COALESCE(cat.parent_id, cat.id) = ?', [$rootCategoryId])))
             ->when($excludeIds !== [], fn (Builder $inner) => $inner->whereNotIn('profile_question_memories.question_id', $excludeIds))
             ->when($preferCountryId !== null, fn (Builder $inner) => $inner->orderByRaw(
                 'CASE WHEN questions.country_id = ? THEN 0 ELSE 1 END',

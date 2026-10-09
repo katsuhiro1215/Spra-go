@@ -171,3 +171,30 @@ describe("自動ふりがな(1文字の読みで誤る言葉)", () => {
     expect(ruby("消すと消えます")).toEqual(["消す(けす)", "消え(きえ)"]);
   });
 });
+
+describe("自動ふりがな(月・別れる)", () => {
+  it("数字の後の月は「がつ」と読む。数字のない月は「つき」", () => {
+    expect(ruby("10月")).toEqual(["10月(じゅうがつ)"]);
+    expect(ruby("4月と7月と9月")).toEqual(["4月(しがつ)", "7月(しちがつ)", "9月(くがつ)"]);
+    expect(ruby("12月")).toEqual(["12月(じゅうにがつ)"]);
+    expect(ruby("月を見る")).toContain("月(つき)");
+    expect(ruby("今月")).toEqual(["今月(こんげつ)"]);
+  });
+
+  it("別れる は「わかれる」。特別は「とくべつ」のまま", () => {
+    expect(ruby("友達と別れます")).toContain("別れ(わか)");
+    expect(ruby("特別")).toEqual(["特別(とくべつ)"]);
+  });
+});
+
+describe("自動ふりがな(英語の問題でよく出る言葉)", () => {
+  it("表す・入る・大きい・小さい・面白い・会った・書き直す は、送りがなまで含めて読む", () => {
+    expect(ruby("「特売」を表す英単語は？")).toContain("表す(あらわす)");
+    expect(ruby("「　」に入る語は？")).toContain("入る(はいる)");
+    expect(ruby("大きい")).toEqual(["大きい(おおきい)"]);
+    expect(ruby("小さい")).toEqual(["小さい(ちいさい)"]);
+    expect(ruby("面白い")).toEqual(["面白(おもしろ)"]);
+    expect(ruby("初めて会った人")).toContain("会った(あった)");
+    expect(ruby("書き直す")).toEqual(["書き直(かきなお)"]);
+  });
+});

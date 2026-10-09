@@ -232,6 +232,9 @@ it('ステージのおさらい: 山があっても、昨日まちがえた問�
     $stage->questions()->attach($own->id, ['order' => 1]);
     $overdue = pickerOverdue($profile, 5);
     QuestionMemory::record($profile, ($yesterday = createQuestionWithChoices()[0])->id, false, '2026-10-08');
+    // 前の問題は、同じカテゴリの別のステージにある(おさらいは同じカテゴリの問題だけ)
+    $sibling = Stage::create(['category_id' => $category->id, 'difficulty' => '上級', 'stage_number' => 1, 'is_boss' => false, 'question_count' => 6]);
+    $sibling->questions()->attach(array_map(fn ($id) => $id, [$yesterday->id, ...$overdue]));
 
     $questions = collect($this->getJson("/api/stages/{$stage->id}")->assertOk()->json('questions'));
 
