@@ -16,10 +16,17 @@ use Illuminate\Support\Carbon;
  */
 class QuestionMemory
 {
-    public static function record(UserProfile $profile, int $questionId, bool $correct, ?string $today = null): void
+    /**
+     * 答えを覚え具合に書く。返すのは、復習の一言の種類(docs/design/2026-10-09-review-variety-design.md 5章)。出さないときは null
+     *
+     * @return array{event: string, days: ?int}|null
+     */
+    public static function record(UserProfile $profile, int $questionId, bool $correct, ?string $today = null): ?array
     {
-        self::apply($profile->id, $questionId, $correct, $today ?? Garden::today());
+        $event = self::apply($profile->id, $questionId, $correct, $today ?? Garden::today());
         Words::encounter($profile->id, $questionId); // 単語帳: この問題の語に出会った(docs/design/2026-10-07-word-book-design.md 5章)
+
+        return $event;
     }
 
     /**
@@ -147,12 +154,20 @@ class QuestionMemory
             ));
     }
 
-    private static function apply(int $profileId, int $questionId, bool $correct, string $today): void
+    /** @return array{event: string, days: ?int}|null */
+    private static function apply(int $profileId, int $questionId, bool $correct, string $today): ?array
     {
         $memory = ProfileQuestionMemory::query()->firstOrNew([
             'user_profile_id' => $profileId,
             'question_id' => $questionId,
         ]);
+
+        // 答える前の状態(復習の一言のため)
+        $existed = $memory->exists;
+        $beforeLevel = $memory->level;
+        $beforeMastered = $memory->mastered_on !== null;
+        $beforeWrong = $memory->wrong_on !== null;
+        $beforeLast = $memory->last_answered_on?->toDateString();
 
         if (! $memory->exists || ! $correct) {
             $memory->fill(['level' => 1, 'due_on' => self::daysAfter($today, 1), 'mastered_on' => null]);
@@ -169,6 +184,37 @@ class QuestionMemory
         $memory->wrong_on = $correct ? null : $today;
         $memory->last_answered_on = $today;
         $memory->save();
+
+        return $correct && $existed ? self::event($memory, $beforeLevel, $beforeMastered, $beforeWrong, $beforeLast, $today) : null;
+    }
+
+    /**
+     * 復習の一言(設計書5-1)。優先: 覚えた → まちがえたあとの正解 → あと1回で覚える → 何日かぶり
+     *
+     * @return array{event: string, days: ?int}|null
+     */
+    private static function event(ProfileQuestionMemory $memory, ?int $beforeLevel, bool $beforeMastered, bool $beforeWrong, ?string $beforeLast, string $today): ?array
+    {
+        if (! $beforeMastered && $memory->mastered_on !== null) {
+            return ['event' => 'mastered', 'days' => null];
+        }
+        if ($beforeMastered) {
+            return null;
+        }
+        if ($beforeWrong) {
+            return ['event' => 'recovered', 'days' => null];
+        }
+        if (($beforeLevel ?? 0) < 5 && $memory->level >= 5) {
+            return ['event' => 'almost', 'days' => null];
+        }
+        if ($beforeLast !== null) {
+            $days = (int) Carbon::parse($beforeLast)->diffInDays(Carbon::parse($today));
+            if ($days >= 3) {
+                return ['event' => 'returned', 'days' => $days];
+            }
+        }
+
+        return null;
     }
 
     private static function daysAfter(string $date, int $days): string

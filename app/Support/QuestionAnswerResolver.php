@@ -36,6 +36,24 @@ class QuestionAnswerResolver
     }
 
     /**
+     * スペルを並べる形の答え(docs/design/2026-10-09-review-variety-design.md 3-2)。単語の問題で、条件に合うときだけ
+     *
+     * @return array{correct: bool, correct_choice_id: null, correct_spelling: string}
+     */
+    public static function spelling(Request $request, Question $question): array
+    {
+        $data = $request->validate(['spelling' => ['required', 'string', 'regex:/^[A-Za-z]+$/']]);
+        abort_unless(QuizVariants::eligible($question), 422, 'この問題は、スペルでは答えられません。');
+        $word = $question->meta['word'];
+
+        return [
+            'correct' => strtolower($data['spelling']) === $word,
+            'correct_choice_id' => null,
+            'correct_spelling' => $word,
+        ];
+    }
+
+    /**
      * @return array{correct: bool, results: list<array{item_id: string, correct: bool, correct_choice_id: int}>}
      */
     public static function matching(Request $request, Question $question): array

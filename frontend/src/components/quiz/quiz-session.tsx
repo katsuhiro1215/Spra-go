@@ -16,6 +16,7 @@ import { answerHeadline, choiceTone } from "@/components/app/palette";
 import { useProfile } from "@/components/app/profile-provider";
 import { SkyPage } from "@/components/app/sky-page";
 import { SortingQuestion, type SortingItem } from "@/components/app/sorting-question";
+import { SpellingQuestion } from "@/components/app/spelling-question";
 import { AnswerExplanation } from "@/components/quiz/answer-explanation";
 import { ReportQuestion } from "@/components/quiz/report-question";
 import { useSound } from "@/components/app/sound-provider";
@@ -28,6 +29,7 @@ import { levelUpGrowthLine } from "@/components/world/garden";
 import type { AnswerPartner, ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
 import { hasImageChoices, isFlagImage } from "@/lib/flag-quiz";
+import { memoryNoteText, type MemoryEvent } from "@/lib/memory-note";
 
 import { GameHeader } from "./game-header";
 import { LevelUpOverlay } from "./level-up-overlay";
@@ -152,6 +154,9 @@ export function QuizSession({
   const [explanation, setExplanation] = useState<QuestionExplanation | null>(null);
   // 英語の単語の問題に答えたときの、単語帳の語の番号(「この単語を見る」リンクに使う。語のない問題・やり直しでは null)
   const [wordId, setWordId] = useState<number | null>(null);
+  // スペルを並べる形の答えの正しい綴り(それ以外は null)と、復習の一言(答えのAPIの memory。なければ null)
+  const [correctSpelling, setCorrectSpelling] = useState<string | null>(null);
+  const [memoryEvent, setMemoryEvent] = useState<MemoryEvent | null>(null);
   const [lastCorrect, setLastCorrect] = useState(false);
   const [lastDelta, setLastDelta] = useState<EconomyDelta | null>(null);
   const [combo, setCombo] = useState<ComboInfo | null>(null);
@@ -324,6 +329,8 @@ export function QuizSession({
       setMatchingResults(data.results ?? null);
       setExplanation(data.explanation ?? null);
       setWordId(typeof data.word_id === "number" ? data.word_id : null);
+      setCorrectSpelling(typeof data.correct_spelling === "string" ? data.correct_spelling : null);
+      setMemoryEvent(data.memory ?? null);
       setAnswered(true);
       setLastCorrect(Boolean(data.correct));
       playSound(data.correct ? "correct" : "incorrect");
@@ -399,6 +406,10 @@ export function QuizSession({
     await submitAnswer({ answers });
   }
 
+  async function handleSpellingSubmit(spelling: string) {
+    await submitAnswer({ spelling });
+  }
+
   async function handleOrderingSubmit(answerOrder: number[]) {
     await submitAnswer({ answer_order: answerOrder });
   }
@@ -416,6 +427,8 @@ export function QuizSession({
     setMatchingResults(null);
     setExplanation(null);
     setWordId(null);
+    setCorrectSpelling(null);
+    setMemoryEvent(null);
     setAnswered(false);
     setLastDelta(null);
     setPartnerUp(null);
@@ -461,6 +474,8 @@ export function QuizSession({
     setMatchingResults(null);
     setExplanation(null);
     setWordId(null);
+    setCorrectSpelling(null);
+    setMemoryEvent(null);
     setAnswered(false);
     setLastDelta(null);
     setCombo(null);
@@ -583,7 +598,17 @@ export function QuizSession({
             </h1>
           </div>
 
-          {question.type === "matching" && question.meta?.layout === "slots" ? (
+          {question.variant?.kind === "spelling" ? (
+            <SpellingQuestion
+              key={question.id}
+              length={question.variant.length}
+              letters={question.variant.letters}
+              answered={answered}
+              submitting={submitting}
+              result={answered ? { correct: lastCorrect, correctSpelling } : null}
+              onSubmit={handleSpellingSubmit}
+            />
+          ) : question.type === "matching" && question.meta?.layout === "slots" ? (
             <FlagFitQuestion
               key={question.id}
               questionId={question.id}
@@ -734,12 +759,20 @@ export function QuizSession({
                     {lastDelta.hp}
                   </span>
                 )}
+                {correctSpelling && !lastCorrect && (
+                  <span className="flex items-center gap-1">こたえは「{correctSpelling}」</span>
+                )}
                 {correctChoiceLabel && (
                   <span className="flex items-center gap-1">
                     こたえは「<ChoiceLabel label={correctChoiceLabel} readings={question.meta?.readings} />」
                   </span>
                 )}
               </div>
+            )}
+            {memoryNoteText(memoryEvent) && (
+              <p className="animate-pop-in rounded-full bg-[#fff3c4] px-4 py-1.5 text-sm font-black text-[#7a5a0e] shadow-[0_2px_6px_rgba(59,50,38,0.15)]">
+                🌱 <AutoFurigana text={memoryNoteText(memoryEvent) ?? ""} />
+              </p>
             )}
             <AnswerExplanation
               key={`${runId}:${mode}:${currentIndex}`}

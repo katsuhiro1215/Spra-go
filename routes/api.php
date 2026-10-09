@@ -45,6 +45,7 @@ use App\Support\Prefecture\PrefectureCatalog;
 use App\Support\Prefecture\PrefectureMaster;
 use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
+use App\Support\QuizVariants;
 use App\Support\RareSeeds;
 use App\Support\Review;
 use App\Support\Roster;
@@ -1258,6 +1259,10 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $r
     $questions = $questions->concat($reviews)->shuffle()->values();
 
     PlayableQuestion::present($questions);
+    // 前に答えた英単語は、ときどきスペルを並べる形にする(docs/design/2026-10-09-review-variety-design.md 3章)
+    if ($profile) {
+        QuizVariants::apply($profile, $questions);
+    }
 
     return [
         'id' => $stage->id,
@@ -1343,7 +1348,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
 })->name('stages.complete');
 
 Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', function (Request $request, Question $question) {
-    $result = match ($question->type) {
+    $result = $request->has('spelling') ? QuestionAnswerResolver::spelling($request, $question) : match ($question->type) {
         'matching' => QuestionAnswerResolver::matching($request, $question),
         'ordering' => QuestionAnswerResolver::ordering($request, $question),
         'sorting' => QuestionAnswerResolver::sorting($request, $question),
@@ -1357,12 +1362,15 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
         return [
             'correct' => $isCorrect,
             'correct_choice_id' => $result['correct_choice_id'] ?? null,
+            'correct_spelling' => $result['correct_spelling'] ?? null,
             'results' => $result['results'] ?? null,
             'explanation' => $question->explanation,
+            'memory' => null,
             'profile' => null,
         ];
     }
 
+    $memoryEvent = null;
     $profileId = $request->session()->get('active_profile_id');
     $profile = $profileId ? UserProfile::find($profileId) : null;
 
@@ -1396,7 +1404,7 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
             : $profile->applyEconomy(['hp' => config('world.hp.wrong')], 'answer_wrong', $question);
 
         // 問題ごとの覚え具合(docs/design/2026-09-29-spaced-review-design.md 4-4)
-        QuestionMemory::record($profile, $question->id, $isCorrect);
+        $memoryEvent = QuestionMemory::record($profile, $question->id, $isCorrect);
 
         $combo = $profile->registerComboResult($isCorrect);
 
@@ -1439,11 +1447,14 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
     return [
         'correct' => $isCorrect,
         'correct_choice_id' => $result['correct_choice_id'] ?? null,
+        'correct_spelling' => $result['correct_spelling'] ?? null,
         'results' => $result['results'] ?? null,
         // 答えたあとだけ見せる解説(答える前の取得には出ない。Question の $hidden)
         'explanation' => $question->explanation,
         // 単語帳の語(英語の単語の問題)。答えて出会った語として記録したときだけ返す
         'word_id' => $question->meta['word_id'] ?? null,
+        // 復習の一言(設計書5章)。正解のときだけ・初めて会う問題は null
+        'memory' => $memoryEvent,
         'profile' => $economy,
     ];
 })->name('questions.answer');

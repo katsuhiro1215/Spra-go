@@ -19,6 +19,8 @@ export type QuizQuestion = {
     /** その問題だけの読み(地名など。名前 → ひらがな) */
     readings?: Record<string, string>;
   } | null;
+  /** 遊ぶときに形を変えた問題(スペルを並べる。docs/design/2026-10-09-review-variety-design.md)。あるときは choices は空 */
+  variant?: { kind: "spelling"; prompt: string; length: number; letters: string[] };
   /** ステージに足した、出す日が来た前の問題(おさらい)。ステージの点数には入れない */
   review?: boolean;
 };
