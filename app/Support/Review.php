@@ -12,10 +12,10 @@ use Illuminate\Support\Collection;
  */
 class Review
 {
-    /** @return list<int> 出す日が古い順。$limit を省くと config('review.daily_size') */
+    /** @return list<int> 優先の枠 → 出す日が古い順(docs/design/2026-10-09-review-priority-design.md)。$limit を省くと config('review.daily_size') */
     public static function questionIds(UserProfile $profile, ?int $limit = null): array
     {
-        return QuestionMemory::dueIds($profile, $limit ?? config('review.daily_size'));
+        return ReviewPicker::daily($profile, $limit);
     }
 
     public static function doneToday(UserProfile $profile): bool

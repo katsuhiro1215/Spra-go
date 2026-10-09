@@ -37,4 +37,17 @@ return [
         ],
     ],
 
+    /*
+    | 出す順番の優先(docs/design/2026-10-09-review-priority-design.md 4-1)。
+    | daily: 毎日の復習の枠(残りは「いちばん遅れている問題」)。stage: ステージのおさらいの先頭の1問が探す順。
+    | recent_wrong_days: まちがえてから何日までを「最近」とするか。weak_gap_days: 苦手の語を、最後に答えてから何日あけて出すか
+    */
+
+    'priority' => [
+        'daily' => ['recent_wrong' => 3, 'weak' => 2, 'almost' => 2],
+        'stage' => ['recent_wrong', 'weak', 'almost'],
+        'recent_wrong_days' => 7,
+        'weak_gap_days' => 3,
+    ],
+
 ];
