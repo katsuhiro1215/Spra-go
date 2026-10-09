@@ -48,6 +48,7 @@ use App\Support\QuestionMemory;
 use App\Support\QuizVariants;
 use App\Support\RareSeeds;
 use App\Support\Review;
+use App\Support\ReviewPicker;
 use App\Support\Roster;
 use App\Support\StageDraw;
 use App\Support\Travel;
@@ -1249,7 +1250,7 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $r
 
     // おさらい(docs/design/2026-09-29-spaced-review-design.md 4-5)。ボス以外に、出す日が来た前の問題を足す
     $reviewIds = $profile && ! $stage->is_boss
-        ? QuestionMemory::dueIds($profile, config('review.stage_mix'), $questions->pluck('id')->all(), $stage->country_id)
+        ? ReviewPicker::stage($profile, $questions->pluck('id')->all(), $stage->country_id)
         : [];
     $reviews = $reviewIds === []
         ? collect()

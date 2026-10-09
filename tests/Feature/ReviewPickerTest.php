@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Category;
 use App\Models\ProfileQuestionMemory;
 use App\Models\ProfileWord;
 use App\Models\Question;
+use App\Models\Stage;
 use App\Models\UserProfile;
 use App\Support\QuestionMemory;
+use App\Support\Review;
 use App\Support\ReviewPicker;
 use Illuminate\Support\Carbon;
 
@@ -201,4 +204,37 @@ it('ステージのおさらい: まちがえた問題がなければ、苦手�
 
     // 先頭は苦手の語(まちがえた問題がないので)。2問目はいちばん遅れている問題(段階5の問題。出す日が来ている)
     expect(ReviewPicker::stage($profile, [], null))->toBe([$weak->id, $almost->id]);
+});
+
+it('仲間からの復習(Review): 山があっても、昨日まちがえた問題が入る', function () {
+    $profile = createActiveProfile();
+    pickerOverdue($profile, 12);
+    QuestionMemory::record($profile, ($yesterday = createQuestionWithChoices()[0])->id, false, '2026-10-08');
+
+    expect(Review::questionIds($profile))->toContain($yesterday->id)
+        ->and(Review::questionIds($profile))->toHaveCount(10);
+});
+
+it('町のAPIの復習: 出す日が来た問題がなく、苦手の語だけがあっても available になる', function () {
+    $profile = createActiveProfile();
+    pickerWeak($profile, ['level' => 3, 'due_on' => '2026-10-20', 'last_answered_on' => '2026-10-01']);
+
+    $this->getJson('/api/world')->assertOk()
+        ->assertJsonPath('review.available', true)
+        ->assertJsonPath('review.count', 1);
+});
+
+it('ステージのおさらい: 山があっても、昨日まちがえた問題が review として入る', function () {
+    $profile = createActiveProfile();
+    $category = Category::create(['name' => '優先のカテゴリ'.uniqid()]);
+    $stage = Stage::create(['category_id' => $category->id, 'difficulty' => '初級', 'stage_number' => 1, 'is_boss' => false, 'question_count' => 1]);
+    [$own] = createQuestionWithChoices();
+    $stage->questions()->attach($own->id, ['order' => 1]);
+    $overdue = pickerOverdue($profile, 5);
+    QuestionMemory::record($profile, ($yesterday = createQuestionWithChoices()[0])->id, false, '2026-10-08');
+
+    $questions = collect($this->getJson("/api/stages/{$stage->id}")->assertOk()->json('questions'));
+
+    expect($questions->where('review', true)->pluck('id')->sort()->values()->all())
+        ->toBe(collect([$yesterday->id, $overdue[0]])->sort()->values()->all());
 });
