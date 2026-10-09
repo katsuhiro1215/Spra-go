@@ -6,7 +6,8 @@ import type { GameQuestion } from "@/components/games/game-question";
  * 進み(progress)は 0〜1。ものは「着く時刻」(at。ロケットの高さに着く進み)を持ち、画面はその時刻から位置を計算して描く。
  * 時間を進める・動かすのはここの関数だけで行い、画面はこの状態を描くだけにする
  */
-export type SpaceSettings = { lanes: number; fallMs: number; obstacleRows: number };
+/** calm が真なら、隕石を出さない(動きを減らす設定。設計書3-3) */
+export type SpaceSettings = { lanes: number; fallMs: number; obstacleRows: number; calm?: boolean };
 export type SpacePhase = "falling" | "feedback" | "done";
 export type SpaceAnswer = { questionId: number; choiceId: number; correct: boolean; stars: number };
 export type SpaceItem = { kind: "meteor" | "star"; lane: number; at: number; done: boolean };
@@ -73,13 +74,13 @@ function random(seed: number): () => number {
  * 隕石は、段(rows)ごとに、0または1〜(列の数−1)個。かならず空いている列が残る。
  * 星は最大3つで、近くの隕石と同じ列には置かない
  */
-export function layoutFor(seed: number, index: number, lanes: number, rows: number): SpaceItem[] {
+export function layoutFor(seed: number, index: number, lanes: number, rows: number, calm = false): SpaceItem[] {
   const next = random(seed * 7919 + index * 104729 + 12345);
   const items: SpaceItem[] = [];
   const minMeteors = lanes >= 4 ? 1 : 0;
   const maxMeteors = lanes - 1;
 
-  for (let row = 0; row < rows; row++) {
+  for (let row = 0; row < (calm ? 0 : rows); row++) {
     const at = round(ROW_FROM + ((ROW_TO - ROW_FROM) * (row + 1)) / (rows + 1));
     const count = minMeteors + Math.floor(next() * (maxMeteors - minMeteors + 1));
     const free = Array.from({ length: lanes }, (_, lane) => lane);
@@ -118,7 +119,7 @@ export function createSpaceGame(questions: GameQuestion[], settings: SpaceSettin
     feedbackMs: 0,
     gateLane: null,
     lastCorrect: null,
-    items: layoutFor(seed, 0, settings.lanes, settings.obstacleRows),
+    items: layoutFor(seed, 0, settings.lanes, settings.obstacleRows, settings.calm),
     stars: 0,
     starsLocked: false,
     hitMs: 0,
@@ -220,7 +221,7 @@ function advance(state: SpaceState): SpaceState {
     feedbackMs: 0,
     gateLane: null,
     lastCorrect: null,
-    items: layoutFor(state.seed, nextIndex, state.settings.lanes, state.settings.obstacleRows),
+    items: layoutFor(state.seed, nextIndex, state.settings.lanes, state.settings.obstacleRows, state.settings.calm),
     stars: 0,
     starsLocked: false,
     hitMs: 0,

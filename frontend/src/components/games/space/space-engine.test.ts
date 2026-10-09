@@ -80,6 +80,13 @@ describe("隕石と星の置き方(設計書3-3)", () => {
     }
   });
 
+  it("calm(動きを減らす設定)なら、隕石は出さず、星だけ", () => {
+    const items = layoutFor(3, 0, 3, 3, true);
+    expect(items.some((item) => item.kind === "meteor")).toBe(false);
+    expect(items.filter((item) => item.kind === "star")).toHaveLength(3);
+    expect(createSpaceGame(questions, { ...settings, calm: true }, 3).items.some((item) => item.kind === "meteor")).toBe(false);
+  });
+
   it("列は 0〜列の数−1 の中", () => {
     for (const item of layoutFor(5, 4, 2, 2)) {
       expect(item.lane).toBeGreaterThanOrEqual(0);

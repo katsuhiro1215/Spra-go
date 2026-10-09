@@ -34,4 +34,10 @@ describe("ミニゲームの一覧", () => {
     expect(MINI_GAMES.find((game) => game.key === "catch")?.title).toBe(CATCH_MODES.catch.title);
   });
 
+  it("うちゅう旅行が入っていて、画面の設定の名前と同じ", () => {
+    const spaceTrip = MINI_GAMES.find((game) => game.key === "space-trip");
+
+    expect(spaceTrip).toMatchObject({ title: CATCH_MODES.space_trip.title, href: "/games/space-trip" });
+    expect(spaceTrip?.description).toContain("ロケット");
+  });
 });

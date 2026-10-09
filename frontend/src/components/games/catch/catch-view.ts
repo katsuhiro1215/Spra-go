@@ -18,7 +18,7 @@ export const CATCH_HOW_TO = [
 export const CATCH_TAP_HINT = "答えをタップ！";
 export const CATCH_MOVE_HINT = "◀▶でスプルを動かしても取れるよ";
 
-export type CatchMode = "catch" | "flag_catch";
+export type CatchMode = "catch" | "flag_catch" | "space_trip";
 
 /** ゲームの種類ごとの設定(docs/design/2026-10-05-flag-catch-design.md 6章)。英語は今までの文のまま */
 export const CATCH_MODES: Record<
@@ -50,6 +50,15 @@ export const CATCH_MODES: Record<
     apiPath: "/api/games/flag-catch",
     missedHeading: "まちがえた国旗",
     emptyMessage: "国旗の問題はじゅんびちゅうだよ",
+    emptyLink: false,
+  },
+  space_trip: {
+    title: "うちゅう旅行",
+    intro: "ロケットに乗って、隕石をよけて、答えの門をくぐろう",
+    howTo: ["問題が上に出るよ", "◀▶でロケットを動かして、隕石をよけながら星を集めよう。答えの門をくぐると答えが決まるよ", "10問やってみよう。ハートは3つ"],
+    apiPath: "/api/games/space-trip",
+    missedHeading: "まちがえた問題",
+    emptyMessage: "宇宙の問題はじゅんびちゅうだよ",
     emptyLink: false,
   },
 };
