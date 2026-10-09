@@ -1250,7 +1250,7 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $r
 
     // おさらい(docs/design/2026-09-29-spaced-review-design.md 4-5)。ボス以外に、出す日が来た前の問題を足す
     $reviewIds = $profile && ! $stage->is_boss
-        ? ReviewPicker::stage($profile, $questions->pluck('id')->all(), $stage->country_id)
+        ? ReviewPicker::stage($profile, $questions->pluck('id')->all(), $stage->country_id, $stage->category?->parent_id ?? $stage->category_id)
         : [];
     $reviews = $reviewIds === []
         ? collect()

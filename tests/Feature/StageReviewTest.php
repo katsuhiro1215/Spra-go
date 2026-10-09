@@ -40,9 +40,13 @@ function stageWithOwnQuestions(int $count, bool $boss = false): array
 }
 
 /** 出す日が来た前の問題を作る(9/20にまちがえた → 9/21から出す) */
-function previousDueQuestion(UserProfile $profile): Question
+function previousDueQuestion(UserProfile $profile, Stage $like): Question
 {
     [$question] = createQuestionWithChoices();
+    // 前の問題は、同じカテゴリの別のステージにある(おさらいは同じカテゴリの問題だけ)
+    static $number = 100;
+    Stage::create(['category_id' => $like->category_id, 'difficulty' => '上級', 'stage_number' => ++$number, 'is_boss' => false, 'question_count' => 1])
+        ->questions()->attach($question->id, ['order' => 1]);
     QuestionMemory::record($profile, $question->id, false, '2026-09-20');
 
     return $question;
@@ -51,7 +55,7 @@ function previousDueQuestion(UserProfile $profile): Question
 it('ボス以外のステージに、出す日が来た前の問題が最大2問足され、review が付く', function () {
     $profile = createActiveProfile();
     [$stage, $own] = stageWithOwnQuestions(3);
-    $previous = collect(range(1, 3))->map(fn () => previousDueQuestion($profile));
+    $previous = collect(range(1, 3))->map(fn () => previousDueQuestion($profile, $stage));
 
     $questions = collect($this->getJson("/api/stages/{$stage->id}")->assertOk()->json('questions'));
 
@@ -63,7 +67,7 @@ it('ボス以外のステージに、出す日が来た前の問題が最大2問
 it('ボスのステージには足さない', function () {
     $profile = createActiveProfile();
     [$stage] = stageWithOwnQuestions(3, boss: true);
-    previousDueQuestion($profile);
+    previousDueQuestion($profile, $stage);
 
     $questions = collect($this->getJson("/api/stages/{$stage->id}")->assertOk()->json('questions'));
 
@@ -94,7 +98,7 @@ it('出す日が来た問題がなければ足さない', function () {
 it('足した問題も、正解の手がかりを隠して出す', function () {
     $profile = createActiveProfile();
     [$stage] = stageWithOwnQuestions(1);
-    previousDueQuestion($profile);
+    previousDueQuestion($profile, $stage);
 
     $review = collect($this->getJson("/api/stages/{$stage->id}")->assertOk()->json('questions'))->firstWhere('review', true);
 
@@ -107,4 +111,25 @@ it('score が問題の数を超えても、最高点は問題の数まで', func
 
     $this->postJson("/api/stages/{$stage->id}/complete", ['score' => 5])->assertOk()
         ->assertJsonPath('progress.best_score', 3);
+});
+
+it('おさらいは、そのステージと同じ大もとのカテゴリの問題だけ。ほかのカテゴリ(国旗など)の問題は足さない', function () {
+    $profile = createActiveProfile();
+    $english = Category::create(['name' => '英語'.uniqid()]);
+    $englishChild = Category::create(['name' => '英語の子'.uniqid(), 'parent_id' => $english->id]);
+    $flag = Category::create(['name' => '国旗'.uniqid()]);
+    $stage = Stage::create(['category_id' => $english->id, 'difficulty' => '初級', 'stage_number' => 1, 'is_boss' => false, 'question_count' => 1]);
+    $sibling = Stage::create(['category_id' => $englishChild->id, 'difficulty' => '初級', 'stage_number' => 1, 'is_boss' => false, 'question_count' => 1]);
+    $flagStage = Stage::create(['category_id' => $flag->id, 'difficulty' => '初級', 'stage_number' => 1, 'is_boss' => false, 'question_count' => 1]);
+    [$own, $same, $other] = [createQuestionWithChoices()[0], createQuestionWithChoices()[0], createQuestionWithChoices()[0]];
+    $stage->questions()->attach($own->id, ['order' => 1]);
+    $sibling->questions()->attach($same->id, ['order' => 1]);
+    $flagStage->questions()->attach($other->id, ['order' => 1]);
+    foreach ([$same, $other] as $question) {
+        QuestionMemory::record($profile, $question->id, false, '2026-09-20');
+    }
+
+    $questions = collect($this->getJson("/api/stages/{$stage->id}")->assertOk()->json('questions'));
+
+    expect($questions->where('review', true)->pluck('id')->all())->toBe([$same->id]);
 });

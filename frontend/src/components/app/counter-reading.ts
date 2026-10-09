@@ -1,5 +1,5 @@
 /**
- * 数字の後の「日」「人」の読み(自動ふりがなで使う)。「日」は何日間の読み(7日=なのか)、
+ * 数字の後の「日」「人」「月」の読み(自動ふりがなで使う)。「日」は何日間の読み(7日=なのか)、
  * 「人」は人数の読み(1人=ひとり)。9999より大きい数は読みを作らない(null)
  */
 
@@ -52,11 +52,31 @@ export function peopleReading(n: number): string | null {
   return kana === null ? null : `${kana}にん`;
 }
 
-/** text の i 文字目から「数字＋日/人」なら、その長さと読み。違えば null */
+const MONTHS: Record<number, string> = {
+  1: "いちがつ",
+  2: "にがつ",
+  3: "さんがつ",
+  4: "しがつ",
+  5: "ごがつ",
+  6: "ろくがつ",
+  7: "しちがつ",
+  8: "はちがつ",
+  9: "くがつ",
+  10: "じゅうがつ",
+  11: "じゅういちがつ",
+  12: "じゅうにがつ",
+};
+
+/** 暦の月の読み(10月=じゅうがつ)。1〜12以外は null(「3か月」の「月」は数字の直後でないので、ここに来ない) */
+export function monthReading(n: number): string | null {
+  return MONTHS[n] ?? null;
+}
+
+/** text の i 文字目から「数字＋日/人/月」なら、その長さと読み。違えば null */
 export function counterAt(text: string, i: number): { length: number; reading: string } | null {
-  const match = /^(\d+)([日人])/.exec(text.slice(i));
+  const match = /^(\d+)([日人月])/.exec(text.slice(i));
   if (!match) return null;
   const n = Number(match[1]);
-  const reading = match[2] === "日" ? dayReading(n) : peopleReading(n);
+  const reading = match[2] === "日" ? dayReading(n) : match[2] === "月" ? monthReading(n) : peopleReading(n);
   return reading === null ? null : { length: match[0].length, reading };
 }
