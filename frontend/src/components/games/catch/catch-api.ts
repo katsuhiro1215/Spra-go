@@ -7,6 +7,8 @@ export type CatchSummary = {
   category_id: number | null;
   difficulties: { difficulty: CatchDifficulty; lanes: number; available: number; best_score: number | null }[];
   rewarded_plays_left: number;
+  /** 今週のミニゲーム(ごほうびが1.5倍) */
+  featured?: boolean;
 };
 
 export type CatchStart = {

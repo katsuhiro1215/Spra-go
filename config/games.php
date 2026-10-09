@@ -14,6 +14,7 @@ return [
     */
 
     'catch' => [
+        'catalog' => ['released_on' => null, 'season' => null],
         'category' => '英語を学ぶ',
         'question_count' => 10,
         'review_max' => 6,
@@ -42,6 +43,7 @@ return [
     */
 
     'flag_catch' => [
+        'catalog' => ['released_on' => null, 'season' => null],
         'question_count' => 10,
         'review_max' => 6,
         'daily_rewarded_plays' => 3,
@@ -67,6 +69,7 @@ return [
     */
 
     'space_trip' => [
+        'catalog' => ['released_on' => null, 'season' => null],
         'category' => '宇宙',
         'question_count' => 10,
         'review_max' => 6,
@@ -81,6 +84,23 @@ return [
         'messages' => [
             'empty' => '宇宙の問題はじゅんびちゅうだよ',
         ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | ミニゲームの小出し(docs/design/2026-10-09-minigame-rollout-design.md)
+    |--------------------------------------------------------------------------
+    |
+    | 各ゲームの catalog: released_on(出す日 'YYYY-MM-DD'。null は最初から)、season(毎年の期間 ['from' => 'MM-DD', 'until' => 'MM-DD']。null は常設)。
+    | new_days: 出す日から「NEW」を付ける日数。daily_rewarded_total: 全ゲームの合計で、1日にごほうびが出る回数。
+    | featured_multiplier: 今週のゲームのごほうびの倍率(切り上げ)。
+    |
+    */
+
+    'rollout' => [
+        'new_days' => 14,
+        'daily_rewarded_total' => 6,
+        'featured_multiplier' => (float) env('GAMES_FEATURED_MULTIPLIER', 1.5), // テストでは週で変わらないよう 1 にする(phpunit.xml)
     ],
 
 ];

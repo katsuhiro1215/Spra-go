@@ -37,6 +37,8 @@ use App\Support\Garden;
 use App\Support\LevelCompanions;
 use App\Support\LevelGifts;
 use App\Support\LevelCurve;
+use App\Http\Middleware\EnsureGameAvailable;
+use App\Support\GameRollout;
 use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
 use App\Support\PlayTime;
@@ -1813,10 +1815,13 @@ Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(fu
     })->name('complete');
 });
 
+// 今出ているミニゲームの一覧(NEW・今週・季節の札つき。docs/design/2026-10-09-minigame-rollout-design.md 3-3)
+Route::middleware(['auth:sanctum'])->get('/games', fn (Request $request) => GameRollout::list(ActiveProfile::require($request)))->name('games.index');
+
 // ミニゲーム「スプルキャッチ」(docs/design/2026-09-29-spru-catch-design.md 6-3)と、国旗版「スプルキャッチ(こっき)」
 // (docs/design/2026-10-05-flag-catch-design.md 5章)。同じ処理を、ゲームの名前だけ変えて登録する
 foreach (['catch' => CatchGame::GAME, 'flag-catch' => CatchGame::FLAG_GAME, 'space-trip' => CatchGame::SPACE_GAME] as $path => $game) {
-    Route::middleware(['auth:sanctum'])->prefix("games/{$path}")->name("games.{$path}.")->group(function () use ($game) {
+    Route::middleware(['auth:sanctum', EnsureGameAvailable::class.":{$game}"])->prefix("games/{$path}")->name("games.{$path}.")->group(function () use ($game) {
         Route::get('/', function (Request $request) use ($game) {
             return CatchGame::summary(ActiveProfile::require($request), $game);
         })->name('show');

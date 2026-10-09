@@ -48,6 +48,7 @@ class CatchGame
                 ->values()
                 ->all(),
             'rewarded_plays_left' => self::rewardedPlaysLeft($profile, $game),
+            'featured' => GameRollout::featured() === $game, // 今週のゲーム(ごほうびが増える。設計書3-4)
         ];
     }
 
@@ -75,12 +76,14 @@ class CatchGame
     /** 今日のごほうびの残り回数。その日に終えた回を数える(終えていない回は数えない。設計書5-2) */
     public static function rewardedPlaysLeft(UserProfile $profile, string $game = self::GAME): int
     {
-        $finishedToday = $profile->gamePlays()
-            ->where('game', $game)
-            ->where('played_on', Garden::today())
-            ->count();
+        $today = $profile->gamePlays()->where('played_on', Garden::today());
+        $ofGame = (clone $today)->where('game', $game)->count();
 
-        return max(0, config("games.{$game}.daily_rewarded_plays") - $finishedToday);
+        // ゲームごとの回数と、全ゲームの合計(docs/design/2026-10-09-minigame-rollout-design.md 3-4)の、少ないほう
+        return max(0, min(
+            config("games.{$game}.daily_rewarded_plays") - $ofGame,
+            config('games.rollout.daily_rewarded_total') - (clone $today)->where('rewarded', true)->count(), // 全体はごほうびが出た回だけ数える(ごほうびなしの回で、ほかのゲームの分を減らさない)
+        ));
     }
 
     /**
@@ -140,7 +143,11 @@ class CatchGame
 
         if ($left > 0 && $correctCount > 0) {
             $per = self::settings($play->difficulty, $game)['reward'];
-            $reward = ['xp' => $correctCount * $per['xp'], 'point' => $correctCount * $per['point']];
+            $multiplier = GameRollout::multiplier($game);
+            $reward = [
+                'xp' => (int) ceil($correctCount * $per['xp'] * $multiplier),
+                'point' => (int) ceil($correctCount * $per['point'] * $multiplier),
+            ];
             $leveledUp = $profile->applyEconomy($reward, "game_{$game}")['leveled_up'];
         }
 

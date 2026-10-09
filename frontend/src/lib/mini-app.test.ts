@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { CATCH_MODES } from "@/components/games/catch/catch-view";
 
-import { MINI_GAMES, MINI_QUIZ_EMPTY } from "./mini-app";
+import { listedGames, MINI_GAMES, MINI_QUIZ_EMPTY, newGameNotices, readDismissed, writeDismissed } from "./mini-app";
 
 describe("ミニゲームの一覧", () => {
   it("スプルキャッチ（えいたんご）が入っていて、名前・説明・行き先がある", () => {
@@ -39,5 +39,48 @@ describe("ミニゲームの一覧", () => {
 
     expect(spaceTrip).toMatchObject({ title: CATCH_MODES.space_trip.title, href: "/games/space-trip" });
     expect(spaceTrip?.description).toContain("ロケット");
+  });
+});
+
+describe("ミニゲームの小出し(docs/design/2026-10-09-minigame-rollout-design.md)", () => {
+  const flags = { new: false, featured: false, seasonal: false };
+
+  it("APIにあるゲームだけを、一覧の順に、札つきで出す。APIにないゲームは出さない。読み込み前は空", () => {
+    expect(listedGames(null)).toEqual([]);
+
+    const games = listedGames([
+      { key: "space-trip", ...flags, new: true },
+      { key: "catch", ...flags, featured: true },
+      { key: "unknown-game", ...flags },
+    ]);
+
+    expect(games.map((game) => game.key)).toEqual(["catch", "space-trip"]);
+    expect(games[0]).toMatchObject({ featured: true, new: false });
+    expect(games[1]).toMatchObject({ new: true, href: "/games/space-trip" });
+  });
+
+  it("お知らせは、NEWで、まだ閉じていないゲームだけ", () => {
+    const games = listedGames([
+      { key: "catch", ...flags },
+      { key: "flag-catch", ...flags, new: true },
+      { key: "space-trip", ...flags, new: true },
+    ]);
+
+    expect(newGameNotices(games, []).map((game) => game.key)).toEqual(["flag-catch", "space-trip"]);
+    expect(newGameNotices(games, ["flag-catch"]).map((game) => game.key)).toEqual(["space-trip"]);
+  });
+
+  it("閉じたゲームは端末に覚える。読めない・書けないときも壊れない", () => {
+    const store: Record<string, string> = {};
+    const storage = { getItem: (key: string) => store[key] ?? null, setItem: (key: string, value: string) => void (store[key] = value) };
+
+    expect(readDismissed(storage)).toEqual([]);
+    writeDismissed(storage, ["space-trip"]);
+    expect(readDismissed(storage)).toEqual(["space-trip"]);
+
+    store["spra:dismissed-new-games"] = "こわれた";
+    expect(readDismissed(storage)).toEqual([]);
+    expect(readDismissed(null)).toEqual([]);
+    expect(() => writeDismissed({ setItem: () => { throw new Error("blocked"); } }, ["a"])).not.toThrow();
   });
 });
