@@ -83,7 +83,7 @@ export function OrderingQuestion({
             disabled={selectedOrder.length === 0}
             onClick={() => setSelectedOrder([])}
           >
-            やり直す
+            <AutoFurigana text="やり直す" />
           </Button>
           <Button
             variant="primary"
@@ -92,7 +92,7 @@ export function OrderingQuestion({
             disabled={!allSelected || submitting}
             onClick={() => onSubmit(selectedOrder)}
           >
-            答え合わせ
+            <AutoFurigana text="答え合わせ" />
           </Button>
         </div>
       )}

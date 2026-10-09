@@ -42,7 +42,7 @@ export function CategoryTabs<T extends string>({ idBase, label, tabs, selected, 
             {marked.includes(tab) && (
               <>
                 <span aria-hidden className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-[#d8352a]" />
-                <span className="sr-only">(新しい物があります)</span>
+                <span className="sr-only"><AutoFurigana text="(新しい物があります)" /></span>
               </>
             )}
           </button>

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/lib/api";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 type Profile = {
   id: number;
@@ -62,7 +63,7 @@ export default function DashboardLayout({
   if (checking || !profile) {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-        読み込み中...
+        <AutoFurigana text="読み込み中..." />
       </div>
     );
   }
@@ -75,7 +76,7 @@ export default function DashboardLayout({
         </span>
         <div className="flex items-center gap-3">
           <Link href="/profiles" className="text-sm hover:underline">
-            プロフィール切替
+            <AutoFurigana text="プロフィール切替" />
           </Link>
           <Button variant="outline" size="sm" onClick={handleLogout}>
             ログアウト

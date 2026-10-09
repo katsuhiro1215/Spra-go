@@ -308,7 +308,7 @@ function ShopContent() {
           </h2>
           {coinItems.length === 0 ? (
             <SkyText muted className="text-sm">
-              まだアイテムがありません。お楽しみに。
+              <AutoFurigana text="まだアイテムがありません。お楽しみに。" />
             </SkyText>
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -389,7 +389,7 @@ function ShopContent() {
               ))}
             </div>
             <SkyText muted className="text-xs">
-              決済はStripeを利用します。カード情報は当サービスには保存されません。
+              <AutoFurigana text="決済はStripeを利用します。カード情報は当サービスには保存されません。" />
             </SkyText>
           </div>
         )}

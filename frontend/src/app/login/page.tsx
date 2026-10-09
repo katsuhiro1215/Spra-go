@@ -8,6 +8,7 @@ import { Button as AppButton } from "@/components/app/button";
 import { SkyPage } from "@/components/app/sky-page";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { apiFetch } from "@/lib/api";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 export default function Page(props: PageProps<"/login">) {
   // 新しいパスワードを決めたあとに来たとき(docs/design/2026-09-29-email-verify-reset-design.md 3-1)
@@ -55,15 +56,15 @@ export default function Page(props: PageProps<"/login">) {
 
         <div className="w-full rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
           <h1 className="text-center text-2xl font-black text-[#3b3226]">
-            ぼうけんへ出発
+            <AutoFurigana text="ぼうけんへ出発" />
           </h1>
           <p className="mt-1 text-center text-sm font-bold text-[#6b5d45]">
-            ログインして世界図鑑の続きへ
+            <AutoFurigana text="ログインして世界図鑑の続きへ" />
           </p>
 
           {reset === "1" && (
             <p role="status" className="mt-4 rounded-xl bg-[#e8f5dc] px-3 py-2 text-center text-sm font-bold text-[#2f6b1f]">
-              新しいパスワードでログインしてね
+              <AutoFurigana text="新しいパスワードでログインしてね" />
             </p>
           )}
 
@@ -98,7 +99,7 @@ export default function Page(props: PageProps<"/login">) {
                 className="h-11 rounded-xl border-2 border-[#e8dfcf] bg-white px-3 text-sm text-[#3b3226] outline-none focus-visible:border-[#2b6fa3]"
               />
               <Link href="/forgot-password" className="self-end text-xs font-black text-[#2b5d7a] underline">
-                パスワードを忘れたら
+                <AutoFurigana text="パスワードを忘れたら" />
               </Link>
             </div>
 
@@ -122,7 +123,7 @@ export default function Page(props: PageProps<"/login">) {
           href="/register"
           className="rounded-full bg-[#fffaf0] px-3 py-1.5 text-sm font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
         >
-          はじめての方はこちら
+          <AutoFurigana text="はじめての方はこちら" />
         </Link>
       </div>
     </SkyPage>

@@ -12,6 +12,7 @@ import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { LoadingScreen } from "@/components/app/spru-loading";
 import { LockedCountry } from "@/components/travel/locked-country";
 import { apiFetch } from "@/lib/api";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 type CountryStart = {
   id: number;
@@ -64,10 +65,10 @@ export default function Page({
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#8fd4e9] text-[#3b3226]">
         <p className="text-sm">
-          この国は見つかりませんでした。
+          <AutoFurigana text="この国は見つかりませんでした。" />
         </p>
         <Link href="/" className="text-sm text-[#2b5d7a] underline">
-          ホームに戻る
+          <AutoFurigana text="ホームに戻る" />
         </Link>
       </div>
     );
@@ -103,7 +104,7 @@ export default function Page({
 
         <div className="animate-stage-intro-subtitle flex w-full flex-col gap-3">
           <SkyText muted className="text-sm">
-            ゲームを開始しますか？
+            <AutoFurigana text="ゲームを開始しますか？" />
           </SkyText>
           <AppButton
             variant="primary"
@@ -129,7 +130,7 @@ export default function Page({
             href="/learn"
             className="self-center rounded-full bg-[#fffaf0] px-3 py-1.5 text-sm font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
           >
-            ← 別の国を選ぶ
+            <AutoFurigana text="← 別の国を選ぶ" />
           </Link>
         </div>
       </div>

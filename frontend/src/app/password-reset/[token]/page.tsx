@@ -71,7 +71,7 @@ export default function Page(props: PageProps<"/password-reset/[token]">) {
               <AutoFurigana text={errors.link} />
             </p>
             <Link href="/forgot-password" className="self-start text-[#2b5d7a] underline">
-              もう一度メールを送る
+              <AutoFurigana text="もう一度メールを送る" />
             </Link>
           </div>
         )}
@@ -93,7 +93,7 @@ export default function Page(props: PageProps<"/password-reset/[token]">) {
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="password" className={AUTH_LABEL_CLASS}>
-            新しいパスワード
+            <AutoFurigana text="新しいパスワード" />
           </label>
           <input
             id="password"
@@ -105,13 +105,13 @@ export default function Page(props: PageProps<"/password-reset/[token]">) {
             onChange={(e) => setPassword(e.target.value)}
             className={AUTH_INPUT_CLASS}
           />
-          <p className="text-xs font-bold text-[#6b5d45]">8文字以上</p>
+          <p className="text-xs font-bold text-[#6b5d45]"><AutoFurigana text="8文字以上" /></p>
           {errors.password && <p className="text-sm font-medium text-[#c2402c]">{errors.password}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="password_confirmation" className={AUTH_LABEL_CLASS}>
-            もう一度入れる
+            <AutoFurigana text="もう一度入れる" />
           </label>
           <input
             id="password_confirmation"

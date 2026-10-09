@@ -7,6 +7,7 @@ import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { SPRU_ICONS, STAMP_IMAGES, type StampKey } from "@/components/spru/spru-assets";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { SpruHouse } from "@/components/spru/spru-house";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 const SAMPLE_COUNTRIES: { code: StampKey; name: string }[] = [
   { code: "jp", name: "日本" },
@@ -26,7 +27,7 @@ export function GuestLanding() {
         <LogoMark size={40} />
         <SkyTitle className="text-[32px] tracking-wide">Spra Go</SkyTitle>
       </div>
-      <SkyText className="mt-1 text-sm">学ぶほど、世界が広がる。</SkyText>
+      <SkyText className="mt-1 text-sm"><AutoFurigana text="学ぶほど、世界が広がる。" /></SkyText>
 
       <div className="relative mt-6 flex w-full max-w-[300px] justify-center">
         <SpruHouse width={300} eager />
@@ -50,11 +51,11 @@ export function GuestLanding() {
           className="mt-3 flex items-center gap-1.5 rounded-full bg-[#fffaf0] py-1 pr-4 pl-1.5 text-sm font-black text-[#2b6fa3] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
         >
           <AssetImage asset={SPRU_ICONS.login} size={28} />
-          アカウントをお持ちの方はログイン
+          <AutoFurigana text="アカウントをお持ちの方はログイン" />
         </Link>
 
         <SkyText muted className="mt-5 text-xs">
-          登録なしでお試しクイズ
+          <AutoFurigana text="登録なしでお試しクイズ" />
         </SkyText>
         <ul className="mt-2 flex justify-center gap-3">
           {SAMPLE_COUNTRIES.map(({ code, name }) => (

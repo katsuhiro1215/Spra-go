@@ -10,6 +10,7 @@ import { SkyPage } from "@/components/app/sky-page";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { apiFetch } from "@/lib/api";
 import { inviteCodeFromSearch, registrationView, type RegistrationInfo } from "@/lib/registration";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 export default function Page() {
   const router = useRouter();
@@ -89,12 +90,12 @@ export default function Page() {
             はじめての<Furigana text="冒険者登録" reading="ぼうけんしゃとうろく" />
           </h1>
           <p className="mt-1 text-center text-sm font-bold text-[#6b5d45]">
-            世界図鑑を完成させる旅をはじめよう
+            <AutoFurigana text="世界図鑑を完成させる旅をはじめよう" />
           </p>
 
           {view.closed ? (
             <p className="mt-6 text-center text-sm font-bold text-[#6b5d45]">
-              いまは登録をおやすみしています。
+              <AutoFurigana text="いまは登録をおやすみしています。" />
               <br />
               ひらいたら、またきてね
             </p>
@@ -103,7 +104,7 @@ export default function Page() {
             {view.showCode && (
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="invite_code" className="text-sm font-black text-[#3b3226]">
-                  招待コード
+                  <AutoFurigana text="招待コード" />
                 </label>
                 <input
                   id="invite_code"
@@ -114,13 +115,13 @@ export default function Page() {
                   onChange={(e) => setInviteCode(e.target.value)}
                   className="h-11 rounded-xl border-2 border-[#e8dfcf] bg-white px-3 text-sm text-[#3b3226] outline-none focus-visible:border-[#2b6fa3]"
                 />
-                <p className="text-xs font-bold text-[#6b5d45]">教えてもらったコードを入れてください</p>
+                <p className="text-xs font-bold text-[#6b5d45]"><AutoFurigana text="教えてもらったコードを入れてください" /></p>
               </div>
             )}
 
             <div className="flex flex-col gap-1.5">
               <label htmlFor="name" className="text-sm font-black text-[#3b3226]">
-                お名前
+                <AutoFurigana text="お名前" />
               </label>
               <input
                 id="name"
@@ -168,7 +169,7 @@ export default function Page() {
                 htmlFor="password_confirmation"
                 className="text-sm font-black text-[#3b3226]"
               >
-                パスワード（確認）
+                <AutoFurigana text="パスワード（確認）" />
               </label>
               <input
                 id="password_confirmation"
@@ -207,7 +208,7 @@ export default function Page() {
           href="/login"
           className="rounded-full bg-[#fffaf0] px-3 py-1.5 text-sm font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
         >
-          すでにアカウントをお持ちの方はこちら
+          <AutoFurigana text="すでにアカウントをお持ちの方はこちら" />
         </Link>
       </div>
     </SkyPage>

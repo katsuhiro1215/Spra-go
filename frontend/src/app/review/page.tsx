@@ -88,7 +88,7 @@ export default function ReviewPage() {
               <AutoFurigana text={state.message} />
             </p>
             <Link href="/">
-              <AppButton variant="default">町にもどる</AppButton>
+              <AppButton variant="default"><AutoFurigana text="町にもどる" /></AppButton>
             </Link>
           </div>
         </div>

@@ -142,7 +142,7 @@ export function MatchingQuestion({
             )
           }
         >
-          答え合わせ
+          <AutoFurigana text="答え合わせ" />
         </Button>
       )}
     </div>

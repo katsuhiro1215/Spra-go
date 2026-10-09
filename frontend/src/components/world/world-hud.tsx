@@ -8,6 +8,7 @@ import { SPRU_FACES, SPRU_ICONS } from "@/components/spru/spru-assets";
 
 import { growthLabel } from "./garden";
 import type { WorldProfile } from "./types";
+import { AutoFurigana } from "@/components/app/auto-furigana";
 
 export function WorldHud({
   name,
@@ -38,7 +39,7 @@ export function WorldHud({
           </span>
           <span className="flex items-center gap-1 rounded-full bg-[#eef7e6] px-2.5 py-1 text-[15px] font-bold text-[#2e6b1c]">
             <BadgeImage badge="points" size={18} />
-            <span className="sr-only">学習ポイント</span>
+            <span className="sr-only"><AutoFurigana text="学習ポイント" /></span>
             {profile.points.toLocaleString()}
             <span className="text-[11px]">pt</span>
           </span>

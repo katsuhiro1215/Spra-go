@@ -201,7 +201,7 @@ export default function Page({
           <SpruLoading />
         ) : !hasAnyStage ? (
           <SkyText muted className="text-sm">
-            まだクイズがありません。お楽しみに。
+            <AutoFurigana text="まだクイズがありません。お楽しみに。" />
           </SkyText>
         ) : (
           <>
@@ -287,7 +287,7 @@ export default function Page({
             {catchCategoryId !== null && category?.id === catchCategoryId && (
               <Link href="/games/catch">
                 <AppButton variant="warning" size="lg" className="w-full">
-                  スプルキャッチで遊ぶ
+                  <AutoFurigana text="スプルキャッチで遊ぶ" />
                 </AppButton>
               </Link>
             )}
