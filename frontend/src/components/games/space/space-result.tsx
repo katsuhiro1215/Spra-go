@@ -14,6 +14,8 @@ import type { ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
 
 import type { SpaceFinish } from "./space-api";
+import type { SpaceStop } from "./space-map-api";
+import { mapResultLines, starsLine } from "./space-map-view";
 import { isPerfect, type SpaceState } from "./space-engine";
 import { DESTINATIONS, destinationLine, missedQuestions } from "./space-view";
 
@@ -22,12 +24,15 @@ export function SpaceResult({
   result,
   state,
   starting,
+  stops,
   onRetry,
   onChangeDifficulty,
 }: {
   result: SpaceFinish;
   state: SpaceState;
   starting: boolean;
+  /** 地図の星の一覧(星の名前を出すため)。地図から始めた回だけ使う */
+  stops: SpaceStop[];
   onRetry: () => void;
   onChangeDifficulty: () => void;
 }) {
@@ -101,6 +106,41 @@ export function SpaceResult({
         )}
       </div>
 
+      {result.map && (
+        <div className="flex w-full flex-col items-center gap-2 rounded-3xl bg-[#fffaf0] p-5 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.12)]">
+          {mapResultLines(result.map, stops).map((line, index) => (
+            <p key={line} className={index === 0 ? "text-lg font-black text-[#2e4a9a]" : "text-sm font-bold"}>
+              <AutoFurigana text={line} />
+            </p>
+          ))}
+          {result.map.new_cards.length > 0 && (
+            <div className="mt-1 flex w-full flex-col items-center gap-2">
+              <p className="text-sm font-black text-[#2e6b1c]">
+                <AutoFurigana text="ずかんに 新しいカード！" />
+              </p>
+              <ul className="flex flex-wrap justify-center gap-3">
+                {result.map.new_cards.map((card) => (
+                  <li key={card.key} className="flex flex-col items-center gap-1">
+                    <span className="relative block size-16 overflow-hidden rounded-xl bg-[#1d2a55] shadow">
+                      <Image src={card.image} alt={card.name ?? ""} fill sizes="64px" className="object-contain" unoptimized />
+                    </span>
+                    <span className="text-xs font-bold">
+                      <AutoFurigana text={card.name ?? ""} />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/space/cards">
+                <AppButton variant="secondary" size="sm">
+                  <AutoFurigana text="うちゅうずかんを見る" />
+                </AppButton>
+              </Link>
+            </div>
+          )}
+          <p className="text-xs text-[#6b5d45]">{starsLine(result.map.best_stars)}</p>
+        </div>
+      )}
+
       {missed.length > 0 && (
         <div className="w-full rounded-3xl bg-[#fffaf0] p-5 text-left text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.12)]">
           <h2 className="text-sm font-black">
@@ -136,7 +176,7 @@ export function SpaceResult({
         </AppButton>
         <AppButton variant="default" size="lg" onClick={onChangeDifficulty} className="w-full">
           <span>
-            <AutoFurigana text="難しさを変える" />
+            <AutoFurigana text={result.map ? "地図にもどる" : "難しさを変える"} />
           </span>
         </AppButton>
         <Link href="/learn">

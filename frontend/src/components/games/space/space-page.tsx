@@ -14,6 +14,8 @@ import { CatchSelect } from "@/components/games/catch/catch-select";
 import { apiFetch } from "@/lib/api";
 
 import { toGameQuestions, type SpaceFinish, type SpaceStart } from "./space-api";
+import type { SpaceMapState, SpaceStop } from "./space-map-api";
+import { SpaceMap } from "./space-map";
 import { answersOf, type SpaceState } from "./space-engine";
 import { SpaceGame } from "./space-game";
 import { SpaceResult } from "./space-result";
@@ -22,9 +24,15 @@ const API_PATH = "/api/games/space-trip";
 
 type Phase =
   | { kind: "select" }
-  | { kind: "playing"; start: SpaceStart }
+  | { kind: "playing"; start: SpaceStart & { stop?: string | null } }
   | { kind: "finishing" }
-  | { kind: "result"; start: SpaceStart; state: SpaceState; result: SpaceFinish };
+  | { kind: "result"; start: SpaceStart; state: SpaceState; result: SpaceFinish; stop: string | null };
+
+/** 宇宙ぼうけんマップの状態(docs/design/2026-10-10-space-adventure-map-design.md 3-1)。読めなければ、今までの難しさの選択に戻る */
+async function fetchMap(): Promise<SpaceMapState | null> {
+  const res = await apiFetch(`${API_PATH}/map`);
+  return res.ok ? res.json() : null;
+}
 
 async function fetchSummary(): Promise<CatchSummary | "/login" | "/profiles" | null> {
   const res = await apiFetch(API_PATH);
@@ -38,6 +46,8 @@ export function SpacePageView() {
   const router = useRouter();
   const { refresh: refreshProfile } = useProfile();
   const [summary, setSummary] = useState<CatchSummary | null>(null);
+  const [map, setMap] = useState<SpaceMapState | null>(null);
+  const [practice, setPractice] = useState(false);
   const [phase, setPhase] = useState<Phase>({ kind: "select" });
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,26 +64,29 @@ export function SpacePageView() {
     fetchSummary()
       .then(applySummary)
       .catch(() => setError("通信エラーが発生しました。"));
+    fetchMap().then(setMap).catch(() => {});
   }, [applySummary]);
 
   function refreshSummary() {
     fetchSummary()
       .then(applySummary)
       .catch(() => {});
+    fetchMap().then(setMap).catch(() => {});
   }
 
-  async function start(difficulty: CatchDifficulty) {
+  /** 地図の星から(stop)、またはれんしゅう(difficulty)で始める */
+  async function start(by: { difficulty: CatchDifficulty } | { stop: string }) {
     setStarting(true);
     setError(null);
     try {
-      const res = await apiFetch(`${API_PATH}/plays`, { method: "POST", body: JSON.stringify({ difficulty }) });
+      const res = await apiFetch(`${API_PATH}/plays`, { method: "POST", body: JSON.stringify(by) });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setError(data.message ?? "始められませんでした。");
         setPhase({ kind: "select" });
         return;
       }
-      setPhase({ kind: "playing", start: data });
+      setPhase({ kind: "playing", start: { ...data, stop: "stop" in by ? by.stop : null } });
     } catch {
       setError("通信エラーが発生しました。");
       setPhase({ kind: "select" });
@@ -82,7 +95,7 @@ export function SpacePageView() {
     }
   }
 
-  async function finish(started: SpaceStart, state: SpaceState) {
+  async function finish(started: SpaceStart & { stop?: string | null }, state: SpaceState) {
     setPhase({ kind: "finishing" });
     try {
       const res = await apiFetch(`${API_PATH}/plays/${started.play_id}/finish`, {
@@ -95,7 +108,7 @@ export function SpacePageView() {
         setPhase({ kind: "select" });
         return;
       }
-      setPhase({ kind: "result", start: started, state, result: data });
+      setPhase({ kind: "result", start: started, state, result: data, stop: started.stop ?? null });
       refreshProfile().catch(() => {});
     } catch {
       setError("通信エラーが発生しました。記録できませんでした。");
@@ -106,6 +119,7 @@ export function SpacePageView() {
 
   function backToSelect() {
     setError(null);
+    setPractice(false);
     setPhase({ kind: "select" });
     refreshSummary();
   }
@@ -136,11 +150,14 @@ export function SpacePageView() {
           result={phase.result}
           state={phase.state}
           starting={starting}
-          onRetry={() => start(phase.start.difficulty)}
+          stops={map?.stops ?? []}
+          onRetry={() => start(phase.stop ? { stop: phase.stop } : { difficulty: phase.start.difficulty })}
           onChangeDifficulty={backToSelect}
         />
+      ) : map && !practice ? (
+        <SpaceMap map={map} starting={starting} error={error} onStart={(stop: SpaceStop) => start({ stop: stop.key })} onPractice={() => setPractice(true)} />
       ) : summary ? (
-        <CatchSelect mode="space_trip" summary={summary} starting={starting} error={error} onStart={start} />
+        <CatchSelect mode="space_trip" summary={summary} starting={starting} error={error} onStart={(difficulty) => start({ difficulty })} />
       ) : (
         <div className="relative z-10 flex flex-1 items-center justify-center px-6 text-center">
           {error ? (

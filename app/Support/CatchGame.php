@@ -64,14 +64,14 @@ class CatchGame
     }
 
     /** 回を始める。問題を選んで遊んだ回を1行作り、問題と正解と設定を返す(設計書4章・6-3) */
-    public static function start(UserProfile $profile, string $difficulty, string $game = self::GAME): array
+    public static function start(UserProfile $profile, string $difficulty, string $game = self::GAME, ?string $stop = null): array
     {
         $settings = self::settings($difficulty, $game);
         $pool = self::pool($profile, $difficulty, $game);
         abort_if($pool->isEmpty(), 422, self::emptyMessage($profile, $game));
 
         $ids = self::pick($profile, $pool->pluck('id')->all(), $game, $settings['question_count'] ?? null);
-        $play = $profile->gamePlays()->create(['game' => $game, 'difficulty' => $difficulty, 'question_ids' => $ids]);
+        $play = $profile->gamePlays()->create(['game' => $game, 'difficulty' => $difficulty, 'stop' => $stop, 'question_ids' => $ids]);
         $byId = $pool->keyBy('id');
 
         return [
@@ -134,6 +134,7 @@ class CatchGame
 
         $profile = UserProfile::query()->whereKey($play->user_profile_id)->lockForUpdate()->firstOrFail();
         $today = Garden::today();
+        $cardsBefore = SpaceCards::keys($profile);
         foreach ($results as $result) {
             QuestionMemory::record($profile, $result['question_id'], $result['correct'], $today);
         }
@@ -180,6 +181,16 @@ class CatchGame
             'rewarded' => $reward !== null,
         ])->save();
 
+        // 宇宙ぼうけんマップ: 地図から始めた回は、星の記録に書く(設計書3-1)。はじめて開いたカードも返す
+        $map = null;
+        if ($play->stop !== null) {
+            $map = SpaceMap::record($profile, $play, $correctCount, count($dealt));
+            $leveledUp = $leveledUp || $map['leveled_up'];
+            unset($map['leveled_up']);
+            $names = collect(SpaceCards::list($profile))->pluck('name', 'key');
+            $map['new_cards'] = array_values(array_map(fn (string $key) => ['key' => $key, 'name' => $names[$key] ?? null, 'image' => "/space/{$key}.webp"], array_values(array_diff(SpaceCards::keys($profile), $cardsBefore))));
+        }
+
         return [
             'answered_count' => count($results),
             'correct_count' => $correctCount,
@@ -192,7 +203,7 @@ class CatchGame
             'leveled_up' => $leveledUp,
             'previous_level' => $previousLevel,
             'level' => $profile->level,
-        ] + ($game === self::SPACE_GAME ? [
+        ] + ($map !== null ? ['map' => $map] : []) + ($game === self::SPACE_GAME ? [
             'stars' => $totalStars,
             'destination' => self::spaceDestination($correctCount, count($dealt)),
         ] : []) + (isset(config("games.{$game}.difficulties")[$play->difficulty]['grid']) ? [
