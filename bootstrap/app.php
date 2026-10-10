@@ -17,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         ]);
 
+        // 本番は Caddy(リバースプロキシ)の裏で動く。PHP-FPM は外に公開しないので、すべてのプロキシを信用してよい。
+        // これがないと、https のアクセスでも http のリンク(メールの確認リンクなど)が作られる
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         ]);
