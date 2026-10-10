@@ -12,6 +12,12 @@
             <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
+    <groups>
+        <!-- 本番の初回の中身を最初から最後まで入れる通しテストは約10分かかるので、ふだんは流さない。流すときは、テストのコマンドにグループ指定 bootstrap を付ける -->
+        <exclude>
+            <group>bootstrap</group>
+        </exclude>
+    </groups>
     <source>
         <include>
             <directory>app</directory>

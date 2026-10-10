@@ -1,0 +1,26 @@
+# 本番イメージに入れないもの(コンテキストを小さく保ち、秘密を焼き込まない)
+.git
+.env
+.env.*
+!.env.production.example
+!.env.rehearsal.example
+.superpowers
+.claude
+.codex
+node_modules
+vendor
+frontend/node_modules
+frontend/.next
+frontend/.env*
+bootstrap/cache/*.php
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+tests
+docs/*
+!docs/content
+database/database.sqlite
+tools/**/__pycache__
+**/*.log
+.DS_Store

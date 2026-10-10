@@ -1,0 +1,40 @@
+# 本体(projects/Spra)の Caddyfile の末尾に足すブロック(docs/design/2026-10-10-production-env-design.md 4章)。
+# - 本体の compose.prod.yaml は変えない。本体の Caddyfile はイメージに焼き込まれているので、ブロックを足したら
+#   本体の caddy だけを build し直して up -d する(数秒の切り替わりなので、深夜に)
+# - 転送先は、spra-go のコンテナが spra_prod に別名つきで参加している前提。名前解決はリクエスト時なので、
+#   spra-go が止まっていても Caddy は起動できる(そのドメインだけ 502 になる)
+# - ドメインは環境変数にしない(未設定だと Caddy 自体が起動できず、本体まで止まるため)
+
+go.spra.jp {
+	encode gzip
+
+	reverse_proxy spra-go-next:3000
+
+	log {
+		output file /data/spra-go-access.log {
+			roll_size 10mb
+			roll_keep 5
+		}
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+	}
+}
+
+api.go.spra.jp {
+	encode gzip
+
+	reverse_proxy spra-go-web:80
+
+	log {
+		output file /data/spra-go-api-access.log {
+			roll_size 10mb
+			roll_keep 5
+		}
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+	}
+}
