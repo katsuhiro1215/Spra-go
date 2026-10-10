@@ -4,15 +4,10 @@ use App\Http\Controllers\Owner\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Owner\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Owner\Auth\NewPasswordController;
 use App\Http\Controllers\Owner\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Owner\Auth\RegisteredUserController;
 use App\Http\Controllers\Owner\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('owner')->name('owner.')->group(function () {
-    Route::post('/register', [RegisteredUserController::class, 'store'])
-        ->middleware('guest:owner')
-        ->name('register');
-
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])
         ->middleware('guest:owner')
         ->name('login');

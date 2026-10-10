@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use RuntimeException;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,25 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // 試験用のOwner・Admin・利用者は、推測できるパスワードで作られる。本番に入れてはいけない
+        if (app()->isProduction()) {
+            throw new RuntimeException('本番では DatabaseSeeder を流せません。中身だけを入れるときは ProductionSeeder を使ってください。');
+        }
+
         $this->call([
             UserSeeder::class,
             AdminSeeder::class,
             OwnerSeeder::class,
             UserSchemaSeeder::class,
             UserProfileSeeder::class,
-            CategorySeeder::class,
-            LanguageSeeder::class,
-            CountrySeeder::class,
-            EventSeeder::class,
-            ContentItemSeeder::class,
-            QuestionThemeSeeder::class,
-            QuizSeeder::class,
-            QuestionSeeder::class,
-            QuestionChoiceSeeder::class,
-            StageSeeder::class,
-            WorldItemSeeder::class,
-            FlagQuizSeeder::class,
-            PrefectureQuizSeeder::class,
+            ...ProductionSeeder::classes(),
         ]);
     }
 }
