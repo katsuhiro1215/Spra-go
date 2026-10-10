@@ -179,3 +179,17 @@ it('英語・国旗の点数と返事の形は変わらない(星・到着する
     expect(CatchGame::score([true, true, true]))->toBe(['score' => 35, 'best_combo' => 3])
         ->and(CatchGame::score([true, true, true], [1, 2, 3]))->toBe(['score' => 41, 'best_combo' => 3]);
 });
+
+it('今週のゲームは、ごほうびが1.5倍(切り上げ)。ほかのゲームは1倍', function () {
+    createActiveProfile();
+    prepareSpaceTrip();
+    config(['games.rollout.featured_multiplier' => 1.5]);
+    config(['games.space_trip.catalog' => ['released_on' => null, 'season' => ['from' => '10-01', 'until' => '10-31']]]); // 季節のゲームが今週のゲーム
+
+    [$start, $answers] = playSpaceTrip($this, '中級');
+    $this->postJson("/api/games/space-trip/plays/{$start['play_id']}/finish", ['answers' => $answers])
+        ->assertOk()
+        ->assertJsonPath('reward', ['xp' => 60, 'point' => 45]);
+
+    $this->getJson('/api/games')->assertOk()->assertJsonPath('0.featured', false);
+});

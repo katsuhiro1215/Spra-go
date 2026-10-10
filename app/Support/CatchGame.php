@@ -26,6 +26,11 @@ class CatchGame
 
     public const SPACE_GAME = 'space_trip';
 
+    /** スライドパズル(国旗・宇宙。docs/design/2026-10-09-slide-puzzle-design.md) */
+    public const PUZZLE_FLAG_GAME = 'puzzle_flag';
+
+    public const PUZZLE_SPACE_GAME = 'puzzle_space';
+
     /** 難しさを選ぶ画面に出すもの(設計書6-3) */
     public static function summary(UserProfile $profile, string $game = self::GAME): array
     {
@@ -34,6 +39,12 @@ class CatchGame
             ->whereNotNull('finished_at')
             ->groupBy('difficulty')
             ->selectRaw('difficulty, MAX(score) AS best')
+            ->pluck('best', 'difficulty');
+        $bestMs = $profile->gamePlays()
+            ->where('game', $game)
+            ->whereNotNull('elapsed_ms')
+            ->groupBy('difficulty')
+            ->selectRaw('difficulty, MIN(elapsed_ms) AS best')
             ->pluck('best', 'difficulty');
 
         return [
@@ -44,10 +55,11 @@ class CatchGame
                     'lanes' => $settings['lanes'],
                     'available' => self::pool($profile, $difficulty, $game)->count(),
                     'best_score' => isset($best[$difficulty]) ? (int) $best[$difficulty] : null,
-                ])
+                ] + (isset($settings['grid']) ? ['grid' => $settings['grid'], 'best_ms' => isset($bestMs[$difficulty]) ? (int) $bestMs[$difficulty] : null] : []))
                 ->values()
                 ->all(),
             'rewarded_plays_left' => self::rewardedPlaysLeft($profile, $game),
+            'featured' => GameRollout::featured() === $game, // 今週のゲーム(ごほうびが増える。設計書3-4)
         ];
     }
 
@@ -58,7 +70,7 @@ class CatchGame
         $pool = self::pool($profile, $difficulty, $game);
         abort_if($pool->isEmpty(), 422, self::emptyMessage($profile, $game));
 
-        $ids = self::pick($profile, $pool->pluck('id')->all(), $game);
+        $ids = self::pick($profile, $pool->pluck('id')->all(), $game, $settings['question_count'] ?? null);
         $play = $profile->gamePlays()->create(['game' => $game, 'difficulty' => $difficulty, 'question_ids' => $ids]);
         $byId = $pool->keyBy('id');
 
@@ -67,20 +79,23 @@ class CatchGame
             'difficulty' => $difficulty,
             'lanes' => $settings['lanes'],
             'fall_ms' => $settings['fall_ms'],
-        ] + (isset($settings['obstacle_rows']) ? ['obstacle_rows' => $settings['obstacle_rows']] : []) + [
-            'questions' => array_map(fn (int $id) => self::present($byId[$id], $settings['lanes']), $ids),
+        ] + (isset($settings['obstacle_rows']) ? ['obstacle_rows' => $settings['obstacle_rows']] : [])
+          + (isset($settings['grid']) ? ['grid' => $settings['grid']] : []) + [
+            'questions' => array_map(fn (int $id) => self::present($byId[$id], $settings['lanes'], $settings), $ids),
         ];
     }
 
     /** 今日のごほうびの残り回数。その日に終えた回を数える(終えていない回は数えない。設計書5-2) */
     public static function rewardedPlaysLeft(UserProfile $profile, string $game = self::GAME): int
     {
-        $finishedToday = $profile->gamePlays()
-            ->where('game', $game)
-            ->where('played_on', Garden::today())
-            ->count();
+        $today = $profile->gamePlays()->where('played_on', Garden::today());
+        $ofGame = (clone $today)->where('game', $game)->count();
 
-        return max(0, config("games.{$game}.daily_rewarded_plays") - $finishedToday);
+        // ゲームごとの回数と、全ゲームの合計(docs/design/2026-10-09-minigame-rollout-design.md 3-4)の、少ないほう
+        return max(0, min(
+            config("games.{$game}.daily_rewarded_plays") - $ofGame,
+            config('games.rollout.daily_rewarded_total') - (clone $today)->where('rewarded', true)->count(), // 全体はごほうびが出た回だけ数える(ごほうびなしの回で、ほかのゲームの分を減らさない)
+        ));
     }
 
     /**
@@ -89,7 +104,7 @@ class CatchGame
      *
      * @param  list<array{question_id: int|string, choice_id: int|string}>  $answers  答えた順
      */
-    public static function finish(ProfileGamePlay $play, array $answers): array
+    public static function finish(ProfileGamePlay $play, array $answers, ?int $elapsedMs = null): array
     {
         $game = $play->game;
         $dealt = array_map('intval', $play->question_ids);
@@ -133,6 +148,11 @@ class CatchGame
             ->where('difficulty', $play->difficulty)
             ->whereNotNull('finished_at')
             ->max('score');
+        $previousBestMs = $elapsedMs === null ? null : $profile->gamePlays()
+            ->where('game', $game)
+            ->where('difficulty', $play->difficulty)
+            ->whereNotNull('finished_at')
+            ->min('elapsed_ms');
         $left = self::rewardedPlaysLeft($profile, $game);
         $previousLevel = $profile->level;
         $reward = null;
@@ -140,7 +160,11 @@ class CatchGame
 
         if ($left > 0 && $correctCount > 0) {
             $per = self::settings($play->difficulty, $game)['reward'];
-            $reward = ['xp' => $correctCount * $per['xp'], 'point' => $correctCount * $per['point']];
+            $multiplier = GameRollout::multiplier($game);
+            $reward = [
+                'xp' => (int) ceil($correctCount * $per['xp'] * $multiplier),
+                'point' => (int) ceil($correctCount * $per['point'] * $multiplier),
+            ];
             $leveledUp = $profile->applyEconomy($reward, "game_{$game}")['leveled_up'];
         }
 
@@ -152,6 +176,7 @@ class CatchGame
             'score' => $score,
             'best_combo' => $bestCombo,
             'stars' => $game === self::SPACE_GAME ? $totalStars : null,
+            'elapsed_ms' => $elapsedMs,
             'rewarded' => $reward !== null,
         ])->save();
 
@@ -170,6 +195,10 @@ class CatchGame
         ] + ($game === self::SPACE_GAME ? [
             'stars' => $totalStars,
             'destination' => self::spaceDestination($correctCount, count($dealt)),
+        ] : []) + (isset(config("games.{$game}.difficulties")[$play->difficulty]['grid']) ? [
+            'elapsed_ms' => $elapsedMs,
+            'best_ms' => $elapsedMs === null ? ($previousBestMs ?? null) : min($elapsedMs, (int) ($previousBestMs ?? $elapsedMs)),
+            'new_best_time' => $elapsedMs !== null && ($previousBestMs === null || $elapsedMs < $previousBestMs),
         ] : []);
     }
 
@@ -222,7 +251,10 @@ class CatchGame
     /** @return array{lanes: int, fall_ms: int, max_label_width?: int, quiz?: string, reward: array{xp: int, point: int}} */
     private static function settings(string $difficulty, string $game): array
     {
-        return config("games.{$game}.difficulties")[$difficulty];
+        return config("games.{$game}.difficulties")[$difficulty] + [
+            'image_required' => (bool) config("games.{$game}.image_required"),
+            'image_kinds' => self::imageKinds($game),
+        ];
     }
 
     /** ゲームの問題を探すカテゴリー。ゲームごとの category があればそれ、なければ英語のもの */
@@ -326,6 +358,8 @@ class CatchGame
     private static function fits(Question $question, array $settings): bool
     {
         return $question->choices->where('is_correct', true)->count() === 1
+            // スライドパズルは、正解の選択肢に絵があるものだけ(設計書3-1)
+            && (! ($settings['image_required'] ?? false) || self::puzzleImage($question, $settings) !== null)
             && $question->choices->where('is_correct', false)->count() >= $settings['lanes'] - 1
             && (! isset($settings['max_label_width'])
                 || $question->choices->every(fn (QuestionChoice $choice) => mb_strwidth($choice->label) <= $settings['max_label_width']));
@@ -338,23 +372,24 @@ class CatchGame
      * @param  list<int>  $poolIds
      * @return list<int>
      */
-    private static function pick(UserProfile $profile, array $poolIds, string $game): array
+    private static function pick(UserProfile $profile, array $poolIds, string $game, ?int $count = null): array
     {
-        $reviewMax = config("games.{$game}.review_max");
+        $count ??= config("games.{$game}.question_count");
+        $reviewMax = min(config("games.{$game}.review_max"), $count);
         $wrong = QuestionMemory::wrongIdsAmong($profile, $poolIds, count($poolIds));
         $due = QuestionMemory::dueIdsAmong($profile, array_values(array_diff($poolIds, $wrong)), count($poolIds));
         $review = [...$wrong, ...$due];
         $fresh = collect($poolIds)->diff($review)->shuffle()->values()->all();
 
         return collect([...array_slice($review, 0, $reviewMax), ...$fresh, ...array_slice($review, $reviewMax)])
-            ->take(config("games.{$game}.question_count"))
+            ->take($count)
             ->shuffle()
             ->values()
             ->all();
     }
 
     /** 正解と、まちがいからランダムに「列の数−1」個をまぜて列の順にする(設計書4-3)。国旗の絵があれば image を付ける */
-    private static function present(Question $question, int $lanes): array
+    private static function present(Question $question, int $lanes, array $settings = []): array
     {
         $correct = $question->choices->firstWhere('is_correct', true);
         $choices = $question->choices
@@ -374,6 +409,56 @@ class CatchGame
                 return ['id' => $choice->id, 'label' => $choice->label] + ($image !== null ? ['image' => $image] : []);
             })->all(),
             'correct_choice_id' => $correct->id,
-        ];
+        ] + (($kinds = self::tileKinds($question, $settings)) !== null ? ['tile_kinds' => $kinds] : []);
+    }
+
+    /**
+     * スライドパズルの、正解の絵のピースの種類の並び(見た目が同じピースは同じ数。盤の大きさごと)。
+     * 一覧(image_kinds)のないゲーム・一覧にない絵は null(ピースはすべて別の種類)
+     *
+     * @return list<int>|null
+     */
+    private static function tileKinds(Question $question, array $settings): ?array
+    {
+        $image = $question->choices->firstWhere('is_correct', true)?->meta['image'] ?? null;
+        if (! isset($settings['grid']) || ($settings['image_kinds'] ?? null) === null || $image === null) {
+            return null;
+        }
+
+        return $settings['image_kinds'][implode('x', $settings['grid'])][$image] ?? null;
+    }
+
+    /** スライドパズルで使える絵(正解の選択肢の絵)。一覧があれば、盤の大きさに合う絵だけ(ピースの種類が少なすぎる国旗は使わない) */
+    private static function puzzleImage(Question $question, array $settings): ?string
+    {
+        $image = $question->choices->firstWhere('is_correct', true)?->meta['image'] ?? null;
+        if ($image === null) {
+            return null;
+        }
+        if (($settings['image_kinds'] ?? null) === null) {
+            return $image;
+        }
+
+        return self::tileKinds($question, $settings) === null ? null : $image;
+    }
+
+    /**
+     * ゲームのピースの種類の一覧(config の image_kinds。なければ image_kinds_file のJSON)。なければ null
+     *
+     * @return array<string, array<string, list<int>>>|null
+     */
+    private static function imageKinds(string $game): ?array
+    {
+        static $files = [];
+        $inline = config("games.{$game}.image_kinds");
+        if (is_array($inline)) {
+            return $inline;
+        }
+        $file = config("games.{$game}.image_kinds_file");
+        if (! is_string($file)) {
+            return null;
+        }
+
+        return $files[$file] ??= json_decode((string) file_get_contents(base_path($file)), true);
     }
 }

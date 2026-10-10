@@ -18,7 +18,7 @@ export const CATCH_HOW_TO = [
 export const CATCH_TAP_HINT = "答えをタップ！";
 export const CATCH_MOVE_HINT = "◀▶でスプルを動かしても取れるよ";
 
-export type CatchMode = "catch" | "flag_catch" | "space_trip";
+export type CatchMode = "catch" | "flag_catch" | "space_trip" | "puzzle_flag" | "puzzle_space";
 
 /** ゲームの種類ごとの設定(docs/design/2026-10-05-flag-catch-design.md 6章)。英語は今までの文のまま */
 export const CATCH_MODES: Record<
@@ -59,6 +59,24 @@ export const CATCH_MODES: Record<
     apiPath: "/api/games/space-trip",
     missedHeading: "まちがえた問題",
     emptyMessage: "宇宙の問題はじゅんびちゅうだよ",
+    emptyLink: false,
+  },
+  puzzle_flag: {
+    title: "スライドパズル（こっき）",
+    intro: "バラバラの国旗を、スライドさせて完成させよう",
+    howTo: ["空いているところの となりのピースをタップすると、すべるよ", "ならんだら、はしに置いてある さいごのピースを入れて完成！「これはなんでしょう」に答えてね", "初級は3まい・中級は2まい・上級は1まい。かかった時間も記録されるよ"],
+    apiPath: "/api/games/puzzle-flag",
+    missedHeading: "まちがえた国旗",
+    emptyMessage: "国旗の問題はじゅんびちゅうだよ",
+    emptyLink: false,
+  },
+  puzzle_space: {
+    title: "スライドパズル（うちゅう）",
+    intro: "バラバラの宇宙の絵を、スライドさせて完成させよう",
+    howTo: ["空いているところの となりのピースをタップすると、すべるよ", "ならんだら、はしに置いてある さいごのピースを入れて完成！「これはなんでしょう」に答えてね", "初級は3まい・中級は2まい・上級は1まい。かかった時間も記録されるよ"],
+    apiPath: "/api/games/puzzle-space",
+    missedHeading: "まちがえた絵",
+    emptyMessage: "宇宙の絵はじゅんびちゅうだよ",
     emptyLink: false,
   },
 };

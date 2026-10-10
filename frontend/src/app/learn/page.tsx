@@ -15,7 +15,7 @@ import { ArrivedCountryCard, LockedCountryCard } from "@/components/learn/countr
 import { learnSections, type LearnCountry } from "@/components/learn/country-cards";
 import { LockedCountrySheet } from "@/components/travel/locked-country";
 import { apiFetch } from "@/lib/api";
-import { MINI_GAMES, MINI_QUIZ_EMPTY, type MiniQuiz } from "@/lib/mini-app";
+import { listedGames, MINI_QUIZ_EMPTY, newGameNotices, readDismissed, writeDismissed, type MiniQuiz, type RolloutGame } from "@/lib/mini-app";
 
 type Status = "checking" | "ready";
 
@@ -28,6 +28,8 @@ export default function Page() {
   const router = useRouter();
   const [status, setStatus] = useState<Status>("checking");
   const [miniQuizzes, setMiniQuizzes] = useState<MiniQuiz[] | null>(null);
+  const [rolloutGames, setRolloutGames] = useState<RolloutGame[] | null>(null);
+  const [dismissedGames, setDismissedGames] = useState<string[]>([]);
   const [countries, setCountries] = useState<LearnCountry[] | null>(null);
   const [miniAppOpen, setMiniAppOpen] = useState(false);
   const [lockedCountry, setLockedCountry] = useState<LearnCountry | null>(null);
@@ -55,11 +57,14 @@ export default function Page() {
 
         setStatus("ready");
 
-        const [miniQuizzesRes, countriesRes] = await Promise.all([
+        setDismissedGames(readDismissed(typeof window === "undefined" ? null : window.localStorage));
+        const [miniQuizzesRes, countriesRes, gamesRes] = await Promise.all([
           apiFetch("/api/mini-quizzes"),
           apiFetch("/api/countries"),
+          apiFetch("/api/games"),
         ]);
         if (!active) return;
+        setRolloutGames(gamesRes.ok ? await gamesRes.json() : []);
         setMiniQuizzes(miniQuizzesRes.ok ? await miniQuizzesRes.json() : []);
         if (countriesRes.ok) {
           setCountries(await countriesRes.json());
@@ -81,12 +86,37 @@ export default function Page() {
   }
 
   const { arrived, notYet } = learnSections(countries ?? []);
+  const games = listedGames(rolloutGames);
+  const notices = newGameNotices(games, dismissedGames);
+  const dismissNotice = (key: string) => {
+    const next = [...dismissedGames, key];
+    setDismissedGames(next);
+    writeDismissed(window.localStorage, next);
+  };
 
   return (
     <SkyPage>
       <AppHeader />
 
       <main className="relative z-10 flex flex-1 flex-col items-center gap-8 px-6 py-10 pb-24">
+        {notices.map((game) => (
+          <div key={game.key} className="flex w-full max-w-md items-center gap-3 rounded-2xl bg-[#fffaf0] p-3 text-[#3b3226] shadow">
+            <span aria-hidden className="text-2xl">🎮</span>
+            <p className="flex-1 text-sm font-black">
+              <AutoFurigana text="新しいミニゲームが出たよ！" />
+              <br />
+              <AutoFurigana text={game.title} />
+            </p>
+            <Link href={game.href}>
+              <AppButton variant="warning" size="sm">
+                <AutoFurigana text="あそぶ" />
+              </AppButton>
+            </Link>
+            <button type="button" onClick={() => dismissNotice(game.key)} aria-label="閉じる" className="rounded-full p-1 text-[#6b5d45] hover:bg-[#f5efe1]">
+              ✕
+            </button>
+          </div>
+        ))}
         <div className="text-center">
           <SkyTitle className="text-3xl">
             どこから<Furigana text="冒険" reading="ぼうけん" />する？
@@ -150,6 +180,7 @@ export default function Page() {
         className="fixed top-1/2 right-0 z-30 -translate-y-1/2 rounded-l-xl bg-[#fffaf0] px-2 py-3 text-[#3b3226] shadow-[0_4px_14px_rgba(59,50,38,0.2)] hover:bg-white"
       >
         ◀
+        {notices.length > 0 && <span aria-hidden className="absolute -top-1 -left-1 size-3 rounded-full bg-[#d94a3a]" />}
       </button>
 
       {miniAppOpen && (
@@ -174,9 +205,24 @@ export default function Page() {
             </div>
             {/* ミニゲーム(docs/design/2026-10-04-mini-app-tidy-design.md 5章)。ゲームを増やすときは lib/mini-app.ts の一覧に足す */}
             <h3 className="text-xs font-black text-[#6b5d45]">ミニゲーム</h3>
-            {MINI_GAMES.map((game) => (
+            {games.map((game) => (
               <Link key={game.key} href={game.href} onClick={() => setMiniAppOpen(false)}>
                 <AppButton variant="warning" size="sm" className="h-auto w-full flex-col gap-0.5 py-2 shadow">
+                  {(game.new || game.featured || game.seasonal) && (
+                    <span className="flex gap-1 text-[10px] font-black">
+                      {game.new && <span className="rounded-full bg-[#d94a3a] px-2 py-0.5 text-white">NEW</span>}
+                      {game.featured && (
+                        <span className="rounded-full bg-white px-2 py-0.5 text-[#3b3226]">
+                          <AutoFurigana text="今週のゲーム ごほうび1.5ばい" />
+                        </span>
+                      )}
+                      {game.seasonal && (
+                        <span className="rounded-full bg-white px-2 py-0.5 text-[#3b3226]">
+                          <AutoFurigana text="きせつ" />
+                        </span>
+                      )}
+                    </span>
+                  )}
                   <span>
                     <AutoFurigana text={game.title} />
                   </span>

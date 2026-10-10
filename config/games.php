@@ -14,6 +14,7 @@ return [
     */
 
     'catch' => [
+        'catalog' => ['released_on' => null, 'season' => null],
         'category' => '英語を学ぶ',
         'question_count' => 10,
         'review_max' => 6,
@@ -42,6 +43,7 @@ return [
     */
 
     'flag_catch' => [
+        'catalog' => ['released_on' => null, 'season' => null],
         'question_count' => 10,
         'review_max' => 6,
         'daily_rewarded_plays' => 3,
@@ -67,6 +69,7 @@ return [
     */
 
     'space_trip' => [
+        'catalog' => ['released_on' => null, 'season' => null],
         'category' => '宇宙',
         'question_count' => 10,
         'review_max' => 6,
@@ -81,6 +84,70 @@ return [
         'messages' => [
             'empty' => '宇宙の問題はじゅんびちゅうだよ',
         ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | スライドパズル(国旗・宇宙)
+    |--------------------------------------------------------------------------
+    |
+    | docs/design/2026-10-09-slide-puzzle-design.md 2・3-1。1回の問題の数は難しさごと(初級3・中級2・上級1)。lanes は最後の4択の数、grid は [列, 行]。
+    | image_required は、正解の選択肢に絵がある問題だけを使う。reward は正解1問あたり(全部正解で 30〜40 の経験値)。
+    | puzzle_flag は国旗キャッチの問題(quiz)、puzzle_space は宇宙のカテゴリーの絵の問題を使う。
+    |
+    */
+
+    'puzzle_flag' => [
+        'catalog' => ['released_on' => null, 'season' => null],
+        'question_count' => 3,
+        'review_max' => 2,
+        'daily_rewarded_plays' => 3,
+        'image_required' => true,
+        // 盤の大きさごとに、使える国旗とピースの種類(tools/puzzle/flag-allowlist.mjs が作る。ハンガリーなど同じ色のピースばかりの旗は入らない)
+        'image_kinds_file' => 'database/data/puzzle/flags.json',
+        'difficulties' => [
+            '初級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [2, 2], 'question_count' => 3, 'quiz' => '国旗キャッチ 初級', 'reward' => ['xp' => 10, 'point' => 10]],
+            '中級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [3, 3], 'question_count' => 2, 'quiz' => '国旗キャッチ 中級', 'reward' => ['xp' => 18, 'point' => 15]],
+            '上級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [4, 4], 'question_count' => 1, 'quiz' => '国旗キャッチ 上級', 'reward' => ['xp' => 40, 'point' => 30]],
+        ],
+        'messages' => [
+            'empty' => 'この難しさの問題はまだないよ',
+        ],
+    ],
+
+    'puzzle_space' => [
+        // 宇宙の絵が届くまで出さない(絵を入れて space:import したら、出す日を今日にする)
+        'catalog' => ['released_on' => '2099-01-01', 'season' => null],
+        'category' => '宇宙',
+        'question_count' => 3,
+        'review_max' => 2,
+        'daily_rewarded_plays' => 3,
+        'image_required' => true,
+        'difficulties' => [
+            '初級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [2, 2], 'question_count' => 3, 'reward' => ['xp' => 10, 'point' => 10]],
+            '中級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [3, 3], 'question_count' => 2, 'reward' => ['xp' => 18, 'point' => 15]],
+            '上級' => ['lanes' => 4, 'fall_ms' => 0, 'grid' => [4, 4], 'question_count' => 1, 'reward' => ['xp' => 40, 'point' => 30]],
+        ],
+        'messages' => [
+            'empty' => '宇宙の絵はじゅんびちゅうだよ',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | ミニゲームの小出し(docs/design/2026-10-09-minigame-rollout-design.md)
+    |--------------------------------------------------------------------------
+    |
+    | 各ゲームの catalog: released_on(出す日 'YYYY-MM-DD'。null は最初から)、season(毎年の期間 ['from' => 'MM-DD', 'until' => 'MM-DD']。null は常設)。
+    | new_days: 出す日から「NEW」を付ける日数。daily_rewarded_total: 全ゲームの合計で、1日にごほうびが出る回数。
+    | featured_multiplier: 今週のゲームのごほうびの倍率(切り上げ)。
+    |
+    */
+
+    'rollout' => [
+        'new_days' => 14,
+        'daily_rewarded_total' => 6,
+        'featured_multiplier' => (float) env('GAMES_FEATURED_MULTIPLIER', 1.5), // テストでは週で変わらないよう 1 にする(phpunit.xml)
     ],
 
 ];

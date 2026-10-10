@@ -52,7 +52,7 @@ function answeredBefore($profile, Question ...$questions): void
     foreach ($questions as $question) {
         ProfileQuestionMemory::create([
             'user_profile_id' => $profile->id, 'question_id' => $question->id, 'level' => 2, 'due_on' => now()->addDays(3)->toDateString(),
-            'last_answered_on' => now()->toDateString(),
+            'last_answered_on' => \App\Support\Garden::today(),
         ]);
     }
 }
@@ -143,7 +143,7 @@ it('スペルで答える: 正解(大文字小文字は区別しない)で、元
         ->assertJsonPath('correct_spelling', 'apple')
         ->assertJsonPath('word_id', $questions['apple']->meta['word_id']);
 
-    expect(ProfileQuestionMemory::where('question_id', $questions['apple']->id)->value('last_answered_on')->toDateString())->toBe(now()->toDateString());
+    expect(ProfileQuestionMemory::where('question_id', $questions['apple']->id)->value('last_answered_on')->toDateString())->toBe(\App\Support\Garden::today()); // 日本の日付(サーバーの時刻はUTC)
 });
 
 it('スペルのまちがいは、まちがいとして記録され、正しい綴りも返す', function () {
@@ -182,7 +182,7 @@ it('練習では、正解かどうかだけを返し、記録しない', functio
         ->assertJsonPath('correct', true)
         ->assertJsonPath('correct_spelling', 'apple');
 
-    expect(ProfileQuestionMemory::where('question_id', $questions['apple']->id)->value('last_answered_on')->toDateString())->toBe(now()->toDateString());
+    expect(ProfileQuestionMemory::where('question_id', $questions['apple']->id)->value('last_answered_on')->toDateString())->toBe(\App\Support\Garden::today()); // 日本の日付(サーバーの時刻はUTC)
 });
 
 it('対象の条件(eligible)は、英字3〜8文字の単語の問題だけ', function () {
