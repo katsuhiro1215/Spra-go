@@ -52,6 +52,8 @@ use App\Support\RareSeeds;
 use App\Support\Review;
 use App\Support\ReviewPicker;
 use App\Support\Roster;
+use App\Support\SpaceCards;
+use App\Support\SpaceMap;
 use App\Support\StageDraw;
 use App\Support\Travel;
 use App\Support\Words;
@@ -1815,6 +1817,9 @@ Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(fu
     })->name('complete');
 });
 
+// うちゅうずかん(docs/design/2026-10-10-space-adventure-map-design.md 3-1)
+Route::middleware(['auth:sanctum'])->get('/space/cards', fn (Request $request) => ['cards' => SpaceCards::list(ActiveProfile::require($request))])->name('space.cards');
+
 // 今出ているミニゲームの一覧(NEW・今週・季節の札つき。docs/design/2026-10-09-minigame-rollout-design.md 3-3)
 Route::middleware(['auth:sanctum'])->get('/games', fn (Request $request) => GameRollout::list(ActiveProfile::require($request)))->name('games.index');
 
@@ -1822,6 +1827,11 @@ Route::middleware(['auth:sanctum'])->get('/games', fn (Request $request) => Game
 // (docs/design/2026-10-05-flag-catch-design.md 5章)。同じ処理を、ゲームの名前だけ変えて登録する
 foreach (GameRollout::PATHS as $path => $game) {
     Route::middleware(['auth:sanctum', EnsureGameAvailable::class.":{$game}"])->prefix("games/{$path}")->name("games.{$path}.")->group(function () use ($game) {
+        // 宇宙ぼうけんマップの状態(うちゅう旅行だけ)
+        if ($game === CatchGame::SPACE_GAME) {
+            Route::get('/map', fn (Request $request) => SpaceMap::state(ActiveProfile::require($request)))->name('map');
+        }
+
         Route::get('/', function (Request $request) use ($game) {
             return CatchGame::summary(ActiveProfile::require($request), $game);
         })->name('show');
@@ -1829,10 +1839,15 @@ foreach (GameRollout::PATHS as $path => $game) {
         Route::post('/plays', function (Request $request) use ($game) {
             $profile = ActiveProfile::require($request);
             $data = $request->validate([
-                'difficulty' => ['required', 'string', Rule::in(array_keys(config("games.{$game}.difficulties")))],
+                'difficulty' => ['required_without:stop', 'string', Rule::in(array_keys(config("games.{$game}.difficulties")))],
+                // うちゅう旅行の、地図の星(docs/design/2026-10-10-space-adventure-map-design.md 3-1)。星から始めると、難しさは星で決まる
+                'stop' => ['nullable', 'string'],
             ]);
+            abort_if(isset($data['stop']) && $game !== CatchGame::SPACE_GAME, 422, 'この遊びに地図はないよ。');
+            $stop = $data['stop'] ?? null;
+            $difficulty = $stop !== null ? SpaceMap::difficultyFor($profile, $stop) : $data['difficulty'];
 
-            return CatchGame::start($profile, $data['difficulty'], $game);
+            return CatchGame::start($profile, $difficulty, $game, $stop);
         })->name('plays.store');
 
         Route::post('/plays/{play}/finish', function (Request $request, ProfileGamePlay $play) use ($game) {

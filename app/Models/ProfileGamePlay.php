@@ -11,6 +11,7 @@ class ProfileGamePlay extends Model
     protected $fillable = [
         'game',
         'difficulty',
+        'stop',
         'question_ids',
         'finished_at',
         'played_on',

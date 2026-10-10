@@ -29,6 +29,9 @@ class QuestionMemory
     public static function record(UserProfile $profile, int $questionId, bool $correct, ?string $today = null): ?array
     {
         $event = self::apply($profile->id, $questionId, $correct, $today ?? Garden::today());
+        if ($correct) {
+            SpaceCards::unlock($profile->id, $questionId, $today ?? Garden::today()); // うちゅうずかん: 宇宙の絵の問題に正解したら、その絵のカードが開く
+        }
         Words::encounter($profile->id, $questionId); // 単語帳: この問題の語に出会った(docs/design/2026-10-07-word-book-design.md 5章)
 
         return $event;

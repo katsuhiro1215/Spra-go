@@ -292,6 +292,11 @@ class UserProfile extends Model
     }
 
     /** ミニゲームを遊んだ回(docs/design/2026-09-29-spru-catch-design.md 5-1) */
+    public function spaceStops(): HasMany
+    {
+        return $this->hasMany(ProfileSpaceStop::class);
+    }
+
     public function gamePlays(): HasMany
     {
         return $this->hasMany(ProfileGamePlay::class);
