@@ -25,6 +25,7 @@ use App\Models\UserProfileItem;
 use App\Support\ActiveProfile;
 use App\Support\Analytics;
 use App\Support\AppSettings;
+use App\Support\ContactRelay;
 use App\Support\Bond;
 use App\Support\CatchGame;
 use App\Support\ContinueStage;
@@ -2071,7 +2072,10 @@ Route::middleware(['auth:sanctum', 'throttle:10,60'])->post('/feedback', functio
         'page' => ['nullable', 'string', 'max:200'],
     ]);
 
-    Feedback::create($data + ['user_id' => $request->user()->id]);
+    $feedback = Feedback::create($data + ['user_id' => $request->user()->id]);
+
+    // 返事を返したあとに、中央管理システムへ送る。送れなくても、ご意見は残っていて、あとで送り直す
+    dispatch(fn () => ContactRelay::send($feedback))->afterResponse();
 
     return response()->json(['sent' => true], 201);
 })->name('feedback.store');

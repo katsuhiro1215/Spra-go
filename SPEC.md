@@ -375,8 +375,14 @@ Webサイト関連の機能は「随時進めてよい」（2026-07-31確認）�
 
 AWS想定だが、具体的な構成（サービスグレード、ドメイン、HTTPS、Stripe本番キーへの切替時期等）はまだ仮の想定でよく、**詳細設計はローンチ判断が近づいてから**行う（2026-07-31確認）。`TASKS.md`では「本番デプロイ」を大枠のタスクとして置き、詳細はブレイクダウンしない。
 
-**2026-10-10: 友人・知人への限定公開に向けて、本番環境の設計を決めた**（`docs/design/2026-10-10-production-env-design.md`）。AWS Lightsail 1台（東京・2GBで開始、足りなければ4GB）に Caddy（自動HTTPS）・Next.js・Laravel（PHP-FPM）・MySQL・スケジューラを入れる。ホスト名は `go.spra.jp`（画面）と `api.go.spra.jp`（API）。`spra.jp` のDNSはレンタルサーバーの管理画面でレコードを足す。メールは Amazon SES（東京）。バックアップは毎晩のダンプ→S3と Lightsail の自動スナップショット。お問い合わせは中央管理システムへAPIで送る方針（仕様待ち）。
-- ✅（2026-10-10）**本番の穴ふさぎ**: Owner/Admin のHTTP自己登録を廃止（`owner:create` で作る）、本番では `DatabaseSeeder` を流せない（`ProductionSeeder` で中身だけ入れる）、国旗のSVG 297枚をすべてgitに入れた、リバースプロキシの裏でhttpsを正しく扱う（`trustProxies`）
+**2026-10-10: 友人・知人への限定公開に向けて、本番環境の設計を決めた**（`docs/design/2026-10-10-production-env-design.md`、運用手順書 `docs/ops/production-runbook.md`）。
+- **置き場所**: 既存のLightsail「smartsprouts-production」（4GB・東京・固定IP。中央管理システム `projects/Spra` と同居）に、別のComposeプロジェクト `spra-go` として足す（katsuoooolと同じ流儀）。HTTPSは本体のCaddyが終端する。サービス名・ネットワーク別名は `spra-go-` 付きにし、`app`/`mysql` は本体のネットワーク `spra_prod` に参加させない（2026-10-08の障害の教訓）。
+- **ホスト名**: `go.spra.jp`（画面・Next.js standalone）と `api.go.spra.jp`（API・Laravel／内側のCaddy＋PHP-FPM）。クッキーは `.go.spra.jp`。`spra.jp` のDNSはXserverの管理画面で、サブドメインのAレコードを足すだけ（ネームサーバーの移管はしない。`spra.jp` 本体のA・MXは触らない）。
+- **メール**: まずXserverのメールアカウント（`noreply@spra.jp`、SMTP）。一般公開の前にAmazon SESへ移す。
+- **バックアップ**: 毎日 `scripts/backup-db.sh`（mysqldump→gzip、14日分）＋Lightsailの自動スナップショット。公開前に復元の練習を行う（`scripts/restore-db.sh`）。
+- **デプロイ**: `scripts/deploy.sh`（サーバー上でビルド。メモリが足りなければ一時スワップ）。初回の中身は `php artisan production:bootstrap`（国のクイズ・英語・宇宙・地名・コース並べ直し。試験用アカウントは作らない。何度流しても同じ）。手元の予行演習は `compose.rehearsal.yaml`＋`.env.rehearsal`。
+- ✅ **本番の穴ふさぎ**: Owner/Adminの自己登録（`/owner/register`・`/admin/register`）を廃止し、Ownerは `php artisan owner:create` で作る／本番では `DatabaseSeeder` を流せず `ProductionSeeder`（中身だけ）を使う／国旗のSVG 297枚をすべてgitに入れた／`trustProxies`（プロキシの裏でhttps）／`CountrySeeder` が新しいDB（厳格なMySQL）で落ちる不具合を修正／イメージに開発機の `bootstrap/cache` を持ち込まない
+- ✅ **お問い合わせの中央管理**: 保護者の「ご意見」は、このアプリのDBに残したうえで、中央管理システムSpraの `POST /api/contacts`（`X-Api-Key`）へ送る（`App\Support\ContactRelay`、返事のあとに送信。送れなければ `feedbacks:relay` が5分ごと・5回まで送り直す）。`SPRA_CONTACT_API_URL`・`SPRA_CONTACT_API_KEY`・`SPRA_CONTACT_CATEGORY_ID` のどれかが空なら送らない。問題の「へん」報告は送らず、このアプリのOwner管理画面だけ。子どもの名前・成績は送らない。
 
 ### 6-6. デバイス対応方針（2026-07-31追加）
 

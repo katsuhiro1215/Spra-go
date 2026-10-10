@@ -426,7 +426,11 @@ class CountrySeeder extends Seeder
 
             $record = Country::query()->firstOrCreate(
                 ['code' => $country['code']],
-                ['name' => $country['name'], 'stages' => $country['stages'], 'order' => $index]
+                // 新しいDBでは three_code・name_en・country_code が必須なので、作るときに一緒に入れる(厳格なMySQLで落ちないように)
+                [
+                    'name' => $country['name'], 'stages' => $country['stages'], 'order' => $index,
+                    'three_code' => $country['three_code'], 'name_en' => $country['name_en'], 'country_code' => $country['country_code'],
+                ]
             );
 
             // three_code/name_en/country_codeは後から追加された列(docs/AppRoadmap.md参照)。

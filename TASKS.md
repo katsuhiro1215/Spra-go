@@ -16,8 +16,11 @@
    - 招待制の登録（招待コード・登録の一時停止・登録回数の制限）、コイン購入のスイッチ（初期値OFF）、Owner管理画面の「公開設定」と「ご意見」、保護者のご意見フォームと問題の「へん？」報告、PWA（ホーム画面の案内・つながらない時の画面）
    - **本番を開く前に、Owner管理画面の「公開設定」で招待コードを入れる**（初期値は空で、空のあいだは誰でも登録できる）
 2. [x] **分析とOwner管理画面の充実**（2026-10-03。設計書 `docs/design/2026-10-03-analytics-design.md`、実装計画 `docs/design/2026-10-03-analytics-plan.md`）: 遊んだ人数・また来た割合・登録した週ごとの続き具合・どこでやめたか・まちがいの多い問題・よく使われる遊び・遊んだ時間・CSVの書き出し・集計の表と毎日の集計。子ども向けなので外部の分析サービスは使わず、自分のサーバーだけで数える
-3. [ ] **本番環境**（2026-10-10: 穴ふさぎ〔Owner登録の削除・本番シーダー・国旗のgit管理・プロキシ〕は済み。つぎは本番用のDockerfile・compose・Caddy・デプロイとバックアップのスクリプト、お問い合わせの中央管理システム連携）: AWS Lightsail（SmartSprouts のAWSアカウントに追加）。本番のURLは `go.spra.jp`（2026-10-05決定）。ドメインは取得済みで、`spra.jp` のDNSはレンタルサーバーの管理画面にある（**ネームサーバーの移管は不要**。レコードを足すだけ）。設計は `docs/design/2026-10-10-production-env-design.md`。サーバーは2GBで始める（2026-10-10 Owner決定）。HTTPS・メール送信（登録の確認とパスワードの再設定）・`NEXT_PUBLIC_SITE_URL`・**サーバーの cron で `php artisan schedule:run` を毎分（分析の毎日の集計に必要）**。費用がかかるので、形がまとまったらOwnerに確認する
-
+3. [ ] **本番環境**（2026-10-10 設計・部品づくりまで完了。設計書 `docs/design/2026-10-10-production-env-design.md`、運用手順書 `docs/ops/production-runbook.md`）
+   - [x] 穴ふさぎ（Owner登録の削除・本番シーダー・国旗のgit管理・プロキシ・CountrySeederの修正）／本番用のDockerfile・compose・内側のCaddy・デプロイ/バックアップ/復元のスクリプト・手順書／お問い合わせの中央管理システム連携／手元のMacでの予行演習
+   - [ ] **Ownerの作業**（手順書 1章）: サーバーの実測／Lightsailの自動スナップショット確認／Xserverで `noreply@spra.jp` を作る／DNS（`go.spra.jp`・`api.go.spra.jp` のAレコード）／Spraで「Spra Go」カテゴリとAPIキーを作る／法務の【要入力】／国旗画像の出どころの確認
+   - [ ] **初回のデプロイ**（手順書 2章）: `.env.production` → `scripts/deploy.sh` → 本体のCaddyにブロックを足す → `production:bootstrap` → `owner:create` → 招待コード → バックアップのcron → 復元の練習 → 動作確認（3章）
+   - 本番のURLは `go.spra.jp`（2026-10-05決定）。`NEXT_PUBLIC_SITE_URL` はビルド時に埋める。サーバーのスケジューラは `scheduler` コンテナ（毎日の集計・ご意見の送り直し）
 **Ownerに並行してお願いすること**
 - [ ] 問題の最終チェック（少なくとも最初に出る日本の初級）。CEOが怪しい問題に印を付けて手伝える
 - [ ] **国旗クイズの国の一覧の確認**（`database/data/flag-countries.php`。国名の表記・知名度1〜3・似ている国の組。直したら `php artisan db:seed --class=FlagQuizSeeder` で反映される）

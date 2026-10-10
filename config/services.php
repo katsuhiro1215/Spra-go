@@ -35,6 +35,14 @@ return [
         ],
     ],
 
+    // 保護者のご意見を送る、中央管理システム(Spra)のお問い合わせAPI。どれかが空なら送らない
+    'spra_contact' => [
+        'url' => env('SPRA_CONTACT_API_URL'),
+        'key' => env('SPRA_CONTACT_API_KEY'),
+        'category_id' => env('SPRA_CONTACT_CATEGORY_ID'),
+        'site_url' => env('NEXT_PUBLIC_SITE_URL', env('FRONTEND_URL')),
+    ],
+
     'stripe' => [
         'public_key' => env('STRIPE_PUBLIC_KEY'),
         'secret_key' => env('STRIPE_SECRET_KEY'),

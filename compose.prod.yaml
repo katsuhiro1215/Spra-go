@@ -1,0 +1,113 @@
+# Spra Go 本番用 Docker Compose(docs/design/2026-10-10-production-env-design.md 4章)。
+#
+# 既存の Lightsail(本体 projects/Spra と同居)に、別の Compose プロジェクト「spra-go」として載せる(katsuooool と同じ流儀)。
+# - 外向きの Caddy(HTTPS 終端)は本体のものを使う。ここでは 80/443 を開けない
+# - 本体のネットワーク spra_prod には、spra-go-next と spra-go-web だけが参加する。
+#   app / mysql を参加させない。参加すると、本体の `app` と名前が紛れる(2026-10-08 の障害)
+# - サービス名も spra-go- 付きにする(Compose はサービス名をネットワークの別名にするため)
+#
+# 起動(scripts/deploy.sh が行う):
+#   docker compose --env-file .env.production -f compose.prod.yaml up -d --build
+
+name: spra-go
+
+x-laravel: &laravel
+    build:
+        context: .
+        dockerfile: Dockerfile.prod
+        target: app
+    image: spra-go-app-prod
+    restart: always
+    env_file:
+        - ${APP_ENV_FILE:-.env.production}
+    depends_on:
+        spra-go-mysql:
+            condition: service_healthy
+    logging: &logging
+        driver: json-file
+        options:
+            max-size: '10m'
+            max-file: '3'
+
+services:
+    app:
+        <<: *laravel
+        mem_limit: 256m
+        volumes:
+            - app-storage:/var/www/html/storage
+        networks:
+            default:
+                aliases:
+                    - spra-go-app
+
+    spra-go-web:
+        build:
+            context: .
+            dockerfile: Dockerfile.prod
+            target: web
+        image: spra-go-web-prod
+        restart: always
+        mem_limit: 64m
+        depends_on:
+            - app
+        logging: *logging
+        networks:
+            default:
+            spra_prod:
+
+    spra-go-next:
+        build:
+            context: .
+            dockerfile: Dockerfile.prod
+            target: next
+            args:
+                NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+                NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+        image: spra-go-next-prod
+        restart: always
+        mem_limit: 256m
+        logging: *logging
+        networks:
+            default:
+            spra_prod:
+
+    scheduler:
+        <<: *laravel
+        mem_limit: 128m
+        # 本番イメージ(Alpine)には cron がないので、schedule:run を毎分実行するループにする(本体と同じ方式)
+        entrypoint: ['sh', '-c']
+        command:
+            - 'while true; do php artisan schedule:run --no-interaction; sleep 60; done'
+        volumes:
+            - app-storage:/var/www/html/storage
+
+    spra-go-mysql:
+        image: mysql:8.4
+        restart: always
+        mem_limit: 512m
+        command:
+            - --innodb-buffer-pool-size=192M
+            - --max-connections=40
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - mysql-data:/var/lib/mysql
+        healthcheck:
+            test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -p"$$MYSQL_ROOT_PASSWORD" --silent']
+            interval: 10s
+            retries: 6
+            timeout: 5s
+        logging: *logging
+
+networks:
+    spra_prod:
+        external: true
+
+volumes:
+    app-storage:
+    mysql-data:

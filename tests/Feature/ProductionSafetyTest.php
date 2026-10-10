@@ -70,3 +70,13 @@ it('プロキシの裏(X-Forwarded-Proto: https)では、https として扱う',
         ->assertOk()
         ->assertJsonPath('secure', true);
 });
+
+it('本番用のシーダーは、まっさらなDB(厳格なMySQL)で最後まで流れ、国・カテゴリー・問題が入る', function () {
+    $this->seed(ProductionSeeder::class);
+
+    expect(\App\Models\Country::count())->toBeGreaterThan(40)
+        ->and(\App\Models\Country::whereNull('three_code')->count())->toBe(0)
+        ->and(\App\Models\Category::count())->toBeGreaterThan(0)
+        ->and(\App\Models\Question::count())->toBeGreaterThan(0)
+        ->and(Owner::count() + Admin::count())->toBe(0);
+});

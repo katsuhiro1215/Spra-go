@@ -1,0 +1,18 @@
+# 手元(Mac)で、本番と同じイメージ・同じ構成を動かして予行演習するための上書き設定。
+# 本番のサーバーでは使わない。本体の Caddy・spra_prod ネットワークがないので、ここで代わりを用意し、ポートを直接開ける。
+#   cp .env.rehearsal.example .env.rehearsal   (秘密ではない固定の値)
+#   docker compose --env-file .env.rehearsal -f compose.prod.yaml -f compose.rehearsal.yaml up -d --build
+# 画面: http://localhost:3100  API: http://localhost:8081
+# (HTTPS・ドメイン・本体の Caddy の転送だけは、ここでは確かめられない。本番の初回デプロイで確かめる)
+
+networks:
+    spra_prod: !override
+        driver: bridge
+
+services:
+    spra-go-next:
+        ports:
+            - '3100:3000'
+    spra-go-web:
+        ports:
+            - '8081:80'
