@@ -18,8 +18,8 @@
 2. [x] **分析とOwner管理画面の充実**（2026-10-03。設計書 `docs/design/2026-10-03-analytics-design.md`、実装計画 `docs/design/2026-10-03-analytics-plan.md`）: 遊んだ人数・また来た割合・登録した週ごとの続き具合・どこでやめたか・まちがいの多い問題・よく使われる遊び・遊んだ時間・CSVの書き出し・集計の表と毎日の集計。子ども向けなので外部の分析サービスは使わず、自分のサーバーだけで数える
 3. [ ] **本番環境**（2026-10-10 設計・部品づくりまで完了。設計書 `docs/design/2026-10-10-production-env-design.md`、運用手順書 `docs/ops/production-runbook.md`）
    - [x] 穴ふさぎ（Owner登録の削除・本番シーダー・国旗のgit管理・プロキシ・CountrySeederの修正）／本番用のDockerfile・compose・内側のCaddy・デプロイ/バックアップ/復元のスクリプト・手順書／お問い合わせの中央管理システム連携／手元のMacでの予行演習
-   - [ ] **Ownerの作業**（手順書 1章）: サーバーの実測／Lightsailの自動スナップショット確認／Xserverで `noreply@spra.jp` を作る／DNS（`go.spra.jp`・`api.go.spra.jp` のAレコード）／Spraで「Spra Go」カテゴリとAPIキーを作る／法務の【要入力】／国旗画像の出どころの確認
-   - [ ] **初回のデプロイ**（手順書 2章）: `.env.production` → `scripts/deploy.sh` → 本体のCaddyにブロックを足す → `production:bootstrap` → `owner:create` → 招待コード → バックアップのcron → 復元の練習 → 動作確認（3章）
+   - [ ] **Ownerの作業**（手順書 1章）: Lightsailで専用インスタンス（2GB・東京）を作る＋固定IP＋スナップショット／Xserverで `info@spra.jp` を作る／DNS（`go.spra.jp`・`api.go.spra.jp` のAレコードを新しい固定IPへ。2026-10-13 予定）／Spraで「Spra Go」カテゴリとAPIキーを作る／法務の【要入力】／国旗画像の出どころの確認
+   - [ ] **初回のデプロイ**（手順書 2章）: `.env.production` → `scripts/deploy.sh` → `production:bootstrap` → `owner:create` → 招待コード → バックアップのcron → 復元の練習 → 動作確認（3章）
    - 本番のURLは `go.spra.jp`（2026-10-05決定）。`NEXT_PUBLIC_SITE_URL` はビルド時に埋める。サーバーのスケジューラは `scheduler` コンテナ（毎日の集計・ご意見の送り直し）
 **Ownerに並行してお願いすること**
 - [ ] 問題の最終チェック（少なくとも最初に出る日本の初級）。CEOが怪しい問題に印を付けて手伝える

@@ -20,11 +20,11 @@ if [[ "$TARGET" == "$PROD_DB" ]]; then
   [[ "$answer" == "yes" ]] || { echo "中止しました。"; exit 1; }
 fi
 
-"${COMPOSE[@]}" exec -T spra-go-mysql sh -c \
+"${COMPOSE[@]}" exec -T mysql sh -c \
   "mysql -uroot -p\"\$MYSQL_ROOT_PASSWORD\" -e 'CREATE DATABASE IF NOT EXISTS \`$TARGET\` CHARACTER SET utf8mb4;'"
-gzip -dc "$FILE" | "${COMPOSE[@]}" exec -T spra-go-mysql sh -c \
+gzip -dc "$FILE" | "${COMPOSE[@]}" exec -T mysql sh -c \
   "mysql -uroot -p\"\$MYSQL_ROOT_PASSWORD\" \"$TARGET\""
 
 echo "== 戻した結果($TARGET) =="
-"${COMPOSE[@]}" exec -T spra-go-mysql sh -c \
+"${COMPOSE[@]}" exec -T mysql sh -c \
   "mysql -uroot -p\"\$MYSQL_ROOT_PASSWORD\" \"$TARGET\" -e 'SELECT COUNT(*) AS tables_count FROM information_schema.tables WHERE table_schema=DATABASE(); SELECT COUNT(*) AS users FROM users;'"

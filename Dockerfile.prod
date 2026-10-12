@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 #
 # Spra Go 本番用ビルド(docs/design/2026-10-10-production-env-design.md 4章)。
-# 既存のLightsail(本体 projects/Spra と同居)に、別のComposeプロジェクト「spra-go」として載せる。
-# ターゲット: app(Laravel / PHP-FPM) / web(内側のCaddy。Laravelの public を配り、PHP-FPMへ渡す) / next(Next.js)
+# Spra 専用の Lightsail インスタンス(2GB・東京)に載せる。
+# ターゲット: app(Laravel / PHP-FPM) / web(Caddy。HTTPS・振り分け・Laravelの public の配信) / next(Next.js)
 
 ########################################
 # PHP の依存(本番用。開発ツールは入れない)
@@ -63,7 +63,7 @@ EXPOSE 9000
 CMD ["php-fpm"]
 
 ########################################
-# 内側の Caddy(HTTP の :80 のみ。HTTPS は本体の Caddy が終端する)
+# Caddy(外向き。HTTPS を自動で取る。画面と API をホスト名で振り分ける)
 ########################################
 # php_fastcgi は public/index.php の有無を Caddy 側で見るので、app と同じパスに public を置く
 FROM caddy:2-alpine AS web
