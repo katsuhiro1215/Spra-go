@@ -110,6 +110,9 @@ export const ITEM_ART_KEYS = [
   "corn_field",
   "eggplant_field",
   "watermelon_field",
+  "himeji_castle",
+  "todaiji_hall",
+  "shuri_castle",
 ] as const;
 
 export type ItemArtKey = (typeof ITEM_ART_KEYS)[number];
@@ -239,6 +242,9 @@ export const ITEM_ART_LABELS: Record<ItemArtKey, string> = {
   corn_field: "とうもろこし畑",
   eggplant_field: "なす畑",
   watermelon_field: "スイカ畑",
+  himeji_castle: "姫路城",
+  todaiji_hall: "東大寺",
+  shuri_castle: "首里城",
 };
 
 /** 絵のカテゴリ(設計書 2026-09-28-town-items 3-2)。config/world.php の asset_categories と必ず一致させる */
@@ -348,6 +354,9 @@ export const ITEM_ART_CATEGORIES: Record<ItemArtKey, ItemCategory> = {
   corn_field: "nature",
   eggplant_field: "nature",
   watermelon_field: "nature",
+  himeji_castle: "landmark",
+  todaiji_hall: "landmark",
+  shuri_castle: "landmark",
 };
 
 /** 管理画面の絵の選択肢の名前。カテゴリと、2×2なら大きさを添える(例: 「五重塔（名所・2×2）」) */
@@ -404,6 +413,9 @@ export const ASSET_FOOTPRINTS: Readonly<Partial<Record<ArtKey, number>>> = {
   corn_field: 2,
   eggplant_field: 2,
   watermelon_field: 2,
+  himeji_castle: 3,
+  todaiji_hall: 3,
+  shuri_castle: 3,
 };
 
 /** 絵の大きさ(N×NのN)。1(小)・2(中)・3(大)。絵がなければ1 */

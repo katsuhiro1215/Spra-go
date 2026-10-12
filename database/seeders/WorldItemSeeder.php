@@ -124,6 +124,10 @@ class WorldItemSeeder extends Seeder
             ['name' => 'とうもろこし畑', 'price' => 170, 'min_level' => 8, 'asset_key' => 'corn_field'],
             ['name' => 'なす畑', 'price' => 170, 'min_level' => 9, 'asset_key' => 'eggplant_field'],
             ['name' => 'スイカ畑', 'price' => 190, 'min_level' => 10, 'asset_key' => 'watermelon_field'],
+            // 日本の名所(2026-10-13)。3×3の大きな名所。Spra風の独自の姿
+            ['name' => '姫路城', 'price' => 1000, 'min_level' => 17, 'asset_key' => 'himeji_castle'],
+            ['name' => '東大寺', 'price' => 1100, 'min_level' => 18, 'asset_key' => 'todaiji_hall'],
+            ['name' => '首里城', 'price' => 1200, 'min_level' => 19, 'asset_key' => 'shuri_castle'],
         ];
 
         foreach ($items as $item) {
