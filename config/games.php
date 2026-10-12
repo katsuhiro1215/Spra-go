@@ -116,8 +116,8 @@ return [
     ],
 
     'puzzle_space' => [
-        // 宇宙の絵が届くまで出さない(絵を入れて space:import したら、出す日を今日にする)
-        'catalog' => ['released_on' => '2099-01-01', 'season' => null],
+        // 宇宙の絵35枚が揃ったので、2026-10-12 から出す
+        'catalog' => ['released_on' => '2026-10-12', 'season' => null],
         'category' => '宇宙',
         'question_count' => 3,
         'review_max' => 2,
