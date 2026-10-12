@@ -7,7 +7,8 @@
 # 起動(scripts/deploy.sh が行う):
 #   docker compose --env-file .env.production -f compose.prod.yaml up -d --build
 
-name: spra-go
+# 開発用(Laravel Sail)のプロジェクト名 spra-go と別にする。同じだと、予行演習の up/down が開発用のDBコンテナまで作り直して消す
+name: spra-go-prod
 
 x-logging: &logging
     driver: json-file

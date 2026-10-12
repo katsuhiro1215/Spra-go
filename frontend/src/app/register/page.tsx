@@ -8,7 +8,9 @@ import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
 import { SkyPage } from "@/components/app/sky-page";
 import { SpruFigure } from "@/components/spru/spru-figure";
-import { apiFetch } from "@/lib/api";
+import { GoogleButton } from "@/components/app/google-button";
+import { API_URL, apiFetch } from "@/lib/api";
+import { googleButtonState, googleMessage, googleStartUrl } from "@/lib/google-auth";
 import { inviteCodeFromSearch, registrationView, type RegistrationInfo } from "@/lib/registration";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 
@@ -22,6 +24,10 @@ export default function Page() {
   // 招待コードが要るか・おやすみ中か(docs/design/2026-10-03-closed-beta-design.md 3-3)。取れなければ null のまま、サーバーが最後に判断する
   const [info, setInfo] = useState<RegistrationInfo | null>(null);
   const view = registrationView(info);
+  // Googleから戻ってきた結果(?google=○○)。コードが要る・おやすみ中などを、やさしい言葉で出す
+  const [googleStatus, setGoogleStatus] = useState<string | null>(null);
+  const googleState = googleButtonState(info, inviteCode, "register");
+  const googleNotice = googleMessage(googleStatus);
 
   useEffect(() => {
     // 問い合わせの答えが来たところで、/register?code=○○ のコードを欄に入れる(入力が始まっていれば、そのまま)。
@@ -32,6 +38,7 @@ export default function Page() {
       .then((data) => {
         setInfo(data);
         setInviteCode((prev) => prev || inviteCodeFromSearch(window.location.search));
+        setGoogleStatus(new URLSearchParams(window.location.search).get("google"));
       });
   }, []);
 
@@ -92,6 +99,12 @@ export default function Page() {
           <p className="mt-1 text-center text-sm font-bold text-[#6b5d45]">
             <AutoFurigana text="世界図鑑を完成させる旅をはじめよう" />
           </p>
+
+          {googleNotice && (
+            <p role="alert" className="mt-4 rounded-xl bg-[#fdecea] px-3 py-2 text-center text-sm font-bold text-[#c2402c]">
+              <AutoFurigana text={googleNotice} />
+            </p>
+          )}
 
           {view.closed ? (
             <p className="mt-6 text-center text-sm font-bold text-[#6b5d45]">
@@ -201,6 +214,13 @@ export default function Page() {
               )}
             </AppButton>
           </form>
+          )}
+
+          {!view.closed && googleState.show && (
+            <div className="mt-4 flex flex-col gap-3">
+              <p className="text-center text-xs font-black text-[#6b5d45]">または</p>
+              <GoogleButton href={googleStartUrl(API_URL, inviteCode)} disabled={googleState.disabled} hint={googleState.hint} />
+            </div>
           )}
         </div>
 

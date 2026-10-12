@@ -9,7 +9,7 @@
 |---|---|
 | リポジトリ（サーバー上） | `~/Spra-go`（`gh repo clone katsuhiro1215/Spra-go`） |
 | 本番の環境変数 | `~/Spra-go/.env.production`（権限 600。gitに入れない） |
-| Composeプロジェクト | `spra-go`（`compose.prod.yaml`）。サービス: caddy・app・next・scheduler・mysql |
+| Composeプロジェクト | `spra-go-prod`（`compose.prod.yaml`）。サービス: caddy・app・next・scheduler・mysql |
 | 画面 / API | `https://go.spra.jp` / `https://api.go.spra.jp` |
 | バックアップ | `~/db-backups/spra-go/`（14日分） |
 
@@ -30,6 +30,7 @@ Owner側（私が手順を出す。画面操作はOwner）:
 - [ ] Xserverのメールで、`spra.jp` のSPF・DKIMが有効か確認する
 - [ ] **DNS**（Xserverの管理画面）: TTLを300秒にしてから、Aレコードを2つ足す → `go.spra.jp`・`api.go.spra.jp` ＝ **新しい固定IP**。**`spra.jp` 本体のA・MX・TXTは触らない**
 - [ ] **Spra（中央管理システム）**で、お問い合わせのカテゴリ「Spra Go」を作り、**APIキー**（連携先: Spra Go）を発行する。カテゴリ番号とキーを控える
+- [ ] **Googleでのログイン・登録**（任意。設定しなければボタンは出ない。設計 `docs/design/2026-10-12-google-auth-design.md` 6章）: Google Cloud Console でプロジェクト→OAuth同意画面（アプリ名 Spra Go・サポートメール `info@spra.jp`・プライバシーポリシーと利用規約のURL）→OAuthクライアントID（ウェブ）。承認済みのリダイレクトURIは `https://api.go.spra.jp/auth/google/callback`。クライアントIDとシークレットを控える。同意画面の公開状態が「テスト」のあいだは、**テストユーザー（100人まで）に友人のGmailを足す**
 - [ ] 法務の【要入力】（`docs/legal/README.md` 3章）を埋める
 - [ ] 国旗画像の出どころ（ライセンス）を確認する
 
@@ -72,6 +73,7 @@ nano .env.production
 - `DB_PASSWORD`: `openssl rand -base64 24`（チャットやコミットに残さない）
 - `MAIL_HOST`（Xserverのメールサーバー）・`MAIL_PORT`/`MAIL_SCHEME`（465なら `smtps`、587なら空）・`MAIL_PASSWORD`
 - `SPRA_CONTACT_API_URL`（`https://<Spraのドメイン>/api/contacts`）・`SPRA_CONTACT_API_KEY`・`SPRA_CONTACT_CATEGORY_ID`
+- `GOOGLE_CLIENT_ID`・`GOOGLE_CLIENT_SECRET`（Googleでのログインを使うとき。空なら使わない）
 - `STRIPE_*` は空のまま
 
 ### 2-3. ビルド用のスワップ（初回と、Nextを作り直すとき）
@@ -143,6 +145,7 @@ scripts/restore-db.sh ~/db-backups/spra-go/spra-go-db-XXXX.sql.gz  # 別のDB(sp
 
 - [ ] `https://go.spra.jp` が開き、ホーム画面に追加できる（iPhone・Android）
 - [ ] 招待コードで登録 → 確認メールが届く → リンクで確認できる
+- [ ] （Googleを設定したとき）登録画面で招待コードを入れて「Googleで続ける」→ 登録できる／ログイン画面で、同じGoogleで入れる／招待コードなしの初めての人は、`/register?google=need_code` の案内が出る
 - [ ] パスワードの再設定メールが届く
 - [ ] プロフィールを作って、クイズが1ステージ遊べる／町が出る／国旗の画像が出る
 - [ ] 国旗パズル・スプルキャッチなど、ミニゲームが動く
