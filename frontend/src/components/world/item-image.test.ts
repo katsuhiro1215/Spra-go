@@ -5,6 +5,7 @@ import { SPRU_ITEMS } from "@/components/spru/spru-assets";
 import { ITEM_ART_KEYS, SOUVENIR_ART_KEYS } from "./art-keys";
 
 import { iconViewBox, imagePlacement, itemImage, lightCircles } from "./item-image";
+import { ITEM_IMAGE_FIT } from "./item-image-fit";
 
 const square = { width: 256, height: 256 };
 const big = { width: 512, height: 1024 };
@@ -105,5 +106,18 @@ describe("すべての絵に画像がある(設計書 2026-09-28-town-items 7-5)
   it("アイテム・おみやげ・目印のすべてのキーに SPRU_ITEMS の画像がある", () => {
     const missing = [...ITEM_ART_KEYS, ...SOUVENIR_ART_KEYS, ...LANDMARK_KEYS].filter((key) => !(key in SPRU_ITEMS));
     expect(missing).toEqual([]);
+  });
+});
+
+describe("名所の高さの釣り合い(2026-10-12 Ownerの指摘)", () => {
+  const tall = (key: "pagoda" | "tower" | "liberty" | "big_ben", footprint: number) =>
+    imagePlacement(SPRU_ITEMS[key], footprint, ITEM_IMAGE_FIT[key]).height;
+
+  it("東京タワー(tower)は、五重塔(pagoda)と同じ高さ", () => {
+    expect(tall("tower", 2)).toBeCloseTo(tall("pagoda", 3), -1);
+  });
+
+  it("自由の女神(liberty)は、ビッグ・ベンと並ぶ高さ(低すぎない)", () => {
+    expect(tall("liberty", 2)).toBeGreaterThanOrEqual(tall("big_ben", 2) * 0.95);
   });
 });
