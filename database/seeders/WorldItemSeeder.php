@@ -128,6 +128,25 @@ class WorldItemSeeder extends Seeder
             ['name' => '姫路城', 'price' => 1000, 'min_level' => 17, 'asset_key' => 'himeji_castle'],
             ['name' => '東大寺', 'price' => 1100, 'min_level' => 18, 'asset_key' => 'todaiji_hall'],
             ['name' => '首里城', 'price' => 1200, 'min_level' => 19, 'asset_key' => 'shuri_castle'],
+            // 町らしさの追加2(2026-10-13)。柵・塀の向き、小さな建物、小さな生き物
+            ['name' => '木の柵(反対向き)', 'price' => 15, 'min_level' => 1, 'asset_key' => 'wooden_fence_b'],
+            ['name' => '低い石の塀(反対向き)', 'price' => 20, 'min_level' => 2, 'asset_key' => 'low_stone_wall_b'],
+            ['name' => '木の柵の角', 'price' => 15, 'min_level' => 2, 'asset_key' => 'fence_corner'],
+            ['name' => '木の柵の門', 'price' => 25, 'min_level' => 3, 'asset_key' => 'fence_gate'],
+            ['name' => '石の塀の角', 'price' => 20, 'min_level' => 2, 'asset_key' => 'stone_wall_corner'],
+            ['name' => '長い生け垣', 'price' => 30, 'min_level' => 3, 'asset_key' => 'hedge_long'],
+            ['name' => '花屋', 'price' => 260, 'min_level' => 8, 'asset_key' => 'flower_shop'],
+            ['name' => '診療所', 'price' => 280, 'min_level' => 9, 'asset_key' => 'clinic'],
+            ['name' => '小さな学校', 'price' => 320, 'min_level' => 10, 'asset_key' => 'small_school'],
+            ['name' => '郵便局', 'price' => 270, 'min_level' => 8, 'asset_key' => 'post_office'],
+            ['name' => '駅の小屋', 'price' => 300, 'min_level' => 9, 'asset_key' => 'station_hut'],
+            ['name' => '消防小屋', 'price' => 330, 'min_level' => 10, 'asset_key' => 'fire_station'],
+            ['name' => '座る猫', 'price' => 40, 'min_level' => 3, 'asset_key' => 'cat_sitting'],
+            ['name' => '座る犬', 'price' => 40, 'min_level' => 3, 'asset_key' => 'dog_sitting'],
+            ['name' => 'ニワトリ', 'price' => 35, 'min_level' => 2, 'asset_key' => 'hen'],
+            ['name' => 'ひつじ', 'price' => 45, 'min_level' => 4, 'asset_key' => 'sheep'],
+            ['name' => '小鳥の巣箱', 'price' => 40, 'min_level' => 3, 'asset_key' => 'birdhouse'],
+            ['name' => 'ミツバチの巣箱', 'price' => 50, 'min_level' => 4, 'asset_key' => 'beehive'],
         ];
 
         foreach ($items as $item) {

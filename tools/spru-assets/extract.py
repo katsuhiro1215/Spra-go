@@ -16,6 +16,7 @@
 - 画面側が読む一覧 frontend/src/components/spru/spru-assets.ts もここで書き出す(手で直さない)
 - Spru Master(Blender)ができたら、同じキー・同じ置き場所の画像に差し替える
 """
+import hashlib
 import json
 import sys
 from collections import deque
@@ -215,6 +216,24 @@ def tip_of(img: Image.Image) -> dict:
     return {"x": round(sum(xs) / len(xs)), "y": top}
 
 
+# 切り抜きは重い(1枚あたり十数秒)ので、元の絵と指定が変わらない物は前回の結果を使い回す。
+# アルゴリズムを変えたら CACHE_VERSION を上げる(全部作り直す)。キャッシュは手で消してもよい(消すと全部作り直す)
+CACHE_VERSION = 1
+CACHE_PATH = Path(__file__).parent / ".extract-cache.json"
+
+
+def load_cache() -> dict:
+    try:
+        data = json.loads(CACHE_PATH.read_text(encoding="utf-8"))
+        return data if data.get("version") == CACHE_VERSION else {"version": CACHE_VERSION, "entries": {}}
+    except (OSError, ValueError):
+        return {"version": CACHE_VERSION, "entries": {}}
+
+
+def entry_key(source_digest: str, entry: dict) -> str:
+    return hashlib.sha1((source_digest + json.dumps(entry, sort_keys=True, ensure_ascii=False)).encode("utf-8")).hexdigest()
+
+
 def save(img: Image.Image, rel: str) -> dict:
     path = OUT / rel
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -349,21 +368,62 @@ def main() -> None:
     assets = Path(sys.argv[1])
     spec = json.loads((Path(__file__).parent / "crops.json").read_text(encoding="utf-8"))
     sources = {name: Image.open(assets / file).convert("RGBA") for name, file in spec["sources"].items()}
+    digests = {name: hashlib.sha1((assets / file).read_bytes()).hexdigest() for name, file in spec["sources"].items()}
+    cache = load_cache()
+    entries_cache: dict = cache["entries"]
+    used: dict = {}
+    reused = 0
+
+    def cached(rel_key: str, source: str, entry: dict):
+        """前回と同じ指定・同じ元の絵なら、前回の結果と、書き出し済みの画像があることを確かめて返す。なければ None"""
+        nonlocal reused
+        key = entry_key(digests[source], entry)
+        hit = entries_cache.get(rel_key)
+        if hit and hit["key"] == key and all((OUT / r).exists() for r in hit["files"]):
+            used[rel_key] = hit
+            reused += 1
+            return hit
+        return None
+
+    def remember(rel_key: str, source: str, entry: dict, files: list[str], **result) -> None:
+        used[rel_key] = {"key": entry_key(digests[source], entry), "files": files, **result}
 
     images: dict = {}
     faces: dict = {}
     scenes: dict = {}
     tips: dict = {}
     for fig in spec["figures"]:
+        rk = f'figure:{fig["group"]}/{fig["key"]}'
+        hit = cached(rk, fig["source"], fig)
+        if hit:
+            images[fig["key"]] = hit["image"]
+            if hit.get("tip"):
+                tips[fig["key"]] = hit["tip"]
+            if hit.get("face"):
+                faces[fig["key"]] = hit["face"]
+            continue
         img = cut_figure(sources[fig["source"]], fig["box"], fig.get("scale", 1.0), fig.get("mode", "largest"))
-        images[fig["key"]] = save(img, f'{fig["group"]}/{fig["key"]}.webp')
-        if fig.get("tip", True):
-            tips[fig["key"]] = tip_of(img)
+        rel = f'{fig["group"]}/{fig["key"]}.webp'
+        images[fig["key"]] = save(img, rel)
+        files = [rel]
+        tip = tip_of(img) if fig.get("tip", True) else None
+        if tip:
+            tips[fig["key"]] = tip
+        face = None
         if fig["group"] == "expressions":
-            faces[fig["key"]] = save(face_of(img), f'faces/{fig["key"]}.webp')
+            face = save(face_of(img), f'faces/{fig["key"]}.webp')
+            faces[fig["key"]] = face
+            files.append(f'faces/{fig["key"]}.webp')
+        remember(rk, fig["source"], fig, files, image=images[fig["key"]], tip=tip, face=face)
     for scene in spec["scenes"]:
+        rk = f'scene:{scene["key"]}'
+        hit = cached(rk, scene["source"], scene)
+        if hit:
+            scenes[scene["key"]] = hit["image"]
+            continue
         img = sources[scene["source"]].convert("RGB").crop(tuple(scene["box"]))
         scenes[scene["key"]] = save(img, f'scenes/{scene["key"]}.webp')
+        remember(rk, scene["source"], scene, [f'scenes/{scene["key"]}.webp'], image=scenes[scene["key"]])
 
     checker_cleared: dict = {}  # 格子を抜くのは重いので、元の絵ごとに1回だけ
     parts: dict = {}
@@ -374,6 +434,11 @@ def main() -> None:
         parts[group] = {}
         default_mode = "all" if group == "items" else "largest"
         for part in spec.get(group, []):
+            rk = f'{group}:{part["key"]}'
+            hit = cached(rk, part["source"], part)
+            if hit:
+                parts[group][part["key"]] = hit["image"]
+                continue
             src = sources[part["source"]]
             if part.get("background") == "flood":
                 src = clear_background(src)
@@ -385,7 +450,10 @@ def main() -> None:
             if "width" in part:
                 img = img.resize((part["width"], round(img.height * part["width"] / img.width)), Image.LANCZOS)
             parts[group][part["key"]] = save(img, f'{group}/{part["key"]}.webp')
+            remember(rk, part["source"], part, [f'{group}/{part["key"]}.webp'], image=parts[group][part["key"]])
 
+    CACHE_PATH.write_text(json.dumps({"version": CACHE_VERSION, "entries": used}, ensure_ascii=False), encoding="utf-8")
+    print(f"前回の結果を使い回した: {reused}件(作り直した: {len(used) - reused}件)")
     write_ts(
         images, faces, scenes, parts["bloom"], parts["growth"], parts["companions"],
         parts["outing"], parts["costumes"], parts["badges"], parts["stamps"], parts["house"], parts["items"], tips,
