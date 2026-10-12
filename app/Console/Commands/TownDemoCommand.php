@@ -50,11 +50,15 @@ class TownDemoCommand extends Command
         // ブロックG(0-2,10-16): 商店街
         ['greengrocer', 0, 10], ['fish_shop', 0, 12], ['meat_shop', 0, 14], ['street_lamp', 2, 12], ['street_lamp', 2, 14], ['bench', 2, 16], ['tree', 2, 10],
         // ブロックH(4-8,10-16): モールと畑
-        ['produce_shop', 4, 10], ['seed_storehouse', 6, 10], ['spru_mall', 6, 11], ['vegetable_bed', 4, 13], ['vegetable_bed', 5, 13], ['vegetable_bed', 4, 14], ['vegetable_bed', 5, 14],
-        ['vegetable_bed', 4, 15], ['vegetable_bed', 5, 15], ['tree', 4, 12], ['large_tree', 7, 15], ['street_lamp', 8, 10], ['flowerbed', 6, 16], ['tulip', 6, 15],
+        ['produce_shop', 4, 10], ['seed_storehouse', 6, 10], ['spru_mall', 6, 11], ['wheat_field', 4, 13], ['carrot_field', 4, 15], ['tree', 4, 12], ['large_tree', 7, 15], ['street_lamp', 8, 10], ['flowerbed', 6, 16], ['tulip', 6, 15],
         // ブロックI(10-16,10-16): ランドマーク広場
         ['pagoda', 11, 11], ['tower', 15, 10], ['lighthouse', 14, 12], ['big_ben', 10, 14], ['arc_de_triomphe', 12, 14], ['sungnyemun', 14, 14], ['palm', 10, 10],
         ['boat_small', 16, 16], ['tree', 10, 12], ['palm', 16, 12],
+        // 追加分(2026-10-12): 花・木・街の備品・暮らし。空いているマスに
+        ['lavender', 5, 4], ['cosmos', 6, 4], ['hydrangea', 7, 4], ['rose_bed', 4, 5], ['hedge_square', 8, 5], ['topiary_ball', 0, 7], ['ginkgo', 1, 7],
+        ['birch', 5, 8], ['plum_tree', 6, 8], ['fir_tree', 7, 8], ['willow', 7, 10], ['small_pond', 10, 11],
+        ['wooden_fence', 11, 4], ['low_stone_wall', 12, 4], ['signpost', 13, 4], ['drinking_fountain', 14, 4], ['flower_arch', 15, 4], ['trash_bin', 12, 5],
+        ['scarecrow', 13, 5], ['handcart', 11, 10], ['barrels_crates', 12, 10], ['firewood_pile', 13, 10], ['haystack', 14, 10], ['laundry_line', 14, 11],
     ];
 
 

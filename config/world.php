@@ -67,6 +67,8 @@ return [
         'young_tree', 'pathside_flowers', 'pathside_stone', 'stream', 'vegetable_bed', 'broadleaf_tree', 'spring', 'large_tree', 'leaf_lamp',
         'wooden_bridge', 'woodland_torii', 'seed_storehouse', 'resident_cottage', 'leaf_cottage', 'blue_flower_cottage', 'forest_flower_house', 'greengrocer', 'fish_shop',
         'meat_shop', 'produce_shop', 'chief_hall', 'stone_tower_hall', 'windmill_garden', 'spru_mall', 'saku_mall',
+        // 町らしさを足す追加分(2026-10-12。花・木・街の備品・暮らし・名所・家の成長・畑)
+        'lavender', 'cosmos', 'hydrangea', 'rose_bed', 'hedge_square', 'topiary_ball', 'ginkgo', 'birch', 'plum_tree', 'fir_tree', 'willow', 'small_pond', 'wooden_fence', 'low_stone_wall', 'signpost', 'drinking_fountain', 'flower_arch', 'trash_bin', 'scarecrow', 'handcart', 'barrels_crates', 'firewood_pile', 'haystack', 'laundry_line', 'sky_tower', 'saku_blossom_tower', 'golden_leaf_temple', 'spru_house_lv2', 'spru_house_lv3', 'human_house', 'wheat_field', 'carrot_field', 'potato_field', 'onion_field', 'cabbage_field', 'tomato_field', 'cucumber_field', 'pumpkin_field', 'corn_field', 'eggplant_field', 'watermelon_field',
     ],
 
     /*
@@ -83,6 +85,7 @@ return [
         'kinkakuji' => 2, 'sungnyemun' => 2, 'arc_de_triomphe' => 2, 'big_ben' => 2,
         'large_tree' => 2, 'greengrocer' => 2, 'fish_shop' => 2, 'meat_shop' => 2, 'produce_shop' => 2,
         'chief_hall' => 3, 'stone_tower_hall' => 2, 'windmill_garden' => 3, 'spru_mall' => 3, 'saku_mall' => 3,
+        'sky_tower' => 2, 'saku_blossom_tower' => 2, 'golden_leaf_temple' => 2, 'spru_house_lv2' => 2, 'spru_house_lv3' => 2, 'human_house' => 2, 'wheat_field' => 2, 'carrot_field' => 2, 'potato_field' => 2, 'onion_field' => 2, 'cabbage_field' => 2, 'tomato_field' => 2, 'cucumber_field' => 2, 'pumpkin_field' => 2, 'corn_field' => 2, 'eggplant_field' => 2, 'watermelon_field' => 2,
     ],
 
     /*
@@ -112,6 +115,7 @@ return [
         'greengrocer' => 'house', 'fish_shop' => 'house', 'meat_shop' => 'house', 'produce_shop' => 'house',
         'chief_hall' => 'landmark', 'stone_tower_hall' => 'landmark', 'windmill_garden' => 'landmark', 'spru_mall' => 'landmark',
         'saku_mall' => 'landmark',
+        'lavender' => 'nature', 'cosmos' => 'nature', 'hydrangea' => 'nature', 'rose_bed' => 'nature', 'hedge_square' => 'nature', 'topiary_ball' => 'nature', 'ginkgo' => 'nature', 'birch' => 'nature', 'plum_tree' => 'nature', 'fir_tree' => 'nature', 'willow' => 'nature', 'small_pond' => 'nature', 'wooden_fence' => 'decor', 'low_stone_wall' => 'decor', 'signpost' => 'decor', 'drinking_fountain' => 'decor', 'flower_arch' => 'decor', 'trash_bin' => 'decor', 'scarecrow' => 'decor', 'handcart' => 'decor', 'barrels_crates' => 'decor', 'firewood_pile' => 'decor', 'haystack' => 'decor', 'laundry_line' => 'decor', 'sky_tower' => 'landmark', 'saku_blossom_tower' => 'landmark', 'golden_leaf_temple' => 'landmark', 'spru_house_lv2' => 'house', 'spru_house_lv3' => 'house', 'human_house' => 'house', 'wheat_field' => 'nature', 'carrot_field' => 'nature', 'potato_field' => 'nature', 'onion_field' => 'nature', 'cabbage_field' => 'nature', 'tomato_field' => 'nature', 'cucumber_field' => 'nature', 'pumpkin_field' => 'nature', 'corn_field' => 'nature', 'eggplant_field' => 'nature', 'watermelon_field' => 'nature',
     ],
 
     /*

@@ -26,12 +26,12 @@ function phpArray(name: string): string {
 
 describe("町のアイテムの絵のキー", () => {
   it("config/world.php の asset_keys と同じ", () => {
-    const keys = [...phpArray("asset_keys").matchAll(/'([a-z_]+)'/g)].map((m) => m[1]);
+    const keys = [...phpArray("asset_keys").matchAll(/'([a-z0-9_]+)'/g)].map((m) => m[1]);
     expect([...ITEM_ART_KEYS].sort()).toEqual(keys.sort());
   });
 
   it("絵の大きさは config/world.php の asset_footprints と同じ(2×2・3×3)", () => {
-    const sizes = Object.fromEntries([...phpArray("asset_footprints").matchAll(/'([a-z_]+)'\s*=>\s*(\d+)/g)].map((m) => [m[1], Number(m[2])]));
+    const sizes = Object.fromEntries([...phpArray("asset_footprints").matchAll(/'([a-z0-9_]+)'\s*=>\s*(\d+)/g)].map((m) => [m[1], Number(m[2])]));
     expect({ ...ASSET_FOOTPRINTS }).toEqual(sizes);
   });
 
@@ -54,7 +54,7 @@ describe("町のアイテムの絵のキー", () => {
 
   it("絵のカテゴリは config/world.php の asset_categories と同じ", () => {
     const pairs = Object.fromEntries(
-      [...phpArray("asset_categories").matchAll(/'([a-z_]+)'\s*=>\s*'([a-z]+)'/g)].map((m) => [m[1], m[2]]),
+      [...phpArray("asset_categories").matchAll(/'([a-z0-9_]+)'\s*=>\s*'([a-z]+)'/g)].map((m) => [m[1], m[2]]),
     );
     for (const key of ITEM_ART_KEYS) expect([key, pairs[key]]).toEqual([key, ITEM_ART_CATEGORIES[key]]);
   });
