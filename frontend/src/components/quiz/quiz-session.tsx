@@ -204,7 +204,7 @@ export function QuizSession({
   }, []);
 
   useEffect(() => {
-    playBgm("bgm1");
+    playBgm("quiz");
     return () => stopBgm();
   }, [playBgm, stopBgm]);
 

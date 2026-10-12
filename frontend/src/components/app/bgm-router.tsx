@@ -14,8 +14,8 @@ export function BgmRouter() {
 
   useEffect(() => {
     const kind = bgmForPath(pathname);
-    if (kind === "home") playBgm("home");
-    else if (kind === "none") stopBgm();
+    if (kind === "none") stopBgm();
+    else if (kind !== "page") playBgm(kind);
   }, [pathname, playBgm, stopBgm]);
 
   return null;

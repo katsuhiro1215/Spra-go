@@ -10,8 +10,10 @@ import {
   type ReactNode,
 } from "react";
 
+import type { BgmTrack } from "@/lib/bgm-route";
+
 export type SoundKey = "correct" | "incorrect" | "allCorrect";
-export type BgmKey = "bgm1" | "home";
+export type BgmKey = BgmTrack;
 
 const SOUND_FILES: Record<SoundKey, string> = {
   correct: "/sounds/correct.mp3",
@@ -19,10 +21,12 @@ const SOUND_FILES: Record<SoundKey, string> = {
   allCorrect: "/sounds/allCorrect.mp3",
 };
 
+// Suno v6で作った曲。ループ用に切り出し、音量を-16 LUFSにそろえてある(制作記録: company/spra/spra-theme/docs/)
 const BGM_FILES: Record<BgmKey, string> = {
-  bgm1: "/sounds/bgm1.mp3",
-  // ホーム・町・学ぶなどの曲(Suno v6、89.5秒のループ。company/spra/spra-theme/docs/2026-10-12-bgm-main-theme-record.md)
   home: "/sounds/bgm-home.mp3",
+  quiz: "/sounds/bgm-quiz.mp3",
+  minigame: "/sounds/bgm-minigame.mp3",
+  space: "/sounds/bgm-space.mp3",
 };
 
 const BGM_VOLUME = 0.35;

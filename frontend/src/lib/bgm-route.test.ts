@@ -15,8 +15,20 @@ describe("bgmForPath: 画面ごとに、どのBGMを鳴らすか", () => {
     }
   });
 
-  it("ミニゲーム・ログイン・登録・Owner/Adminなどは、BGMなし(鳴っていたら止める)", () => {
-    for (const path of ["/games/catch", "/games/puzzle-flag", "/space", "/space/cards", "/login", "/register", "/forgot-password", "/owner/dashboard", "/admin/login", "/about", "/blog"]) {
+  it("ミニゲームは、ミニゲームの曲", () => {
+    for (const path of ["/games/catch", "/games/flag-catch", "/games/puzzle-flag"]) {
+      expect(bgmForPath(path), path).toBe("minigame");
+    }
+  });
+
+  it("宇宙(うちゅう旅行・宇宙パズル・うちゅうずかん)は、宇宙の曲", () => {
+    for (const path of ["/games/space-trip", "/games/puzzle-space", "/space/cards"]) {
+      expect(bgmForPath(path), path).toBe("space");
+    }
+  });
+
+  it("ログイン・登録・Owner/Adminなどは、BGMなし(鳴っていたら止める)", () => {
+    for (const path of ["/login", "/register", "/forgot-password", "/owner/dashboard", "/admin/login", "/about", "/blog"]) {
       expect(bgmForPath(path), path).toBe("none");
     }
   });
