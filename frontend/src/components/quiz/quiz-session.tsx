@@ -28,6 +28,7 @@ import { heartsText } from "@/components/world/companions";
 import { levelUpGrowthLine } from "@/components/world/garden";
 import type { AnswerPartner, ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
+import { cn } from "@/lib/utils";
 import { hasImageChoices, isFlagImage } from "@/lib/flag-quiz";
 import { memoryNoteText, type MemoryEvent } from "@/lib/memory-note";
 
@@ -573,7 +574,12 @@ export function QuizSession({
               )}
             </p>
             {question.meta?.image ? (
-              <div className="relative mx-auto mt-4 h-32 w-52 overflow-hidden rounded-lg border border-[#e8dfcf] shadow-sm">
+              <div
+                className={cn(
+                  "relative mx-auto mt-4 overflow-hidden rounded-lg border border-[#e8dfcf] shadow-sm",
+                  isFlagImage(question.meta.image) ? "h-32 w-52" : "size-44",
+                )}
+              >
                 <Image
                   src={question.meta.image}
                   alt=""
@@ -666,7 +672,12 @@ export function QuizSession({
                     {variant === "danger" && <span aria-hidden>✕</span>}
                     {choice.meta?.image ? (
                       <span className="flex flex-col items-center gap-1">
-                        <span className="relative block aspect-[3/2] w-28 overflow-hidden rounded-sm border border-[#e8dfcf] bg-white">
+                        <span
+                          className={cn(
+                            "relative block overflow-hidden rounded-sm border border-[#e8dfcf] bg-white",
+                            isFlagImage(choice.meta.image) ? "aspect-[3/2] w-28" : "aspect-square w-24",
+                          )}
+                        >
                           <Image src={choice.meta.image} alt={choice.label} fill sizes="112px" className="object-contain" />
                         </span>
                         {answered && (
