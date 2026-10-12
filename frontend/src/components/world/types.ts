@@ -50,6 +50,8 @@ export type WorldLand = {
   landmarks: Landmark[];
   paths: Tile[];
   blocked: Tile[];
+  /** 海のマス(陸の四隅を欠いた海岸線。地図の外と同じで、開いた区画の中でも陸ではない) */
+  water?: Tile[];
   spru: { x: number; y: number };
 };
 

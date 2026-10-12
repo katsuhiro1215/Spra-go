@@ -18,9 +18,12 @@ type Drag = { x: number; y: number; left: number; top: number; moved: boolean };
 export function TownMap({
   land,
   focus,
+  dim = false,
   children,
 }: {
   land: WorldLand;
+  /** 夜は海を暗くする */
+  dim?: boolean;
   focus: { plot: WorldPlot; at: number } | null;
   children: ReactNode;
 }) {
@@ -152,6 +155,8 @@ export function TownMap({
 
   return (
     <div className="relative">
+      {/* 海は枠いっぱいの背景1枚。陸が動いても海は動かない(上下は空へ溶ける) */}
+      <div className="town-sea" style={dim ? { filter: "brightness(0.55) saturate(0.9)" } : undefined} aria-hidden />
       <div
         ref={scrollRef}
         role="region"
@@ -169,7 +174,7 @@ export function TownMap({
           drag.current = null;
         }}
         onClickCapture={handleClickCapture}
-        className="town-map-scroll cursor-grab overflow-auto select-none focus-visible:outline-3 focus-visible:outline-[#f2b632] active:cursor-grabbing"
+        className="town-map-scroll relative cursor-grab overflow-auto select-none focus-visible:outline-3 focus-visible:outline-[#f2b632] active:cursor-grabbing"
         // 枠は、画面の空きいっぱいまで高くする(町が収まる高さより低くはしない)
         style={{ height: layout ? `max(${layout.viewHeight}px, calc(100dvh - 400px))` : undefined, touchAction: "pan-x pan-y" }}
       >

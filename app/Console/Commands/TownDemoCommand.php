@@ -39,7 +39,7 @@ class TownDemoCommand extends Command
         // ブロックB(4-8,0-2): 商店
         ['bakery', 4, 1], ['cafe', 6, 1], ['mailbox', 8, 1], ['street_lamp', 8, 2], ['tree', 5, 0], ['flowerbed', 6, 0], ['tulip', 7, 0],
         // ブロックC(10-16,0-2): 名所(竹林のほう)
-        ['kinkakuji', 11, 1], ['sakura', 11, 0], ['sakura', 12, 0], ['chief_hall', 13, 0], ['tree', 16, 0], ['bush', 16, 1], ['bush', 16, 2], ['stone_lantern', 10, 2],
+        ['sakura', 11, 1], ['sakura', 11, 0], ['sakura', 11, 2], ['chief_hall', 12, 0], ['bush', 15, 2], ['bush', 16, 2], ['stone_lantern', 10, 2],
         // ブロックD(0-2,4-8): 住宅
         ['japanese_house', 0, 4], ['flowerbed', 2, 4], ['flowerbed', 2, 5], ['tree', 0, 6], ['bench', 1, 6], ['tulip', 2, 6],
         ['red_house', 0, 8], ['leaf_cottage', 1, 8], ['blue_flower_cottage', 2, 8], ['street_lamp', 2, 7],
@@ -48,12 +48,12 @@ class TownDemoCommand extends Command
         // ブロックF(10-16,4-8): お城と五重塔
         ['castle', 11, 6], ['pagoda', 14, 5], ['tree', 10, 4], ['pine', 10, 6], ['bush', 10, 7], ['sakura', 16, 4], ['stone_lantern', 15, 8], ['bamboo', 10, 5],
         // ブロックG(0-2,10-16): 商店街
-        ['greengrocer', 0, 10], ['fish_shop', 0, 12], ['meat_shop', 0, 14], ['street_lamp', 2, 12], ['street_lamp', 2, 14], ['bench', 2, 16], ['tree', 2, 10],
+        ['greengrocer', 0, 10], ['fish_shop', 0, 12], ['street_lamp', 1, 14], ['street_lamp', 2, 12], ['street_lamp', 2, 14], ['bench', 2, 16], ['tree', 2, 10],
         // ブロックH(4-8,10-16): モールと畑
         ['produce_shop', 4, 10], ['seed_storehouse', 6, 10], ['spru_mall', 6, 11], ['wheat_field', 4, 13], ['carrot_field', 4, 15], ['tree', 4, 12], ['large_tree', 7, 15], ['street_lamp', 8, 10], ['flowerbed', 6, 16], ['tulip', 6, 15],
         // ブロックI(10-16,10-16): ランドマーク広場
-        ['pagoda', 11, 11], ['tower', 15, 10], ['lighthouse', 14, 12], ['big_ben', 10, 14], ['arc_de_triomphe', 12, 14], ['sungnyemun', 14, 14], ['palm', 10, 10],
-        ['boat_small', 16, 16], ['tree', 10, 12], ['palm', 16, 12],
+        ['pagoda', 11, 11], ['tower', 15, 10], ['lighthouse', 14, 12], ['big_ben', 10, 14], ['arc_de_triomphe', 12, 14], ['palm', 10, 10],
+        ['tree', 10, 12], ['palm', 16, 12],
         // 追加分(2026-10-12): 花・木・街の備品・暮らし。空いているマスに
         ['lavender', 5, 4], ['cosmos', 6, 4], ['hydrangea', 7, 4], ['rose_bed', 4, 5], ['hedge_square', 8, 5], ['topiary_ball', 0, 7], ['ginkgo', 1, 7],
         ['birch', 5, 8], ['plum_tree', 6, 8], ['fir_tree', 7, 8], ['willow', 7, 10], ['small_pond', 10, 11],

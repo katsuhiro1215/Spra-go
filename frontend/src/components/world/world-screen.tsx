@@ -703,7 +703,7 @@ export function WorldScreen() {
         )}
 
         <div className="relative mt-2 px-1">
-          <TownMap land={world.land} focus={focus}>
+          <TownMap land={world.land} focus={focus} dim={TIME_THEME[timeOfDay].dimObjects}>
             <WorldScene
               land={world.land}
               roadStyle={world.road_style}

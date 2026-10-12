@@ -167,3 +167,35 @@ it('区画は重ならず、地図の中に隙間がない(17×17)', function ()
         ->and(WorldLand::width())->toBe(17)
         ->and(WorldLand::height())->toBe(17);
 });
+
+/*
+|--------------------------------------------------------------------------
+| 海(陸の四隅を欠いた海岸線。2026-10-13 Owner提案)
+|--------------------------------------------------------------------------
+*/
+
+it('陸の東・南・西の隅は海で、地図の外と同じ(北の隅は家と鳥居があるので陸のまま)', function () {
+    createActiveProfile();
+
+    $land = $this->getJson('/api/world')->assertOk()->json('land');
+
+    expect($land['water'])->toContain([16, 0])->toContain([15, 1])->toContain([16, 16])->toContain([14, 14])->toContain([0, 16])->toContain([1, 15])
+        ->and($land['water'])->not->toContain([0, 0])->not->toContain([8, 8])
+        ->and(WorldLand::inBounds(16, 0))->toBeFalse()
+        ->and(WorldLand::inBounds(14, 13))->toBeTrue();
+});
+
+it('海のマスには置けない(土地の外)', function () {
+    $profile = createActiveProfile();
+    $profile->update(['level' => 30]);
+    $bench = $profile->worldItems()->create(['shop_item_id' => createDecoration()->id]);
+
+    $this->patchJson("/api/world/items/{$bench->id}", ['x' => 16, 'y' => 16])
+        ->assertStatus(422)
+        ->assertJsonPath('message', '土地の外には置けません。');
+});
+
+it('海のマスは、Lv30でも開いた土地にならない', function () {
+    expect(WorldLand::isOpen(16, 16, 30))->toBeFalse()
+        ->and(WorldLand::isOpen(13, 13, 30))->toBeTrue();
+});
