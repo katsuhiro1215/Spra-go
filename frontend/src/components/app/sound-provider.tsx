@@ -11,7 +11,7 @@ import {
 } from "react";
 
 export type SoundKey = "correct" | "incorrect" | "allCorrect";
-export type BgmKey = "bgm1";
+export type BgmKey = "bgm1" | "home";
 
 const SOUND_FILES: Record<SoundKey, string> = {
   correct: "/sounds/correct.mp3",
@@ -21,9 +21,14 @@ const SOUND_FILES: Record<SoundKey, string> = {
 
 const BGM_FILES: Record<BgmKey, string> = {
   bgm1: "/sounds/bgm1.mp3",
+  // ホーム・町・学ぶなどの曲(Suno v6、89.5秒のループ。company/spra/spra-theme/docs/2026-10-12-bgm-main-theme-record.md)
+  home: "/sounds/bgm-home.mp3",
 };
 
 const BGM_VOLUME = 0.35;
+const FADE_IN_MS = 800;
+const FADE_OUT_MS = 400;
+const FADE_STEP_MS = 40;
 
 type SoundContextValue = {
   enabled: boolean;
@@ -55,27 +60,48 @@ export function SoundProvider({ children }: { children: ReactNode }) {
     })();
   }, []);
 
-  const stopBgmAudio = useCallback(() => {
-    if (bgmAudioRef.current) {
-      bgmAudioRef.current.pause();
-      bgmAudioRef.current.currentTime = 0;
-      bgmAudioRef.current = null;
-    }
+  /** 音量を、いまの値から目標まで少しずつ変える。終わったら done を呼ぶ */
+  const fadeAudio = useCallback((audio: HTMLAudioElement, to: number, ms: number, done?: () => void) => {
+    const from = audio.volume;
+    const steps = Math.max(1, Math.round(ms / FADE_STEP_MS));
+    let step = 0;
+    const timer = window.setInterval(() => {
+      step += 1;
+      audio.volume = Math.min(1, Math.max(0, from + ((to - from) * step) / steps));
+      if (step >= steps) {
+        window.clearInterval(timer);
+        done?.();
+      }
+    }, FADE_STEP_MS);
   }, []);
 
-  const startBgmAudio = useCallback((key: BgmKey) => {
-    stopBgmAudio();
-    const audio = new Audio(BGM_FILES[key]);
-    audio.loop = true;
-    audio.volume = BGM_VOLUME;
-    bgmAudioRef.current = audio;
-    audio.play().catch(() => {
-      // ファイル未配置・再生失敗時も無視(BGMは演出の付加要素のため)
+  // 止めるときは、音を小さくしてから止める(ぷつっと切れないように)
+  const stopBgmAudio = useCallback(() => {
+    const audio = bgmAudioRef.current;
+    bgmAudioRef.current = null;
+    if (!audio) return;
+    fadeAudio(audio, 0, FADE_OUT_MS, () => {
+      audio.pause();
+      audio.currentTime = 0;
     });
-    // stopBgmAudioを依存に含めると呼び出しごとに再生成されてしまうため、
-    // ここでは意図的に外している(内部でrefのみ扱う安定した関数)。
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fadeAudio]);
+
+  const startBgmAudio = useCallback(
+    (key: BgmKey) => {
+      stopBgmAudio();
+      const audio = new Audio(BGM_FILES[key]);
+      audio.loop = true;
+      audio.volume = 0;
+      bgmAudioRef.current = audio;
+      audio
+        .play()
+        .then(() => fadeAudio(audio, BGM_VOLUME, FADE_IN_MS))
+        .catch(() => {
+          // ファイル未配置・再生失敗時も無視(BGMは演出の付加要素のため)
+        });
+    },
+    [fadeAudio, stopBgmAudio],
+  );
 
   // 再生中にOFFへ切り替えたら止める、ONに戻したら(BGM再生が要求されていれば)再開する
   useEffect(() => {
@@ -116,8 +142,9 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 
   const playBgm = useCallback(
     (key: BgmKey) => {
+      const alreadyPlaying = bgmKeyRef.current === key && bgmAudioRef.current !== null;
       bgmKeyRef.current = key;
-      if (!enabled) return;
+      if (!enabled || alreadyPlaying) return; // 同じ曲が鳴っているなら、画面を移っても頭からやり直さない
       startBgmAudio(key);
     },
     [enabled, startBgmAudio],
