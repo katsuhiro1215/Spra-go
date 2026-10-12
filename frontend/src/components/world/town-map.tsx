@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode, type MouseEvent } from "react";
-import { House } from "lucide-react";
+import { House, Minus, Plus } from "lucide-react";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { prefersReducedMotion } from "@/lib/motion";
 
-import { homePlot, isAwayFromHome, isDragMove, mapLayout, scrollForPlot } from "./map-view";
+import { ZOOM_STEPS, homePlot, isAwayFromHome, isDragMove, mapLayout, nextZoom, scrollForPlot, zoomedScroll } from "./map-view";
 import type { WorldLand, WorldPlot } from "./types";
 
 type Drag = { x: number; y: number; left: number; top: number; moved: boolean };
@@ -31,7 +31,20 @@ export function TownMap({
   const positioned = useRef(false);
   const [viewWidth, setViewWidth] = useState(0);
   const [away, setAway] = useState(false);
-  const layout = viewWidth > 0 ? mapLayout(land, viewWidth) : null;
+  const [zoom, setZoom] = useState(1);
+  const pinch = useRef<{ pointers: Map<number, { x: number; y: number }>; distance: number }>({ pointers: new Map(), distance: 0 });
+  const layout = viewWidth > 0 ? mapLayout(land, viewWidth, zoom) : null;
+
+  // 拡大・縮小。枠の真ん中に見えていた場所が、真ん中のままになるようスクロールも合わせる
+  function changeZoom(direction: "in" | "out") {
+    const el = scrollRef.current;
+    const next = nextZoom(zoom, direction);
+    if (!el || next === zoom || viewWidth === 0) return;
+    const nextLayout = mapLayout(land, viewWidth, next);
+    const to = zoomedScroll({ left: el.scrollLeft, top: el.scrollTop }, { width: el.clientWidth, height: el.clientHeight }, zoom, next, nextLayout);
+    setZoom(next);
+    requestAnimationFrame(() => el.scrollTo({ left: to.left, top: to.top }));
+  }
 
   // 枠の幅を測る。幅が変わったら(スマホを横にした等)、町が枠に収まる位置に戻す
   useEffect(() => {
@@ -80,12 +93,37 @@ export function TownMap({
   // 指のスクロールはブラウザにまかせ、マウスだけドラッグで動かす
   function handlePointerDown(e: PointerEvent<HTMLDivElement>) {
     suppressClick.current = false;
+    if (e.pointerType === "touch") {
+      pinch.current.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      pinch.current.distance = 0;
+    }
     const el = scrollRef.current;
     if (e.pointerType !== "mouse" || e.button !== 0 || !el) return;
     drag.current = { x: e.clientX, y: e.clientY, left: el.scrollLeft, top: el.scrollTop, moved: false };
   }
 
+  // 2本の指の幅が1.3倍以上になったら拡大、1/1.3以下になったら縮小(1段ずつ)
+  function handlePinch(e: PointerEvent<HTMLDivElement>) {
+    const { pointers } = pinch.current;
+    if (!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size !== 2) return;
+    const [a, b] = [...pointers.values()];
+    const distance = Math.hypot(a.x - b.x, a.y - b.y);
+    if (pinch.current.distance === 0) {
+      pinch.current.distance = distance;
+      return;
+    }
+    const ratio = distance / pinch.current.distance;
+    if (ratio >= 1.3) changeZoom("in");
+    else if (ratio <= 1 / 1.3) changeZoom("out");
+    else return;
+    pinch.current.distance = distance;
+    suppressClick.current = true;
+  }
+
   function handlePointerMove(e: PointerEvent<HTMLDivElement>) {
+    handlePinch(e);
     const d = drag.current;
     const el = scrollRef.current;
     if (!d || !el) return;
@@ -97,7 +135,9 @@ export function TownMap({
     el.scrollTop = d.top - dy;
   }
 
-  function handlePointerUp() {
+  function handlePointerUp(e: PointerEvent<HTMLDivElement>) {
+    pinch.current.pointers.delete(e.pointerId);
+    pinch.current.distance = 0;
     if (drag.current?.moved) suppressClick.current = true;
     drag.current = null;
   }
@@ -121,18 +161,43 @@ export function TownMap({
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onWheel={(e) => {
+          if (e.ctrlKey || e.metaKey) changeZoom(e.deltaY < 0 ? "in" : "out");
+        }}
         onPointerLeave={() => {
           drag.current = null;
         }}
         onClickCapture={handleClickCapture}
         className="town-map-scroll cursor-grab overflow-auto select-none focus-visible:outline-3 focus-visible:outline-[#f2b632] active:cursor-grabbing"
-        style={{ height: layout?.viewHeight }}
+        // 枠は、画面の空きいっぱいまで高くする(町が収まる高さより低くはしない)
+        style={{ height: layout ? `max(${layout.viewHeight}px, calc(100dvh - 400px))` : undefined, touchAction: "pan-x pan-y" }}
       >
         {layout && (
-          <div className="relative" style={{ width: layout.width, height: layout.height }}>
+          <div className="relative mx-auto" style={{ width: layout.width, height: layout.height }}>
             {children}
           </div>
         )}
+      </div>
+      <div className="absolute top-2 right-2 flex flex-col overflow-hidden rounded-full bg-[#fffaf0] shadow-[0_3px_8px_rgba(59,50,38,0.2)]">
+        <button
+          type="button"
+          onClick={() => changeZoom("in")}
+          disabled={zoom === ZOOM_STEPS[ZOOM_STEPS.length - 1]}
+          aria-label="町を大きく見る"
+          className="flex h-10 w-10 items-center justify-center text-[#2e6b1c] disabled:opacity-35"
+        >
+          <Plus className="h-5 w-5" aria-hidden />
+        </button>
+        <button
+          type="button"
+          onClick={() => changeZoom("out")}
+          disabled={zoom === ZOOM_STEPS[0]}
+          aria-label="町を小さく見る"
+          className="flex h-10 w-10 items-center justify-center border-t border-[#e8dfcf] text-[#2e6b1c] disabled:opacity-35"
+        >
+          <Minus className="h-5 w-5" aria-hidden />
+        </button>
       </div>
       {away && (
         <button

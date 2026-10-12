@@ -53,17 +53,18 @@ it('2×2の建物の4マスのどれかが1マスのアイテムと重なると�
 ]);
 
 it('ほかの2×2の建物と1マスでも重なると置けない', function (int $x, int $y) {
+    // 最初の町は道(x=3・y=3)で区切られ、3×3が入るのは右下の (4,4)〜(6,6) だけなので、噴水を先に置き、お城を重ねる場所へ動かす
     $profile = createActiveProfile();
-    createBuilding($profile, 'fountain', 4, 4);
+    createBuilding($profile, 'fountain', $x, $y);
     $castle = createBuilding($profile);
 
-    $this->patchJson("/api/world/items/{$castle->id}", ['x' => $x, 'y' => $y])
+    $this->patchJson("/api/world/items/{$castle->id}", ['x' => 4, 'y' => 4])
         ->assertStatus(422)
         ->assertJsonPath('message', 'そこにはもう置いてあります。');
 })->with([
-    '斜め手前' => [5, 5],
-    '左にずれる' => [3, 5],
-    '右にずれる' => [5, 4],
+    '角で1マスだけ重なる' => [5, 5],
+    '左にずれる' => [4, 5],
+    '上にずれる' => [5, 4],
 ]);
 
 it('1マスのアイテムは、2×2の建物の奥以外の3マスにも置けない', function (int $x, int $y) {
@@ -218,7 +219,7 @@ it('Spra-worldの確定画像から足した2×2の建物(八百屋)も、4マ�
         ->assertStatus(422)
         ->assertJsonPath('message', 'そこにはもう置いてあります。');
 
-    $this->patchJson("/api/world/items/{$shop->id}", ['x' => 2, 'y' => 5])
+    $this->patchJson("/api/world/items/{$shop->id}", ['x' => 1, 'y' => 5])
         ->assertOk()
         ->assertJson(['asset_key' => 'greengrocer', 'footprint' => 2]);
 });

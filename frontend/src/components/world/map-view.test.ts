@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { sceneViewBox } from "./iso";
-import { homePlot, isAwayFromHome, isDragMove, mapLayout, plotViewBox, scrollForPlot } from "./map-view";
+import { ZOOM_STEPS, homePlot, isAwayFromHome, isDragMove, mapLayout, nextZoom, plotViewBox, scrollForPlot, zoomedScroll } from "./map-view";
 import type { WorldPlot } from "./types";
 
 const plot = (key: string, x: number, y: number, w: number, h: number, minLevel: number): WorldPlot => ({
@@ -68,5 +68,39 @@ describe("スクロール位置", () => {
     expect(isAwayFromHome({ left: 260, top: 0 }, home, 480, 372)).toBe(false);
     expect(isAwayFromHome({ left: 281, top: 0 }, home, 480, 372)).toBe(true);
     expect(isAwayFromHome({ left: 160, top: 94 }, home, 480, 372)).toBe(true);
+  });
+});
+
+describe("拡大・縮小(2026-10-12 Owner提案)", () => {
+  it("倍率は 0.4・0.6・1・1.5 の4段階。1が今の大きさ", () => {
+    expect(ZOOM_STEPS).toEqual([0.4, 0.6, 1, 1.5]);
+    expect(mapLayout(LAND, 480, 1)).toEqual(mapLayout(LAND, 480));
+  });
+
+  it("倍率をかけると地図全体の大きさが変わるが、枠の高さは変わらない", () => {
+    const base = mapLayout(LAND, 480);
+    const out = mapLayout(LAND, 480, 0.5);
+    expect(out.scale).toBeCloseTo(base.scale * 0.5);
+    expect(out.width).toBeCloseTo(base.width * 0.5);
+    expect(out.height).toBeCloseTo(base.height * 0.5);
+    expect(out.viewHeight).toBe(base.viewHeight);
+  });
+
+  it("次の倍率: 拡大は1段上、縮小は1段下。端では動かない", () => {
+    expect(nextZoom(1, "in")).toBe(1.5);
+    expect(nextZoom(1, "out")).toBe(0.6);
+    expect(nextZoom(1.5, "in")).toBe(1.5);
+    expect(nextZoom(0.4, "out")).toBe(0.4);
+  });
+
+  it("倍率を変えても、枠の真ん中に見えていた場所が真ん中のまま(はみ出さない)", () => {
+    const view = { width: 480, height: 372 };
+    const from = { left: 100, top: 50 };
+    const centerBefore = { x: from.left + view.width / 2, y: from.top + view.height / 2 };
+    const to = zoomedScroll(from, view, 1, 1.5, { width: 1200, height: 800 });
+    expect((to.left + view.width / 2) / 1.5).toBeCloseTo(centerBefore.x, 0);
+    expect((to.top + view.height / 2) / 1.5).toBeCloseTo(centerBefore.y, 0);
+    const small = zoomedScroll({ left: 600, top: 300 }, view, 1, 0.5, { width: 400, height: 266 });
+    expect(small).toEqual({ left: 0, top: 0 });
   });
 });

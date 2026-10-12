@@ -84,7 +84,7 @@ it('子ども(プロフィール)ごとに調べる。ほかの子の置き物�
 it('レベルが開く区画は、その子のレベルで調べる(Lv.5なら竹林の物は残る)', function () {
     $profile = createActiveProfile();
     $profile->update(['level' => 5]);
-    $item = createPlacedBench($profile, 9, 1);
+    $item = createPlacedBench($profile, 7, 1);
 
     $this->artisan('world:repair')->assertSuccessful();
 

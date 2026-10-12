@@ -27,37 +27,36 @@ class TownDemoCommand extends Command
     public const PASSWORD = 'demo-lv30-pass';
 
     /**
-     * 置く物: [絵のキー, x, y]。2×2・3×3は (x, y) が奥のマス。道(y=3の横の道・x=3の縦の道)と目印は避けてある。
+     * 置く物: [絵のキー, x, y]。2×2・3×3は (x, y) が奥のマス。道(横は y=3・y=9、縦は x=3・x=9)と目印は避けてある。
      * 区画: はじまりの町(0-6,0-6)・竹林(7-11,0-6)・海辺(0-6,7-11)・丘(7-11,7-11)・川辺(12-16,0-11)・高原(0-11,12-16)・離島(12-16,12-16)
      *
      * @var list<array{0: string, 1: int, 2: int}>
      */
     private const LAYOUT = [
-        // はじまりの町: 道の南に店と家、北に小さな家と花
-        ['cottage', 0, 0], ['red_house', 1, 0], ['leaf_cottage', 0, 1], ['street_lamp', 5, 0], ['tree', 6, 0],
-        ['resident_cottage', 4, 1], ['bakery', 5, 1], ['mailbox', 4, 2],
-        ['japanese_house', 0, 4], ['flowerbed', 2, 4], ['leaf_lamp', 2, 5], ['bench', 2, 6], ['tulip', 0, 6], ['flower_pots', 1, 6],
-        ['chief_hall', 4, 4], ['well', 3, 4], ['vending', 3, 5], ['young_tree', 3, 6],
-        // 竹林: 金閣寺・五重塔・鳥居と竹
-        ['kinkakuji', 7, 1], ['bamboo', 9, 0], ['bamboo', 10, 0], ['bamboo', 9, 1], ['stone_lantern', 9, 2], ['sakura', 10, 2], ['woodland_torii', 7, 0],
-        ['big_ben', 11, 0], ['pagoda', 8, 4], ['sakura', 7, 4], ['momiji', 7, 5], ['pine', 7, 6], ['bamboo', 11, 4], ['bamboo', 11, 6],
-        // 海辺: 灯台・船・パラソル・屋台
-        ['lighthouse', 1, 8], ['boat_large', 0, 10], ['palm', 0, 7], ['palm', 1, 7], ['palm', 2, 7], ['parasol', 0, 8], ['parasol', 0, 9], ['parasol', 2, 10],
-        ['cafe', 4, 8], ['stall', 4, 7], ['bicycle', 5, 7], ['boat_small', 6, 10], ['palm', 4, 10], ['palm', 5, 10], ['parasol', 6, 7], ['pathside_stone', 6, 11], ['chochin', 6, 8],
-        // 丘: お城と木
-        ['castle', 8, 8], ['tree', 7, 7], ['broadleaf_tree', 8, 7], ['sakura', 9, 7], ['tree', 10, 7], ['pine', 7, 8], ['rock', 7, 9], ['bush', 7, 10], ['sunflower', 7, 11],
-        ['tulip', 8, 11], ['tulip', 9, 11], ['flowerbed', 10, 11], ['pathside_flowers', 11, 8], ['pathside_flowers', 11, 9], ['bush', 11, 10], ['rock', 11, 11],
-        // 川辺: モール・風車・小川
-        ['saku_mall', 13, 0], ['spru_mall', 12, 4], ['stone_tower_hall', 15, 4], ['windmill_garden', 13, 8], ['stream', 16, 7], ['stream', 16, 8],
-        ['stream', 16, 9], ['stream', 16, 10], ['spring', 15, 7], ['wooden_bridge', 12, 7], ['tree', 12, 2], ['tree', 16, 0], ['tree', 16, 1], ['bush', 16, 2],
-        ['broadleaf_tree', 12, 8], ['bench', 12, 9], ['sunflower', 12, 10], ['tulip', 12, 11],
-        // 高原: 商店街と畑
-        ['greengrocer', 0, 12], ['fish_shop', 0, 14], ['meat_shop', 4, 12], ['produce_shop', 4, 14], ['seed_storehouse', 6, 12],
-        ['vegetable_bed', 6, 15], ['vegetable_bed', 7, 15], ['vegetable_bed', 8, 15], ['vegetable_bed', 8, 14], ['fountain', 6, 13], ['bush', 7, 12], ['large_tree', 8, 12], ['arc_de_triomphe', 10, 12],
-        ['sungnyemun', 10, 14], ['sakura', 6, 16], ['tree', 7, 16], ['pine', 8, 16], ['street_lamp', 2, 12], ['street_lamp', 2, 14], ['bench', 2, 16],
-        // 離島: タワーとヤシ
-        ['tower', 12, 12], ['palm', 15, 12], ['palm', 16, 12], ['parasol', 12, 14], ['parasol', 13, 14], ['boat_small', 16, 14], ['boat_large', 14, 14], ['palm', 12, 16], ['palm', 16, 16],
+        // 道は横が y=3・y=9、縦が x=3・x=9。ブロックごとに、道に面して家・店を置き、あいだに木や花
+        // ブロックA(0-2,0-2): スプルの家のまわり
+        ['cottage', 0, 0], ['red_house', 1, 0], ['leaf_cottage', 0, 1],
+        // ブロックB(4-8,0-2): 商店
+        ['bakery', 4, 1], ['cafe', 6, 1], ['mailbox', 8, 1], ['street_lamp', 8, 2], ['tree', 5, 0], ['flowerbed', 6, 0], ['tulip', 7, 0],
+        // ブロックC(10-16,0-2): 名所(竹林のほう)
+        ['kinkakuji', 11, 1], ['sakura', 11, 0], ['sakura', 12, 0], ['chief_hall', 13, 0], ['tree', 16, 0], ['bush', 16, 1], ['bush', 16, 2], ['stone_lantern', 10, 2],
+        // ブロックD(0-2,4-8): 住宅
+        ['japanese_house', 0, 4], ['flowerbed', 2, 4], ['flowerbed', 2, 5], ['tree', 0, 6], ['bench', 1, 6], ['tulip', 2, 6],
+        ['red_house', 0, 8], ['leaf_cottage', 1, 8], ['blue_flower_cottage', 2, 8], ['street_lamp', 2, 7],
+        // ブロックE(4-8,4-8): 公園
+        ['fountain', 5, 5], ['sakura', 4, 4], ['tree', 8, 4], ['pine', 4, 6], ['bench', 7, 5], ['bench', 7, 6], ['flowerbed', 4, 7], ['tulip', 5, 7], ['flowerbed', 6, 7], ['well', 8, 6], ['momiji', 8, 8], ['leaf_lamp', 4, 8], ['leaf_lamp', 8, 7],
+        // ブロックF(10-16,4-8): お城と五重塔
+        ['castle', 11, 6], ['pagoda', 14, 5], ['tree', 10, 4], ['pine', 10, 6], ['bush', 10, 7], ['sakura', 16, 4], ['stone_lantern', 15, 8], ['bamboo', 10, 5],
+        // ブロックG(0-2,10-16): 商店街
+        ['greengrocer', 0, 10], ['fish_shop', 0, 12], ['meat_shop', 0, 14], ['street_lamp', 2, 12], ['street_lamp', 2, 14], ['bench', 2, 16], ['tree', 2, 10],
+        // ブロックH(4-8,10-16): モールと畑
+        ['produce_shop', 4, 10], ['seed_storehouse', 6, 10], ['spru_mall', 6, 11], ['vegetable_bed', 4, 13], ['vegetable_bed', 5, 13], ['vegetable_bed', 4, 14], ['vegetable_bed', 5, 14],
+        ['vegetable_bed', 4, 15], ['vegetable_bed', 5, 15], ['tree', 4, 12], ['large_tree', 7, 15], ['street_lamp', 8, 10], ['flowerbed', 6, 16], ['tulip', 6, 15],
+        // ブロックI(10-16,10-16): ランドマーク広場
+        ['pagoda', 11, 11], ['tower', 15, 10], ['lighthouse', 14, 12], ['big_ben', 10, 14], ['arc_de_triomphe', 12, 14], ['sungnyemun', 14, 14], ['palm', 10, 10],
+        ['boat_small', 16, 16], ['tree', 10, 12], ['palm', 16, 12],
     ];
+
 
     public function handle(): int
     {
