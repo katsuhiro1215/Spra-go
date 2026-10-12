@@ -1799,6 +1799,16 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             return $profileWorldItem->load('shopItem')->toWorldArray();
         });
     })->name('items.update');
+
+    // 絵を左右に反転する(柵・塀・道沿いの家の向きを変える。使うマスは変わらない)
+    Route::post('/items/{profileWorldItem}/flip', function (Request $request, ProfileWorldItem $profileWorldItem) {
+        $activeProfile = ActiveProfile::require($request);
+        abort_unless($profileWorldItem->user_profile_id === $activeProfile->id, 404);
+
+        $profileWorldItem->update(['mirrored' => ! $profileWorldItem->mirrored]);
+
+        return $profileWorldItem->load('shopItem')->toWorldArray();
+    })->name('items.flip');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('review')->name('review.')->group(function () {

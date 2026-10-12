@@ -608,7 +608,7 @@ export function WorldScene({
               {o.kind === "item" && (
                 <g className={o.item.id === poppedItemId ? "animate-pop-in" : undefined}>
                   <g style={artStyle}>
-                    <ItemArt assetKey={o.item.asset_key} />
+                    <ItemArt assetKey={o.item.asset_key} mirrored={o.item.mirrored} />
                   </g>
                   {theme.lit &&
                     lightCircles(o.item.asset_key, o.item.footprint).map((light, index) => (

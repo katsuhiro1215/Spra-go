@@ -32,10 +32,10 @@ const FALLBACK: ReactNode = (
   </g>
 );
 
-export function ItemArt({ assetKey }: { assetKey: string | null }) {
+export function ItemArt({ assetKey, mirrored = false }: { assetKey: string | null; mirrored?: boolean }) {
   const image = itemImage(assetKey);
   if (image && assetKey) {
-    return <ImageArt image={image} footprint={assetFootprint(assetKey)} fit={ITEM_IMAGE_FIT[assetKey]} />;
+    return <ImageArt image={image} footprint={assetFootprint(assetKey)} fit={ITEM_IMAGE_FIT[assetKey]} mirrored={mirrored} />;
   }
   return <>{assetKey === "spru_flower" ? SPRU_FLOWER : FALLBACK}</>;
 }

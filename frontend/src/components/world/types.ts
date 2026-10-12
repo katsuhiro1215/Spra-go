@@ -25,6 +25,8 @@ export type WorldItem = {
   souvenir: boolean;
   x: number | null;
   y: number | null;
+  /** 絵を左右反転して見せるか(柵・塀などの向き。使うマスは変わらない) */
+  mirrored?: boolean;
 };
 
 export type Ground = "grass" | "bamboo" | "sand" | "hill";
