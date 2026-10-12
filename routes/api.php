@@ -111,6 +111,7 @@ Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
 Route::get('/registration', fn () => [
     'open' => AppSettings::registrationOpen(),
     'invite_required' => AppSettings::inviteCode() !== '',
+    'google' => \App\Http\Controllers\Auth\GoogleAuthController::enabled(),
 ])->name('registration.info');
 
 Route::middleware(['auth:owner'])->get('/owner/settings', fn () => AppSettings::all())->name('owner.settings.show');

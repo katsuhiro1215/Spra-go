@@ -1,7 +1,7 @@
 // 招待制の登録の画面の計算(docs/design/2026-10-03-closed-beta-design.md 3-3)。画面を描かない部分だけをここに置く
 
 /** GET /api/registration の答え */
-export type RegistrationInfo = { open: boolean; invite_required: boolean };
+export type RegistrationInfo = { open: boolean; invite_required: boolean; google?: boolean };
 
 const MAX_CODE_LENGTH = 64;
 

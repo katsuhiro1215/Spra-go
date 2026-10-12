@@ -43,6 +43,13 @@ return [
         'site_url' => env('NEXT_PUBLIC_SITE_URL', env('FRONTEND_URL')),
     ],
 
+    // Googleでのログイン・登録。クライアントIDかシークレットが空なら、ボタンを出さない(docs/design/2026-10-12-google-auth-design.md)
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI', rtrim((string) env('APP_URL', 'http://localhost'), '/').'/auth/google/callback'),
+    ],
+
     'stripe' => [
         'public_key' => env('STRIPE_PUBLIC_KEY'),
         'secret_key' => env('STRIPE_SECRET_KEY'),

@@ -1,23 +1,37 @@
 "use client";
 
-import { use, useState, type FormEvent } from "react";
+import { use, useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Button as AppButton } from "@/components/app/button";
 import { SkyPage } from "@/components/app/sky-page";
 import { SpruFigure } from "@/components/spru/spru-figure";
-import { apiFetch } from "@/lib/api";
+import { GoogleButton } from "@/components/app/google-button";
+import { API_URL, apiFetch } from "@/lib/api";
+import { googleButtonState, googleMessage, googleStartUrl } from "@/lib/google-auth";
+import type { RegistrationInfo } from "@/lib/registration";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 
 export default function Page(props: PageProps<"/login">) {
   // 新しいパスワードを決めたあとに来たとき(docs/design/2026-09-29-email-verify-reset-design.md 3-1)
-  const { reset } = use(props.searchParams);
+  const { reset, google } = use(props.searchParams);
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  // Googleのボタンを出すか(設定があるときだけ)。取れなければ出さない(メールとパスワードで入れる)
+  const [info, setInfo] = useState<RegistrationInfo | null>(null);
+  const googleState = googleButtonState(info, "", "login");
+  const googleNotice = googleMessage(typeof google === "string" ? google : null);
+
+  useEffect(() => {
+    apiFetch("/api/registration")
+      .then(async (res) => (res.ok ? ((await res.json()) as RegistrationInfo) : null))
+      .catch(() => null)
+      .then(setInfo);
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -68,7 +82,20 @@ export default function Page(props: PageProps<"/login">) {
             </p>
           )}
 
-          <form className="mt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
+          {googleNotice && (
+            <p role="alert" className="mt-4 rounded-xl bg-[#fdecea] px-3 py-2 text-center text-sm font-bold text-[#c2402c]">
+              <AutoFurigana text={googleNotice} />
+            </p>
+          )}
+
+          {googleState.show && (
+            <div className="mt-6 flex flex-col gap-3">
+              <GoogleButton href={googleStartUrl(API_URL, "")} disabled={googleState.disabled} hint={googleState.hint} />
+              <p className="text-center text-xs font-black text-[#6b5d45]">または</p>
+            </div>
+          )}
+
+          <form className={`${googleState.show ? "mt-3" : "mt-6"} flex flex-col gap-4`} onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="email" className="text-sm font-black text-[#3b3226]">
                 メールアドレス
