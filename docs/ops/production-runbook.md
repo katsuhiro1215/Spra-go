@@ -215,3 +215,8 @@ scripts/deploy.sh --no-pull
 - ポートを開けているのは caddy の 80/443 だけ。app・next・mysql は外に出さない。
 - Ownerの追加は `php artisan owner:create` だけ（HTTPの登録は無い）。
 - 招待コードは、友人に渡す前に必ず設定する。
+
+## 依存パッケージの脆弱性チェック(2026-10-12)
+- `composer audit`: 0件(guzzle・laravel/framework・league/commonmark・flysystem を更新)。
+- `npm audit --omit=dev`: Next.js を 16.4.0 に更新(critical 解消)。残りの高リスク7件は `shadcn` の CLI 内部(braces・ts-morph など)で、ビルド時の CSS 取り込みにしか使わず、本番の実行物(standalone)には入らない。`shadcn` 側の更新が出たら上げる。
+- 公開前と、月1回は両方を再実行する。
