@@ -1,6 +1,6 @@
 # 本番環境の設計（友人・知人への限定公開）
 
-2026-10-10 / 設計: CEO（Katsuhiro）/ 状態: **承認済み・実装中**（改訂2: 既存のLightsailへの相乗りに変更）
+2026-10-10 / 設計: CEO（Katsuhiro）/ 状態: **承認済み・実装中**（改訂3: Spra専用のLightsailインスタンスを新しく作る）
 
 ## 1. 目的と範囲
 
@@ -9,27 +9,25 @@
 - **範囲に入れない**: 課金（Stripe本番）、一般公開向けの冗長化、スマホアプリ化。コイン購入は公開設定のスイッチをOFFのままにする。
 
 ### Ownerの決定（2026-10-10）
-- AWSは**既存のものに足す**。
+- AWSは**既存のアカウントに足す**。サーバーは、**Spra専用のLightsailインスタンスを新しく作る**（2GB・東京。将来 Tane・spra-world も載せるため、中央管理システムや他のアプリとは分ける。2026-10-12）。
+- メールは `info@spra.jp`（Xserver）から送る。
 - `spra.jp` のDNSは**レンタルサーバー（Xserver）の管理画面**にある。ネームサーバーの移管はしない。
 - お問い合わせは、**APIで中央管理システム（projects/Spra）へ送って一元管理**する。
 - 穴ふさぎ（3章）から進める。
 
 ## 2. 調べて分かったこと
 
-### 2-1. すでにある本番（相乗り先）
+### 2-1. 参考にした既存の本番（`projects/Spra`）
 
-`projects/Spra`（中央管理システム）の `docs/ProductionDeploymentGuide.md` と `TASKS.md` による。
+中央管理システムは別のLightsail（4GB）で動いている。**このアプリは載せず、専用のインスタンスを作る**（Ownerの決定）。ただし、運用の流儀は合わせた。
 
-| 事実 | このアプリへの影響 |
+| 既存の事実 | このアプリでの扱い |
 |---|---|
-| Lightsailのインスタンス `smartsprouts-production`（Ubuntu 24.04・**4GB**・東京・固定IP）が稼働中。80/443/22のみ開放 | **新しいサーバーは作らない。** 相乗りする。「サーバーは2GBで」という先の決定は、**既存の4GBに足すので不要になった**（かわりに空きメモリの確認が要る。7章） |
-| 本体のCaddyが80/443を持ち、HTTPS（Let's Encrypt）を終端。katsuoooolは「別のComposeプロジェクト」として載り、本体のネットワーク `spra_prod` に入って、本体Caddyから転送される | **同じ流儀に合わせる**（4章）。自前のCaddyでポートを取り合わない |
-| 2026-10-08に障害: 別プロジェクトのサービス名 `app` が `spra_prod` で本体の `app` と紛れ、本体のPHPが別アプリに繋がった | **サービス名・ネットワーク別名は必ず `spra-go-` 付き**にし、`app` `mysql` のような素の名前では `spra_prod` に入らない |
-| DNSはXserverで管理。MXがドメイン本体を指すとA変更でメールが止まる事故があった（K26） | 足すのは `go.spra.jp` など**サブドメインのAレコードだけ**。`spra.jp` 本体のA・MXには触らない |
-| 2GBだとNextやViteのビルドでOOMになる。対策は「一時的なスワップを付ける」 | このアプリのビルドも同じ手順（4-3） |
-| DBバックアップ: `scripts/backup-db.sh`（mysqldump→gzip→`~/db-backups`、7日分）をcronで毎日。S3は使わない（Ownerの判断） | **同じ方式にそろえる**（6章） |
-| メール送信は、Xserverのメールアカウント（SMTP）。通知メールの宛先は `MAIL_ADMIN_ADDRESS` | 同じ方式で始める（5-2） |
-| **お問い合わせAPI**がある: `POST /api/contacts`（ヘッダー `X-Api-Key`、1分30回まで）、カテゴリ一覧 `GET /api/contacts/categories`。APIキーは `contact_api_clients` に登録（ハッシュで照合） | このアプリの「ご意見」をここへ送る（8章） |
+| DNSはXserver。ネームサーバーは移管せず、Aレコードを足す。MXがドメイン本体を指す場合、ドメイン本体のAを書き換えるとメールが止まる（K26） | 足すのは `go.spra.jp` など**サブドメインのAレコードだけ**。`spra.jp` 本体のA・MXには触らない |
+| 2GBだとNext/Viteのビルドでメモリ不足。対策は一時的なスワップ | 同じ。2GBなので、初回は必ずスワップを足す |
+| DBバックアップは `scripts/backup-db.sh`（mysqldump→gzip→`~/db-backups`）をcron。S3は使わない | 同じ方式（14日分）。ほかにLightsailのスナップショット |
+| メールはXserverのSMTP | 同じ（`info@spra.jp`） |
+| お問い合わせAPI: `POST /api/contacts`（`X-Api-Key`、1分30回まで）、`GET /api/contacts/categories` | このアプリの「ご意見」をここへ送る（8章） |
 
 ### 2-2. このアプリの形
 
@@ -53,54 +51,53 @@
 ### 4-1. 全体図
 
 ```
-利用者のスマホ（PWA） ── HTTPS ──▶ Lightsail「smartsprouts-production」（既存・4GB）
+利用者のスマホ（PWA） ── HTTPS ──▶ Lightsail「spra-production」（Spra専用・2GB・東京・固定IP）
                                      │
- 本体のCaddy（80/443・Let's Encrypt。Spraのcompose）
-   ├─ go.spra.jp      ──▶ spra-go-next:3000  （Next.js）
-   └─ api.go.spra.jp  ──▶ spra-go-web:80     （内側のCaddy ─ fastcgi ─▶ spra-go-app:9000）
-                                     │
- 別のComposeプロジェクト「spra-go」（ネットワーク spra_prod に、別名つきで参加）
-   ├─ spra-go-next  : Next.js（standalone）
-   ├─ spra-go-web   : 内側のCaddy（Laravelの public を配り、PHP-FPMへ渡す）
-   ├─ app           : Laravel（PHP-FPM）※spra_prod には参加させない。別名 spra-go-app は spra-go の内側だけ
-   ├─ scheduler     : schedule:run を60秒ごと
-   └─ mysql         : MySQL 8.4（このプロジェクトの内側だけ。外にもspra_prodにも出さない）
+ Composeプロジェクト「spra-go」
+   ├─ caddy     : 80/443。HTTPS（Let's Encrypt）を自動で取って更新し、ホスト名で振り分ける
+   │    ├─ go.spra.jp      ──▶ next:3000   （Next.js standalone）
+   │    └─ api.go.spra.jp  ──▶ app:9000    （Laravel / PHP-FPM。fastcgi）
+   ├─ next      : Next.js
+   ├─ app       : Laravel（PHP-FPM）
+   ├─ scheduler : schedule:run を60秒ごと（毎日の集計・ご意見の送り直し）
+   └─ mysql     : MySQL 8.4（外には公開しない）
 ```
 
-- 「`app` は spra_prod に入れない」という katsuooool の教訓を守る。`spra-go-next` と `spra-go-web` だけが `spra_prod` に参加する。
-- ホスト名: `go.spra.jp`（画面）と `api.go.spra.jp`（API）。クッキーは `.go.spra.jp` で共有（同じサイト内なので、Safariの追跡防止にも掛からない）。公式サイト `spra.jp` のクッキーとは混ざらない。
-- 本体のCaddyfileに足すブロックは、`deploy/spra-main-caddy-snippet.Caddyfile` に用意する（本体のリポジトリへの反映はOwnerの確認のあと）。
-- 本体のCompose・Caddyは**止めずに**足す。反映は `caddy reload`（本体を再起動しない）。
+- 外に出すポートは caddy の 80/443 だけ（22はSSH）。
+- ホスト名は2つ: `go.spra.jp`（画面）と `api.go.spra.jp`（API）。クッキーは `.go.spra.jp` で共有（同じサイト内）。`spra.jp` 本体のクッキーとは混ざらない。
+- 将来 Tane・spra-world を同じインスタンスに載せるときは、この caddy にホスト名のブロックを足す（そのとき、Caddyを独立したプロジェクトに切り出す）。
 
-### 4-2. メモリの予算（4GBの相乗り）
+### 4-2. メモリの予算（2GB）
 
-| 項目 | 上限（目安） |
+| 項目 | 上限 |
 |---|---|
-| spra-go-next | 256MB |
-| app（PHP-FPM） | 256MB（子プロセス最大5） |
-| spra-go-web（Caddy） | 64MB |
+| next | 256MB |
+| app（PHP-FPM、子プロセス最大5） | 256MB |
+| caddy | 96MB |
 | scheduler | 128MB |
-| mysql | 512MB（`innodb_buffer_pool_size=192M`） |
-| **合計** | **約1.2GB** |
+| mysql（`innodb_buffer_pool_size=192M`） | 512MB |
+| **合計** | **約1.25GB**（OSに約0.5GB） |
 
-- すでに載っているもの（本体のapp・horizon・scheduler・mysql・redis・caddy、katsuooool）の実測が不明。**実測してから決める**（7章）。足りなければ、(a) スワップ2GBを常設、(b) 8GBへ上げる（Lightsail、約$44/月）のどちらか。
-- 各コンテナに `mem_limit` を付け、1つが暴れて本体を巻き込まないようにする（katsuooool方式）。
+- 2GBは余裕が少ない。ビルドのときは**一時的にスワップ4GB**を足す（運用では2GBのスワップを常設してもよい）。
+- 公開してメモリ不足（`docker stats`、スワップの使用増）が出たら、**4GBへ上げる**（Lightsailのプラン変更。約$24/月）。
 
 ### 4-3. ビルドとデプロイ
 
-- ビルドは**サーバー上**で行う（Mac→Linuxの別アーキテクチャのビルドは遅く壊れやすい）。ビルド中だけ**4GBのスワップを一時追加**（本体のガイドと同じ）し、`docker compose build` を1サービスずつ。Nextのビルドは `NODE_OPTIONS=--max-old-space-size=1024`。
-- `scripts/deploy.sh`: `git pull` → スワップ確認 → ビルド → `migrate --force` → `optimize` → 再作成 → `/up` を確認。**失敗したら止まる**（`set -e`）。
-- 手元のMacでは、本番と同じ構成を `localhost` で動かして予行演習する（`compose.prod.yaml` をそのまま使えるよう、ドメインは環境変数）。
+- ビルドは**サーバー上**で行う（Mac→Linuxの別アーキテクチャのビルドは遅く壊れやすい）。`docker compose build` を1サービスずつ。Nextは `NODE_OPTIONS=--max-old-space-size=1024`。
+- `scripts/deploy.sh`: `git pull` → ビルド → `migrate --force` → `optimize` → 再作成 → `/up` を確認。失敗したら止まる。
+- 手元のMacでの予行演習は `compose.rehearsal.yaml`（本番と同じイメージを `localhost` で動かす）。
 
 ### 4-4. 採らなかった案
 
 | 案 | 理由 |
 |---|---|
-| 新しいLightsailを作る | Ownerの方針は「既存に足す」。費用も運用も増える |
-| 自前のCaddyで80/443を持つ | 本体Caddyと取り合いになり、本体まで止まる |
+| 既存の4GB（中央管理システム・katsuooool）に相乗り | Ownerの決定で、専用にする（Tane・spra-worldも載せる） |
 | 1つのホスト名＋道で振り分け | `/owner` `/admin` が衝突する |
 | フロントだけVercel | AWSにまとめる方針に反する |
-| 本体のMySQLに同居（別データベース） | 障害・メモリ・バックアップの境界が混ざる。このアプリは自前のMySQLを持つ |
+| 管理型DB（RDS・Lightsail DB） | 費用が増える。一般公開が近づいたら検討 |
+
+## 費用の目安
+Lightsail 2GB 約$12/月（約1,900円）。固定IPはアタッチ中は無料。スナップショットは数十〜百数十円。SESは使わない（初期）。**合計 月 約2,000〜2,500円**。
 
 ## 5. ドメイン・HTTPS・メール
 
@@ -118,7 +115,7 @@
 
 ### 5-2. メール（登録の確認・パスワードの再設定）
 
-- **まずは本体と同じ、Xserverのメールアカウント（SMTP）で始める。** 新しい申請（SESの本番アクセス）が要らず、すぐ動く。差出人は `noreply@spra.jp`（Ownerが、Xserverでこのアドレスを作る）。
+- **まずは本体と同じ、Xserverのメールアカウント（SMTP）で始める。** 新しい申請（SESの本番アクセス）が要らず、すぐ動く。差出人は `info@spra.jp`（Ownerが、Xserverでこのアドレスを作る）。
 - `MAIL_SCHEME`: ポート465ならSMTPS（`smtps`）、587なら未設定（本体のチェックリストと同じ）。
 - 限定公開の人数なら、Xserverの送信上限で足りる。**一般公開が近づいたら Amazon SES（東京）へ移す**（`.env` の変更だけで済む。Laravelの `smtp` のまま宛先を替える）。
 - 迷惑メール扱いを避けるため、`spra.jp` のSPF・DKIMがXserver側で有効かをOwnerが確認する（Xserverの標準設定で有効なことが多い）。
@@ -135,19 +132,11 @@
 | ログ | Laravelは `daily` で7日。コンテナのログは容量の上限を付ける |
 | 費用 | 既存のインスタンスに足すので追加は0円（容量が足りれば）。AWSの予算アラートは、本体の設定（T：Cost budget）があるので、それを流用 |
 
-## 7. 公開前に実測すること（Ownerにお願い）
+## 7. インスタンスの作り方（Ownerの作業。手順書 2章）
 
-インスタンスにSSHして、次の結果を見せてほしい（私は本番に入れないため）。
-
-```bash
-free -m                                   # メモリの空き・スワップ
-df -h /                                   # ディスクの空き
-docker stats --no-stream                  # いま動いているコンテナごとのメモリ
-docker compose ls                         # 動いているComposeプロジェクト
-```
-
-- 空きメモリが約1.5GB以上あれば、そのまま載せる。足りなければスワップ常設か8GBを相談する。
-- ディスクは、イメージ（Nextのビルドで数GB使う）を考え、**10GB以上の空き**がほしい。
+1. Lightsail で、Ubuntu 24.04 LTS（OSのみ）・2GB・東京のインスタンス `spra-production` を作る
+2. 固定IPを作ってアタッチ／ファイアウォールは 80・443・22 だけ（3306は開けない）／SSHの鍵を保管／自動スナップショットを有効に
+3. SSHして、Docker・git・gh を入れる（手順書 2-0）
 
 ## 8. お問い合わせの中央管理システム連携
 
@@ -180,7 +169,7 @@ docker compose ls                         # 動いているComposeプロジェ�
 | `SESSION_DOMAIN` / `SESSION_SECURE_COOKIE` | `.go.spra.jp` / `true` |
 | `NEXT_PUBLIC_API_URL` / `NEXT_PUBLIC_SITE_URL` | `https://api.go.spra.jp` / `https://go.spra.jp`（**ビルド時**） |
 | `DB_*` | `mysql`（コンテナ名）。ポートは外に出さない |
-| `MAIL_*` | Xserverのメール（5-2）。`MAIL_FROM_ADDRESS=noreply@spra.jp` |
+| `MAIL_*` | Xserverのメール（5-2）。`MAIL_FROM_ADDRESS=info@spra.jp` |
 | `SPRA_CONTACT_*` | 8-2 |
 | `STRIPE_*` | 空（購入のスイッチはOFF） |
 | `QUEUE_CONNECTION` / `CACHE_STORE` / `SESSION_DRIVER` | `database`（今のまま） |
@@ -214,8 +203,8 @@ docker compose ls                         # 動いているComposeプロジェ�
 | 1 | ✅ 穴ふさぎ（3章） | CEO |
 | 2 | 本番用のDockerfile・compose・内側のCaddy・デプロイ/バックアップのスクリプト・手順書、お問い合わせの連携（8章） | CEO |
 | 3 | 手元のMacで、本番と同じ構成を動かして予行演習 | CEO |
-| 4 | 実測（7章）。Xserverで `noreply@spra.jp` を作る。DNSにAレコード2つ。Spraで「Spra Go」カテゴリとAPIキーを作る | Owner（手順は私が書く） |
-| 5 | 本体のCaddyfileにブロックを足す → `caddy reload` | Owner＋CEO |
+| 4 | Lightsailのインスタンス作成（7章）。Xserverで `info@spra.jp` を作る。DNSにAレコード2つ。Spraで「Spra Go」カテゴリとAPIキーを作る | Owner（手順は私が書く） |
+| 5 | DNSが回ったら、Caddyが証明書を自動で取る（`/up` で確認） | CEO |
 | 6 | サーバーへデプロイ、初期データ、Ownerの作成、**復元の練習** | CEO（SSHはOwner） |
 | 7 | 実機で確認 → 招待コードを入れる → 3〜5人に招待 | Owner＋CEO |
 | 8 | 画像・声・問題を、公開のあとに足す（13章） | |
@@ -229,8 +218,8 @@ docker compose ls                         # 動いているComposeプロジェ�
 
 ## 14. Ownerに決めてほしいこと（残り）
 
-1. **サーバー**: 既存4GBに相乗りでよいか。実測（7章）の結果で、スワップ常設／8GBを決める
-2. **メール**: まずXserverのメール（`noreply@spra.jp`）で始めてよいか（SESは一般公開の前に）
+1. **サーバー**: 専用の2GBで始める（決定済み）。足りなければ4GB
+2. **メール**: `info@spra.jp` で作成する（決定済み。SESは一般公開の前に）
 3. **Spra Goの「ご意見」を中央へ送る**（8章）。「へん？報告」は送らず、このアプリに残す、でよいか
 4. **SpraのURL**（APIの宛先）と、Spra側で「Spra Go」カテゴリとAPIキーを作ってもらうこと
 5. **バックアップ**: 14日分のダンプ＋Lightsailの自動スナップショット（S3は使わない）でよいか

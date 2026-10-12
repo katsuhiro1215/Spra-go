@@ -17,7 +17,7 @@ cd "$REPO_DIR"
 
 DEST="$BACKUP_DIR/spra-go-db-$(date +%Y%m%d-%H%M%S).sql.gz"
 
-docker compose --env-file .env.production -f compose.prod.yaml exec -T spra-go-mysql sh -c \
+docker compose --env-file .env.production -f compose.prod.yaml exec -T mysql sh -c \
   'exec mysqldump --single-transaction --no-tablespaces -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"' \
   | gzip > "$DEST"
 

@@ -29,16 +29,16 @@ if [[ "${1:-}" != "--no-pull" ]]; then
 fi
 
 echo "== ビルド(1つずつ。メモリを食うので並列にしない) =="
-for service in app spra-go-web spra-go-next; do
+for service in app caddy next; do
   "${COMPOSE[@]}" build "$service"
 done
 
 echo "== データベースを起動してマイグレーション =="
-"${COMPOSE[@]}" up -d spra-go-mysql
+"${COMPOSE[@]}" up -d mysql
 "${COMPOSE[@]}" run --rm app php artisan migrate --force
 
 echo "== 再作成 =="
-"${COMPOSE[@]}" up -d --force-recreate app scheduler spra-go-web spra-go-next
+"${COMPOSE[@]}" up -d --force-recreate app scheduler caddy next
 "${COMPOSE[@]}" exec -T app php artisan optimize
 
 echo "== 確認 =="

@@ -1,30 +1,40 @@
-# Spra Go 用の内側の Caddy(web コンテナ)。TLS は本体の Caddy が終端するので、ここは HTTP の :80 のみ。
-# 本体 Caddy(reverse_proxy spra-go-web:80)→ この Caddy → php-fpm(spra-go-app:9000)の順に渡る。
+# Spra Go 用の Caddy(外向き。HTTPS の証明書を自動で取って更新する)。
+# 画面(Next.js)と API(Laravel / PHP-FPM)を、ホスト名で振り分ける。
+# ドメインは環境変数(compose.prod.yaml が渡す)。本番: go.spra.jp / api.go.spra.jp
+# 手元の予行演習では http://localhost:3100 / http://localhost:8081 にして、HTTPS を使わない。
 {
-	auto_https off
-	servers {
-		# 本体 Caddy(プライベートアドレス)の X-Forwarded-* を上書きせず、そのまま php-fpm に渡す。
-		# 無いと、利用者のIPが本体 Caddy のIPに置き換わり、回数制限が全員まとめて数えられる
-		trusted_proxies static private_ranges
+	email {$CADDY_ACME_EMAIL:admin@example.com}
+}
+
+{$WEB_SITE:go.spra.jp} {
+	encode gzip
+
+	reverse_proxy next:3000
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
 	}
 }
 
-:80 {
-	# app コンテナと同じパスにする(php_fastcgi の SCRIPT_FILENAME がそのまま解決される)
+{$API_SITE:api.go.spra.jp} {
+	encode gzip
+
+	# php_fastcgi は public/index.php の有無をこの Caddy 側で見るので、app と同じパスに public を置いてある(Dockerfile.prod の web)
 	root * /var/www/html/public
 
 	request_body {
 		max_size 2MB
 	}
 
-	# 素の `app` は本体と紛れるので、別名 spra-go-app で呼ぶ(2026-10-08 の障害の教訓)
-	php_fastcgi spra-go-app:9000 {
+	php_fastcgi app:9000 {
 		read_timeout 30s
 	}
 
 	file_server
 
 	header {
+		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options "nosniff"
 		Referrer-Policy "strict-origin-when-cross-origin"
 	}
