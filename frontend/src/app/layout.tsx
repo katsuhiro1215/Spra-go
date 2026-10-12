@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { AccessibilityControls } from "@/components/app/accessibility-controls";
 import { AccessibilityProvider } from "@/components/app/accessibility-provider";
+import { BgmRouter } from "@/components/app/bgm-router";
 import { PlayTimeTracker } from "@/components/app/play-time-tracker";
 import { ProfileProvider } from "@/components/app/profile-provider";
 import { ServiceWorkerRegister } from "@/components/app/service-worker-register";
@@ -52,6 +53,7 @@ export default function RootLayout({
               <SoundControls />
               <ServiceWorkerRegister />
               <PlayTimeTracker />
+              <BgmRouter />
             </ProfileProvider>
           </SoundProvider>
         </AccessibilityProvider>
