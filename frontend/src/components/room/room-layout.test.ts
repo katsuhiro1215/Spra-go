@@ -6,12 +6,12 @@ import { ROOM_CANVAS, ROOM_VIEW, roomItems } from "./room-layout";
 const keys = (mode: "day" | "night", pose: "idle" | "wave" | "sit") => roomItems(mode, pose).map((item) => item.key);
 
 describe("部屋の配置(設計書 2026-10-05-spru-room 4章)", () => {
-  it("昼は、部屋→ベッド→テーブル→椅子→スプルの順(奥から手前)", () => {
-    expect(keys("day", "idle")).toEqual(["room", "bed", "table", "chair", "spru_idle"]);
+  it("昼は、部屋→ベッド→椅子→テーブル→スプルの順(奥から手前。椅子は机の右上=奥にある)", () => {
+    expect(keys("day", "idle")).toEqual(["room", "bed", "chair", "table", "spru_idle"]);
   });
 
   it("夜は、空のベッドの代わりに眠るスプル入りのベッド。起きているスプルは出ない", () => {
-    expect(keys("night", "idle")).toEqual(["room", "bed_sleeping", "table", "chair"]);
+    expect(keys("night", "idle")).toEqual(["room", "bed_sleeping", "chair", "table"]);
     expect(keys("night", "sit")).not.toContain("spru_sit");
   });
 
@@ -41,6 +41,16 @@ describe("部屋の配置(設計書 2026-10-05-spru-room 4章)", () => {
     const table = roomItems("day", "idle").find((item) => item.key === "table")!;
     expect(table.width).toBeCloseTo(ROOM_ASSETS.table.width * 0.27);
     expect(table.height).toBeCloseTo(ROOM_ASSETS.table.height * 0.27);
+  });
+
+  it("椅子は机の右上(机より右で、足元が奥=上)、ベッドは右の壁端(元より右)にある", () => {
+    const items = roomItems("day", "idle");
+    const at = (key: string) => items.find((item) => item.key === key)!;
+    const foot = (key: string) => ({ cx: at(key).left + at(key).width / 2, bottom: at(key).top + at(key).height });
+    expect(foot("chair").cx).toBeGreaterThan(foot("table").cx);
+    expect(foot("chair").bottom).toBeLessThan(foot("table").bottom);
+    expect(foot("bed").cx).toBeGreaterThanOrEqual(940);
+    expect(foot("bed").cx + at("bed").width / 2).toBeLessThanOrEqual(ROOM_VIEW.x + ROOM_VIEW.width);
   });
 
   it("座るスプルは、立つスプルと足元の中心が同じ", () => {

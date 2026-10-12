@@ -1,7 +1,7 @@
 import { HALF_H, HALF_W, tileCenter, tileKey } from "./iso";
 import type { Landmark, Tile, WorldItem, WorldLand, WorldPlot } from "./types";
 
-type Plots = Pick<WorldLand, "plots">;
+type Plots = Pick<WorldLand, "plots"> & { water?: Tile[] };
 type Rect = Pick<WorldPlot, "x" | "y" | "w" | "h">;
 type Placed = Pick<WorldItem, "id" | "x" | "y" | "footprint">;
 
@@ -19,8 +19,24 @@ export function plotAt(land: Plots, x: number, y: number): WorldPlot | null {
   return land.plots.find((plot) => inRect(plot, x, y)) ?? null;
 }
 
+// 海のマスの集合は、land ごとに1回だけ作る
+const waterSets = new WeakMap<object, Set<string>>();
+function waterOf(land: Plots): Set<string> {
+  let set = waterSets.get(land);
+  if (!set) {
+    set = new Set((land.water ?? []).map(([x, y]) => tileKey(x, y)));
+    waterSets.set(land, set);
+  }
+  return set;
+}
+
+export function isWaterTile(land: Plots, x: number, y: number): boolean {
+  return waterOf(land).has(tileKey(x, y));
+}
+
+/** 開いた区画にある、陸のマス(海は含まない) */
 export function isOpenTile(land: Plots, x: number, y: number): boolean {
-  return plotAt(land, x, y)?.unlocked ?? false;
+  return (plotAt(land, x, y)?.unlocked ?? false) && !isWaterTile(land, x, y);
 }
 
 /** 開いている区画のマス(奥から手前の順) */
@@ -29,10 +45,22 @@ export function openTiles(land: Plots): Tile[] {
   for (const plot of land.plots) {
     if (!plot.unlocked) continue;
     for (let y = plot.y; y < plot.y + plot.h; y++) {
-      for (let x = plot.x; x < plot.x + plot.w; x++) tiles.push([x, y]);
+      for (let x = plot.x; x < plot.x + plot.w; x++) {
+        if (!isWaterTile(land, x, y)) tiles.push([x, y]);
+      }
     }
   }
   return tiles.sort((a, b) => a[0] + a[1] - (b[0] + b[1]) || a[0] - b[0]);
+}
+
+/** 陸のマスの菱形を1本のパスにまとめる(隙間の線が出ない切り抜き・縁取り用)。dy は全体を下へずらす量 */
+export function openTilesPath(land: Plots, dy = 0): string {
+  return openTiles(land)
+    .map(([x, y]) => {
+      const { sx, sy } = tileCenter(x, y);
+      return `M${sx} ${sy - HALF_H + dy}L${sx + HALF_W} ${sy + dy}L${sx} ${sy + HALF_H + dy}L${sx - HALF_W} ${sy + dy}Z`;
+    })
+    .join("");
 }
 
 /** 土地の側面を描くマス。left は左手前(x, y+1)、right は右手前(x+1, y)に開いた土地が続かないマス */

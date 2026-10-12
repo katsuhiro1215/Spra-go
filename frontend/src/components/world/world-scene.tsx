@@ -37,6 +37,7 @@ import {
   openTiles,
   plotAt,
   plotCenter,
+  openTilesPath,
 } from "./land";
 import { LandmarkArt } from "./landmark-art";
 import type { TimeOfDay } from "./time-of-day";
@@ -277,17 +278,16 @@ export function WorldScene({
     .filter((o) => !(o.kind === "spru" && spru.sleeping))
     .sort(byDepth);
 
-  // 海は地図全体の下に描く(雲の区画も海の上に浮かぶ)
-  const w = land.width;
-  const h = land.height;
-  const sea = `${-h * HALF_W},${h * HALF_H + 50} ${(w - h) * HALF_W},${(w + h) * HALF_H + 50} ${w * HALF_W},${w * HALF_H + 50} 0,50`;
+  // 海は、地図の枠の背景の1枚(TownMap の town-sea。ゆっくり動く)。陸の縁には、浅瀬と波打ち際を重ねる(崖の足元に合わせて下へずらす)
+  const landPath = openTilesPath(land);
+  const shorePath = openTilesPath(land, LAND_THICKNESS);
   // 夜の暗さは、土地の形(側面とマス)に重ねる
-  const landShapes = [
+  const landFaces = [
     ...edges.left.map(([x, y]) => leftFace(tileCenter(x, y).sx, tileCenter(x, y).sy, LAND_THICKNESS)),
     ...edges.right.map(([x, y]) => rightFace(tileCenter(x, y).sx, tileCenter(x, y).sy, LAND_THICKNESS)),
-    // 地面は、マスごとでなく、開いた区画ごとの1つの菱形で重ねる(マスごとだと、重なりの縁に細い線が出るため)
-    ...openPlots.map((plot) => plotPoints(plot)),
   ];
+  // 地面は、マスごとでなく、開いた区画ごとの1つの菱形で重ね(マスごとだと、重なりの縁に細い線が出るため)、海のマスは陸の形で切り抜く
+  const plotShapes = openPlots.map((plot) => plotPoints(plot));
   const previewTiles = preview ? footprintTiles(preview.x, preview.y, preview.item.footprint) : [];
   const previewCenter = preview ? footprintCenter(preview.x, preview.y, preview.item.footprint) : null;
   const spruCenter = tileCenter(land.spru.x, land.spru.y);
@@ -395,6 +395,12 @@ export function WorldScene({
               </pattern>
             );
           })}
+          <clipPath id="land-clip">
+            <path d={landPath} />
+          </clipPath>
+          <filter id="shore-blur" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur stdDeviation="7" />
+          </filter>
           <filter id="blend-soft" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="3" />
           </filter>
@@ -408,7 +414,10 @@ export function WorldScene({
             </mask>
           ))}
         </defs>
-        <polygon points={sea} fill="#62b8d6" opacity={0.55} />
+        <g style={theme.dimObjects ? { filter: "brightness(0.6)" } : undefined}>
+          <path d={shorePath} fill="none" stroke="#8fe3f0" strokeWidth={44} strokeLinejoin="round" opacity={0.5} filter="url(#shore-blur)" />
+          <path d={shorePath} fill="none" stroke="#e9fbff" strokeWidth={9} strokeLinejoin="round" className="town-foam" />
+        </g>
 
         {edges.left.map(([x, y]) => {
           const { sx, sy } = tileCenter(x, y);
@@ -431,9 +440,11 @@ export function WorldScene({
           );
         })}
 
-        {artPlots.map((plot) => (
-          <polygon key={`ground-${plot.key}`} points={plotPoints(plot)} fill={`url(#ground-${plot.ground})`} />
-        ))}
+        <g clipPath="url(#land-clip)">
+          {artPlots.map((plot) => (
+            <polygon key={`ground-${plot.key}`} points={plotPoints(plot)} fill={`url(#ground-${plot.ground})`} />
+          ))}
+        </g>
         {checkerTiles.map(([x, y]) => (
           <polygon key={tileKey(x, y)} points={tilePoints(x, y)} fill={groundOf(x, y).tile[(x + y) % 2]} />
         ))}
@@ -530,9 +541,14 @@ export function WorldScene({
 
         {theme.groundTint && (
           <g fill={theme.groundTint.color} opacity={theme.groundTint.opacity}>
-            {landShapes.map((points, i) => (
+            {landFaces.map((points, i) => (
               <polygon key={i} points={points} />
             ))}
+            <g clipPath="url(#land-clip)">
+              {plotShapes.map((points, i) => (
+                <polygon key={i} points={points} />
+              ))}
+            </g>
           </g>
         )}
 
@@ -592,7 +608,7 @@ export function WorldScene({
               {o.kind === "item" && (
                 <g className={o.item.id === poppedItemId ? "animate-pop-in" : undefined}>
                   <g style={artStyle}>
-                    <ItemArt assetKey={o.item.asset_key} />
+                    <ItemArt assetKey={o.item.asset_key} mirrored={o.item.mirrored} />
                   </g>
                   {theme.lit &&
                     lightCircles(o.item.asset_key, o.item.footprint).map((light, index) => (

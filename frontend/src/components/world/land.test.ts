@@ -14,6 +14,7 @@ import {
   landmarkFootprint,
   occupiedTiles,
   openTiles,
+  openTilesPath,
   openedLine,
   plotAt,
   plotCenter,
@@ -208,5 +209,50 @@ describe("目印の大きさ(Spruの家は2×2)", () => {
       [1, 2],
       [2, 2],
     ]);
+  });
+});
+
+describe("海(陸の四隅を欠いた海岸線)", () => {
+  const withWater = (): WorldLand => ({ ...landAt(12), water: [[6, 0], [6, 1]] });
+
+  it("海のマスは、開いた区画の中でも、開いたマスではない(陸でない)", () => {
+    const land = withWater();
+    expect(isOpenTile(land, 6, 0)).toBe(false);
+    expect(isOpenTile(land, 5, 0)).toBe(true);
+    expect(openTiles(land).some(([x, y]) => x === 6 && y === 0)).toBe(false);
+  });
+
+  it("海に面したマスには、側面(崖)が付く", () => {
+    const land = withWater();
+    // (6,2) の奥(上)は海。側面は左手前・右手前なので、(5,0)・(5,1) の右手前は海になり、右の側面が付く
+    expect(landEdges(land).right.some(([x, y]) => x === 5 && y === 0)).toBe(true);
+    // 海のない地図では、(5,0)の右手前(6,0)も陸なので付かない
+    expect(landEdges(landAt(12)).right.some(([x, y]) => x === 5 && y === 0)).toBe(false);
+  });
+
+  it("置ける場所(validAnchors)にも海は入らない", () => {
+    const land = withWater();
+    expect(validAnchors(land, [], 1, null).has("6,0")).toBe(false);
+    expect(validAnchors(land, [], 1, null).has("5,0")).toBe(true);
+  });
+});
+
+describe("陸の形(1本のパス)", () => {
+  it("開いた陸のマスの菱形を、1本のパスにまとめる(海のマスは含まない)", () => {
+    const land: WorldLand = { ...landAt(1), water: [[6, 6]] };
+    const path = openTilesPath(land);
+    expect(path.startsWith("M")).toBe(true);
+    expect(path.split("Z").length - 1).toBe(openTiles(land).length);
+    expect(openTilesPath({ ...landAt(1), water: [] }).split("Z").length - 1).toBe(openTiles(landAt(1)).length);
+  });
+
+  it("オフセットを付けると、すべての点が同じだけ下へずれる(海岸の波打ち際用)", () => {
+    const land = landAt(1);
+    const base = openTilesPath(land).match(/-?\d+(\.\d+)?/g)!.map(Number);
+    const shifted = openTilesPath(land, 40).match(/-?\d+(\.\d+)?/g)!.map(Number);
+    for (let i = 0; i < base.length; i += 2) {
+      expect(shifted[i]).toBe(base[i]);
+      expect(shifted[i + 1]).toBe(base[i + 1] + 40);
+    }
   });
 });

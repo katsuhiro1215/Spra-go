@@ -668,6 +668,9 @@
     .animate-spru-bob,
     .animate-spru-hop,
     .animate-tile-pulse,
+    .town-foam,
+    .town-sea::before,
+    .town-sea::after,
     .animate-pop-in,
     .animate-catch-shake,
     .animate-twinkle,
@@ -726,4 +729,51 @@
   --seq-text-2: #ffffff;
   --seq-text-3: #0b0b0b;
   --seq-text-4: #0b0b0b;
+}
+
+/* 町の海(2026-10-13)。背景の1枚。同じ波の模様を2枚、別の向きにゆっくり動かす(1周期ぶん動いて繰り返すので継ぎ目が出ない)。
+   あとで ChatGPT の「つなげて並べられる海の絵」に差し替えるときは、::before・::after の background-image だけ変える */
+.town-sea {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 55%, #4bb0d0 0%, #2f8fb8 60%, #25769f 100%);
+  /* 上下の縁は空へ溶ける */
+  mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+.town-sea::before,
+.town-sea::after {
+  content: "";
+  position: absolute;
+  inset: -300px;
+  background-repeat: repeat;
+  will-change: transform;
+}
+.town-sea::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.32' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M20 40q20-14 40 0t40 0'/%3E%3Cpath d='M140 120q20-14 40 0t40 0'/%3E%3Cpath d='M60 190q20-14 40 0t40 0'/%3E%3C/g%3E%3C/svg%3E");
+  animation: town-sea-a 46s linear infinite;
+}
+.town-sea::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cg fill='none' stroke='%23d9f6ff' stroke-opacity='.26' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M200 60q16-11 32 0t32 0'/%3E%3Cpath d='M40 170q16-11 32 0t32 0'/%3E%3Cpath d='M230 260q16-11 32 0t32 0'/%3E%3C/g%3E%3Cg fill='%23ffffff' fill-opacity='.35'%3E%3Ccircle cx='110' cy='60' r='2'/%3E%3Ccircle cx='260' cy='170' r='2.5'/%3E%3Ccircle cx='70' cy='280' r='2'/%3E%3C/g%3E%3C/svg%3E");
+  animation: town-sea-b 64s linear infinite;
+}
+@keyframes town-sea-a {
+  to {
+    transform: translate3d(240px, 120px, 0);
+  }
+}
+@keyframes town-sea-b {
+  to {
+    transform: translate3d(-320px, 160px, 0);
+  }
+}
+.town-foam {
+  opacity: 0.55;
+  animation: town-foam 6s ease-in-out infinite;
+}
+@keyframes town-foam {
+  50% {
+    opacity: 0.9;
+  }
 }

@@ -53,17 +53,18 @@ it('2×2の建物の4マスのどれかが1マスのアイテムと重なると�
 ]);
 
 it('ほかの2×2の建物と1マスでも重なると置けない', function (int $x, int $y) {
+    // 最初の町は道(x=3・y=3)で区切られ、3×3が入るのは右下の (4,4)〜(6,6) だけなので、噴水を先に置き、お城を重ねる場所へ動かす
     $profile = createActiveProfile();
-    createBuilding($profile, 'fountain', 4, 4);
+    createBuilding($profile, 'fountain', $x, $y);
     $castle = createBuilding($profile);
 
-    $this->patchJson("/api/world/items/{$castle->id}", ['x' => $x, 'y' => $y])
+    $this->patchJson("/api/world/items/{$castle->id}", ['x' => 4, 'y' => 4])
         ->assertStatus(422)
         ->assertJsonPath('message', 'そこにはもう置いてあります。');
 })->with([
-    '斜め手前' => [5, 5],
-    '左にずれる' => [3, 5],
-    '右にずれる' => [5, 4],
+    '角で1マスだけ重なる' => [5, 5],
+    '左にずれる' => [4, 5],
+    '上にずれる' => [5, 4],
 ]);
 
 it('1マスのアイテムは、2×2の建物の奥以外の3マスにも置けない', function (int $x, int $y) {
@@ -160,7 +161,7 @@ it('町のAPIのバッグのアイテムにも大きさが付く', function () {
     $this->getJson('/api/world')->assertOk()->assertJsonPath('bag.0.footprint', 2);
 });
 
-it('品ぞろえのシーダーで、2×2の建物17・3×3の建物6(モール2つ・村長の家・風車の庭・城・五重塔)を含む63種類がそろい、2回実行しても増えない', function () {
+it('品ぞろえのシーダーで、2×2の建物34・3×3の建物9(モール2つ・村長の家・風車の庭・城・五重塔・姫路城・東大寺・首里城)を含む107種類がそろい、2回実行しても増えない', function () {
     $this->seed(WorldItemSeeder::class);
     $this->seed(WorldItemSeeder::class);
 
@@ -168,10 +169,10 @@ it('品ぞろえのシーダーで、2×2の建物17・3×3の建物6(モール2
     $big = $items->filter(fn (ShopItem $item) => $item->footprint() === 2)->pluck('name');
     $large = $items->filter(fn (ShopItem $item) => $item->footprint() === 3)->pluck('name');
 
-    expect($items)->toHaveCount(63)
-        ->and($big)->toHaveCount(17)
-        ->and($large)->toHaveCount(6)
-        ->and($large->all())->toContain('お城', '五重塔')
+    expect($items)->toHaveCount(107)
+        ->and($big)->toHaveCount(34)
+        ->and($large)->toHaveCount(9)
+        ->and($large->all())->toContain('お城', '五重塔', '姫路城', '東大寺', '首里城')
         ->and($big->all())->toContain('カフェ', 'タワー', 'パン屋', 'ビッグ・ベン', '凱旋門', '南大門', '和風の家', '噴水', '大きな船', '灯台', '金閣寺')
         ->and($items->firstWhere('name', 'タワー')->only(['price', 'min_level']))->toBe(['price' => 500, 'min_level' => 12]);
 });
@@ -218,7 +219,7 @@ it('Spra-worldの確定画像から足した2×2の建物(八百屋)も、4マ�
         ->assertStatus(422)
         ->assertJsonPath('message', 'そこにはもう置いてあります。');
 
-    $this->patchJson("/api/world/items/{$shop->id}", ['x' => 2, 'y' => 5])
+    $this->patchJson("/api/world/items/{$shop->id}", ['x' => 1, 'y' => 5])
         ->assertOk()
         ->assertJson(['asset_key' => 'greengrocer', 'footprint' => 2]);
 });

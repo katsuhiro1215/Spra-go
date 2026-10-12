@@ -26,11 +26,36 @@ export function plotViewBox(plot: Rect): ViewBox {
 }
 
 /** 町が枠の横幅にちょうど収まる縮尺で、地図全体の大きさと枠の高さを出す(設計書3-3) */
-export function mapLayout(land: Pick<WorldLand, "width" | "height" | "plots">, viewWidth: number): MapLayout {
+export function mapLayout(land: Pick<WorldLand, "width" | "height" | "plots">, viewWidth: number, zoom = 1): MapLayout {
   const home = plotViewBox(homePlot(land));
   const map = sceneViewBox(land.width, land.height);
-  const scale = viewWidth / home.width;
-  return { map, scale, width: map.width * scale, height: map.height * scale, viewHeight: home.height * scale };
+  const base = viewWidth / home.width;
+  const scale = base * zoom;
+  // 枠の高さは倍率によらず一定(町が枠に収まる大きさのときの高さ)
+  return { map, scale, width: map.width * scale, height: map.height * scale, viewHeight: home.height * base };
+}
+
+/** 拡大・縮小の倍率(1が、町が枠の横幅に収まる今の大きさ。0.4で全部の土地が1画面に入る) */
+export const ZOOM_STEPS = [0.4, 0.6, 1, 1.5];
+
+export function nextZoom(zoom: number, direction: "in" | "out"): number {
+  const i = ZOOM_STEPS.indexOf(zoom);
+  const at = i === -1 ? ZOOM_STEPS.indexOf(1) : i;
+  return ZOOM_STEPS[Math.min(Math.max(at + (direction === "in" ? 1 : -1), 0), ZOOM_STEPS.length - 1)];
+}
+
+/** 倍率を変えたあとのスクロール位置。枠の真ん中に見えていた場所を、そのまま真ん中にする(地図の外にははみ出さない) */
+export function zoomedScroll(
+  from: Scroll,
+  view: { width: number; height: number },
+  oldZoom: number,
+  newZoom: number,
+  mapSize: { width: number; height: number },
+): Scroll {
+  const ratio = newZoom / oldZoom;
+  const left = (from.left + view.width / 2) * ratio - view.width / 2;
+  const top = (from.top + view.height / 2) * ratio - view.height / 2;
+  return { left: clamp(left, mapSize.width - view.width), top: clamp(top, mapSize.height - view.height) };
 }
 
 const clamp = (value: number, max: number) => Math.min(Math.max(value, 0), Math.max(max, 0));

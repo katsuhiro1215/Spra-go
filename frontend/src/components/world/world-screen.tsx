@@ -617,6 +617,20 @@ export function WorldScreen() {
     setTimeout(finish, FOCUS_MS + CLEAR_MS);
   }
 
+  // 絵を左右に反転する(すぐ見た目を変え、サーバーに保存する。失敗したら戻す)
+  async function flipItem(item: WorldItem) {
+    if (!world) return;
+    setSelected(null);
+    const previous = world;
+    const flip = (list: WorldItem[]) => list.map((i) => (i.id === item.id ? { ...i, mirrored: !i.mirrored } : i));
+    setWorld({ ...world, items: flip(world.items), bag: flip(world.bag) });
+    const res = await apiFetch(`/api/world/items/${item.id}/flip`, { method: "POST" }).catch(() => null);
+    if (!res || !res.ok) {
+      setWorld(previous);
+      setMessage("向きを変えられませんでした。");
+    }
+  }
+
   async function putAway(item: WorldItem) {
     setSelected(null);
     setMessage(null);
@@ -703,7 +717,7 @@ export function WorldScreen() {
         )}
 
         <div className="relative mt-2 px-1">
-          <TownMap land={world.land} focus={focus}>
+          <TownMap land={world.land} focus={focus} dim={TIME_THEME[timeOfDay].dimObjects}>
             <WorldScene
               land={world.land}
               roadStyle={world.road_style}
@@ -756,6 +770,7 @@ export function WorldScreen() {
             setPreview(null);
             setSelected(null);
           }}
+          onFlip={() => flipItem(selected)}
           onPutAway={() => putAway(selected)}
           onClose={() => setSelected(null)}
         />

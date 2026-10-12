@@ -36,17 +36,37 @@ class WorldLand
         return null;
     }
 
-    /** 地図の中か(どれかの区画に入っているか) */
+    /** @return list<array{0: int, 1: int}> 海のマス(陸の四隅を欠いた海岸線。地図の外と同じ) */
+    public static function water(): array
+    {
+        $tiles = [];
+        foreach (config('world.land.water', []) as [$x, $y, $w, $h]) {
+            for ($dy = 0; $dy < $h; $dy++) {
+                for ($dx = 0; $dx < $w; $dx++) {
+                    $tiles[] = [$x + $dx, $y + $dy];
+                }
+            }
+        }
+
+        return $tiles;
+    }
+
+    public static function isWater(int $x, int $y): bool
+    {
+        return in_array([$x, $y], self::water(), true);
+    }
+
+    /** 地図の中か(どれかの区画に入っていて、海ではないか) */
     public static function inBounds(int $x, int $y): bool
     {
-        return self::plotAt($x, $y) !== null;
+        return self::plotAt($x, $y) !== null && ! self::isWater($x, $y);
     }
 
     public static function isOpen(int $x, int $y, int $level): bool
     {
         $plot = self::plotAt($x, $y);
 
-        return $plot !== null && $level >= $plot['min_level'];
+        return $plot !== null && ! self::isWater($x, $y) && $level >= $plot['min_level'];
     }
 
     /** @return list<string> */
@@ -124,6 +144,7 @@ class WorldLand
             'landmarks' => array_values(array_filter(self::landmarks(), fn (array $l) => $open($l['x'], $l['y']))),
             'paths' => array_values(array_filter(self::paths(), fn (array $t) => $open($t[0], $t[1]))),
             'blocked' => array_values(array_filter(self::blocked(), fn (array $t) => $open($t[0], $t[1]))),
+            'water' => self::water(),
             'spru' => config('world.land.spru'),
         ];
     }

@@ -6,11 +6,13 @@ import type { WorldItem } from "./types";
 export function ItemActionSheet({
   item,
   onMove,
+  onFlip,
   onPutAway,
   onClose,
 }: {
   item: WorldItem;
   onMove: () => void;
+  onFlip: () => void;
   onPutAway: () => void;
   onClose: () => void;
 }) {
@@ -34,6 +36,11 @@ export function ItemActionSheet({
         <button type="button" onClick={onMove} className="h-12 rounded-2xl bg-[#3b7f26] text-base font-black text-white">
           <AutoFurigana text="動かす" />
         </button>
+        {item.asset_key && (
+          <button type="button" onClick={onFlip} className="h-12 rounded-2xl bg-[#e6f0dc] text-base font-black text-[#2e6b1c]">
+            <AutoFurigana text="向きをかえる" />
+          </button>
+        )}
         <button type="button" onClick={onPutAway} className="h-12 rounded-2xl bg-[#efe5cf] text-base font-black">
           <AutoFurigana text="バッグにしまう" />
         </button>

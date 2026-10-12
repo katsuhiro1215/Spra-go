@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProfileWorldItem extends Model
 {
-    protected $fillable = ['user_profile_id', 'shop_item_id', 'x', 'y'];
+    protected $fillable = ['user_profile_id', 'shop_item_id', 'x', 'y', 'mirrored'];
 
     protected function casts(): array
     {
         return [
             'x' => 'integer',
             'y' => 'integer',
+            'mirrored' => 'boolean',
         ];
     }
 
@@ -32,7 +33,7 @@ class ProfileWorldItem extends Model
         return $this->x !== null && $this->y !== null;
     }
 
-    /** @return array{id: int, shop_item_id: int, name: string, asset_key: ?string, footprint: int, category: ?string, souvenir: bool, x: ?int, y: ?int} */
+    /** @return array{id: int, shop_item_id: int, name: string, asset_key: ?string, footprint: int, category: ?string, souvenir: bool, x: ?int, y: ?int, mirrored: bool} */
     public function toWorldArray(): array
     {
         return [
@@ -45,6 +46,7 @@ class ProfileWorldItem extends Model
             'souvenir' => isset($this->shopItem->meta['souvenir_of']),
             'x' => $this->x,
             'y' => $this->y,
+            'mirrored' => $this->mirrored,
         ];
     }
 }

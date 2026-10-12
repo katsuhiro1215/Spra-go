@@ -16,10 +16,11 @@ export const ROOM_WINDOW = { cx: 944, cy: 462, r: 90 };
 type Place = { scale: number; cx: number; bottom: number };
 
 const PLACES = {
-  bed: { scale: 0.34, cx: 900, bottom: 820 },
-  bed_sleeping: { scale: 0.3, cx: 900, bottom: 820 },
+  // ベッドは右の壁端(右の柱のきわ)、椅子は机の右上(机の奥の右)に置く(2026-10-12 Owner指摘で直した)
+  bed: { scale: 0.34, cx: 945, bottom: 845 },
+  bed_sleeping: { scale: 0.3, cx: 945, bottom: 845 },
   table: { scale: 0.27, cx: 560, bottom: 920 },
-  chair: { scale: 0.19, cx: 430, bottom: 1000 },
+  chair: { scale: 0.19, cx: 665, bottom: 760 },
 } satisfies Partial<Record<RoomAssetKey, Place>>;
 
 // スプルは、足元の中心を同じにして、ポーズごとの大きさのずれ(Spra-worldの正規化の倍率)を合わせる
@@ -42,8 +43,9 @@ export function roomItems(mode: RoomMode, pose: RoomSpruPose): RoomItem[] {
   const items: RoomItem[] = [
     { key: "room", left: room.x, top: room.y, width: room.width, height: room.height },
     mode === "night" ? place("bed_sleeping", PLACES.bed_sleeping) : place("bed", PLACES.bed),
-    place("table", PLACES.table),
+    // 椅子は机の奥(右上)にあるので、机より先に描く
     place("chair", PLACES.chair),
+    place("table", PLACES.table),
   ];
   if (mode === "day") {
     items.push(place(SPRU_KEY[pose], { ...SPRU_BASE, scale: SPRU_BASE.scale * SPRU_POSE_FACTOR[pose] }));
