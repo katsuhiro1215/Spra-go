@@ -63,12 +63,12 @@ it('一時停止中でも、登録済みの人はログインできる', functio
 });
 
 it('登録の問い合わせは、コードを返さず、要るかどうかだけ返す', function () {
-    $this->getJson('/api/registration')->assertOk()->assertExactJson(['open' => true, 'invite_required' => false]);
+    $this->getJson('/api/registration')->assertOk()->assertExactJson(['open' => true, 'invite_required' => false, 'google' => false]);
 
     AppSettings::update(['invite_code' => 'Spra2026', 'registration_open' => false]);
 
     $response = $this->getJson('/api/registration')->assertOk()
-        ->assertExactJson(['open' => false, 'invite_required' => true]);
+        ->assertExactJson(['open' => false, 'invite_required' => true, 'google' => false]);
 
     expect($response->getContent())->not->toContain('Spra2026');
 });
