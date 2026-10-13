@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Category;
 use App\Models\ProfileGamePlay;
+use App\Models\PuzzleDisabledImage;
 use App\Models\Question;
 use App\Models\QuestionChoice;
 use App\Models\Quiz;
@@ -454,11 +455,39 @@ class CatchGame
     }
 
     /**
-     * ゲームのピースの種類の一覧(config の image_kinds。なければ image_kinds_file のJSON)。なければ null
+     * ゲームのピースの種類の一覧(config の image_kinds。なければ image_kinds_file のJSON)から、
+     * Ownerが管理画面でOffにした絵(盤の大きさごと)を除いたもの。なければ null
      *
      * @return array<string, array<string, list<int>>>|null
      */
     private static function imageKinds(string $game): ?array
+    {
+        $all = self::allImageKinds($game);
+        if ($all === null) {
+            return null;
+        }
+        $disabled = PuzzleDisabledImage::query()->where('game', $game)->get(['grid', 'image'])->groupBy('grid');
+        foreach ($disabled as $grid => $rows) {
+            if (isset($all[$grid])) {
+                $all[$grid] = array_diff_key($all[$grid], array_flip($rows->pluck('image')->all()));
+            }
+        }
+
+        return $all;
+    }
+
+    /** Offにした絵を除いた、ピースの種類の一覧(管理画面とテストから見る) */
+    public static function puzzleKinds(string $game): ?array
+    {
+        return self::imageKinds($game);
+    }
+
+    /**
+     * Offにした絵も含む、ピースの種類の一覧
+     *
+     * @return array<string, array<string, list<int>>>|null
+     */
+    public static function allImageKinds(string $game): ?array
     {
         static $files = [];
         $inline = config("games.{$game}.image_kinds");
