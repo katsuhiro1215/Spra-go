@@ -149,6 +149,19 @@ class WorldItemSeeder extends Seeder
             ['name' => 'ミツバチの巣箱', 'price' => 50, 'min_level' => 4, 'asset_key' => 'beehive'],
             ['name' => '小川の曲がり', 'price' => 50, 'min_level' => 5, 'asset_key' => 'stream_curve'],
             ['name' => '小川の池', 'price' => 60, 'min_level' => 6, 'asset_key' => 'stream_pool'],
+            // 町の乗り物(2026-10-13)。2×2は大きな乗り物
+            ['name' => '赤い車', 'price' => 90, 'min_level' => 6, 'asset_key' => 'car_red'],
+            ['name' => 'タクシー', 'price' => 110, 'min_level' => 7, 'asset_key' => 'taxi'],
+            ['name' => 'スクーター', 'price' => 100, 'min_level' => 7, 'asset_key' => 'motorbike'],
+            ['name' => '救急車', 'price' => 200, 'min_level' => 9, 'asset_key' => 'ambulance'],
+            ['name' => '小さなバス', 'price' => 260, 'min_level' => 9, 'asset_key' => 'bus_small'],
+            ['name' => '消防車', 'price' => 300, 'min_level' => 10, 'asset_key' => 'fire_truck'],
+            ['name' => '配達トラック', 'price' => 240, 'min_level' => 8, 'asset_key' => 'delivery_truck'],
+            ['name' => 'トラクター', 'price' => 220, 'min_level' => 6, 'asset_key' => 'tractor'],
+            ['name' => '汽車', 'price' => 450, 'min_level' => 13, 'asset_key' => 'train_engine'],
+            ['name' => '気球', 'price' => 500, 'min_level' => 14, 'asset_key' => 'hot_air_balloon'],
+            ['name' => 'ヨット', 'price' => 220, 'min_level' => 8, 'asset_key' => 'sailboat'],
+            ['name' => '花の荷車', 'price' => 60, 'min_level' => 4, 'asset_key' => 'cart_horse_free'],
         ];
 
         foreach ($items as $item) {

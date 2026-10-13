@@ -133,6 +133,18 @@ export const ITEM_ART_KEYS = [
   "beehive",
   "stream_curve",
   "stream_pool",
+  "car_red",
+  "taxi",
+  "motorbike",
+  "ambulance",
+  "bus_small",
+  "fire_truck",
+  "delivery_truck",
+  "tractor",
+  "train_engine",
+  "hot_air_balloon",
+  "sailboat",
+  "cart_horse_free",
 ] as const;
 
 export type ItemArtKey = (typeof ITEM_ART_KEYS)[number];
@@ -285,6 +297,18 @@ export const ITEM_ART_LABELS: Record<ItemArtKey, string> = {
   beehive: "ミツバチの巣箱",
   stream_curve: "小川の曲がり",
   stream_pool: "小川の池",
+  car_red: "赤い車",
+  taxi: "タクシー",
+  motorbike: "スクーター",
+  ambulance: "救急車",
+  bus_small: "小さなバス",
+  fire_truck: "消防車",
+  delivery_truck: "配達トラック",
+  tractor: "トラクター",
+  train_engine: "汽車",
+  hot_air_balloon: "気球",
+  sailboat: "ヨット",
+  cart_horse_free: "花の荷車",
 };
 
 /** 絵のカテゴリ(設計書 2026-09-28-town-items 3-2)。config/world.php の asset_categories と必ず一致させる */
@@ -417,6 +441,18 @@ export const ITEM_ART_CATEGORIES: Record<ItemArtKey, ItemCategory> = {
   beehive: "decor",
   stream_curve: "nature",
   stream_pool: "nature",
+  car_red: "vehicle",
+  taxi: "vehicle",
+  motorbike: "vehicle",
+  ambulance: "vehicle",
+  bus_small: "vehicle",
+  fire_truck: "vehicle",
+  delivery_truck: "vehicle",
+  tractor: "vehicle",
+  train_engine: "vehicle",
+  hot_air_balloon: "vehicle",
+  sailboat: "vehicle",
+  cart_horse_free: "vehicle",
 };
 
 /** 管理画面の絵の選択肢の名前。カテゴリと、2×2なら大きさを添える(例: 「五重塔（名所・2×2）」) */
@@ -473,6 +509,11 @@ export const ASSET_FOOTPRINTS: Readonly<Partial<Record<ArtKey, number>>> = {
   corn_field: 2,
   eggplant_field: 2,
   watermelon_field: 2,
+  bus_small: 2,
+  fire_truck: 2,
+  delivery_truck: 2,
+  tractor: 2,
+  train_engine: 2,
   himeji_castle: 3,
   todaiji_hall: 3,
   shuri_castle: 3,

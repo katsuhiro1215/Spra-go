@@ -16,6 +16,7 @@ export const GROUND_ART: Partial<Record<GroundArtKey, GroundArt>> = {
   hill: { src: "/spru/ground/hill.webp", size: 512 },
   riverbank: { src: "/spru/ground/riverbank.webp", size: 512 },
   plateau: { src: "/spru/ground/plateau.webp", size: 512 },
+  islet: { src: "/spru/ground/islet.webp", size: 512 },
   path: { src: "/spru/ground/path.webp", size: 512 },
   grove: { src: "/spru/ground/grove.webp", size: 512 },
   meadow: { src: "/spru/ground/meadow.webp", size: 512 },
