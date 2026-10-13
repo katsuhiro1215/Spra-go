@@ -56,9 +56,14 @@ export function claimedCount(errands: WorldErrands): number {
   return errands.items.filter((errand) => errand.claimed).length;
 }
 
+/** 行き先のボタンの文字。勉強のおつかいは［学ぶ］、そのほかは［行く］ */
+export function errandGoLabel(errand: Pick<WorldErrand, "kind">): string {
+  return errand.kind === "correct" || errand.kind === "stage_clear" || errand.kind === "review" ? "学ぶ" : "行く";
+}
+
 export type ErrandGo = { kind: "link"; href: string } | { kind: "say"; line: string };
 
-/** ［やりに行く］の行き先。水やりともようがえ(バッグが空)は、カードを閉じてスプルが教える(設計書5-2) */
+/** ［学ぶ／行く］の行き先。水やりともようがえ(バッグが空)は、カードを閉じてスプルが教える(設計書5-2) */
 export function errandGo(
   errand: Pick<WorldErrand, "kind">,
   ctx: { continueHref: string; learnedToday: boolean; bagCount: number },

@@ -25,6 +25,7 @@ const navGroups = [
       { href: "/owner/dashboard/quizzes", label: "クイズ" },
       { href: "/owner/dashboard/stages", label: "ステージ" },
       { href: "/owner/dashboard/question-themes", label: "出題テーマ" },
+      { href: "/owner/dashboard/puzzle-images", label: "パズルの旗" },
     ],
   },
   {

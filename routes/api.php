@@ -128,6 +128,10 @@ Route::middleware(['auth:owner'])->put('/owner/settings', function (Request $req
     return AppSettings::all();
 })->name('owner.settings.update');
 
+Route::middleware(['auth:owner'])->get('/owner/puzzle-images', [\App\Http\Controllers\Owner\PuzzleImageController::class, 'index'])->name('owner.puzzle-images.index');
+
+Route::middleware(['auth:owner'])->put('/owner/puzzle-images', [\App\Http\Controllers\Owner\PuzzleImageController::class, 'update'])->name('owner.puzzle-images.update');
+
 Route::middleware(['auth:owner'])->get('/owner/feedbacks', function (Request $request) {
     $query = Feedback::query()->with(['user:id,name', 'question:id,prompt'])->latest('id');
 

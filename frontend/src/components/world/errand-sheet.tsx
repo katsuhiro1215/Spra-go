@@ -4,7 +4,7 @@ import { AutoFurigana } from "@/components/app/auto-furigana";
 import { CompanionImage } from "@/components/spru/companion-image";
 import { SpruFace } from "@/components/spru/spru-figure";
 
-import { errandLine, errandProgressText, errandTitle, isErrandDone } from "./errands";
+import { errandGoLabel, errandLine, errandProgressText, errandTitle, isErrandDone } from "./errands";
 import type { WorldErrand, WorldErrands } from "./types";
 
 /** ［おつかい］で下から出るカード(設計書5-2) */
@@ -113,7 +113,7 @@ function ErrandRow({
         </button>
       ) : (
         <button type="button" onClick={onGo} className="h-10 shrink-0 rounded-xl bg-[#efe5cf] px-3 text-sm font-black">
-          <AutoFurigana text="やりに行く" />
+          <AutoFurigana text={errandGoLabel(errand)} />
         </button>
       )}
     </li>

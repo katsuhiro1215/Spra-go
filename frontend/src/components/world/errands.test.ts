@@ -4,6 +4,7 @@ import {
   claimableErrands,
   claimedCount,
   errandGo,
+  errandGoLabel,
   errandLine,
   errandProgressText,
   errandTitle,
@@ -70,7 +71,7 @@ describe("進み具合と受け取り", () => {
   });
 });
 
-describe("［やりに行く］の行き先", () => {
+describe("［学ぶ／行く］の行き先", () => {
   const ctx = { continueHref: "/quiz/12", learnedToday: false, bagCount: 0 };
 
   it("正解・ステージは「つづきから学ぶ」と同じ行き先", () => {
@@ -115,5 +116,12 @@ describe("スプルのふだんのひとことの優先順", () => {
       }),
     ).toBe("モモが復習を用意してるよ");
     expect(townPrompt({ errands: none, garden, review: noReview })).toBeNull();
+  });
+});
+
+describe("行き先のボタンの文字", () => {
+  it("勉強のおつかいは［学ぶ］、そのほかは［行く］", () => {
+    expect(["correct", "stage_clear", "review"].map((kind) => errandGoLabel({ kind: kind as WorldErrand["kind"] }))).toEqual(["学ぶ", "学ぶ", "学ぶ"]);
+    expect(["water", "decorate", "family_greet"].map((kind) => errandGoLabel({ kind: kind as WorldErrand["kind"] }))).toEqual(["行く", "行く", "行く"]);
   });
 });
