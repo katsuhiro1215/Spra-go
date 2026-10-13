@@ -1911,18 +1911,18 @@ foreach (GameRollout::PATHS as $path => $game) {
 
 // みんなのランキングの保護者のスイッチとニックネーム(docs/design/2026-10-13-ranking-design.md 5章)
 Route::middleware(['auth:sanctum'])->prefix('ranking')->name('ranking.')->group(function () {
-    // パスワードのあるアカウントは、パスワードの入れ直しで保護者と確かめる(Googleだけのアカウントは確かめられないので、そのまま)
+    // 保護者かどうかは、パスワードの入れ直しで確かめる。パスワードのないアカウント(Googleだけで登録)は確かめられないので、
+    // パスワードを設定するまでは、みんなのランキングをオンにできない・ニックネームを変えられない
     $confirm = function (Request $request): void {
         $hash = $request->user()->password;
-        if ($hash !== null) {
-            // まちがいは1分に6回まで(子どもが総当たりで保護者のパスワードを探せないように)
-            $key = 'ranking-confirm:'.$request->user()->id;
-            abort_if(RateLimiter::tooManyAttempts($key, 6), 429, 'しばらくしてから、もう一度ためしてください。');
-            $request->validate(['password' => ['required', 'string']]);
-            if (! Hash::check($request->input('password'), $hash)) {
-                RateLimiter::hit($key, 60);
-                abort(422, 'パスワードが違います。');
-            }
+        abort_if($hash === null, 422, 'パスワードを設定すると使えます。ログイン画面の「パスワードをわすれた」から設定してください。');
+        // まちがいは1分に6回まで(子どもが総当たりで保護者のパスワードを探せないように)
+        $key = 'ranking-confirm:'.$request->user()->id;
+        abort_if(RateLimiter::tooManyAttempts($key, 6), 429, 'しばらくしてから、もう一度ためしてください。');
+        $request->validate(['password' => ['required', 'string']]);
+        if (! Hash::check($request->input('password'), $hash)) {
+            RateLimiter::hit($key, 60);
+            abort(422, 'パスワードが違います。');
         }
     };
 
