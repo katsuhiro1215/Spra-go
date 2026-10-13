@@ -55,6 +55,7 @@ const GROUND: Record<Ground, { tile: [string, string]; lip: [string, string] }> 
   hill: { tile: ["#c8eda9", "#bee69d"], lip: ["#9fd684", "#8cc672"] },
   riverbank: { tile: ["#a8d98e", "#9dd283"], lip: ["#7bbb62", "#6aab53"] },
   plateau: { tile: ["#cfe58f", "#c6df84"], lip: ["#a9c96b", "#97b95c"] },
+  islet: { tile: ["#f1e0a6", "#ead69a"], lip: ["#dcc27f", "#cdb26e"] },
 };
 const PATH_COLOR = "#f1dfbb";
 // 林・花畑の地面の絵が届くまでの色(設計書 2026-10-05-town-blend 4-2)

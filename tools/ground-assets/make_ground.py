@@ -32,6 +32,7 @@ SOURCES = {
     "meadow": "approved/ground/ground_flower_meadow_01.png",
     "riverbank": "approved/ground/ground_riverbank_01.png",
     "plateau": "approved/ground/ground_plateau_01.png",
+    "islet": "approved/ground/ground_islet_01.png",
     # 国の道(docs/design/2026-10-05-road-style-design.md)。キーは road_{旅の行き先のキー}
     "road_fr": "approved/road/road_france_01.png",
     "road_gb": "approved/road/road_uk_01.png",
