@@ -32,7 +32,7 @@ Owner側（私が手順を出す。画面操作はOwner）:
 - [ ] **Spra（中央管理システム）**で、お問い合わせのカテゴリ「Spra Go」を作り、**APIキー**（連携先: Spra Go）を発行する。カテゴリ番号とキーを控える
 - [ ] **Googleでのログイン・登録**（任意。設定しなければボタンは出ない。設計 `docs/design/2026-10-12-google-auth-design.md` 6章）: Google Cloud Console でプロジェクト→OAuth同意画面（アプリ名 Spra Go・サポートメール `info@spra.jp`・プライバシーポリシーと利用規約のURL）→OAuthクライアントID（ウェブ）。承認済みのリダイレクトURIは `https://api.go.spra.jp/auth/google/callback`。クライアントIDとシークレットを控える。同意画面の公開状態が「テスト」のあいだは、**テストユーザー（100人まで）に友人のGmailを足す**
 - [ ] 法務の【要入力】（`docs/legal/README.md` 3章）を埋める
-- [ ] 国旗画像の出どころ（ライセンス）を確認する
+- [x] 国旗画像の出どころ（ライセンス）: Flagpack（flagpack-core・MIT・2026-10-13 確認）。商用利用可。著作権表示とライセンス文を残す条件 → `frontend/public/flag/LICENSE-flagpack.txt` に置いた（本番にもそのまま配信される）
 
 CEO側（済・実施済みの確認）:
 
