@@ -70,6 +70,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -1914,8 +1915,14 @@ Route::middleware(['auth:sanctum'])->prefix('ranking')->name('ranking.')->group(
     $confirm = function (Request $request): void {
         $hash = $request->user()->password;
         if ($hash !== null) {
+            // まちがいは1分に6回まで(子どもが総当たりで保護者のパスワードを探せないように)
+            $key = 'ranking-confirm:'.$request->user()->id;
+            abort_if(RateLimiter::tooManyAttempts($key, 6), 429, 'しばらくしてから、もう一度ためしてください。');
             $request->validate(['password' => ['required', 'string']]);
-            abort_unless(Hash::check($request->input('password'), $hash), 422, 'パスワードが違います。');
+            if (! Hash::check($request->input('password'), $hash)) {
+                RateLimiter::hit($key, 60);
+                abort(422, 'パスワードが違います。');
+            }
         }
     };
 
