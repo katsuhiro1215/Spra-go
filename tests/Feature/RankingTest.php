@@ -260,3 +260,18 @@ it('パスワードの確認は、1分に6回まで(総当たりで保護者の�
     $this->putJson('/api/ranking/settings', ['public' => true, 'password' => 'secret-pass-1'])->assertStatus(429);
     $this->postJson('/api/ranking/nickname', ['password' => 'secret-pass-1'])->assertStatus(429);
 });
+
+it('パスワードのないアカウント(Googleだけで登録)は、オンにもニックネームの変更もできない。オフにはできる', function () {
+    $me = createActiveProfile();
+    $schema = UserSchema::findOrFail($me->user_schema_id);
+    $user = User::findOrFail($schema->user_id);
+    $user->forceFill(['password' => null])->save();
+    $this->actingAs($user->fresh())->withHeader('Referer', 'http://localhost')->withSession(['active_profile_id' => $me->id]);
+
+    $this->putJson('/api/ranking/settings', ['public' => true])->assertUnprocessable();
+    $this->postJson('/api/ranking/nickname', [])->assertUnprocessable();
+    expect($schema->fresh()->ranking_public)->toBeFalse();
+
+    $schema->update(['ranking_public' => true]);
+    $this->putJson('/api/ranking/settings', ['public' => false])->assertOk()->assertJsonPath('public', false);
+});
