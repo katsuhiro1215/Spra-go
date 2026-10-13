@@ -475,3 +475,82 @@ it('「似ている事実の組」は、2つの県にある文字と同じに扱
         }
     }
 });
+
+/*
+|--------------------------------------------------------------------------
+| 地図の問題(docs/design/2026-10-13-prefecture-map-quiz-design.md 3章)
+|--------------------------------------------------------------------------
+*/
+
+function prefectureMapQuestions(array $stage): array
+{
+    return array_values(array_filter($stage['questions'], fn (array $q) => isset($q['map'])));
+}
+
+it('県のコースの各級に、地図の問題が2問ずつ入る(初級=地方ととなり、中級=県庁所在地ととなり、上級=となりと県庁所在地。県名の問いは、画面の上に県名が出るので入れない)。10問のまま', function () {
+    $plan = PrefectureQuizPlanner::plan(prefectureTestCatalog());
+    $expected = [
+        'beginner' => ['ちずで いろが ついた けんは どの ちほう？', 'ちずで いろが ついた けんと となりあうのは どれ？'],
+        'intermediate' => ['ちずで いろが ついた けんの けんちょうしょざいちは どこ？', 'ちずで いろが ついた けんと となりあうのは どれ？'],
+        'advanced' => ['ちずで いろが ついた けんと となりあうのは どれ？', 'ちずで いろが ついた けんの けんちょうしょざいちは どこ？'],
+    ];
+
+    foreach ($expected as $code => $prompts) {
+        $stage = prefectureStage($plan, 'kinki', 'b', $code);
+        expect($stage['questions'])->toHaveCount(10);
+        expect(collect(prefectureMapQuestions($stage))->pluck('prompt')->all())->toBe($prompts);
+    }
+});
+
+it('地図の問題は、対象の県と、その地方の表示範囲を持ち、正解は事実の表と合う', function () {
+    $plan = PrefectureQuizPlanner::plan(prefectureTestCatalog());
+    $catalog = prefectureTestCatalog();
+
+    foreach (['beginner', 'intermediate', 'advanced'] as $code) {
+        [$first, $second] = prefectureMapQuestions(prefectureStage($plan, 'kinki', 'b', $code));
+        expect($first['map'])->toBe(['highlight' => 'b', 'view' => 'kinki']);
+        expect($second['map'])->toBe(['highlight' => 'b', 'view' => 'kinki']);
+    }
+
+    $beginner = prefectureMapQuestions(prefectureStage($plan, 'kinki', 'b', 'beginner'));
+    expect(prefectureCorrect($beginner[0]))->toBe('近畿');
+
+    // 中級は、県庁所在地→となり。上級は、となり→県庁所在地(並びが逆)
+    $intermediate = prefectureMapQuestions(prefectureStage($plan, 'kinki', 'b', 'intermediate'));
+    expect(prefectureCorrect($intermediate[0]))->toBe($catalog['b']['capital']);
+    $advanced = prefectureMapQuestions(prefectureStage($plan, 'kinki', 'b', 'advanced'));
+    expect(prefectureCorrect($advanced[1]))->toBe($catalog['b']['capital']);
+    $neighborNames = collect($catalog['b']['neighbors'])->map(fn ($k) => $catalog[$k]['name'])->all();
+    expect($neighborNames)->toContain(prefectureCorrect($beginner[1]))->toContain(prefectureCorrect($intermediate[1]))->toContain(prefectureCorrect($advanced[0]));
+});
+
+it('となりの県がない県(北海道など)は、「となり」の地図の問題が作れないので、別の問題で10問を保つ', function () {
+    $plan = PrefectureQuizPlanner::plan(prefectureTestCatalog());
+
+    foreach (['beginner', 'intermediate', 'advanced'] as $code) {
+        $stage = prefectureStage($plan, 'kinki', 'f', $code);
+        expect($stage['questions'])->toHaveCount(10);
+        expect(collect(prefectureMapQuestions($stage))->pluck('prompt')->all())->not->toContain('ちずで いろが ついた けんと となりあうのは どれ？');
+    }
+});
+
+it('地方まるごと・全国のコースには、地図の問題を出さない', function () {
+    $plan = PrefectureQuizPlanner::plan(prefectureTestCatalog());
+
+    foreach (prefectureCourse($plan, 'kanto', 'kanto')['levels'] as $level) {
+        expect(prefectureMapQuestions($level['stages'][0]))->toBe([]);
+    }
+});
+
+it('本物の県の表では、地図の対象の県のkeyが、画面の地図データにすべてある', function () {
+    $plan = PrefectureQuizPlanner::plan(PrefectureCatalog::all());
+    $mapData = file_get_contents(base_path('frontend/src/components/prefecture-map/japan-map.ts'));
+    preg_match_all('/^  ([a-z]+): \{ name:/m', $mapData, $found);
+
+    $all = collect($plan)->flatMap(fn ($region) => isset($region['courses'])
+        ? collect($region['courses'])->flatMap(fn ($course) => collect($course['levels'])->flatMap(fn ($level) => collect($level['stages'])->flatMap(fn ($stage) => $stage['questions'])))
+        : collect($region['levels'])->flatMap(fn ($level) => collect($level['stages'])->flatMap(fn ($stage) => $stage['questions'])));
+    $maps = $all->pluck('map')->filter();
+    expect($maps)->not->toBeEmpty();
+    expect($maps->pluck('highlight')->unique()->diff($found[1])->all())->toBe([]);
+});

@@ -29,6 +29,8 @@ import { levelUpGrowthLine } from "@/components/world/garden";
 import type { AnswerPartner, ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { PrefectureMap } from "@/components/prefecture-map/prefecture-map";
+import { mapQuestionOf } from "@/components/prefecture-map/map-question";
 import { hasImageChoices, isFlagImage } from "@/lib/flag-quiz";
 import { memoryNoteText, type MemoryEvent } from "@/lib/memory-note";
 
@@ -573,7 +575,11 @@ export function QuizSession({
                 </span>
               )}
             </p>
-            {question.meta?.image ? (
+            {mapQuestionOf(question.meta) ? (
+              <div className="mx-auto mt-4 w-full max-w-[22rem] overflow-hidden rounded-lg border border-[#e8dfcf] shadow-sm">
+                <PrefectureMap map={mapQuestionOf(question.meta)!} className="block h-auto w-full" />
+              </div>
+            ) : question.meta?.image ? (
               <div
                 className={cn(
                   "relative mx-auto mt-4 overflow-hidden rounded-lg border border-[#e8dfcf] shadow-sm",
