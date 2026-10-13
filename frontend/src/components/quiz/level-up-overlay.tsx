@@ -30,7 +30,7 @@ export function LevelUpOverlay({
         role="dialog"
         aria-modal="true"
         aria-labelledby="level-up-title"
-        className="animate-pop-in flex w-full max-w-[340px] flex-col items-center gap-3 rounded-3xl bg-[#fffaf0] px-5 pt-5 pb-5 text-center text-[#3b3226] shadow-[0_16px_36px_rgba(0,0,0,0.25)]"
+        className="animate-pop-in flex max-h-[92dvh] w-full max-w-[340px] flex-col items-center gap-3 overflow-y-auto overscroll-contain rounded-3xl bg-[#fffaf0] px-5 pt-5 pb-0 text-center text-[#3b3226] shadow-[0_16px_36px_rgba(0,0,0,0.25)]"
       >
         <Image
           src={scene.src}
@@ -55,14 +55,17 @@ export function LevelUpOverlay({
         )}
         {unlocked.length > 0 && (
           <div className="flex w-full flex-col gap-2 rounded-2xl bg-[#f5efe1] p-3">
-            {unlocked.map((item) => (
-              <div key={item.id} className="flex items-center gap-2 text-left">
-                <ItemIcon assetKey={item.asset_key} size={44} />
-                <span className="text-sm font-black">
-                  <AutoFurigana text={`${item.name}が買えるようになったよ`} />
-                </span>
-              </div>
-            ))}
+            {/* 多いときは、この中だけスクロールする。［つづける］はいつも見える */}
+            <div className="flex max-h-44 flex-col gap-2 overflow-y-auto overscroll-contain">
+              {unlocked.map((item) => (
+                <div key={item.id} className="flex items-center gap-2 text-left">
+                  <ItemIcon assetKey={item.asset_key} size={44} />
+                  <span className="text-sm font-black">
+                    <AutoFurigana text={`${item.name}が買えるようになったよ`} />
+                  </span>
+                </div>
+              ))}
+            </div>
             <p className="text-xs font-bold text-[#6b5d45]">
               <AutoFurigana text="町に戻ったらショップをのぞいてみよう" />
             </p>
@@ -72,7 +75,7 @@ export function LevelUpOverlay({
           type="button"
           autoFocus
           onClick={onContinue}
-          className="mt-1 h-[52px] w-full rounded-2xl bg-[#3b7f26] text-base font-black text-white shadow-[0_4px_0_#285a19]"
+          className="sticky bottom-0 mt-1 mb-5 h-[52px] w-full shrink-0 rounded-2xl bg-[#3b7f26] text-base font-black text-white shadow-[0_4px_0_#285a19]"
         >
           つづける
         </button>
