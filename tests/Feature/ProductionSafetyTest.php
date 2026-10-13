@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 it('OwnerとAdminは、HTTPで自分から登録できない(登録の道がない)', function (string $path) {
     $this->postJson($path, [
         'name' => 'のっとり', 'email' => 'x@example.com', 'password' => 'Password123!', 'password_confirmation' => 'Password123!',
+        'terms' => true,
     ])->assertNotFound();
 
     expect(Owner::count() + Admin::count())->toBe(0);

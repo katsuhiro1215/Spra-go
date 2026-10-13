@@ -16,6 +16,7 @@ function registrationPayload(array $extra = []): array
         'email' => 'invited@example.com',
         'password' => 'password',
         'password_confirmation' => 'password',
+        'terms' => true,
     ], $extra);
 }
 

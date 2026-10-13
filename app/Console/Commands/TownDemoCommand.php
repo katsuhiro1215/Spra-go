@@ -65,7 +65,7 @@ class TownDemoCommand extends Command
     ];
 
     /**
-     * 置ける場所を探して置く物(畑・乗り物)。左上から順に、置ける最初のマスへ置く
+     * バッグに入れておく物(町に置くのは LAYOUT。これは自分で置いて確かめる)
      *
      * @var list<string>
      */
@@ -107,35 +107,22 @@ class TownDemoCommand extends Command
             $placed++;
         }
 
+        // 畑・乗り物は、町がいっぱいなので、バッグに入れておく(自分で置いて、大きさや見た目を確かめる)
         $bagged = [];
         foreach (self::AUTO as $key) {
             $shopItem = ShopItem::query()->where('type', 'decoration')->get()->first(fn (ShopItem $item) => $item->assetKey() === $key);
-            if (! $shopItem) {
+            if ($shopItem === null) {
                 $failures[] = "{$key}: ショップにありません(WorldItemSeeder を流してください)";
 
                 continue;
             }
-            $item = $profile->worldItems()->create(['shop_item_id' => $shopItem->id]);
-            $found = false;
-            for ($y = 0; $y < WorldLand::height() && ! $found; $y++) {
-                for ($x = 0; $x < WorldLand::width() && ! $found; $x++) {
-                    try {
-                        WorldPlacement::check($profile, $item, $x, $y);
-                        $item->update(['x' => $x, 'y' => $y]);
-                        $found = true;
-                        $placed++;
-                    } catch (\Throwable) {
-                    }
-                }
-            }
-            if (! $found) {
-                $bagged[] = $key; // 町がいっぱいなので、バッグに入れておく(自分で置いて確かめる)
-            }
+            $profile->worldItems()->create(['shop_item_id' => $shopItem->id]);
+            $bagged[] = $key;
         }
 
         $this->info("置きました: {$placed}個（土地 ".WorldLand::width().'×'.WorldLand::height().'）。ログイン: '.self::EMAIL.' / '.self::PASSWORD);
         if ($bagged !== []) {
-            $this->line('町がいっぱいなので、バッグに入れました: '.implode('、', $bagged));
+            $this->line('バッグに入れました(自分で置いて確かめる): '.implode('、', $bagged));
         }
         foreach ($failures as $line) {
             $this->warn(" - {$line}");

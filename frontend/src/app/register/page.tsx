@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
 import { SkyPage } from "@/components/app/sky-page";
+import { LegalLinks } from "@/components/legal/legal-links";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { GoogleButton } from "@/components/app/google-button";
 import { API_URL, apiFetch } from "@/lib/api";
@@ -21,12 +22,14 @@ export default function Page() {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [inviteCode, setInviteCode] = useState("");
+  // 利用規約・プライバシーポリシーへの同意(docs/legal)。チェックしないと、登録もGoogleも進めない
+  const [terms, setTerms] = useState(false);
   // 招待コードが要るか・おやすみ中か(docs/design/2026-10-03-closed-beta-design.md 3-3)。取れなければ null のまま、サーバーが最後に判断する
   const [info, setInfo] = useState<RegistrationInfo | null>(null);
   const view = registrationView(info);
   // Googleから戻ってきた結果(?google=○○)。コードが要る・おやすみ中などを、やさしい言葉で出す
   const [googleStatus, setGoogleStatus] = useState<string | null>(null);
-  const googleState = googleButtonState(info, inviteCode, "register");
+  const googleState = googleButtonState(info, inviteCode, "register", terms);
   const googleNotice = googleMessage(googleStatus);
 
   useEffect(() => {
@@ -59,6 +62,7 @@ export default function Page() {
           password,
           password_confirmation: passwordConfirmation,
           invite_code: inviteCode,
+          terms,
         }),
       });
 
@@ -194,6 +198,25 @@ export default function Page() {
               />
             </div>
 
+            <label className="flex items-start gap-2 text-sm font-bold text-[#3b3226]">
+              <input
+                type="checkbox"
+                checked={terms}
+                onChange={(e) => setTerms(e.target.checked)}
+                className="mt-1 h-4 w-4 shrink-0 accent-[#3b7f26]"
+              />
+              <span>
+                <Link href="/terms" target="_blank" className="font-black text-[#2b5d7a] underline">
+                  利用規約
+                </Link>
+                と
+                <Link href="/privacy" target="_blank" className="font-black text-[#2b5d7a] underline">
+                  プライバシーポリシー
+                </Link>
+                に同意します
+              </span>
+            </label>
+
             {error && (
               <p className="text-sm font-medium text-[#c2402c]">{error}</p>
             )}
@@ -202,7 +225,7 @@ export default function Page() {
               type="submit"
               variant="primary"
               size="lg"
-              disabled={submitting}
+              disabled={submitting || !terms}
               className="mt-2 w-full normal-case"
             >
               {submitting ? (
@@ -219,7 +242,7 @@ export default function Page() {
           {!view.closed && googleState.show && (
             <div className="mt-4 flex flex-col gap-3">
               <p className="text-center text-xs font-black text-[#6b5d45]">または</p>
-              <GoogleButton href={googleStartUrl(API_URL, inviteCode)} disabled={googleState.disabled} hint={googleState.hint} />
+              <GoogleButton href={googleStartUrl(API_URL, inviteCode, terms)} disabled={googleState.disabled} hint={googleState.hint} />
             </div>
           )}
         </div>
@@ -230,6 +253,7 @@ export default function Page() {
         >
           <AutoFurigana text="すでにアカウントをお持ちの方はこちら" />
         </Link>
+        <LegalLinks className="text-[#3b3226]" />
       </div>
     </SkyPage>
   );

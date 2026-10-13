@@ -61,7 +61,7 @@ it('初めての人: アカウントを作り(メール確認済み・パスワ�
     \Illuminate\Support\Facades\Notification::fake();
     googleReturns('g-100', 'hajimete@example.com', 'はじめて');
 
-    $this->get('/auth/google/callback')->assertRedirect(frontend('/profiles'));
+    $this->withSession(['google_terms' => true])->get('/auth/google/callback')->assertRedirect(frontend('/profiles'));
 
     $user = User::where('email', 'hajimete@example.com')->firstOrFail();
     expect($user->google_id)->toBe('g-100')
@@ -121,7 +121,7 @@ it('招待コードが要るとき: 初めての人は、コードが合えば�
     AppSettings::update(['invite_code' => 'Spra2026']);
     googleReturns('g-600', 'coded@example.com');
 
-    $this->withSession(['google_invite_code' => 'Spra2026'])->get('/auth/google/callback')->assertRedirect(frontend('/profiles'));
+    $this->withSession(['google_invite_code' => 'Spra2026', 'google_terms' => true])->get('/auth/google/callback')->assertRedirect(frontend('/profiles'));
 
     expect(User::where('email', 'coded@example.com')->exists())->toBeTrue();
 });
@@ -131,7 +131,7 @@ it('招待コードが要るとき: 初めての人は、コードがない・�
     AppSettings::update(['invite_code' => 'Spra2026']);
     googleReturns('g-601', 'nocode@example.com');
 
-    $request = $code === null ? $this : $this->withSession(['google_invite_code' => $code]);
+    $request = $code === null ? $this->withSession(['google_terms' => true]) : $this->withSession(['google_invite_code' => $code, 'google_terms' => true]);
     $request->get('/auth/google/callback')->assertRedirect(frontend('/register?google=need_code'));
 
     expect(User::count())->toBe(0);
@@ -183,4 +183,26 @@ it('パスワードなしのアカウントは、メールとパスワードで�
     $this->postJson('/login', ['email' => $user->email, 'password' => 'password'])->assertStatus(422);
 
     $this->assertGuest();
+});
+
+it('初めての人は、規約に同意していないと作れない。同意した人は、日時と版が残る', function () {
+    googleOn();
+    googleReturns('g-700', 'noterms-g@example.com');
+
+    $this->get('/auth/google/callback')->assertRedirect(frontend('/register?google=need_terms'));
+    expect(User::count())->toBe(0);
+    $this->assertGuest();
+
+    $this->get('/auth/google?terms=1');
+    $this->get('/auth/google/callback')->assertRedirect(frontend('/profiles'));
+    $user = User::where('email', 'noterms-g@example.com')->firstOrFail();
+    expect($user->terms_accepted_at)->not->toBeNull()->and($user->terms_version)->toBe(config('legal.version'));
+});
+
+it('すでに登録した人は、同意の印がなくてもログインできる', function () {
+    googleOn();
+    User::factory()->create(['email' => 'old@example.com', 'google_id' => 'g-701']);
+    googleReturns('g-701', 'old@example.com');
+
+    $this->get('/auth/google/callback')->assertRedirect(frontend('/profiles'));
 });

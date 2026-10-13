@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+
+import { LegalLinks } from "@/components/legal/legal-links";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
@@ -81,6 +83,7 @@ export function MeSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (
               </button>
             </li>
           </ul>
+          <LegalLinks className="mt-3 text-[#6b5d45]" />
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { LegalLinks } from "@/components/legal/legal-links";
+
 import { AssetImage } from "@/components/app/asset-image";
 import { LogoMark } from "@/components/app/logo-mark";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
@@ -79,6 +81,7 @@ export function GuestLanding() {
             </li>
           ))}
         </ul>
+        <LegalLinks className="mt-6 text-white" />
       </div>
     </SkyPage>
   );

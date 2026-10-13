@@ -33,7 +33,8 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'invite_code' => $codeRequired ? ['required', 'string'] : ['nullable'],
-        ], ['invite_code.required' => '招待コードを入れてください']);
+            'terms' => ['accepted'],
+        ], ['invite_code.required' => '招待コードを入れてください', 'terms.accepted' => '利用規約とプライバシーポリシーに同意してください']);
 
         if ($codeRequired && ! AppSettings::inviteCodeMatches($request->string('invite_code'))) {
             throw ValidationException::withMessages(['invite_code' => '招待コードが違います']);
@@ -44,6 +45,8 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->string('password')),
         ]);
+        // 同意した日時と版を残す(docs/legal の制定日が版)
+        $user->forceFill(['terms_accepted_at' => now(), 'terms_version' => config('legal.version')])->save();
 
         $user->schema()->create();
 
