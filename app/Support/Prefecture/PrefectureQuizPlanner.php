@@ -28,20 +28,21 @@ class PrefectureQuizPlanner
     /**
      * 級ごとの問題の並び(1〜10問目)。形は
      * ['fact', 種類, 番号]＝その県の事実を選ぶ／['rev', 種類, 番号]＝逆(その事実で有名なのは？)／['capital']／['capital_rev']／['region']／['neighbor']／
-     * ['hard', 番号]＝難読地名／['fit']＝県庁所在地のはめ込み／['capital_differs', 種類, 番号]＝県名と県庁所在地がちがう県は県庁所在地、同じ県は事実
+     * ['hard', 番号]＝難読地名／['fit']＝県庁所在地のはめ込み／['capital_differs', 種類, 番号]＝県名と県庁所在地がちがう県は県庁所在地、同じ県は事実／
+     * ['map', 'name'|'region'|'capital'|'neighbor']＝地図の問題(対象の県を地図で塗る。設計書 2026-10-13-prefecture-map-quiz)
      */
     private const PLANS = [
         'beginner' => [
-            ['fact', 'foods', 0], ['rev', 'foods', 0], ['fact', 'sights', 0], ['rev', 'sights', 0], ['fact', 'foods', 1],
-            ['fact', 'sights', 1], ['rev', 'foods', 1], ['rev', 'sights', 1], ['region'], ['fact', 'culture', 0],
+            ['fact', 'foods', 0], ['map', 'region'], ['fact', 'sights', 0], ['rev', 'sights', 0], ['fact', 'foods', 1],
+            ['fact', 'sights', 1], ['rev', 'foods', 1], ['rev', 'sights', 1], ['map', 'neighbor'], ['fact', 'culture', 0],
         ],
         'intermediate' => [
-            ['capital'], ['capital_rev'], ['fit'], ['neighbor'], ['fact', 'foods', 2],
+            ['map', 'capital'], ['capital_rev'], ['fit'], ['map', 'neighbor'], ['fact', 'foods', 2],
             ['rev', 'sights', 2], ['fact', 'culture', 0], ['fit'], ['rev', 'foods', 2], ['fact', 'sights', 2],
         ],
         'advanced' => [
-            ['hard', 0], ['capital_differs', 'foods', 3], ['fit'], ['neighbor'], ['fact', 'sights', 3],
-            ['fact', 'culture', 1], ['hard', 1], ['fit'], ['rev', 'foods', 3], ['rev', 'culture', 2],
+            ['hard', 0], ['capital_differs', 'foods', 3], ['fit'], ['map', 'neighbor'], ['fact', 'sights', 3],
+            ['fact', 'culture', 1], ['hard', 1], ['fit'], ['rev', 'foods', 3], ['map', 'capital'],
         ],
     ];
 
@@ -368,6 +369,7 @@ class PrefectureQuizPlanner
             'neighbor' => self::neighbor($key, $catalog, $p, $code),
             'hard' => self::hard($key, $p, $form[1]),
             'fit' => self::fit($key, $catalog, $p, $code, $usedFit),
+            'map' => self::map($form[1], $key, $catalog, $p, $code),
         };
     }
 
@@ -484,6 +486,42 @@ class PrefectureQuizPlanner
 
         return count($wrong) === self::WRONG
             ? self::choiceQuestion($key, "{$p['name']}と となりあうのは どれ？", $correct, $wrong, "{$p['name']}は、{$neighborNames}と、県ざかいが接しているよ。")
+            : null;
+    }
+
+    private const MAP_PROMPTS = [
+        // 'name'(色がついた県は どこ？)は、画面の上に県名が出る県のコースでは答えが見えるので、県のコースの並びには入れない(地方・全国のコースで使う予定)
+        'name' => 'ちずで いろが ついた けんは どこ？',
+        'region' => 'ちずで いろが ついた けんは どの ちほう？',
+        'capital' => 'ちずで いろが ついた けんの けんちょうしょざいちは どこ？',
+        'neighbor' => 'ちずで いろが ついた けんと となりあうのは どれ？',
+    ];
+
+    /** 地図の問題。問いの中身は、ふつうの形(県名・地方・県庁所在地・となり)と同じで、問題文だけ地図の言い方にして、対象の県と表示範囲を付ける */
+    private static function map(string $kind, string $key, array $catalog, array $p, string $code): ?array
+    {
+        $question = match ($kind) {
+            'name' => self::mapName($key, $catalog, $p, $code),
+            'region' => self::region($key, $p),
+            'capital' => self::capital($key, $catalog, $p, $code),
+            'neighbor' => self::neighbor($key, $catalog, $p, $code),
+        };
+        if ($question === null) {
+            return null;
+        }
+
+        return array_merge($question, [
+            'prompt' => self::MAP_PROMPTS[$kind],
+            'map' => ['highlight' => $p['key'], 'view' => $p['region']],
+        ]);
+    }
+
+    private static function mapName(string $key, array $catalog, array $p, string $code): ?array
+    {
+        $wrong = array_slice(array_column(self::rankedOthers($catalog, $p, $code, $key), 'name'), 0, self::WRONG);
+
+        return count($wrong) === self::WRONG
+            ? self::choiceQuestion($key, self::MAP_PROMPTS['name'], $p['name'], $wrong, "色がついていたのは、{$p['name']}だよ。県庁所在地は{$p['capital']}だよ。")
             : null;
     }
 

@@ -93,25 +93,32 @@ it('県庁所在地: 県の名前とちがうときだけ、まちがえない�
     }
 });
 
-it('何地方か: その県の地方を説明する', function () {
+it('何地方か: その県の地方を説明する(県名の問いと、地図の問いの両方)', function () {
     $plan = PrefectureQuizPlanner::plan(prefectureTestCatalog());
+    $catalog = prefectureTestCatalog();
 
-    $regions = explanationQuestions($plan, '/^(甲県|乙県|丙府|丁県|庚県|辛県|壬県|癸県|己県)は どの ちほう？$/u');
+    $regions = explanationQuestions($plan, '/^((甲県|乙県|丙府|丁県|庚県|辛県|壬県|癸県|己県)は|ちずで いろが ついた けんは) どの ちほう？$/u');
     expect($regions)->not->toBe([]);
     foreach ($regions as $q) {
-        preg_match('/^(.+)は どの/u', $q['prompt'], $m);
-        expect(explanationSummary($q))->toBe("{$m[1]}は、".prefectureCorrect($q).'地方にあるよ。');
+        // 地図の問いは、問題文に県名がないので、対象の県(map.highlight)から名前を引く
+        $name = isset($q['map']) ? $catalog[$q['map']['highlight']]['name'] : (preg_match('/^(.+)は どの/u', $q['prompt'], $m) ? $m[1] : '');
+        expect(explanationSummary($q))->toBe("{$name}は、".prefectureCorrect($q).'地方にあるよ。');
     }
+    expect(collect($regions)->filter(fn ($q) => isset($q['map']))->isNotEmpty())->toBeTrue();
 });
 
-it('となりの県: データ表のとなりを、表の順にすべて並べる', function () {
+it('となりの県: データ表のとなりを、表の順にすべて並べる(県名の問いと、地図の問い)', function () {
     $plan = PrefectureQuizPlanner::plan(prefectureTestCatalog());
 
-    $neighbors = explanationQuestions($plan, '/^甲県と となりあうのは/u');
+    $neighbors = explanationQuestions($plan, '/^(甲県と|ちずで いろが ついた けんと) となりあうのは/u');
     expect($neighbors)->not->toBe([]);
     foreach ($neighbors as $q) {
+        if (isset($q['map']) && $q['map']['highlight'] !== 'a') {
+            continue; // 甲県以外の地図の問いは、ここでは見ない
+        }
         expect(explanationSummary($q))->toBe('甲県は、乙県・丙府と、県ざかいが接しているよ。'); // 甲県のとなりは b・c
     }
+    expect(collect($neighbors)->filter(fn ($q) => isset($q['map']) && $q['map']['highlight'] === 'a')->isNotEmpty())->toBeTrue();
 });
 
 it('はめ込み(県庁所在地): 4組の答えを、すべて書く', function () {

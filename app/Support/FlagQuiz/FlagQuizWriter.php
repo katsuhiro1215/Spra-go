@@ -173,6 +173,10 @@ class FlagQuizWriter
         if ($spec['catch_only'] ?? false) {
             $meta['catch_only'] = true;
         }
+        // 地図の問題(対象の県と表示範囲。設計書 2026-10-13-prefecture-map-quiz 2章)
+        if (($spec['map'] ?? null) !== null) {
+            $meta['map'] = $spec['map'];
+        }
         if (($spec['plain'] ?? []) !== []) {
             $meta['plain'] = $spec['plain'];
         }
