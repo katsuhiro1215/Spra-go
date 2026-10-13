@@ -8,6 +8,12 @@ describe("googleStartUrl: ボタンの行き先(APIへ、ブラウザごと移�
     expect(googleStartUrl("https://api.go.spra.jp", " みんな&1 ")).toBe("https://api.go.spra.jp/auth/google?code=%E3%81%BF%E3%82%93%E3%81%AA%261");
   });
 
+  it("同意したときだけ、terms=1 を付ける(コードと一緒でもよい)", () => {
+    expect(googleStartUrl("http://localhost", "", true)).toBe("http://localhost/auth/google?terms=1");
+    expect(googleStartUrl("http://localhost", "abc", true)).toBe("http://localhost/auth/google?code=abc&terms=1");
+    expect(googleStartUrl("http://localhost", "abc", false)).toBe("http://localhost/auth/google?code=abc");
+  });
+
   it("コードが空なら、code= を付けない", () => {
     expect(googleStartUrl("http://localhost", "")).toBe("http://localhost/auth/google");
     expect(googleStartUrl("http://localhost", "   ")).toBe("http://localhost/auth/google");
@@ -16,7 +22,7 @@ describe("googleStartUrl: ボタンの行き先(APIへ、ブラウザごと移�
 
 describe("googleMessage: 戻ってきたときの ?google= を、やさしい言葉にする", () => {
   it("知っている結果は、言葉にする", () => {
-    for (const status of ["denied", "unverified", "link_unverified", "need_code", "closed"]) {
+    for (const status of ["denied", "unverified", "link_unverified", "need_code", "need_terms", "closed"]) {
       expect(googleMessage(status), status).toEqual(expect.any(String));
       expect(googleMessage(status)!.length).toBeGreaterThan(10);
     }
@@ -50,6 +56,15 @@ describe("googleButtonState: ボタンを出すか・押せるか", () => {
     expect(state.show).toBe(true);
     expect(state.disabled).toBe(true);
     expect(state.hint).toContain("招待コード");
+  });
+
+  it("登録の画面で、規約に同意していないなら押せず、先に同意を、と出す。ログインの画面は同意を見ない", () => {
+    const info = { open: true, invite_required: false, google: true };
+    const state = googleButtonState(info, "", "register", false);
+    expect(state.disabled).toBe(true);
+    expect(state.hint).toContain("同意");
+    expect(googleButtonState(info, "", "register", true).disabled).toBe(false);
+    expect(googleButtonState(info, "", "login", false).disabled).toBe(false);
   });
 
   it("コードを入れたら押せる。コードが要らないときも押せる", () => {

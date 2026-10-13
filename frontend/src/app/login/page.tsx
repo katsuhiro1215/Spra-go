@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { Button as AppButton } from "@/components/app/button";
 import { SkyPage } from "@/components/app/sky-page";
+import { LegalLinks } from "@/components/legal/legal-links";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { GoogleButton } from "@/components/app/google-button";
 import { API_URL, apiFetch } from "@/lib/api";
@@ -152,6 +153,7 @@ export default function Page(props: PageProps<"/login">) {
         >
           <AutoFurigana text="はじめての方はこちら" />
         </Link>
+        <LegalLinks className="text-[#3b3226]" />
       </div>
     </SkyPage>
   );

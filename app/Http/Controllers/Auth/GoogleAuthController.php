@@ -30,6 +30,8 @@ class GoogleAuthController extends Controller
         }
 
         $request->session()->put('google_invite_code', trim((string) $request->query('code', '')));
+        // 利用規約・プライバシーポリシーに同意したか(登録画面のチェック。はじめての人だけ見る)
+        $request->session()->put('google_terms', $request->query('terms') === '1');
 
         return $socialite->driver('google')->redirect();
     }
@@ -41,6 +43,7 @@ class GoogleAuthController extends Controller
         }
 
         $inviteCode = (string) $request->session()->pull('google_invite_code', '');
+        $termsAccepted = (bool) $request->session()->pull('google_terms', false);
 
         // Googleの画面で「キャンセル」されたとき、または state が合わないとき
         if ($request->has('error')) {
@@ -81,8 +84,12 @@ class GoogleAuthController extends Controller
             return $this->toFrontend('/register?google=need_code');
         }
 
+        if (! $termsAccepted) {
+            return $this->toFrontend('/register?google=need_terms');
+        }
+
         $user = new User(['name' => trim((string) $google->getName()) ?: strstr($email, '@', true), 'email' => $email]);
-        $user->forceFill(['google_id' => $google->getId(), 'email_verified_at' => now()])->save();
+        $user->forceFill(['google_id' => $google->getId(), 'email_verified_at' => now(), 'terms_accepted_at' => now(), 'terms_version' => config('legal.version')])->save();
         $user->schema()->create();
 
         return $this->login($request, $user);
