@@ -64,6 +64,15 @@ class TownDemoCommand extends Command
         ['hedge_long', 6, 14], ['fence_corner', 7, 14], ['fence_gate', 8, 14], ['wooden_fence_b', 10, 16], ['low_stone_wall_b', 11, 16], ['stone_wall_corner', 12, 16],
     ];
 
+    /**
+     * 置ける場所を探して置く物(畑・乗り物)。左上から順に、置ける最初のマスへ置く
+     *
+     * @var list<string>
+     */
+    private const AUTO = [
+        'potato_field', 'onion_field', 'cabbage_field', 'tomato_field', 'cucumber_field', 'pumpkin_field', 'corn_field', 'eggplant_field', 'watermelon_field',
+        'car_red', 'taxi', 'motorbike', 'ambulance', 'bus_small', 'fire_truck', 'delivery_truck', 'tractor', 'train_engine', 'hot_air_balloon', 'sailboat', 'cart_horse_free',
+    ];
 
     public function handle(): int
     {
@@ -98,7 +107,36 @@ class TownDemoCommand extends Command
             $placed++;
         }
 
+        $bagged = [];
+        foreach (self::AUTO as $key) {
+            $shopItem = ShopItem::query()->where('type', 'decoration')->get()->first(fn (ShopItem $item) => $item->assetKey() === $key);
+            if (! $shopItem) {
+                $failures[] = "{$key}: ショップにありません(WorldItemSeeder を流してください)";
+
+                continue;
+            }
+            $item = $profile->worldItems()->create(['shop_item_id' => $shopItem->id]);
+            $found = false;
+            for ($y = 0; $y < WorldLand::height() && ! $found; $y++) {
+                for ($x = 0; $x < WorldLand::width() && ! $found; $x++) {
+                    try {
+                        WorldPlacement::check($profile, $item, $x, $y);
+                        $item->update(['x' => $x, 'y' => $y]);
+                        $found = true;
+                        $placed++;
+                    } catch (\Throwable) {
+                    }
+                }
+            }
+            if (! $found) {
+                $bagged[] = $key; // 町がいっぱいなので、バッグに入れておく(自分で置いて確かめる)
+            }
+        }
+
         $this->info("置きました: {$placed}個（土地 ".WorldLand::width().'×'.WorldLand::height().'）。ログイン: '.self::EMAIL.' / '.self::PASSWORD);
+        if ($bagged !== []) {
+            $this->line('町がいっぱいなので、バッグに入れました: '.implode('、', $bagged));
+        }
         foreach ($failures as $line) {
             $this->warn(" - {$line}");
         }
