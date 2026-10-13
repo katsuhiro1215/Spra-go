@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect } from "react";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { useSound } from "@/components/app/sound-provider";
 import type { Bloom } from "@/components/spru/bloom";
 import { SPRU_SCENES } from "@/components/spru/spru-assets";
 import { SpruFigure } from "@/components/spru/spru-figure";
@@ -24,6 +26,10 @@ export function LevelUpOverlay({
   bloom?: Bloom | null;
 }) {
   const scene = SPRU_SCENES.grow;
+  const { play } = useSound();
+  useEffect(() => {
+    play("levelUp");
+  }, [play]);
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-[rgba(38,48,28,0.55)] px-4">
       <div

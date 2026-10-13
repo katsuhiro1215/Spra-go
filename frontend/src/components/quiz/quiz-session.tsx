@@ -441,7 +441,6 @@ export function QuizSession({
     // レベルが上がったときは、次の問題(最後なら結果画面)の前にお祝いを挟む
     if (levelUp && !levelUpOpen) {
       setLevelUpOpen(true);
-      playSound("allCorrect");
       return;
     }
     if (openStreakMilestone()) return;

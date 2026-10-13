@@ -405,7 +405,7 @@ export function WorldScreen() {
       applyPartial({ points: result.points });
       setMessage(null);
       setErrandsOpen(false);
-      play("correct");
+      play("coin");
       setErrandReturn({ errand, result });
       // 相棒のなかよし度が変わると、仲間のカードのハートも変わる
       if (result.partner) reloadCompanions();
@@ -559,7 +559,7 @@ export function WorldScreen() {
     setPlacingId(null);
     setMessage(null);
     if (await moveItem(item, x, y)) {
-      play("correct");
+      play("place");
       setPoppedItemId(item.id);
       setEvent(
         after.level > before

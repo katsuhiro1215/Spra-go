@@ -12,6 +12,7 @@ import { BottomNav } from "@/components/app/bottom-nav";
 import { Button as AppButton } from "@/components/app/button";
 import { Furigana } from "@/components/app/furigana";
 import { useProfile } from "@/components/app/profile-provider";
+import { useSound } from "@/components/app/sound-provider";
 import { SkyPage, SkyText, SkyTitle } from "@/components/app/sky-page";
 import { LoadingScreen } from "@/components/app/spru-loading";
 import { WalletCards } from "@/components/app/wallet-cards";
@@ -63,6 +64,7 @@ type Profile = {
 function ShopContent() {
   const router = useRouter();
   const { applyPartial } = useProfile();
+  const { play } = useSound();
   const searchParams = useSearchParams();
   const [profile, setProfile] = useState<Profile | null | undefined>(
     undefined,
@@ -167,6 +169,7 @@ function ShopContent() {
 
       setProfile(data.profile);
       applyPartial({ coins: data.profile.coins, points: data.profile.points, hp: data.profile.hp });
+      play("casher");
       setMessage(`「${item.name}」を購入しました！`);
     } catch {
       setMessage("通信エラーが発生しました。");
@@ -189,6 +192,7 @@ function ShopContent() {
       }
 
       applyPartial({ points: data.profile.points, coins: data.profile.coins });
+      play("casher");
       router.push(`/?place=${data.world_item.id}`);
     } catch {
       setMessage("通信エラーが発生しました。");

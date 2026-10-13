@@ -12,13 +12,36 @@ import {
 
 import type { BgmTrack } from "@/lib/bgm-route";
 
-export type SoundKey = "correct" | "incorrect" | "allCorrect";
+export type SoundKey =
+  | "correct"
+  | "incorrect"
+  | "allCorrect"
+  | "levelUp"
+  | "place"
+  | "casher"
+  | "coin"
+  | "piece"
+  | "cancel"
+  | "warning"
+  | "maintenance"
+  | "decide"
+  | "select";
 export type BgmKey = BgmTrack;
 
 const SOUND_FILES: Record<SoundKey, string> = {
   correct: "/sounds/correct.mp3",
   incorrect: "/sounds/incorrect.mp3",
   allCorrect: "/sounds/allCorrect.mp3",
+  levelUp: "/sounds/levelUp.mp3",
+  place: "/sounds/place.mp3",
+  casher: "/sounds/casher.mp3",
+  coin: "/sounds/coin.mp3",
+  piece: "/sounds/piece.mp3",
+  cancel: "/sounds/cancel.mp3",
+  warning: "/sounds/warning.mp3",
+  maintenance: "/sounds/maintenance.mp3",
+  decide: "/sounds/decide4.mp3",
+  select: "/sounds/decide41.mp3",
 };
 
 // Suno v6で作った曲。ループ用に切り出し、音量を-16 LUFSにそろえてある(制作記録: company/spra/spra-theme/docs/)

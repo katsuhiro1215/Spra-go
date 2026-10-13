@@ -51,12 +51,14 @@ function PuzzleRound({
     if (!next) return;
     if (startedAt.current === null) startedAt.current = performance.now();
     setBoard(next);
+    playSound("piece");
   }
 
   function insert() {
     if (!ready || complete) return;
     setElapsed(performance.now() - (startedAt.current ?? performance.now()));
     setComplete(true);
+    playSound("select");
   }
 
   function pick(choiceId: number) {
