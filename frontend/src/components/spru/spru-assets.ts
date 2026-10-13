@@ -233,6 +233,8 @@ export const SPRU_ITEMS = {
   "sheep": { src: "/spru/items/sheep.webp", width: 190, height: 176 },
   "birdhouse": { src: "/spru/items/birdhouse.webp", width: 150, height: 232 },
   "beehive": { src: "/spru/items/beehive.webp", width: 200, height: 199 },
+  "stream_curve": { src: "/spru/items/stream_curve.webp", width: 280, height: 275 },
+  "stream_pool": { src: "/spru/items/stream_pool.webp", width: 300, height: 208 },
   "boat_large": { src: "/spru/items/boat_large.webp", width: 482, height: 301 },
   "tower": { src: "/spru/items/tower.webp", width: 345, height: 469 },
   "lighthouse": { src: "/spru/items/lighthouse.webp", width: 389, height: 421 },

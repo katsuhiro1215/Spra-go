@@ -53,6 +53,8 @@ const GROUND: Record<Ground, { tile: [string, string]; lip: [string, string] }> 
   bamboo: { tile: ["#94d17e", "#88c872"], lip: ["#6fae55", "#5f9e47"] },
   sand: { tile: ["#f3e2b3", "#ecd8a2"], lip: ["#e0c88c", "#d3ba7c"] },
   hill: { tile: ["#c8eda9", "#bee69d"], lip: ["#9fd684", "#8cc672"] },
+  riverbank: { tile: ["#a8d98e", "#9dd283"], lip: ["#7bbb62", "#6aab53"] },
+  plateau: { tile: ["#cfe58f", "#c6df84"], lip: ["#a9c96b", "#97b95c"] },
 };
 const PATH_COLOR = "#f1dfbb";
 // 林・花畑の地面の絵が届くまでの色(設計書 2026-10-05-town-blend 4-2)
@@ -395,6 +397,14 @@ export function WorldScene({
               </pattern>
             );
           })}
+          {/* 崖の岩肌。左の面は右下がり、右の面は右上がりに斜めにして貼る。1マスの段差(32)ごとに草の帯が面の上端にそろう */}
+          <pattern id="cliff-left" patternUnits="userSpaceOnUse" width={128} height={LAND_THICKNESS} patternTransform="matrix(1 0.5 0 1 0 0)">
+            <image href="/town/cliff.webp" width={128} height={64} preserveAspectRatio="none" />
+          </pattern>
+          <pattern id="cliff-right" patternUnits="userSpaceOnUse" width={128} height={LAND_THICKNESS} patternTransform="matrix(1 -0.5 0 1 0 0)">
+            <image href="/town/cliff.webp" x={-48} width={128} height={64} preserveAspectRatio="none" />
+            <image href="/town/cliff.webp" x={80} width={128} height={64} preserveAspectRatio="none" />
+          </pattern>
           <clipPath id="land-clip">
             <path d={landPath} />
           </clipPath>
@@ -423,9 +433,7 @@ export function WorldScene({
           const { sx, sy } = tileCenter(x, y);
           return (
             <g key={`edge-left-${x},${y}`}>
-              <polygon points={leftFace(sx, sy, LAND_THICKNESS)} fill={SOIL.left} stroke={SOIL.left} strokeWidth={0.6} />
-              <polygon points={leftFace(sx, sy, 7)} fill={groundOf(x, y).lip[0]} />
-              <path d={`M${sx - HALF_W} ${sy + LAND_THICKNESS} L${sx} ${sy + HALF_H + LAND_THICKNESS}`} stroke="#e6f7fb" strokeWidth={3} />
+              <polygon points={leftFace(sx, sy, LAND_THICKNESS)} fill="url(#cliff-left)" stroke={SOIL.left} strokeWidth={0.4} />
             </g>
           );
         })}
@@ -433,9 +441,8 @@ export function WorldScene({
           const { sx, sy } = tileCenter(x, y);
           return (
             <g key={`edge-right-${x},${y}`}>
-              <polygon points={rightFace(sx, sy, LAND_THICKNESS)} fill={SOIL.right} stroke={SOIL.right} strokeWidth={0.6} />
-              <polygon points={rightFace(sx, sy, 7)} fill={groundOf(x, y).lip[1]} />
-              <path d={`M${sx} ${sy + HALF_H + LAND_THICKNESS} L${sx + HALF_W} ${sy + LAND_THICKNESS}`} stroke="#e6f7fb" strokeWidth={3} />
+              <polygon points={rightFace(sx, sy, LAND_THICKNESS)} fill="url(#cliff-right)" stroke={SOIL.right} strokeWidth={0.4} />
+              <polygon points={rightFace(sx, sy, LAND_THICKNESS)} fill="#2a1a0c" opacity={0.2} />
             </g>
           );
         })}

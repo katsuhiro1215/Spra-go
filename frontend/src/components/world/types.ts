@@ -29,7 +29,7 @@ export type WorldItem = {
   mirrored?: boolean;
 };
 
-export type Ground = "grass" | "bamboo" | "sand" | "hill";
+export type Ground = "grass" | "bamboo" | "sand" | "hill" | "riverbank" | "plateau";
 
 /** 土地の区画(設計書3-1)。unlocked はこの人のレベルで開いているか */
 export type WorldPlot = {

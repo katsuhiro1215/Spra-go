@@ -1,7 +1,8 @@
 // マス目(x,y) ↔ SVG座標の変換。菱形1マス = 幅64・高さ32(2:1のアイソメ)
 export const HALF_W = 32;
 export const HALF_H = 16;
-export const LAND_THICKNESS = 40;
+// 崖の高さ。崖の岩肌の絵(public/town/cliff.webp)を、1マスの段差(32)ごとに貼るので、32にそろえる
+export const LAND_THICKNESS = 32;
 
 export type ViewBox = { x: number; y: number; width: number; height: number };
 
