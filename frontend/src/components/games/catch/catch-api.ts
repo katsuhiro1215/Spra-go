@@ -39,6 +39,9 @@ export type CatchFinish = {
   leveled_up: boolean;
   previous_level: number;
   level: number;
+  /** 今週の順位(記録がなければ null)。みんなは、保護者がオンのときだけ付く */
+  rank_family?: number | null;
+  rank_public?: number | null;
 };
 
 export function toGameQuestions(start: CatchStart): GameQuestion[] {

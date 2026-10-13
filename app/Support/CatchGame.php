@@ -9,6 +9,7 @@ use App\Models\Question;
 use App\Models\QuestionChoice;
 use App\Models\Quiz;
 use App\Models\UserProfile;
+use App\Models\UserSchema;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -82,8 +83,8 @@ class CatchGame
             'fall_ms' => $settings['fall_ms'],
         ] + (isset($settings['obstacle_rows']) ? ['obstacle_rows' => $settings['obstacle_rows']] : [])
           + (isset($settings['grid']) ? ['grid' => $settings['grid']] : []) + [
-            'questions' => array_map(fn (int $id) => self::present($byId[$id], $settings['lanes'], $settings), $ids),
-        ];
+              'questions' => array_map(fn (int $id) => self::present($byId[$id], $settings['lanes'], $settings), $ids),
+          ];
     }
 
     /** 今日のごほうびの残り回数。その日に終えた回を数える(終えていない回は数えない。設計書5-2) */
@@ -179,6 +180,7 @@ class CatchGame
             'best_combo' => $bestCombo,
             'stars' => $game === self::SPACE_GAME ? $totalStars : null,
             'elapsed_ms' => $elapsedMs,
+            'time_verified' => Ranking::isTimeGame($game) && Ranking::timeVerified($play, $elapsedMs, $game),
             'rewarded' => $reward !== null,
         ])->save();
 
@@ -192,6 +194,8 @@ class CatchGame
             $map['new_cards'] = array_values(array_map(fn (string $key) => ['key' => $key, 'name' => $names[$key] ?? null, 'image' => "/space/{$key}.webp"], array_values(array_diff(SpaceCards::keys($profile), $cardsBefore))));
         }
 
+        $schema = UserSchema::query()->find($profile->user_schema_id);
+
         return [
             'answered_count' => count($results),
             'correct_count' => $correctCount,
@@ -204,7 +208,8 @@ class CatchGame
             'leveled_up' => $leveledUp,
             'previous_level' => $previousLevel,
             'level' => $profile->level,
-        ] + ($map !== null ? ['map' => $map] : []) + ($game === self::SPACE_GAME ? [
+            'rank_family' => Ranking::rankOf($profile, $game, $play->difficulty, 'family'),
+        ] + ($schema?->ranking_public ? ['rank_public' => Ranking::rankOf($profile, $game, $play->difficulty, 'public')] : []) + ($map !== null ? ['map' => $map] : []) + ($game === self::SPACE_GAME ? [
             'stars' => $totalStars,
             'destination' => self::spaceDestination($correctCount, count($dealt)),
         ] : []) + (isset(config("games.{$game}.difficulties")[$play->difficulty]['grid']) ? [

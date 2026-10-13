@@ -14,6 +14,7 @@ import { apiFetch } from "@/lib/api";
 
 import type { CatchFinish } from "./catch-api";
 import { isPerfect, type CatchState } from "./catch-engine";
+import { rankLines } from "../ranking/ranking-view";
 import { CATCH_MODES, missedWords, rewardLines, type CatchMode } from "./catch-view";
 
 /** 結果の画面(docs/design/2026-09-29-spru-catch-design.md 7-4) */
@@ -69,6 +70,11 @@ export function CatchResult({
         <p className="text-xs text-[#6b5d45]">
           <AutoFurigana text={`自己ベスト ${result.best_score}点`} />
         </p>
+        {rankLines(result).map((line) => (
+          <p key={line} className="text-sm font-black text-[#2e6b1c]">
+            <AutoFurigana text={line} />
+          </p>
+        ))}
         {lines.length > 0 ? (
           <div className="text-sm font-black text-[#2e6b1c]">
             {lines.map((line) => (

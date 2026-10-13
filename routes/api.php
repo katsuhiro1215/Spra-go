@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Owner\PuzzleImageController;
+use App\Http\Middleware\EnsureGameAvailable;
 use App\Models\Admin;
 use App\Models\Category;
 use App\Models\CoinPurchase;
@@ -22,24 +25,24 @@ use App\Models\Stage;
 use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserProfileItem;
+use App\Models\UserSchema;
 use App\Support\ActiveProfile;
 use App\Support\Analytics;
 use App\Support\AppSettings;
-use App\Support\ContactRelay;
 use App\Support\Bond;
 use App\Support\CatchGame;
+use App\Support\ContactRelay;
 use App\Support\ContinueStage;
 use App\Support\CourseLevels;
 use App\Support\Courses;
 use App\Support\Csv;
 use App\Support\Errands;
 use App\Support\Family;
+use App\Support\GameRollout;
 use App\Support\Garden;
 use App\Support\LevelCompanions;
-use App\Support\LevelGifts;
 use App\Support\LevelCurve;
-use App\Http\Middleware\EnsureGameAvailable;
-use App\Support\GameRollout;
+use App\Support\LevelGifts;
 use App\Support\MiniQuizzes;
 use App\Support\PlayableQuestion;
 use App\Support\PlayTime;
@@ -49,6 +52,7 @@ use App\Support\Prefecture\PrefectureMaster;
 use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
 use App\Support\QuizVariants;
+use App\Support\Ranking;
 use App\Support\RareSeeds;
 use App\Support\Review;
 use App\Support\ReviewPicker;
@@ -65,6 +69,7 @@ use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -111,7 +116,7 @@ Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
 Route::get('/registration', fn () => [
     'open' => AppSettings::registrationOpen(),
     'invite_required' => AppSettings::inviteCode() !== '',
-    'google' => \App\Http\Controllers\Auth\GoogleAuthController::enabled(),
+    'google' => GoogleAuthController::enabled(),
 ])->name('registration.info');
 
 Route::middleware(['auth:owner'])->get('/owner/settings', fn () => AppSettings::all())->name('owner.settings.show');
@@ -128,9 +133,9 @@ Route::middleware(['auth:owner'])->put('/owner/settings', function (Request $req
     return AppSettings::all();
 })->name('owner.settings.update');
 
-Route::middleware(['auth:owner'])->get('/owner/puzzle-images', [\App\Http\Controllers\Owner\PuzzleImageController::class, 'index'])->name('owner.puzzle-images.index');
+Route::middleware(['auth:owner'])->get('/owner/puzzle-images', [PuzzleImageController::class, 'index'])->name('owner.puzzle-images.index');
 
-Route::middleware(['auth:owner'])->put('/owner/puzzle-images', [\App\Http\Controllers\Owner\PuzzleImageController::class, 'update'])->name('owner.puzzle-images.update');
+Route::middleware(['auth:owner'])->put('/owner/puzzle-images', [PuzzleImageController::class, 'update'])->name('owner.puzzle-images.update');
 
 Route::middleware(['auth:owner'])->get('/owner/feedbacks', function (Request $request) {
     $query = Feedback::query()->with(['user:id,name', 'question:id,prompt'])->latest('id');
@@ -1852,6 +1857,20 @@ foreach (GameRollout::PATHS as $path => $game) {
             return CatchGame::summary(ActiveProfile::require($request), $game);
         })->name('show');
 
+        // ランキング(docs/design/2026-10-13-ranking-design.md 5章)
+        Route::get('/ranking', function (Request $request) use ($game) {
+            $profile = ActiveProfile::require($request);
+            $data = $request->validate([
+                'scope' => ['required', 'in:family,public'],
+                'difficulty' => ['required', 'string', Rule::in(array_keys(config("games.{$game}.difficulties")))],
+                'period' => ['required', 'in:week,all'],
+            ]);
+            abort_if($data['scope'] === 'public' && $data['period'] === 'all', 422, 'みんなのランキングは、今週だけです。');
+            abort_if($data['scope'] === 'public' && ! UserSchema::query()->whereKey($profile->user_schema_id)->value('ranking_public'), 403, 'みんなのランキングは、おうちの人がオンにすると見られます。');
+
+            return Ranking::board($profile, $game, $data['difficulty'], $data['scope'], $data['period']);
+        })->name('ranking');
+
         Route::post('/plays', function (Request $request) use ($game) {
             $profile = ActiveProfile::require($request);
             $data = $request->validate([
@@ -1888,6 +1907,43 @@ foreach (GameRollout::PATHS as $path => $game) {
         })->name('plays.finish');
     });
 }
+
+// みんなのランキングの保護者のスイッチとニックネーム(docs/design/2026-10-13-ranking-design.md 5章)
+Route::middleware(['auth:sanctum'])->prefix('ranking')->name('ranking.')->group(function () {
+    // パスワードのあるアカウントは、パスワードの入れ直しで保護者と確かめる(Googleだけのアカウントは確かめられないので、そのまま)
+    $confirm = function (Request $request): void {
+        $hash = $request->user()->password;
+        if ($hash !== null) {
+            $request->validate(['password' => ['required', 'string']]);
+            abort_unless(Hash::check($request->input('password'), $hash), 422, 'パスワードが違います。');
+        }
+    };
+
+    Route::get('/settings', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+
+        return ['public' => (bool) UserSchema::query()->whereKey($profile->user_schema_id)->value('ranking_public'), 'nickname' => Ranking::nickname($profile)];
+    })->name('settings.show');
+
+    Route::put('/settings', function (Request $request) use ($confirm) {
+        $profile = ActiveProfile::require($request);
+        $data = $request->validate(['public' => ['required', 'boolean']]);
+        $schema = UserSchema::query()->findOrFail($profile->user_schema_id);
+        if ($data['public'] && ! $schema->ranking_public) {
+            $confirm($request);
+        }
+        $schema->update(['ranking_public' => $data['public']]);
+
+        return ['public' => $schema->ranking_public, 'nickname' => Ranking::nickname($profile)];
+    })->name('settings.update');
+
+    Route::post('/nickname', function (Request $request) use ($confirm) {
+        $profile = ActiveProfile::require($request);
+        $confirm($request);
+
+        return ['nickname' => Ranking::reroll($profile)];
+    })->name('nickname');
+});
 
 Route::middleware(['auth:sanctum'])->prefix('travel')->name('travel.')->group(function () {
     Route::get('/', function (Request $request) {
