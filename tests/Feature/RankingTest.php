@@ -246,3 +246,17 @@ it('終えた回の返事に、家族の今週の順位が付く。みんなは�
     $done = $this->postJson("/api/games/catch/plays/{$start['play_id']}/finish", ['answers' => $answers])->assertOk()->json();
     expect($done['rank_public'])->toBe(1);
 });
+
+it('パスワードの確認は、1分に6回まで(総当たりで保護者のパスワードを探せない)', function () {
+    $me = createActiveProfile();
+    $user = User::findOrFail(UserSchema::findOrFail($me->user_schema_id)->user_id);
+    $user->update(['password' => 'secret-pass-1']);
+    $this->actingAs($user->fresh())->withHeader('Referer', 'http://localhost')->withSession(['active_profile_id' => $me->id]);
+
+    foreach (range(1, 6) as $_) {
+        $this->putJson('/api/ranking/settings', ['public' => true, 'password' => 'wrong'])->assertUnprocessable();
+    }
+
+    $this->putJson('/api/ranking/settings', ['public' => true, 'password' => 'secret-pass-1'])->assertStatus(429);
+    $this->postJson('/api/ranking/nickname', ['password' => 'secret-pass-1'])->assertStatus(429);
+});
