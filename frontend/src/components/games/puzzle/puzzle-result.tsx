@@ -14,6 +14,7 @@ import type { ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
 import { formatTime } from "@/lib/slide-puzzle";
 
+import { rankLines } from "../ranking/ranking-view";
 import type { PuzzleFinish } from "./puzzle-api";
 
 /** 結果の画面: 正解の数・パズルにかかった時間・自己ベスト・ごほうび(docs/design/2026-10-09-slide-puzzle-design.md 1章) */
@@ -72,6 +73,11 @@ export function PuzzleResult({
         <p className="text-sm font-bold">
           <AutoFurigana text={`正解 ${result.correct_count}/${total}`} />
         </p>
+        {rankLines(result).map((line) => (
+          <p key={line} className="text-sm font-black text-[#2e6b1c]">
+            <AutoFurigana text={line} />
+          </p>
+        ))}
         {lines.length > 0 ? (
           <div className="text-sm font-black text-[#2e6b1c]">
             {lines.map((line) => (

@@ -2,16 +2,21 @@
 
 use App\Models\Category;
 use App\Models\Country;
+use App\Models\ProfileCurrencyLedger;
 use App\Models\ProfileStageProgress;
 use App\Models\ProfileWorldItem;
 use App\Models\Question;
+use App\Models\QuestionChoice;
 use App\Models\Quiz;
 use App\Models\ShopItem;
 use App\Models\Stage;
 use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\UserSchema;
+use App\Support\FlagQuiz\FlagCatchPlanner;
+use App\Support\FlagQuiz\FlagQuizWriter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 /*
@@ -79,7 +84,7 @@ function createFamilyMember(UserProfile $profile, string $name = '家族のだ�
     return UserSchema::findOrFail($profile->user_schema_id)->profiles()->create(['name' => $name]);
 }
 
-/** @return array{0: Question, 1: \App\Models\QuestionChoice, 2: \App\Models\QuestionChoice} */
+/** @return array{0: Question, 1: QuestionChoice, 2: QuestionChoice} */
 function createQuestionWithChoices(): array
 {
     $quiz = Quiz::create(['title' => 'テストクイズ', 'difficulty' => '初級']);
@@ -95,7 +100,7 @@ function createQuestionWithChoices(): array
  * question_choices.order を「正解の順序」として使う(表示側でシャッフルする)。
  *
  * @param  list<string>  $labelsInCorrectOrder
- * @return array{0: Question, 1: list<\App\Models\QuestionChoice>}
+ * @return array{0: Question, 1: list<QuestionChoice>}
  */
 function createOrderingQuestionWithChoices(array $labelsInCorrectOrder): array
 {
@@ -125,7 +130,6 @@ function createOrderingQuestionWithChoices(array $labelsInCorrectOrder): array
  *
  * @param  array<string, string>  $baskets
  * @param  array<string, string>  $itemToBasket
- * @return Question
  */
 function createSortingQuestion(array $baskets, array $itemToBasket): Question
 {
@@ -153,7 +157,7 @@ function createSortingQuestion(array $baskets, array $itemToBasket): Question
  * マッチング(1対1)問題を作る。$pairs は ['アイテムid' => 'ラベル名'] の連想配列。
  *
  * @param  array<string, string>  $pairs
- * @return array{0: Question, 1: array<string, \App\Models\QuestionChoice>}
+ * @return array{0: Question, 1: array<string, QuestionChoice>}
  */
 function createMatchingQuestionWithPairs(array $pairs): array
 {
@@ -296,7 +300,7 @@ function prepareCatchQuestions(UserProfile $profile, int $count, string $difficu
 /** 答えの記録(体力の行)を、指定した時刻(世界標準時)に作る。分析のテストで使う */
 function answerAt(UserProfile $profile, string $utc, bool $correct = true, ?int $questionId = null): void
 {
-    App\Models\ProfileCurrencyLedger::forceCreate([
+    ProfileCurrencyLedger::forceCreate([
         'user_profile_id' => $profile->id,
         'type' => 'hp',
         'delta' => $correct ? -1 : -2,
@@ -339,4 +343,25 @@ function flagTestCatalog(): array
     }
 
     return $catalog;
+}
+
+/**
+ * 国旗の問題を登録し、ピースの種類の一覧(本物は database/data/puzzle/flags.json)を、テスト用に作る。
+ * どの絵も、ピースはすべて別の種類。$excluded の名前の旗だけ、使えない旗として一覧に入れない
+ */
+function preparePuzzleFlag(array $excluded = []): void
+{
+    FlagQuizWriter::writeCatch(FlagCatchPlanner::plan(flagTestCatalog()));
+
+    $kinds = ['2x2' => [], '3x3' => [], '4x4' => []];
+    foreach (DB::table('question_choices')->where('is_correct', true)->get(['label', 'meta']) as $choice) {
+        $image = json_decode($choice->meta, true)['image'] ?? null;
+        if ($image === null || in_array($choice->label, $excluded, true)) {
+            continue;
+        }
+        foreach (['2x2' => 4, '3x3' => 9, '4x4' => 16] as $grid => $count) {
+            $kinds[$grid][$image] = range(0, $count - 1);
+        }
+    }
+    config(['games.puzzle_flag.image_kinds' => $kinds]);
 }

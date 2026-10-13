@@ -13,6 +13,7 @@ import { SpruFigure } from "@/components/spru/spru-figure";
 import type { ShopListItem } from "@/components/world/types";
 import { apiFetch } from "@/lib/api";
 
+import { rankLines } from "../ranking/ranking-view";
 import type { SpaceFinish } from "./space-api";
 import type { SpaceStop } from "./space-map-api";
 import { mapResultLines, starsLine } from "./space-map-view";
@@ -91,6 +92,11 @@ export function SpaceResult({
         <p className="text-xs text-[#6b5d45]">
           <AutoFurigana text={`自己ベスト ${result.best_score}点`} />
         </p>
+        {rankLines(result).map((line) => (
+          <p key={line} className="text-sm font-black text-[#2e6b1c]">
+            <AutoFurigana text={line} />
+          </p>
+        ))}
         {lines.length > 0 ? (
           <div className="text-sm font-black text-[#2e6b1c]">
             {lines.map((line) => (

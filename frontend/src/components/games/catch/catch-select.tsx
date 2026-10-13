@@ -11,6 +11,7 @@ import { DIFFICULTY_READINGS } from "@/lib/difficulty";
 import { formatTime } from "@/lib/slide-puzzle";
 
 import type { CatchDifficulty, CatchSummary } from "./catch-api";
+import { rankingHref } from "../ranking/ranking-view";
 import { CATCH_MODES, laneLabel, rewardLeftText, type CatchMode } from "./catch-view";
 
 /** 難しさを選ぶ画面(docs/design/2026-09-29-spru-catch-design.md 7-2) */
@@ -102,6 +103,9 @@ export function CatchSelect({
           <AutoFurigana text="今週のミニゲーム！ごほうびが1.5ばい" />
         </p>
       )}
+      <Link href={rankingHref(mode)} className="text-sm font-black text-white underline">
+        <AutoFurigana text="ランキングを見る" />
+      </Link>
       {error && (
         <p role="alert" className="text-sm font-bold text-[#c9573b]">
           <AutoFurigana text={error} />

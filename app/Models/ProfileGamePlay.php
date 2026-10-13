@@ -22,6 +22,7 @@ class ProfileGamePlay extends Model
         'stars',
         'elapsed_ms',
         'rewarded',
+        'time_verified',
     ];
 
     protected function casts(): array
@@ -36,6 +37,7 @@ class ProfileGamePlay extends Model
             'best_combo' => 'integer',
             'stars' => 'integer',
             'rewarded' => 'boolean',
+            'time_verified' => 'boolean',
         ];
     }
 

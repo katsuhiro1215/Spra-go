@@ -1,9 +1,6 @@
 <?php
 
-use App\Support\FlagQuiz\FlagCatchPlanner;
-use App\Support\FlagQuiz\FlagQuizWriter;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,27 +15,6 @@ beforeEach(function () {
     $this->travelTo(Carbon::parse('2026-10-09 03:00:00', 'UTC')); // 日本時間 10/9 12:00
     config(['games.puzzle_space.catalog' => ['released_on' => null, 'season' => null]]);
 });
-
-/**
- * 国旗の問題を登録し、ピースの種類の一覧(本物は database/data/puzzle/flags.json)を、テスト用に作る。
- * どの絵も、ピースはすべて別の種類。$excluded の名前の旗だけ、使えない旗として一覧に入れない
- */
-function preparePuzzleFlag(array $excluded = []): void
-{
-    FlagQuizWriter::writeCatch(FlagCatchPlanner::plan(flagTestCatalog()));
-
-    $kinds = ['2x2' => [], '3x3' => [], '4x4' => []];
-    foreach (DB::table('question_choices')->where('is_correct', true)->get(['label', 'meta']) as $choice) {
-        $image = json_decode($choice->meta, true)['image'] ?? null;
-        if ($image === null || in_array($choice->label, $excluded, true)) {
-            continue;
-        }
-        foreach (['2x2' => 4, '3x3' => 9, '4x4' => 16] as $grid => $count) {
-            $kinds[$grid][$image] = range(0, $count - 1);
-        }
-    }
-    config(['games.puzzle_flag.image_kinds' => $kinds]);
-}
 
 /** 始めて、全部の問題に答える @return array{0: array, 1: list<array{question_id: int, choice_id: int}>} */
 function startPuzzle($test, string $path = 'puzzle-flag', string $difficulty = '初級', bool $allCorrect = true): array
