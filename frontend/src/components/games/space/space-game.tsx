@@ -149,7 +149,10 @@ export function SpaceGame({
   const rocket = OUTING_IMAGES.back;
 
   return (
-    <div className="fixed inset-0 z-40 flex justify-center bg-[#10163a]">
+    <div
+      className="fixed inset-0 z-40 flex justify-center bg-[#10163a] bg-cover bg-top"
+      style={{ backgroundImage: "url(/backgrounds/space_trip.webp)" }}
+    >
       <div className="flex h-full w-full max-w-md flex-col px-3 pt-3 pb-4">
         <div className="flex items-center justify-between gap-2 text-[#3b3226]">
           <AppButton variant="default" size="sm" onClick={() => setConfirmQuit(true)}>

@@ -18,7 +18,16 @@ export function useSkyTime(): TimeOfDay {
  * 町以外の画面のいちばん外側。町と同じ時間帯の空を背景にする(設計書4章)。
  * サーバーとブラウザで時刻がずれて表示が崩れないよう、最初は昼の色で描き、開いたあとに端末の時計で決める
  */
-export function SkyPage({ children, className }: { children: ReactNode; className?: string }) {
+export function SkyPage({
+  children,
+  className,
+  backdrop,
+}: {
+  children: ReactNode;
+  className?: string;
+  /** 空の代わりに、縦長の背景の絵(宇宙のゲームなど)を敷く。暗い絵なので、文字は夜と同じ白にする */
+  backdrop?: string;
+}) {
   const [time, setTime] = useState<TimeOfDay>("day");
 
   useEffect(() => {
@@ -32,10 +41,14 @@ export function SkyPage({ children, className }: { children: ReactNode; classNam
   }, []);
 
   return (
-    <SkyTimeContext.Provider value={time}>
+    <SkyTimeContext.Provider value={backdrop ? "night" : time}>
       <div
         className={`relative flex min-h-screen flex-col overflow-hidden transition-[background] duration-700 ${className ?? ""}`}
-        style={{ background: TIME_THEME[time].background }}
+        style={
+          backdrop
+            ? { backgroundColor: "#10163a", backgroundImage: `url(${backdrop})`, backgroundSize: "cover", backgroundPosition: "center top" }
+            : { background: TIME_THEME[time].background }
+        }
       >
         {children}
       </div>

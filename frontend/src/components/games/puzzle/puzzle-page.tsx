@@ -114,7 +114,7 @@ export function PuzzlePageView({ mode }: { mode: Mode }) {
   if (phase.kind === "playing") {
     const started = phase.start;
     return (
-      <SkyPage>
+      <SkyPage backdrop={mode === "puzzle_space" ? "/backgrounds/space_puzzle.webp" : undefined}>
         <AppHeader />
         <PuzzleGame
           key={started.play_id}
@@ -128,7 +128,7 @@ export function PuzzlePageView({ mode }: { mode: Mode }) {
   }
 
   return (
-    <SkyPage>
+    <SkyPage backdrop={mode === "puzzle_space" ? "/backgrounds/space_puzzle.webp" : undefined}>
       <AppHeader />
       {phase.kind === "finishing" ? (
         <div className="relative z-10 flex flex-1 items-center justify-center">

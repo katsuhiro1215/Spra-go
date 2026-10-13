@@ -94,9 +94,9 @@ export function CatchSelect({
         </div>
       )}
 
-      <p className="text-sm font-bold text-[#3b3226]">
+      <SkyText className="text-sm">
         <AutoFurigana text={rewardLeftText(summary.rewarded_plays_left)} />
-      </p>
+      </SkyText>
       {summary.featured && (
         <p className="rounded-full bg-[#fff3c4] px-3 py-1 text-xs font-black text-[#3b3226]">
           <AutoFurigana text="今週のミニゲーム！ごほうびが1.5ばい" />
