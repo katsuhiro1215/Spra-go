@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { QuizPreview } from "./quiz-preview";
+import { flagSrc } from "@/lib/flag";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost";
 
@@ -64,7 +65,7 @@ export default async function Page({ params }: PageProps) {
         <div className="mt-3 flex items-center gap-3">
           <div className="relative h-12 w-18 shrink-0 overflow-hidden rounded-md border border-white/40 shadow-lg">
             <Image
-              src={`/flag/${data.country.code}.svg`}
+              src={flagSrc(data.country.code)}
               alt={data.country.name}
               fill
               className="object-cover"

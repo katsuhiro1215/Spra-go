@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { apiFetch } from "@/lib/api";
+import { flagSrc } from "@/lib/flag";
 
 const DIFFICULTIES = ["初級", "中級", "上級"] as const;
 type Difficulty = (typeof DIFFICULTIES)[number];
@@ -414,7 +415,7 @@ export default function Page({
               {question.country ? (
                 <div className="relative h-6 w-9 shrink-0 overflow-hidden rounded-sm border border-border">
                   <Image
-                    src={`/flag/${question.country.code}.svg`}
+                    src={flagSrc(question.country.code)}
                     alt={question.country.name}
                     fill
                     className="object-cover"

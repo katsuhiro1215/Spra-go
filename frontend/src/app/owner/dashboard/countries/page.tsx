@@ -33,6 +33,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { apiFetch } from "@/lib/api";
+import { flagSrc } from "@/lib/flag";
 
 type Language = { id: number; code: string; name: string };
 
@@ -246,7 +247,7 @@ export default function Page() {
 
               <div className="relative h-12 w-16 overflow-hidden rounded-sm border border-border">
                 <Image
-                  src={`/flag/${country.code}.svg`}
+                  src={flagSrc(country.code)}
                   alt={country.name}
                   fill
                   className="object-cover"
