@@ -20,6 +20,7 @@ import { apiFetch } from "@/lib/api";
 import { levelRatio, levelText, type CountryLevel, type LanguageLevel } from "@/lib/course-levels";
 import { badgeCountText, badgeRingClass, groupBadgesByRegion, type PrefectureBadge } from "@/lib/prefecture-badges";
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { flagSrc } from "@/lib/flag";
 
 type PassportCountry = {
   code: string;
@@ -447,7 +448,7 @@ function StampFace({
     >
       <div className="relative h-11 w-16 overflow-hidden rounded-sm border border-[#efe5cf]">
         <Image
-          src={`/flag/${country.code}.svg`}
+          src={flagSrc(country.code)}
           alt={country.name}
           fill
           className="object-cover"

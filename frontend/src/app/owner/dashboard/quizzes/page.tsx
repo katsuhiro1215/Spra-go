@@ -43,6 +43,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { flagSrc } from "@/lib/flag";
 
 const DIFFICULTIES = ["初級", "中級", "上級"] as const;
 type Difficulty = (typeof DIFFICULTIES)[number];
@@ -255,7 +256,7 @@ export default function Page() {
               {quiz.country ? (
                 <div className="relative h-6 w-9 shrink-0 overflow-hidden rounded-sm border border-border">
                   <Image
-                    src={`/flag/${quiz.country.code}.svg`}
+                    src={flagSrc(quiz.country.code)}
                     alt={quiz.country.name}
                     fill
                     className="object-cover"

@@ -13,6 +13,7 @@ import { LoadingScreen } from "@/components/app/spru-loading";
 import { LockedCountry } from "@/components/travel/locked-country";
 import { apiFetch } from "@/lib/api";
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { flagSrc } from "@/lib/flag";
 
 type CountryStart = {
   id: number;
@@ -83,7 +84,7 @@ export default function Page({
       <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-6 px-6 py-12 pb-24 text-center">
         <div className="animate-stage-intro relative h-28 w-44 overflow-hidden rounded-lg border-4 border-[#fffaf0] shadow-xl">
           <Image
-            src={`/flag/${country.code}.svg`}
+            src={flagSrc(country.code)}
             alt={country.name}
             fill
             className="object-cover"

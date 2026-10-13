@@ -7,6 +7,7 @@ import { AutoFurigana } from "@/components/app/auto-furigana";
 import { SPRU_STAGES } from "@/components/spru/spru-assets";
 
 import { achievementRatio, achievementText, countryCardLabel, isAllCleared, type LearnCountry } from "./country-cards";
+import { flagSrc } from "@/lib/flag";
 
 // 学ぶタブの国旗のカード(docs/design/2026-09-29-learn-flag-cards-design.md 3-2・3-3)
 const CARD_CLASS =
@@ -18,7 +19,7 @@ function CardFlag({ code, locked = false }: { code: string; locked?: boolean }) 
     <span
       className={`relative block aspect-[3/2] w-full max-w-28 overflow-hidden rounded-md border border-[#e8dfcf] ${locked ? "opacity-70 grayscale" : ""}`}
     >
-      <Image src={`/flag/${code}.svg`} alt="" fill sizes="112px" className="object-cover" />
+      <Image src={flagSrc(code)} alt="" fill sizes="112px" className="object-cover" />
     </span>
   );
 }

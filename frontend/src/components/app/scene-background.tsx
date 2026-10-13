@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import Image from "next/image";
+import { flagSrc } from "@/lib/flag";
 
 function Cloud({
   className,
@@ -378,7 +379,7 @@ export function SceneBackground({
         >
           <div className="animate-scene-flag relative h-6 w-9 overflow-hidden rounded-[1px] shadow-sm">
             <Image
-              src={`/flag/${code}.svg`}
+              src={flagSrc(code)}
               alt=""
               fill
               className="object-cover"

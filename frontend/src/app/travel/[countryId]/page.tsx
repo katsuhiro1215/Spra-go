@@ -22,6 +22,7 @@ import { roadArt } from "@/components/travel/road";
 import { groupsLevel, levelRatio, levelText } from "@/lib/course-levels";
 import { DIFFICULTY_READINGS } from "@/lib/difficulty";
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import { flagSrc } from "@/lib/flag";
 
 type StageSummary = {
   id: number;
@@ -157,7 +158,7 @@ export default function Page({
           <Panel className="mt-3 flex flex-col gap-3">
             <div className="flex items-center gap-4">
               <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-md border border-[#e8dfcf] shadow">
-                <Image src={`/flag/${country.code}.svg`} alt={country.name} fill className="object-cover" />
+                <Image src={flagSrc(country.code)} alt={country.name} fill className="object-cover" />
               </div>
               <div>
                 <h1 className="text-3xl font-black">
