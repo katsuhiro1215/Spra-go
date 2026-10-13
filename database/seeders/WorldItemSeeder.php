@@ -147,6 +147,8 @@ class WorldItemSeeder extends Seeder
             ['name' => 'ひつじ', 'price' => 45, 'min_level' => 4, 'asset_key' => 'sheep'],
             ['name' => '小鳥の巣箱', 'price' => 40, 'min_level' => 3, 'asset_key' => 'birdhouse'],
             ['name' => 'ミツバチの巣箱', 'price' => 50, 'min_level' => 4, 'asset_key' => 'beehive'],
+            ['name' => '小川の曲がり', 'price' => 50, 'min_level' => 5, 'asset_key' => 'stream_curve'],
+            ['name' => '小川の池', 'price' => 60, 'min_level' => 6, 'asset_key' => 'stream_pool'],
         ];
 
         foreach ($items as $item) {

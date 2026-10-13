@@ -31,8 +31,8 @@ describe("ドラッグの判定", () => {
 
 describe("地図の範囲", () => {
   it("7×7はE回より前の町の絵と同じ範囲、12×12は地図全体", () => {
-    expect(sceneViewBox(7, 7)).toEqual({ x: -240, y: -84, width: 480, height: 372 });
-    expect(sceneViewBox(12, 12)).toEqual({ x: -400, y: -84, width: 800, height: 532 });
+    expect(sceneViewBox(7, 7)).toEqual({ x: -240, y: -84, width: 480, height: 364 });
+    expect(sceneViewBox(12, 12)).toEqual({ x: -400, y: -84, width: 800, height: 524 });
   });
 
   it("最初から開いている区画は町", () => {
@@ -41,12 +41,12 @@ describe("地図の範囲", () => {
 
   it("区画だけの範囲は、区画の位置の分ずらす", () => {
     expect(plotViewBox(TOWN)).toEqual(sceneViewBox(7, 7));
-    expect(plotViewBox(BAMBOO)).toEqual({ x: -16, y: 28, width: 416, height: 340 });
+    expect(plotViewBox(BAMBOO)).toEqual({ x: -16, y: 28, width: 416, height: 332 });
   });
 
   it("町が枠の横幅に収まる縮尺にする", () => {
-    expect(mapLayout(LAND, 480)).toEqual({ map: sceneViewBox(12, 12), scale: 1, width: 800, height: 532, viewHeight: 372 });
-    expect(mapLayout(LAND, 360)).toMatchObject({ scale: 0.75, width: 600, viewHeight: 279 });
+    expect(mapLayout(LAND, 480)).toEqual({ map: sceneViewBox(12, 12), scale: 1, width: 800, height: 524, viewHeight: 364 });
+    expect(mapLayout(LAND, 360)).toMatchObject({ scale: 0.75, width: 600, viewHeight: 273 });
   });
 });
 

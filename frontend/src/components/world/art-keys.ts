@@ -131,6 +131,8 @@ export const ITEM_ART_KEYS = [
   "sheep",
   "birdhouse",
   "beehive",
+  "stream_curve",
+  "stream_pool",
 ] as const;
 
 export type ItemArtKey = (typeof ITEM_ART_KEYS)[number];
@@ -281,6 +283,8 @@ export const ITEM_ART_LABELS: Record<ItemArtKey, string> = {
   sheep: "ひつじ",
   birdhouse: "小鳥の巣箱",
   beehive: "ミツバチの巣箱",
+  stream_curve: "小川の曲がり",
+  stream_pool: "小川の池",
 };
 
 /** 絵のカテゴリ(設計書 2026-09-28-town-items 3-2)。config/world.php の asset_categories と必ず一致させる */
@@ -411,6 +415,8 @@ export const ITEM_ART_CATEGORIES: Record<ItemArtKey, ItemCategory> = {
   sheep: "nature",
   birdhouse: "decor",
   beehive: "decor",
+  stream_curve: "nature",
+  stream_pool: "nature",
 };
 
 /** 管理画面の絵の選択肢の名前。カテゴリと、2×2なら大きさを添える(例: 「五重塔（名所・2×2）」) */
