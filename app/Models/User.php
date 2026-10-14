@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -32,6 +33,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'terms_accepted_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function apps(): HasMany
+    {
+        return $this->hasMany(UserApp::class);
     }
 
     public function schema(): HasOne

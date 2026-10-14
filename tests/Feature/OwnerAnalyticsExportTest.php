@@ -67,7 +67,7 @@ it('登録した週ごと・まちがいの多い問題・Userの書き出し', 
     expect($cohorts)->toContain('登録した週,人数,登録した週,1週後,2週後,3週後,4週後')
         ->and($hard)->toContain('問題番号,問題文,回答数,正解率,へん報告数')
         ->and($hard)->toContain("\"'=HYPERLINK(\"\"http://example.com\"\")\"")
-        ->and($users)->toContain('ID,名前,登録日,メール確認,プレイヤー数,最後に遊んだ日,解いた問題数,遊んだ時間(分)')
+        ->and($users)->toContain('ID,名前,登録日,メール確認,使っているアプリ,プレイヤー数,最後に遊んだ日,解いた問題数,遊んだ時間(分)')
         ->and($users)->not->toContain('@'); // メールアドレスは書き出さない
 });
 

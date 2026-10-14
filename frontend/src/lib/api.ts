@@ -1,5 +1,8 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost";
 
+// どのアプリからの通信かをサーバーに伝える(使っているアプリの記録用。docs/design/2026-10-14-multi-app-accounts-design.md 5章)
+const APP_KEY = "go";
+
 function getCookie(name: string): string | null {
   const match = document.cookie.match(
     new RegExp(`(?:^|; )${name}=([^;]*)`),
@@ -15,6 +18,7 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   const method = (options.method ?? "GET").toUpperCase();
   const headers = new Headers(options.headers);
   headers.set("Accept", "application/json");
+  headers.set("X-Spra-App", APP_KEY);
 
   if (method !== "GET") {
     await ensureCsrfCookie();

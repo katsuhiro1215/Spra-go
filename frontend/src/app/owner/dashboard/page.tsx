@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { apiFetch } from "@/lib/api";
+import { APPS } from "@/lib/apps";
 
 type Summary = {
   user_count: number;
@@ -13,6 +14,7 @@ type Summary = {
   stage_clears_last_7_days: number;
   countries_with_content: number;
   invite_code_empty: boolean;
+  apps: { counts: Record<string, number>; multiple: number };
   coin_purchases: {
     completed_count: number;
     completed_amount_this_month: number;
@@ -89,6 +91,10 @@ export default function Page() {
             label="コンテンツがある国"
             value={summary.countries_with_content}
           />
+          {APPS.map((app) => (
+            <KpiCard key={app.key} label={`${app.label}を使っている人`} value={summary.apps.counts[app.key] ?? 0} />
+          ))}
+          <KpiCard label="複数のアプリを使っている人" value={summary.apps.multiple} />
           <KpiCard
             label="コイン購入(累計件数)"
             value={summary.coin_purchases.completed_count}

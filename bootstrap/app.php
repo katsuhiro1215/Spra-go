@@ -17,6 +17,11 @@ return Application::configure(basePath: dirname(__DIR__))
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         ]);
 
+        // どのアプリを使っているかを残す(X-Spra-App ヘッダー。docs/design/2026-10-14-multi-app-accounts-design.md)
+        $middleware->api(append: [
+            \App\Http\Middleware\RecordAppUsage::class,
+        ]);
+
         // 本番は Caddy(リバースプロキシ)の裏で動く。PHP-FPM は外に公開しないので、すべてのプロキシを信用してよい。
         // これがないと、https のアクセスでも http のリンク(メールの確認リンクなど)が作られる
         $middleware->trustProxies(at: '*');
