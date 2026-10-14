@@ -36,7 +36,7 @@ function courseStages(Country $country, string $difficulty)
 }
 
 it('4ステージ＋ボスの国旗コースを、10ステージ(9つが通常・最後がボス)のプールに並べ直す', function () {
-    $country = createFlagCourse('jp', '日本');
+    $country = createFlagCourse('aa', '日本');
 
     CoursePoolBuilder::buildCountry($country);
 
@@ -55,7 +55,7 @@ it('4ステージ＋ボスの国旗コースを、10ステージ(9つが通常�
 });
 
 it('級ごとの出す数は、中級15・ボス20、上級20・ボス25', function () {
-    $country = createFlagCourse('us', 'アメリカ', ['初級', '中級', '上級']);
+    $country = createFlagCourse('ab', 'アメリカ', ['初級', '中級', '上級']);
 
     CoursePoolBuilder::buildCountry($country);
 
@@ -64,7 +64,7 @@ it('級ごとの出す数は、中級15・ボス20、上級20・ボス25', funct
 });
 
 it('何度実行しても、同じ結果になる', function () {
-    $country = createFlagCourse('fr', 'フランス');
+    $country = createFlagCourse('ac', 'フランス');
 
     CoursePoolBuilder::buildCountry($country);
     CoursePoolBuilder::buildCountry($country);
@@ -91,7 +91,7 @@ it('ステージがない国・級は何も作らない', function () {
 });
 
 it('カテゴリーの名前が国名と違っても(アメリカ合衆国)、国のステージから見つけて並べ直す', function () {
-    $country = createFlagCourse('us', 'アメリカ合衆国');
+    $country = createFlagCourse('ad', 'アメリカ合衆国');
     $country->update(['name' => 'アメリカ']);
 
     expect(CoursePoolBuilder::buildCountry($country->fresh()))->toBe(['stages' => 10, 'pool' => 60]);

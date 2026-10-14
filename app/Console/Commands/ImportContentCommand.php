@@ -8,6 +8,7 @@ use App\Models\Question;
 use App\Models\QuestionTheme;
 use App\Models\Quiz;
 use App\Models\Stage;
+use App\Support\RetiredQuestions;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -281,7 +282,14 @@ class ImportContentCommand extends Command
             );
             $stagesCreated++;
 
+            // 外す問題の一覧にある問題は、取り込まない(docs/design/2026-10-15-question-variety-design.md 3-1)
+            $retired = RetiredQuestions::prompts($data['country_code'], $data['difficulty']);
+
             foreach ($stageData['questions'] as $index => $questionData) {
+                if (in_array($questionData['prompt'], $retired, true)) {
+                    continue;
+                }
+
                 $question = Question::query()
                     ->where('quiz_id', $quiz->id)
                     ->where('prompt', $questionData['prompt'])

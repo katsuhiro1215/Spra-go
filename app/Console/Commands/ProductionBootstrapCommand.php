@@ -35,6 +35,7 @@ class ProductionBootstrapCommand extends Command
             ['英語のコース', 'english:import', []],
             ['宇宙のクイズ', 'space:import', []],
             ['地名のクイズ', 'db:seed', ['--class' => 'PlaceNameQuizSeeder', '--force' => true]],
+            ['外す問題をステージから外す', 'content:retire', []],
             ['コースの並べ直し', 'course:build', []],
             ['町の整合', 'world:repair', []],
         ];
