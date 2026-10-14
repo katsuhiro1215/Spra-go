@@ -181,11 +181,17 @@ describe("pickTownMood", () => {
 });
 
 describe("pickAnswerImage", () => {
-  it("正解はうれしい、2コンボ以上は大笑い、ボーナスは応援、不正解はがっかり", () => {
-    expect(pickAnswerImage({ correct: true, combo: 1, comboBonus: 0 })).toBe("happy");
-    expect(pickAnswerImage({ correct: true, combo: 2, comboBonus: 0 })).toBe("laugh");
-    expect(pickAnswerImage({ correct: true, combo: 5, comboBonus: 20 })).toBe("cheer");
-    expect(pickAnswerImage({ correct: false, combo: 0, comboBonus: 0 })).toBe("sad");
+  it("正解は拍手か万歳、2コンボ以上はくるっと回る、ボーナスはジャンプ", () => {
+    expect(pickAnswerImage({ correct: true, combo: 1, comboBonus: 0 })).toBe("react-clap");
+    expect(pickAnswerImage({ correct: true, combo: 1, comboBonus: 0, variant: 1 })).toBe("react-hooray");
+    expect(pickAnswerImage({ correct: true, combo: 2, comboBonus: 0 })).toBe("react-twirl");
+    expect(pickAnswerImage({ correct: true, combo: 5, comboBonus: 20 })).toBe("react-jump");
+  });
+
+  it("不正解は泣き顔でなく、「いて！」としりもちを入れ替える", () => {
+    expect(pickAnswerImage({ correct: false, combo: 0, comboBonus: 0 })).toBe("react-ouch");
+    expect(pickAnswerImage({ correct: false, combo: 0, comboBonus: 0, variant: 1 })).toBe("react-slip");
+    expect(pickAnswerImage({ correct: false, combo: 0, comboBonus: 0, variant: 2 })).toBe("react-ouch");
   });
 });
 

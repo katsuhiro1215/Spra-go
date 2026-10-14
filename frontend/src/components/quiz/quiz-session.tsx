@@ -718,6 +718,7 @@ export function QuizSession({
                   correct: lastCorrect,
                   combo: combo?.combo ?? 0,
                   comboBonus: combo?.combo_milestone_bonus_coin ?? 0,
+                  variant: currentIndex,
                 })}
                 standHeight={100}
                 bloom={bloomOf(spruGrowth)}

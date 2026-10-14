@@ -9,6 +9,7 @@ import {
   type SpruFaceKey,
   type SpruImageKey,
 } from "./spru-assets";
+import { SPRU_REACTIONS, type SpruReactionKey } from "./spru-reactions";
 
 /**
  * HTMLの中でスプルを出す(クイズ・演出用)。standHeight は立ち姿のときの高さ(px)で、
@@ -23,18 +24,20 @@ export function SpruFigure({
   className,
   eager = false,
 }: {
-  image: SpruImageKey;
+  image: SpruImageKey | SpruReactionKey;
   standHeight: number;
   bloom?: Bloom | null;
   alt?: string;
   className?: string;
   eager?: boolean;
 }) {
-  const asset = SPRU_IMAGES[image];
+  const isReaction = image in SPRU_REACTIONS;
+  const asset = isReaction ? SPRU_REACTIONS[image as SpruReactionKey] : SPRU_IMAGES[image as SpruImageKey];
   const scale = standHeight / SPRU_STAND_HEIGHT;
   const width = Math.round(asset.width * scale);
   const height = Math.round(asset.height * scale);
-  const rect = bloom ? bloomRect(image, bloom) : null;
+  // リアクションの絵には、Sの先の位置の記録がない(つぼみ・花は重ねない)
+  const rect = bloom && !isReaction ? bloomRect(image as SpruImageKey, bloom) : null;
   const figure = (
     <Image
       src={asset.src}

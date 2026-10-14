@@ -1,6 +1,7 @@
 import { getTimeOfDay, isSpruSleepTime, type TimeOfDay } from "@/components/world/time-of-day";
 
 import { SPRU_FACES, type SpruFaceKey, type SpruImageKey } from "./spru-assets";
+import type { SpruReactionKey } from "./spru-reactions";
 
 export type TownEvent =
   | { kind: "greet"; at: number }
@@ -152,15 +153,20 @@ export function pickAnswerImage({
   correct,
   combo,
   comboBonus,
+  variant = 0,
 }: {
   correct: boolean;
   combo: number;
   comboBonus: number;
-}): SpruImageKey {
-  if (!correct) return "sad";
-  if (comboBonus > 0) return "cheer";
-  if (combo >= 2) return "laugh";
-  return "happy";
+  /** 何問目か。同じ絵が続かないよう、正解・不正解の絵を入れ替える */
+  variant?: number;
+}): SpruImageKey | SpruReactionKey {
+  const odd = Math.abs(variant) % 2 === 1;
+  // 不正解は泣き顔でなく、「いて！」としりもち(笑える程度のまちがい。リアクションシートの絵)
+  if (!correct) return odd ? "react-slip" : "react-ouch";
+  if (comboBonus > 0) return "react-jump";
+  if (combo >= 2) return "react-twirl";
+  return odd ? "react-hooray" : "react-clap";
 }
 
 export function pickResult(score: number, total: number): { image: SpruImageKey; line: string | null } {
