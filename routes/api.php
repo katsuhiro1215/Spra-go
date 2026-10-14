@@ -29,6 +29,7 @@ use App\Models\UserSchema;
 use App\Support\ActiveProfile;
 use App\Support\Analytics;
 use App\Support\AppSettings;
+use App\Support\AppUsage;
 use App\Support\Bond;
 use App\Support\CatchGame;
 use App\Support\ContactRelay;
@@ -103,6 +104,7 @@ Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
             ->count(),
         'countries_with_content' => Country::query()->whereHas('stages.questions')->count(),
         'invite_code_empty' => AppSettings::inviteCode() === '',
+        'apps' => (new AppUsage)->summary(),
         'coin_purchases' => [
             'completed_count' => CoinPurchase::query()->where('status', 'completed')->count(),
             'completed_amount_this_month' => (int) CoinPurchase::query()
@@ -211,13 +213,15 @@ Route::middleware(['auth:owner'])->get('/owner/analytics/export/{kind}', functio
         ),
         'users' => (function () use ($analytics) {
             $stats = $analytics->userStats();
+            $apps = (new AppUsage)->byUser();
 
             return Csv::make(
-                ['ID', '名前', '登録日', 'メール確認', 'プレイヤー数', '最後に遊んだ日', '解いた問題数', '遊んだ時間(分)'],
+                ['ID', '名前', '登録日', 'メール確認', '使っているアプリ', 'プレイヤー数', '最後に遊んだ日', '解いた問題数', '遊んだ時間(分)'],
                 User::query()->latest()->get()->map(fn (User $user) => [
                     $user->id, $user->name,
                     $user->created_at->copy()->setTimezone(Analytics::TIMEZONE)->toDateString(),
                     $user->email_verified_at ? '確認済み' : '未確認',
+                    collect($apps[$user->id] ?? [])->pluck('app')->implode('|'),
                     $stats[$user->id]['players'], $stats[$user->id]['last_played_on'], $stats[$user->id]['answers'], $stats[$user->id]['play_minutes'],
                 ])->all(),
             );
@@ -229,9 +233,11 @@ Route::middleware(['auth:owner'])->get('/owner/analytics/export/{kind}', functio
 
 Route::middleware(['auth:owner'])->get('/owner/users', function () {
     $stats = (new Analytics)->userStats();
+    $apps = (new AppUsage)->byUser();
 
     return User::query()->latest()->get()->map(fn (User $user) => array_merge($user->toArray(), [
         'registered_on' => $user->created_at->copy()->setTimezone(Analytics::TIMEZONE)->toDateString(),
+        'apps' => $apps[$user->id] ?? [],
     ], $stats[$user->id]));
 })->name('owner.users');
 
