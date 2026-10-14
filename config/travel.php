@@ -54,7 +54,7 @@ return [
             'key' => 'gb',
             'name' => 'イギリス',
             'country_code' => 'gb',
-            'flag' => 'GB',
+            'flag' => 'gb',
             'transport' => 'plane',
             'greeting' => ['text' => 'Hello!', 'reading' => 'ハロー'],
             'souvenirs' => [

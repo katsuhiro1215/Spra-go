@@ -31,6 +31,7 @@ import { apiFetch } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { PrefectureMap } from "@/components/prefecture-map/prefecture-map";
 import { mapQuestionOf } from "@/components/prefecture-map/map-question";
+import { flagSrc } from "@/lib/flag";
 import { hasImageChoices, isFlagImage } from "@/lib/flag-quiz";
 import { memoryNoteText, type MemoryEvent } from "@/lib/memory-note";
 
@@ -596,7 +597,7 @@ export function QuizSession({
               question.country && (
                 <div className="relative mx-auto mt-4 h-28 w-44 overflow-hidden rounded-lg border border-[#e8dfcf] shadow-sm">
                   <Image
-                    src={`/flag/${question.country.code}.svg`}
+                    src={flagSrc(question.country.code)}
                     alt={question.country.name}
                     fill
                     className="object-cover"

@@ -181,7 +181,7 @@ it('国は国コードの大文字小文字を区別せずに見つけ、国旗�
     $this->getJson('/api/travel')->assertOk()
         ->assertJsonPath('destinations.1.country_id', $korea->id)
         ->assertJsonPath('destinations.1.flag', '/flag/kr.svg')
-        ->assertJsonPath('destinations.3.flag', '/flag/GB.svg');
+        ->assertJsonPath('destinations.3.flag', '/flag/gb.svg');
 });
 
 it('行き先1つを返す。まだ着いていない国は422、知らない国は404', function () {
