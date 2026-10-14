@@ -79,3 +79,26 @@ it('国ごとのコースの大きさは、ステージ3〜10・出す数が正�
         }
     }
 });
+
+it('日本に足した原稿(地図の問題・祝日・行事)は、取り込め、地図の問題には光らせる県が付く', function () {
+    seedThemesAndCountry();
+    foreach (['geography', 'heritage'] as $key) {
+        App\Models\QuestionTheme::query()->firstOrCreate(['key' => $key], ['label' => $key]);
+    }
+    App\Models\Country::query()->create(['code' => 'JP', 'three_code' => 'JPN', 'name' => '日本', 'name_en' => 'Japan', 'country_code' => 81]);
+    retiredFile([]);
+
+    foreach (['beginner', 'intermediate', 'advanced'] as $level) {
+        $this->artisan('content:import', ['file' => base_path("docs/content/drafts/jp_extra_{$level}.json")])->assertExitCode(0);
+    }
+
+    // もう一度取り込んでも、増えない(地図の問題は、問題文が同じなので、光らせる県で見分ける)
+    $this->artisan('content:import', ['file' => base_path('docs/content/drafts/jp_extra_beginner.json')])->assertExitCode(0);
+
+    $maps = Question::query()->where('meta', 'like', '%"map"%')->get();
+    expect($maps)->toHaveCount(47);
+    $maps->each(fn (Question $q) => expect($q->meta['map']['view'])->toBe('japan')->and($q->meta['map']['highlight'])->toBeString());
+    // 正解の県の名前が、選択肢に1つだけある
+    expect($maps->every(fn (Question $q) => $q->choices()->where('is_correct', true)->count() === 1 && $q->choices()->count() === 4))->toBeTrue();
+    expect(Question::query()->where('prompt', '3月3日の行事は？')->exists())->toBeTrue();
+});

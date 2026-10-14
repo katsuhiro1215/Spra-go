@@ -1,0 +1,679 @@
+{
+  "country_name": "日本",
+  "country_code": "JP",
+  "difficulty": "上級",
+  "stages": [
+    {
+      "stage_number": 11,
+      "theme_key": "geography",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "fukui"
+          },
+          "choices": [
+            {
+              "label": "滋賀県",
+              "is_correct": false
+            },
+            {
+              "label": "福井県",
+              "is_correct": true
+            },
+            {
+              "label": "静岡県",
+              "is_correct": false
+            },
+            {
+              "label": "石川県",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "yamanashi"
+          },
+          "choices": [
+            {
+              "label": "東京都",
+              "is_correct": false
+            },
+            {
+              "label": "長野県",
+              "is_correct": false
+            },
+            {
+              "label": "山梨県",
+              "is_correct": true
+            },
+            {
+              "label": "愛知県",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "nagano"
+          },
+          "choices": [
+            {
+              "label": "石川県",
+              "is_correct": false
+            },
+            {
+              "label": "静岡県",
+              "is_correct": false
+            },
+            {
+              "label": "富山県",
+              "is_correct": false
+            },
+            {
+              "label": "長野県",
+              "is_correct": true
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "gifu"
+          },
+          "choices": [
+            {
+              "label": "長野県",
+              "is_correct": false
+            },
+            {
+              "label": "富山県",
+              "is_correct": false
+            },
+            {
+              "label": "新潟県",
+              "is_correct": false
+            },
+            {
+              "label": "岐阜県",
+              "is_correct": true
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "mie"
+          },
+          "choices": [
+            {
+              "label": "岐阜県",
+              "is_correct": false
+            },
+            {
+              "label": "和歌山県",
+              "is_correct": false
+            },
+            {
+              "label": "三重県",
+              "is_correct": true
+            },
+            {
+              "label": "大阪府",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "shiga"
+          },
+          "choices": [
+            {
+              "label": "岐阜県",
+              "is_correct": false
+            },
+            {
+              "label": "滋賀県",
+              "is_correct": true
+            },
+            {
+              "label": "兵庫県",
+              "is_correct": false
+            },
+            {
+              "label": "三重県",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "wakayama"
+          },
+          "choices": [
+            {
+              "label": "奈良県",
+              "is_correct": false
+            },
+            {
+              "label": "兵庫県",
+              "is_correct": false
+            },
+            {
+              "label": "和歌山県",
+              "is_correct": true
+            },
+            {
+              "label": "大阪府",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "tottori"
+          },
+          "choices": [
+            {
+              "label": "鳥取県",
+              "is_correct": true
+            },
+            {
+              "label": "島根県",
+              "is_correct": false
+            },
+            {
+              "label": "岡山県",
+              "is_correct": false
+            },
+            {
+              "label": "山口県",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "shimane"
+          },
+          "choices": [
+            {
+              "label": "岡山県",
+              "is_correct": false
+            },
+            {
+              "label": "山口県",
+              "is_correct": false
+            },
+            {
+              "label": "広島県",
+              "is_correct": false
+            },
+            {
+              "label": "島根県",
+              "is_correct": true
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "okayama"
+          },
+          "choices": [
+            {
+              "label": "山口県",
+              "is_correct": false
+            },
+            {
+              "label": "兵庫県",
+              "is_correct": false
+            },
+            {
+              "label": "広島県",
+              "is_correct": false
+            },
+            {
+              "label": "岡山県",
+              "is_correct": true
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "yamaguchi"
+          },
+          "choices": [
+            {
+              "label": "高知県",
+              "is_correct": false
+            },
+            {
+              "label": "山口県",
+              "is_correct": true
+            },
+            {
+              "label": "島根県",
+              "is_correct": false
+            },
+            {
+              "label": "広島県",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "tokushima"
+          },
+          "choices": [
+            {
+              "label": "徳島県",
+              "is_correct": true
+            },
+            {
+              "label": "香川県",
+              "is_correct": false
+            },
+            {
+              "label": "愛媛県",
+              "is_correct": false
+            },
+            {
+              "label": "高知県",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "kagawa"
+          },
+          "choices": [
+            {
+              "label": "広島県",
+              "is_correct": false
+            },
+            {
+              "label": "香川県",
+              "is_correct": true
+            },
+            {
+              "label": "愛媛県",
+              "is_correct": false
+            },
+            {
+              "label": "徳島県",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "kochi"
+          },
+          "choices": [
+            {
+              "label": "愛媛県",
+              "is_correct": false
+            },
+            {
+              "label": "高知県",
+              "is_correct": true
+            },
+            {
+              "label": "岡山県",
+              "is_correct": false
+            },
+            {
+              "label": "徳島県",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "saga"
+          },
+          "choices": [
+            {
+              "label": "宮崎県",
+              "is_correct": false
+            },
+            {
+              "label": "長崎県",
+              "is_correct": false
+            },
+            {
+              "label": "佐賀県",
+              "is_correct": true
+            },
+            {
+              "label": "福岡県",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "oita"
+          },
+          "choices": [
+            {
+              "label": "沖縄県",
+              "is_correct": false
+            },
+            {
+              "label": "熊本県",
+              "is_correct": false
+            },
+            {
+              "label": "大分県",
+              "is_correct": true
+            },
+            {
+              "label": "福岡県",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "ちずで いろが ついた けんは どこ？",
+          "map": {
+            "view": "japan",
+            "highlight": "miyazaki"
+          },
+          "choices": [
+            {
+              "label": "熊本県",
+              "is_correct": false
+            },
+            {
+              "label": "宮崎県",
+              "is_correct": true
+            },
+            {
+              "label": "鹿児島県",
+              "is_correct": false
+            },
+            {
+              "label": "佐賀県",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_number": 12,
+      "theme_key": "heritage",
+      "is_boss": false,
+      "title_reward": null,
+      "questions": [
+        {
+          "prompt": "「山の日」は、何月何日？",
+          "choices": [
+            {
+              "label": "7月20日",
+              "is_correct": false
+            },
+            {
+              "label": "8月11日",
+              "is_correct": true
+            },
+            {
+              "label": "9月23日",
+              "is_correct": false
+            },
+            {
+              "label": "5月4日",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「スポーツの日」があるのは、何月？",
+          "choices": [
+            {
+              "label": "12月",
+              "is_correct": false
+            },
+            {
+              "label": "10月",
+              "is_correct": true
+            },
+            {
+              "label": "6月",
+              "is_correct": false
+            },
+            {
+              "label": "4月",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「みどりの日」は、5月何日？",
+          "choices": [
+            {
+              "label": "6日",
+              "is_correct": false
+            },
+            {
+              "label": "3日",
+              "is_correct": false
+            },
+            {
+              "label": "5日",
+              "is_correct": false
+            },
+            {
+              "label": "4日",
+              "is_correct": true
+            }
+          ]
+        },
+        {
+          "prompt": "「天皇誕生日」は、何月何日？",
+          "choices": [
+            {
+              "label": "4月29日",
+              "is_correct": false
+            },
+            {
+              "label": "11月3日",
+              "is_correct": false
+            },
+            {
+              "label": "2月23日",
+              "is_correct": true
+            },
+            {
+              "label": "12月23日",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「建国記念の日」は、何月何日？",
+          "choices": [
+            {
+              "label": "2月11日",
+              "is_correct": true
+            },
+            {
+              "label": "11月3日",
+              "is_correct": false
+            },
+            {
+              "label": "5月3日",
+              "is_correct": false
+            },
+            {
+              "label": "1月1日",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "1月7日の朝に食べる、7種類の草を入れたおかゆは？",
+          "choices": [
+            {
+              "label": "七草がゆ",
+              "is_correct": true
+            },
+            {
+              "label": "小豆がゆ",
+              "is_correct": false
+            },
+            {
+              "label": "ぞうに",
+              "is_correct": false
+            },
+            {
+              "label": "雑炊",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "春の七草に入っているのは、どれ？",
+          "choices": [
+            {
+              "label": "せり",
+              "is_correct": true
+            },
+            {
+              "label": "たんぽぽ",
+              "is_correct": false
+            },
+            {
+              "label": "すみれ",
+              "is_correct": false
+            },
+            {
+              "label": "つくし",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "冬至の日に、お風呂に入れる習慣があるのは？",
+          "choices": [
+            {
+              "label": "よもぎ",
+              "is_correct": false
+            },
+            {
+              "label": "ゆず",
+              "is_correct": true
+            },
+            {
+              "label": "みかん",
+              "is_correct": false
+            },
+            {
+              "label": "しょうが",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "9月9日の「重陽の節句」と関係の深い花は？",
+          "choices": [
+            {
+              "label": "ひまわり",
+              "is_correct": false
+            },
+            {
+              "label": "菊",
+              "is_correct": true
+            },
+            {
+              "label": "あじさい",
+              "is_correct": false
+            },
+            {
+              "label": "桜",
+              "is_correct": false
+            }
+          ]
+        },
+        {
+          "prompt": "「お盆」に迎えるといわれているのは？",
+          "choices": [
+            {
+              "label": "雪の精",
+              "is_correct": false
+            },
+            {
+              "label": "鬼",
+              "is_correct": false
+            },
+            {
+              "label": "神さま",
+              "is_correct": false
+            },
+            {
+              "label": "ご先祖さまの霊",
+              "is_correct": true
+            }
+          ]
+        },
+        {
+          "prompt": "「立春」は、2月何日ごろ？",
+          "choices": [
+            {
+              "label": "4日",
+              "is_correct": true
+            },
+            {
+              "label": "20日",
+              "is_correct": false
+            },
+            {
+              "label": "11日",
+              "is_correct": false
+            },
+            {
+              "label": "1日",
+              "is_correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

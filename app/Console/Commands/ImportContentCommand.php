@@ -293,6 +293,8 @@ class ImportContentCommand extends Command
                 $question = Question::query()
                     ->where('quiz_id', $quiz->id)
                     ->where('prompt', $questionData['prompt'])
+                    // 地図の問題は、問題文が同じで、光らせる県で見分ける
+                    ->when(isset($questionData['map']['highlight']), fn ($query) => $query->where('meta->map->highlight', $questionData['map']['highlight']))
                     ->first();
 
                 if ($question) {
@@ -319,9 +321,12 @@ class ImportContentCommand extends Command
                             ],
                             // 世界遺産・動物・食べ物など、国旗以外の写真を見せたい問題用。
                             // 未指定なら従来通りquestion.countryの国旗が表示される。
-                            default => isset($questionData['image'])
-                                ? ['image' => $questionData['image']]
-                                : null,
+                            // 地図の問題(日本地図で光らせる県。docs/design/2026-10-13-prefecture-map-quiz-design.md 2章)
+                            default => match (true) {
+                                isset($questionData['image']) => ['image' => $questionData['image']],
+                                isset($questionData['map']) => ['map' => $questionData['map']],
+                                default => null,
+                            },
                         },
                     ]);
 
