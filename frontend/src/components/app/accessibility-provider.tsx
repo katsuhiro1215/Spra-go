@@ -8,16 +8,21 @@ import {
   type ReactNode,
 } from "react";
 
+import type { TimerMode } from "@/lib/stage-timer";
+
 type FontScale = "base" | "lg" | "xl";
 
 type AccessibilitySettings = {
   fontScale: FontScale;
   furigana: boolean;
+  /** ステージの制限時間: ふつう・ゆっくり(2倍)・なし */
+  timer: TimerMode;
 };
 
 type AccessibilityContextValue = AccessibilitySettings & {
   setFontScale: (scale: FontScale) => void;
   toggleFurigana: () => void;
+  setTimer: (timer: TimerMode) => void;
 };
 
 const STORAGE_KEY = "spra-go:a11y";
@@ -25,6 +30,7 @@ const STORAGE_KEY = "spra-go:a11y";
 const defaultSettings: AccessibilitySettings = {
   fontScale: "base",
   furigana: false,
+  timer: "normal",
 };
 
 const AccessibilityContext = createContext<AccessibilityContextValue | null>(
@@ -70,6 +76,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     setFontScale: (fontScale) => setSettings((prev) => ({ ...prev, fontScale })),
     toggleFurigana: () =>
       setSettings((prev) => ({ ...prev, furigana: !prev.furigana })),
+    setTimer: (timer) => setSettings((prev) => ({ ...prev, timer })),
   };
 
   return (

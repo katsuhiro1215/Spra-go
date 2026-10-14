@@ -20,6 +20,16 @@ return [
 
     'clear_percent' => ['normal' => 60, 'boss' => 80],
 
+    /*
+    | 1問の制限時間(docs/design/2026-10-15-stage-rules-design.md 6章)。ステージだけに付ける。
+    | seconds: 級ごとの基本の秒数。multiplier: 問題の形による倍率(書いていない形は1倍)。spelling: スペルを並べる形の倍率。
+    */
+    'time_limit' => [
+        'seconds' => ['初級' => 40, '中級' => 30, '上級' => 30, '最高難易度' => 30],
+        'multiplier' => ['ordering' => 3, 'matching' => 3, 'sorting' => 3],
+        'spelling' => 2,
+    ],
+
     // 上級のボスをクリアすると開く、挑戦枠の級。ステージがあるカテゴリーだけ、一覧の4つ目に出る(設計書 2章)
     'extra_difficulties' => ['最高難易度'],
 

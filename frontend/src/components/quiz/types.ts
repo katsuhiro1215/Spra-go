@@ -23,6 +23,8 @@ export type QuizQuestion = {
   variant?: { kind: "spelling"; prompt: string; length: number; letters: string[] };
   /** ステージに足した、出す日が来た前の問題(おさらい)。ステージの点数には入れない */
   review?: boolean;
+  /** サーバーが決めた1問の制限時間(秒)。ステージの問題にだけ付く */
+  time_limit?: number;
 };
 
 /** 答えたあとに見せる解説(答えのAPIが返す)。どの項目も任意。docs/design/2026-10-06-question-explanation-design.md */

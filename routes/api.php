@@ -61,6 +61,7 @@ use App\Support\Roster;
 use App\Support\SpaceCards;
 use App\Support\SpaceMap;
 use App\Support\StageDraw;
+use App\Support\TimeLimit;
 use App\Support\Travel;
 use App\Support\Words;
 use App\Support\WorldLand;
@@ -1287,6 +1288,9 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $r
         QuizVariants::apply($profile, $questions);
     }
 
+    // 1問ごとの制限時間(スペルの形にしたあとで決める。docs/design/2026-10-15-stage-rules-design.md 6章)
+    $questions->each(fn (Question $question) => $question->setAttribute('time_limit', TimeLimit::seconds($stage->difficulty, $question)));
+
     return [
         'id' => $stage->id,
         'category' => $stage->category,
@@ -1294,6 +1298,9 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $r
         'stage_number' => $stage->stage_number,
         'is_boss' => $stage->is_boss,
         'title_reward' => $stage->title_reward,
+        // ステージの始まりのカード(「10もん ちゅう 6もん せいかいで クリア」)に出す数
+        'play_count' => $stage->playCount(),
+        'required' => $stage->requiredCorrect(),
         'questions' => $questions,
     ];
 })->name('stages.play');
@@ -1316,7 +1323,7 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         'stage_id' => $stage->id,
     ]);
     // クリアに要る正解の数(通常60%・ボス80%。端数は切り上げ)。届かないときは、遊んだ記録だけ残す
-    $required = (int) ceil($stage->playCount() * config('quiz.clear_percent')[$stage->is_boss ? 'boss' : 'normal'] / 100);
+    $required = $stage->requiredCorrect();
     $passed = $score >= $required;
 
     $progress->attempts = ($progress->attempts ?? 0) + 1;
@@ -1380,12 +1387,15 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
 })->name('stages.complete');
 
 Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', function (Request $request, Question $question) {
-    $result = $request->has('spelling') ? QuestionAnswerResolver::spelling($request, $question) : match ($question->type) {
-        'matching' => QuestionAnswerResolver::matching($request, $question),
-        'ordering' => QuestionAnswerResolver::ordering($request, $question),
-        'sorting' => QuestionAnswerResolver::sorting($request, $question),
-        default => QuestionAnswerResolver::multipleChoice($request, $question),
-    };
+    // 時間切れは、選んだ答えがなくても不正解として扱う(docs/design/2026-10-15-stage-rules-design.md 6-5)
+    $result = $request->boolean('timed_out')
+        ? QuestionAnswerResolver::timedOut($request, $question)
+        : ($request->has('spelling') ? QuestionAnswerResolver::spelling($request, $question) : match ($question->type) {
+            'matching' => QuestionAnswerResolver::matching($request, $question),
+            'ordering' => QuestionAnswerResolver::ordering($request, $question),
+            'sorting' => QuestionAnswerResolver::sorting($request, $question),
+            default => QuestionAnswerResolver::multipleChoice($request, $question),
+        });
 
     $isCorrect = $result['correct'];
 
@@ -1410,7 +1420,8 @@ Route::middleware(['auth:sanctum'])->post('/questions/{question}/answer', functi
     if ($profile && $profile->user_schema_id === $request->user()->schema?->id) {
         $profile->regenerateHp();
 
-        if ($profile->hp <= 0) {
+        // HPが0でも、いま遊んでいるステージの途中(continuing)は最後まで遊べる。止めるのは、ステージの1問目(設計書5章)
+        if ($profile->hp <= 0 && ! $request->boolean('continuing')) {
             return response()->json([
                 'blocked' => true,
                 'profile' => [

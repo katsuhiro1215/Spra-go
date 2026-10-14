@@ -16,6 +16,31 @@ use Illuminate\Validation\ValidationException;
 class QuestionAnswerResolver
 {
     /**
+     * 時間切れ。選んだ答えがなくても、不正解として扱い、正しい答えを返す(docs/design/2026-10-15-stage-rules-design.md 6-5)。
+     * 答えの形ごとの返し方は、ふつうの不正解と同じ。
+     *
+     * @return array{correct: false, correct_choice_id?: int|null, correct_spelling?: string, results?: list<array<string, mixed>>}
+     */
+    public static function timedOut(Request $request, Question $question): array
+    {
+        if ($request->input('variant') === 'spelling' && QuizVariants::eligible($question)) {
+            return ['correct' => false, 'correct_choice_id' => null, 'correct_spelling' => $question->meta['word']];
+        }
+
+        return match ($question->type) {
+            'matching' => [
+                'correct' => false,
+                'results' => $question->choices->keyBy(fn (QuestionChoice $choice) => $choice->meta['item_id'] ?? null)
+                    ->filter(fn ($choice, $itemId) => $itemId !== '')
+                    ->map(fn (QuestionChoice $choice, $itemId) => ['item_id' => $itemId, 'correct' => false, 'correct_choice_id' => $choice->id])
+                    ->values()->all(),
+            ],
+            'ordering', 'sorting' => ['correct' => false],
+            default => ['correct' => false, 'correct_choice_id' => $question->choices()->where('is_correct', true)->first()?->id],
+        };
+    }
+
+    /**
      * @return array{correct: bool, correct_choice_id: int|null}
      */
     public static function multipleChoice(Request $request, Question $question): array

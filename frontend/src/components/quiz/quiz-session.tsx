@@ -39,7 +39,12 @@ import { GameHeader } from "./game-header";
 import { LevelUpOverlay } from "./level-up-overlay";
 import { retryRound } from "./retry";
 import { countsTowardScore } from "./score";
+import { StageRulesCard } from "./stage-rules-card";
 import { StageStartCard } from "./stage-start-card";
+import { TimerBar } from "./timer-bar";
+import { useQuestionTimer } from "./use-question-timer";
+import { useAccessibility } from "@/components/app/accessibility-provider";
+import { WARNING_SECONDS, timerSeconds } from "@/lib/stage-timer";
 import { streakLineBonusCoin } from "./streak-milestone";
 import { StreakMilestoneOverlay } from "./streak-milestone-overlay";
 import type { QuestionExplanation, QuizQuestion } from "./types";
@@ -124,6 +129,7 @@ export function QuizSession({
   allowRestart,
   backLabel,
   nextHref = null,
+  rules = null,
   onFinish,
 }: {
   questions: QuizQuestion[];
@@ -136,6 +142,8 @@ export function QuizSession({
   backLabel: string;
   /** クリアしたあとの「次のステージへ」の行き先。あれば、結果の画面でいちばん目立つボタンにし、「もう一度」は出さない */
   nextHref?: string | null;
+  /** ステージのルール(出す数・クリアに要る数・ボスか)。あるとき、始まりにルールのカードを出し、1問ごとの制限時間を計る */
+  rules?: { playCount: number; required: number; isBoss: boolean } | null;
   // 最後まで答えたときに1回呼ぶ(やり直しの周では呼ばない)。返したものを結果の画面に足す
   onFinish: (score: number) => Promise<ReactNode>;
 }) {
@@ -192,6 +200,11 @@ export function QuizSession({
   const [shopItems, setShopItems] = useState<ShopListItem[]>([]);
   // 「もう一度」のたびに増やし、ステージ開始のカードを出し直す
   const [runId, setRunId] = useState(0);
+  // ルールのカードで「スタート」を押した回(runId)。押すまで、問題の時間は数えない
+  const [startedRun, setStartedRun] = useState<number | null>(null);
+  // この問題が、時間切れで終わった(答えのカードに「じかんぎれ！」と出す)
+  const [timedOut, setTimedOut] = useState(false);
+  const { timer: timerMode } = useAccessibility();
 
   // 国旗のはめ込みは、答えたあと少しの間、枠ごとの○×と正しい国旗を見せてから、答えのカードを出す(設計書 2026-10-05-flag-quiz 7-2)
   const [cardShownFor, setCardShownFor] = useState<string | null>(null);
@@ -274,9 +287,23 @@ export function QuizSession({
   const finished = currentIndex >= round.length;
   const practice = mode === "retry";
 
+  // 1問ごとの制限時間(docs/design/2026-10-15-stage-rules-design.md 6章)。ステージだけ。復習・やり直しは計らない
+  const timed = rules !== null && !practice && mode === "main";
+  const timerTotal = timed ? timerSeconds(round[currentIndex]?.time_limit, timerMode) : null;
+  const timerLeft = useQuestionTimer({
+    seconds: timerTotal,
+    running: timed && startedRun === runId && !answered && !submitting && !hpBlocked && !finished,
+    resetKey: `${runId}:${currentIndex}`,
+    onExpire: handleTimeout,
+  });
+  useEffect(() => {
+    if (timerLeft === WARNING_SECONDS) playSound("warning");
+  }, [timerLeft, playSound]);
+
   // 次の問題を出す前にだけ止める。答えた直後の正解の表示と、結果の画面は、HPが0になっても見られる。
   // やり直しは練習なのでHPが0でも遊べる
-  if (hpBlocked && !practice && !finished && !answered) {
+  // ステージの途中でHPが0になっても、そのステージは最後まで遊べる。止めるのは、ステージの1問目だけ(設計書5章)
+  if (hpBlocked && !practice && !finished && !answered && currentIndex === 0) {
     return (
       <SkyPage>
         <AppHeader />
@@ -316,7 +343,8 @@ export function QuizSession({
     try {
       const res = await apiFetch(`/api/questions/${question.id}/answer`, {
         method: "POST",
-        body: JSON.stringify(practice ? { ...body, practice: true } : body),
+        // continuing: ステージの2問目以降の答え。HPが0でも受け付けてもらう(設計書5章)
+        body: JSON.stringify(practice ? { ...body, practice: true } : currentIndex > 0 ? { ...body, continuing: true } : body),
       });
 
       if (res.status === 409) {
@@ -402,6 +430,13 @@ export function QuizSession({
     }
   }
 
+  // 時間切れ: 選んだ答えがなくても、不正解として送る(サーバーが正しい答えを返す)
+  async function handleTimeout() {
+    if (answered || submitting) return;
+    setTimedOut(true);
+    await submitAnswer({ timed_out: true, ...(question.variant ? { variant: question.variant.kind } : {}) });
+  }
+
   async function handleSelect(choiceId: number) {
     setSelectedChoiceId(choiceId);
     await submitAnswer({ choice_id: choiceId });
@@ -437,6 +472,7 @@ export function QuizSession({
     setCorrectSpelling(null);
     setMemoryEvent(null);
     setAnswered(false);
+    setTimedOut(false);
     setLastDelta(null);
     setPartnerUp(null);
   }
@@ -530,6 +566,11 @@ export function QuizSession({
             </p>
             {result.line && <p className="text-sm font-semibold text-[#6b5d45]">{result.line}</p>}
             {!practice && finishNote}
+            {!practice && profile && profile.hp <= 0 && (
+              <p className="text-sm font-black text-[#c2402c]">
+                <AutoFurigana text={`HPが なくなったよ。回復したら つづきを あそぼう${profile.hp_regen_seconds ? `（あと${Math.ceil(profile.hp_regen_seconds / 60)}分で1回復）` : ""}`} />
+              </p>
+            )}
             <div className="flex flex-wrap justify-center gap-3">
               {nextHref && !practice && (
                 <Link href={nextHref}>
@@ -566,7 +607,19 @@ export function QuizSession({
   return (
     <SkyPage>
       <GameHeader />
-      {currentIndex === 0 && !practice && stageNumber !== null && <StageStartCard key={runId} stageNumber={stageNumber} />}
+      {timed && rules && currentIndex === 0 && startedRun !== runId && stageNumber !== null ? (
+        <StageRulesCard
+          key={runId}
+          stageNumber={stageNumber}
+          playCount={rules.playCount}
+          required={rules.required}
+          isBoss={rules.isBoss}
+          seconds={timerSeconds(Math.min(...round.map((q) => q.time_limit ?? Infinity).filter(Number.isFinite)), timerMode)}
+          onStart={() => setStartedRun(runId)}
+        />
+      ) : (
+        currentIndex === 0 && !practice && stageNumber !== null && !rules && <StageStartCard key={runId} stageNumber={stageNumber} />
+      )}
       <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12">
         <div className="relative flex flex-col gap-8 rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
           {/* 「へん？」の報告(問題が変わるたびに作り直す) */}
@@ -579,12 +632,22 @@ export function QuizSession({
               <span>
                 ・ 問題 {currentIndex + 1} / {round.length}
               </span>
+              {timed && rules && (
+                <span className="font-black text-[#2e6b1c]">
+                  ・ せいかい {stageScore} / {rules.required}
+                </span>
+              )}
               {question.review && !practice && (
                 <span className="rounded-full bg-[#2b6fa3] px-2 py-0.5 text-[10px] font-black text-white">
                   <AutoFurigana text="おさらい" />
                 </span>
               )}
             </p>
+            {timed && timerTotal !== null && timerLeft !== null && !answered && (
+              <div className="mt-2">
+                <TimerBar left={timerLeft} total={timerTotal} />
+              </div>
+            )}
             {mapQuestionOf(question.meta) ? (
               <div className="mx-auto mt-4 w-full max-w-[22rem] overflow-hidden rounded-lg border border-[#e8dfcf] shadow-sm">
                 <PrefectureMap map={mapQuestionOf(question.meta)!} className="block h-auto w-full" />
@@ -745,7 +808,7 @@ export function QuizSession({
               )}
             </div>
             <p id="answer-headline" className={`text-4xl font-black ${lastCorrect ? "text-[#2e6b1c]" : "text-[#b4472c]"}`}>
-              {answerHeadline(lastCorrect)}
+              {timedOut ? "じかんぎれ！" : answerHeadline(lastCorrect)}
             </p>
             {lastCorrect ? (
               <>

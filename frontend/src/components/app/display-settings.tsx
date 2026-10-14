@@ -2,6 +2,7 @@
 
 import { useAccessibility } from "@/components/app/accessibility-provider";
 import { AutoFurigana } from "@/components/app/auto-furigana";
+import type { TimerMode } from "@/lib/stage-timer";
 
 const FONT_SCALE_LABELS = {
   base: "標準",
@@ -11,9 +12,12 @@ const FONT_SCALE_LABELS = {
 
 type FontScaleKey = keyof typeof FONT_SCALE_LABELS;
 
+const TIMER_LABELS: Record<TimerMode, string> = { normal: "ふつう", slow: "ゆっくり", off: "なし" };
+const TIMER_ORDER: TimerMode[] = ["normal", "slow", "off"];
+
 /** ふりがなのオン・オフと文字の大きさ(設計書4-3)。「じぶん」・クイズ中の「文A」・右下の「文A」で使う */
 export function DisplaySettings() {
-  const { fontScale, setFontScale, furigana, toggleFurigana } = useAccessibility();
+  const { fontScale, setFontScale, furigana, toggleFurigana, timer, setTimer } = useAccessibility();
 
   return (
     <div className="flex flex-col gap-3 text-[#3b3226]">
@@ -51,6 +55,31 @@ export function DisplaySettings() {
             </button>
           ))}
         </div>
+      </div>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-sm font-black whitespace-nowrap">
+            <AutoFurigana text="クイズの時間" />
+          </span>
+          <div role="group" aria-label="クイズの時間" className="flex shrink-0 rounded-full bg-[#efe5cf] p-0.5">
+            {TIMER_ORDER.map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => setTimer(mode)}
+                aria-pressed={timer === mode}
+                className={`rounded-full px-3 py-1 text-xs font-black whitespace-nowrap ${
+                  timer === mode ? "bg-[#3b7f26] text-white" : "text-[#6b5d45]"
+                }`}
+              >
+                {TIMER_LABELS[mode]}
+              </button>
+            ))}
+          </div>
+        </div>
+        <p className="text-[11px] leading-snug font-bold text-[#6b5d45]">
+          <AutoFurigana text="小さいお子さんは「ゆっくり」か「なし」がおすすめです" />
+        </p>
       </div>
     </div>
   );

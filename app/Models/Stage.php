@@ -75,6 +75,12 @@ class Stage extends Model
         return $this->is_pool ? min($this->question_count, $pool) : $pool;
     }
 
+    /** クリアに要る正解の数(通常60%・ボス80%。端数は切り上げ。config/quiz.php の clear_percent) */
+    public function requiredCorrect(): int
+    {
+        return (int) ceil($this->playCount() * config('quiz.clear_percent')[$this->is_boss ? 'boss' : 'normal'] / 100);
+    }
+
     public static function isDifficultyLocked(Collection $stagesByDifficulty, string $difficulty, array $clearedStageIds, array $bestScores = []): bool
     {
         $order = array_merge(config('quiz.difficulties'), config('quiz.extra_difficulties'));

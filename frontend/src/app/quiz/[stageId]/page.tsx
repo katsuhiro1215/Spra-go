@@ -26,6 +26,9 @@ type StagePlayData = {
   stage_number: number;
   is_boss: boolean;
   title_reward: string | null;
+  /** ステージの始まりのカード用: 出す問題の数と、クリアに要る正解の数 */
+  play_count: number;
+  required: number;
   questions: QuizQuestion[];
 };
 
@@ -168,6 +171,7 @@ export default function Page({
         </>
       }
       stageNumber={stage.stage_number}
+      rules={{ playCount: stage.play_count, required: stage.required, isBoss: stage.is_boss }}
       allowRestart
       backLabel="ホームに戻る"
       nextHref={nextHref}
