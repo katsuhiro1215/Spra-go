@@ -37,11 +37,14 @@ export default function Page({
   const { stageId } = use(params);
   const router = useRouter();
   const { applyPartial } = useProfile();
-  const [stage, setStage] = useState<StagePlayData | null | undefined>(
-    undefined,
-  );
-
-  const [locked, setLocked] = useState(false);
+  // 「次のステージへ」で、同じ画面のまま番号だけ変わる。読み込んだ結果は、どのステージのものかを持ち、別のステージを開いたら読み込み中に戻す
+  const [loaded, setLoaded] = useState<{ id: string; data: StagePlayData | null } | undefined>(undefined);
+  const stage = loaded && loaded.id === stageId ? loaded.data : undefined;
+  const [lockedFor, setLockedFor] = useState<string | null>(null);
+  const locked = lockedFor === stageId;
+  // クリアしたときの、次のステージ(結果の画面の「次のステージへ」)
+  const [nextStage, setNextStage] = useState<{ from: string; id: number } | null>(null);
+  const nextHref = nextStage && nextStage.from === stageId ? `/quiz/${nextStage.id}` : null;
   // 「もういちど」で、ステージを読み直す(ステージの問題は、開くたびに抽選し直す)
   const [attempt, setAttempt] = useState(0);
 
@@ -53,12 +56,12 @@ export default function Page({
           return;
         }
         if (res.status === 403) {
-          setLocked(true);
+          setLockedFor(stageId);
           return;
         }
-        setStage(res.ok ? await res.json() : null);
+        setLoaded({ id: stageId, data: res.ok ? await res.json() : null });
       })
-      .catch(() => setStage(null));
+      .catch(() => setLoaded({ id: stageId, data: null }));
   }, [stageId, router, attempt]);
 
   async function completeStage(score: number): Promise<ReactNode> {
@@ -70,6 +73,7 @@ export default function Page({
     const data = await res.json();
     // ステージクリアのコイン+100・学習ポイント+50をヘッダーにも反映する
     applyPartial({ coins: data.profile.coins, points: data.profile.points });
+    setNextStage(data.next_stage_id ? { from: stageId, id: data.next_stage_id } : null);
     // 県の上級のボスを全問正解したときは、県のバッジの絵を大きく見せる(docs/design/2026-10-05-prefecture-quiz-design.md 7-2)
     const titleNote =
       data.title_granted && data.title ? (
@@ -99,7 +103,7 @@ export default function Page({
         <button
           type="button"
           onClick={() => {
-            setStage(undefined);
+            setLoaded(undefined);
             setAttempt((n) => n + 1);
           }}
           className="rounded-full bg-[#3b7f26] px-5 py-2 text-sm font-black text-white shadow"
@@ -166,6 +170,7 @@ export default function Page({
       stageNumber={stage.stage_number}
       allowRestart
       backLabel="ホームに戻る"
+      nextHref={nextHref}
       onFinish={completeStage}
     />
   );

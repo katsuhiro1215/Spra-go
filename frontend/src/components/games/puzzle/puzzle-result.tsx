@@ -118,7 +118,7 @@ export function PuzzleResult({
           <AutoFurigana text="もう一回" />
         </AppButton>
         <AppButton variant="default" size="lg" onClick={onChangeDifficulty} className="w-full">
-          <AutoFurigana text="難しさを変える" />
+          <AutoFurigana text="ゲームのトップへ" />
         </AppButton>
         <Link href="/learn">
           <AppButton variant="ghost" className="w-full">

@@ -138,7 +138,7 @@ it('Spruの家は2×2。(1,1)から4マスが置けないマスで、畑は家�
         ->and($land['blocked'])->toContain([1, 1])->toContain([2, 1])->toContain([1, 2])->toContain([2, 2])->toContain([0, 2])
         ->and($land['paths'])->toContain([3, 1])->toContain([3, 2])->toContain([0, 3])->toContain([1, 3])->toContain([2, 3])
         ->and($land['paths'])->not->toContain([0, 2])
-        ->and($land['spru'])->toBe(['x' => 1, 'y' => 3]);
+        ->and($land['spru'])->toBe(['x' => 4, 'y' => 3]);
 });
 
 it('目印の大きさ(footprint)がない目印は、1マスだけがブロックされる', function () {

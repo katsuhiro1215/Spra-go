@@ -1362,6 +1362,15 @@ Route::middleware(['auth:sanctum'])->post('/stages/{stage}/complete', function (
         ],
         'cleared' => $passed,
         'required' => $required,
+        // クリアしたとき、結果の画面の「次のステージへ」の行き先(同じ国・同じ級の、次の番号。なければ null)
+        'next_stage_id' => $passed
+            ? Stage::query()
+                ->where('category_id', $stage->category_id)
+                ->where('country_id', $stage->country_id)
+                ->where('difficulty', $stage->difficulty)
+                ->where('stage_number', $stage->stage_number + 1)
+                ->value('id')
+            : null,
         'title_granted' => $titleGranted,
         'title' => $grantedTitle,
         // 称号が県のもの(例 大阪府はかせ・大阪府マスター)なら、その県のバッジの絵(docs/design/2026-10-05-prefecture-quiz-design.md 7-2)

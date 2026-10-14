@@ -5,6 +5,8 @@ export const ITEM_IMAGE_FIT: Partial<Record<string, ItemImageFit>> = {
   // 細い塔は絵の幅が狭く、そのままだと低く見える。高さを五重塔(約146)・ビッグ・ベンに合わせる(2026-10-12)
   tower: { scale: 1.386 },
   liberty: { scale: 1.25 },
+  // 2×2の家は、ほかの物に対して大きく見えたので、足元と中心はそのままに少し小さくする(2026-10-15 Owner指摘)
+  spru_house: { scale: 0.85 },
 };
 
 /** 夜の明かりの光の輪(設計書7-3)。x・y は画像の左上からの割合(0〜1)、r は半径(SVGの単位) */

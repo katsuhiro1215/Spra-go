@@ -125,7 +125,7 @@ export function CatchResult({
         </AppButton>
         <AppButton variant="default" size="lg" onClick={onChangeDifficulty} className="w-full">
           <span>
-            <AutoFurigana text="難しさを変える" />
+            <AutoFurigana text="ゲームのトップへ" />
           </span>
         </AppButton>
         <Link href="/learn">

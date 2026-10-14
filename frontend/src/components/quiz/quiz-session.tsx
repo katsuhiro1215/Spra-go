@@ -123,6 +123,7 @@ export function QuizSession({
   stageNumber = null,
   allowRestart,
   backLabel,
+  nextHref = null,
   onFinish,
 }: {
   questions: QuizQuestion[];
@@ -133,6 +134,8 @@ export function QuizSession({
   // 結果の画面の「もう一度」(全部やり直し)。復習では、正解した問題でごほうびが2回もらえてしまうため出さない
   allowRestart: boolean;
   backLabel: string;
+  /** クリアしたあとの「次のステージへ」の行き先。あれば、結果の画面でいちばん目立つボタンにし、「もう一度」は出さない */
+  nextHref?: string | null;
   // 最後まで答えたときに1回呼ぶ(やり直しの周では呼ばない)。返したものを結果の画面に足す
   onFinish: (score: number) => Promise<ReactNode>;
 }) {
@@ -528,12 +531,19 @@ export function QuizSession({
             {result.line && <p className="text-sm font-semibold text-[#6b5d45]">{result.line}</p>}
             {!practice && finishNote}
             <div className="flex flex-wrap justify-center gap-3">
+              {nextHref && !practice && (
+                <Link href={nextHref}>
+                  <AppButton variant="primary">
+                    <AutoFurigana text="次のステージへ" />
+                  </AppButton>
+                </Link>
+              )}
               {missedCount > 0 && (
-                <AppButton variant="primary" onClick={handleRetry}>
+                <AppButton variant={nextHref && !practice ? "default" : "primary"} onClick={handleRetry}>
                   まちがえた{missedCount}問に もう一度チャレンジ
                 </AppButton>
               )}
-              {allowRestart && !practice && (
+              {allowRestart && !practice && !nextHref && (
                 <AppButton variant={missedCount > 0 ? "default" : "primary"} onClick={handleRestart}>
                   <AutoFurigana text="もう一度" />
                 </AppButton>

@@ -30,7 +30,7 @@ it('おうちで休ませると立ち位置がなくなり、町に出すとま�
     $this->postJson('/api/world/companions/silver/town', ['in_town' => true])->assertOk()
         ->assertJsonPath('companions.5.key', 'silver')
         ->assertJsonPath('companions.5.in_town', true)
-        ->assertJsonPath('companions.5.x', 6);
+        ->assertJsonPath('companions.5.x', 8);
 });
 
 it('町が5体でいっぱいなら、町に出せない', function () {

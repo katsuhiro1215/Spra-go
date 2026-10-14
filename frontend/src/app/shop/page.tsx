@@ -310,6 +310,9 @@ function ShopContent() {
               <AutoFurigana text="べんりアイテム(コインで買う)" />
             </SkyText>
           </h2>
+          <SkyText muted className="text-xs">
+            <AutoFurigana text="ゲームを すすめるときに つかうものです。HPを もどす 回復薬や、ほかの国へ いく 航空券。町に かざるものは、ポイントで 買います。" />
+          </SkyText>
           {coinItems.length === 0 ? (
             <SkyText muted className="text-sm">
               <AutoFurigana text="まだアイテムがありません。お楽しみに。" />

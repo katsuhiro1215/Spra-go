@@ -117,7 +117,7 @@ it('特別な種に3回水をあげると、そのレアスプルが生まれる
         ->assertJsonPath('born.rare', true)
         ->assertJsonPath('born.in_town', true)
         ->assertJsonPath('born.is_partner', true)
-        ->assertJsonPath('born.x', 0);
+        ->assertJsonPath('born.x', 3);
 });
 
 it('スプルの種からレアスプルも仲間も生まれず、いつもスプルの花になる', function () {
@@ -154,14 +154,14 @@ it('立ち位置は町にいる子だけに、相棒を先頭にして前から�
 
     $this->getJson('/api/world')->assertOk()
         ->assertJsonPath('companions.0.key', 'kuru')
-        ->assertJsonPath('companions.0.x', 0)
-        ->assertJsonPath('companions.0.y', 3)
+        ->assertJsonPath('companions.0.x', 3)
+        ->assertJsonPath('companions.0.y', 2)
         ->assertJsonPath('companions.1.key', 'lumi')
         ->assertJsonPath('companions.1.in_town', false)
         ->assertJsonPath('companions.1.x', null)
         ->assertJsonPath('companions.2.key', 'momo')
-        ->assertJsonPath('companions.2.x', 3)
-        ->assertJsonPath('companions.2.y', 2);
+        ->assertJsonPath('companions.2.x', 5)
+        ->assertJsonPath('companions.2.y', 3);
 });
 
 it('家族の町では、おうちの子に立ち位置がなく、畑の見た目が出る', function () {

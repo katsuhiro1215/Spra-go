@@ -182,7 +182,7 @@ export function SpaceResult({
         </AppButton>
         <AppButton variant="default" size="lg" onClick={onChangeDifficulty} className="w-full">
           <span>
-            <AutoFurigana text={result.map ? "地図にもどる" : "難しさを変える"} />
+            <AutoFurigana text={result.map ? "地図にもどる" : "ゲームのトップへ"} />
           </span>
         </AppButton>
         <Link href="/learn">

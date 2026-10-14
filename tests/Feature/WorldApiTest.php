@@ -15,7 +15,7 @@ it('町の情報に土地・置いてあるアイテム・バッグ・プロフ�
     $response = $this->getJson('/api/world')->assertOk();
 
     $response->assertJsonPath('land.width', 17)
-        ->assertJsonPath('land.spru', ['x' => 1, 'y' => 3])
+        ->assertJsonPath('land.spru', ['x' => 4, 'y' => 3])
         ->assertJsonCount(1, 'items')
         ->assertJsonPath('items.0.x', 5)
         ->assertJsonPath('items.0.asset_key', 'bench')

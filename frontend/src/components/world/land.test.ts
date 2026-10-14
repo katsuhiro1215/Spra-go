@@ -46,7 +46,7 @@ function landAt(level: number): WorldLand {
     landmarks: [],
     paths: [],
     blocked: level >= 4 ? [...TOWN_BLOCKED, ...BAMBOO_BLOCKED] : TOWN_BLOCKED,
-    spru: { x: 1, y: 3 },
+    spru: { x: 4, y: 3 },
   };
 }
 

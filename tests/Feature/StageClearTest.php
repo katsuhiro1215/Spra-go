@@ -55,3 +55,22 @@ it('出す数が少ないステージでも、端が正しい(3問なら2問で6
     expect(completeStage($this, $stage, 1)->json('cleared'))->toBeFalse();
     expect(completeStage($this, $stage, 2)->json('cleared'))->toBeTrue();
 });
+
+it('クリアしたとき、同じ国・同じ級の次のステージの番号を返す。クリアに届かないとき・最後のステージのときは null', function () {
+    createActiveProfile();
+    $first = createPoolStage(10, 10, false, false, '次へ');
+    $second = App\Models\Stage::create([
+        'category_id' => $first->category_id, 'country_id' => $first->country_id, 'difficulty' => $first->difficulty,
+        'stage_number' => 2, 'question_count' => 10, 'is_boss' => false, 'is_pool' => false,
+    ]);
+    // 別の級の同じ番号は、次のステージではない
+    App\Models\Stage::create([
+        'category_id' => $first->category_id, 'country_id' => $first->country_id, 'difficulty' => '中級',
+        'stage_number' => 2, 'question_count' => 10, 'is_boss' => false, 'is_pool' => false,
+    ]);
+
+    expect(completeStage($this, $first, 3)->json('next_stage_id'))->toBeNull();
+    expect(completeStage($this, $first, 10)->json('next_stage_id'))->toBe($second->id);
+    // 次のステージに問題がなくても、道は用意されている(開けるかは、画面を開いたときの判定)
+    expect(completeStage($this, $second, 0)->json('next_stage_id'))->toBeNull();
+});

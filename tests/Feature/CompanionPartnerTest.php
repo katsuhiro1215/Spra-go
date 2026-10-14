@@ -24,12 +24,12 @@ it('仲間の一覧に名前・ハート・相棒かが出て、相棒が先頭�
         ->assertJsonPath('companions.0', [
             'key' => 'lumi', 'name' => 'ピカ', 'official_name' => 'Lumi', 'nickname' => 'ピカ', 'trait' => '光・ひらめき',
             'lines' => ['ひらめいた！いっしょに学ぼう', 'わかった瞬間って、ピカッとするよね'],
-            'hearts' => 2, 'heart_label' => 'なかよし', 'bond' => 25, 'next_heart_bond' => 50, 'is_partner' => true, 'rare' => false, 'in_town' => true, 'x' => 0, 'y' => 3,
+            'hearts' => 2, 'heart_label' => 'なかよし', 'bond' => 25, 'next_heart_bond' => 50, 'is_partner' => true, 'rare' => false, 'in_town' => true, 'x' => 3, 'y' => 2,
         ])
         ->assertJsonPath('companions.1.key', 'ruru')
         ->assertJsonPath('companions.1.is_partner', false)
-        ->assertJsonPath('companions.1.x', 3)
-        ->assertJsonPath('companions.1.y', 2);
+        ->assertJsonPath('companions.1.x', 5)
+        ->assertJsonPath('companions.1.y', 3);
 });
 
 it('最初に生まれた仲間は、自動で相棒になる', function () {
@@ -54,8 +54,8 @@ it('2人目からは、生まれても相棒は替わらない', function () {
     $this->postJson('/api/world/garden/water')
         ->assertOk()
         ->assertJsonPath('born.is_partner', false)
-        ->assertJsonPath('born.x', 3)
-        ->assertJsonPath('born.y', 2);
+        ->assertJsonPath('born.x', 5)
+        ->assertJsonPath('born.y', 3);
 
     expect($profile->fresh()->partner_companion_key)->toBe('lumi');
 });
@@ -70,10 +70,10 @@ it('相棒を替えると、並びと立ち位置と復習を出す人が替わ�
         ->assertOk()
         ->assertJsonPath('companions.0.key', 'kuru')
         ->assertJsonPath('companions.0.is_partner', true)
-        ->assertJsonPath('companions.0.x', 0)
-        ->assertJsonPath('companions.0.y', 3)
+        ->assertJsonPath('companions.0.x', 3)
+        ->assertJsonPath('companions.0.y', 2)
         ->assertJsonPath('companions.1.key', 'momo')
-        ->assertJsonPath('companions.1.x', 3)
+        ->assertJsonPath('companions.1.x', 5)
         ->assertJsonPath('review.giver.key', 'kuru');
 
     expect($profile->fresh()->partner_companion_key)->toBe('kuru');
