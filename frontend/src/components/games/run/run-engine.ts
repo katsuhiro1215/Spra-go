@@ -61,7 +61,9 @@ export const MAX_STEP_MS = 100;
 /** 当たりを調べる細かさ */
 const SUB_STEP_MS = 16;
 
-export const SEED_R = 9;
+export const SEED_R = 12;
+/** 浮かぶタネの間かく */
+const SEED_SPACING = 36;
 export const GOLDEN_VALUE = 5;
 const SCORE_PER_SEED = 10;
 
@@ -99,6 +101,22 @@ function nextRandom(a: number): [number, number] {
 /** そのじゃまもののあとに空ける、いちばん短い間かく(じゃまものの終わりから、次の始まりまで) */
 export function minGapAfter(kind: ObstacleKind, speed: number): number {
   return speed * ((OBSTACLES[kind].tall ? AIR_DOUBLE : AIR_SINGLE) + GAP_MARGIN_S) + SPRU_W;
+}
+
+/**
+ * ちょうどよく跳んだとき、跳んでから、じゃまものの真ん中の上に来るまでの時間(秒)。
+ * 低いものは1段目のてっぺん、高いものは(1段目のてっぺんで2段目を跳んだときの)2段目のてっぺん
+ */
+export function idealCenterTime(tall: boolean): number {
+  return JUMP_V / GRAVITY + (tall ? DOUBLE_JUMP_V / GRAVITY : 0);
+}
+
+/** ちょうどよく跳んだとき、跳んでから t 秒後の高さ(地面からの足の高さ) */
+export function jumpHeightAt(t: number, tall: boolean): number {
+  const apexT = JUMP_V / GRAVITY;
+  if (!tall || t <= apexT) return Math.max(0, JUMP_V * t - (GRAVITY * t * t) / 2);
+  const u = t - apexT;
+  return Math.max(0, (JUMP_V * JUMP_V) / (2 * GRAVITY) + DOUBLE_JUMP_V * u - (GRAVITY * u * u) / 2);
 }
 
 export function speedAt(elapsedMs: number): number {
@@ -245,13 +263,22 @@ function spawn(s: RunState): RunState {
     obstacles.push({ kind, x, w, h, hit: false });
 
     const golden = roll() < 0.08;
+    const passSpeed = Math.min(SPEED_MAX, s.speed + SPEED_STEP / 2);
+    const center = idealCenterTime(tall);
     if (roll() < 0.5) {
-      // じゃまものの上の弧(跳ぶとちょうど取れる)
-      const top = tall ? h + 25 : h + 30;
-      [-1, 0, 1].forEach((n, i) => seeds.push({ x: x + w / 2 + n * 34, y: top - Math.abs(n) * 15, golden: golden && i === 1, taken: false }));
+      // じゃまものの上の弧: ちょうどよく跳んだときの、スプルの体の真ん中の通り道に並べる
+      [-1, 0, 1].forEach((n, i) =>
+        seeds.push({
+          x: x + w / 2 + n * SEED_SPACING,
+          y: jumpHeightAt(center + (n * SEED_SPACING) / passSpeed, tall) + SPRU_H / 2,
+          golden: golden && i === 1,
+          taken: false,
+        }),
+      );
     } else {
-      // じゃまものの手前の地面の列
-      for (let n = 0; n < 3; n++) seeds.push({ x: x - 150 + n * 30, y: SEED_R + 4, golden: golden && n === 2, taken: false });
+      // じゃまものの手前の地面の列: ちょうどよく跳ぶ所より手前で、取り終わるように並べる
+      const last = x + w / 2 - passSpeed * center - SPRU_W;
+      for (let n = 0; n < 3; n++) seeds.push({ x: last - (2 - n) * 30, y: SEED_R + 4, golden: golden && n === 2, taken: false });
     }
 
     const speed = Math.min(SPEED_MAX, s.speed + SPEED_STEP);

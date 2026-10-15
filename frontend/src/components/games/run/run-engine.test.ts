@@ -4,6 +4,7 @@ import {
   createRun,
   DOUBLE_JUMP_V,
   GRAVITY,
+  idealCenterTime,
   INVINCIBLE_MS,
   jump,
   JUMP_V,
@@ -50,6 +51,21 @@ function bot(state: RunState): RunState {
   if (grounded && d > 0 && d <= state.speed * (tall ? 0.45 : 0.15)) return jump(state);
   // 2段目は、その高いじゃまものが近いときだけ(遠くのものを見て、早く跳ばない)
   if (tall && !grounded && state.jumps === 1 && state.vy <= 0 && d <= state.speed * 0.45) return jump(state);
+  return state;
+}
+
+/**
+ * ちょうどよく跳ぶ子: じゃまものの真ん中が、決めた時間(idealCenterTime)のあとにスプルの真ん中に来るときに跳ぶ。
+ * 高いものは、てっぺんで2段目を跳ぶ
+ */
+function idealBot(state: RunState): RunState {
+  const next = state.obstacles.find((o) => o.x - state.distance + o.w > SPRU_X);
+  if (!next) return state;
+  const tall = OBSTACLES[next.kind].tall;
+  const ahead = next.x + next.w / 2 - state.distance - (SPRU_X + SPRU_W / 2);
+  const grounded = state.y <= 0 && state.vy <= 0;
+  if (grounded && ahead > 0 && ahead <= state.speed * idealCenterTime(tall)) return jump(state);
+  if (tall && !grounded && state.jumps === 1 && state.vy <= 0 && ahead <= state.speed * idealCenterTime(true)) return jump(state);
   return state;
 }
 
@@ -127,6 +143,26 @@ describe("run-engine", () => {
     for (let seed = 1; seed <= 40; seed++) {
       const s = run(createRun(seed), 120_000, bot);
       expect({ seed, hearts: s.hearts }).toEqual({ seed, hearts: RUN_HEARTS });
+    }
+  });
+
+  it("ちょうどよく跳ぶと、ぶつからず、水たまり・さくの上のタネも、ほとんど取れる", () => {
+    for (let seed = 1; seed <= 20; seed++) {
+      let total = 0;
+      const seen = new Set<string>();
+      const s = run(createRun(seed), 60_000, (x) => {
+        for (const item of x.seeds) {
+          const key = `${item.x}:${item.y}`;
+          if (!seen.has(key)) {
+            seen.add(key);
+            total += item.golden ? 5 : 1;
+          }
+        }
+        return idealBot(x);
+      });
+      expect({ seed, hearts: s.hearts }).toEqual({ seed, hearts: RUN_HEARTS });
+      // 画面の右に置いたばかりで、まだ届いていないタネがあるので、9割を目安にする
+      expect(s.seedValue).toBeGreaterThanOrEqual(total * 0.9);
     }
   });
 
