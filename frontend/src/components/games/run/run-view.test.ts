@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import { createRun, INVINCIBLE_MS } from "./run-engine";
-import { bottomPct, isBlinkOff, leftPct, scrollCqw, spruPose } from "./run-view";
+import { bottomCss, isBlinkOff, scrollCqw, sizeCqw, spruPose } from "./run-view";
 
 describe("run-view", () => {
-  it("ゲームの中の位置を、場面の%にする", () => {
-    expect(leftPct(200)).toBe("50%");
-    expect(bottomPct(0)).toBe(`${(50 / 300) * 100}%`);
+  it("ゲームの中の大きさは横幅の割合、高さは地面(画面の下から22%)からの位置にする", () => {
+    expect(sizeCqw(200)).toBe("50cqw");
+    expect(bottomCss(0)).toBe("calc(22cqh + 0cqw)");
+    expect(bottomCss(40)).toBe("calc(22cqh + 10cqw)");
     expect(scrollCqw(400, 0.5)).toBe("-50cqw");
   });
 

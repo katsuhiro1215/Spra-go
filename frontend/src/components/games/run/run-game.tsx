@@ -23,7 +23,7 @@ import {
   type ObstacleKind,
   type RunState,
 } from "./run-engine";
-import { bottomPct, heightPct, isBlinkOff, leftPct, RUN_HINT, scrollCqw, spruPose, widthPct } from "./run-view";
+import { bottomCss, GROUND_CQH, isBlinkOff, RUN_HINT, scrollCqw, sizeCqw, spruPose } from "./run-view";
 
 const COUNTDOWN_FROM = 3;
 const COUNTDOWN_STEP_MS = 700;
@@ -113,126 +113,125 @@ export function RunGame({ seed, onFinish, onQuit }: { seed: number; onFinish: (s
   const scroll = (factor: number): CSSProperties["backgroundPositionX"] => (calm && factor < 1 ? 0 : scrollCqw(state.distance, factor));
 
   return (
-    <div className="fixed inset-0 z-40 flex touch-none justify-center bg-[#bfe7ff] select-none" onPointerDown={onTap}>
-      <div className="flex h-full w-full max-w-md flex-col px-3 pt-3 pb-4">
-        <div className="flex items-center justify-between gap-2 text-[#3b3226]">
-          <AppButton
-            variant="default"
-            size="sm"
-            onPointerDown={(event) => event.stopPropagation()}
-            onClick={() => setConfirmQuit(true)}
-          >
-            やめる
-          </AppButton>
-          <span className="rounded-full bg-white/90 px-3 py-1 text-sm font-black">{meters(state.distance)}m</span>
-          <span className="rounded-full bg-white/90 px-3 py-1 text-sm font-black text-[#7a5a12]">タネ {state.seedValue}</span>
-          <span aria-label={`ハート${state.hearts}つ`} className="rounded-full bg-white/90 px-3 py-1 text-sm">
-            {Array.from({ length: RUN_HEARTS }, (_, i) => (
-              <span key={i} aria-hidden className={i < state.hearts ? "text-[#e0457b]" : "text-[#e0457b] opacity-25"}>
-                ♥
-              </span>
-            ))}
-          </span>
-        </div>
-        <p className="mt-2 text-center text-2xl font-black text-[#3b3226]" aria-live="off">
-          {currentScore(state)}点
-        </p>
-
-        {/* 場面(横400×縦300の比率) */}
+    <div className="fixed inset-0 z-40 flex touch-none justify-center bg-[#8fd3ff] select-none" onPointerDown={onTap}>
+      {/* 場面(画面いっぱい。大きさは横幅の割合、高さは地面からの位置) */}
+      <div
+        className="relative h-full w-full max-w-md overflow-hidden [container-type:size]"
+        style={{ background: "linear-gradient(to bottom, #6cc4ff, #bfe7ff 55%, #e6f6ff)" }}
+      >
+        {/* 遠くの山 */}
         <div
-          className="relative mt-2 aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-[0_6px_16px_rgba(0,0,0,0.2)] [container-type:inline-size]"
-          style={{ background: "linear-gradient(to bottom, #8fd3ff, #d9f2ff)" }}
-        >
-          {/* 遠くの山 */}
-          <div
-            aria-hidden
-            className="absolute inset-x-0 bottom-[16.7%] h-[45%]"
-            style={{
-              backgroundImage: "radial-gradient(ellipse 26cqw 30cqw at 22cqw 100%, #a8d995 98%, transparent 100%), radial-gradient(ellipse 18cqw 20cqw at 50cqw 100%, #93cc7f 98%, transparent 100%)",
-              backgroundSize: "64cqw 100%",
-              backgroundRepeat: "repeat-x",
-              backgroundPositionX: scroll(0.15),
-            }}
-          />
-          {/* 近くの草はら */}
-          <div
-            aria-hidden
-            className="absolute inset-x-0 bottom-[16.7%] h-[18%]"
-            style={{
-              backgroundImage: "radial-gradient(ellipse 22cqw 14cqw at 11cqw 100%, #6fbf55 98%, transparent 100%)",
-              backgroundSize: "26cqw 100%",
-              backgroundRepeat: "repeat-x",
-              backgroundPositionX: scroll(0.45),
-            }}
-          />
-          {/* 地面 */}
-          <div
-            aria-hidden
-            className="absolute inset-x-0 bottom-0 h-[16.7%] border-t-4 border-[#5aa83f]"
-            style={{
-              backgroundColor: "#c99a62",
-              backgroundImage: "repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0 4cqw, transparent 4cqw 12cqw)",
-              backgroundPositionX: scroll(1),
-            }}
-          />
+          aria-hidden
+          className="absolute inset-x-0 h-[34cqw]"
+          style={{
+            bottom: `${GROUND_CQH}cqh`,
+            backgroundImage:
+              "radial-gradient(ellipse 26cqw 30cqw at 22cqw 100%, #a8d995 98%, transparent 100%), radial-gradient(ellipse 18cqw 20cqw at 50cqw 100%, #93cc7f 98%, transparent 100%)",
+            backgroundSize: "64cqw 100%",
+            backgroundRepeat: "repeat-x",
+            backgroundPositionX: scroll(0.15),
+          }}
+        />
+        {/* 近くの草はら */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 h-[14cqw]"
+          style={{
+            bottom: `${GROUND_CQH}cqh`,
+            backgroundImage: "radial-gradient(ellipse 22cqw 14cqw at 11cqw 100%, #6fbf55 98%, transparent 100%)",
+            backgroundSize: "26cqw 100%",
+            backgroundRepeat: "repeat-x",
+            backgroundPositionX: scroll(0.45),
+          }}
+        />
+        {/* 地面 */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 border-t-4 border-[#5aa83f]"
+          style={{
+            height: `${GROUND_CQH}cqh`,
+            backgroundColor: "#c99a62",
+            backgroundImage: "repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0 4cqw, transparent 4cqw 12cqw)",
+            backgroundPositionX: scroll(1),
+          }}
+        />
 
-          {/* タネ */}
-          {state.seeds
-            .filter((seed) => !seed.taken)
-            .map((seed) => (
-              <div
-                key={`s-${seed.x}-${seed.y}`}
-                className="pointer-events-none absolute"
-                style={{
-                  left: leftPct(seed.x - state.distance - SEED_R),
-                  bottom: bottomPct(seed.y - SEED_R),
-                  width: widthPct(SEED_R * 2),
-                  height: heightPct(SEED_R * 2),
-                }}
-              >
-                <SeedArt golden={seed.golden} />
-              </div>
-            ))}
-
-          {/* じゃまもの */}
-          {state.obstacles.map((o) => (
+        {/* タネ */}
+        {state.seeds
+          .filter((seed) => !seed.taken)
+          .map((seed) => (
             <div
-              key={`o-${o.x}`}
-              className={cn("pointer-events-none absolute", o.hit && "opacity-60")}
-              style={{ left: leftPct(o.x - state.distance), bottom: bottomPct(0), width: widthPct(o.w), height: heightPct(Math.max(o.h, 10)) }}
+              key={`s-${seed.x}-${seed.y}`}
+              className="pointer-events-none absolute"
+              style={{
+                left: sizeCqw(seed.x - state.distance - SEED_R),
+                bottom: bottomCss(seed.y - SEED_R),
+                width: sizeCqw(SEED_R * 2),
+                height: sizeCqw(SEED_R * 2),
+              }}
             >
-              <ObstacleArt kind={o.kind} />
+              <SeedArt golden={seed.golden} />
             </div>
           ))}
 
-          {/* スプル */}
+        {/* じゃまもの */}
+        {state.obstacles.map((o) => (
           <div
-            className={cn("pointer-events-none absolute", isBlinkOff(state) && "opacity-30")}
-            style={{
-              left: leftPct(SPRU_X + SPRU_W / 2 - spruDrawW / 2),
-              bottom: bottomPct(state.y - 4),
-              width: widthPct(spruDrawW),
-              height: heightPct(SPRU_DRAW_H),
-            }}
+            key={`o-${o.x}`}
+            className={cn("pointer-events-none absolute", o.hit && "opacity-60")}
+            style={{ left: sizeCqw(o.x - state.distance), bottom: bottomCss(0), width: sizeCqw(o.w), height: sizeCqw(Math.max(o.h, 10)) }}
           >
-            <Image src={pose.src} alt="スプル" fill sizes="80px" className="object-contain object-bottom" loading="eager" />
+            <ObstacleArt kind={o.kind} />
           </div>
+        ))}
 
-          {countdown > 0 && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/40">
-              <p key={countdown} className="animate-pop-in text-7xl font-black text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]">
-                {countdown}
-              </p>
-              <p className="mx-4 mt-2 rounded-2xl bg-white/90 px-4 py-1 text-center text-sm font-black text-[#3b3226]">
-                <AutoFurigana text={RUN_HINT} />
-              </p>
-            </div>
-          )}
+        {/* スプル */}
+        <div
+          className={cn("pointer-events-none absolute", isBlinkOff(state) && "opacity-30")}
+          style={{
+            left: sizeCqw(SPRU_X + SPRU_W / 2 - spruDrawW / 2),
+            bottom: bottomCss(state.y - 4),
+            width: sizeCqw(spruDrawW),
+            height: sizeCqw(SPRU_DRAW_H),
+          }}
+        >
+          <Image src={pose.src} alt="スプル" fill sizes="80px" className="object-contain object-bottom" loading="eager" />
         </div>
 
-        <div className="mt-4 flex flex-1 items-center justify-center rounded-3xl border-4 border-dashed border-white/80 text-lg font-black text-[#3b3226]/70">
-          <AutoFurigana text="どこをタップしてもジャンプ" />
+        {/* 上の表示(場面に重ねる) */}
+        <div className="absolute inset-x-0 top-0 px-3 pt-3 text-[#3b3226]">
+          <div className="flex items-center justify-between gap-2">
+            <AppButton
+              variant="default"
+              size="sm"
+              onPointerDown={(event) => event.stopPropagation()}
+              onClick={() => setConfirmQuit(true)}
+            >
+              やめる
+            </AppButton>
+            <span className="rounded-full bg-white/90 px-3 py-1 text-sm font-black">{meters(state.distance)}m</span>
+            <span className="rounded-full bg-white/90 px-3 py-1 text-sm font-black text-[#7a5a12]">タネ {state.seedValue}</span>
+            <span aria-label={`ハート${state.hearts}つ`} className="rounded-full bg-white/90 px-3 py-1 text-sm">
+              {Array.from({ length: RUN_HEARTS }, (_, i) => (
+                <span key={i} aria-hidden className={i < state.hearts ? "text-[#e0457b]" : "text-[#e0457b] opacity-25"}>
+                  ♥
+                </span>
+              ))}
+            </span>
+          </div>
+          <p className="mt-3 text-center text-3xl font-black text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.35)]">{currentScore(state)}点</p>
         </div>
+
+        {countdown > 0 && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/30">
+            <p key={countdown} className="animate-pop-in text-8xl font-black text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]">
+              {countdown}
+            </p>
+            <p className="mx-6 mt-3 rounded-2xl bg-white/90 px-4 py-2 text-center text-base font-black text-[#3b3226]">
+              <AutoFurigana text={RUN_HINT} />
+            </p>
+          </div>
+        )}
       </div>
 
       {confirmQuit && (

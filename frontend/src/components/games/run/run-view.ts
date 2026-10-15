@@ -1,23 +1,20 @@
-import { GROUND_H, INVINCIBLE_MS, WORLD_H, WORLD_W, type RunState } from "./run-engine";
+import { INVINCIBLE_MS, WORLD_W, type RunState } from "./run-engine";
 
-/** スプルランの描くための計算(docs/design/2026-10-22-spru-run-design.md 5章)。ゲームの中の広さを、場面の % にする */
+/**
+ * スプルランの描くための計算(docs/design/2026-10-22-spru-run-design.md 5章)。
+ * 場面は画面いっぱい。ゲームの中の大きさ・横の位置は、場面の横幅の割合(cqw)で描く(横 WORLD_W が場面の横幅)。
+ * 高さは、地面の上の線(場面の下から GROUND_CQH %)からの位置にする。縦に長い画面ほど、空が広くなる
+ */
+export const GROUND_CQH = 22;
 
-/** 画面の左からの位置(%) */
-export function leftPct(screenX: number): string {
-  return `${(screenX / WORLD_W) * 100}%`;
+/** ゲームの中の長さを、場面の横幅の割合にする */
+export function sizeCqw(n: number): string {
+  return `${(n / WORLD_W) * 100}cqw`;
 }
 
-/** 地面からの高さ y を、場面の下からの位置(%)にする */
-export function bottomPct(y: number): string {
-  return `${((GROUND_H + y) / WORLD_H) * 100}%`;
-}
-
-export function widthPct(w: number): string {
-  return `${(w / WORLD_W) * 100}%`;
-}
-
-export function heightPct(h: number): string {
-  return `${(h / WORLD_H) * 100}%`;
+/** 地面からの高さ y を、場面の下からの位置にする */
+export function bottomCss(y: number): string {
+  return `calc(${GROUND_CQH}cqh + ${sizeCqw(y)})`;
 }
 
 /** 背景の流れ。factor は奥行き(1 が地面と同じ速さ)。場面の幅の割合(cqw)で返す */

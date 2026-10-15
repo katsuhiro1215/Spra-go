@@ -1,6 +1,6 @@
 /**
  * スプルランのゲームの動き(docs/design/2026-10-22-spru-run-design.md 2章)。
- * ゲームの中は、横 WORLD_W × 縦 WORLD_H の広さで計算する(画面に合わせて拡大して描く)。
+ * ゲームの中は、横 WORLD_W の広さで計算する(画面の横幅に合わせて拡大して描く。縦は画面の高さしだいで、空が広くなる)。
  * 高さ y は、地面からの高さ(上が大きい)。じゃまもの・タネの x は「コースの上の位置」で、画面の位置は x − distance。
  * スプルは、画面の SPRU_X から SPRU_W の幅にいる。時間を進める・跳ぶのはここの関数だけで行い、画面はこの状態を描くだけにする
  */
@@ -38,9 +38,6 @@ export type RunState = {
 };
 
 export const WORLD_W = 400;
-export const WORLD_H = 300;
-/** 地面の厚さ(画面の下から) */
-export const GROUND_H = 50;
 export const PX_PER_M = 40;
 
 export const SPRU_X = 70;
@@ -49,8 +46,8 @@ export const SPRU_W = 34;
 export const SPRU_H = 50;
 
 export const GRAVITY = 2000;
-export const JUMP_V = 700;
-export const DOUBLE_JUMP_V = 600;
+export const JUMP_V = 600;
+export const DOUBLE_JUMP_V = 520;
 
 export const SPEED_START = 220;
 export const SPEED_MAX = 420;
@@ -73,8 +70,8 @@ export const OBSTACLES: Record<ObstacleKind, { w: number; h: number; tall: boole
   rock: { w: 34, h: 36, tall: false },
   stump: { w: 38, h: 48, tall: false },
   puddle: { w: 60, h: 8, tall: false },
-  bush: { w: 36, h: 128, tall: true },
-  fence: { w: 28, h: 140, tall: true },
+  bush: { w: 36, h: 100, tall: true },
+  fence: { w: 28, h: 112, tall: true },
 };
 
 const LOW_KINDS: ObstacleKind[] = ["rock", "stump", "puddle"];
@@ -250,8 +247,8 @@ function spawn(s: RunState): RunState {
     const golden = roll() < 0.08;
     if (roll() < 0.5) {
       // じゃまものの上の弧(跳ぶとちょうど取れる)
-      const top = tall ? h + 45 : h + 50;
-      [-1, 0, 1].forEach((n, i) => seeds.push({ x: x + w / 2 + n * 34, y: top - Math.abs(n) * 22, golden: golden && i === 1, taken: false }));
+      const top = tall ? h + 25 : h + 30;
+      [-1, 0, 1].forEach((n, i) => seeds.push({ x: x + w / 2 + n * 34, y: top - Math.abs(n) * 15, golden: golden && i === 1, taken: false }));
     } else {
       // じゃまものの手前の地面の列
       for (let n = 0; n < 3; n++) seeds.push({ x: x - 150 + n * 30, y: SEED_R + 4, golden: golden && n === 2, taken: false });
