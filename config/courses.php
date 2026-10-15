@@ -14,6 +14,9 @@ return [
 
     'country_root' => '国旗',
 
+    // 分野ごとのステージで作る国(config/japan_course.php)。country-courses.php の定義は使わない
+    'themed_countries' => ['jp'],
+
     // 国のコースの既定。級 => [ステージ数, 通常ステージの出す数, ボスの出す数]。国ごとの上書きは database/data/country-courses.php
     'default' => [
         '初級' => ['stages' => 10, 'draw' => 10, 'boss' => 15],

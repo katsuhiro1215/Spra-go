@@ -24,6 +24,8 @@ type StagePlayData = {
   category: { id: number; name: string };
   difficulty: string;
   stage_number: number;
+  /** ステージのテーマの名前(日本のコースの「日本のことばとマナー」など)。ないステージもある */
+  theme_name: string | null;
   is_boss: boolean;
   title_reward: string | null;
   /** ステージの始まりのカード用: 出す問題の数と、クリアに要る正解の数 */
@@ -161,7 +163,7 @@ export default function Page({
       questions={stage.questions}
       title={
         <>
-          {stage.category.name} ・ Stage {stage.stage_number}
+          {stage.theme_name ? `Stage ${stage.stage_number} ・ ${stage.theme_name}` : `${stage.category.name} ・ Stage ${stage.stage_number}`}
           {stage.is_boss && (
             <span className="flex items-center gap-0.5 rounded-full bg-[#c2402c] py-0.5 pr-2 pl-1 text-[10px] font-bold text-white">
               <BadgeImage badge="boss" size={16} />
@@ -171,6 +173,7 @@ export default function Page({
         </>
       }
       stageNumber={stage.stage_number}
+      themeName={stage.theme_name}
       rules={{ playCount: stage.play_count, required: stage.required, isBoss: stage.is_boss }}
       allowRestart
       backLabel="ホームに戻る"

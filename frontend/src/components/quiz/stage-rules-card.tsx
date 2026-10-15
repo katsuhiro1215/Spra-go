@@ -13,6 +13,7 @@ import { ruleLines } from "@/lib/stage-timer";
  */
 export function StageRulesCard({
   stageNumber,
+  themeName = null,
   playCount,
   required,
   isBoss,
@@ -20,6 +21,7 @@ export function StageRulesCard({
   onStart,
 }: {
   stageNumber: number;
+  themeName?: string | null;
   playCount: number;
   required: number;
   isBoss: boolean;
@@ -47,6 +49,11 @@ export function StageRulesCard({
         <p id="stage-rules-title" className="text-2xl font-black">
           Stage {stageNumber}
         </p>
+        {themeName ? (
+          <p className="-mt-1 rounded-full bg-[#dff1fb] px-3 py-1 text-base font-black text-[#2b6fa3]">
+            <AutoFurigana text={themeName} />
+          </p>
+        ) : null}
         <ul className="flex flex-col gap-1 text-base font-black">
           {lines.map((line) => (
             <li key={line}>

@@ -8,6 +8,7 @@ use App\Models\Question;
 use App\Models\QuestionTheme;
 use App\Models\Quiz;
 use App\Models\Stage;
+use App\Support\QuestionExplanation;
 use App\Support\RetiredQuestions;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -220,6 +221,39 @@ class ImportContentCommand extends Command
         return $errors;
     }
 
+    /**
+     * 問題の番号(key)・難しさ(grade 1〜5)・画像(image)・解説(explanation 文字)を、問題に書く。変わったときだけ書き換える(何度取り込んでも同じ)
+     *
+     * @param  array<string, mixed>  $questionData
+     */
+    private function syncExtras(Question $question, array $questionData): void
+    {
+        $meta = $question->meta ?? [];
+        $changed = false;
+
+        foreach (['key', 'grade', 'image'] as $name) {
+            if (isset($questionData[$name]) && ($meta[$name] ?? null) !== $questionData[$name]) {
+                $meta[$name] = $questionData[$name];
+                $changed = true;
+            }
+        }
+        if ($changed) {
+            $question->meta = $meta;
+        }
+
+        if (isset($questionData['explanation']) && is_string($questionData['explanation'])) {
+            $explanation = QuestionExplanation::normalize(['summary' => $questionData['explanation']]);
+            if ($explanation !== null && $question->explanation !== $explanation) {
+                $question->explanation = $explanation;
+                $changed = true;
+            }
+        }
+
+        if ($changed) {
+            $question->save();
+        }
+    }
+
     private function import(array $data): void
     {
         $country = Country::query()->whereRaw('LOWER(code) = ?', [strtolower($data['country_code'])])->firstOrFail();
@@ -278,7 +312,7 @@ class ImportContentCommand extends Command
                     'question_count' => count($stageData['questions']),
                     'is_boss' => $stageData['is_boss'],
                     'title_reward' => $stageData['title_reward'] ?? null,
-                ]
+                ] + (isset($stageData['theme_name']) ? ['theme_name' => $stageData['theme_name']] : [])
             );
             $stagesCreated++;
 
@@ -292,12 +326,14 @@ class ImportContentCommand extends Command
 
                 $question = Question::query()
                     ->where('quiz_id', $quiz->id)
-                    ->where('prompt', $questionData['prompt'])
+                    // 問題の番号(key)があれば、それで見分ける(問題文が同じでも別の問題。日本のコースの原稿)
+                    ->when(isset($questionData['key']), fn ($query) => $query->where('meta->key', $questionData['key']), fn ($query) => $query->where('prompt', $questionData['prompt']))
                     // 地図の問題は、問題文が同じで、光らせる県で見分ける
                     ->when(isset($questionData['map']['highlight']), fn ($query) => $query->where('meta->map->highlight', $questionData['map']['highlight']))
                     ->first();
 
                 if ($question) {
+                    $this->syncExtras($question, $questionData);
                     $questionsSkipped++;
                 } else {
                     $type = $questionData['type'] ?? 'multiple_choice';
@@ -329,6 +365,8 @@ class ImportContentCommand extends Command
                             },
                         },
                     ]);
+
+                    $this->syncExtras($question, $questionData);
 
                     if ($type === 'matching') {
                         foreach ($questionData['items'] as $itemIndex => $item) {

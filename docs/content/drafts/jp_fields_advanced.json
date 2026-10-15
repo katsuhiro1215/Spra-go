@@ -1,0 +1,5777 @@
+{
+ "country_name": "日本",
+ "country_code": "JP",
+ "difficulty": "上級",
+ "stages": [
+  {
+   "stage_number": 21,
+   "theme_key": "phrase",
+   "theme_name": "日本のことばとマナー",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "JP01-A-001",
+     "type": "multiple_choice",
+     "prompt": "相手の「言う」を高める、そんけい語は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "おっしゃる",
+       "is_correct": true
+      },
+      {
+       "label": "申す",
+       "is_correct": false
+      },
+      {
+       "label": "ぞんじる",
+       "is_correct": false
+      },
+      {
+       "label": "まいる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "相手の「言う」を高める言葉は「おっしゃる」だよ。"
+    },
+    {
+     "key": "JP01-A-002",
+     "type": "multiple_choice",
+     "prompt": "自分が相手に「言う」ときの、けんじょう語は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "お話しになる",
+       "is_correct": false
+      },
+      {
+       "label": "申し上げる",
+       "is_correct": true
+      },
+      {
+       "label": "言われる",
+       "is_correct": false
+      },
+      {
+       "label": "お聞きになる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "自分が相手へ言うことは「申し上げる」と表せるよ。"
+    },
+    {
+     "key": "JP01-A-003",
+     "type": "multiple_choice",
+     "prompt": "相手の「行く」を高める、そんけい語は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "いらっしゃる",
+       "is_correct": true
+      },
+      {
+       "label": "まいる",
+       "is_correct": false
+      },
+      {
+       "label": "うかがう",
+       "is_correct": false
+      },
+      {
+       "label": "いたす",
+       "is_correct": false
+      }
+     ],
+     "explanation": "相手の「行く」は「いらっしゃる」と高めて言えるよ。"
+    },
+    {
+     "key": "JP01-A-004",
+     "type": "multiple_choice",
+     "prompt": "自分が先生の家へ行く。合う、けんじょう語は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "おこしになる",
+       "is_correct": false
+      },
+      {
+       "label": "うかがう",
+       "is_correct": true
+      },
+      {
+       "label": "お帰りになる",
+       "is_correct": false
+      },
+      {
+       "label": "お見えになる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "相手の所へ行く自分の動作は「うかがう」と言えるよ。"
+    },
+    {
+     "key": "JP01-A-005",
+     "type": "multiple_choice",
+     "prompt": "相手の「見る」を高める、そんけい語は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "見せていただく",
+       "is_correct": false
+      },
+      {
+       "label": "ごらんになる",
+       "is_correct": true
+      },
+      {
+       "label": "目に入る",
+       "is_correct": false
+      },
+      {
+       "label": "はいけんする",
+       "is_correct": false
+      }
+     ],
+     "explanation": "相手の「見る」は「ごらんになる」と高めて言うよ。"
+    },
+    {
+     "key": "JP01-A-006",
+     "type": "multiple_choice",
+     "prompt": "自分がしりょうを見る。合う、けんじょう語は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "お見せになる",
+       "is_correct": false
+      },
+      {
+       "label": "はいけんする",
+       "is_correct": true
+      },
+      {
+       "label": "見てくださる",
+       "is_correct": false
+      },
+      {
+       "label": "ごらんになる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "自分が見ることは「はいけんする」と表せるよ。"
+    },
+    {
+     "key": "JP01-A-007",
+     "type": "multiple_choice",
+     "prompt": "相手の「食べる」を高める、そんけい語は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "いただく",
+       "is_correct": false
+      },
+      {
+       "label": "めしあがる",
+       "is_correct": true
+      },
+      {
+       "label": "口に入れる",
+       "is_correct": false
+      },
+      {
+       "label": "ちょうだいする",
+       "is_correct": false
+      }
+     ],
+     "explanation": "相手の「食べる」は「めしあがる」と高めて言うよ。"
+    },
+    {
+     "key": "JP01-A-008",
+     "type": "multiple_choice",
+     "prompt": "相手が知っていることを表す、そんけい語は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ごぞんじだ",
+       "is_correct": true
+      },
+      {
+       "label": "しょうちする",
+       "is_correct": false
+      },
+      {
+       "label": "うけたまわる",
+       "is_correct": false
+      },
+      {
+       "label": "ぞんじる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "相手が知っていることは「ごぞんじだ」と言うよ。"
+    },
+    {
+     "key": "JP01-A-009",
+     "type": "multiple_choice",
+     "prompt": "家のげんかんでぬいだくつは、どうする？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "室内へ向けて重ねる",
+       "is_correct": false
+      },
+      {
+       "label": "出口へ向けてそろえる",
+       "is_correct": true
+      },
+      {
+       "label": "げんかんの中央におく",
+       "is_correct": false
+      },
+      {
+       "label": "左右を遠くにはなす",
+       "is_correct": false
+      }
+     ],
+     "explanation": "くつを出口へ向けてそろえると、次にはきやすいよ。",
+     "image": "/quiz/jp/spru-shoes-at-entrance.webp"
+    },
+    {
+     "key": "JP01-A-010",
+     "type": "multiple_choice",
+     "prompt": "たたみの上に上がる前、スリッパはどうする？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "手に持ったまま歩く",
+       "is_correct": false
+      },
+      {
+       "label": "二まい重ねてはく",
+       "is_correct": false
+      },
+      {
+       "label": "ぬぐ",
+       "is_correct": true
+      },
+      {
+       "label": "新しい物にはきかえる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "たたみの上では、ふつうスリッパをぬぐよ。"
+    },
+    {
+     "key": "JP01-A-011",
+     "type": "true_false",
+     "prompt": "ごはんに、はしをまっすぐ立ててもよい。",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ごはんにはしを立てる「立てばし」は、さけるよ。"
+    },
+    {
+     "key": "JP01-A-012",
+     "type": "true_false",
+     "prompt": "はしからはしへ、食べ物をわたしてもよい。",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "はしからはしへ食べ物をわたす「はしわたし」はさけるよ。"
+    },
+    {
+     "key": "JP01-A-013",
+     "type": "multiple_choice",
+     "prompt": "小さな動物が1ぴき。正しい読み方は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "いちひき",
+       "is_correct": false
+      },
+      {
+       "label": "ひとひき",
+       "is_correct": false
+      },
+      {
+       "label": "いっひき",
+       "is_correct": false
+      },
+      {
+       "label": "いっぴき",
+       "is_correct": true
+      }
+     ],
+     "explanation": "「1ぴき」は音がかわり「いっぴき」と読むよ。"
+    },
+    {
+     "key": "JP01-A-014",
+     "type": "multiple_choice",
+     "prompt": "えんぴつが3本。正しい読み方は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "さんぼん",
+       "is_correct": true
+      },
+      {
+       "label": "さんぽん",
+       "is_correct": false
+      },
+      {
+       "label": "みっぽん",
+       "is_correct": false
+      },
+      {
+       "label": "さんほん",
+       "is_correct": false
+      }
+     ],
+     "explanation": "「三本」は音がかわり「さんぼん」と読むよ。"
+    },
+    {
+     "key": "JP01-A-015",
+     "type": "multiple_choice",
+     "prompt": "えんぴつが6本。正しい読み方は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ろくほん",
+       "is_correct": false
+      },
+      {
+       "label": "ろっほん",
+       "is_correct": false
+      },
+      {
+       "label": "ろっぽん",
+       "is_correct": true
+      },
+      {
+       "label": "むっぼん",
+       "is_correct": false
+      }
+     ],
+     "explanation": "「六本」は音がかわり「ろっぽん」と読むよ。"
+    },
+    {
+     "key": "JP01-A-016",
+     "type": "multiple_choice",
+     "prompt": "雪が音もなくふりつづくようすは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "じりじり",
+       "is_correct": false
+      },
+      {
+       "label": "ごうごう",
+       "is_correct": false
+      },
+      {
+       "label": "しんしん",
+       "is_correct": true
+      },
+      {
+       "label": "りんりん",
+       "is_correct": false
+      }
+     ],
+     "explanation": "雪がしずかにふるようすを「しんしん」と表すよ。"
+    },
+    {
+     "key": "JP01-A-017",
+     "type": "multiple_choice",
+     "prompt": "少しの間、あさくねむるようすは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "はらはら",
+       "is_correct": false
+      },
+      {
+       "label": "いらいら",
+       "is_correct": false
+      },
+      {
+       "label": "うとうと",
+       "is_correct": true
+      },
+      {
+       "label": "わくわく",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ねむくて、あさくねむるようすを「うとうと」と表すよ。"
+    },
+    {
+     "key": "JP01-A-018",
+     "type": "multiple_choice",
+     "prompt": "「石の上にも三年」に近い意味は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "寒い場所では早く動く",
+       "is_correct": false
+      },
+      {
+       "label": "三人なら何でもできる",
+       "is_correct": false
+      },
+      {
+       "label": "がまん強くつづければよいことにつながる",
+       "is_correct": true
+      },
+      {
+       "label": "石は三年で丸くなる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "つらくても長くつづければ、せいかにつながるという教えだよ。"
+    },
+    {
+     "key": "JP01-A-019",
+     "type": "multiple_choice",
+     "prompt": "「ねこにこばん」に近い意味は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "動物にはやさしくする",
+       "is_correct": false
+      },
+      {
+       "label": "ねうちが分からない人には役立たない",
+       "is_correct": true
+      },
+      {
+       "label": "お金は大切にしまう",
+       "is_correct": false
+      },
+      {
+       "label": "小さな物ほど高く売れる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ねうちを分からない人に、きちょうな物をあげてもむだという意味。"
+    },
+    {
+     "key": "JP01-A-020",
+     "type": "multiple_choice",
+     "prompt": "「急がば回れ」に近い意味は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "近い道はいつも正しい",
+       "is_correct": false
+      },
+      {
+       "label": "急ぐときは全力で走る",
+       "is_correct": false
+      },
+      {
+       "label": "安全なやり方がけっきょく早い",
+       "is_correct": true
+      },
+      {
+       "label": "道にまよったら元へもどる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "急ぐときほど、たしかなやり方をえらぶほうがよいという教えだよ。"
+    },
+    {
+     "key": "JP01-A-021",
+     "type": "multiple_choice",
+     "prompt": "「雨ふって地かたまる」に近い意味は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "水をまくと作物が早くそだつ",
+       "is_correct": false
+      },
+      {
+       "label": "雨の日は地面がやわらかくなる",
+       "is_correct": false
+      },
+      {
+       "label": "もめごとのあと、前よりなかよくなる",
+       "is_correct": true
+      },
+      {
+       "label": "天気がよいと話し合いが進む",
+       "is_correct": false
+      }
+     ],
+     "explanation": "もめごとのあと、前よりつながりが強くなることのたとえだよ。"
+    },
+    {
+     "key": "JP01-A-022",
+     "type": "multiple_choice",
+     "prompt": "「いの中のかわず大海を知らず」に近い意味は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "かえるは遠くへ行けない",
+       "is_correct": false
+      },
+      {
+       "label": "海の水はいどより深い",
+       "is_correct": false
+      },
+      {
+       "label": "知っている道だけを歩く",
+       "is_correct": false
+      },
+      {
+       "label": "せまい世界だけでは広い世界を知らない",
+       "is_correct": true
+      }
+     ],
+     "explanation": "せまい知しきだけで、広い世界を知らないことのたとえだよ。"
+    },
+    {
+     "key": "JP01-A-023",
+     "type": "multiple_choice",
+     "prompt": "「小春日和」は、いつごろのあたたかい天気？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "秋の終わりから冬のはじめ",
+       "is_correct": true
+      },
+      {
+       "label": "春の終わりから夏のはじめ",
+       "is_correct": false
+      },
+      {
+       "label": "真冬から春のはじめ",
+       "is_correct": false
+      },
+      {
+       "label": "夏の終わりから秋のはじめ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "小春日和は、秋の終わりから冬のはじめの、おだやかな晴天だよ。"
+    },
+    {
+     "key": "JP01-A-024",
+     "type": "multiple_choice",
+     "prompt": "「春一番」は、どんな風？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "秋に山からふくつめたい風",
+       "is_correct": false
+      },
+      {
+       "label": "春先にはじめてふく強い南よりの風",
+       "is_correct": true
+      },
+      {
+       "label": "冬に雪を運ぶ西よりの風",
+       "is_correct": false
+      },
+      {
+       "label": "夏に海からふく弱い風",
+       "is_correct": false
+      }
+     ],
+     "explanation": "春一番は、冬から春へかわるころの強い南よりの風だよ。"
+    },
+    {
+     "key": "JP01-A-025",
+     "type": "multiple_choice",
+     "prompt": "「こがらし」は、どんな風？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "つゆの時期に雨を運ぶ風",
+       "is_correct": false
+      },
+      {
+       "label": "夏の夕方に海からふく風",
+       "is_correct": false
+      },
+      {
+       "label": "秋の終わりから冬のはじめのつめたい北よりの風",
+       "is_correct": true
+      },
+      {
+       "label": "春に花をゆらすあたたかい風",
+       "is_correct": false
+      }
+     ],
+     "explanation": "こがらしは、秋の終わりから冬のはじめにふくつめたい風だよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 22,
+   "theme_key": "geography",
+   "theme_name": "日本の基本情報",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "JP02-A-001",
+     "type": "multiple_choice",
+     "prompt": "日本の2文字の国コードは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "JA",
+       "is_correct": false
+      },
+      {
+       "label": "NI",
+       "is_correct": false
+      },
+      {
+       "label": "JP",
+       "is_correct": true
+      },
+      {
+       "label": "JN",
+       "is_correct": false
+      }
+     ],
+     "explanation": "国さい的な2文字の国コードで日本はJPだよ。"
+    },
+    {
+     "key": "JP02-A-002",
+     "type": "multiple_choice",
+     "prompt": "日本の3文字の国コードは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "NJP",
+       "is_correct": false
+      },
+      {
+       "label": "JAN",
+       "is_correct": false
+      },
+      {
+       "label": "JPN",
+       "is_correct": true
+      },
+      {
+       "label": "JAP",
+       "is_correct": false
+      }
+     ],
+     "explanation": "国さい的な3文字の国コードで日本はJPNだよ。"
+    },
+    {
+     "key": "JP02-A-003",
+     "type": "multiple_choice",
+     "prompt": "日本のお札を作る機関は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "国立印刷局（こくりついんさつきょく）",
+       "is_correct": true
+      },
+      {
+       "label": "造幣局（ぞうへいきょく）",
+       "is_correct": false
+      },
+      {
+       "label": "国会",
+       "is_correct": false
+      },
+      {
+       "label": "日本銀行",
+       "is_correct": false
+      }
+     ],
+     "explanation": "お札は国立印刷局が作り日本銀行が発行するよ。"
+    },
+    {
+     "key": "JP02-A-004",
+     "type": "multiple_choice",
+     "prompt": "日本のこうかを作る機関は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "造幣局（ぞうへいきょく）",
+       "is_correct": true
+      },
+      {
+       "label": "財務局",
+       "is_correct": false
+      },
+      {
+       "label": "日本銀行",
+       "is_correct": false
+      },
+      {
+       "label": "国立印刷局（こくりついんさつきょく）",
+       "is_correct": false
+      }
+     ],
+     "explanation": "こうかは造幣局が作り国が発行するよ。"
+    },
+    {
+     "key": "JP02-A-005",
+     "type": "multiple_choice",
+     "prompt": "同じしゅるいのこうかが法のお金として通用する上限は一度に何まい？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "10まい",
+       "is_correct": false
+      },
+      {
+       "label": "20まい",
+       "is_correct": true
+      },
+      {
+       "label": "50まい",
+       "is_correct": false
+      },
+      {
+       "label": "100まい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "同じしゅるいのこうかは一度に20まいまで法的に通用するよ。"
+    },
+    {
+     "key": "JP02-A-006",
+     "type": "multiple_choice",
+     "prompt": "日本のさい北たんは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "奥尻島（おくしりとう）",
+       "is_correct": false
+      },
+      {
+       "label": "礼文島（れぶんとう）",
+       "is_correct": false
+      },
+      {
+       "label": "利尻島（りしりとう）",
+       "is_correct": false
+      },
+      {
+       "label": "択捉島（えとろふとう）",
+       "is_correct": true
+      }
+     ],
+     "explanation": "択捉島は日本のさい北たんだよ。"
+    },
+    {
+     "key": "JP02-A-007",
+     "type": "multiple_choice",
+     "prompt": "本州は世界の島の大きさで何番目？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "12番目",
+       "is_correct": false
+      },
+      {
+       "label": "3番目",
+       "is_correct": false
+      },
+      {
+       "label": "20番目",
+       "is_correct": false
+      },
+      {
+       "label": "7番目",
+       "is_correct": true
+      }
+     ],
+     "explanation": "本州は世界で7番目に大きい島だよ。"
+    },
+    {
+     "key": "JP02-A-008",
+     "type": "multiple_choice",
+     "prompt": "日本の南北のはしがおよそ入る緯度のはんいは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "北緯60度から80度",
+       "is_correct": false
+      },
+      {
+       "label": "北緯0度から10度",
+       "is_correct": false
+      },
+      {
+       "label": "北緯20度から46度",
+       "is_correct": true
+      },
+      {
+       "label": "南緯20度から46度",
+       "is_correct": false
+      }
+     ],
+     "explanation": "日本はおよそ北緯20度から46度に広がるよ。"
+    },
+    {
+     "key": "JP02-A-009",
+     "type": "multiple_choice",
+     "prompt": "日本の東西のはしがおよそ入る経度のはんいは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "西経123度から154度",
+       "is_correct": false
+      },
+      {
+       "label": "東経10度から40度",
+       "is_correct": false
+      },
+      {
+       "label": "東経170度から190度",
+       "is_correct": false
+      },
+      {
+       "label": "東経123度から154度",
+       "is_correct": true
+      }
+     ],
+     "explanation": "日本はおよそ東経123度から154度に広がるよ。"
+    },
+    {
+     "key": "JP02-A-010",
+     "type": "multiple_choice",
+     "prompt": "日本の領海はふつう海岸のもとになる線から何海里まで？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "100海里",
+       "is_correct": false
+      },
+      {
+       "label": "24海里",
+       "is_correct": false
+      },
+      {
+       "label": "3海里",
+       "is_correct": false
+      },
+      {
+       "label": "12海里",
+       "is_correct": true
+      }
+     ],
+     "explanation": "日本の領海はふつう基線から12海里までだよ。"
+    },
+    {
+     "key": "JP02-A-011",
+     "type": "multiple_choice",
+     "prompt": "日本の特定海いきで領海がせまく決められているはばは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "15海里",
+       "is_correct": false
+      },
+      {
+       "label": "6海里",
+       "is_correct": false
+      },
+      {
+       "label": "3海里",
+       "is_correct": true
+      },
+      {
+       "label": "9海里",
+       "is_correct": false
+      }
+     ],
+     "explanation": "五つの特定海いきでは領海が3海里までだよ。"
+    },
+    {
+     "key": "JP02-A-012",
+     "type": "multiple_choice",
+     "prompt": "五つの特定海いきに入らない海きょうは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "大隅海峡（おおすみかいきょう）",
+       "is_correct": false
+      },
+      {
+       "label": "関門海峡（かんもんかいきょう）",
+       "is_correct": true
+      },
+      {
+       "label": "宗谷海峡（そうやかいきょう）",
+       "is_correct": false
+      },
+      {
+       "label": "津軽海峡（つがるかいきょう）",
+       "is_correct": false
+      }
+     ],
+     "explanation": "関門海峡は五つの特定海いきには入らないよ。"
+    },
+    {
+     "key": "JP02-A-013",
+     "type": "multiple_choice",
+     "prompt": "大阪湾の南で紀淡海峡（きたんかいきょう）を通じてつながる水道は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "豊後水道（ぶんごすいどう）",
+       "is_correct": false
+      },
+      {
+       "label": "対馬海峡（つしまかいきょう）",
+       "is_correct": false
+      },
+      {
+       "label": "紀伊水道（きいすいどう）",
+       "is_correct": true
+      },
+      {
+       "label": "根室海峡（ねむろかいきょう）",
+       "is_correct": false
+      }
+     ],
+     "explanation": "大阪湾は紀淡海峡を通じて紀伊水道につながるよ。"
+    },
+    {
+     "key": "JP02-A-014",
+     "type": "multiple_choice",
+     "prompt": "伊豆諸島（いずしょとう）と小笠原諸島（おがさわらしょとう）が入る都道府県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "東京都",
+       "is_correct": true
+      },
+      {
+       "label": "神奈川県",
+       "is_correct": false
+      },
+      {
+       "label": "静岡県",
+       "is_correct": false
+      },
+      {
+       "label": "沖縄県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "伊豆諸島と小笠原諸島は東京都に入るよ。"
+    },
+    {
+     "key": "JP02-A-015",
+     "type": "multiple_choice",
+     "prompt": "日本列島のように弓なりに曲がった列島を何という？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "環状列島",
+       "is_correct": false
+      },
+      {
+       "label": "直線列島",
+       "is_correct": false
+      },
+      {
+       "label": "弧状列島（こじょうれっとう）",
+       "is_correct": true
+      },
+      {
+       "label": "放射列島",
+       "is_correct": false
+      }
+     ],
+     "explanation": "弓なりに曲がった列島を弧状列島というよ。"
+    },
+    {
+     "key": "JP02-A-016",
+     "type": "multiple_choice",
+     "prompt": "小笠原諸島（おがさわらしょとう）は東京の都心からおよそどちらにある？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "東へ約5000キロ",
+       "is_correct": false
+      },
+      {
+       "label": "西へ約300キロ",
+       "is_correct": false
+      },
+      {
+       "label": "北へ約100キロ",
+       "is_correct": false
+      },
+      {
+       "label": "南へ約1000キロ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "小笠原諸島は東京の都心から南へ約1000キロだよ。"
+    },
+    {
+     "key": "JP02-A-017",
+     "type": "multiple_choice",
+     "prompt": "UTCが午後3時のとき日本は何時？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "同じ日の午前6時",
+       "is_correct": false
+      },
+      {
+       "label": "次の日の午前0時",
+       "is_correct": true
+      },
+      {
+       "label": "同じ日の正午",
+       "is_correct": false
+      },
+      {
+       "label": "次の日の午前9時",
+       "is_correct": false
+      }
+     ],
+     "explanation": "UTCの午後3時に9時間足すと日本は次の日の午前0時だよ。"
+    },
+    {
+     "key": "JP02-A-018",
+     "type": "multiple_choice",
+     "prompt": "地球が24時間で360度回ると1時間分の経度は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "9度",
+       "is_correct": false
+      },
+      {
+       "label": "24度",
+       "is_correct": false
+      },
+      {
+       "label": "45度",
+       "is_correct": false
+      },
+      {
+       "label": "15度",
+       "is_correct": true
+      }
+     ],
+     "explanation": "360度を24時間でわると1時間に15度だよ。"
+    },
+    {
+     "key": "JP02-A-019",
+     "type": "multiple_choice",
+     "prompt": "日本標準時を決めてたもつ機関は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "日本銀行",
+       "is_correct": false
+      },
+      {
+       "label": "情報通信研究機構（NICT）",
+       "is_correct": true
+      },
+      {
+       "label": "気象庁",
+       "is_correct": false
+      },
+      {
+       "label": "国土地理院",
+       "is_correct": false
+      }
+     ],
+     "explanation": "情報通信研究機構が日本標準時を決めてたもつよ。"
+    },
+    {
+     "key": "JP02-A-020",
+     "type": "multiple_choice",
+     "prompt": "電波時計に日本標準時を知らせる電波は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "気象電波",
+       "is_correct": false
+      },
+      {
+       "label": "放送電波",
+       "is_correct": false
+      },
+      {
+       "label": "衛星放送",
+       "is_correct": false
+      },
+      {
+       "label": "標準電波",
+       "is_correct": true
+      }
+     ],
+     "explanation": "標準電波には正しい時こくのじょうほうが入っているよ。"
+    },
+    {
+     "key": "JP02-A-021",
+     "type": "multiple_choice",
+     "prompt": "日本のまわりで地しんが多いおもな理由は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "赤道の上にある",
+       "is_correct": false
+      },
+      {
+       "label": "一年中雪がふる",
+       "is_correct": false
+      },
+      {
+       "label": "大きな川が多い",
+       "is_correct": false
+      },
+      {
+       "label": "複数のプレートのさかいがある",
+       "is_correct": true
+      }
+     ],
+     "explanation": "日本のまわりでは複数のプレートが動いているよ。"
+    },
+    {
+     "key": "JP02-A-022",
+     "type": "multiple_choice",
+     "prompt": "海こうとほぼ平行に火山がならぶ線を何という？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "火山フロント",
+       "is_correct": true
+      },
+      {
+       "label": "標準時子午線",
+       "is_correct": false
+      },
+      {
+       "label": "赤道",
+       "is_correct": false
+      },
+      {
+       "label": "日付変更線",
+       "is_correct": false
+      }
+     ],
+     "explanation": "火山フロントは海こうにそってのびているよ。"
+    },
+    {
+     "key": "JP02-A-023",
+     "type": "multiple_choice",
+     "prompt": "日本海がわで冬に多くなりやすいものは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "台風",
+       "is_correct": false
+      },
+      {
+       "label": "雪",
+       "is_correct": true
+      },
+      {
+       "label": "もうしょ",
+       "is_correct": false
+      },
+      {
+       "label": "日しょうりょう",
+       "is_correct": false
+      }
+     ],
+     "explanation": "冬の季節風で日本海がわは雪が多くなりやすいよ。"
+    },
+    {
+     "key": "JP02-A-024",
+     "type": "multiple_choice",
+     "prompt": "太平洋がわの冬に多い天気は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "毎日台風が来る",
+       "is_correct": false
+      },
+      {
+       "label": "一年中つゆになる",
+       "is_correct": false
+      },
+      {
+       "label": "晴れてかんそうする",
+       "is_correct": true
+      },
+      {
+       "label": "毎日大雪になる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "太平洋がわの冬は晴れてかんそうしやすいよ。"
+    },
+    {
+     "key": "JP02-A-025",
+     "type": "multiple_choice",
+     "prompt": "瀬戸内の気候のとくちょうは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "一年中雪が多い",
+       "is_correct": false
+      },
+      {
+       "label": "毎日きりが出る",
+       "is_correct": false
+      },
+      {
+       "label": "一年中とても寒い",
+       "is_correct": false
+      },
+      {
+       "label": "雨が少なくおだやか",
+       "is_correct": true
+      }
+     ],
+     "explanation": "瀬戸内は雨が少なくおだやかな気候だよ。"
+    },
+    {
+     "key": "JP02-A-026",
+     "type": "multiple_choice",
+     "prompt": "日本の北東がわを南へ流れる寒流は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "宗谷暖流",
+       "is_correct": false
+      },
+      {
+       "label": "黒潮",
+       "is_correct": false
+      },
+      {
+       "label": "親潮（おやしお）",
+       "is_correct": true
+      },
+      {
+       "label": "対馬暖流",
+       "is_correct": false
+      }
+     ],
+     "explanation": "親潮は日本の北東がわを南へ流れる寒流だよ。"
+    },
+    {
+     "key": "JP02-A-027",
+     "type": "multiple_choice",
+     "prompt": "立法・行せい・司法を分ける仕組みは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "直接民主制",
+       "is_correct": false
+      },
+      {
+       "label": "二院制",
+       "is_correct": false
+      },
+      {
+       "label": "三権分立（さんけんぶんりつ）",
+       "is_correct": true
+      },
+      {
+       "label": "地方自治",
+       "is_correct": false
+      }
+     ],
+     "explanation": "三つの力を分けてたがいに見守る仕組みだよ。"
+    },
+    {
+     "key": "JP02-A-028",
+     "type": "true_false",
+     "prompt": "参議院は4年ごとに全員をえらび直す。",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "参議院議員の任期は6年で3年ごとに半数をえらぶよ。"
+    },
+    {
+     "key": "JP02-A-029",
+     "type": "multiple_choice",
+     "prompt": "国会と内閣の結びつきをもとにする日本の仕組みは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "一院制",
+       "is_correct": false
+      },
+      {
+       "label": "大統領制",
+       "is_correct": false
+      },
+      {
+       "label": "連邦制",
+       "is_correct": false
+      },
+      {
+       "label": "議院内閣制（ぎいんないかくせい）",
+       "is_correct": true
+      }
+     ],
+     "explanation": "内閣が国会にせきにんを負う仕組みを議院内閣制というよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 23,
+   "theme_key": "geography",
+   "theme_name": "地方と都道府県",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "JP03-A-001",
+     "type": "multiple_choice",
+     "prompt": "八地方のうち本州にない地方の組み合わせは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "北海道地方・東北地方・九州地方",
+       "is_correct": false
+      },
+      {
+       "label": "北海道地方・中国地方・四国地方",
+       "is_correct": false
+      },
+      {
+       "label": "関東地方・四国地方・九州地方",
+       "is_correct": false
+      },
+      {
+       "label": "北海道地方・四国地方・九州地方",
+       "is_correct": true
+      }
+     ],
+     "explanation": "北海道・四国・九州の三地方は本州にないよ。"
+    },
+    {
+     "key": "JP03-A-002",
+     "type": "multiple_choice",
+     "prompt": "この教材の八地方で入る都道府県が一番多いのは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "中部地方",
+       "is_correct": true
+      },
+      {
+       "label": "九州地方",
+       "is_correct": false
+      },
+      {
+       "label": "関東地方",
+       "is_correct": false
+      },
+      {
+       "label": "近畿地方",
+       "is_correct": false
+      }
+     ],
+     "explanation": "中部地方には九県が入るよ。"
+    },
+    {
+     "key": "JP03-A-003",
+     "type": "true_false",
+     "prompt": "和歌山県は「わかさんけん」と読む。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "正しくは「わかやまけん」と読むよ。"
+    },
+    {
+     "key": "JP03-A-004",
+     "type": "multiple_choice",
+     "prompt": "大阪府と和歌山県の両方ととなり合う県は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "滋賀県",
+       "is_correct": false
+      },
+      {
+       "label": "奈良県",
+       "is_correct": true
+      },
+      {
+       "label": "兵庫県",
+       "is_correct": false
+      },
+      {
+       "label": "三重県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "奈良県は大阪府と和歌山県の両方ととなり合うよ。"
+    },
+    {
+     "key": "JP03-A-005",
+     "type": "multiple_choice",
+     "prompt": "鳥取県と山口県の両方ととなり合い日本海に面する県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "兵庫県",
+       "is_correct": false
+      },
+      {
+       "label": "島根県",
+       "is_correct": true
+      },
+      {
+       "label": "広島県",
+       "is_correct": false
+      },
+      {
+       "label": "岡山県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "島根県は二県ととなり合い日本海に面しているよ。"
+    },
+    {
+     "key": "JP03-A-006",
+     "type": "multiple_choice",
+     "prompt": "りくつづきで八つの都道府県ととなり合う県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "埼玉県",
+       "is_correct": false
+      },
+      {
+       "label": "福島県",
+       "is_correct": false
+      },
+      {
+       "label": "岐阜県",
+       "is_correct": false
+      },
+      {
+       "label": "長野県",
+       "is_correct": true
+      }
+     ],
+     "explanation": "長野県のりくのとなりには八県あるよ。"
+    },
+    {
+     "key": "JP03-A-007",
+     "type": "multiple_choice",
+     "prompt": "中部地方で海岸がない県はどれ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "石川県",
+       "is_correct": false
+      },
+      {
+       "label": "福井県",
+       "is_correct": false
+      },
+      {
+       "label": "岐阜県",
+       "is_correct": true
+      },
+      {
+       "label": "富山県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "岐阜県は海に面していない内陸県だよ。"
+    },
+    {
+     "key": "JP03-A-008",
+     "type": "multiple_choice",
+     "prompt": "近畿地方にある内陸県はどれ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "大阪府",
+       "is_correct": false
+      },
+      {
+       "label": "兵庫県",
+       "is_correct": false
+      },
+      {
+       "label": "京都府",
+       "is_correct": false
+      },
+      {
+       "label": "滋賀県",
+       "is_correct": true
+      }
+     ],
+     "explanation": "滋賀県は海に面していないよ。"
+    },
+    {
+     "key": "JP03-A-009",
+     "type": "multiple_choice",
+     "prompt": "紀伊半島にある内陸県はどれ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "奈良県",
+       "is_correct": true
+      },
+      {
+       "label": "京都府",
+       "is_correct": false
+      },
+      {
+       "label": "三重県",
+       "is_correct": false
+      },
+      {
+       "label": "和歌山県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "奈良県は海に面していないよ。"
+    },
+    {
+     "key": "JP03-A-010",
+     "type": "multiple_choice",
+     "prompt": "八つの内陸県で面積が一番大きいのは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "岐阜県",
+       "is_correct": false
+      },
+      {
+       "label": "栃木県",
+       "is_correct": false
+      },
+      {
+       "label": "長野県",
+       "is_correct": true
+      },
+      {
+       "label": "群馬県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "内陸県では長野県の面積が一番大きいよ。"
+    },
+    {
+     "key": "JP03-A-011",
+     "type": "multiple_choice",
+     "prompt": "本州の一番北にある県は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "宮城県",
+       "is_correct": false
+      },
+      {
+       "label": "秋田県",
+       "is_correct": false
+      },
+      {
+       "label": "岩手県",
+       "is_correct": false
+      },
+      {
+       "label": "青森県",
+       "is_correct": true
+      }
+     ],
+     "explanation": "青森県は本州の北のはしにあるよ。"
+    },
+    {
+     "key": "JP03-A-012",
+     "type": "multiple_choice",
+     "prompt": "本州の一番西にある県は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "広島県",
+       "is_correct": false
+      },
+      {
+       "label": "山口県",
+       "is_correct": true
+      },
+      {
+       "label": "島根県",
+       "is_correct": false
+      },
+      {
+       "label": "鳥取県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "山口県は本州の西のはしにあるよ。"
+    },
+    {
+     "key": "JP03-A-013",
+     "type": "multiple_choice",
+     "prompt": "四国の四県で一番南までのびている県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "香川県",
+       "is_correct": false
+      },
+      {
+       "label": "高知県",
+       "is_correct": true
+      },
+      {
+       "label": "愛媛県",
+       "is_correct": false
+      },
+      {
+       "label": "徳島県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "四国の一番南の地点は高知県にあるよ。"
+    },
+    {
+     "key": "JP03-A-014",
+     "type": "multiple_choice",
+     "prompt": "山梨県の花はどれ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "スイセン",
+       "is_correct": false
+      },
+      {
+       "label": "ヤマユリ",
+       "is_correct": false
+      },
+      {
+       "label": "リンドウ",
+       "is_correct": false
+      },
+      {
+       "label": "フジザクラ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "フジザクラは山梨県の花だよ。"
+    },
+    {
+     "key": "JP03-A-015",
+     "type": "multiple_choice",
+     "prompt": "長野県の花はどれ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ノジギク",
+       "is_correct": false
+      },
+      {
+       "label": "フジザクラ",
+       "is_correct": false
+      },
+      {
+       "label": "クロユリ",
+       "is_correct": false
+      },
+      {
+       "label": "リンドウ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "リンドウは長野県の花だよ。"
+    },
+    {
+     "key": "JP03-A-016",
+     "type": "multiple_choice",
+     "prompt": "兵庫県の花はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ソメイヨシノ",
+       "is_correct": false
+      },
+      {
+       "label": "カキツバタ",
+       "is_correct": false
+      },
+      {
+       "label": "ノジギク",
+       "is_correct": true
+      },
+      {
+       "label": "デイゴ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ノジギクは兵庫県の花だよ。"
+    },
+    {
+     "key": "JP03-A-017",
+     "type": "multiple_choice",
+     "prompt": "高知県の花はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ヤマモモ",
+       "is_correct": true
+      },
+      {
+       "label": "ふきのとう",
+       "is_correct": false
+      },
+      {
+       "label": "ミヤギノハギ",
+       "is_correct": false
+      },
+      {
+       "label": "べにばな",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ヤマモモは高知県の花だよ。"
+    },
+    {
+     "key": "JP03-A-018",
+     "type": "multiple_choice",
+     "prompt": "沖縄県の花はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ハマユウ",
+       "is_correct": false
+      },
+      {
+       "label": "デイゴ",
+       "is_correct": true
+      },
+      {
+       "label": "ミヤマキリシマ",
+       "is_correct": false
+      },
+      {
+       "label": "すだちの花",
+       "is_correct": false
+      }
+     ],
+     "explanation": "デイゴは沖縄県の花だよ。"
+    },
+    {
+     "key": "JP03-A-019",
+     "type": "multiple_choice",
+     "prompt": "秋田県の木はどれ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "北山杉",
+       "is_correct": false
+      },
+      {
+       "label": "秋田杉",
+       "is_correct": true
+      },
+      {
+       "label": "神宮スギ",
+       "is_correct": false
+      },
+      {
+       "label": "立山杉",
+       "is_correct": false
+      }
+     ],
+     "explanation": "秋田杉は秋田県の木だよ。"
+    },
+    {
+     "key": "JP03-A-020",
+     "type": "multiple_choice",
+     "prompt": "静岡県の木はどれ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "トチノキ",
+       "is_correct": false
+      },
+      {
+       "label": "モクセイ",
+       "is_correct": true
+      },
+      {
+       "label": "ハナノキ",
+       "is_correct": false
+      },
+      {
+       "label": "イチイ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "モクセイは静岡県の木だよ。"
+    },
+    {
+     "key": "JP03-A-021",
+     "type": "multiple_choice",
+     "prompt": "京都府の木はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "立山杉",
+       "is_correct": false
+      },
+      {
+       "label": "神宮スギ",
+       "is_correct": false
+      },
+      {
+       "label": "北山杉",
+       "is_correct": true
+      },
+      {
+       "label": "秋田杉",
+       "is_correct": false
+      }
+     ],
+     "explanation": "北山杉は京都府の木だよ。"
+    },
+    {
+     "key": "JP03-A-022",
+     "type": "true_false",
+     "prompt": "香川県の木はスギである。",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "香川県の木はオリーブだよ。"
+    },
+    {
+     "key": "JP03-A-023",
+     "type": "multiple_choice",
+     "prompt": "宮崎県の木はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ウバメガシ",
+       "is_correct": false
+      },
+      {
+       "label": "リュウキュウマツ",
+       "is_correct": false
+      },
+      {
+       "label": "ダイセンキャラボク",
+       "is_correct": false
+      },
+      {
+       "label": "フェニックス",
+       "is_correct": true
+      }
+     ],
+     "explanation": "フェニックスは宮崎県の木だよ。"
+    },
+    {
+     "key": "JP03-A-024",
+     "type": "multiple_choice",
+     "prompt": "沖縄県の木はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "リュウキュウマツ",
+       "is_correct": true
+      },
+      {
+       "label": "クロマツ",
+       "is_correct": false
+      },
+      {
+       "label": "ヤナセスギ",
+       "is_correct": false
+      },
+      {
+       "label": "フェニックス",
+       "is_correct": false
+      }
+     ],
+     "explanation": "リュウキュウマツは沖縄県の木だよ。"
+    },
+    {
+     "key": "JP03-A-025",
+     "type": "multiple_choice",
+     "prompt": "青森県の鳥はどれ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ガン",
+       "is_correct": false
+      },
+      {
+       "label": "オシドリ",
+       "is_correct": false
+      },
+      {
+       "label": "ハクチョウ",
+       "is_correct": true
+      },
+      {
+       "label": "キジ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハクチョウは青森県の鳥だよ。"
+    },
+    {
+     "key": "JP03-A-026",
+     "type": "multiple_choice",
+     "prompt": "宮城県の鳥はどれ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ガン",
+       "is_correct": true
+      },
+      {
+       "label": "キビタキ",
+       "is_correct": false
+      },
+      {
+       "label": "ヤマドリ",
+       "is_correct": false
+      },
+      {
+       "label": "ハクチョウ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ガンは宮城県の鳥だよ。"
+    },
+    {
+     "key": "JP03-A-027",
+     "type": "multiple_choice",
+     "prompt": "長野県の鳥はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ライチョウ",
+       "is_correct": true
+      },
+      {
+       "label": "オオルリ",
+       "is_correct": false
+      },
+      {
+       "label": "イヌワシ",
+       "is_correct": false
+      },
+      {
+       "label": "ツグミ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ライチョウは長野県の鳥だよ。"
+    },
+    {
+     "key": "JP03-A-028",
+     "type": "multiple_choice",
+     "prompt": "愛知県の鳥はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ホトトギス",
+       "is_correct": false
+      },
+      {
+       "label": "シラコバト",
+       "is_correct": false
+      },
+      {
+       "label": "コノハズク",
+       "is_correct": true
+      },
+      {
+       "label": "シロチドリ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "コノハズクは愛知県の鳥だよ。"
+    },
+    {
+     "key": "JP03-A-029",
+     "type": "multiple_choice",
+     "prompt": "大分県の鳥はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ルリカケス",
+       "is_correct": false
+      },
+      {
+       "label": "ナベヅル",
+       "is_correct": false
+      },
+      {
+       "label": "メジロ",
+       "is_correct": true
+      },
+      {
+       "label": "カササギ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "メジロは大分県の鳥だよ。"
+    },
+    {
+     "key": "JP03-A-030",
+     "type": "true_false",
+     "prompt": "沖縄県の鳥はタンチョウである。",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "沖縄県の鳥はノグチゲラだよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 24,
+   "theme_key": "capital",
+   "theme_name": "県庁所在地",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "JP04-A-001",
+     "type": "multiple_choice",
+     "prompt": "東北六県で県名と名前がちがう県庁所在地の組み合わせは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "山形市と福島市",
+       "is_correct": false
+      },
+      {
+       "label": "盛岡市と仙台市",
+       "is_correct": true
+      },
+      {
+       "label": "青森市と秋田市",
+       "is_correct": false
+      },
+      {
+       "label": "秋田市と山形市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "岩手県は盛岡市、宮城県は仙台市だよ。"
+    },
+    {
+     "key": "JP04-A-002",
+     "type": "multiple_choice",
+     "prompt": "北海道の道庁所在地で指定都市でもある市は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "旭川市",
+       "is_correct": false
+      },
+      {
+       "label": "函館市",
+       "is_correct": false
+      },
+      {
+       "label": "帯広市",
+       "is_correct": false
+      },
+      {
+       "label": "札幌市",
+       "is_correct": true
+      }
+     ],
+     "explanation": "札幌市は道庁所在地で指定都市でもあるよ。"
+    },
+    {
+     "key": "JP04-A-003",
+     "type": "multiple_choice",
+     "prompt": "関東で県名と市名が漢字まで同じ組み合わせは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "埼玉県とさいたま市",
+       "is_correct": false
+      },
+      {
+       "label": "神奈川県と横浜市",
+       "is_correct": false
+      },
+      {
+       "label": "千葉県と千葉市",
+       "is_correct": true
+      },
+      {
+       "label": "茨城県と水戸市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "千葉県と千葉市は漢字まで同じ名前だよ。"
+    },
+    {
+     "key": "JP04-A-004",
+     "type": "multiple_choice",
+     "prompt": "横浜市と前橋市に県庁がある県の組み合わせは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "神奈川県と群馬県",
+       "is_correct": true
+      },
+      {
+       "label": "千葉県と茨城県",
+       "is_correct": false
+      },
+      {
+       "label": "埼玉県と栃木県",
+       "is_correct": false
+      },
+      {
+       "label": "東京都と山梨県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "横浜市は神奈川県、前橋市は群馬県の所在地だよ。"
+    },
+    {
+     "key": "JP04-A-005",
+     "type": "multiple_choice",
+     "prompt": "関東の都県庁所在地で市名をひらがなで書くのは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "横浜市",
+       "is_correct": false
+      },
+      {
+       "label": "前橋市",
+       "is_correct": false
+      },
+      {
+       "label": "さいたま市",
+       "is_correct": true
+      },
+      {
+       "label": "宇都宮市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "さいたま市は市名をひらがなで書くよ。"
+    },
+    {
+     "key": "JP04-A-006",
+     "type": "multiple_choice",
+     "prompt": "愛知県の県庁所在地は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "岡崎市",
+       "is_correct": false
+      },
+      {
+       "label": "豊田市",
+       "is_correct": false
+      },
+      {
+       "label": "名古屋市",
+       "is_correct": true
+      },
+      {
+       "label": "豊橋市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "愛知県庁は名古屋市にあるよ。"
+    },
+    {
+     "key": "JP04-A-007",
+     "type": "multiple_choice",
+     "prompt": "県と県庁所在地が三つとも正しい組み合わせは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "石川県―福井市・山梨県―水戸市・愛知県―岐阜市",
+       "is_correct": false
+      },
+      {
+       "label": "石川県―金沢市・山梨県―甲府市・愛知県―名古屋市",
+       "is_correct": true
+      },
+      {
+       "label": "石川県―新潟市・山梨県―静岡市・愛知県―津市",
+       "is_correct": false
+      },
+      {
+       "label": "石川県―富山市・山梨県―長野市・愛知県―浜松市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "金沢・甲府・名古屋が三県の所在地だよ。"
+    },
+    {
+     "key": "JP04-A-008",
+     "type": "multiple_choice",
+     "prompt": "近畿の府県庁所在地で市名が漢字一文字なのは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "大津市",
+       "is_correct": false
+      },
+      {
+       "label": "堺市",
+       "is_correct": false
+      },
+      {
+       "label": "宇治市",
+       "is_correct": false
+      },
+      {
+       "label": "津市",
+       "is_correct": true
+      }
+     ],
+     "explanation": "津市は漢字一文字の県庁所在地だよ。"
+    },
+    {
+     "key": "JP04-A-009",
+     "type": "multiple_choice",
+     "prompt": "三つとも正しい組み合わせはどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "三重県―伊勢市・滋賀県―彦根市・兵庫県―大阪市",
+       "is_correct": false
+      },
+      {
+       "label": "三重県―四日市市・滋賀県―草津市・兵庫県―西宮市",
+       "is_correct": false
+      },
+      {
+       "label": "三重県―大津市・滋賀県―京都市・兵庫県―姫路市",
+       "is_correct": false
+      },
+      {
+       "label": "三重県―津市・滋賀県―大津市・兵庫県―神戸市",
+       "is_correct": true
+      }
+     ],
+     "explanation": "津・大津・神戸が三県の所在地だよ。"
+    },
+    {
+     "key": "JP04-A-010",
+     "type": "multiple_choice",
+     "prompt": "島根県の県庁所在地は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "松江市",
+       "is_correct": true
+      },
+      {
+       "label": "益田市",
+       "is_correct": false
+      },
+      {
+       "label": "出雲市",
+       "is_correct": false
+      },
+      {
+       "label": "浜田市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "島根県庁は松江市（まつえし）にあるよ。"
+    },
+    {
+     "key": "JP04-A-011",
+     "type": "multiple_choice",
+     "prompt": "松江市と松山市の県の組み合わせは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "島根県と愛媛県",
+       "is_correct": true
+      },
+      {
+       "label": "鳥取県と香川県",
+       "is_correct": false
+      },
+      {
+       "label": "岡山県と徳島県",
+       "is_correct": false
+      },
+      {
+       "label": "広島県と高知県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "松江市は島根県、松山市は愛媛県の所在地だよ。"
+    },
+    {
+     "key": "JP04-A-012",
+     "type": "multiple_choice",
+     "prompt": "九州・沖縄の県庁所在地で県名と市名がちがうのは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "那覇市",
+       "is_correct": true
+      },
+      {
+       "label": "熊本市",
+       "is_correct": false
+      },
+      {
+       "label": "福岡市",
+       "is_correct": false
+      },
+      {
+       "label": "鹿児島市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "沖縄県だけ県名と所在地の市名がちがうよ。"
+    },
+    {
+     "key": "JP04-A-013",
+     "type": "multiple_choice",
+     "prompt": "福岡市と北九州市のうち福岡県庁があるのは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "どちらにもない",
+       "is_correct": false
+      },
+      {
+       "label": "福岡市",
+       "is_correct": true
+      },
+      {
+       "label": "北九州市",
+       "is_correct": false
+      },
+      {
+       "label": "両方",
+       "is_correct": false
+      }
+     ],
+     "explanation": "福岡県庁は福岡市にあるよ。"
+    },
+    {
+     "key": "JP04-A-014",
+     "type": "multiple_choice",
+     "prompt": "茨城・石川・滋賀の三県に合う県庁所在地は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "茨城県―水戸市・石川県―金沢市・滋賀県―大津市",
+       "is_correct": true
+      },
+      {
+       "label": "茨城県―宇都宮市・石川県―福井市・滋賀県―奈良市",
+       "is_correct": false
+      },
+      {
+       "label": "茨城県―千葉市・石川県―長野市・滋賀県―大阪市",
+       "is_correct": false
+      },
+      {
+       "label": "茨城県―前橋市・石川県―富山市・滋賀県―京都市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "水戸・金沢・大津が三県の所在地だよ。"
+    },
+    {
+     "key": "JP04-A-015",
+     "type": "multiple_choice",
+     "prompt": "県と県庁所在地の組み合わせがまちがっているのは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "岩手県―盛岡市",
+       "is_correct": false
+      },
+      {
+       "label": "栃木県―前橋市",
+       "is_correct": true
+      },
+      {
+       "label": "山梨県―甲府市",
+       "is_correct": false
+      },
+      {
+       "label": "香川県―高松市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "栃木県庁は宇都宮市にあるよ。"
+    },
+    {
+     "key": "JP04-A-016",
+     "type": "true_false",
+     "prompt": "2025年国勢調査速報で群馬県の人口最大の市は高崎市なので県庁所在地も高崎市である。",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "県庁所在地は前橋市だよ。人口最大の市とは別だよ。"
+    },
+    {
+     "key": "JP04-A-017",
+     "type": "true_false",
+     "prompt": "2025年国勢調査速報で山口県の人口最大の市は下関市なので県庁所在地も下関市である。",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "県庁所在地は山口市だよ。人口最大の市とは別だよ。"
+    },
+    {
+     "key": "JP04-A-018",
+     "type": "multiple_choice",
+     "prompt": "岩手県の県庁所在地「盛岡市」は何と読む？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "もりがし",
+       "is_correct": false
+      },
+      {
+       "label": "もりおかし",
+       "is_correct": true
+      },
+      {
+       "label": "もりおがし",
+       "is_correct": false
+      },
+      {
+       "label": "せいおかし",
+       "is_correct": false
+      }
+     ],
+     "explanation": "「盛岡市」は「もりおかし」と読むよ。"
+    },
+    {
+     "key": "JP04-A-019",
+     "type": "multiple_choice",
+     "prompt": "茨城県の県庁所在地「水戸市」は何と読む？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "みとし",
+       "is_correct": true
+      },
+      {
+       "label": "すいとし",
+       "is_correct": false
+      },
+      {
+       "label": "みどし",
+       "is_correct": false
+      },
+      {
+       "label": "みずとし",
+       "is_correct": false
+      }
+     ],
+     "explanation": "「水戸市」は「みとし」と読むよ。"
+    },
+    {
+     "key": "JP04-A-020",
+     "type": "multiple_choice",
+     "prompt": "山梨県の県庁所在地「甲府市」は何と読む？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "こうふし",
+       "is_correct": true
+      },
+      {
+       "label": "こうぶし",
+       "is_correct": false
+      },
+      {
+       "label": "きのえふし",
+       "is_correct": false
+      },
+      {
+       "label": "かふし",
+       "is_correct": false
+      }
+     ],
+     "explanation": "「甲府市」は「こうふし」と読むよ。"
+    },
+    {
+     "key": "JP04-A-021",
+     "type": "multiple_choice",
+     "prompt": "滋賀県の県庁所在地「大津市」は何と読む？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "おおづし",
+       "is_correct": false
+      },
+      {
+       "label": "だいつし",
+       "is_correct": false
+      },
+      {
+       "label": "たいしんし",
+       "is_correct": false
+      },
+      {
+       "label": "おおつし",
+       "is_correct": true
+      }
+     ],
+     "explanation": "「大津市」は「おおつし」と読むよ。"
+    },
+    {
+     "key": "JP04-A-022",
+     "type": "multiple_choice",
+     "prompt": "島根県の県庁所在地「松江市」は何と読む？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "まつえし",
+       "is_correct": true
+      },
+      {
+       "label": "まつかわし",
+       "is_correct": false
+      },
+      {
+       "label": "まつえいし",
+       "is_correct": false
+      },
+      {
+       "label": "しょうえし",
+       "is_correct": false
+      }
+     ],
+     "explanation": "「松江市」は「まつえし」と読むよ。"
+    },
+    {
+     "key": "JP04-A-023",
+     "type": "multiple_choice",
+     "prompt": "2026年10月現在の指定都市はいくつ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "22市",
+       "is_correct": false
+      },
+      {
+       "label": "18市",
+       "is_correct": false
+      },
+      {
+       "label": "20市",
+       "is_correct": true
+      },
+      {
+       "label": "24市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "指定都市は全国に20市あるよ。"
+    },
+    {
+     "key": "JP04-A-024",
+     "type": "multiple_choice",
+     "prompt": "神奈川県の指定都市で県庁所在地ではないのは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "さいたま市",
+       "is_correct": false
+      },
+      {
+       "label": "川崎市",
+       "is_correct": true
+      },
+      {
+       "label": "横浜市",
+       "is_correct": false
+      },
+      {
+       "label": "千葉市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "川崎市は指定都市だが県庁所在地ではないよ。"
+    },
+    {
+     "key": "JP04-A-025",
+     "type": "multiple_choice",
+     "prompt": "静岡県の指定都市で県庁所在地ではないのは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "静岡市",
+       "is_correct": false
+      },
+      {
+       "label": "名古屋市",
+       "is_correct": false
+      },
+      {
+       "label": "浜松市",
+       "is_correct": true
+      },
+      {
+       "label": "新潟市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "浜松市は指定都市だが県庁所在地ではないよ。"
+    },
+    {
+     "key": "JP04-A-026",
+     "type": "multiple_choice",
+     "prompt": "大阪府の指定都市で府庁所在地ではないのは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "京都市",
+       "is_correct": false
+      },
+      {
+       "label": "大阪市",
+       "is_correct": false
+      },
+      {
+       "label": "堺市",
+       "is_correct": true
+      },
+      {
+       "label": "神戸市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "堺市は指定都市だが府庁所在地ではないよ。"
+    },
+    {
+     "key": "JP04-A-027",
+     "type": "multiple_choice",
+     "prompt": "福岡県の指定都市で県庁所在地ではないのは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "北九州市",
+       "is_correct": true
+      },
+      {
+       "label": "福岡市",
+       "is_correct": false
+      },
+      {
+       "label": "熊本市",
+       "is_correct": false
+      },
+      {
+       "label": "広島市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "北九州市は指定都市だが県庁所在地ではないよ。"
+    },
+    {
+     "key": "JP04-A-028",
+     "type": "multiple_choice",
+     "prompt": "指定都市で県庁所在地でもある市はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "浜松市",
+       "is_correct": false
+      },
+      {
+       "label": "堺市",
+       "is_correct": false
+      },
+      {
+       "label": "熊本市",
+       "is_correct": true
+      },
+      {
+       "label": "川崎市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "熊本市は指定都市で熊本県庁の所在地でもあるよ。"
+    },
+    {
+     "key": "JP04-A-029",
+     "type": "multiple_choice",
+     "prompt": "都道府県が主に受け持つ仕事はどれ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "家庭の中の家事",
+       "is_correct": false
+      },
+      {
+       "label": "会社の商品を売る仕事",
+       "is_correct": false
+      },
+      {
+       "label": "市町村をこえる広い地域の仕事",
+       "is_correct": true
+      },
+      {
+       "label": "一つの町内会だけの仕事",
+       "is_correct": false
+      }
+     ],
+     "explanation": "都道府県は市町村をこえる広い仕事を受け持つよ。"
+    },
+    {
+     "key": "JP04-A-030",
+     "type": "true_false",
+     "prompt": "東京都は政令で指定された指定都市の一つである。",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "東京都は指定都市ではなく特別区の制度を使うよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 25,
+   "theme_key": "heritage",
+   "theme_name": "食べ物・名物",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "JP05-A-001",
+     "type": "multiple_choice",
+     "prompt": "いなにわうどんで知られる県は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "秋田県",
+       "is_correct": true
+      },
+      {
+       "label": "岡山県",
+       "is_correct": false
+      },
+      {
+       "label": "静岡県",
+       "is_correct": false
+      },
+      {
+       "label": "宮崎県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "いなにわうどんは、秋田県で受けつがれてきためんだよ。"
+    },
+    {
+     "key": "JP05-A-002",
+     "type": "multiple_choice",
+     "prompt": "新潟県（にいがたけん）のへぎそばで、つなぎに使う海そうは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ふのり",
+       "is_correct": true
+      },
+      {
+       "label": "わかめ",
+       "is_correct": false
+      },
+      {
+       "label": "ひじき",
+       "is_correct": false
+      },
+      {
+       "label": "もずく",
+       "is_correct": false
+      }
+     ],
+     "explanation": "へぎそばは、ふのりをつなぎに使うことで知られるよ。"
+    },
+    {
+     "key": "JP05-A-003",
+     "type": "multiple_choice",
+     "prompt": "太くてやわらかいめんに、こい色のたれをからめる三重県のうどんは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "五島（ごとう）うどん",
+       "is_correct": false
+      },
+      {
+       "label": "伊勢（いせ）うどん",
+       "is_correct": true
+      },
+      {
+       "label": "稲庭（いなにわ）うどん",
+       "is_correct": false
+      },
+      {
+       "label": "吉田（よしだ）のうどん",
+       "is_correct": false
+      }
+     ],
+     "explanation": "伊勢うどんは、太くやわらかいめんとこいたれがとくちょう。"
+    },
+    {
+     "key": "JP05-A-004",
+     "type": "multiple_choice",
+     "prompt": "「ほたるいか」で知られる県は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "富山県",
+       "is_correct": true
+      },
+      {
+       "label": "奈良県",
+       "is_correct": false
+      },
+      {
+       "label": "山梨県",
+       "is_correct": false
+      },
+      {
+       "label": "群馬県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "富山わんでは、春にほたるいかが海岸近くへ来るよ。"
+    },
+    {
+     "key": "JP05-A-005",
+     "type": "multiple_choice",
+     "prompt": "島根県で「あご」とよぶ魚は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "たら",
+       "is_correct": false
+      },
+      {
+       "label": "とびうお",
+       "is_correct": true
+      },
+      {
+       "label": "まぐろ",
+       "is_correct": false
+      },
+      {
+       "label": "さば",
+       "is_correct": false
+      }
+     ],
+     "explanation": "山いん地方などでは、とびうおを「あご」とよぶよ。"
+    },
+    {
+     "key": "JP05-A-006",
+     "type": "multiple_choice",
+     "prompt": "福井県の「へしこ」に使うことが多い魚は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "さけ",
+       "is_correct": false
+      },
+      {
+       "label": "あゆ",
+       "is_correct": false
+      },
+      {
+       "label": "たい",
+       "is_correct": false
+      },
+      {
+       "label": "さば",
+       "is_correct": true
+      }
+     ],
+     "explanation": "へしこは、さばなどをしおとぬかにつけて作るよ。"
+    },
+    {
+     "key": "JP05-A-007",
+     "type": "multiple_choice",
+     "prompt": "松阪牛（まつさかうし）で知られる県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "香川県",
+       "is_correct": false
+      },
+      {
+       "label": "三重県",
+       "is_correct": true
+      },
+      {
+       "label": "長崎県",
+       "is_correct": false
+      },
+      {
+       "label": "宮城県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "松阪牛は、三重県の牛肉として知られているよ。"
+    },
+    {
+     "key": "JP05-A-008",
+     "type": "multiple_choice",
+     "prompt": "比内地鶏（ひないじどり）で知られる県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "福井県",
+       "is_correct": false
+      },
+      {
+       "label": "秋田県",
+       "is_correct": true
+      },
+      {
+       "label": "沖縄県",
+       "is_correct": false
+      },
+      {
+       "label": "愛媛県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "比内地鶏は、秋田県のとり肉として知られているよ。"
+    },
+    {
+     "key": "JP05-A-010",
+     "type": "multiple_choice",
+     "prompt": "加賀れんこん（かがれんこん）で知られる県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "岩手県",
+       "is_correct": false
+      },
+      {
+       "label": "石川県",
+       "is_correct": true
+      },
+      {
+       "label": "兵庫県",
+       "is_correct": false
+      },
+      {
+       "label": "大分県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "加賀れんこんは、ねばりが強い加賀野菜の一つだよ。"
+    },
+    {
+     "key": "JP05-A-011",
+     "type": "multiple_choice",
+     "prompt": "下仁田ねぎ（しもにたねぎ）で知られる県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "岐阜県",
+       "is_correct": false
+      },
+      {
+       "label": "島根県",
+       "is_correct": false
+      },
+      {
+       "label": "群馬県",
+       "is_correct": true
+      },
+      {
+       "label": "佐賀県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "下仁田ねぎは、太く、火を通すとあまくなるよ。"
+    },
+    {
+     "key": "JP05-A-012",
+     "type": "multiple_choice",
+     "prompt": "大きな「桜島だいこん（さくらじまだいこん）」で知られる県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "鹿児島県",
+       "is_correct": true
+      },
+      {
+       "label": "京都府",
+       "is_correct": false
+      },
+      {
+       "label": "長野県",
+       "is_correct": false
+      },
+      {
+       "label": "青森県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "桜島だいこんは、とても大きくなるだいこんだよ。"
+    },
+    {
+     "key": "JP05-A-013",
+     "type": "multiple_choice",
+     "prompt": "野沢菜づけ（のざわなづけ）で知られる県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "広島県",
+       "is_correct": false
+      },
+      {
+       "label": "千葉県",
+       "is_correct": false
+      },
+      {
+       "label": "熊本県",
+       "is_correct": false
+      },
+      {
+       "label": "長野県",
+       "is_correct": true
+      }
+     ],
+     "explanation": "野沢菜は、長野県でつけ物として親しまれているよ。"
+    },
+    {
+     "key": "JP05-A-014",
+     "type": "multiple_choice",
+     "prompt": "夕張メロン（ゆうばりメロン）で知られる都道府県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "徳島県",
+       "is_correct": false
+      },
+      {
+       "label": "大阪府",
+       "is_correct": false
+      },
+      {
+       "label": "東京都",
+       "is_correct": false
+      },
+      {
+       "label": "北海道",
+       "is_correct": true
+      }
+     ],
+     "explanation": "夕張メロンは、北海道夕張市の特産だよ。"
+    },
+    {
+     "key": "JP05-A-015",
+     "type": "multiple_choice",
+     "prompt": "紀州南高梅（きしゅうなんこううめ）で知られる県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "新潟県",
+       "is_correct": false
+      },
+      {
+       "label": "香川県",
+       "is_correct": false
+      },
+      {
+       "label": "宮城県",
+       "is_correct": false
+      },
+      {
+       "label": "和歌山県",
+       "is_correct": true
+      }
+     ],
+     "explanation": "紀州南高梅は、和歌山県を代表するうめだよ。"
+    },
+    {
+     "key": "JP05-A-016",
+     "type": "multiple_choice",
+     "prompt": "ぶどうの産地としてよく知られる県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "高知県",
+       "is_correct": false
+      },
+      {
+       "label": "山梨県",
+       "is_correct": true
+      },
+      {
+       "label": "沖縄県",
+       "is_correct": false
+      },
+      {
+       "label": "北海道",
+       "is_correct": false
+      }
+     ],
+     "explanation": "山梨県では、ぼん地の気候をいかしてぶどうを作るよ。"
+    },
+    {
+     "key": "JP05-A-017",
+     "type": "multiple_choice",
+     "prompt": "沖縄（おきなわ）の「サーターアンダギー」は、どんなおかし？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "魚をやいたおかし",
+       "is_correct": false
+      },
+      {
+       "label": "油であげた丸いおかし",
+       "is_correct": true
+      },
+      {
+       "label": "寒天でかためたおかし",
+       "is_correct": false
+      },
+      {
+       "label": "こおらせた米のおかし",
+       "is_correct": false
+      }
+     ],
+     "explanation": "小麦粉やたまごなどの生地を丸くして油であげるよ。"
+    },
+    {
+     "key": "JP05-A-018",
+     "type": "multiple_choice",
+     "prompt": "鹿児島県（かごしまけん）の「かるかん」に使うものは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "れんこん",
+       "is_correct": false
+      },
+      {
+       "label": "にんじん",
+       "is_correct": false
+      },
+      {
+       "label": "山いも",
+       "is_correct": true
+      },
+      {
+       "label": "かぼちゃ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "かるかんは、米の粉や山いもなどから作るよ。"
+    },
+    {
+     "key": "JP05-A-019",
+     "type": "multiple_choice",
+     "prompt": "熊本県の「いきなりだんご」で、あんこといっしょにつつむものは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "りんご",
+       "is_correct": false
+      },
+      {
+       "label": "さつまいも",
+       "is_correct": true
+      },
+      {
+       "label": "かき",
+       "is_correct": false
+      },
+      {
+       "label": "くり",
+       "is_correct": false
+      }
+     ],
+     "explanation": "いきなりだんごは、さつまいもとあんこを生地でつつむよ。"
+    },
+    {
+     "key": "JP05-A-020",
+     "type": "multiple_choice",
+     "prompt": "宮崎県の「ひやじる」は、どんな料理？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "もちをあまいしるでにる",
+       "is_correct": false
+      },
+      {
+       "label": "めんを鉄板でやく",
+       "is_correct": false
+      },
+      {
+       "label": "魚を丸ごと油であげる",
+       "is_correct": false
+      },
+      {
+       "label": "つめたいしるをごはんにかける",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ひやじるは、みそ味のつめたいしるをごはんにかけるよ。"
+    },
+    {
+     "key": "JP05-A-021",
+     "type": "multiple_choice",
+     "prompt": "石川県の「じぶに」で、肉にまぶすものは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "パン粉",
+       "is_correct": false
+      },
+      {
+       "label": "さとう",
+       "is_correct": false
+      },
+      {
+       "label": "小麦粉",
+       "is_correct": true
+      },
+      {
+       "label": "きな粉",
+       "is_correct": false
+      }
+     ],
+     "explanation": "じぶには、肉に粉をまぶして野菜などとにる料理だよ。"
+    },
+    {
+     "key": "JP05-A-022",
+     "type": "multiple_choice",
+     "prompt": "岩手県の「ひっつみ」は、小麦粉の生地をどうする？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "細く切って油であげる",
+       "is_correct": false
+      },
+      {
+       "label": "かわかしてからやく",
+       "is_correct": false
+      },
+      {
+       "label": "手でちぎってしるでにる",
+       "is_correct": true
+      },
+      {
+       "label": "丸めてあんこを入れる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ひっつみは、生地を手でちぎってしるでにる料理だよ。"
+    },
+    {
+     "key": "JP05-A-023",
+     "type": "multiple_choice",
+     "prompt": "こんぶのうま味のもととして知られるものは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "乳酸",
+       "is_correct": false
+      },
+      {
+       "label": "炭酸",
+       "is_correct": false
+      },
+      {
+       "label": "グルタミン酸",
+       "is_correct": true
+      },
+      {
+       "label": "クエン酸",
+       "is_correct": false
+      }
+     ],
+     "explanation": "こんぶには、うま味のもとになるグルタミン酸が多いよ。"
+    },
+    {
+     "key": "JP05-A-024",
+     "type": "multiple_choice",
+     "prompt": "かつおぶしのうま味のもととして知られるものは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "さく酸",
+       "is_correct": false
+      },
+      {
+       "label": "葉酸",
+       "is_correct": false
+      },
+      {
+       "label": "リンゴ酸",
+       "is_correct": false
+      },
+      {
+       "label": "イノシン酸",
+       "is_correct": true
+      }
+     ],
+     "explanation": "かつおぶしには、うま味のもとになるイノシン酸が多いよ。"
+    },
+    {
+     "key": "JP05-A-025",
+     "type": "multiple_choice",
+     "prompt": "みりんを料理に使うと、出しやすいものは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "こおりの食感",
+       "is_correct": false
+      },
+      {
+       "label": "あまみとつや",
+       "is_correct": true
+      },
+      {
+       "label": "強いからみ",
+       "is_correct": false
+      },
+      {
+       "label": "青い色",
+       "is_correct": false
+      }
+     ],
+     "explanation": "みりんは、料理にあまみやつやを出す調味料だよ。"
+    },
+    {
+     "key": "JP05-A-026",
+     "type": "multiple_choice",
+     "prompt": "しょうゆの主なざいりょうの組み合わせは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "いも・油・こしょう",
+       "is_correct": false
+      },
+      {
+       "label": "魚・たまご・さとう",
+       "is_correct": false
+      },
+      {
+       "label": "大豆・小麦・しお",
+       "is_correct": true
+      },
+      {
+       "label": "米・牛乳・す",
+       "is_correct": false
+      }
+     ],
+     "explanation": "しょうゆは、大豆や小麦をこうじとしおみずで、はっこうさせるよ。"
+    },
+    {
+     "key": "JP05-A-027",
+     "type": "multiple_choice",
+     "prompt": "和食がユネスコのむけいぶんかいさんにとうろくされた年は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "1983年",
+       "is_correct": false
+      },
+      {
+       "label": "2023年",
+       "is_correct": false
+      },
+      {
+       "label": "1993年",
+       "is_correct": false
+      },
+      {
+       "label": "2013年",
+       "is_correct": true
+      }
+     ],
+     "explanation": "和食は、2013年にむけいぶんかいさんへとうろくされたよ。"
+    },
+    {
+     "key": "JP05-A-028",
+     "type": "multiple_choice",
+     "prompt": "ユネスコにとうろくされた「和食」が表すものは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "一つの店の名前",
+       "is_correct": false
+      },
+      {
+       "label": "一つの決まった料理",
+       "is_correct": false
+      },
+      {
+       "label": "一人の料理人のわざ",
+       "is_correct": false
+      },
+      {
+       "label": "日本人の食文化",
+       "is_correct": true
+      }
+     ],
+     "explanation": "とうろくされた和食は、料理だけでなく食文化を表すよ。"
+    },
+    {
+     "key": "JP05-A-029",
+     "type": "true_false",
+     "prompt": "季節の花や葉で料理をかざることは、和食文化のとくちょうの一つである。",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "和食文化には、料理で季節のうつりかわりを表すくふうがあるよ。"
+    },
+    {
+     "key": "JP05-A-030",
+     "type": "true_false",
+     "prompt": "「一じゅう三さい」の三さいには、ごはんとつけ物も数える。",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "三さいは三つのおかず。ごはんとつけ物は数えないよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 26,
+   "theme_key": "heritage",
+   "theme_name": "観光地・文化",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "JP06-A-001",
+     "type": "multiple_choice",
+     "prompt": "日本が世界いさん条約をむすんだ年は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "1992年",
+       "is_correct": true
+      },
+      {
+       "label": "1972年",
+       "is_correct": false
+      },
+      {
+       "label": "2002年",
+       "is_correct": false
+      },
+      {
+       "label": "2012年",
+       "is_correct": false
+      }
+     ],
+     "explanation": "日本は、1992年に世界いさん条約をむすんだよ。"
+    },
+    {
+     "key": "JP06-A-002",
+     "type": "multiple_choice",
+     "prompt": "紀伊山地（きいさんち）のれい場と参けい道がまたがる三県は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "青森・秋田・岩手",
+       "is_correct": false
+      },
+      {
+       "label": "三重・奈良・和歌山",
+       "is_correct": true
+      },
+      {
+       "label": "東京・千葉・埼玉",
+       "is_correct": false
+      },
+      {
+       "label": "鳥取・島根・岡山",
+       "is_correct": false
+      }
+     ],
+     "explanation": "この世界いさんは、紀伊半島の三県にまたがっているよ。"
+    },
+    {
+     "key": "JP06-A-003",
+     "type": "multiple_choice",
+     "prompt": "富岡製糸場（とみおかせいしじょう）で作られたものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ガラス",
+       "is_correct": false
+      },
+      {
+       "label": "紙",
+       "is_correct": false
+      },
+      {
+       "label": "鉄",
+       "is_correct": false
+      },
+      {
+       "label": "生糸",
+       "is_correct": true
+      }
+     ],
+     "explanation": "富岡製糸場では、かいこのまゆから生糸を作ったよ。"
+    },
+    {
+     "key": "JP06-A-004",
+     "type": "multiple_choice",
+     "prompt": "国宝の天守がのこる城はどれ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "大阪城",
+       "is_correct": false
+      },
+      {
+       "label": "広島城",
+       "is_correct": false
+      },
+      {
+       "label": "彦根城",
+       "is_correct": true
+      },
+      {
+       "label": "名古屋城",
+       "is_correct": false
+      }
+     ],
+     "explanation": "彦根城には、江戸時代からのこる国宝の天守があるよ。"
+    },
+    {
+     "key": "JP06-A-005",
+     "type": "multiple_choice",
+     "prompt": "松江城（まつえじょう）がある県は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "鳥取県",
+       "is_correct": false
+      },
+      {
+       "label": "岡山県",
+       "is_correct": false
+      },
+      {
+       "label": "島根県",
+       "is_correct": true
+      },
+      {
+       "label": "山口県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "松江城は、島根県松江市にある国宝の城だよ。"
+    },
+    {
+     "key": "JP06-A-006",
+     "type": "multiple_choice",
+     "prompt": "犬山城（いぬやまじょう）の近くを流れる大きな川は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "石狩川",
+       "is_correct": false
+      },
+      {
+       "label": "利根川",
+       "is_correct": false
+      },
+      {
+       "label": "信濃川",
+       "is_correct": false
+      },
+      {
+       "label": "木曽川",
+       "is_correct": true
+      }
+     ],
+     "explanation": "犬山城は、愛知県の木曽川を見下ろす場所に立つよ。"
+    },
+    {
+     "key": "JP06-A-007",
+     "type": "multiple_choice",
+     "prompt": "日光東照宮（にっこうとうしょうぐう）にまつられている人物は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "聖徳太子（しょうとくたいし）",
+       "is_correct": false
+      },
+      {
+       "label": "坂本龍馬（さかもとりょうま）",
+       "is_correct": false
+      },
+      {
+       "label": "徳川家康（とくがわいえやす）",
+       "is_correct": true
+      },
+      {
+       "label": "紫式部（むらさきしきぶ）",
+       "is_correct": false
+      }
+     ],
+     "explanation": "日光東照宮には、徳川家康がまつられているよ。"
+    },
+    {
+     "key": "JP06-A-008",
+     "type": "multiple_choice",
+     "prompt": "金閣（きんかく）がある寺の正式な名前は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "東福寺（とうふくじ）",
+       "is_correct": false
+      },
+      {
+       "label": "建仁寺（けんにんじ）",
+       "is_correct": false
+      },
+      {
+       "label": "龍安寺（りょうあんじ）",
+       "is_correct": false
+      },
+      {
+       "label": "鹿苑寺（ろくおんじ）",
+       "is_correct": true
+      }
+     ],
+     "explanation": "金閣がある寺は、正式には鹿苑寺というよ。"
+    },
+    {
+     "key": "JP06-A-009",
+     "type": "multiple_choice",
+     "prompt": "奈良の大ぶつの主なざいりょうは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ガラス",
+       "is_correct": false
+      },
+      {
+       "label": "木",
+       "is_correct": false
+      },
+      {
+       "label": "石",
+       "is_correct": false
+      },
+      {
+       "label": "青銅",
+       "is_correct": true
+      }
+     ],
+     "explanation": "奈良の大ぶつは、主に青銅で作られた大きなぶつぞうだよ。"
+    },
+    {
+     "key": "JP06-A-010",
+     "type": "multiple_choice",
+     "prompt": "栗林公園（りつりんこうえん）がある県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "茨城県",
+       "is_correct": false
+      },
+      {
+       "label": "香川県",
+       "is_correct": true
+      },
+      {
+       "label": "岡山県",
+       "is_correct": false
+      },
+      {
+       "label": "石川県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "栗林公園は、香川県高松市にある大名庭園だよ。"
+    },
+    {
+     "key": "JP06-A-011",
+     "type": "multiple_choice",
+     "prompt": "兼六園の名前にある「六」は、何を表す？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "六つの池",
+       "is_correct": false
+      },
+      {
+       "label": "六本の橋",
+       "is_correct": false
+      },
+      {
+       "label": "六つのよい点",
+       "is_correct": true
+      },
+      {
+       "label": "六人の庭師",
+       "is_correct": false
+      }
+     ],
+     "explanation": "兼六園の名は、庭の六つのよい点をかねることから来たよ。"
+    },
+    {
+     "key": "JP06-A-012",
+     "type": "multiple_choice",
+     "prompt": "庭の外にある山などを、庭のけしきに取り入れるくふうは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "雪つり",
+       "is_correct": false
+      },
+      {
+       "label": "石がき",
+       "is_correct": false
+      },
+      {
+       "label": "借景",
+       "is_correct": true
+      },
+      {
+       "label": "うぐいすばり",
+       "is_correct": false
+      }
+     ],
+     "explanation": "借景（しゃっけい）は、遠くの山なども庭の一部に見せるよ。"
+    },
+    {
+     "key": "JP06-A-013",
+     "type": "multiple_choice",
+     "prompt": "博多祇園山笠（はかたぎおんやまかさ）が行われる市は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "福岡市",
+       "is_correct": true
+      },
+      {
+       "label": "静岡市",
+       "is_correct": false
+      },
+      {
+       "label": "金沢市",
+       "is_correct": false
+      },
+      {
+       "label": "松山市",
+       "is_correct": false
+      }
+     ],
+     "explanation": "博多祇園山笠は、福岡市の博多で行われる祭りだよ。"
+    },
+    {
+     "key": "JP06-A-014",
+     "type": "multiple_choice",
+     "prompt": "高山祭（たかやままつり）で引かれる、かざりの美しい山車は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "屋台",
+       "is_correct": true
+      },
+      {
+       "label": "鳴子",
+       "is_correct": false
+      },
+      {
+       "label": "竿燈",
+       "is_correct": false
+      },
+      {
+       "label": "ねぶた",
+       "is_correct": false
+      }
+     ],
+     "explanation": "高山祭では、からくりなどをそなえた屋台が引かれるよ。"
+    },
+    {
+     "key": "JP06-A-015",
+     "type": "multiple_choice",
+     "prompt": "山車と花火で知られる秩父夜祭（ちちぶよまつり）の県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "新潟県",
+       "is_correct": false
+      },
+      {
+       "label": "群馬県",
+       "is_correct": false
+      },
+      {
+       "label": "埼玉県",
+       "is_correct": true
+      },
+      {
+       "label": "栃木県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "秩父夜祭は、埼玉県秩父市で行われる冬の祭りだよ。"
+    },
+    {
+     "key": "JP06-A-016",
+     "type": "multiple_choice",
+     "prompt": "能と狂言を合わせて何という？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "能楽",
+       "is_correct": true
+      },
+      {
+       "label": "歌舞伎",
+       "is_correct": false
+      },
+      {
+       "label": "文楽",
+       "is_correct": false
+      },
+      {
+       "label": "落語",
+       "is_correct": false
+      }
+     ],
+     "explanation": "能と狂言は同じ舞台で受けつがれ、合わせて能楽というよ。"
+    },
+    {
+     "key": "JP06-A-017",
+     "type": "multiple_choice",
+     "prompt": "歌舞伎のぶたいで、丸く回って場面をかえる部分は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "黒みす",
+       "is_correct": false
+      },
+      {
+       "label": "奈落",
+       "is_correct": false
+      },
+      {
+       "label": "回りぶたい",
+       "is_correct": true
+      },
+      {
+       "label": "花道",
+       "is_correct": false
+      }
+     ],
+     "explanation": "回りぶたいを動かすと、すばやく場面をかえられるよ。"
+    },
+    {
+     "key": "JP06-A-018",
+     "type": "multiple_choice",
+     "prompt": "琉球王国（りゅうきゅうおうこく）で生まれた歌とおどりのげきは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "狂言",
+       "is_correct": false
+      },
+      {
+       "label": "文楽",
+       "is_correct": false
+      },
+      {
+       "label": "組踊（くみおどり）",
+       "is_correct": true
+      },
+      {
+       "label": "落語",
+       "is_correct": false
+      }
+     ],
+     "explanation": "組踊は、琉球王国で生まれた伝統げいのうだよ。"
+    },
+    {
+     "key": "JP06-A-019",
+     "type": "multiple_choice",
+     "prompt": "われたやき物を、うるしなどでつなぐ直し方は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "型ぞめ",
+       "is_correct": false
+      },
+      {
+       "label": "金つぎ",
+       "is_correct": true
+      },
+      {
+       "label": "木版ずり",
+       "is_correct": false
+      },
+      {
+       "label": "かれ山水",
+       "is_correct": false
+      }
+     ],
+     "explanation": "金つぎは、うるしでつなぎ、金粉などで仕上げる直し方だよ。"
+    },
+    {
+     "key": "JP06-A-020",
+     "type": "multiple_choice",
+     "prompt": "友禅（ゆうぜん）は、主に何をするわざ？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "布をそめる",
+       "is_correct": true
+      },
+      {
+       "label": "ガラスをふく",
+       "is_correct": false
+      },
+      {
+       "label": "鉄をうつ",
+       "is_correct": false
+      },
+      {
+       "label": "木をほる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "友禅は、着物などの布に美しいもようをそめるわざだよ。"
+    },
+    {
+     "key": "JP06-A-021",
+     "type": "multiple_choice",
+     "prompt": "南部鉄器（なんぶてっき）で、鉄を流しこむ型は主に何で作る？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "氷",
+       "is_correct": false
+      },
+      {
+       "label": "ガラス",
+       "is_correct": false
+      },
+      {
+       "label": "布",
+       "is_correct": false
+      },
+      {
+       "label": "砂",
+       "is_correct": true
+      }
+     ],
+     "explanation": "南部鉄器では、砂とねん土などで鉄を流す型を作るよ。"
+    },
+    {
+     "key": "JP06-A-022",
+     "type": "multiple_choice",
+     "prompt": "越前和紙（えちぜんわし）が作られてきた県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "富山県",
+       "is_correct": false
+      },
+      {
+       "label": "福井県",
+       "is_correct": true
+      },
+      {
+       "label": "熊本県",
+       "is_correct": false
+      },
+      {
+       "label": "山梨県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "越前和紙は、福井県で長く作られてきた和紙だよ。"
+    },
+    {
+     "key": "JP06-A-023",
+     "type": "multiple_choice",
+     "prompt": "しょうぎ盤のマスは、全部でいくつ？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "64マス",
+       "is_correct": false
+      },
+      {
+       "label": "81マス",
+       "is_correct": true
+      },
+      {
+       "label": "100マス",
+       "is_correct": false
+      },
+      {
+       "label": "72マス",
+       "is_correct": false
+      }
+     ],
+     "explanation": "しょうぎ盤は、たて九マス、横九マスで、全部で81マスだよ。"
+    },
+    {
+     "key": "JP06-A-024",
+     "type": "true_false",
+     "prompt": "しょうぎでは、取った相手のこまを、自分のこまとして使える。",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "取ったこまを自分の番に使えるのが、しょうぎのとくちょうだよ。"
+    },
+    {
+     "key": "JP06-A-025",
+     "type": "multiple_choice",
+     "prompt": "百人一首（ひゃくにんいっしゅ）は、何人の歌を一首ずつ集めたもの？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "200人",
+       "is_correct": false
+      },
+      {
+       "label": "100人",
+       "is_correct": true
+      },
+      {
+       "label": "10人",
+       "is_correct": false
+      },
+      {
+       "label": "50人",
+       "is_correct": false
+      }
+     ],
+     "explanation": "百人一首には、百人の歌人の和歌が一首ずつ入っているよ。"
+    },
+    {
+     "key": "JP06-A-026",
+     "type": "multiple_choice",
+     "prompt": "囲碁（いご）では、石を盤のどこに置く？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "盤の外",
+       "is_correct": false
+      },
+      {
+       "label": "数字の上",
+       "is_correct": false
+      },
+      {
+       "label": "マスのまん中",
+       "is_correct": false
+      },
+      {
+       "label": "線と線が交わる所",
+       "is_correct": true
+      }
+     ],
+     "explanation": "囲碁の石は、たてと横の線が交わる所に置くよ。"
+    },
+    {
+     "key": "JP06-A-027",
+     "type": "multiple_choice",
+     "prompt": "柔道を始めた人物は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "徳川家康（とくがわいえやす）",
+       "is_correct": false
+      },
+      {
+       "label": "嘉納治五郎（かのうじごろう）",
+       "is_correct": true
+      },
+      {
+       "label": "伊能忠敬（いのうただたか）",
+       "is_correct": false
+      },
+      {
+       "label": "福沢諭吉（ふくざわゆきち）",
+       "is_correct": false
+      }
+     ],
+     "explanation": "嘉納治五郎が1882年に柔道を始めたよ。"
+    },
+    {
+     "key": "JP06-A-028",
+     "type": "multiple_choice",
+     "prompt": "剣道の一本になる打つ場所に入らないものは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "ひざ",
+       "is_correct": true
+      },
+      {
+       "label": "胴",
+       "is_correct": false
+      },
+      {
+       "label": "小手",
+       "is_correct": false
+      },
+      {
+       "label": "面",
+       "is_correct": false
+      }
+     ],
+     "explanation": "剣道では、面、小手、胴、つきなどが打つ場所だよ。"
+    },
+    {
+     "key": "JP06-A-029",
+     "type": "multiple_choice",
+     "prompt": "大相撲の土ひょうの直けいに最も近いのは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "約1メートル",
+       "is_correct": false
+      },
+      {
+       "label": "約20メートル",
+       "is_correct": false
+      },
+      {
+       "label": "約10メートル",
+       "is_correct": false
+      },
+      {
+       "label": "約4.55メートル",
+       "is_correct": true
+      }
+     ],
+     "explanation": "大相撲の土ひょうは、直けい約4.55メートルの円だよ。"
+    },
+    {
+     "key": "JP06-A-030",
+     "type": "true_false",
+     "prompt": "国民体育大会は、2024年から「全国体育祭」という名前にかわった。",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "2024年から「国民スポーツ大会」という名前になったよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 27,
+   "theme_key": "geography",
+   "theme_name": "山・川・湖",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "JP07-A-001",
+     "type": "multiple_choice",
+     "prompt": "「北アルプス」の別名は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "奥羽山脈",
+       "is_correct": false
+      },
+      {
+       "label": "赤石山脈",
+       "is_correct": false
+      },
+      {
+       "label": "木曽山脈",
+       "is_correct": false
+      },
+      {
+       "label": "飛騨山脈",
+       "is_correct": true
+      }
+     ],
+     "explanation": "北アルプスは、飛騨山脈のよび名だよ。"
+    },
+    {
+     "key": "JP07-A-002",
+     "type": "multiple_choice",
+     "prompt": "「南アルプス」の別名は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "木曽山脈",
+       "is_correct": false
+      },
+      {
+       "label": "飛騨山脈",
+       "is_correct": false
+      },
+      {
+       "label": "赤石山脈",
+       "is_correct": true
+      },
+      {
+       "label": "日高山脈",
+       "is_correct": false
+      }
+     ],
+     "explanation": "南アルプスは、赤石山脈のよび名だよ。"
+    },
+    {
+     "key": "JP07-A-003",
+     "type": "multiple_choice",
+     "prompt": "火山の活動で地面が大きくくぼんだ地形を何という？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "扇状地",
+       "is_correct": false
+      },
+      {
+       "label": "三角州",
+       "is_correct": false
+      },
+      {
+       "label": "海岸段丘",
+       "is_correct": false
+      },
+      {
+       "label": "カルデラ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "カルデラは、ふん火などでできた大きなくぼ地だよ。"
+    },
+    {
+     "key": "JP07-A-004",
+     "type": "multiple_choice",
+     "prompt": "日本で流域面積がもっとも広い川は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "信濃川",
+       "is_correct": false
+      },
+      {
+       "label": "石狩川",
+       "is_correct": false
+      },
+      {
+       "label": "利根川",
+       "is_correct": true
+      },
+      {
+       "label": "吉野川",
+       "is_correct": false
+      }
+     ],
+     "explanation": "利根川は、川に雨水が集まる流域の面積が日本最大だよ。"
+    },
+    {
+     "key": "JP07-A-005",
+     "type": "multiple_choice",
+     "prompt": "北上川（きたかみがわ）が主に流れる二つの県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "岡山県と広島県",
+       "is_correct": false
+      },
+      {
+       "label": "岩手県と宮城県",
+       "is_correct": true
+      },
+      {
+       "label": "群馬県と埼玉県",
+       "is_correct": false
+      },
+      {
+       "label": "秋田県と山形県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "北上川は、岩手県から宮城県へ流れるよ。"
+    },
+    {
+     "key": "JP07-A-006",
+     "type": "multiple_choice",
+     "prompt": "山形県を流れ、日本海へそそぐ川は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "太田川",
+       "is_correct": false
+      },
+      {
+       "label": "球磨川",
+       "is_correct": false
+      },
+      {
+       "label": "最上川",
+       "is_correct": true
+      },
+      {
+       "label": "利根川",
+       "is_correct": false
+      }
+     ],
+     "explanation": "最上川は、山形県内を流れて日本海へそそぐよ。"
+    },
+    {
+     "key": "JP07-A-007",
+     "type": "multiple_choice",
+     "prompt": "オホーツク海と細い水路でつながる北海道の湖は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "諏訪湖",
+       "is_correct": false
+      },
+      {
+       "label": "猪苗代湖",
+       "is_correct": false
+      },
+      {
+       "label": "河口湖",
+       "is_correct": false
+      },
+      {
+       "label": "サロマ湖",
+       "is_correct": true
+      }
+     ],
+     "explanation": "サロマ湖は、海水と淡水がまじる汽水湖だよ。"
+    },
+    {
+     "key": "JP07-A-008",
+     "type": "multiple_choice",
+     "prompt": "大きなカルデラに水がたまってできた北海道の湖は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "霞ヶ浦",
+       "is_correct": false
+      },
+      {
+       "label": "浜名湖",
+       "is_correct": false
+      },
+      {
+       "label": "宍道湖",
+       "is_correct": false
+      },
+      {
+       "label": "屈斜路湖",
+       "is_correct": true
+      }
+     ],
+     "explanation": "屈斜路湖は、火山の大きなくぼ地にできた湖だよ。"
+    },
+    {
+     "key": "JP07-A-009",
+     "type": "multiple_choice",
+     "prompt": "海水が出入りする静岡県の汽水湖（きすいこ）は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "諏訪湖",
+       "is_correct": false
+      },
+      {
+       "label": "十和田湖",
+       "is_correct": false
+      },
+      {
+       "label": "浜名湖",
+       "is_correct": true
+      },
+      {
+       "label": "中禅寺湖",
+       "is_correct": false
+      }
+     ],
+     "explanation": "浜名湖は、遠州灘とつながり海水が出入りするよ。"
+    },
+    {
+     "key": "JP07-A-010",
+     "type": "multiple_choice",
+     "prompt": "屋久島（やくしま）でいちばん高い山は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "利尻山",
+       "is_correct": false
+      },
+      {
+       "label": "筑波山",
+       "is_correct": false
+      },
+      {
+       "label": "宮之浦岳",
+       "is_correct": true
+      },
+      {
+       "label": "大山",
+       "is_correct": false
+      }
+     ],
+     "explanation": "宮之浦岳は、屋久島の中央部にそびえる山だよ。"
+    },
+    {
+     "key": "JP07-A-011",
+     "type": "multiple_choice",
+     "prompt": "利尻島（りしりとう）の中央にそびえる山は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "羊蹄山",
+       "is_correct": false
+      },
+      {
+       "label": "雲仙岳",
+       "is_correct": false
+      },
+      {
+       "label": "岩木山",
+       "is_correct": false
+      },
+      {
+       "label": "利尻山",
+       "is_correct": true
+      }
+     ],
+     "explanation": "利尻山は、利尻島の中央にそびえる火山だよ。"
+    },
+    {
+     "key": "JP07-A-012",
+     "type": "multiple_choice",
+     "prompt": "小豆島（しょうどしま）が主に入る都道府県は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "岡山県",
+       "is_correct": false
+      },
+      {
+       "label": "愛媛県",
+       "is_correct": false
+      },
+      {
+       "label": "香川県",
+       "is_correct": true
+      },
+      {
+       "label": "長崎県",
+       "is_correct": false
+      }
+     ],
+     "explanation": "小豆島は、瀬戸内海にある香川県の島だよ。"
+    },
+    {
+     "key": "JP07-A-013",
+     "type": "multiple_choice",
+     "prompt": "海岸から細長くのびた、砂や小石の地形を何という？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "カルデラ",
+       "is_correct": false
+      },
+      {
+       "label": "三角州",
+       "is_correct": false
+      },
+      {
+       "label": "砂嘴（さし）",
+       "is_correct": true
+      },
+      {
+       "label": "河岸段丘",
+       "is_correct": false
+      }
+     ],
+     "explanation": "砂嘴は、波などが運んだ砂や小石が細長くたまった地形だよ。"
+    },
+    {
+     "key": "JP07-A-014",
+     "type": "multiple_choice",
+     "prompt": "天橋立（あまのはしだて）の細長い陸地は、主に何という地形？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "火口",
+       "is_correct": false
+      },
+      {
+       "label": "氷河",
+       "is_correct": false
+      },
+      {
+       "label": "砂州（さす）",
+       "is_correct": true
+      },
+      {
+       "label": "扇状地",
+       "is_correct": false
+      }
+     ],
+     "explanation": "天橋立は、海の流れで砂がたまってできた砂州だよ。"
+    },
+    {
+     "key": "JP07-A-015",
+     "type": "multiple_choice",
+     "prompt": "さんご礁が広く見られる海岸が多い都道府県は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "長野県",
+       "is_correct": false
+      },
+      {
+       "label": "埼玉県",
+       "is_correct": false
+      },
+      {
+       "label": "群馬県",
+       "is_correct": false
+      },
+      {
+       "label": "沖縄県",
+       "is_correct": true
+      }
+     ],
+     "explanation": "沖縄県の島々では、あたたかい海にさんご礁が広がるよ。"
+    },
+    {
+     "key": "JP07-A-016",
+     "type": "multiple_choice",
+     "prompt": "新潟県で、信濃川や阿賀野川の下流に広がる平野は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "濃尾平野",
+       "is_correct": false
+      },
+      {
+       "label": "庄内平野",
+       "is_correct": false
+      },
+      {
+       "label": "讃岐平野",
+       "is_correct": false
+      },
+      {
+       "label": "越後平野",
+       "is_correct": true
+      }
+     ],
+     "explanation": "越後平野は、信濃川や阿賀野川が運んだ土砂でできたよ。"
+    },
+    {
+     "key": "JP07-A-017",
+     "type": "multiple_choice",
+     "prompt": "有明海の北がわに広がる平野は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "石狩平野",
+       "is_correct": false
+      },
+      {
+       "label": "筑紫平野",
+       "is_correct": true
+      },
+      {
+       "label": "関東平野",
+       "is_correct": false
+      },
+      {
+       "label": "仙台平野",
+       "is_correct": false
+      }
+     ],
+     "explanation": "筑紫平野は、福岡県と佐賀県にまたがる低い平野だよ。"
+    },
+    {
+     "key": "JP07-A-018",
+     "type": "multiple_choice",
+     "prompt": "山にかこまれた、まわりより低く平らな土地を何という？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "半島",
+       "is_correct": false
+      },
+      {
+       "label": "盆地",
+       "is_correct": true
+      },
+      {
+       "label": "河口",
+       "is_correct": false
+      },
+      {
+       "label": "砂州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "山にかこまれた低く平らな土地を盆地というよ。"
+    },
+    {
+     "key": "JP07-A-019",
+     "type": "multiple_choice",
+     "prompt": "温泉法で、温度だけで温泉と認められるのは何度以上？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "40度",
+       "is_correct": false
+      },
+      {
+       "label": "25度",
+       "is_correct": true
+      },
+      {
+       "label": "100度",
+       "is_correct": false
+      },
+      {
+       "label": "10度",
+       "is_correct": false
+      }
+     ],
+     "explanation": "地中から出るとき25度以上なら、温度の条件を満たすよ。"
+    },
+    {
+     "key": "JP07-A-020",
+     "type": "true_false",
+     "prompt": "25度より低くても、決められた物質をふくめば温泉になる。",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "温度か成分のどちらかが基準を満たせば温泉になるよ。"
+    },
+    {
+     "key": "JP07-A-021",
+     "type": "multiple_choice",
+     "prompt": "草津温泉の中心で、湯が流れる有名な場所は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "砂丘",
+       "is_correct": false
+      },
+      {
+       "label": "湿原",
+       "is_correct": false
+      },
+      {
+       "label": "棚田",
+       "is_correct": false
+      },
+      {
+       "label": "湯畑",
+       "is_correct": true
+      }
+     ],
+     "explanation": "湯畑は、草津温泉を代表する湯けむりの場所だよ。"
+    },
+    {
+     "key": "JP07-A-022",
+     "type": "multiple_choice",
+     "prompt": "別府にある八つの温泉地をまとめて何という？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "木曽三川",
+       "is_correct": false
+      },
+      {
+       "label": "日本三景",
+       "is_correct": false
+      },
+      {
+       "label": "富士五湖",
+       "is_correct": false
+      },
+      {
+       "label": "別府八湯",
+       "is_correct": true
+      }
+     ],
+     "explanation": "別府八湯は、別府の八つの温泉地のよび名だよ。"
+    },
+    {
+     "key": "JP07-A-023",
+     "type": "multiple_choice",
+     "prompt": "寒さでこおった滝を何という？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "氷瀑（ひょうばく）",
+       "is_correct": true
+      },
+      {
+       "label": "砂州（さす）",
+       "is_correct": false
+      },
+      {
+       "label": "干潟（ひがた）",
+       "is_correct": false
+      },
+      {
+       "label": "雪原（せつげん）",
+       "is_correct": false
+      }
+     ],
+     "explanation": "こおって白くなった滝を氷瀑というよ。"
+    },
+    {
+     "key": "JP07-A-024",
+     "type": "multiple_choice",
+     "prompt": "大きな岩かべを四段に流れ落ちることで知られる滝は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "吹割の滝",
+       "is_correct": false
+      },
+      {
+       "label": "袋田の滝",
+       "is_correct": true
+      },
+      {
+       "label": "華厳滝",
+       "is_correct": false
+      },
+      {
+       "label": "白糸の滝",
+       "is_correct": false
+      }
+     ],
+     "explanation": "袋田の滝は、岩かべを四段に流れ落ちるよ。"
+    },
+    {
+     "key": "JP07-A-025",
+     "type": "multiple_choice",
+     "prompt": "一段の滝として落差133メートルで知られる滝は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "養老の滝",
+       "is_correct": false
+      },
+      {
+       "label": "音止の滝",
+       "is_correct": false
+      },
+      {
+       "label": "浄蓮の滝",
+       "is_correct": false
+      },
+      {
+       "label": "那智の滝",
+       "is_correct": true
+      }
+     ],
+     "explanation": "那智の滝は、落差133メートルの一段の滝だよ。"
+    },
+    {
+     "key": "JP07-A-026",
+     "type": "multiple_choice",
+     "prompt": "水が岩をけずると、滝の位置は長い時間をかけてどちらへ動く？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "上流側",
+       "is_correct": true
+      },
+      {
+       "label": "下流側",
+       "is_correct": false
+      },
+      {
+       "label": "山頂側だけ",
+       "is_correct": false
+      },
+      {
+       "label": "海の中",
+       "is_correct": false
+      }
+     ],
+     "explanation": "岩がけずられると、滝は少しずつ上流側へ後退するよ。"
+    },
+    {
+     "key": "JP07-A-027",
+     "type": "multiple_choice",
+     "prompt": "三陸復興国立公園があるのは、主にどの海岸？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "九州の東シナ海岸",
+       "is_correct": false
+      },
+      {
+       "label": "四国の瀬戸内海岸",
+       "is_correct": false
+      },
+      {
+       "label": "北海道のオホーツク海岸",
+       "is_correct": false
+      },
+      {
+       "label": "東北の太平洋岸",
+       "is_correct": true
+      }
+     ],
+     "explanation": "三陸復興国立公園は、東北の太平洋岸に広がるよ。"
+    },
+    {
+     "key": "JP07-A-028",
+     "type": "multiple_choice",
+     "prompt": "釧路湿原（くしろしつげん）国立公園が守る代表的な地形は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "砂漠",
+       "is_correct": false
+      },
+      {
+       "label": "氷河",
+       "is_correct": false
+      },
+      {
+       "label": "湿原",
+       "is_correct": true
+      },
+      {
+       "label": "カルスト台地",
+       "is_correct": false
+      }
+     ],
+     "explanation": "釧路湿原国立公園は、広い湿原とそこにすむ生き物を守るよ。"
+    },
+    {
+     "key": "JP07-A-029",
+     "type": "multiple_choice",
+     "prompt": "瀬戸内海国立公園の景色の大きな特ちょうは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "高い火山だけがならぶ",
+       "is_correct": false
+      },
+      {
+       "label": "大きな砂漠がある",
+       "is_correct": false
+      },
+      {
+       "label": "一面に氷河が広がる",
+       "is_correct": false
+      },
+      {
+       "label": "海に多くの島がうかぶ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "瀬戸内海国立公園では、海と多くの島がつくる景色を楽しめるよ。"
+    },
+    {
+     "key": "JP07-A-030",
+     "type": "true_false",
+     "prompt": "日本の国立公園の土地は、すべて国がもっている。",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "国立公園には、国有地のほか、公有地や民有地もあるよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 28,
+   "theme_key": "heritage",
+   "theme_name": "歴史・産業",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "JP08-A-001",
+     "type": "multiple_choice",
+     "prompt": "炭火を入れ、布のしわをのばした道具は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "火打ち石",
+       "is_correct": false
+      },
+      {
+       "label": "行灯（あんどん）",
+       "is_correct": false
+      },
+      {
+       "label": "糸車",
+       "is_correct": false
+      },
+      {
+       "label": "火のし",
+       "is_correct": true
+      }
+     ],
+     "explanation": "火のしは、炭火などの熱で布のしわをのばしたよ。"
+    },
+    {
+     "key": "JP08-A-002",
+     "type": "multiple_choice",
+     "prompt": "上下の石を回し、米やそばなどを粉にした道具は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "くわ",
+       "is_correct": false
+      },
+      {
+       "label": "とうみ",
+       "is_correct": false
+      },
+      {
+       "label": "千歯こき",
+       "is_correct": false
+      },
+      {
+       "label": "石うす",
+       "is_correct": true
+      }
+     ],
+     "explanation": "石うすは、二つの石の間で穀物をすりつぶしたよ。"
+    },
+    {
+     "key": "JP08-A-003",
+     "type": "multiple_choice",
+     "prompt": "電気冷ぞうこが広まる前、食べ物を冷やすために入れたものは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "お湯",
+       "is_correct": false
+      },
+      {
+       "label": "砂",
+       "is_correct": false
+      },
+      {
+       "label": "炭",
+       "is_correct": false
+      },
+      {
+       "label": "氷",
+       "is_correct": true
+      }
+     ],
+     "explanation": "氷を入れて中を冷やす冷ぞうこが使われたよ。"
+    },
+    {
+     "key": "JP08-A-004",
+     "type": "multiple_choice",
+     "prompt": "法隆寺（ほうりゅうじ）と深い関わりをもつ人物は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "源義経（みなもとのよしつね）",
+       "is_correct": false
+      },
+      {
+       "label": "聖徳太子（しょうとくたいし）",
+       "is_correct": true
+      },
+      {
+       "label": "藤原道長（ふじわらのみちなが）",
+       "is_correct": false
+      },
+      {
+       "label": "聖武天皇（しょうむてんのう）",
+       "is_correct": false
+      }
+     ],
+     "explanation": "法隆寺は、聖徳太子と深い関わりをもつ寺だよ。"
+    },
+    {
+     "key": "JP08-A-005",
+     "type": "multiple_choice",
+     "prompt": "奈良の大仏を作るよう命じた天皇は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "後醍醐天皇（ごだいごてんのう）",
+       "is_correct": false
+      },
+      {
+       "label": "明治天皇（めいじてんのう）",
+       "is_correct": false
+      },
+      {
+       "label": "桓武天皇（かんむてんのう）",
+       "is_correct": false
+      },
+      {
+       "label": "聖武天皇（しょうむてんのう）",
+       "is_correct": true
+      }
+     ],
+     "explanation": "聖武天皇は、国の平安を願って大仏を作らせたよ。"
+    },
+    {
+     "key": "JP08-A-006",
+     "type": "multiple_choice",
+     "prompt": "古代に、文字を書くため使われた細長い木の札は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "埴輪（はにわ）",
+       "is_correct": false
+      },
+      {
+       "label": "木簡（もっかん）",
+       "is_correct": true
+      },
+      {
+       "label": "石碑（せきひ）",
+       "is_correct": false
+      },
+      {
+       "label": "銅鏡（どうきょう）",
+       "is_correct": false
+      }
+     ],
+     "explanation": "木簡には、荷物の名や役所の記録などが書かれたよ。"
+    },
+    {
+     "key": "JP08-A-007",
+     "type": "multiple_choice",
+     "prompt": "能（のう）を大きく発展させた人物は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "松尾芭蕉（まつおばしょう）",
+       "is_correct": false
+      },
+      {
+       "label": "近松門左衛門（ちかまつもんざえもん）",
+       "is_correct": false
+      },
+      {
+       "label": "雪舟（せっしゅう）",
+       "is_correct": false
+      },
+      {
+       "label": "世阿弥（ぜあみ）",
+       "is_correct": true
+      }
+     ],
+     "explanation": "世阿弥は、父の観阿弥とともに能を大きく発展させたよ。"
+    },
+    {
+     "key": "JP08-A-008",
+     "type": "multiple_choice",
+     "prompt": "銀閣や書院造などに代表される室町時代の文化は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "天平文化",
+       "is_correct": false
+      },
+      {
+       "label": "元禄文化",
+       "is_correct": false
+      },
+      {
+       "label": "東山文化",
+       "is_correct": true
+      },
+      {
+       "label": "北山文化",
+       "is_correct": false
+      }
+     ],
+     "explanation": "東山文化は、足利義政の時代に京都の東山で栄えたよ。"
+    },
+    {
+     "key": "JP08-A-009",
+     "type": "multiple_choice",
+     "prompt": "鎌倉時代、元が二度日本へせめてきたできごとは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "承久の乱",
+       "is_correct": false
+      },
+      {
+       "label": "応仁の乱",
+       "is_correct": false
+      },
+      {
+       "label": "元寇（げんこう）",
+       "is_correct": true
+      },
+      {
+       "label": "島原の乱",
+       "is_correct": false
+      }
+     ],
+     "explanation": "元寇は、元の軍が二度日本へせめてきたできごとだよ。"
+    },
+    {
+     "key": "JP08-A-010",
+     "type": "multiple_choice",
+     "prompt": "『おくのほそ道』を書いた人物は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "十返舎一九（じっぺんしゃいっく）",
+       "is_correct": false
+      },
+      {
+       "label": "本居宣長（もとおりのりなが）",
+       "is_correct": false
+      },
+      {
+       "label": "松尾芭蕉（まつおばしょう）",
+       "is_correct": true
+      },
+      {
+       "label": "井原西鶴（いはらさいかく）",
+       "is_correct": false
+      }
+     ],
+     "explanation": "松尾芭蕉は、旅をしながら俳句と文を記したよ。"
+    },
+    {
+     "key": "JP08-A-011",
+     "type": "multiple_choice",
+     "prompt": "歩いて日本各地を測量し、日本地図を作った人物は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "間宮林蔵（まみやりんぞう）",
+       "is_correct": false
+      },
+      {
+       "label": "前島密（まえじまひそか）",
+       "is_correct": false
+      },
+      {
+       "label": "伊能忠敬（いのうただたか）",
+       "is_correct": true
+      },
+      {
+       "label": "杉田玄白（すぎたげんぱく）",
+       "is_correct": false
+      }
+     ],
+     "explanation": "伊能忠敬は、各地を測量して細かな日本地図を作ったよ。"
+    },
+    {
+     "key": "JP08-A-012",
+     "type": "multiple_choice",
+     "prompt": "江戸時代、五街道（ごかいどう）の出発点とされた橋は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "錦帯橋",
+       "is_correct": false
+      },
+      {
+       "label": "瀬田の唐橋",
+       "is_correct": false
+      },
+      {
+       "label": "日本橋",
+       "is_correct": true
+      },
+      {
+       "label": "眼鏡橋",
+       "is_correct": false
+      }
+     ],
+     "explanation": "日本橋は、江戸からの五街道の出発点とされたよ。"
+    },
+    {
+     "key": "JP08-A-013",
+     "type": "multiple_choice",
+     "prompt": "1872年、全国に学校を作る仕組みを定めたものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "御成敗式目",
+       "is_correct": false
+      },
+      {
+       "label": "武家諸法度",
+       "is_correct": false
+      },
+      {
+       "label": "学制",
+       "is_correct": true
+      },
+      {
+       "label": "五箇条の御誓文",
+       "is_correct": false
+      }
+     ],
+     "explanation": "学制は、近代の学校制度を全国に広げるもとになったよ。"
+    },
+    {
+     "key": "JP08-A-014",
+     "type": "multiple_choice",
+     "prompt": "昭和の高度成長期に「三種の神器」とよばれた家電の組み合わせは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ラジオ・電灯・アイロン",
+       "is_correct": false
+      },
+      {
+       "label": "テレビ・せんたく機・冷ぞうこ",
+       "is_correct": true
+      },
+      {
+       "label": "車・船・飛行機",
+       "is_correct": false
+      },
+      {
+       "label": "電話・時計・カメラ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "テレビ・せんたく機・冷ぞうこが、くらしのあこがれになったよ。"
+    },
+    {
+     "key": "JP08-A-015",
+     "type": "multiple_choice",
+     "prompt": "1970年に日本万国博覧会が開かれた都道府県は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "沖縄県",
+       "is_correct": false
+      },
+      {
+       "label": "愛知県",
+       "is_correct": false
+      },
+      {
+       "label": "大阪府",
+       "is_correct": true
+      },
+      {
+       "label": "東京都",
+       "is_correct": false
+      }
+     ],
+     "explanation": "1970年の日本万国博覧会は、大阪府で開かれたよ。"
+    },
+    {
+     "key": "JP08-A-016",
+     "type": "multiple_choice",
+     "prompt": "同じ畑で作る作物を順番に変える方法は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "放牧",
+       "is_correct": false
+      },
+      {
+       "label": "二毛作",
+       "is_correct": false
+      },
+      {
+       "label": "輪作（りんさく）",
+       "is_correct": true
+      },
+      {
+       "label": "促成栽培",
+       "is_correct": false
+      }
+     ],
+     "explanation": "輪作は、作物の種類を順番に変えて畑を使う方法だよ。"
+    },
+    {
+     "key": "JP08-A-017",
+     "type": "multiple_choice",
+     "prompt": "農産物の生産に加え、加工や販売にも取り組むことを何という？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "土地改良",
+       "is_correct": false
+      },
+      {
+       "label": "6次産業化",
+       "is_correct": true
+      },
+      {
+       "label": "輪作",
+       "is_correct": false
+      },
+      {
+       "label": "品種改良",
+       "is_correct": false
+      }
+     ],
+     "explanation": "6次産業化は、生産と加工、販売を組み合わせる取組だよ。"
+    },
+    {
+     "key": "JP08-A-018",
+     "type": "multiple_choice",
+     "prompt": "田畑へ水を運ぶために作られた水路は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "地下道",
+       "is_correct": false
+      },
+      {
+       "label": "魚道",
+       "is_correct": false
+      },
+      {
+       "label": "航路",
+       "is_correct": false
+      },
+      {
+       "label": "用水路",
+       "is_correct": true
+      }
+     ],
+     "explanation": "用水路は、川などから田畑へ水を運ぶための水路だよ。"
+    },
+    {
+     "key": "JP08-A-019",
+     "type": "multiple_choice",
+     "prompt": "海の決まった場所に網を置き、入った魚をとる漁法は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "定置網漁（ていちあみりょう）",
+       "is_correct": true
+      },
+      {
+       "label": "一本釣り",
+       "is_correct": false
+      },
+      {
+       "label": "地びき網漁",
+       "is_correct": false
+      },
+      {
+       "label": "底びき網漁",
+       "is_correct": false
+      }
+     ],
+     "explanation": "定置網漁は、海に置いた網へ入った魚をとる方法だよ。"
+    },
+    {
+     "key": "JP08-A-020",
+     "type": "multiple_choice",
+     "prompt": "森の木がこみすぎないよう、一部を切る作業は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "稲刈り",
+       "is_correct": false
+      },
+      {
+       "label": "田植え",
+       "is_correct": false
+      },
+      {
+       "label": "間伐（かんばつ）",
+       "is_correct": true
+      },
+      {
+       "label": "養殖",
+       "is_correct": false
+      }
+     ],
+     "explanation": "間伐で木の間をあけると、残った木に光が届くよ。"
+    },
+    {
+     "key": "JP08-A-021",
+     "type": "multiple_choice",
+     "prompt": "木材を育てるため、なえ木を山などに植えることは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "干拓",
+       "is_correct": false
+      },
+      {
+       "label": "植林（しょくりん）",
+       "is_correct": true
+      },
+      {
+       "label": "埋め立て",
+       "is_correct": false
+      },
+      {
+       "label": "放流",
+       "is_correct": false
+      }
+     ],
+     "explanation": "植林は、木を育てるためになえ木を植える作業だよ。"
+    },
+    {
+     "key": "JP08-A-022",
+     "type": "multiple_choice",
+     "prompt": "森の土が雨水をたくわえることで役立つのは？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "火山を冷やす",
+       "is_correct": false
+      },
+      {
+       "label": "海水を甘くする",
+       "is_correct": false
+      },
+      {
+       "label": "川の水を保つ",
+       "is_correct": true
+      },
+      {
+       "label": "風を止めるだけ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "森は雨水をたくわえ、川へ流れる水をゆるやかにするよ。"
+    },
+    {
+     "key": "JP08-A-023",
+     "type": "multiple_choice",
+     "prompt": "大阪府と兵庫県を中心に広がる工業地帯は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "京浜工業地帯",
+       "is_correct": false
+      },
+      {
+       "label": "北九州工業地帯",
+       "is_correct": false
+      },
+      {
+       "label": "阪神工業地帯",
+       "is_correct": true
+      },
+      {
+       "label": "中京工業地帯",
+       "is_correct": false
+      }
+     ],
+     "explanation": "阪神工業地帯は、大阪湾沿岸などに広がるよ。"
+    },
+    {
+     "key": "JP08-A-024",
+     "type": "multiple_choice",
+     "prompt": "石油を材料にする工場が、配管でつながって集まる場所は？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "物流倉庫",
+       "is_correct": false
+      },
+      {
+       "label": "発電用ダム",
+       "is_correct": false
+      },
+      {
+       "label": "卸売市場",
+       "is_correct": false
+      },
+      {
+       "label": "石油化学コンビナート",
+       "is_correct": true
+      }
+     ],
+     "explanation": "石油化学コンビナートでは、工場が配管でつながるよ。"
+    },
+    {
+     "key": "JP08-A-025",
+     "type": "multiple_choice",
+     "prompt": "材料を加工し、製品を作る産業をまとめて何という？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "製造業",
+       "is_correct": true
+      },
+      {
+       "label": "水産業",
+       "is_correct": false
+      },
+      {
+       "label": "農業",
+       "is_correct": false
+      },
+      {
+       "label": "金融業",
+       "is_correct": false
+      }
+     ],
+     "explanation": "製造業は、材料を加工してさまざまな製品を作る産業だよ。"
+    },
+    {
+     "key": "JP08-A-026",
+     "type": "multiple_choice",
+     "prompt": "瀬戸内海の沿岸に広がる工業地域は？",
+     "grade": 5,
+     "choices": [
+      {
+       "label": "瀬戸内工業地域",
+       "is_correct": true
+      },
+      {
+       "label": "京葉工業地域",
+       "is_correct": false
+      },
+      {
+       "label": "東海工業地域",
+       "is_correct": false
+      },
+      {
+       "label": "関東内陸工業地域",
+       "is_correct": false
+      }
+     ],
+     "explanation": "瀬戸内工業地域は、瀬戸内海の沿岸に広がるよ。"
+    },
+    {
+     "key": "JP08-A-027",
+     "type": "multiple_choice",
+     "prompt": "太陽・風・水・地熱など、くり返し使える自然の力は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "工業用水",
+       "is_correct": false
+      },
+      {
+       "label": "地下資源",
+       "is_correct": false
+      },
+      {
+       "label": "再生可能エネルギー",
+       "is_correct": true
+      },
+      {
+       "label": "化石燃料",
+       "is_correct": false
+      }
+     ],
+     "explanation": "自然の力を利用し、くり返し使えるものを再生可能エネルギーというよ。"
+    },
+    {
+     "key": "JP08-A-028",
+     "type": "multiple_choice",
+     "prompt": "電気を安定してとどけるため、発電量と使う量をどうする？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "使う量をゼロにする",
+       "is_correct": false
+      },
+      {
+       "label": "発電量をいつも二倍にする",
+       "is_correct": false
+      },
+      {
+       "label": "同じになるよう合わせる",
+       "is_correct": true
+      },
+      {
+       "label": "天気だけで決める",
+       "is_correct": false
+      }
+     ],
+     "explanation": "電気は、作る量と使う量を同じ時に合わせる必要があるよ。"
+    },
+    {
+     "key": "JP08-A-029",
+     "type": "true_false",
+     "prompt": "貨物コンテナの大きさや形には、世界共通の規格がある。",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "共通の規格があるため、世界の港や乗り物で運びやすいよ。"
+    },
+    {
+     "key": "JP08-A-030",
+     "type": "multiple_choice",
+     "prompt": "都市と都市を高速で結ぶ、日本の代表的な鉄道は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "モノレール",
+       "is_correct": false
+      },
+      {
+       "label": "新幹線",
+       "is_correct": true
+      },
+      {
+       "label": "ケーブルカー",
+       "is_correct": false
+      },
+      {
+       "label": "路面電車",
+       "is_correct": false
+      }
+     ],
+     "explanation": "新幹線は、都市の間を高速で結ぶ鉄道だよ。"
+    }
+   ]
+  }
+ ]
+}

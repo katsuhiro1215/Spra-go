@@ -16,6 +16,8 @@ export type QuizQuestion = {
     layout?: "slots";
     /** ふりがなを付けない語(難読地名の問題の、問われる漢字) */
     plain?: string[];
+    /** true のとき、絵・地図がなくても、その国の国旗を出さない(日本のコースの分野ごとの問題) */
+    no_flag?: boolean;
     /** その問題だけの読み(地名など。名前 → ひらがな) */
     readings?: Record<string, string>;
   } | null;

@@ -126,6 +126,7 @@ export function QuizSession({
   questions,
   title,
   stageNumber = null,
+  themeName = null,
   allowRestart,
   backLabel,
   nextHref = null,
@@ -137,6 +138,8 @@ export function QuizSession({
   title: ReactNode;
   // ステージ開始のカードに出す番号。復習では出さない
   stageNumber?: number | null;
+  // ステージのテーマの名前(ルールのカードに出す。ないステージもある)
+  themeName?: string | null;
   // 結果の画面の「もう一度」(全部やり直し)。復習では、正解した問題でごほうびが2回もらえてしまうため出さない
   allowRestart: boolean;
   backLabel: string;
@@ -611,6 +614,7 @@ export function QuizSession({
         <StageRulesCard
           key={runId}
           stageNumber={stageNumber}
+          themeName={themeName}
           playCount={rules.playCount}
           required={rules.required}
           isBoss={rules.isBoss}
@@ -627,13 +631,14 @@ export function QuizSession({
             <ReportQuestion key={question.id} questionId={question.id} />
           </div>
           <div>
-            <p className="flex items-center gap-2 pr-16 text-sm text-[#6b5d45]">
-              {practice ? "もう一度チャレンジ" : title}
-              <span>
+            {/* テーマの名前が付くと長いので、項目ごとに折り返す(項目の途中では切らない) */}
+            <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5 pr-16 text-sm text-[#6b5d45]">
+              <span className="flex items-center gap-2 whitespace-nowrap">{practice ? "もう一度チャレンジ" : title}</span>
+              <span className="whitespace-nowrap">
                 ・ 問題 {currentIndex + 1} / {round.length}
               </span>
               {timed && rules && (
-                <span className="font-black text-[#2e6b1c]">
+                <span className="font-black whitespace-nowrap text-[#2e6b1c]">
                   ・ せいかい {stageScore} / {rules.required}
                 </span>
               )}
@@ -667,7 +672,8 @@ export function QuizSession({
                 />
               </div>
             ) : (
-              question.country && (
+              question.country &&
+              !question.meta?.no_flag && (
                 <div className="relative mx-auto mt-4 h-28 w-44 overflow-hidden rounded-lg border border-[#e8dfcf] shadow-sm">
                   <Image
                     src={flagSrc(question.country.code)}

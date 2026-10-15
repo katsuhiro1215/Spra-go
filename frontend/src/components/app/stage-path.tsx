@@ -8,6 +8,8 @@ import { SPRU_STAGES } from "@/components/spru/spru-assets";
 export type StagePathNode = {
   id: number;
   stage_number: number;
+  /** ステージのテーマの名前。あれば、ステージの横に出す */
+  theme_name?: string | null;
   is_boss: boolean;
   title_reward: string | null;
   cleared: boolean;
@@ -87,6 +89,14 @@ export function StagePath({
                 {stage.stage_number}
               </span>
             </button>
+            {stage.theme_name ? (
+              // 道の真ん中より広い側に出す(蛇行で左右に揺れるので、はみ出さないように)
+              <span
+                className={`pointer-events-none absolute top-1/2 w-24 -translate-y-1/2 text-[11px] leading-tight font-black text-[#3b3226] ${offset > 0 ? "right-full mr-2 text-right" : "left-full ml-2 text-left"} ${stage.locked ? "opacity-60" : ""}`}
+              >
+                {stage.theme_name}
+              </span>
+            ) : null}
           </div>
         );
       })}

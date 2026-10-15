@@ -15,6 +15,7 @@ class Stage extends Model
         'region_id',
         'difficulty',
         'stage_number',
+        'theme_name',
         'question_theme_id',
         'question_count',
         'is_boss',

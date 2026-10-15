@@ -921,6 +921,7 @@ Route::middleware(['auth:sanctum'])->get('/countries/{country}', function (Reque
                     'stages' => $group->map(fn (Stage $s) => [
                         'id' => $s->id,
                         'stage_number' => $s->stage_number,
+                        'theme_name' => $s->theme_name,
                         'is_boss' => $s->is_boss,
                         'title_reward' => $s->title_reward,
                         'cleared' => in_array($s->id, $clearedStageIds, true),
@@ -1280,7 +1281,16 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $r
         : Question::query()->with(['choices', 'country'])->whereIn('id', $reviewIds)->get(['id', 'type', 'prompt', 'country_id', 'meta']);
     $questions->each(fn (Question $question) => $question->setAttribute('review', false));
     $reviews->each(fn (Question $question) => $question->setAttribute('review', true));
-    $questions = $questions->concat($reviews)->shuffle()->values();
+    if ($stage->is_pool) {
+        // 抽選したステージは、抽選のときの並び(やさしい順・同じ問題文が続かない)を保ち、おさらいの問題を、ところどころに差しこむ
+        $merged = $questions->all();
+        foreach ($reviews as $review) {
+            array_splice($merged, random_int(0, count($merged)), 0, [$review]);
+        }
+        $questions = collect($merged)->values();
+    } else {
+        $questions = $questions->concat($reviews)->shuffle()->values();
+    }
 
     PlayableQuestion::present($questions);
     // 前に答えた英単語は、ときどきスペルを並べる形にする(docs/design/2026-10-09-review-variety-design.md 3章)
@@ -1296,6 +1306,7 @@ Route::middleware(['auth:sanctum'])->get('/stages/{stage}', function (Request $r
         'category' => $stage->category,
         'difficulty' => $stage->difficulty,
         'stage_number' => $stage->stage_number,
+        'theme_name' => $stage->theme_name,
         'is_boss' => $stage->is_boss,
         'title_reward' => $stage->title_reward,
         // ステージの始まりのカード(「10もん ちゅう 6もん せいかいで クリア」)に出す数

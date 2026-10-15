@@ -230,8 +230,14 @@ class StageDraw
      */
     private static function arrange(array $ids): array
     {
+        $questions = Question::query()->whereIn('id', $ids)->get(['id', 'prompt', 'meta']);
+        // 難しさ(meta.grade)がある問題は、やさしい順に並べる(同じ難しさのなかは、ばらばら)。ステージのなかが、なだらかな坂道になる
+        if ($questions->contains(fn (Question $question) => isset($question->meta['grade']))) {
+            return self::arrangeByGrade($questions);
+        }
+
         shuffle($ids);
-        $groups = Question::query()->whereIn('id', $ids)->pluck('prompt', 'id')->all();
+        $groups = $questions->pluck('prompt', 'id')->all();
         $byPrompt = [];
         foreach ($ids as $id) {
             $byPrompt[$groups[$id]][] = $id;
@@ -253,5 +259,30 @@ class StageDraw
         }
 
         return $result;
+    }
+
+    /**
+     * やさしい順(grade 昇順。少しゆらす)に並べて、同じ問題文が続かないように入れ替える
+     *
+     * @param  \Illuminate\Support\Collection<int, Question>  $questions
+     * @return list<int>
+     */
+    private static function arrangeByGrade($questions): array
+    {
+        $ordered = $questions->sortBy(fn (Question $question) => (int) ($question->meta['grade'] ?? 3) + mt_rand(0, 90) / 100)->values()->all();
+
+        for ($i = 1; $i < count($ordered); $i++) {
+            if ($ordered[$i]->prompt !== $ordered[$i - 1]->prompt) {
+                continue;
+            }
+            for ($j = $i + 1; $j < count($ordered); $j++) {
+                if ($ordered[$j]->prompt !== $ordered[$i - 1]->prompt) {
+                    [$ordered[$i], $ordered[$j]] = [$ordered[$j], $ordered[$i]];
+                    break;
+                }
+            }
+        }
+
+        return array_map(fn (Question $question) => (int) $question->id, $ordered);
     }
 }

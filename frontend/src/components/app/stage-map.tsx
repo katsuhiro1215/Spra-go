@@ -116,6 +116,14 @@ export function StageMap({
                 {stage.stage_number}
               </span>
             </button>
+            {stage.theme_name ? (
+              // テーマの名前。道の真ん中より広い側に出す(はみ出さないように)
+              <span
+                className={`pointer-events-none absolute top-1/2 w-24 -translate-y-1/2 rounded-lg bg-[#fffaf0]/90 px-1.5 py-0.5 text-[11px] leading-tight font-black text-[#3b3226] shadow-sm ${point.x < WIDTH / 2 ? "left-full ml-1.5 text-left" : "right-full mr-1.5 text-right"} ${stage.locked ? "opacity-70" : ""}`}
+              >
+                {stage.theme_name}
+              </span>
+            ) : null}
           </div>
         );
       })}

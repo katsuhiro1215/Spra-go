@@ -27,6 +27,7 @@ import { flagSrc } from "@/lib/flag";
 type StageSummary = {
   id: number;
   stage_number: number;
+  theme_name?: string | null;
   is_boss: boolean;
   title_reward: string | null;
   cleared: boolean;
