@@ -37,7 +37,7 @@ function empty(state: RunState): RunState {
 }
 
 /**
- * お手本の子: 前のじゃまものまでの近さで跳ぶ。高いものは、てっぺんで2段目を跳ぶ。
+ * お手本の子: 前のじゃまものまでの近さで跳ぶ。高いものは、近づいたら、てっぺんで2段目を跳ぶ。
  * どのコースも、この子が走りきれる = こえられる並びになっている
  */
 function bot(state: RunState): RunState {
@@ -48,7 +48,8 @@ function bot(state: RunState): RunState {
   const tall = OBSTACLES[next.kind].tall;
   const grounded = state.y <= 0 && state.vy <= 0;
   if (grounded && d > 0 && d <= state.speed * (tall ? 0.45 : 0.15)) return jump(state);
-  if (tall && !grounded && state.jumps === 1 && state.vy <= 0) return jump(state);
+  // 2段目は、その高いじゃまものが近いときだけ(遠くのものを見て、早く跳ばない)
+  if (tall && !grounded && state.jumps === 1 && state.vy <= 0 && d <= state.speed * 0.45) return jump(state);
   return state;
 }
 

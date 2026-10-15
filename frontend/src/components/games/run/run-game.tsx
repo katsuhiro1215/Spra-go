@@ -6,7 +6,6 @@ import Image from "next/image";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { Button as AppButton } from "@/components/app/button";
 import { useSound } from "@/components/app/sound-provider";
-import { SPRU_IMAGES } from "@/components/spru/spru-assets";
 import { prefersReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -20,17 +19,24 @@ import {
   SPRU_W,
   SPRU_X,
   tick,
-  type ObstacleKind,
   type RunState,
 } from "./run-engine";
-import { bottomCss, GROUND_CQH, isBlinkOff, RUN_HINT, scrollCqw, sizeCqw, spruPose } from "./run-view";
+import { RUN_ASSETS } from "./run-assets";
+import { bottomCss, GROUND_CQH, isBlinkOff, obstacleDraw, RUN_HINT, scrollCqw, sizeCqw, spruDraw, spruPose } from "./run-view";
 
 const COUNTDOWN_FROM = 3;
 const COUNTDOWN_STEP_MS = 700;
-/** スプルの絵の大きさ(ゲームの中の広さ。当たりの箱より大きく描く) */
-const SPRU_DRAW_H = 78;
+/** スプルの絵の大きさ(走る1枚目の高さ。ゲームの中の広さ。当たりの箱より大きく描く) */
+const SPRU_DRAW_H = 80;
+/** タネの絵の高さ(当たりの円より少し大きく描く) */
+const SEED_DRAW_H = SEED_R * 2.6;
+/** 地面の絵の、草の線(スプルが立つ所)の位置。絵の上からの割合 */
+const GROUND_LINE = 0.22;
+/** 地面・草はら・山の絵の高さ(場面の横幅に合わせたとき。cqw) */
+const groundCqw = (100 * RUN_ASSETS["bg-ground"].height) / RUN_ASSETS["bg-ground"].width;
+const layerCqw = (100 * RUN_ASSETS["bg-meadow"].height) / RUN_ASSETS["bg-meadow"].width;
 
-/** スプルランのゲームの画面(docs/design/2026-10-22-spru-run-design.md 5章)。絵が届くまでは、スプル以外を仮の図形で描く */
+/** スプルランのゲームの画面(docs/design/2026-10-22-spru-run-design.md 5章)。絵は tools/spru-run/build_assets.py が作る */
 export function RunGame({ seed, onFinish, onQuit }: { seed: number; onFinish: (state: RunState) => void; onQuit: () => void }) {
   const { play: playSound } = useSound();
   const [state, setState] = useState(() => createRun(seed));
@@ -108,50 +114,44 @@ export function RunGame({ seed, onFinish, onQuit }: { seed: number; onFinish: (s
     setState((current) => jump(current));
   };
 
-  const pose = SPRU_IMAGES[spruPose(state)];
-  const spruDrawW = (SPRU_DRAW_H * pose.width) / pose.height;
+  const spru = spruDraw(spruPose(state), SPRU_DRAW_H);
   const scroll = (factor: number): CSSProperties["backgroundPositionX"] => (calm && factor < 1 ? 0 : scrollCqw(state.distance, factor));
 
   return (
     <div className="fixed inset-0 z-40 flex touch-none justify-center bg-[#8fd3ff] select-none" onPointerDown={onTap}>
       {/* 場面(画面いっぱい。大きさは横幅の割合、高さは地面からの位置) */}
       <div
-        className="relative h-full w-full max-w-md overflow-hidden [container-type:size]"
-        style={{ background: "linear-gradient(to bottom, #6cc4ff, #bfe7ff 55%, #e6f6ff)" }}
+        className="relative h-full w-full max-w-md overflow-hidden bg-[#6ebef5] bg-cover bg-top [container-type:size]"
+        style={{ backgroundImage: `url(${RUN_ASSETS["bg-sky"].src})` }}
       >
-        {/* 遠くの山 */}
+        {/* 遠くの山・近くの草はら(下の方は、地面の後ろにかくれる) */}
+        {(
+          [
+            ["bg-hills", 0.15, 9],
+            ["bg-meadow", 0.45, 0],
+          ] as const
+        ).map(([key, factor, raise]) => (
+          <div
+            key={key}
+            aria-hidden
+            className="absolute inset-x-0 bg-repeat-x"
+            style={{
+              bottom: `calc(${GROUND_CQH}cqh + ${raise}cqw)`,
+              height: `${layerCqw}cqw`,
+              backgroundImage: `url(${RUN_ASSETS[key].src})`,
+              backgroundSize: "100cqw 100%",
+              backgroundPositionX: scroll(factor),
+            }}
+          />
+        ))}
+        {/* 地面(草の線が、スプルの足もと) */}
         <div
           aria-hidden
-          className="absolute inset-x-0 h-[34cqw]"
+          className="absolute inset-x-0 bottom-0 bg-[#b96930] bg-repeat-x"
           style={{
-            bottom: `${GROUND_CQH}cqh`,
-            backgroundImage:
-              "radial-gradient(ellipse 26cqw 30cqw at 22cqw 100%, #a8d995 98%, transparent 100%), radial-gradient(ellipse 18cqw 20cqw at 50cqw 100%, #93cc7f 98%, transparent 100%)",
-            backgroundSize: "64cqw 100%",
-            backgroundRepeat: "repeat-x",
-            backgroundPositionX: scroll(0.15),
-          }}
-        />
-        {/* 近くの草はら */}
-        <div
-          aria-hidden
-          className="absolute inset-x-0 h-[14cqw]"
-          style={{
-            bottom: `${GROUND_CQH}cqh`,
-            backgroundImage: "radial-gradient(ellipse 22cqw 14cqw at 11cqw 100%, #6fbf55 98%, transparent 100%)",
-            backgroundSize: "26cqw 100%",
-            backgroundRepeat: "repeat-x",
-            backgroundPositionX: scroll(0.45),
-          }}
-        />
-        {/* 地面 */}
-        <div
-          aria-hidden
-          className="absolute inset-x-0 bottom-0 border-t-4 border-[#5aa83f]"
-          style={{
-            height: `${GROUND_CQH}cqh`,
-            backgroundColor: "#c99a62",
-            backgroundImage: "repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0 4cqw, transparent 4cqw 12cqw)",
+            height: `calc(${GROUND_CQH}cqh + ${groundCqw * GROUND_LINE}cqw)`,
+            backgroundImage: `url(${RUN_ASSETS["bg-ground"].src})`,
+            backgroundSize: `100cqw ${groundCqw}cqw`,
             backgroundPositionX: scroll(1),
           }}
         />
@@ -159,43 +159,50 @@ export function RunGame({ seed, onFinish, onQuit }: { seed: number; onFinish: (s
         {/* タネ */}
         {state.seeds
           .filter((seed) => !seed.taken)
-          .map((seed) => (
-            <div
-              key={`s-${seed.x}-${seed.y}`}
-              className="pointer-events-none absolute"
-              style={{
-                left: sizeCqw(seed.x - state.distance - SEED_R),
-                bottom: bottomCss(seed.y - SEED_R),
-                width: sizeCqw(SEED_R * 2),
-                height: sizeCqw(SEED_R * 2),
-              }}
-            >
-              <SeedArt golden={seed.golden} />
-            </div>
-          ))}
+          .map((seed) => {
+            const asset = RUN_ASSETS[seed.golden ? "golden-seed" : "seed"];
+            const width = (SEED_DRAW_H * asset.width) / asset.height;
+            return (
+              <div
+                key={`s-${seed.x}-${seed.y}`}
+                className="pointer-events-none absolute"
+                style={{
+                  left: sizeCqw(seed.x - state.distance - width / 2),
+                  bottom: bottomCss(seed.y - SEED_DRAW_H / 2),
+                  width: sizeCqw(width),
+                  height: sizeCqw(SEED_DRAW_H),
+                }}
+              >
+                <Image src={asset.src} alt={seed.golden ? "金のタネ" : "タネ"} fill sizes="40px" unoptimized className="object-contain" />
+              </div>
+            );
+          })}
 
         {/* じゃまもの */}
-        {state.obstacles.map((o) => (
-          <div
-            key={`o-${o.x}`}
-            className={cn("pointer-events-none absolute", o.hit && "opacity-60")}
-            style={{ left: sizeCqw(o.x - state.distance), bottom: bottomCss(0), width: sizeCqw(o.w), height: sizeCqw(Math.max(o.h, 10)) }}
-          >
-            <ObstacleArt kind={o.kind} />
-          </div>
-        ))}
+        {state.obstacles.map((o) => {
+          const art = obstacleDraw(o);
+          return (
+            <div
+              key={`o-${o.x}`}
+              className={cn("pointer-events-none absolute", o.hit && "opacity-60")}
+              style={{ left: sizeCqw(art.left - state.distance), bottom: bottomCss(o.kind === "puddle" ? -art.height / 2 : -3), width: sizeCqw(art.width), height: sizeCqw(art.height) }}
+            >
+              <Image src={art.src} alt="" fill sizes="120px" unoptimized className="object-contain object-bottom" />
+            </div>
+          );
+        })}
 
         {/* スプル */}
         <div
           className={cn("pointer-events-none absolute", isBlinkOff(state) && "opacity-30")}
           style={{
-            left: sizeCqw(SPRU_X + SPRU_W / 2 - spruDrawW / 2),
-            bottom: bottomCss(state.y - 4),
-            width: sizeCqw(spruDrawW),
-            height: sizeCqw(SPRU_DRAW_H),
+            left: sizeCqw(SPRU_X + SPRU_W / 2 - spru.width / 2),
+            bottom: bottomCss(state.y - 3),
+            width: sizeCqw(spru.width),
+            height: sizeCqw(spru.height),
           }}
         >
-          <Image src={pose.src} alt="スプル" fill sizes="80px" className="object-contain object-bottom" loading="eager" />
+          <Image src={spru.src} alt="スプル" fill sizes="90px" unoptimized className="object-contain object-bottom" loading="eager" />
         </div>
 
         {/* 上の表示(場面に重ねる) */}
@@ -261,36 +268,4 @@ export function RunGame({ seed, onFinish, onQuit }: { seed: number; onFinish: (s
       )}
     </div>
   );
-}
-
-/** 仮のタネ(絵が届いたら差し替え) */
-function SeedArt({ golden }: { golden: boolean }) {
-  return (
-    <svg viewBox="0 0 20 20" className="h-full w-full drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" role="img" aria-label={golden ? "金のタネ" : "タネ"}>
-      <ellipse cx="10" cy="12" rx="6" ry="7" fill={golden ? "#ffd24d" : "#a9773f"} stroke={golden ? "#d39a12" : "#7a5228"} strokeWidth="1.2" />
-      <path d="M10 5 C10 2, 14 1, 15 3 C13 4, 11 4, 10 5Z" fill="#6fbf55" />
-    </svg>
-  );
-}
-
-/** 仮のじゃまもの(絵が届いたら差し替え) */
-function ObstacleArt({ kind }: { kind: ObstacleKind }) {
-  switch (kind) {
-    case "rock":
-      return <div className="h-full w-full rounded-t-[50%] rounded-b-md bg-[#9a8f86] ring-2 ring-[#6e655d]" aria-label="石" role="img" />;
-    case "stump":
-      return <div className="h-full w-full rounded-t-[40%] rounded-b-sm bg-[#9b6a3c] ring-2 ring-[#6d4524]" aria-label="切り株" role="img" />;
-    case "puddle":
-      return <div className="mt-auto h-full w-full rounded-[50%] bg-[#6cc3f0] ring-2 ring-[#3a95c9]" aria-label="水たまり" role="img" />;
-    case "bush":
-      return <div className="h-full w-full rounded-t-[45%] rounded-b-md bg-[#3f9a3a] ring-2 ring-[#2a6f27]" aria-label="しげみ" role="img" />;
-    case "fence":
-      return (
-        <div
-          className="h-full w-full rounded-t-md bg-[repeating-linear-gradient(0deg,#e8d2a6_0_14px,#b98d55_14px_18px)] ring-2 ring-[#8a6232]"
-          aria-label="さく"
-          role="img"
-        />
-      );
-  }
 }

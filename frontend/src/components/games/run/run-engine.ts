@@ -37,7 +37,7 @@ export type RunState = {
   hitCount: number;
 };
 
-export const WORLD_W = 400;
+export const WORLD_W = 340;
 export const PX_PER_M = 40;
 
 export const SPRU_X = 70;
@@ -45,9 +45,9 @@ export const SPRU_X = 70;
 export const SPRU_W = 34;
 export const SPRU_H = 50;
 
-export const GRAVITY = 2000;
-export const JUMP_V = 600;
-export const DOUBLE_JUMP_V = 520;
+export const GRAVITY = 1280;
+export const JUMP_V = 480;
+export const DOUBLE_JUMP_V = 420;
 
 export const SPEED_START = 220;
 export const SPEED_MAX = 420;
@@ -65,13 +65,13 @@ export const SEED_R = 9;
 export const GOLDEN_VALUE = 5;
 const SCORE_PER_SEED = 10;
 
-/** じゃまものの大きさ。tall は2段ジャンプが要る */
+/** じゃまものの当たりの大きさ(絵の形に合わせる。絵は少し大きく描く)。tall は2段ジャンプが要る */
 export const OBSTACLES: Record<ObstacleKind, { w: number; h: number; tall: boolean }> = {
-  rock: { w: 34, h: 36, tall: false },
-  stump: { w: 38, h: 48, tall: false },
-  puddle: { w: 60, h: 8, tall: false },
-  bush: { w: 36, h: 100, tall: true },
-  fence: { w: 28, h: 112, tall: true },
+  rock: { w: 50, h: 36, tall: false },
+  stump: { w: 54, h: 44, tall: false },
+  puddle: { w: 62, h: 8, tall: false },
+  bush: { w: 48, h: 100, tall: true },
+  fence: { w: 60, h: 100, tall: true },
 };
 
 const LOW_KINDS: ObstacleKind[] = ["rock", "stump", "puddle"];
