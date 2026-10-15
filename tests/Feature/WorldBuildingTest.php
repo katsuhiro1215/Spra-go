@@ -174,10 +174,10 @@ it('品ぞろえのシーダーで、2×2の建物45・3×3の建物9(モール2
         ->and($large)->toHaveCount(9)
         ->and($large->all())->toContain('お城', '五重塔', '姫路城', '東大寺', '首里城')
         ->and($big->all())->toContain('カフェ', 'タワー', 'パン屋', 'ビッグ・ベン', '凱旋門', '南大門', '和風の家', '噴水', '大きな船', '灯台', '金閣寺')
-        ->and($items->firstWhere('name', 'タワー')->only(['price', 'min_level']))->toBe(['price' => 500, 'min_level' => 12]);
+        ->and($items->firstWhere('name', 'タワー')->only(['price', 'min_level']))->toBe(['price' => 1500, 'min_level' => 12]);
 });
 
-it('特別の名所4点は Lv10〜15・600〜900pt の名所(2×2)として並ぶ(設計書 2026-09-28-town-items 5-4)', function () {
+it('特別の名所4点は Lv10〜15・3000〜4500pt の名所(2×2)として並ぶ(元の値段の5倍。設計書 2026-10-21-shop-prices)', function () {
     $this->seed(WorldItemSeeder::class);
 
     $row = function (string $name): array {
@@ -186,10 +186,10 @@ it('特別の名所4点は Lv10〜15・600〜900pt の名所(2×2)として並�
         return [$item->min_level, $item->price, $item->assetKey(), $item->category(), $item->footprint()];
     };
 
-    expect($row('金閣寺'))->toBe([10, 600, 'kinkakuji', 'landmark', 2])
-        ->and($row('南大門'))->toBe([11, 650, 'sungnyemun', 'landmark', 2])
-        ->and($row('凱旋門'))->toBe([13, 750, 'arc_de_triomphe', 'landmark', 2])
-        ->and($row('ビッグ・ベン'))->toBe([15, 900, 'big_ben', 'landmark', 2]);
+    expect($row('金閣寺'))->toBe([10, 3000, 'kinkakuji', 'landmark', 2])
+        ->and($row('南大門'))->toBe([11, 3250, 'sungnyemun', 'landmark', 2])
+        ->and($row('凱旋門'))->toBe([13, 3750, 'arc_de_triomphe', 'landmark', 2])
+        ->and($row('ビッグ・ベン'))->toBe([15, 4500, 'big_ben', 'landmark', 2]);
 });
 
 it('新しい16点は設計書 2026-09-28-town-items 5-2 のレベル・値段・カテゴリで並ぶ', function () {
@@ -205,9 +205,9 @@ it('新しい16点は設計書 2026-09-28-town-items 5-2 のレベル・値段�
         ->and($row('松'))->toBe([6, 45, 'pine', 'nature'])
         ->and($row('植木鉢'))->toBe([1, 15, 'flower_pots', 'decor'])
         ->and($row('街灯'))->toBe([3, 40, 'street_lamp', 'decor'])
-        ->and($row('小さな家'))->toBe([2, 120, 'cottage', 'house'])
-        ->and($row('カフェ'))->toBe([9, 320, 'cafe', 'house'])
-        ->and($row('灯台'))->toBe([9, 350, 'lighthouse', 'landmark']);
+        ->and($row('小さな家'))->toBe([2, 300, 'cottage', 'house'])
+        ->and($row('カフェ'))->toBe([9, 960, 'cafe', 'house'])
+        ->and($row('灯台'))->toBe([9, 1050, 'lighthouse', 'landmark']);
 });
 
 it('Spra-worldの確定画像から足した2×2の建物(八百屋)も、4マスを使い、重なると置けない', function () {

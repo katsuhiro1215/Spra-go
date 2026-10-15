@@ -15,6 +15,17 @@ return [
     // 答えたときのHPの増減。正解では減らず、不正解のときだけ減る(docs/design/2026-10-07-main-game-levels-design.md 3章)
     'hp' => ['correct' => 0, 'wrong' => -1],
 
+    /*
+    | 町のアイテムの値段の倍率(docs/design/2026-10-21-shop-prices-design.md)。WorldItemSeeder の元の値段から、段ごとに掛ける。
+    | 'up_to' は、その値段まで(含まない)。小物は、そのまま。名所は、長く目指すものにする。10の位に丸める
+    */
+    'price_scale' => [
+        ['up_to' => 100, 'multiplier' => 1],
+        ['up_to' => 300, 'multiplier' => 2.5],
+        ['up_to' => 600, 'multiplier' => 3],
+        ['up_to' => PHP_INT_MAX, 'multiplier' => 5],
+    ],
+
     'rewards' => [
         'answer_correct' => 10,
         'stage_clear' => 50,

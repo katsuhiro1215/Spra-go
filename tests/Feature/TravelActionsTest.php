@@ -183,12 +183,12 @@ it('ショップの品に travel_gear は付かない(旅の条件でなくな�
     expect($item)->not->toHaveKey('travel_gear');
 });
 
-it('品ぞろえに小さな船(Lv.7・200pt)と大きな船(Lv.11・450pt・2×2)がある(町のアイテムとして残る)', function () {
+it('品ぞろえに小さな船(Lv.7・500pt)と大きな船(Lv.11・1350pt・2×2)がある(町のアイテムとして残る)', function () {
     $this->seed(WorldItemSeeder::class);
 
     $small = ShopItem::query()->where('name', '小さな船')->firstOrFail();
     $large = ShopItem::query()->where('name', '大きな船')->firstOrFail();
 
-    expect([$small->min_level, $small->price, $small->assetKey(), $small->footprint()])->toBe([7, 200, 'boat_small', 1]);
-    expect([$large->min_level, $large->price, $large->assetKey(), $large->footprint()])->toBe([11, 450, 'boat_large', 2]);
+    expect([$small->min_level, $small->price, $small->assetKey(), $small->footprint()])->toBe([7, 500, 'boat_small', 1]);
+    expect([$large->min_level, $large->price, $large->assetKey(), $large->footprint()])->toBe([11, 1350, 'boat_large', 2]);
 });

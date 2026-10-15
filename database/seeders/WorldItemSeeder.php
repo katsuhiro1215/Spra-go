@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ShopItem;
+use App\Support\ShopPricing;
 use Illuminate\Database\Seeder;
 
 /**
@@ -168,7 +169,8 @@ class WorldItemSeeder extends Seeder
             ShopItem::query()->updateOrCreate(
                 ['type' => 'decoration', 'name' => $item['name']],
                 [
-                    'price' => $item['price'],
+                    // 元の値段から、段ごとの倍率で決める(小物はそのまま、名所は5倍。config/world.php の price_scale)
+                    'price' => ShopPricing::scaled($item['price']),
                     'currency' => 'point',
                     'min_level' => $item['min_level'],
                     'meta' => ['asset_key' => $item['asset_key']],
