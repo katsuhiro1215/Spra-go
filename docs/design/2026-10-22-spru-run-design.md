@@ -1,7 +1,7 @@
 # スプルラン(期間限定のランゲーム)— 設計書
 
 - 作成日: 2026-10-22
-- ステータス: **Ownerの確認待ち**(10章の「決めてほしいこと」)
+- ステータス: **承認済み(2026-10-22。10章はすべて提案どおり)**。段階1(試作)は実装済み。Ownerの試遊待ち
 - きっかけ: Ownerの案(「ANIMAL BISCUIT RUN」のような、スプルが走るゲーム)。2026-10-22、Ownerが「A(純アクション)から作る」と決定
 - 前提: ミニゲームの共通の仕組み(`config/games.php`、`app/Support/GameRollout.php`、`app/Support/Ranking.php`、`profile_game_plays`)。いちばん近い作りは、うちゅう旅行(`docs/design/2026-10-09-space-trip-design.md`)
 
