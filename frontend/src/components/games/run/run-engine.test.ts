@@ -7,6 +7,7 @@ import {
   idealCenterTime,
   INVINCIBLE_MS,
   jump,
+  jumpHeightAt,
   JUMP_V,
   choosePattern,
   SILVER_VALUE,
@@ -377,7 +378,6 @@ function platformBot(state: RunState): RunState {
   const next = state.platforms.find((p) => p.x + p.w - state.distance > SPRU_X + SPRU_W / 2 && p.top <= PLATFORM_TOPS.high);
   if (next) {
     const ahead = next.x - state.distance - front;
-    const onIt = standing && state.y === next.top;
     const climbFromGround = standing && state.y === 0 && next.top <= PLATFORM_TOPS.low && ahead > 0 && ahead <= state.speed * 0.5;
     const climbFromLow = standing && state.y > 0 && state.y < next.top && next.top > PLATFORM_TOPS.low && ahead > 0 && ahead <= state.speed * 0.45;
     if (climbFromGround || climbFromLow) return jump(state);
@@ -388,7 +388,6 @@ function platformBot(state: RunState): RunState {
       );
       if (above) return jump(state);
     }
-    if (!onIt && !standing) return state;
   }
   // 床の上の岩・地面のじゃまもの
   const rock = state.obstacles.find((o) => (o.base ?? 0) > 0 && o.x - state.distance + o.w > SPRU_X);
@@ -688,5 +687,32 @@ describe("床の出る割合", () => {
     }
     expect(all).toBeGreaterThan(200);
     expect(platforms / all).toBeLessThan(0.3);
+  });
+});
+
+describe("ゆっくりスタートでも、どの障害物も、跳ぶタイミングに余裕がある", () => {
+  /** ちょうどよく跳んだとき、足が高さ h より上にいる時間(秒)。1ミリ秒ごとに調べる */
+  const airAbove = (h: number, tall: boolean) => {
+    let count = 0;
+    for (let t = 0; t < 2; t += 0.001) if (jumpHeightAt(t, tall) > h) count++;
+    return count / 1000;
+  };
+
+  it("地面の障害物を、通り過ぎる時間より、足が上にいる時間のほうが、0.12秒以上長い(始めの速さで)", () => {
+    for (const [kind, o] of Object.entries(OBSTACLES)) {
+      if (kind === "bee") continue; // 空中のハチは、くぐる
+      const pass = (o.w + SPRU_W) / SPEED_START;
+      expect({ kind, margin: airAbove(o.h, o.tall) - pass >= 0.12 }).toEqual({ kind, margin: true });
+    }
+  });
+
+  it("始めの速さは、ゆっくり(190以下)。上限は、前のまま(420)", () => {
+    expect(SPEED_START).toBeLessThanOrEqual(190);
+    expect(SPEED_MAX).toBe(420);
+  });
+
+  it("3段目のジャンプは、1回目と同じくらい高く上がる(1回目の高さの8割以上)", () => {
+    const gain = (v: number) => (v * v) / (2 * GRAVITY);
+    expect(gain(TRIPLE_JUMP_V)).toBeGreaterThanOrEqual(gain(JUMP_V) * 0.8);
   });
 });

@@ -55,18 +55,18 @@ export const PX_PER_M = 40;
 
 export const SPRU_X = 70;
 /** 当たりの大きさ(絵より小さめ。設計書2-1) */
-export const SPRU_W = 34;
+export const SPRU_W = 26;
 export const SPRU_H = 50;
 
 export const GRAVITY = 1280;
 export const JUMP_V = 480;
 export const DOUBLE_JUMP_V = 420;
 /** 3段目のジャンプ(2段目より、小さい) */
-export const TRIPLE_JUMP_V = 380;
+export const TRIPLE_JUMP_V = 460;
 
-export const SPEED_START = 220;
+export const SPEED_START = 180;
 export const SPEED_MAX = 420;
-export const SPEED_STEP = 15;
+export const SPEED_STEP = 18;
 export const SPEED_EVERY_MS = 10_000;
 
 export const RUN_HEARTS = 3;
@@ -83,13 +83,13 @@ const SCORE_PER_SEED = 10;
 
 /** じゃまものの当たりの大きさ(絵の形に合わせる。絵は少し大きく描く)。tall は2段ジャンプが要る */
 export const OBSTACLES: Record<ObstacleKind, { w: number; h: number; tall: boolean }> = {
-  rock: { w: 50, h: 36, tall: false },
-  stump: { w: 54, h: 44, tall: false },
+  rock: { w: 44, h: 36, tall: false },
+  stump: { w: 46, h: 44, tall: false },
   puddle: { w: 62, h: 8, tall: false },
   bush: { w: 48, h: 100, tall: true },
   fence: { w: 60, h: 100, tall: true },
   mushroom: { w: 44, h: 40, tall: false },
-  hedgehog: { w: 54, h: 32, tall: false },
+  hedgehog: { w: 46, h: 32, tall: false },
   // ハチは、空中に浮いている(base)。走ってくぐれば当たらず、ジャンプすると当たる
   bee: { w: 44, h: 34, tall: false },
 };
