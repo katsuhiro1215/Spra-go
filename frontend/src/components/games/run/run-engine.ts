@@ -79,7 +79,10 @@ const SUB_STEP_MS = 16;
 export const SEED_R = 12;
 export const GOLDEN_VALUE = 5;
 export const SILVER_VALUE = 2;
-const SCORE_PER_SEED = 10;
+const SCORE_PER_METER = 2;
+const SCORE_PER_SEED = 2;
+/** 1秒に集められるタネの数え方の合計の上限(サーバーの config/games.php の max_seed_value_per_sec と同じ。テストで、コースに出る量より大きいことを確かめる) */
+export const MAX_SEED_VALUE_PER_SEC = 24;
 
 /** じゃまものの当たりの大きさ(絵の形に合わせる。絵は少し大きく描く)。tall は2段ジャンプが要る */
 export const OBSTACLES: Record<ObstacleKind, { w: number; h: number; tall: boolean }> = {
@@ -559,9 +562,9 @@ export function meters(distance: number): number {
   return Math.floor(distance / PX_PER_M);
 }
 
-/** 点数: 距離(m)+タネ×10(設計書2章)。サーバーでも同じ計算をする */
+/** 点数: 距離(m)×2 + タネ×2(設計書14-1)。サーバー(RunGame::finish)でも同じ計算をする */
 export function scoreOf(distanceM: number, seedValue: number): number {
-  return distanceM + seedValue * SCORE_PER_SEED;
+  return distanceM * SCORE_PER_METER + seedValue * SCORE_PER_SEED;
 }
 
 /** 今の点数 */

@@ -144,6 +144,33 @@ return [
     |
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | スプルラン(期間限定のランゲーム)
+    |--------------------------------------------------------------------------
+    |
+    | docs/design/2026-10-22-spru-run-design.md 14章。練習はサーバーに送らない。本番は1日 daily_real_plays 回、
+    | ランのタネ(コイン・経験値・学習ポイントとは別)がもらえる。公開するときに released_on / ends_on を決める。
+    | max_seed_value_per_sec は、お手本の子(run-engine.test.ts の idealBot)が1秒に集められる最大値より大きくする。
+    |
+    */
+
+    'spru_run' => [
+        // 公開するとき、.env の SPRU_RUN_RELEASED_ON / SPRU_RUN_ENDS_ON に日付を書く(それまでは出ない)
+        'catalog' => ['released_on' => env('SPRU_RUN_RELEASED_ON', '2099-01-01'), 'ends_on' => env('SPRU_RUN_ENDS_ON'), 'season' => null],
+        'difficulty' => 'ふつう',
+        'daily_real_plays' => 2,
+        'first_play_bonus' => 50,
+        'max_seeds_per_play' => 600,
+        'abandon_free_ms' => 10000,
+        'unfinished_expire_ms' => 600000,
+        'ceiling' => ['min' => 200, 'max' => 900],
+        'max_seed_value_per_sec' => 24,
+        'score' => ['distance' => 2, 'seed' => 2],
+        // 速さ(1秒に進む広さ)。始め・10秒ごとの増え方・上限。40 = 1m。run-engine.ts の SPEED_* と同じ
+        'speed' => ['start' => 180, 'step' => 18, 'every_ms' => 10000, 'max' => 420, 'px_per_m' => 40],
+    ],
+
     'rollout' => [
         'new_days' => 14,
         'daily_rewarded_total' => 6,

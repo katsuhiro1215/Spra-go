@@ -45,6 +45,13 @@ describe("ミニゲームの一覧", () => {
 describe("ミニゲームの小出し(docs/design/2026-10-09-minigame-rollout-design.md)", () => {
   const flags = { new: false, featured: false, seasonal: false };
 
+  it("期間限定のゲーム(limited)には、期間限定の札がつく", () => {
+    const [run] = listedGames([{ key: "spru-run", ...flags, limited: true, ends_on: "2026-10-31" }]);
+
+    expect(run).toMatchObject({ key: "spru-run", limited: true, href: "/games/spru-run" });
+    expect(listedGames([{ key: "catch", ...flags }])[0]).toMatchObject({ limited: false });
+  });
+
   it("APIにあるゲームだけを、一覧の順に、札つきで出す。APIにないゲームは出さない。読み込み前は空", () => {
     expect(listedGames(null)).toEqual([]);
 

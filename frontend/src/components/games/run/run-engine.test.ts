@@ -23,6 +23,7 @@ import {
   platformExitGap,
   RUN_HEARTS,
   scoreOf,
+  MAX_SEED_VALUE_PER_SEC,
   SPEED_MAX,
   SPEED_START,
   SPEED_STEP,
@@ -240,7 +241,7 @@ describe("run-engine", () => {
   });
 
   it("点数は、距離(m)+タネ×10", () => {
-    expect(scoreOf(1234, 6)).toBe(1234 + 60);
+    expect(scoreOf(1234, 6)).toBe(1234 * 2 + 6 * 2);
     expect(meters(400)).toBe(10);
   });
 
@@ -714,5 +715,28 @@ describe("ゆっくりスタートでも、どの障害物も、跳ぶタイミ�
   it("3段目のジャンプは、1回目と同じくらい高く上がる(1回目の高さの8割以上)", () => {
     const gain = (v: number) => (v * v) / (2 * GRAVITY);
     expect(gain(TRIPLE_JUMP_V)).toBeGreaterThanOrEqual(gain(JUMP_V) * 0.8);
+  });
+
+  it("どの10秒の間にも、コースに出るタネの数え方の合計は、サーバーの上限(MAX_SEED_VALUE_PER_SEC)より小さい", () => {
+    let worst = 0;
+    for (let seed = 1; seed <= 40; seed += 1) {
+      let s: RunState = { ...createRun(seed, 0, 480), hearts: 999 };
+      const seen = new Set<string>();
+      const spawns: { at: number; value: number }[] = [];
+      for (let i = 0; i < (300_000 / 16) && s.phase !== "done"; i += 1) {
+        s = idealBot(tick(s, 16));
+        for (const seedItem of s.seeds) {
+          const key = `${seedItem.x}:${seedItem.y}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          spawns.push({ at: s.elapsedMs, value: seedItem.golden ? 5 : seedItem.silver ? 2 : 1 });
+        }
+      }
+      for (let start = 0; start < 290_000; start += 2_000) {
+        const sum = spawns.filter((x) => x.at >= start && x.at < start + 10_000).reduce((a, x) => a + x.value, 0);
+        worst = Math.max(worst, sum / 10);
+      }
+    }
+    expect(worst).toBeLessThan(MAX_SEED_VALUE_PER_SEC);
   });
 });

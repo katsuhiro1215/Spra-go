@@ -21,6 +21,12 @@ export const MINI_GAMES = [
     href: "/games/space-trip",
   },
   {
+    key: "spru-run",
+    title: "スプルラン",
+    description: "走って、ジャンプして、ランのタネを集めよう！",
+    href: "/games/spru-run",
+  },
+  {
     key: "puzzle-flag",
     title: "スライドパズル（こっき）",
     description: "バラバラの国旗を、スライドして完成させよう！",
@@ -35,9 +41,9 @@ export const MINI_GAMES = [
 ] as const;
 
 /** GET /api/games の1件(docs/design/2026-10-09-minigame-rollout-design.md 3-3)。出ているゲームだけが返る */
-export type RolloutGame = { key: string; new: boolean; featured: boolean; seasonal: boolean };
+export type RolloutGame = { key: string; new: boolean; featured: boolean; seasonal: boolean; limited?: boolean; ends_on?: string | null };
 
-export type ListedGame = (typeof MINI_GAMES)[number] & { new: boolean; featured: boolean; seasonal: boolean };
+export type ListedGame = (typeof MINI_GAMES)[number] & { new: boolean; featured: boolean; seasonal: boolean; limited: boolean };
 
 /** 出ているゲームだけを、一覧の順に、札つきで返す。API にないゲーム(出す日の前・季節の外)は出さない */
 export function listedGames(rollout: RolloutGame[] | null): ListedGame[] {
@@ -45,7 +51,7 @@ export function listedGames(rollout: RolloutGame[] | null): ListedGame[] {
 
   return MINI_GAMES.flatMap((game) => {
     const flags = rollout.find((item) => item.key === game.key);
-    return flags ? [{ ...game, new: flags.new, featured: flags.featured, seasonal: flags.seasonal }] : [];
+    return flags ? [{ ...game, new: flags.new, featured: flags.featured, seasonal: flags.seasonal, limited: flags.limited ?? false }] : [];
   });
 }
 

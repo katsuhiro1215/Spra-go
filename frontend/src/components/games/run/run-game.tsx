@@ -23,6 +23,7 @@ import {
   type RunState,
 } from "./run-engine";
 import { PLATFORM_ART, RUN_ASSETS } from "./run-assets";
+import { quitMessage, type RunMode } from "./run-flow";
 import { bottomCss, GROUND_CQH, isBlinkOff, obstacleDraw, platformDraw, RUN_HINT, scrollCqw, sizeCqw, spruDraw, spruPose } from "./run-view";
 
 const COUNTDOWN_FROM = 3;
@@ -44,11 +45,33 @@ function ceilingForScreen(): number {
 }
 
 /** スプルランのゲームの画面(docs/design/2026-10-22-spru-run-design.md 5章)。絵は tools/spru-run/build_assets.py が作る */
-export function RunGame({ seed, startMs = 0, onFinish, onQuit }: { seed: number; startMs?: number; onFinish: (state: RunState) => void; onQuit: () => void }) {
+export function RunGame({
+  seed,
+  startMs = 0,
+  ceiling,
+  mode,
+  onFinish,
+  onQuit,
+}: {
+  seed: number;
+  startMs?: number;
+  /** 本番は、始めるときにサーバーへ送った高さ。練習は省略(この画面の高さ) */
+  ceiling?: number;
+  mode: RunMode;
+  onFinish: (state: RunState) => void;
+  /** やめる。そこまでの状態と、始めてからの時間(ミリ秒)を渡す */
+  onQuit: (state: RunState, sinceStartMs: number) => void;
+}) {
   const { play: playSound } = useSound();
-  const [state, setState] = useState(() => createRun(seed, startMs, ceilingForScreen()));
+  const [state, setState] = useState(() => createRun(seed, startMs, ceiling ?? ceilingForScreen()));
+  const startedAt = useRef(0);
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, []);
   const [countdown, setCountdown] = useState(COUNTDOWN_FROM);
   const [confirmQuit, setConfirmQuit] = useState(false);
+  /** やめる確認を開いた時の、始めてからの時間(ミリ秒) */
+  const [quitSinceMs, setQuitSinceMs] = useState(0);
   const [calm] = useState(() => prefersReducedMotion());
   const pausedRef = useRef(true);
   const finishedRef = useRef(false);
@@ -241,7 +264,10 @@ export function RunGame({ seed, startMs = 0, onFinish, onQuit }: { seed: number;
               variant="default"
               size="sm"
               onPointerDown={(event) => event.stopPropagation()}
-              onClick={() => setConfirmQuit(true)}
+              onClick={() => {
+                setQuitSinceMs(Date.now() - startedAt.current);
+                setConfirmQuit(true);
+              }}
             >
               やめる
             </AppButton>
@@ -256,6 +282,13 @@ export function RunGame({ seed, startMs = 0, onFinish, onQuit }: { seed: number;
             </span>
           </div>
           <p className="mt-3 text-center text-3xl font-black text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.35)]">{currentScore(state)}点</p>
+          {mode === "practice" && (
+            <p className="mt-1 text-center">
+              <span className="rounded-full bg-white/90 px-3 py-0.5 text-xs font-black text-[#7a5a12]">
+                <AutoFurigana text="練習中（タネは出ないよ）" />
+              </span>
+            </p>
+          )}
         </div>
 
         {countdown > 0 && (
@@ -282,10 +315,10 @@ export function RunGame({ seed, startMs = 0, onFinish, onQuit }: { seed: number;
             className="flex w-full max-w-[320px] flex-col items-center gap-4 rounded-3xl bg-[#fffaf0] p-6 text-center text-[#3b3226]"
           >
             <p id="run-quit-title" className="text-base font-black">
-              <AutoFurigana text="やめる？ここまでの記録は残らないよ" />
+              <AutoFurigana text={quitMessage(mode, quitSinceMs)} />
             </p>
             <div className="grid w-full grid-cols-2 gap-3">
-              <AppButton variant="default" onClick={onQuit}>
+              <AppButton variant="default" onClick={() => onQuit(state, quitSinceMs)}>
                 やめる
               </AppButton>
               <AppButton variant="primary" onClick={() => setConfirmQuit(false)}>
