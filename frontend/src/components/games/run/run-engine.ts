@@ -49,8 +49,8 @@ export const GRAVITY = 1280;
 export const JUMP_V = 480;
 export const DOUBLE_JUMP_V = 420;
 
-export const SPEED_START = 220;
-export const SPEED_MAX = 420;
+export const SPEED_START = 260;
+export const SPEED_MAX = 480;
 export const SPEED_STEP = 15;
 export const SPEED_EVERY_MS = 10_000;
 
