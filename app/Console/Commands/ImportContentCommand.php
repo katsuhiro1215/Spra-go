@@ -254,6 +254,43 @@ class ImportContentCommand extends Command
         }
     }
 
+    /**
+     * 問題の番号(key)がある4択・○×の問題は、原稿を直して取り込み直すと、問題文と選択肢の文字・正解も直す(日本のコースなどの原稿の直し)。
+     * 選択肢の数が同じなら、同じ選択肢の行を書き換える。数が変わったときは、入れ替える。問題の行(番号)は変わらない。
+     * key のない問題は、これまでどおり書き換えない(問題文で見分けているため)
+     *
+     * @param  array<string, mixed>  $questionData
+     */
+    private function syncContent(Question $question, array $questionData): void
+    {
+        if (! isset($questionData['key']) || ! in_array($questionData['type'] ?? 'multiple_choice', ['multiple_choice', 'true_false'], true)) {
+            return;
+        }
+
+        if ($question->prompt !== $questionData['prompt']) {
+            $question->update(['prompt' => $questionData['prompt']]);
+        }
+
+        $wanted = collect($questionData['choices'])->values();
+        $current = $question->choices()->orderBy('order')->orderBy('id')->get();
+
+        if ($current->count() !== $wanted->count()) {
+            $question->choices()->delete();
+            foreach ($wanted as $index => $choiceData) {
+                $question->choices()->create(['label' => $choiceData['label'], 'is_correct' => $choiceData['is_correct'], 'order' => $index]);
+            }
+
+            return;
+        }
+
+        foreach ($current as $index => $choice) {
+            $choiceData = $wanted[$index];
+            if ($choice->label !== $choiceData['label'] || (bool) $choice->is_correct !== (bool) $choiceData['is_correct']) {
+                $choice->update(['label' => $choiceData['label'], 'is_correct' => $choiceData['is_correct']]);
+            }
+        }
+    }
+
     private function import(array $data): void
     {
         $country = Country::query()->whereRaw('LOWER(code) = ?', [strtolower($data['country_code'])])->firstOrFail();
@@ -334,6 +371,7 @@ class ImportContentCommand extends Command
 
                 if ($question) {
                     $this->syncExtras($question, $questionData);
+                    $this->syncContent($question, $questionData);
                     $questionsSkipped++;
                 } else {
                     $type = $questionData['type'] ?? 'multiple_choice';
@@ -408,6 +446,6 @@ class ImportContentCommand extends Command
             }
         }
 
-        $this->line("Stage: {$stagesCreated}件 / Question新規: {$questionsCreated}件 / 既存スキップ: {$questionsSkipped}件");
+        $this->line("Stage: {$stagesCreated}件 / Question新規: {$questionsCreated}件 / 既存: {$questionsSkipped}件(keyのある問題は、文字が違えば直した)");
     }
 }

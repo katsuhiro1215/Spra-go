@@ -65,15 +65,14 @@ const noto = lastPoint("ishikawa", (p, b) => p[1] < b[1]);
 const mark = ([x, y]) => `<circle cx="${x}" cy="${y}" r="34" fill="#e5484d" fill-opacity="0.25"/><circle cx="${x}" cy="${y}" r="17" fill="#e5484d" stroke="#ffffff" stroke-width="5"/>`;
 images["jp03-peninsulas"] = svg(land((k) => (k === "chiba" || k === "ishikawa" ? "#f6d365" : "#d6e8c6"), { okinawa: true }) + mark(boso) + mark(noto));
 
-// 日本の周りの海: 4つの海を色分けする(北のオホーツク海・西の日本海・南西の東シナ海・東と南の太平洋)。沖縄の枠は出さない
-// 640×640 の画面での位置(px)で、海のさかいを決める。海のさかいは目安(くわしい線ではない)
+// 日本の周りの海: 問題で聞いている海(北のオホーツク海)だけを、ふちをぼかして色づける。
+// 4色に塗り分けると、どの色がどの海か分からず、境目の線も目立つので、聞かれる海だけにした。ほかの海は、ほかの地図と同じ水色
+// 640×640 の画面での位置(px)で決める。海のさかいは目安(くわしい線ではない)。沖縄の枠は出さない
 const px = ([x, y]) => `${vx + (x * vw) / 640},${vy - 150 + (y * vw) / 640}`;
-const sea = (points, color) => `<polygon points="${points.map(px).join(" ")}" fill="${color}"/>`;
-const seas =
-  sea([[420, 0], [640, 0], [640, 175], [545, 105], [530, 92]], "#9fe3f0") + // オホーツク海(北海道の北から北東)
-  sea([[0, 0], [420, 0], [530, 92], [535, 135], [525, 235], [510, 330], [440, 392], [330, 432], [262, 470], [0, 450]], "#9db7f0") + // 日本海(本州の北西)
-  sea([[0, 450], [242, 462], [215, 520], [252, 575], [300, 640], [0, 640]], "#9ee0c2"); // 東シナ海(九州の西・南西)
-images["jp02-surrounding-seas"] = svg(seas + land(() => "#d9e8c0", { okinawa: false }), "#6fa3dd");
+const okhotsk = [[395, -40], [700, -40], [700, 215], [560, 125], [525, 95], [470, 60]].map(px).join(" ");
+const blur = `<defs><filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="${(26 * vw) / 640}"/></filter></defs>`;
+const highlight = `${blur}<polygon points="${okhotsk}" fill="#ffb84d" fill-opacity="0.85" filter="url(#soft)"/>`;
+images["jp02-surrounding-seas"] = svg(highlight + land(() => "#d9e8c0", { okinawa: false }));
 
 for (const [name, content] of Object.entries(images)) {
   const out = path.join(root, `frontend/public/quiz/jp/${name}.webp`);

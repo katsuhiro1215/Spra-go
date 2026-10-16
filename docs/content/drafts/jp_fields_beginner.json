@@ -1048,15 +1048,15 @@
        "is_correct": true
       },
       {
-       "label": "カリブ海",
+       "label": "日本海",
        "is_correct": false
       },
       {
-       "label": "紅海",
+       "label": "太平洋",
        "is_correct": false
       },
       {
-       "label": "地中海",
+       "label": "東シナ海",
        "is_correct": false
       }
      ],

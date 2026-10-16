@@ -339,3 +339,58 @@ it('type:sortingでcorrect_basket_idがbasketsに存在しないと取り込み�
     $this->artisan('content:import', ['file' => $path])->assertExitCode(1);
     expect(\App\Models\Question::count())->toBe(0);
 });
+
+// 問題の番号(key)がある問題は、原稿を直して取り込み直すと、問題文・選択肢も直る(日本のコースの原稿の直し)
+it('key のある問題は、取り込み直すと、問題文と選択肢の文字が直る。問題の番号と選択肢の数は変わらない', function () {
+    seedThemesAndCountry();
+    $first = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][0]['key'] = 'ZZ01-B-001';
+    });
+    $this->artisan('content:import', ['file' => $first])->assertExitCode(0);
+    $question = \App\Models\Question::query()->where('meta->key', 'ZZ01-B-001')->firstOrFail();
+    $choiceIds = $question->choices()->orderBy('id')->pluck('id')->all();
+
+    $second = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][0]['key'] = 'ZZ01-B-001';
+        $data['stages'][0]['questions'][0]['prompt'] = '直したあとの問題文？';
+        $data['stages'][0]['questions'][0]['choices'][1]['label'] = '直したまちがい';
+    });
+    $this->artisan('content:import', ['file' => $second])->assertExitCode(0);
+
+    $fresh = $question->fresh();
+    expect(\App\Models\Question::query()->where('meta->key', 'ZZ01-B-001')->count())->toBe(1)
+        ->and($fresh->prompt)->toBe('直したあとの問題文？')
+        ->and($fresh->choices()->orderBy('id')->pluck('id')->all())->toBe($choiceIds)
+        ->and($fresh->choices()->pluck('label')->all())->toContain('直したまちがい')
+        ->and($fresh->choices()->where('is_correct', true)->count())->toBe(1);
+});
+
+it('key のある問題は、選択肢の数が変わったときも、選択肢を入れ替える', function () {
+    seedThemesAndCountry();
+    $first = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][0]['key'] = 'ZZ01-B-002';
+    });
+    $this->artisan('content:import', ['file' => $first])->assertExitCode(0);
+
+    $second = writeTempFixture(function (&$data) {
+        $question = &$data['stages'][0]['questions'][0];
+        $question['key'] = 'ZZ01-B-002';
+        $question['choices'] = [['label' => 'ただしい', 'is_correct' => true], ['label' => 'まちがい', 'is_correct' => false]];
+        $question['type'] = 'true_false';
+    });
+    $this->artisan('content:import', ['file' => $second])->assertExitCode(0);
+
+    $choices = \App\Models\Question::query()->where('meta->key', 'ZZ01-B-002')->firstOrFail()->choices;
+    expect($choices->pluck('label')->all())->toBe(['ただしい', 'まちがい']);
+});
+
+it('key のない問題は、取り込み直しても、問題文・選択肢を書き換えない(これまでどおり)', function () {
+    seedThemesAndCountry();
+    $this->artisan('content:import', ['file' => fixturePath()])->assertExitCode(0);
+    $changed = writeTempFixture(function (&$data) {
+        $data['stages'][0]['questions'][0]['choices'][1]['label'] = 'あとから変えた';
+    });
+    $this->artisan('content:import', ['file' => $changed])->assertExitCode(0);
+
+    expect(\App\Models\QuestionChoice::query()->where('label', 'あとから変えた')->exists())->toBeFalse();
+});
