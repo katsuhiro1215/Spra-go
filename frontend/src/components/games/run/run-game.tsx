@@ -14,11 +14,14 @@ import {
   currentScore,
   jump,
   meters,
+  PLATFORM_THICK,
   RUN_HEARTS,
   SEED_R,
   SPRU_W,
   SPRU_X,
   tick,
+  WORLD_W,
+  type ObstacleKind,
   type RunState,
 } from "./run-engine";
 import { RUN_ASSETS } from "./run-assets";
@@ -36,10 +39,16 @@ const GROUND_LINE = 0.22;
 const groundCqw = (100 * RUN_ASSETS["bg-ground"].height) / RUN_ASSETS["bg-ground"].width;
 const layerCqw = (100 * RUN_ASSETS["bg-meadow"].height) / RUN_ASSETS["bg-meadow"].width;
 
+/** この画面で、床・空のタネを置ける高さ(ゲームの中の広さ)。画面の高さから、地面の分と、上の表示(約130px)を引く。縦に長いほど、高い床まで積む */
+function ceilingForScreen(): number {
+  const scale = Math.min(window.innerWidth, 448) / WORLD_W;
+  return Math.max(300, Math.min(640, (window.innerHeight * (1 - GROUND_CQH / 100) - 130) / scale));
+}
+
 /** スプルランのゲームの画面(docs/design/2026-10-22-spru-run-design.md 5章)。絵は tools/spru-run/build_assets.py が作る */
-export function RunGame({ seed, onFinish, onQuit }: { seed: number; onFinish: (state: RunState) => void; onQuit: () => void }) {
+export function RunGame({ seed, startMs = 0, onFinish, onQuit }: { seed: number; startMs?: number; onFinish: (state: RunState) => void; onQuit: () => void }) {
   const { play: playSound } = useSound();
-  const [state, setState] = useState(() => createRun(seed));
+  const [state, setState] = useState(() => createRun(seed, startMs, ceilingForScreen()));
   const [countdown, setCountdown] = useState(COUNTDOWN_FROM);
   const [confirmQuit, setConfirmQuit] = useState(false);
   const [calm] = useState(() => prefersReducedMotion());
@@ -178,16 +187,29 @@ export function RunGame({ seed, onFinish, onQuit }: { seed: number; onFinish: (s
             );
           })}
 
+        {/* 床(絵が届くまでは、草のふたつきの土の板で描く) */}
+        {state.platforms.map((p) => (
+          <div
+            key={`p-${p.x}`}
+            aria-hidden
+            className="pointer-events-none absolute rounded-lg border-2 border-[#6b4423] bg-[linear-gradient(#78c043_0_30%,#c98a4b_30%)] shadow-[0_3px_0_rgba(0,0,0,0.18)]"
+            style={{ left: sizeCqw(p.x - state.distance), bottom: bottomCss(p.top - PLATFORM_THICK), width: sizeCqw(p.w), height: sizeCqw(PLATFORM_THICK) }}
+          />
+        ))}
+
         {/* じゃまもの */}
         {state.obstacles.map((o) => {
           const art = obstacleDraw(o);
+          // ハチは、ふわふわ上下に動いて見える(当たりは動かない)
+          const bob = o.kind === "bee" ? Math.sin(state.elapsedMs / 180 + o.x) * 3 : 0;
+          const lift = (o.base ?? 0) + (o.kind === "puddle" ? -art.height / 2 : o.base ? 0 : -3) + bob;
           return (
             <div
               key={`o-${o.x}`}
               className={cn("pointer-events-none absolute", o.hit && "opacity-60")}
-              style={{ left: sizeCqw(art.left - state.distance), bottom: bottomCss(o.kind === "puddle" ? -art.height / 2 : -3), width: sizeCqw(art.width), height: sizeCqw(art.height) }}
+              style={{ left: sizeCqw(art.left - state.distance), bottom: bottomCss(lift), width: sizeCqw(art.width), height: sizeCqw(art.height) }}
             >
-              <Image src={art.src} alt="" fill sizes="120px" unoptimized className="object-contain object-bottom" />
+              {art.src ? <Image src={art.src} alt="" fill sizes="120px" unoptimized className="object-contain object-bottom" /> : <PlaceholderArt kind={o.kind} />}
             </div>
           );
         })}
@@ -268,4 +290,19 @@ export function RunGame({ seed, onFinish, onQuit }: { seed: number; onFinish: (s
       )}
     </div>
   );
+}
+
+/** 絵がまだないじゃまもの(キノコ・ハリネズミ・ハチ)の、仮の図形 */
+function PlaceholderArt({ kind }: { kind: ObstacleKind }) {
+  if (kind === "bee") {
+    return (
+      <div
+        className="h-full w-full rounded-full ring-2 ring-[#3b3226] bg-[repeating-linear-gradient(90deg,#ffd24d_0_8px,#3b3226_8px_12px)]"
+        aria-label="ハチ"
+        role="img"
+      />
+    );
+  }
+  if (kind === "mushroom") return <div className="h-full w-full rounded-t-[60%] rounded-b-md bg-[#e5484d] ring-2 ring-[#9b2226]" aria-label="キノコ" role="img" />;
+  return <div className="h-full w-full rounded-t-[50%] rounded-b-md bg-[#8b6b4a] ring-2 ring-[#5c4630]" aria-label="ハリネズミ" role="img" />;
 }

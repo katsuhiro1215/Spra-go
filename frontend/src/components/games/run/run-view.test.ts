@@ -13,8 +13,9 @@ describe("run-view", () => {
 
   it("スプルの絵: 空中はジャンプ(2段目は丸まる)、ぶつかった直後はびっくり、走るときは2枚を交互", () => {
     const s = createRun(1);
-    expect(spruPose({ ...s, y: 10, jumps: 1 })).toBe("jump");
-    expect(spruPose({ ...s, y: 10, jumps: 2 })).toBe("double-jump");
+    expect(spruPose({ ...s, y: 10, jumps: 1, standing: false })).toBe("jump");
+    expect(spruPose({ ...s, y: 10, jumps: 2, standing: false })).toBe("double-jump");
+    expect(spruPose({ ...s, y: 56, jumps: 0, standing: true, distance: 0 })).toBe("run-a"); // 床の上は、走る絵
     expect(spruPose({ ...s, invincibleMs: INVINCIBLE_MS })).toBe("hit");
     expect(spruPose({ ...s, distance: 0 })).toBe("run-a");
     expect(spruPose({ ...s, distance: 40 })).toBe("run-b");

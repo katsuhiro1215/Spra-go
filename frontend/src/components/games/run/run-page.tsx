@@ -12,7 +12,7 @@ import { currentScore, meters, type RunState } from "./run-engine";
 import { RunGame } from "./run-game";
 import { RUN_HINT } from "./run-view";
 
-type Phase = { kind: "ready" } | { kind: "playing"; seed: number } | { kind: "result"; state: RunState };
+type Phase = { kind: "ready" } | { kind: "playing"; seed: number; startMs: number } | { kind: "result"; state: RunState };
 
 /**
  * スプルラン(docs/design/2026-10-22-spru-run-design.md)。段階1の試作: サーバーにはつながず、遊べるだけ。
@@ -23,7 +23,11 @@ export function RunPageView() {
   const [phase, setPhase] = useState<Phase>({ kind: "ready" });
   const [best, setBest] = useState<number | null>(null);
 
-  const start = () => setPhase({ kind: "playing", seed: Math.floor(Math.random() * 1_000_000) + 1 });
+  // 試作のあいだ、「?t=30」のようにURLに足すと、30秒目の状態から始められる(後半のパターンを試すため)
+  const start = () => {
+    const seconds = Number(new URLSearchParams(window.location.search).get("t"));
+    setPhase({ kind: "playing", seed: Math.floor(Math.random() * 1_000_000) + 1, startMs: Number.isFinite(seconds) && seconds > 0 ? seconds * 1000 : 0 });
+  };
   const onFinish = useCallback((state: RunState) => {
     setBest((current) => Math.max(current ?? 0, currentScore(state)));
     setPhase({ kind: "result", state });
@@ -31,7 +35,7 @@ export function RunPageView() {
   const onQuit = useCallback(() => setPhase({ kind: "ready" }), []);
 
   if (phase.kind === "playing") {
-    return <RunGame key={phase.seed} seed={phase.seed} onFinish={onFinish} onQuit={onQuit} />;
+    return <RunGame key={phase.seed} seed={phase.seed} startMs={phase.startMs} onFinish={onFinish} onQuit={onQuit} />;
   }
 
   const result = phase.kind === "result" ? phase.state : null;
