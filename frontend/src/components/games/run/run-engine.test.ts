@@ -9,6 +9,8 @@ import {
   jump,
   JUMP_V,
   choosePattern,
+  SILVER_VALUE,
+  TRIPLE_JUMP_V,
   meters,
   minGapAfter,
   OBSTACLES,
@@ -96,14 +98,38 @@ describe("run-engine", () => {
     expect(s.jumps).toBe(0);
   });
 
-  it("空中で2段ジャンプできるが、3段目はできない", () => {
+  it("空中で2段・3段ジャンプができるが、4回目はできない", () => {
     let s = run(jump(empty(createRun(1))), 200);
     s = jump(s);
     expect(s.jumps).toBe(2);
     expect(s.vy).toBe(DOUBLE_JUMP_V);
+    s = run(s, 150);
+    s = jump(s);
+    expect(s.jumps).toBe(3);
+    expect(s.vy).toBe(TRIPLE_JUMP_V);
     const vy = run(s, 50).vy;
-    const third = jump(run(s, 50));
-    expect(third.vy).toBe(vy);
+    const fourth = jump(run(s, 50));
+    expect(fourth.vy).toBe(vy);
+  });
+
+  it("3段ジャンプは、2段ジャンプより、さらに上がれる。着地すると、また3回跳べる", () => {
+    const two = (() => {
+      let top = 0;
+      run(jump(empty(createRun(1))), 1500, (x) => {
+        top = Math.max(top, x.y);
+        if (x.jumps === 1 && x.vy <= 0) return jump(x);
+        return x;
+      });
+      return top;
+    })();
+    let top3 = 0;
+    const end = run(jump(empty(createRun(1))), 2000, (x) => {
+      top3 = Math.max(top3, x.y);
+      if ((x.jumps === 1 || x.jumps === 2) && x.vy <= 0) return jump(x);
+      return x;
+    });
+    expect(top3).toBeGreaterThan(two + 30);
+    expect(end.jumps).toBe(0);
   });
 
   it("1回のジャンプでは高いじゃまものをこえられず、2段ジャンプならこえられる", () => {
@@ -156,16 +182,16 @@ describe("run-engine", () => {
 
   it("ちょうどよく跳ぶと、ぶつからず、じゃまものの上・手前のタネと、タネの川は、ほとんど取れる", () => {
     for (let seed = 1; seed <= 20; seed++) {
-      const seen = new Map<string, { x: number; golden: boolean }>();
+      const seen = new Map<string, { x: number; golden: boolean; silver?: boolean }>();
       const s = run(createRun(seed), 60_000, (x) => {
         for (const item of x.seeds) {
-          if (["ground", "arc", "river"].includes(item.kind)) seen.set(`${item.x}:${item.y}`, { x: item.x, golden: item.golden });
+          if (["ground", "arc", "river"].includes(item.kind)) seen.set(`${item.x}:${item.y}`, { x: item.x, golden: item.golden, silver: item.silver });
         }
         return idealBot(x);
       });
       // スプルが通り過ぎたタネだけを数える(まだ右にあるタネは、取れていなくて当然)
       let passed = 0;
-      for (const item of seen.values()) if (item.x < s.distance + SPRU_X) passed += item.golden ? 5 : 1;
+      for (const item of seen.values()) if (item.x < s.distance + SPRU_X) passed += item.golden ? 5 : item.silver ? 2 : 1;
       expect({ seed, hearts: s.hearts }).toEqual({ seed, hearts: RUN_HEARTS });
       expect(s.seedValue).toBeGreaterThanOrEqual(passed * 0.9);
     }
@@ -194,7 +220,7 @@ describe("run-engine", () => {
     expect(after).toBe(s);
   });
 
-  it("タネは1個、金のタネは5個分を数える", () => {
+  it("タネは1個、銀のタネは2個分、金のタネは5個分を数える", () => {
     const base = empty(createRun(1));
     const s = tick(
       {
@@ -202,11 +228,13 @@ describe("run-engine", () => {
         seeds: [
           { x: SPRU_X + 10, y: 20, golden: false, taken: false, kind: "ground" },
           { x: SPRU_X + 20, y: 30, golden: true, taken: false, kind: "ground" },
+          { x: SPRU_X + 15, y: 25, golden: false, silver: true, taken: false, kind: "ground" },
         ],
       },
       16,
     );
-    expect(s.seedValue).toBe(6);
+    expect(s.seedValue).toBe(1 + 5 + SILVER_VALUE);
+    expect(SILVER_VALUE).toBe(2);
     expect(s.seeds.every((seed) => seed.taken)).toBe(true);
   });
 
@@ -381,7 +409,7 @@ describe("床のパターンも、こえられる・登れる", () => {
         for (const item of x.seeds) {
           if (item.kind === "platform" && !seen.has(`${item.x}:${item.y}`)) {
             seen.add(`${item.x}:${item.y}`);
-            platformSeeds += item.golden ? 5 : 1;
+            platformSeeds += item.golden ? 5 : item.silver ? 2 : 1;
           }
         }
         return platformBot(x);
@@ -599,5 +627,66 @@ describe("画面の高さに合わせたタワー", () => {
       const s = run(createRun(seed, 40_000, 600), 40_000, platformBot);
       expect({ seed, hearts: s.hearts }).toEqual({ seed, hearts: RUN_HEARTS });
     }
+  });
+});
+
+
+describe("金・銀のタネ", () => {
+  it("金のタネは、銀より少ない。銀のタネは、ときどき出る", () => {
+    let gold = 0;
+    let silver = 0;
+    let normal = 0;
+    for (let seed = 1; seed <= 40; seed++) {
+      let r = createRun(seed, 20_000);
+      const seen = new Set<string>();
+      for (let t = 0; t < 40_000; t += 16) {
+        r = tick(r, 16);
+        for (const item of r.seeds) {
+          const key = `${item.x}:${item.y}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          if (item.golden) gold++;
+          else if (item.silver) silver++;
+          else normal++;
+        }
+        if (r.hearts <= 0) r = { ...r, hearts: RUN_HEARTS, phase: "running" };
+      }
+    }
+    expect(gold).toBeGreaterThan(0);
+    expect(silver).toBeGreaterThan(gold);
+    expect(gold / (gold + silver + normal)).toBeLessThan(0.03);
+  });
+});
+
+describe("床の出る割合", () => {
+  const roll = (value: number) => () => value;
+
+  it("床のあとに、すぐ床が続かない", () => {
+    for (let i = 0; i < 80; i++) {
+      for (const last of ["step", "stairs", "tower", "bridge", "highgold"] as PatternId[]) {
+        expect(PATTERNS[choosePattern(["single", last], 40_000, roll(i / 80))].kind).not.toBe("platform");
+      }
+    }
+  });
+
+  it("1分のうち、床のパターンは、全体の3割以下", () => {
+    let platforms = 0;
+    let all = 0;
+    for (let seed = 1; seed <= 30; seed++) {
+      let r = createRun(seed, 20_000);
+      let last = "";
+      r = run(r, 50_000, (x) => {
+        const id = x.patterns.at(-1)!;
+        const key = `${x.patterns.length}:${x.nextSpawnX}`;
+        if (key !== last) {
+          last = key;
+          all++;
+          if (PATTERNS[id].kind === "platform") platforms++;
+        }
+        return bot(x);
+      });
+    }
+    expect(all).toBeGreaterThan(200);
+    expect(platforms / all).toBeLessThan(0.3);
   });
 });

@@ -14,18 +14,16 @@ import {
   currentScore,
   jump,
   meters,
-  PLATFORM_THICK,
   RUN_HEARTS,
   SEED_R,
   SPRU_W,
   SPRU_X,
   tick,
   WORLD_W,
-  type ObstacleKind,
   type RunState,
 } from "./run-engine";
-import { RUN_ASSETS } from "./run-assets";
-import { bottomCss, GROUND_CQH, isBlinkOff, obstacleDraw, RUN_HINT, scrollCqw, sizeCqw, spruDraw, spruPose } from "./run-view";
+import { PLATFORM_ART, RUN_ASSETS } from "./run-assets";
+import { bottomCss, GROUND_CQH, isBlinkOff, obstacleDraw, platformDraw, RUN_HINT, scrollCqw, sizeCqw, spruDraw, spruPose } from "./run-view";
 
 const COUNTDOWN_FROM = 3;
 const COUNTDOWN_STEP_MS = 700;
@@ -169,7 +167,7 @@ export function RunGame({ seed, startMs = 0, onFinish, onQuit }: { seed: number;
         {state.seeds
           .filter((seed) => !seed.taken)
           .map((seed) => {
-            const asset = RUN_ASSETS[seed.golden ? "golden-seed" : "seed"];
+            const asset = RUN_ASSETS[seed.golden ? "golden-seed" : seed.silver ? "silver-seed" : "seed"];
             const width = (SEED_DRAW_H * asset.width) / asset.height;
             return (
               <div
@@ -182,20 +180,29 @@ export function RunGame({ seed, startMs = 0, onFinish, onQuit }: { seed: number;
                   height: sizeCqw(SEED_DRAW_H),
                 }}
               >
-                <Image src={asset.src} alt={seed.golden ? "金のタネ" : "タネ"} fill sizes="40px" unoptimized className="object-contain" />
+                <Image src={asset.src} alt={seed.golden ? "金のタネ" : seed.silver ? "銀のタネ" : "タネ"} fill sizes="40px" unoptimized className="object-contain" />
               </div>
             );
           })}
 
-        {/* 床(絵が届くまでは、草のふたつきの土の板で描く) */}
-        {state.platforms.map((p) => (
-          <div
-            key={`p-${p.x}`}
-            aria-hidden
-            className="pointer-events-none absolute rounded-lg border-2 border-[#6b4423] bg-[linear-gradient(#78c043_0_30%,#c98a4b_30%)] shadow-[0_3px_0_rgba(0,0,0,0.18)]"
-            style={{ left: sizeCqw(p.x - state.distance), bottom: bottomCss(p.top - PLATFORM_THICK), width: sizeCqw(p.w), height: sizeCqw(PLATFORM_THICK) }}
-          />
-        ))}
+        {/* 床(左のはし・まんなか(横にのばす)・右のはし) */}
+        {state.platforms.map((p) => {
+          const draw = platformDraw(p);
+          const src = PLATFORM_ART[draw.art].src;
+          const part = (suffix: "l" | "m" | "r") => ({ backgroundImage: `url(${src}-${suffix}.webp)`, backgroundSize: "100% 100%" });
+          return (
+            <div
+              key={`p-${p.x}`}
+              aria-hidden
+              className="pointer-events-none absolute flex"
+              style={{ left: sizeCqw(p.x - state.distance), bottom: bottomCss(draw.bottom), width: sizeCqw(p.w), height: sizeCqw(draw.height) }}
+            >
+              <div className="h-full shrink-0" style={{ width: sizeCqw(draw.cap), ...part("l") }} />
+              <div className="h-full flex-1" style={part("m")} />
+              <div className="h-full shrink-0" style={{ width: sizeCqw(draw.cap), ...part("r") }} />
+            </div>
+          );
+        })}
 
         {/* じゃまもの */}
         {state.obstacles.map((o) => {
@@ -209,7 +216,7 @@ export function RunGame({ seed, startMs = 0, onFinish, onQuit }: { seed: number;
               className={cn("pointer-events-none absolute", o.hit && "opacity-60")}
               style={{ left: sizeCqw(art.left - state.distance), bottom: bottomCss(lift), width: sizeCqw(art.width), height: sizeCqw(art.height) }}
             >
-              {art.src ? <Image src={art.src} alt="" fill sizes="120px" unoptimized className="object-contain object-bottom" /> : <PlaceholderArt kind={o.kind} />}
+              <Image src={art.src} alt="" fill sizes="120px" unoptimized className="object-contain object-bottom" />
             </div>
           );
         })}
@@ -290,19 +297,4 @@ export function RunGame({ seed, startMs = 0, onFinish, onQuit }: { seed: number;
       )}
     </div>
   );
-}
-
-/** 絵がまだないじゃまもの(キノコ・ハリネズミ・ハチ)の、仮の図形 */
-function PlaceholderArt({ kind }: { kind: ObstacleKind }) {
-  if (kind === "bee") {
-    return (
-      <div
-        className="h-full w-full rounded-full ring-2 ring-[#3b3226] bg-[repeating-linear-gradient(90deg,#ffd24d_0_8px,#3b3226_8px_12px)]"
-        aria-label="ハチ"
-        role="img"
-      />
-    );
-  }
-  if (kind === "mushroom") return <div className="h-full w-full rounded-t-[60%] rounded-b-md bg-[#e5484d] ring-2 ring-[#9b2226]" aria-label="キノコ" role="img" />;
-  return <div className="h-full w-full rounded-t-[50%] rounded-b-md bg-[#8b6b4a] ring-2 ring-[#5c4630]" aria-label="ハリネズミ" role="img" />;
 }

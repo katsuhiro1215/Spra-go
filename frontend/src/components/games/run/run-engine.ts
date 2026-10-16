@@ -9,7 +9,8 @@ export type ObstacleKind = "rock" | "stump" | "puddle" | "bush" | "fence" | "mus
 export type Obstacle = { kind: ObstacleKind; x: number; w: number; h: number; base?: number; hit: boolean };
 /** タネのある場所の種類(テストと、集めやすさの調整で使う) */
 export type SeedKind = "ground" | "arc" | "river" | "wave" | "platform" | "high";
-export type Seed = { x: number; y: number; golden: boolean; taken: boolean; kind: SeedKind };
+/** golden = 金(5個分)、silver = 銀(2個分)。どちらもなければ、ふつうのタネ(1個) */
+export type Seed = { x: number; y: number; golden: boolean; silver?: boolean; taken: boolean; kind: SeedKind };
 /** 下から跳ぶとすり抜けて、上から着地できる床。top は、床の上の面の高さ(地面から) */
 export type Platform = { x: number; w: number; top: number };
 export type RunPhase = "running" | "done";
@@ -60,9 +61,11 @@ export const SPRU_H = 50;
 export const GRAVITY = 1280;
 export const JUMP_V = 480;
 export const DOUBLE_JUMP_V = 420;
+/** 3段目のジャンプ(2段目より、小さい) */
+export const TRIPLE_JUMP_V = 380;
 
-export const SPEED_START = 260;
-export const SPEED_MAX = 480;
+export const SPEED_START = 220;
+export const SPEED_MAX = 420;
 export const SPEED_STEP = 15;
 export const SPEED_EVERY_MS = 10_000;
 
@@ -75,6 +78,7 @@ const SUB_STEP_MS = 16;
 
 export const SEED_R = 12;
 export const GOLDEN_VALUE = 5;
+export const SILVER_VALUE = 2;
 const SCORE_PER_SEED = 10;
 
 /** じゃまものの当たりの大きさ(絵の形に合わせる。絵は少し大きく描く)。tall は2段ジャンプが要る */
@@ -111,8 +115,6 @@ export const PLATFORM_STEP = 64;
 export const PLATFORM_TOPS = { low: 56, high: 56 + PLATFORM_STEP };
 /** 床・空のタネを置ける、いちばん高い所(どの画面の高さでも見える高さ) */
 export const PLATFORM_CEILING = 420;
-/** 床の厚み(描くときだけ使う。当たりには関係ない) */
-export const PLATFORM_THICK = 22;
 /** 床・タネの波から着地したあと、次のじゃまものを跳ぶ準備をする余裕(秒)。高いじゃまものを、ちょうどよく跳ぶ時間より長くする */
 const LANDING_MARGIN_S = 0.85;
 
@@ -183,11 +185,12 @@ export function createRun(seed: number, startMs = 0, ceiling = PLATFORM_CEILING)
   });
 }
 
-/** 跳ぶ。地面なら1段目、空中で1回だけ2段目 */
+/** 跳ぶ。地面なら1段目、空中で2段目・3段目(4回目はできない) */
 export function jump(state: RunState): RunState {
   if (state.phase !== "running") return state;
   if (state.jumps === 0) return { ...state, vy: JUMP_V, jumps: 1, jumpCount: state.jumpCount + 1 };
   if (state.jumps === 1) return { ...state, vy: DOUBLE_JUMP_V, jumps: 2, jumpCount: state.jumpCount + 1 };
+  if (state.jumps === 2) return { ...state, vy: TRIPLE_JUMP_V, jumps: 3, jumpCount: state.jumpCount + 1 };
   return state;
 }
 
@@ -274,7 +277,7 @@ function collide(s: RunState): RunState {
   if (seeds.some((seed) => !seed.taken && touches(seed, s.distance, s.y))) {
     seeds = seeds.map((seed) => {
       if (seed.taken || !touches(seed, s.distance, s.y)) return seed;
-      seedValue += seed.golden ? GOLDEN_VALUE : 1;
+      seedValue += seed.golden ? GOLDEN_VALUE : seed.silver ? SILVER_VALUE : 1;
       pickupCount += 1;
       return { ...seed, taken: true };
     });
@@ -307,15 +310,20 @@ type Built = { obstacles: Obstacle[]; seeds: Seed[]; platforms: Platform[]; end:
 type Context = { x: number; speed: number; passSpeed: number; elapsedMs: number; roll: () => number; ceiling?: number };
 type Pattern = { kind: PatternKind; from: number; weight: number; build: (c: Context) => Built };
 
-const seedAt = (x: number, y: number, kind: SeedKind, golden = false): Seed => ({ x, y, kind, golden, taken: false });
+type Rare = "gold" | "silver" | null;
+const seedAt = (x: number, y: number, kind: SeedKind, rare: Rare = null): Seed => ({ x, y, kind, golden: rare === "gold", silver: rare === "silver", taken: false });
+/** パターンの目玉のタネ(1つ)が、金・銀・ふつうのどれか。金は、めったに出ない */
+const GOLD_RATE = 0.08;
+const SILVER_RATE = 0.3;
+const rareOf = (value: number): Rare => (value < GOLD_RATE ? "gold" : value < GOLD_RATE + SILVER_RATE ? "silver" : null);
 /** 床の上に立ったスプルの体の真ん中の高さ */
 const onTopY = (top: number) => top + SPRU_H / 2;
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
 /** 床の上に、間かく spacing でタネを並べる(はしから 20 あける) */
-function platformRow(p: Platform, y: number, spacing: number, goldenAt: number | null, from = 20, to = 20): Seed[] {
+function platformRow(p: Platform, y: number, spacing: number, rareAt: number | null, rare: Rare, from = 20, to = 20): Seed[] {
   const count = Math.max(1, Math.floor((p.w - from - to) / spacing) + 1);
-  return Array.from({ length: count }, (_, i) => seedAt(p.x + from + i * spacing, y, "platform", i === goldenAt));
+  return Array.from({ length: count }, (_, i) => seedAt(p.x + from + i * spacing, y, "platform", i === rareAt ? rare : null));
 }
 
 const PATTERNS_TABLE: Record<PatternId, Pattern> = {
@@ -329,18 +337,18 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
       const kinds = tall ? TALL_KINDS : LOW_KINDS;
       const kind = kinds[Math.floor(roll() * kinds.length)];
       const { w, h } = OBSTACLES[kind];
-      const golden = roll() < 0.08;
+      const rare = rareOf(roll());
       const center = idealCenterTime(tall);
       const seeds: Seed[] = [];
       if (roll() < 0.5) {
         // じゃまものの上の弧: ちょうどよく跳んだときの、スプルの体の真ん中の通り道に並べる
         [-2, -1, 0, 1, 2].forEach((n) =>
-          seeds.push(seedAt(x + w / 2 + n * ARC_SPACING, jumpHeightAt(center + (n * ARC_SPACING) / passSpeed, tall) + SPRU_H / 2, "arc", golden && n === 0)),
+          seeds.push(seedAt(x + w / 2 + n * ARC_SPACING, jumpHeightAt(center + (n * ARC_SPACING) / passSpeed, tall) + SPRU_H / 2, "arc", n === 0 ? rare : null)),
         );
       } else {
         // じゃまものの手前の地面の列: ちょうどよく跳ぶ所より手前で、取り終わるように並べる
         const last = x + w / 2 - passSpeed * center - SPRU_W;
-        for (let n = 0; n < 5; n++) seeds.push(seedAt(last - (4 - n) * 28, SEED_R + 4, "ground", golden && n === 4));
+        for (let n = 0; n < 5; n++) seeds.push(seedAt(last - (4 - n) * 28, SEED_R + 4, "ground", n === 4 ? rare : null));
       }
       return { obstacles: [{ kind, x, w, h, hit: false }], seeds, platforms: [], end: x + w, gap: minGapAfter(kind, speed), extra: speed * GAP_EXTRA_S };
     },
@@ -351,8 +359,8 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
     from: 0,
     weight: 1.5,
     build: ({ x, speed, roll }) => {
-      const golden = roll() < 0.25 ? 9 : -1;
-      const seeds = Array.from({ length: 10 }, (_, i) => seedAt(x + i * 26, SEED_R + 4, "river", i === golden));
+      const rare = rareOf(roll());
+      const seeds = Array.from({ length: 10 }, (_, i) => seedAt(x + i * 26, SEED_R + 4, "river", i === 9 ? rare : null));
       return { obstacles: [], seeds, platforms: [], end: x + 9 * 26, gap: 40, extra: speed * 0.3 };
     },
   },
@@ -362,10 +370,10 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
     from: 3000,
     weight: 1.5,
     build: ({ x, speed, passSpeed, roll }) => {
-      const golden = roll() < 0.3 ? 4 : -1;
+      const rare = rareOf(roll());
       const seeds = Array.from({ length: 8 }, (_, k) => {
         const t = k * WAVE_STEP_S;
-        return seedAt(x + passSpeed * t, jumpHeightAt(t, false) + SPRU_H / 2, "wave", k === golden);
+        return seedAt(x + passSpeed * t, jumpHeightAt(t, false) + SPRU_H / 2, "wave", k === 4 ? rare : null);
       });
       return { obstacles: [], seeds, platforms: [], end: x + passSpeed * 7 * WAVE_STEP_S, gap: SPRU_W + speed * LANDING_MARGIN_S, extra: speed * 0.3 };
     },
@@ -378,7 +386,8 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
     build: ({ x, speed, roll }) => {
       const two = roll() < 0.4;
       const count = two ? 12 : 9;
-      const seeds = Array.from({ length: count }, (_, i) => seedAt(x + i * 26, SEED_R + 4, "river", i === count - 1 && roll() < 0.3));
+      const rare = rareOf(roll());
+      const seeds = Array.from({ length: count }, (_, i) => seedAt(x + i * 26, SEED_R + 4, "river", i === count - 1 ? rare : null));
       const { w, h } = OBSTACLES.bee;
       const bees = (two ? [2, 8] : [4]).map((i) => ({ kind: "bee" as const, x: x + i * 26 - w / 2, w, h, base: BEE_BASE, hit: false }));
       return { obstacles: bees, seeds, platforms: [], end: x + (count - 1) * 26, gap: SPRU_W + speed * LANDING_MARGIN_S, extra: speed * 0.3 };
@@ -388,26 +397,26 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
   step: {
     kind: "platform",
     from: 8000,
-    weight: 2,
+    weight: 1,
     build: ({ x, speed, roll }) => {
       const p = { x, w: clamp(speed * 0.8, 190, 330), top: PLATFORM_TOPS.low };
       const mid = p.x + p.w / 2;
-      const golden = roll() < 0.3 ? 1 : -1;
-      const high = [-1, 0, 1, 2].map((n, i) => seedAt(mid + (n - 0.5) * 32, p.top + 95, "high", i === golden));
-      return { obstacles: [], seeds: [...platformRow(p, onTopY(p.top), 28, null), ...high], platforms: [p], end: p.x + p.w, gap: platformExitGap(speed, p.top), extra: speed * 0.4 };
+      const rare = rareOf(roll());
+      const high = [-1, 0, 1, 2].map((n, i) => seedAt(mid + (n - 0.5) * 32, p.top + 95, "high", i === 1 ? rare : null));
+      return { obstacles: [], seeds: [...platformRow(p, onTopY(p.top), 28, null, null), ...high], platforms: [p], end: p.x + p.w, gap: platformExitGap(speed, p.top), extra: speed * 0.4 };
     },
   },
   // 低い床から高い床へ、階段のように登る
   stairs: {
     kind: "platform",
     from: 18_000,
-    weight: 1.5,
+    weight: 0.8,
     build: ({ x, speed, roll }) => {
       const low = { x, w: 170, top: PLATFORM_TOPS.low };
       const high = { x: x + 190, w: 200, top: PLATFORM_TOPS.high };
-      const golden = roll() < 0.5 ? 5 : -1;
+      const rare = rareOf(roll());
       const above = [-1, 0, 1].map((n) => seedAt(high.x + high.w / 2 + n * 32, high.top + 95, "high"));
-      const seeds = [...platformRow(low, onTopY(low.top), 28, null), ...platformRow(high, onTopY(high.top), 28, golden), ...above];
+      const seeds = [...platformRow(low, onTopY(low.top), 28, null, null), ...platformRow(high, onTopY(high.top), 28, 5, rare), ...above];
       return { obstacles: [], seeds, platforms: [low, high], end: high.x + high.w, gap: platformExitGap(speed, high.top), extra: speed * 0.4 };
     },
   },
@@ -415,7 +424,7 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
   tower: {
     kind: "platform",
     from: 14_000,
-    weight: 1.5,
+    weight: 0.8,
     build: ({ x, speed, elapsedMs, roll, ceiling = PLATFORM_CEILING }) => {
       // 12秒ごとに1段ふえる。画面の高さに入る段までで、少なくとも3段
       const fits = Math.floor((ceiling - 100 - PLATFORM_TOPS.low) / PLATFORM_STEP) + 1;
@@ -424,10 +433,11 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
       const offset = clamp(speed * 0.3, 80, 140);
       const platforms = Array.from({ length: tiers }, (_, k) => ({ x: x + k * offset, w, top: PLATFORM_TOPS.low + k * PLATFORM_STEP }));
       const top = platforms[tiers - 1];
-      const seeds: Seed[] = platforms.flatMap((p) => platformRow(p, onTopY(p.top), 40, null, 30, 30));
+      const seeds: Seed[] = platforms.flatMap((p) => platformRow(p, onTopY(p.top), 40, null, null, 30, 30));
       // 空のタネ: いちばん上の床の上に、横にならべる。まんなかの1つが金
-      const golden = roll() < 0.6 ? 2 : -1;
-      const sky = [0, 1, 2, 3, 4].map((i) => seedAt(top.x + top.w / 2 + (i - 2) * 34, top.top + 95, "high", i === 2 || i === golden));
+      // 空のまんなかのタネは、ごほうび(銀。ときどき金)
+      const prize: Rare = roll() < 0.3 ? "gold" : "silver";
+      const sky = [0, 1, 2, 3, 4].map((i) => seedAt(top.x + top.w / 2 + (i - 2) * 34, top.top + 95, "high", i === 2 ? prize : null));
       return { obstacles: [], seeds: [...seeds, ...sky], platforms, end: top.x + top.w, gap: platformExitGap(speed, top.top), extra: speed * 0.4 };
     },
   },
@@ -435,7 +445,7 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
   bridge: {
     kind: "platform",
     from: 26_000,
-    weight: 1.2,
+    weight: 0.6,
     build: ({ x, speed, passSpeed }) => {
       const p = { x, w: clamp(speed * 1.25, 300, 600), top: PLATFORM_TOPS.low };
       const { w, h } = OBSTACLES.rock;
@@ -443,7 +453,7 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
       const center = idealCenterTime(false);
       const seeds: Seed[] = [
         ...[0, 1, 2, 3].map((i) => seedAt(p.x + 30 + i * 28, onTopY(p.top), "platform")),
-        ...[-2, -1, 0, 1, 2].map((n) => seedAt(rockX + w / 2 + n * ARC_SPACING, p.top + jumpHeightAt(center + (n * ARC_SPACING) / passSpeed, false) + SPRU_H / 2, "platform", false)),
+        ...[-2, -1, 0, 1, 2].map((n) => seedAt(rockX + w / 2 + n * ARC_SPACING, p.top + jumpHeightAt(center + (n * ARC_SPACING) / passSpeed, false) + SPRU_H / 2, "platform")),
       ];
       return { obstacles: [{ kind: "rock", x: rockX, w, h, base: p.top, hit: false }], seeds, platforms: [p], end: p.x + p.w, gap: platformExitGap(speed, p.top), extra: speed * 0.4 };
     },
@@ -452,11 +462,13 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
   highgold: {
     kind: "platform",
     from: 20_000,
-    weight: 1,
-    build: ({ x, speed }) => {
+    weight: 0.5,
+    build: ({ x, speed, roll }) => {
       const p = { x, w: clamp(speed * 0.55, 150, 260), top: PLATFORM_TOPS.high };
       const mid = p.x + p.w / 2;
-      const seeds = [...platformRow(p, onTopY(p.top), 28, 2), seedAt(mid, p.top + 95, "high", true)];
+      // 高い床のまんなかの上は、ごほうび(金か銀)
+      const prize: Rare = roll() < 0.5 ? "gold" : "silver";
+      const seeds = [...platformRow(p, onTopY(p.top), 28, 2, "silver"), seedAt(mid, p.top + 95, "high", prize)];
       return { obstacles: [], seeds, platforms: [p], end: p.x + p.w, gap: platformExitGap(speed, p.top), extra: speed * 0.4 };
     },
   },
@@ -483,6 +495,11 @@ export function choosePattern(history: PatternId[], elapsedMs: number, roll: () 
   }
   if (lastTwo.length === 2 && lastTwo[0] === lastTwo[1]) {
     const others = pool.filter((id) => id !== lastTwo[1]);
+    if (others.length > 0) pool = others;
+  }
+  // 床のあとは、床を続けない(床が多いと、登れない)
+  if (history.length > 0 && PATTERNS_TABLE[history[history.length - 1]].kind === "platform") {
+    const others = pool.filter((id) => PATTERNS_TABLE[id].kind !== "platform");
     if (others.length > 0) pool = others;
   }
   const last = history.at(-1);
