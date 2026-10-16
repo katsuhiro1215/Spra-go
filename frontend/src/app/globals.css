@@ -150,14 +150,28 @@
   }
 
   /*
+   * ふりがなは、漢字の真ん中にそろえる。何も指定しないと、ふりがなが漢字より短いとき、
+   * Safari(iPhone)は文字を均等に散らして「お も に」のように見せる。
+   */
+  html[data-furigana="on"] ruby {
+    ruby-align: center;
+  }
+
+  /*
    * ボタン・タブの中のふりがなは、行の高さに入れず、文字の上に浮かせる。
    * 高さに入れると、ふりがなの分だけ本文が下にずれて、ボタンの中で中央に並ばない。
+   * <rt> を position:absolute にする方法は、Safari(iPhone)が <ruby> の中の <rt> を特別に扱うため、
+   * ふりがなが漢字に重なって左にずれる。そこで、<rt> は隠し、data-rt の文字を ::before で上に浮かせる。
    */
   html[data-furigana="on"] :is(button, [role="tab"], [role="button"]) ruby {
     position: relative;
     display: inline-block;
   }
   html[data-furigana="on"] :is(button, [role="tab"], [role="button"]) ruby rt {
+    display: none;
+  }
+  html[data-furigana="on"] :is(button, [role="tab"], [role="button"]) ruby::before {
+    content: attr(data-rt);
     position: absolute;
     bottom: 100%;
     left: 50%;

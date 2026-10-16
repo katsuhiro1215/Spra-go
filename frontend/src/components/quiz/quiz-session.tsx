@@ -631,15 +631,20 @@ export function QuizSession({
             <ReportQuestion key={question.id} questionId={question.id} />
           </div>
           <div>
-            {/* テーマの名前が付くと長いので、項目ごとに折り返す(項目の途中では切らない) */}
-            <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5 pr-16 text-sm text-[#6b5d45]">
-              <span className="flex items-center gap-2 whitespace-nowrap">{practice ? "もう一度チャレンジ" : title}</span>
+            {/* テーマの名前が付くと長いので、項目ごとに折り返す(項目の途中では切らない)。
+                区切りの「・」は、前の項目の終わりに付ける(折り返した行の頭に来ないように) */}
+            <p className="flex flex-wrap items-center gap-x-1 gap-y-0.5 pr-16 text-sm text-[#6b5d45]">
+              <span className="flex items-center gap-2 whitespace-nowrap">
+                {practice ? "もう一度チャレンジ" : title}
+                <span aria-hidden>・</span>
+              </span>
               <span className="whitespace-nowrap">
-                ・ 問題 {currentIndex + 1} / {round.length}
+                問題 {currentIndex + 1} / {round.length}
+                {timed && rules && <span aria-hidden> ・</span>}
               </span>
               {timed && rules && (
                 <span className="font-black whitespace-nowrap text-[#2e6b1c]">
-                  ・ せいかい {stageScore} / {rules.required}
+                  せいかい {stageScore} / {rules.required}
                 </span>
               )}
               {question.review && !practice && (
