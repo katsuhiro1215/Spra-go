@@ -67,6 +67,8 @@ def main(corpus_path: str) -> None:
             previous_numeric = numeric
             if not KANJI.search(surface) or counter_after_number or re.search(r"[0-9０-９A-Za-zＡ-Ｚａ-ｚ]", surface):
                 continue
+            if re.search(r"[（）()「」『』、。？！・]", surface):  # 括弧や記号が語にくっついたもの(「大陸(フランス)」)は作らない
+                continue
             reading = normalize_long_vowel(to_hiragana(morpheme.reading_form()))
             if not HIRAGANA.match(reading):  # 読みが取れない語(漢字が残る・記号)は作らない
                 continue

@@ -212,3 +212,154 @@ describe("自動ふりがな(形態素解析で作った辞書)", () => {
     expect(ruby("好む人")).toContain("人(ひと)");
   });
 });
+
+describe("自動ふりがな(数え方の読み: 〜つ・本・分・階・回など)", () => {
+  it("一つ・二つ…九つ は、ひとつ・ふたつ・みっつ…ここのつ(「いちつ」にならない)", () => {
+    expect(ruby("一つだけ")).toEqual(["一つ(ひとつ)"]);
+    expect(ruby("二つ")).toEqual(["二つ(ふたつ)"]);
+    expect(ruby("三つ")).toEqual(["三つ(みっつ)"]);
+    expect(ruby("四つ")).toEqual(["四つ(よっつ)"]);
+    expect(ruby("五つ")).toEqual(["五つ(いつつ)"]);
+    expect(ruby("六つ")).toEqual(["六つ(むっつ)"]);
+    expect(ruby("七つ")).toEqual(["七つ(ななつ)"]);
+    expect(ruby("八つ")).toEqual(["八つ(やっつ)"]);
+    expect(ruby("九つ")).toEqual(["九つ(ここのつ)"]);
+  });
+
+  it("数字の1つ・2つ…も同じ読みにする。「つ」でない数字は、そのまま", () => {
+    expect(ruby("2つの")).toEqual(["2つ(ふたつ)"]);
+    expect(ruby("3つ")).toEqual(["3つ(みっつ)"]);
+    expect(ruby("4つ")).toEqual(["4つ(よっつ)"]);
+    expect(ruby("9つ")).toEqual(["9つ(ここのつ)"]);
+    expect(ruby("10つ")).toEqual([]);
+  });
+
+  it("八つ橋のように、辞書の長い語があるときは、辞書の読みを使う", () => {
+    expect(ruby("八つ橋")).toEqual(["八つ橋(やつはし)"]);
+  });
+
+  it("日付の1日は「ついたち」、日数の1日は「いちにち」", () => {
+    expect(ruby("1月1日は何の日？")).toContain("1日(ついたち)");
+    expect(ruby("1月1日は何の日？")).toContain("1月(いちがつ)");
+    expect(ruby("11月23日")).toEqual(["11月(じゅういちがつ)", "23日(にじゅうさんにち)"]);
+    expect(ruby("あと1日")).toEqual(["1日(いちにち)"]);
+    expect(ruby("四日")).toEqual(["四日(よっか)"]);
+    expect(ruby("三日")).toEqual(["三日(みっか)"]);
+    expect(ruby("十日")).toEqual(["十日(とおか)"]);
+    expect(ruby("二十日")).toEqual(["二十日(はつか)"]);
+  });
+
+  it("三日月・九十九里浜のような語を、数え方として読まない", () => {
+    expect(ruby("三日月")).toEqual(["三日月(みかづき)"]);
+    expect(ruby("九十九里浜")).toEqual(["九十九里浜(くじゅうくりはま)"]);
+  });
+
+  it("一人・二人 は、ひとり・ふたり。三人からは「〜にん」", () => {
+    expect(ruby("一人で")).toEqual(["一人(ひとり)"]);
+    expect(ruby("二人")).toEqual(["二人(ふたり)"]);
+    expect(ruby("三人")).toEqual(["三人(さんにん)"]);
+    expect(ruby("八人")).toEqual(["八人(はちにん)"]);
+    expect(ruby("930万人")).not.toContain("万人(ひと)");
+  });
+
+  it("本・匹・杯は、数で「ほん/ぽん/ぼん」などに変わる", () => {
+    expect(ruby("13本")).toEqual(["13本(じゅうさんぼん)"]);
+    expect(ruby("8本")).toEqual(["8本(はっぽん)"]);
+    expect(ruby("20本")).toEqual(["20本(にじゅっぽん)"]);
+    expect(ruby("16本")).toEqual(["16本(じゅうろっぽん)"]);
+    expect(ruby("12本")).toEqual(["12本(じゅうにほん)"]);
+    expect(ruby("1本")).toEqual(["1本(いっぽん)"]);
+    expect(ruby("3本")).toEqual(["3本(さんぼん)"]);
+    expect(ruby("5本")).toEqual(["5本(ごほん)"]);
+    expect(ruby("一本")).toEqual(["一本(いっぽん)"]);
+    expect(ruby("二本")).toEqual(["二本(にほん)"]);
+    expect(ruby("六本")).toEqual(["六本(ろっぽん)"]);
+    expect(ruby("3匹")).toEqual(["3匹(さんびき)"]);
+    expect(ruby("1匹")).toEqual(["1匹(いっぴき)"]);
+    expect(ruby("3杯")).toEqual(["3杯(さんばい)"]);
+    expect(ruby("1杯")).toEqual(["1杯(いっぱい)"]);
+  });
+
+  it("分は、数で「ふん/ぷん」に変わる。「十分」(じゅうぶん)は数え方にしない", () => {
+    expect(ruby("3分")).toEqual(["3分(さんぷん)"]);
+    expect(ruby("5分")).toEqual(["5分(ごふん)"]);
+    expect(ruby("10分")).toEqual(["10分(じゅっぷん)"]);
+    expect(ruby("1分")).toEqual(["1分(いっぷん)"]);
+    expect(ruby("4分")).toEqual(["4分(よんぷん)"]);
+    expect(ruby("十分な")).not.toContain("十分(じっぷん)");
+    expect(ruby("5分の1")).toEqual(["5分(ごふん)"]);
+  });
+
+  it("階・回・個・冊・歳・頭 は、数で読みが変わる", () => {
+    expect(ruby("2階")).toEqual(["2階(にかい)"]);
+    expect(ruby("3階")).toEqual(["3階(さんがい)"]);
+    expect(ruby("一回")).toEqual(["一回(いっかい)"]);
+    expect(ruby("三回")).toEqual(["三回(さんかい)"]);
+    expect(ruby("七回")).toEqual(["七回(ななかい)"]);
+    expect(ruby("二冊")).toEqual(["二冊(にさつ)"]);
+    expect(ruby("八頭")).toEqual(["八頭(はっとう)"]);
+    expect(ruby("二十歳")).toEqual(["二十歳(はたち)"]);
+    expect(ruby("三歳")).toEqual(["三歳(さんさい)"]);
+    expect(ruby("一個")).toEqual(["一個(いっこ)"]);
+  });
+
+  it("数字の後に数え方がない文字は、これまでどおり(九州・四国・一般・一緒)", () => {
+    expect(ruby("九州")).not.toContain("九(く)");
+    expect(ruby("四国")).toEqual(["四国(しこく)"]);
+    expect(ruby("一緒に")).toContain("一緒(いっしょ)");
+  });
+});
+
+describe("自動ふりがな(本文に書かれた「漢字（読み）」は、読みをふりがなにして、括弧を消す)", () => {
+  it("山脈（さんみゃく）→ 山脈に「さんみゃく」。括弧は出さない", () => {
+    expect(tokenize("山脈（さんみゃく）は、一つだけの山")).toEqual([
+      { text: "山脈", reading: "さんみゃく" },
+      "は、",
+      { text: "一つ", reading: "ひとつ" },
+      "だけの",
+      { text: "山", reading: "やま" },
+    ]);
+  });
+
+  it("半角の括弧も同じ", () => {
+    expect(tokenize("山脈(さんみゃく)")).toEqual([{ text: "山脈", reading: "さんみゃく" }]);
+  });
+
+  it("読みが「の」を含む名前は、「の」の前の漢字までふりがなにする(那智の滝・沖ノ鳥島)", () => {
+    expect(tokenize("那智の滝（なちのたき）がある県は？")[0]).toEqual({ text: "那智の滝", reading: "なちのたき" });
+    expect(tokenize("沖ノ鳥島（おきのとりしま）")).toEqual([{ text: "沖ノ鳥島", reading: "おきのとりしま" }]);
+  });
+
+  it("送りがな・ひらがなを含む語(加賀れんこん・有り難し)も、まとめて読む", () => {
+    expect(tokenize("加賀れんこん（かがれんこん）で知られる県は？")[0]).toEqual({ text: "加賀れんこん", reading: "かがれんこん" });
+    expect(tokenize("有り難し（ありがたし）")).toEqual([{ text: "有り難し", reading: "ありがたし" }]);
+  });
+
+  it("括弧の読みを、辞書の読みより優先する(松阪牛は、まつさかうし)", () => {
+    expect(tokenize("松阪牛（まつさかうし）で知られる")[0]).toEqual({ text: "松阪牛", reading: "まつさかうし" });
+  });
+
+  it("「の」で前の語とつながる読みでないときは、漢字の1語だけ(東の京（みやこ）)", () => {
+    expect(tokenize("「東の京（みやこ）」という意味").filter((s) => typeof s !== "string")).toContainEqual({ text: "京", reading: "みやこ" });
+    expect(ruby("「東の京（みやこ）」という意味")).not.toContain("東の京(みやこ)");
+  });
+
+  it("読みが短すぎて合わない(佐渡島（さど）)ときは、括弧をそのまま出す", () => {
+    expect(tokenize("佐渡島（さど）の金山").some((s) => typeof s === "string" && s.includes("（さど）"))).toBe(true);
+  });
+
+  it("漢字の語でないもの(Yes（そうです）・語呂（むさし）)は、そのまま", () => {
+    expect(tokenize("Yes（そうです）")).toEqual(["Yes（そうです）"]);
+    expect(tokenize("「武蔵国」の語呂（むさし）に通じる").some((s) => typeof s === "string" && s.includes("（むさし）"))).toBe(true);
+  });
+});
+
+describe("数え方と、問題ごとの読み(readings)", () => {
+  it("問題ごとの読みのほうが長い語のときは、数え方より、その読みを使う(八頭町は、やずちょう)", () => {
+    expect(tokenize("八頭町", [], { 八頭町: "やずちょう" })).toEqual([{ text: "八頭町", reading: "やずちょう" }]);
+  });
+
+  it("辞書にない「二本松」は、にほん・まつ(数え方の読みで、結果として正しい)", () => {
+    expect(tokenize("二本松").map((s) => (typeof s === "string" ? s : s.reading)).join("")).toBe("にほんまつ");
+  });
+});

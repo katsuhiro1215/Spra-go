@@ -72,11 +72,97 @@ export function monthReading(n: number): string | null {
   return MONTHS[n] ?? null;
 }
 
-/** text の i 文字目から「数字＋日/人/月」なら、その長さと読み。違えば null */
+/** 漢数字(一〜九十九)を数にする。それ以外は null */
+export function kanjiNumber(text: string): number | null {
+  const digit = "一二三四五六七八九";
+  const m = /^([一二三四五六七八九]?)(十?)([一二三四五六七八九]?)$/.exec(text);
+  if (!m || text === "") return null;
+  const [, head, ten, tail] = m;
+  if (ten === "") return head !== "" && tail === "" ? digit.indexOf(head) + 1 : null;
+  return (head === "" ? 1 : digit.indexOf(head) + 1) * 10 + (tail === "" ? 0 : digit.indexOf(tail) + 1);
+}
+
+/** 「つ」で数える読み(一つ=ひとつ。1〜9だけ) */
+const TSU = ["", "ひとつ", "ふたつ", "みっつ", "よっつ", "いつつ", "むっつ", "ななつ", "やっつ", "ここのつ"];
+
+/**
+ * 数によって、数のほうが促音・数え方のほうが濁音・半濁音に変わる数え方。
+ * base: ふつうの読み。sokuon: 数が「いっ・ろっ・はっ・じゅっ」になる一の位。
+ * voiced: 濁る一の位(3本=さんぼん)。semi: 半濁音になる一の位(1本=いっぽん)。1〜99まで
+ */
+type Voicing = { base: string; semi?: string; voiced?: string; sokuon: number[]; semiDigits?: number[]; voicedDigits?: number[] };
+
+const SOKUON_HEAD: Record<number, string> = { 1: "いっ", 6: "ろっ", 8: "はっ" };
+
+const VOICING: Record<string, Voicing> = {
+  本: { base: "ほん", semi: "ぽん", voiced: "ぼん", sokuon: [1, 6, 8, 0], semiDigits: [1, 6, 8, 0], voicedDigits: [3] },
+  匹: { base: "ひき", semi: "ぴき", voiced: "びき", sokuon: [1, 6, 8, 0], semiDigits: [1, 6, 8, 0], voicedDigits: [3] },
+  杯: { base: "はい", semi: "ぱい", voiced: "ばい", sokuon: [1, 6, 8, 0], semiDigits: [1, 6, 8, 0], voicedDigits: [3] },
+  分: { base: "ふん", semi: "ぷん", sokuon: [1, 6, 8, 0], semiDigits: [1, 3, 4, 6, 8, 0] },
+  階: { base: "かい", voiced: "がい", sokuon: [1, 6, 8, 0], voicedDigits: [3] },
+  回: { base: "かい", sokuon: [1, 6, 8, 0] },
+  個: { base: "こ", sokuon: [1, 6, 8, 0] },
+  冊: { base: "さつ", sokuon: [1, 8, 0] },
+  歳: { base: "さい", sokuon: [1, 8, 0] },
+  頭: { base: "とう", sokuon: [1, 8, 0] },
+};
+
+/** 数 n(1〜99)+数え方 counter の読み。対応しない数え方・数は null */
+export function voicedReading(n: number, counter: string): string | null {
+  const rule = VOICING[counter];
+  if (!rule || !Number.isInteger(n) || n < 1 || n > 99) return null;
+  if (counter === "歳" && n === 20) return "はたち";
+  const d = n % 10;
+  const tens = n - d;
+  const sokuon = rule.sokuon.includes(d);
+  let head: string;
+  if (d === 0) {
+    // 10・20…は、「じゅう」が「じゅっ」になる(10本=じゅっぽん)。sokuon に 0 がないときは、そのまま
+    const kana = numberKana(tens) ?? "";
+    head = sokuon ? kana.replace(/じゅう$/, "じゅっ") : kana;
+  } else {
+    const ones = sokuon ? SOKUON_HEAD[d] : undefined;
+    head = numberKana(n, ones ? { [d]: ones } : {}) ?? "";
+  }
+  const tail = rule.semiDigits?.includes(d) ? rule.semi : rule.voicedDigits?.includes(d) ? rule.voiced : rule.base;
+  return `${head}${tail}`;
+}
+
+/** 数字(1〜9)+つの読み */
+export function tsuReading(n: number): string | null {
+  return n >= 1 && n <= 9 ? TSU[n] : null;
+}
+
+/** 数字(アラビア数字)の後ろで、数によって読みが変わる数え方 */
+const DIGIT_COUNTERS = "つ日人月本匹杯分階";
+/** 漢数字の後ろで読む数え方。「十分」(じゅうぶん)があるので、分は含めない */
+const KANJI_COUNTERS = "つ日人月本匹杯階回個冊歳頭";
+
+/**
+ * text の i 文字目から「数+数え方」なら、その長さと読み。違えば null。
+ * 日付(「1月1日」)の1日は「ついたち」。漢数字は一〜九十九、アラビア数字は 9999 まで
+ */
 export function counterAt(text: string, i: number): { length: number; reading: string } | null {
-  const match = /^(\d+)([日人月])/.exec(text.slice(i));
+  const rest = text.slice(i);
+  const digits = /^(\d+)([つ日人月本匹杯分階])/.exec(rest);
+  const kanji = digits ? null : /^([一二三四五六七八九十]+)([つ日人月本匹杯階回個冊歳頭])/.exec(rest);
+  const match = digits ?? kanji;
   if (!match) return null;
-  const n = Number(match[1]);
-  const reading = match[2] === "日" ? dayReading(n) : match[2] === "月" ? monthReading(n) : peopleReading(n);
+  const counter = match[2];
+  if (!(digits ? DIGIT_COUNTERS : KANJI_COUNTERS).includes(counter)) return null;
+  const n = digits ? Number(match[1]) : kanjiNumber(match[1]);
+  if (n === null) return null;
+  // 漢数字の「一月」は、ひとつき・いちがつのどちらもあるので、読みを付けない
+  if (kanji && counter === "月" && n === 1) return null;
+
+  let reading: string | null;
+  if (counter === "日") {
+    const afterMonth = text[i - 1] === "月";
+    reading = afterMonth && n === 1 ? "ついたち" : dayReading(n);
+  } else if (counter === "月") reading = monthReading(n);
+  else if (counter === "人") reading = peopleReading(n);
+  else if (counter === "つ") reading = tsuReading(n);
+  else reading = voicedReading(n, counter);
+
   return reading === null ? null : { length: match[0].length, reading };
 }

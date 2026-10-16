@@ -23,6 +23,43 @@ for (const entry of Object.entries(merged).sort((a, b) => b[0].length - a[0].len
 
 type Segment = string | { text: string; reading: string };
 
+const KANJI = /[一-龥々ヶ〆]/;
+const KANA = /[ぁ-ゖァ-ヶー]/;
+/** 読みを括弧に書いても、その読みを使わない語(「武蔵」の語呂を、語呂の読みと取りちがえる) */
+const PAREN_SKIP = new Set(["語呂"]);
+
+const toHiragana = (text: string) => text.replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60));
+
+/**
+ * 本文の「漢字（よみ）」を、読みをふりがなにして括弧は出さない形にする(山脈（さんみゃく）→ 山脈に「さんみゃく」)。
+ * ふりがなを付けると、読みが二重に出てしまうため。text の i 文字目が、漢字で始まる語の先頭のときだけ見る。
+ * 語は、漢字とかなの並びで、漢字で始まる。かなの部分は読みと同じ文字、漢字の部分は1文字以上の読みに当たるときだけ合う
+ * (「那智の滝（なちのたき）」「加賀れんこん（かがれんこん）」)。合わなければ null で、括弧はそのまま出す
+ */
+export function parenthesizedReadingAt(text: string, i: number): { length: number; text: string; reading: string } | null {
+  // 漢字のまとまりの先頭だけ(「語呂（むさし）」の「呂」から始めない)
+  if (!KANJI.test(text[i]) || KANJI.test(text[i - 1] ?? "")) return null;
+  // 語の終わり(括弧の始まり)を探す。漢字とかなが続く間だけ
+  let end = i;
+  while (end < text.length && end - i < 16 && (KANJI.test(text[end]) || KANA.test(text[end]))) end++;
+  const open = text[end];
+  if (open !== "（" && open !== "(") return null;
+  const close = text.indexOf(open === "（" ? "）" : ")", end + 1);
+  if (close < 0) return null;
+  const reading = text.slice(end + 1, close);
+  const word = text.slice(i, end);
+  if (!/^[ぁ-ゖー・]+$/.test(reading) || PAREN_SKIP.has(word)) return null;
+
+  const kanjiCount = [...word].filter((c) => KANJI.test(c)).length;
+  if (reading.length < kanjiCount) return null;
+  const pattern = [...word]
+    .map((c) => (KANJI.test(c) ? "[ぁ-ゖー・]+?" : toHiragana(c).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")))
+    .join("");
+  if (!new RegExp(`^${pattern}$`).test(reading)) return null;
+
+  return { length: close + 1 - i, text: word, reading };
+}
+
 /**
  * 辞書の最長一致で、ふりがなを付ける語と、そのままの文字に分ける(テストでも使う)。
  * plain に入れた語(難読地名の問題の、問われる漢字)は、辞書にあっても、ふりがなを付けずにそのまま出す。
@@ -46,17 +83,27 @@ export function tokenize(text: string, plain: string[] = [], readings: Record<st
       i += plainWord.length;
       continue;
     }
-    // 数字の後の「日」「人」は、数によって読みが変わるので辞書より先に見る(7日=なのか、5人=ごにん)。
-    // 数字の途中(「17日」の「7」)から始めないよう、前の文字が数字のときは見ない
-    const counter = /\d/.test(text[i - 1] ?? "") ? null : counterAt(text, i);
-    if (counter) {
+    // 本文に書かれた「漢字（よみ）」は、読みをふりがなにして括弧を消す
+    const parenthesized = parenthesizedReadingAt(text, i);
+    if (parenthesized) {
+      segments.push({ text: parenthesized.text, reading: parenthesized.reading });
+      i += parenthesized.length;
+      continue;
+    }
+    // 数字の後の数え方(7日=なのか、5人=ごにん、一つ=ひとつ、13本=じゅうさんぼん)は、数によって読みが変わるので、
+    // 1文字の辞書より先に見る。ただし、問題ごとの読み・辞書に、もっと長い語があれば、そちら
+    // (八頭町=やずちょう、八つ橋=やつはし、三日月=みかづき)。同じ長さなら、数え方 → 問題ごとの読み → 辞書の順。
+    // 数の途中(「17日」の「7」、「二十三日」の「三」)から始めないよう、前の文字が数のときは見ない
+    const entry = dictionaryIndex.get(text[i])?.find(([word]) => text.startsWith(word, i));
+    const ownWord = readingWords.find((word) => word !== "" && text.startsWith(word, i));
+    const counter = /[\d一二三四五六七八九十百千万]/.test(text[i - 1] ?? "") ? null : counterAt(text, i);
+    const longest = Math.max(counter?.length ?? 0, ownWord?.length ?? 0, entry?.[0].length ?? 0);
+    if (counter && counter.length === longest) {
       segments.push({ text: text.slice(i, i + counter.length), reading: counter.reading });
       i += counter.length;
       continue;
     }
-    const ownWord = readingWords.find((word) => word !== "" && text.startsWith(word, i));
-    const entry = dictionaryIndex.get(text[i])?.find(([word]) => text.startsWith(word, i));
-    if (ownWord && (!entry || ownWord.length >= entry[0].length)) {
+    if (ownWord && ownWord.length === longest) {
       segments.push({ text: ownWord, reading: readings[ownWord] });
       i += ownWord.length;
       continue outer;
