@@ -15,7 +15,7 @@ class UserProfile extends Model
         'name', 'avatar', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'points', 'world_welcomed_at', 'world_plots_seen', 'road_style',
         'level', 'combo', 'best_combo', 'current_streak', 'best_streak', 'last_played_date',
         'bloom_base_level', 'last_correct_on', 'partner_companion_key', 'last_review_on', 'reviews_completed',
-        'ranking_nickname', 'run_seeds',
+        'ranking_nickname', 'run_seeds', 'costume_key',
     ];
 
     /**
@@ -298,6 +298,11 @@ class UserProfile extends Model
         return $this->hasMany(ProfileSpaceStop::class);
     }
 
+    public function costumes(): HasMany
+    {
+        return $this->hasMany(ProfileCostume::class);
+    }
+
     public function gamePlays(): HasMany
     {
         return $this->hasMany(ProfileGamePlay::class);
@@ -336,6 +341,7 @@ class UserProfile extends Model
                 'coin' => $this->coins = max(0, $this->coins + $delta),
                 'xp' => $this->xp = max(0, $this->xp + $delta),
                 'point' => $this->points = max(0, $this->points + $delta),
+                'run_seed' => $this->run_seeds = max(0, $this->run_seeds + $delta),
             };
 
             $this->currencyLedger()->create([

@@ -132,7 +132,7 @@ class GameRollout
     }
 
     /** 毎年の期間('MM-DD' 〜 'MM-DD'、両端を含む。12-20〜01-05 のような年またぎも) */
-    private static function inSeason(array $season, string $monthDay): bool
+    public static function inSeason(array $season, string $monthDay): bool
     {
         ['from' => $from, 'until' => $until] = $season;
 

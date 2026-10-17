@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { Button as AppButton } from "@/components/app/button";
+import { costumeImage } from "@/components/spru/costume";
 import { SPRU_IMAGES } from "@/components/spru/spru-assets";
 
 import { abandonRealRun, fetchRunSummary, finishRealRun, startRealRun, type RunFinish, type RunStart, type RunSummary } from "./run-api";
@@ -122,6 +123,7 @@ export function RunPageView() {
   const score = result ? currentScore(result.state) : null;
   const real = realButtonState(summary ? summary.real_plays_left : null);
   const saved = result?.mode === "real" ? result.saved : null;
+  const costume = costumeImage(summary?.costume_key);
 
   return (
     <main className="flex min-h-dvh justify-center bg-gradient-to-b from-[#8fd3ff] to-[#e8f7ff] px-4 py-6 text-[#3b3226]">
@@ -132,7 +134,11 @@ export function RunPageView() {
           </p>
         )}
         <h1 className="text-3xl font-black">スプルラン</h1>
-        <Image src={result ? SPRU_IMAGES.cheer.src : SPRU_IMAGES.run.src} alt="" width={110} height={180} className="h-36 w-auto" loading="eager" />
+        {costume ? (
+          <Image src={costume.src} alt="" width={costume.width} height={costume.height} unoptimized className="h-36 w-auto" loading="eager" />
+        ) : (
+          <Image src={result ? SPRU_IMAGES.cheer.src : SPRU_IMAGES.run.src} alt="" width={110} height={180} className="h-36 w-auto" loading="eager" />
+        )}
 
         {summary && (
           <p className="rounded-full bg-white/90 px-4 py-1 text-sm font-black text-[#7a5a12]">
@@ -211,10 +217,13 @@ export function RunPageView() {
             <Link href="/games/spru-run/ranking" className="contents">
               <AppButton variant="default" className="h-12">ランキング</AppButton>
             </Link>
-            <AppButton variant="default" className="h-12" onClick={() => router.push("/")}>
-              もどる
-            </AppButton>
+            <Link href="/games/spru-run/shop" className="contents">
+              <AppButton variant="default" className="h-12">タネ交換所</AppButton>
+            </Link>
           </div>
+          <AppButton variant="default" className="h-12" onClick={() => router.push("/")}>
+            もどる
+          </AppButton>
         </div>
       </div>
 

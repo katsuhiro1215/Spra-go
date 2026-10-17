@@ -55,6 +55,7 @@ use App\Support\QuestionMemory;
 use App\Support\QuizVariants;
 use App\Support\Ranking;
 use App\Support\RunGame;
+use App\Support\RunSeedShop;
 use App\Support\RareSeeds;
 use App\Support\Review;
 use App\Support\ReviewPicker;
@@ -1519,6 +1520,8 @@ Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
 
     return ShopItem::query()
         ->whereIn('type', config('shop.enabled_types'))
+        // ランのタネで買う物は、タネ交換所(/run-seed-shop)だけに並べる
+        ->where('currency', '!=', RunSeedShop::CURRENCY)
         ->orderBy('type')
         ->orderBy('min_level')
         ->orderBy('price')
@@ -1994,6 +1997,22 @@ Route::middleware(['auth:sanctum', EnsureGameAvailable::class.':'.RunGame::GAME]
             return RunGame::finish($locked, $data['distance_m'], $data['seed_value']);
         });
     })->name('plays.finish');
+});
+
+// タネ交換所(docs/design/2026-10-22-spru-run-design.md 14-6、2026-10-17-spru-costumes-design.md)。ランのタネで、ラン限定の町のかざり・きせかえを買う。
+// スプルランの期間が終わっても開いている(集めたタネを、使い切れるように)
+Route::middleware(['auth:sanctum'])->prefix('run-seed-shop')->name('run-seed-shop.')->group(function () {
+    Route::get('/', fn (Request $request) => RunSeedShop::list(ActiveProfile::require($request)))->name('index');
+
+    Route::post('/items/{shopItem}/buy', fn (Request $request, ShopItem $shopItem) => RunSeedShop::buyItem(ActiveProfile::require($request), $shopItem))->name('items.buy');
+
+    Route::post('/costumes/{key}/buy', fn (Request $request, string $key) => RunSeedShop::buyCostume(ActiveProfile::require($request), $key))->name('costumes.buy');
+
+    Route::put('/costume', function (Request $request) {
+        $data = $request->validate(['key' => ['present', 'nullable', 'string']]);
+
+        return RunSeedShop::equip(ActiveProfile::require($request), $data['key']);
+    })->name('costume');
 });
 
 // みんなのランキングの保護者のスイッチとニックネーム(docs/design/2026-10-13-ranking-design.md 5章)

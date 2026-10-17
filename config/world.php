@@ -74,6 +74,8 @@ return [
         'cottage', 'red_house', 'bakery', 'japanese_house', 'cafe', 'lighthouse',
         // 特別の名所(docs/design/2026-09-28-town-items-design.md 5-4。各国の有名な建物、高額でレア)
         'kinkakuji', 'sungnyemun', 'arc_de_triomphe', 'big_ben',
+        // スプルラン限定(タネ交換所。docs/design/2026-10-22-spru-run-design.md 14-6)
+        'run_seed_bed', 'run_signpost', 'run_trophy', 'run_gate', 'run_golden_seed',
         // Spra-worldの確定画像(docs/design/2026-10-05-world-items-stage1-design.md)
         'young_tree', 'pathside_flowers', 'pathside_stone', 'stream', 'vegetable_bed', 'broadleaf_tree', 'spring', 'large_tree', 'leaf_lamp',
         'wooden_bridge', 'woodland_torii', 'seed_storehouse', 'resident_cottage', 'leaf_cottage', 'blue_flower_cottage', 'forest_flower_house', 'greengrocer', 'fish_shop',
@@ -95,7 +97,7 @@ return [
         'fountain' => 2, 'pagoda' => 3, 'castle' => 3, 'tower' => 2, 'boat_large' => 2,
         'borobudur' => 2, 'bulguksa' => 2, 'liberty' => 2, 'stonehenge' => 2, 'mont_saint_michel' => 2,
         'bakery' => 2, 'japanese_house' => 2, 'cafe' => 2, 'lighthouse' => 2,
-        'kinkakuji' => 2, 'sungnyemun' => 2, 'arc_de_triomphe' => 2, 'big_ben' => 2,
+        'kinkakuji' => 2, 'sungnyemun' => 2, 'arc_de_triomphe' => 2, 'big_ben' => 2, 'run_gate' => 2,
         'large_tree' => 2, 'greengrocer' => 2, 'fish_shop' => 2, 'meat_shop' => 2, 'produce_shop' => 2,
         'chief_hall' => 3, 'stone_tower_hall' => 2, 'windmill_garden' => 3, 'spru_mall' => 3, 'saku_mall' => 3,
         'sky_tower' => 2, 'saku_blossom_tower' => 2, 'golden_leaf_temple' => 2, 'spru_house_lv2' => 2, 'spru_house_lv3' => 2, 'human_house' => 2, 'wheat_field' => 2, 'carrot_field' => 2, 'potato_field' => 2, 'onion_field' => 2, 'cabbage_field' => 2, 'tomato_field' => 2, 'cucumber_field' => 2, 'pumpkin_field' => 2, 'corn_field' => 2, 'eggplant_field' => 2, 'watermelon_field' => 2, 'himeji_castle' => 3, 'bus_small' => 2, 'fire_truck' => 2, 'delivery_truck' => 2, 'tractor' => 2, 'train_engine' => 2,  'todaiji_hall' => 3, 'shuri_castle' => 3, 'flower_shop' => 2, 'clinic' => 2, 'small_school' => 2, 'post_office' => 2, 'station_hut' => 2, 'fire_station' => 2,
@@ -120,6 +122,7 @@ return [
         'cottage' => 'house', 'red_house' => 'house', 'bakery' => 'house', 'japanese_house' => 'house', 'cafe' => 'house',
         'lighthouse' => 'landmark',
         'kinkakuji' => 'landmark', 'sungnyemun' => 'landmark', 'arc_de_triomphe' => 'landmark', 'big_ben' => 'landmark',
+        'run_seed_bed' => 'nature', 'run_signpost' => 'decor', 'run_trophy' => 'decor', 'run_gate' => 'landmark', 'run_golden_seed' => 'landmark',
         // Spra-worldの確定画像(docs/design/2026-10-05-world-items-stage1-design.md)
         'young_tree' => 'nature', 'pathside_flowers' => 'nature', 'pathside_stone' => 'nature', 'stream' => 'nature',
         'vegetable_bed' => 'nature', 'broadleaf_tree' => 'nature', 'spring' => 'nature', 'large_tree' => 'nature',

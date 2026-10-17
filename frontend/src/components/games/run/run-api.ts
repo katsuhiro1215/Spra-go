@@ -6,6 +6,8 @@ export type RunSummary = {
   real_plays_left: number;
   real_plays_per_day: number;
   seeds: number;
+  /** いま着ている衣装のキー(なければ null) */
+  costume_key: string | null;
   bonus_available: boolean;
   bonus: number;
   limited: boolean;
@@ -34,4 +36,25 @@ export async function abandonRealRun(playId: number): Promise<RunSummary | null>
 
 export async function finishRealRun(playId: number, distanceM: number, seedValue: number): Promise<RunFinish | null> {
   return json<RunFinish>(await apiFetch(`/api/games/spru-run/plays/${playId}/finish`, { method: "POST", body: JSON.stringify({ distance_m: distanceM, seed_value: seedValue }) }));
+}
+
+/** GET /api/run-seed-shop(タネ交換所。docs/design/2026-10-17-spru-costumes-design.md 5章) */
+export type ShopItemRow = { id: number; name: string; price: number; asset_key: string | null; footprint: number; category: string | null; affordable: boolean };
+export type CostumeRow = { key: string; name: string; price: number; owned: boolean; equipped: boolean; affordable: boolean };
+export type SeedShop = { seeds: number; items: ShopItemRow[]; costumes: CostumeRow[]; costume_key: string | null };
+
+export async function fetchSeedShop(): Promise<SeedShop | null> {
+  return json<SeedShop>(await apiFetch("/api/run-seed-shop"));
+}
+
+export async function buySeedItem(id: number): Promise<{ seeds: number } | null> {
+  return json(await apiFetch(`/api/run-seed-shop/items/${id}/buy`, { method: "POST" }));
+}
+
+export async function buyCostume(key: string): Promise<{ seeds: number } | null> {
+  return json(await apiFetch(`/api/run-seed-shop/costumes/${key}/buy`, { method: "POST" }));
+}
+
+export async function equipCostume(key: string | null): Promise<{ costume_key: string | null } | null> {
+  return json(await apiFetch("/api/run-seed-shop/costume", { method: "PUT", body: JSON.stringify({ key }) }));
 }

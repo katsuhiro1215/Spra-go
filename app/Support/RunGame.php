@@ -43,6 +43,7 @@ class RunGame
             'real_plays_left' => self::playsLeft($profile),
             'real_plays_per_day' => (int) config('games.spru_run.daily_real_plays'),
             'seeds' => (int) $profile->fresh()->run_seeds,
+            'costume_key' => $profile->fresh()->costume_key,
             'bonus_available' => self::bonusAvailable($profile),
             'bonus' => (int) config('games.spru_run.first_play_bonus'),
             'limited' => $endsOn !== null,
@@ -99,7 +100,7 @@ class RunGame
                 'finished_at' => now(), 'distance_m' => $distanceM, 'seed_value' => $seedValue,
                 'score' => $score, 'seeds_earned' => $earned + $bonus, 'rewarded' => true,
             ]);
-            $profile->increment('run_seeds', $earned + $bonus);
+            $profile->applyEconomy(['run_seed' => $earned + $bonus], 'run_play');
         });
 
         return ['score' => $score, 'distance_m' => $distanceM, 'seed_value' => $seedValue, 'seeds_earned' => $earned + $bonus, 'bonus' => $bonus,
