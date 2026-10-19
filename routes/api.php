@@ -1640,6 +1640,8 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             'welcome_available' => $profile->world_welcomed_at === null,
             'continue_stage_id' => ContinueStage::resolveId($profile),
             'spru' => ['growth' => Garden::growth($profile)],
+            // いま着ている衣装(町のあいさつで出す。docs/design/2026-10-17-spru-costumes-design.md 3章)
+            'costume' => RunSeedShop::worn($profile),
             'garden' => Garden::state($profile),
             'companions' => Garden::companions($profile),
             'review' => Review::state($profile),

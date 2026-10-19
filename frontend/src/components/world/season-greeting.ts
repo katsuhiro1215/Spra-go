@@ -1,3 +1,4 @@
+import { costumeImage } from "@/components/spru/costume";
 import type { CostumeKey } from "@/components/spru/spru-assets";
 
 export type SeasonGreeting = { costume: CostumeKey; line: string };
@@ -19,6 +20,26 @@ export function seasonGreeting(date: Date): SeasonGreeting | null {
   const monthDay = (date.getMonth() + 1) * 100 + date.getDate();
   const period = PERIODS.find((p) => monthDay >= p.from && monthDay <= p.to);
   return period ? { costume: period.costume, line: period.line } : null;
+}
+
+/** いま着ている衣装(API の /api/world の costume) */
+export type WornCostume = { key: string; name: string };
+
+/**
+ * 町を開いたときのあいさつ。衣装を着ていれば、その衣装でする(期間の外でも)。
+ * 同じ季節の期間なら季節のひとこと、そうでなければ「〇〇の すがたで きたよ！」。着ていなければ、今までの季節のあいさつ
+ */
+export function greetingFor(date: Date, worn: WornCostume | null): SeasonGreeting | null {
+  if (worn && costumeImage(worn.key)) {
+    const season = seasonGreeting(date);
+    return { costume: worn.key as CostumeKey, line: season?.line ?? `${worn.name}の すがたで きたよ！` };
+  }
+  return seasonGreeting(date);
+}
+
+/** あいさつを出すか: あいさつがあって、今日まだ出していない */
+export function shouldShowGreeting(greeting: SeasonGreeting | null, date: Date, lastShown: string | null): boolean {
+  return greeting !== null && lastShown !== localDateString(date);
 }
 
 export function localDateString(date: Date): string {

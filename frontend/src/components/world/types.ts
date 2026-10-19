@@ -75,6 +75,8 @@ export type WorldData = {
   items: WorldItem[];
   bag: WorldItem[];
   profile: WorldProfile;
+  /** いま着ている衣装(着ていなければ null) */
+  costume?: { key: string; name: string } | null;
   welcome_available: boolean;
   continue_stage_id: number | null;
   spru: { growth: number };

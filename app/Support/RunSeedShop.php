@@ -27,6 +27,14 @@ class RunSeedShop
         return GameRollout::inSeason($costume['season'], substr($today ?? Garden::today(), 5));
     }
 
+    /** いま着ている衣装(キーと名前)。着ていなければ null */
+    public static function worn(UserProfile $profile): ?array
+    {
+        $costume = self::costumes()[$profile->costume_key ?? ''] ?? null;
+
+        return $costume ? ['key' => $costume['key'], 'name' => $costume['name']] : null;
+    }
+
     public static function list(UserProfile $profile): array
     {
         $profile = $profile->fresh();

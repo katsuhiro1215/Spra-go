@@ -133,3 +133,14 @@ it('スプルランの入口の情報に、いま着ている衣装が入る', f
 
     $this->getJson('/api/games/spru-run')->assertOk()->assertJsonPath('costume_key', 'halloween-ghost');
 });
+
+it('町の画面の情報に、いま着ている衣装(キーと名前)が入る。着ていなければ null', function () {
+    $profile = createActiveProfile();
+    $profile->update(['run_seeds' => 2500]);
+
+    $this->getJson('/api/world')->assertOk()->assertJsonPath('costume', null);
+
+    $this->postJson('/api/run-seed-shop/costumes/halloween-ghost/buy')->assertOk();
+    $this->putJson('/api/run-seed-shop/costume', ['key' => 'halloween-ghost'])->assertOk();
+    $this->getJson('/api/world')->assertOk()->assertJsonPath('costume', ['key' => 'halloween-ghost', 'name' => 'おばけ']);
+});

@@ -44,9 +44,9 @@ import type { PendingGift } from "./gifts";
 import { SeedGift } from "./seed-gift";
 import { SeedPicker } from "./seed-picker";
 import {
+  greetingFor,
   readSeasonShown,
-  seasonGreeting,
-  shouldShowSeasonGreeting,
+  shouldShowGreeting,
   writeSeasonShown,
   type SeasonGreeting,
 } from "./season-greeting";
@@ -179,7 +179,8 @@ export function WorldScreen() {
             .catch(() => null);
         }
         const opened = new Date();
-        if (shouldShowSeasonGreeting(opened, readSeasonShown(data.profile.id))) setSeason(seasonGreeting(opened));
+        const greeting = greetingFor(opened, data.costume ?? null);
+        if (shouldShowGreeting(greeting, opened, readSeasonShown(data.profile.id))) setSeason(greeting);
         applyPartial({ points: data.profile.points });
         setEvent({ kind: "greet", at: Date.now() });
 
