@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
+
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import type { Bloom } from "@/components/spru/bloom";
 import type { SpruView } from "@/components/spru/mood";
@@ -7,10 +9,11 @@ import { COMPANION_IMAGES, type CompanionKey } from "@/components/spru/spru-asse
 import { SpruFace } from "@/components/spru/spru-figure";
 
 import { TIME_THEME } from "./ambience";
-import { buildSceneModel, groundSignature } from "./canvas/scene-model";
+import { buildGroundModel, buildSceneModel, groundSignature, type SceneInput } from "./canvas/scene-model";
 import { TownCanvas, type RoadControls } from "./canvas/town-canvas";
 import { HALF_H, HALF_W, sceneViewBox, tileCenter, toPercent } from "./iso";
 import { cloudLabel, depthTile, footprintCenter, landmarkFootprint, plotCenter } from "./land";
+import { idleWalker, isWalking, stepWalker, walkableTiles, walkTo, type Walker } from "./roads/walk";
 import type { TimeOfDay } from "./time-of-day";
 import type { WorldCompanion, WorldGarden, WorldItem, WorldLand, WorldPlot } from "./types";
 
@@ -101,13 +104,71 @@ export function WorldScene({
   // 道の道具が出ている間は、アイテム・家・畑・仲間・スプル・雲の札を押せなくする(間違えて開かないように)
   const lock = roads ? "pointer-events-none " : "";
   const vb = sceneViewBox(land.width, land.height);
-  const sceneInput = { land, items, companions, garden, spru, bloom, theme, roadStyle, validTiles, placing, preview, veil, reviewGiver, readOnly };
+
+  // Spruが歩く(docs/design/2026-10-19-town-roads-design.md 3-2)。位置は、この画面の中だけで持ち、保存しない。
+  // 歩くたびに地図全体を作り直さないよう、歩く状態は、この部品の中に置く
+  const home = land.spru;
+  const [walker, setWalker] = useState<Walker>(() => idleWalker(home.x, home.y));
+  // 家で寝るときは、いつもの場所に戻す(起きたときに、そこに出る)
+  const [wasSleeping, setWasSleeping] = useState(spru.sleeping);
+  if (wasSleeping !== spru.sleeping) {
+    setWasSleeping(spru.sleeping);
+    if (spru.sleeping) setWalker(idleWalker(home.x, home.y));
+  }
+  const walkable = useMemo(() => walkableTiles(land, items, companions), [land, items, companions]);
+  const walking = isWalking(walker);
+  useEffect(() => {
+    if (!walking) return;
+    let last = performance.now();
+    let frame = 0;
+    const loop = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      setWalker((w) => stepWalker(w, dt));
+      frame = requestAnimationFrame(loop);
+    };
+    frame = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(frame);
+  }, [walking]);
+  const spruAt = spru.sleeping ? home : walker;
+
+  function handleTileClick(x: number, y: number) {
+    if (readOnly || placing || roads || spru.sleeping || !walkable(x, y)) return;
+    setWalker((w) => walkTo(w, [x, y], walkable));
+  }
+
+  const sceneInput: SceneInput = {
+    land,
+    items,
+    companions,
+    garden,
+    spru,
+    bloom,
+    theme,
+    roadStyle,
+    validTiles,
+    placing,
+    preview,
+    veil,
+    reviewGiver,
+    readOnly,
+    walker: spru.sleeping ? null : { x: walker.x, y: walker.y, dir: walker.dir, walking },
+  };
+  // 地面は、アイテム・道・区画・時間帯が変わるときだけ作り直す(props は、画面が変えない間は同じ物)
+  const ground = useMemo(
+    () => buildGroundModel({ land, items, companions, theme, roadStyle }),
+    [land, items, companions, theme, roadStyle],
+  );
+  const groundKey = useMemo(
+    () => groundSignature({ land, items, companions, theme, roadStyle }),
+    [land, items, companions, theme, roadStyle],
+  );
   const lockedPlots = land.plots.filter((plot) => !plot.unlocked);
   const placed = items.filter((item): item is WorldItem & { x: number; y: number } => item.x !== null && item.y !== null);
   const placedCompanions = companions.filter(isPlacedCompanion);
 
   const at = (x: number, y: number) => ({ x, y, ...tileCenter(x, y) });
-  const spruCenter = tileCenter(land.spru.x, land.spru.y);
+  const spruCenter = tileCenter(spruAt.x, spruAt.y);
   // 吹き出しのしっぽがSの先のつぼみ・花に重ならない高さ
   const bubble = toPercent(spruCenter.sx, spruCenter.sy - 72, vb);
 
@@ -187,14 +248,15 @@ export function WorldScene({
   return (
     <div className="relative w-full" style={{ aspectRatio: `${vb.width} / ${vb.height}` }}>
       <TownCanvas
-        model={buildSceneModel(sceneInput)}
-        groundKey={groundSignature(sceneInput)}
+        model={buildSceneModel(sceneInput, ground)}
+        groundKey={groundKey}
         quiet={quiet}
         poppedItemId={poppedItemId}
         spruImage={spru.image}
         companionTalk={companionTalk}
         veilFading={veil?.fading ?? false}
         roads={roads}
+        onTileClick={handleTileClick}
       />
 
       {placing &&

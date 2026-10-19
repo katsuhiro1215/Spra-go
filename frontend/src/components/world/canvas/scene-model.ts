@@ -4,6 +4,8 @@ import { plantImage } from "@/components/spru/plant";
 import { COMPANION_IMAGES, SPRU_BLOOM, SPRU_IMAGES, SPRU_STAND_HEIGHT, type CompanionKey } from "@/components/spru/spru-assets";
 import { roadArt, roadEdge, type RoadEdge } from "@/components/travel/road";
 
+import { SPRU_WALK, SPRU_WALK_SIZE, type WalkDirection, type WalkFrame } from "@/components/spru/spru-walk";
+
 import { assetFootprint } from "../art-keys";
 import { blendCells, blendGroups, type BlendKind } from "../blend";
 import { GROUND_ART, GROUND_DECALS } from "../ground-art";
@@ -58,7 +60,12 @@ export type SceneInput = {
   reviewGiver: string | null;
   /** 見るだけ(家族の町)。畑の光は出さない */
   readOnly?: boolean;
+  /** 歩いているスプル(マスの番号は小数)。なければ、いつもの場所に立つ */
+  walker?: { x: number; y: number; dir: WalkDirection; walking: boolean } | null;
 };
+
+/** 歩く絵は、立ち姿より少し小さく描かれているので、並べて見て合わせる倍率(docs/design/2026-10-19-town-roads-design.md 6章) */
+export const WALK_SCALE = 1.15;
 
 export type ImageDraw = { src: string; size: { width: number; height: number }; placement: ImagePlacement };
 export type Light = { cx: number; cy: number; r: number };
@@ -86,6 +93,8 @@ export type SceneObject =
       height: number;
       bloom: { src: string; x: number; y: number; width: number; height: number } | null;
       review: boolean;
+      /** 歩いている間の絵(向きごとの3コマ)。立っているときは null */
+      walk: { width: number; height: number; frames: Record<WalkFrame, string> } | null;
     });
 
 export type CloudDraw = { plot: WorldPlot; area: Pt[]; puffs: { sx: number; sy: number }[] };
@@ -166,9 +175,9 @@ function cloudOf(land: WorldLand, plot: WorldPlot): CloudDraw {
   return { plot, area: parsePoints(cloudArea(land, plot)), puffs };
 }
 
-export function buildSceneModel(input: SceneInput): SceneModel {
-  const { land, items, companions, garden, spru, bloom, theme, roadStyle } = input;
-  const vb = sceneViewBox(land.width, land.height);
+/** 地面の層の中身。アイテム・道・区画・時間帯が変わらない間は、使い回せる(スプルが歩くたびに作り直さない) */
+export function buildGroundModel(input: Pick<SceneInput, "land" | "items" | "companions" | "theme" | "roadStyle">): GroundModel {
+  const { land, items, companions, roadStyle } = input;
 
   // 地面
   const pathSet = new Set(land.paths.map(([x, y]) => tileKey(x, y)));
@@ -186,7 +195,6 @@ export function buildSceneModel(input: SceneInput): SceneModel {
   const pathLines = road ? pathEdges(land.paths, open) : [];
   const marks = road && edge.marks ? roadMarks(land.paths, open) : null;
 
-  const placed = items.filter((item): item is WorldItem & { x: number; y: number } => item.x !== null && item.y !== null);
   const placedCompanions = companions.filter(isPlacedCompanion);
 
   // 小物は、道・目印・アイテム・スプル・仲間が立たないマスに、マスの座標から決まる位置へ置く(毎回同じ)
@@ -244,6 +252,15 @@ export function buildSceneModel(input: SceneInput): SceneModel {
     decals,
     plotShapes: openPlots.map((plot) => parsePoints(plotPoints(plot))),
   };
+  return ground;
+}
+
+export function buildSceneModel(input: SceneInput, groundModel?: GroundModel): SceneModel {
+  const { land, items, companions, garden, spru, bloom, theme } = input;
+  const vb = sceneViewBox(land.width, land.height);
+  const ground = groundModel ?? buildGroundModel(input);
+  const placed = items.filter((item): item is WorldItem & { x: number; y: number } => item.x !== null && item.y !== null);
+  const placedCompanions = companions.filter(isPlacedCompanion);
 
   // 奥から手前へ描くことで、手前の物が奥の物に重なる
   const at = (x: number, y: number) => ({ x, y, ...tileCenter(x, y) });
@@ -302,15 +319,17 @@ export function buildSceneModel(input: SceneInput): SceneModel {
     }),
     (() => {
       const asset = SPRU_IMAGES[spru.image];
-      const width = asset.width * TOWN_SCALE;
-      const height = asset.height * TOWN_SCALE;
-      const rect = bloom ? bloomRect(spru.image, bloom) : null;
+      const walking = input.walker?.walking ? input.walker : null;
+      const width = walking ? SPRU_WALK_SIZE.width * TOWN_SCALE * WALK_SCALE : asset.width * TOWN_SCALE;
+      const height = walking ? SPRU_WALK_SIZE.height * TOWN_SCALE * WALK_SCALE : asset.height * TOWN_SCALE;
+      const rect = bloom && !walking ? bloomRect(spru.image, bloom) : null;
       const x = -width / 2;
       const y = -height + 2;
+      const pos = input.walker ?? land.spru;
       return {
         kind: "spru" as const,
         id: "spru",
-        ...at(land.spru.x, land.spru.y),
+        ...at(pos.x, pos.y),
         src: asset.src,
         width,
         height,
@@ -319,6 +338,17 @@ export function buildSceneModel(input: SceneInput): SceneModel {
             ? { src: SPRU_BLOOM[bloom].src, x: x + rect.x * TOWN_SCALE, y: y + rect.y * TOWN_SCALE, width: rect.width * TOWN_SCALE, height: rect.height * TOWN_SCALE }
             : null,
         review: input.reviewGiver === "spru",
+        walk: walking
+          ? {
+              width,
+              height,
+              frames: {
+                passing: SPRU_WALK[`${walking.dir}_passing`],
+                step_l: SPRU_WALK[`${walking.dir}_step_l`],
+                step_r: SPRU_WALK[`${walking.dir}_step_r`],
+              },
+            }
+          : null,
       };
     })(),
   ]
@@ -381,6 +411,8 @@ export function modelSources(model: SceneModel): string[] {
     }
   }
   if (model.preview?.item.image) srcs.add(model.preview.item.image.src);
+  // 歩く絵(12枚で約130KB)。歩き始めて絵が抜けないよう、先に読んでおく
+  for (const src of Object.values(SPRU_WALK)) srcs.add(src);
   // 絵のない「スプルの花」は、花の絵を重ねて描く
   const flower = model.objects.some((o) => o.kind === "item" && o.fallback === "flower") || model.preview?.item.fallback === "flower";
   if (flower) srcs.add(SPRU_BLOOM.flower.src);
@@ -391,7 +423,7 @@ export function modelSources(model: SceneModel): string[] {
  * 動かない層(地面・崖・道・小物など)が変わるかを調べる鍵。同じなら、保存した層を使い回す。
  * アイテム・仲間・スプルの位置は、小物や林・花畑の置き場所を変えるので含める
  */
-export function groundSignature(input: SceneInput): string {
+export function groundSignature(input: Pick<SceneInput, "land" | "items" | "companions" | "theme" | "roadStyle">): string {
   return JSON.stringify([
     input.land,
     input.items.map((i) => [i.id, i.x, i.y, i.footprint, i.asset_key]),

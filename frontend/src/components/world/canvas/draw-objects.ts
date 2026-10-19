@@ -1,6 +1,7 @@
 import { SPRU_BLOOM } from "@/components/spru/spru-assets";
 
 import { HALF_H, HALF_W, tileCenter } from "../iso";
+import { walkFrame } from "../roads/walk";
 import { bobOffset, cloudClear, hopOffset, popState, pulseOpacity } from "./animation";
 import type { CloudDraw, ObjectArt, SceneModel, SceneObject } from "./scene-model";
 
@@ -241,10 +242,11 @@ function drawObject(ctx: Ctx, env: ObjectEnv, model: SceneModel, o: SceneObject,
     if (o.partner) partnerTag(ctx);
     if (o.review) reviewMark(ctx, o.width / 2 - 2, -o.height + 10, motion);
   } else {
-    const dy = motion.spruHop !== null ? hopOffset(motion.spruHop) : motion.quiet ? 0 : bobOffset(motion.t);
+    // 歩いている間は、歩く絵のコマ(ゆれ・跳ねはなし)
+    const dy = o.walk ? 0 : motion.spruHop !== null ? hopOffset(motion.spruHop) : motion.quiet ? 0 : bobOffset(motion.t);
     const x = -o.width / 2;
     const y = -o.height + 2;
-    const image = env.image(o.src);
+    const image = env.image(o.walk ? o.walk.frames[walkFrame(motion.t, true)] : o.src);
     bobbing(ctx, dy, () => {
       if (image) ctx.drawImage(image, x, y, o.width, o.height);
       if (o.bloom) {
