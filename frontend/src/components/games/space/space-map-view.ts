@@ -32,7 +32,7 @@ export function mapResultLines(map: SpaceMapResult, stops: SpaceStop[]): string[
     return lines;
   }
   lines.push(`${nameOf(map.stop)} クリア！ ${starsLine(map.stars)}`);
-  if (map.unlocked) lines.push(`${nameOf(map.unlocked)}への 道が ひらいたよ！`);
+  if (map.unlocked) lines.push(`次は ${nameOf(map.unlocked)} だよ！ 道が ひらいたよ`);
   if (map.bonus) lines.push(`はじめてのクリアボーナス 経験値 +${map.bonus.xp}　学習ポイント +${map.bonus.point}`);
 
   return lines;

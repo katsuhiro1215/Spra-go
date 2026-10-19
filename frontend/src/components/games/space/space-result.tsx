@@ -41,6 +41,7 @@ export function SpaceResult({
   const perfect = isPerfect(state);
   const missed = missedQuestions(state);
   const lines = rewardLines(result.reward);
+  const mapLines = result.map ? mapResultLines(result.map, stops) : [];
   const destination = DESTINATIONS[result.destination];
   const [levelUpOpen, setLevelUpOpen] = useState(result.leveled_up);
   const [shopItems, setShopItems] = useState<ShopListItem[]>([]);
@@ -62,23 +63,32 @@ export function SpaceResult({
   return (
     <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center gap-4 px-6 py-10 pb-24 text-center">
       <div className="flex w-full flex-col items-center gap-3 rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
-        <div className="relative flex h-28 w-28 items-center justify-center">
-          {/* 到着した星。絵が届くまでは、色のついた丸(絵が無ければ丸のまま) */}
-          <span aria-hidden className="absolute inset-3 rounded-full" style={{ backgroundColor: destination?.color ?? "#8fa0d8" }} />
-          {!pictureFailed && (
-            <Image
-              src={`/space/${result.destination}.webp`}
-              alt=""
-              fill
-              sizes="112px"
-              className="object-contain"
-              onError={() => setPictureFailed(true)}
-            />
-          )}
-        </div>
-        <p className="text-lg font-black text-[#2e4a9a]">
-          <AutoFurigana text={destinationLine(result.destination)} />
-        </p>
+        {result.map ? (
+          // 地図から始めた回は、地図の結果(クリアしたか・次の星)を、いちばん上に出す
+          <p className="text-xl font-black text-[#2e4a9a]">
+            <AutoFurigana text={mapLines[0]} />
+          </p>
+        ) : (
+          <>
+            <div className="relative flex h-28 w-28 items-center justify-center">
+              {/* 到着した星。絵が届くまでは、色のついた丸(絵が無ければ丸のまま) */}
+              <span aria-hidden className="absolute inset-3 rounded-full" style={{ backgroundColor: destination?.color ?? "#8fa0d8" }} />
+              {!pictureFailed && (
+                <Image
+                  src={`/space/${result.destination}.webp`}
+                  alt=""
+                  fill
+                  sizes="112px"
+                  className="object-contain"
+                  onError={() => setPictureFailed(true)}
+                />
+              )}
+            </div>
+            <p className="text-lg font-black text-[#2e4a9a]">
+              <AutoFurigana text={destinationLine(result.destination)} />
+            </p>
+          </>
+        )}
         <SpruFigure image="happy" bloom={perfect ? "flower" : null} standHeight={90} alt="喜ぶスプル" />
         {result.new_best && (
           <p className="animate-pop-in rounded-full bg-[#f2b632] px-3 py-1 text-sm font-black">
@@ -114,7 +124,7 @@ export function SpaceResult({
 
       {result.map && (
         <div className="flex w-full flex-col items-center gap-2 rounded-3xl bg-[#fffaf0] p-5 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.12)]">
-          {mapResultLines(result.map, stops).map((line, index) => (
+          {mapLines.slice(1).map((line, index) => (
             <p key={line} className={index === 0 ? "text-lg font-black text-[#2e4a9a]" : "text-sm font-bold"}>
               <AutoFurigana text={line} />
             </p>

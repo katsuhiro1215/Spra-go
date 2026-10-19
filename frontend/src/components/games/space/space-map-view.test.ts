@@ -31,7 +31,7 @@ describe("宇宙ぼうけんマップの見た目", () => {
     const stops = [stop("moon", "月"), stop("mercury", "水星")];
     const cleared: SpaceMapResult = { stop: "moon", cleared: true, stars: 2, best_stars: 2, first_clear: true, unlocked: "mercury", bonus: { xp: 30, point: 30 }, new_cards: [] };
 
-    expect(mapResultLines(cleared, stops)).toEqual(["月 クリア！ ★★☆", "水星への 道が ひらいたよ！", "はじめてのクリアボーナス 経験値 +30　学習ポイント +30"]);
+    expect(mapResultLines(cleared, stops)).toEqual(["月 クリア！ ★★☆", "次は 水星 だよ！ 道が ひらいたよ", "はじめてのクリアボーナス 経験値 +30　学習ポイント +30"]);
     expect(mapResultLines({ ...cleared, first_clear: false, unlocked: null, bonus: null }, stops)).toEqual(["月 クリア！ ★★☆"]);
     expect(mapResultLines({ ...cleared, cleared: false, stars: 0 }, stops)).toEqual(["月は、あと少し！ 6わり以上 せいかいで クリアだよ"]);
   });
