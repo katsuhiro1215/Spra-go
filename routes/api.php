@@ -1534,6 +1534,8 @@ Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
             ...$item->toArray(),
             'asset_key' => $item->assetKey(),
             'footprint' => $item->footprint(),
+            'w' => $item->size()[0],
+            'h' => $item->size()[1],
             'category' => $item->category(),
             'locked' => $level < $item->min_level,
         ]);
@@ -1703,6 +1705,8 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
                 'name' => $item->name,
                 'asset_key' => $item->assetKey(),
                 'footprint' => $item->footprint(),
+                'w' => $item->size()[0],
+                'h' => $item->size()[1],
             ])->values(),
         ])->values()];
     })->name('gifts.index');
@@ -1877,9 +1881,21 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
         $activeProfile = ActiveProfile::require($request);
         abort_unless($profileWorldItem->user_profile_id === $activeProfile->id, 404);
 
-        $profileWorldItem->update(['mirrored' => ! $profileWorldItem->mirrored]);
+        // 長方形の物を置いたまま反転すると、幅と高さが入れ替わるので、その向きで置けるかを、先に調べる
+        return DB::transaction(function () use ($activeProfile, $profileWorldItem) {
+            $profile = UserProfile::query()->whereKey($activeProfile->id)->lockForUpdate()->firstOrFail();
+            $item = ProfileWorldItem::query()->with('shopItem')->findOrFail($profileWorldItem->id);
+            if ($item->isPlaced() && $item->size()[0] !== $item->size()[1]) {
+                try {
+                    WorldPlacement::check($profile, $item, $item->x, $item->y, ! $item->mirrored);
+                } catch (\Symfony\Component\HttpKernel\Exception\HttpException) {
+                    abort(422, 'ひっくり返すと、ほかの物や道にぶつかるよ。');
+                }
+            }
+            $item->update(['mirrored' => ! $item->mirrored]);
 
-        return $profileWorldItem->load('shopItem')->toWorldArray();
+            return $item->toWorldArray();
+        });
     })->name('items.flip');
 });
 

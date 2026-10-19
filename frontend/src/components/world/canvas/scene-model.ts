@@ -18,6 +18,7 @@ import {
   footprintCenter,
   footprintTiles,
   isOpenTile,
+  itemSize,
   landEdges,
   landmarkFootprint,
   occupiedTiles,
@@ -291,17 +292,19 @@ export function buildSceneModel(input: SceneInput, groundModel?: GroundModel): S
     }),
     ...placed.map((item): SceneObject => {
       const image = imageDraw(item.asset_key, assetFootprint(item.asset_key));
+      const { w, h } = itemSize(item);
       return {
         kind: "item",
         id: `item-${item.id}`,
         itemId: item.id,
-        ...depthTile(item.x, item.y, item.footprint),
-        ...footprintCenter(item.x, item.y, item.footprint),
-        footprint: item.footprint,
+        ...depthTile(item.x, item.y, w, h),
+        ...footprintCenter(item.x, item.y, w, h),
+        // 絵の縮尺・影・光の位置に使う大きさ。幅と高さの平均(反転しても変わらない)
+        footprint: (w + h) / 2,
         image,
         fallback: image ? null : item.asset_key === "spru_flower" ? "flower" : "gift",
         mirrored: item.mirrored ?? false,
-        lights: lit ? lightCircles(item.asset_key, item.footprint) : [],
+        lights: lit ? lightCircles(item.asset_key, (w + h) / 2) : [],
       };
     }),
     ...placedCompanions.map((companion, index): SceneObject => {
@@ -379,11 +382,11 @@ export function buildSceneModel(input: SceneInput, groundModel?: GroundModel): S
     preview:
       input.preview && previewItem
         ? {
-            tiles: footprintTiles(input.preview.x, input.preview.y, previewItem.footprint),
-            center: footprintCenter(input.preview.x, input.preview.y, previewItem.footprint),
+            tiles: footprintTiles(input.preview.x, input.preview.y, itemSize(previewItem).w, itemSize(previewItem).h),
+            center: footprintCenter(input.preview.x, input.preview.y, itemSize(previewItem).w, itemSize(previewItem).h),
             item: (() => {
               const image = imageDraw(previewItem.asset_key, assetFootprint(previewItem.asset_key));
-              return { image, fallback: image ? null : previewItem.asset_key === "spru_flower" ? "flower" : "gift", footprint: previewItem.footprint };
+              return { image, fallback: image ? null : previewItem.asset_key === "spru_flower" ? "flower" : "gift", footprint: (itemSize(previewItem).w + itemSize(previewItem).h) / 2 };
             })(),
           }
         : null,

@@ -12,7 +12,7 @@ import { TIME_THEME } from "./ambience";
 import { buildGroundModel, buildSceneModel, groundSignature, type SceneInput } from "./canvas/scene-model";
 import { TownCanvas, type RoadControls } from "./canvas/town-canvas";
 import { HALF_H, HALF_W, sceneViewBox, tileCenter, toPercent } from "./iso";
-import { cloudLabel, depthTile, footprintCenter, landmarkFootprint, plotCenter } from "./land";
+import { cloudLabel, depthTile, footprintCenter, itemSize, landmarkFootprint, plotCenter } from "./land";
 import { idleWalker, isWalking, nearestRoute, stepWalker, walkableTiles, walkTo, type Walker } from "./roads/walk";
 import type { TimeOfDay } from "./time-of-day";
 import type { Tile, WorldCompanion, WorldGarden, WorldItem, WorldLand, WorldPlot } from "./types";
@@ -221,8 +221,8 @@ export function WorldScene({
         const big = item.footprint > 1;
         return {
           id: `item-button-${item.id}`,
-          ...depthTile(item.x, item.y, item.footprint),
-          ...footprintCenter(item.x, item.y, item.footprint),
+          ...depthTile(item.x, item.y, itemSize(item).w, itemSize(item).h),
+          ...footprintCenter(item.x, item.y, itemSize(item).w, itemSize(item).h),
           label: `${item.name}(動かす・しまう)`,
           onTap: () => onItemTap(item),
           halfWidth: big ? 60 : HALF_W - 4,

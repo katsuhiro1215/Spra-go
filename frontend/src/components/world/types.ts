@@ -18,8 +18,11 @@ export type WorldItem = {
   shop_item_id: number;
   name: string;
   asset_key: string | null;
-  /** 使うマスの一辺。2なら (x, y) を奥のマスにして2×2(設計書3-4) */
+  /** 長いほうの辺。2なら (x, y) を奥のマスにして2×2(設計書3-4)。長方形は w・h を見る */
   footprint: number;
+  /** いまの向きの幅(x の向き)・高さ(y の向き)。反転すると入れ替わる。なければ footprint の正方形(docs/design/2026-10-19-town-rect-design.md) */
+  w?: number;
+  h?: number;
   /** カテゴリ(設計書 2026-09-28-town-items 3章)。おみやげは souvenir */
   category: ItemCategory;
   /** 旅のおみやげか(F回の設計書4-4) */
@@ -113,6 +116,8 @@ export type ShopListItem = {
   min_level: number;
   asset_key: string | null;
   footprint: number;
+  w?: number;
+  h?: number;
   /** 町のアイテムのカテゴリ。回復薬・称号は null */
   category: ItemCategory | null;
   locked: boolean;

@@ -15,7 +15,7 @@ export const BLEND_MIN_ITEMS = 3;
 export const BLEND_BONUS = 4;
 export const BLEND_MAX = 3;
 
-export type BlendItem = { id: number; asset_key: string | null; x: number | null; y: number | null; footprint?: number };
+export type BlendItem = { id: number; asset_key: string | null; x: number | null; y: number | null; footprint?: number; w?: number; h?: number };
 export type BlendKind = "grove" | "meadow";
 export type BlendGroup = { kind: BlendKind; itemIds: number[]; cells: Tile[] };
 
@@ -34,7 +34,7 @@ export function blendGroups(items: BlendItem[]): BlendGroup[] {
     .map((item) => ({ item, kind: kindOf(item.asset_key) }))
     .filter((entry): entry is { item: BlendItem & { x: number; y: number }; kind: BlendKind } =>
       entry.kind !== null && entry.item.x !== null && entry.item.y !== null)
-    .map(({ item, kind }) => ({ id: item.id, kind, cells: footprintTiles(item.x, item.y, item.footprint ?? 1) }));
+    .map(({ item, kind }) => ({ id: item.id, kind, cells: footprintTiles(item.x, item.y, item.w ?? item.footprint ?? 1, item.h ?? item.footprint ?? 1) }));
 
   const parent = placed.map((_, i) => i);
   const find = (i: number): number => (parent[i] === i ? i : (parent[i] = find(parent[i])));

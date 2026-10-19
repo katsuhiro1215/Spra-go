@@ -80,7 +80,7 @@ export default function Page() {
                       <ItemIcon assetKey={item.asset_key} size={64} />
                       {item.footprint > 1 && (
                         <span className="absolute -top-1 -left-4 rounded-full bg-[#3b7f26] px-1.5 py-0.5 text-[10px] leading-none font-black whitespace-nowrap text-white">
-                          2×2マス
+                          {item.w ?? item.footprint}×{item.h ?? item.footprint}マス
                         </span>
                       )}
                       {item.souvenir && (

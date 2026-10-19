@@ -30,7 +30,7 @@ import { canSowSpruSeed, gardenAsk, gardenFrontTiles, mergeNewSeeds, pickGardenT
 import { GardenAsk } from "./garden-ask";
 import { GreetingsCard } from "./greetings-card";
 import { ItemActionSheet } from "./item-action-sheet";
-import { cloudLine, hasAnchorsOutside, openedLine, unlockFocus, validAnchors } from "./land";
+import { cloudLine, hasAnchorsOutside, itemSize, openedLine, unlockFocus, validAnchors } from "./land";
 import { liveliness, livelinessUpLine } from "./liveliness";
 import { LivelinessCard } from "./liveliness-card";
 import { homePlot } from "./map-view";
@@ -232,7 +232,7 @@ export function WorldScreen() {
   );
 
   const validTiles = useMemo(
-    () => (world && placingItem ? validAnchors(world.land, world.items, placingItem.footprint, placingItem.id) : new Set<string>()),
+    () => (world && placingItem ? validAnchors(world.land, world.items, itemSize(placingItem), placingItem.id) : new Set<string>()),
     [world, placingItem],
   );
 

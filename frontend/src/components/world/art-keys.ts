@@ -473,13 +473,13 @@ export const ITEM_ART_CATEGORIES: Record<ItemArtKey, ItemCategory> = {
 
 /** 管理画面の絵の選択肢の名前。カテゴリと、2×2なら大きさを添える(例: 「五重塔（名所・2×2）」) */
 export function artOptionLabel(key: ItemArtKey): string {
-  const footprint = assetFootprint(key);
-  const size = footprint > 1 ? `・${footprint}×${footprint}` : "";
+  const { w, h } = assetSize(key);
+  const size = Math.max(w, h) > 1 ? `・${w}×${h}` : "";
   return `${ITEM_ART_LABELS[key]}（${CATEGORY_LABELS[ITEM_ART_CATEGORIES[key]]}${size}）`;
 }
 
 /** 2×2・3×3マスの絵の大きさ(設計書 2026-09-27-wave-e 3-4、2026-10-07-town-sizes 4-1)。書いていない絵は1×1。config/world.php の asset_footprints と必ず一致させる */
-export const ASSET_FOOTPRINTS: Readonly<Partial<Record<ArtKey, number>>> = {
+export const ASSET_FOOTPRINTS: Readonly<Partial<Record<ArtKey, number | readonly [number, number]>>> = {
   fountain: 2,
   pagoda: 3,
   castle: 3,
@@ -543,10 +543,20 @@ export const ASSET_FOOTPRINTS: Readonly<Partial<Record<ArtKey, number>>> = {
 };
 
 /** 絵の大きさ(N×NのN)。1(小)・2(中)・3(大)。絵がなければ1 */
+/** 絵の大きさ(幅 w・高さ h)。数字は正方形、[幅, 高さ]はそのまま。書いていない絵は1×1(docs/design/2026-10-19-town-rect-design.md) */
+export function assetSize(key: string | null): { w: number; h: number } {
+  const size = key === null ? undefined : (ASSET_FOOTPRINTS as Record<string, number | readonly [number, number] | undefined>)[key];
+  if (size === undefined) return { w: 1, h: 1 };
+  return typeof size === "number" ? { w: size, h: size } : { w: size[0], h: size[1] };
+}
+
+/** 絵の縮尺・影に使う大きさ(幅と高さの平均。正方形は一辺。反転しても変わらない) */
 export function assetFootprint(key: string | null): number {
-  return key === null ? 1 : ((ASSET_FOOTPRINTS as Record<string, number | undefined>)[key] ?? 1);
+  const { w, h } = assetSize(key);
+  return (w + h) / 2;
 }
 
 export function isBigAsset(key: string | null): boolean {
-  return assetFootprint(key) > 1;
+  const { w, h } = assetSize(key);
+  return Math.max(w, h) > 1;
 }
