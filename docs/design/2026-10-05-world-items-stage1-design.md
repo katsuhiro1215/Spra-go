@@ -3,7 +3,7 @@
 - 作成日: 2026-10-05
 - ステータス: 案（Ownerの承認待ち。「第1段階＝町のアイテムの追加」はOwner承認済み。品ぞろえ・レベル・値段は承認待ち）
 - 前提: 町のアイテムの仕組み（`docs/design/2026-09-28-town-items-design.md`。カテゴリ・画像の取り込み・置き場所・夜の明かり）、`config/world.php`、`WorldItemSeeder`、`tools/spru-assets/`
-- 素材: `company/spra/spra-world/assets/approved/`（Spra-worldで確定した画像。1254×1254・透明背景のPNG）
+- 素材: `company/spra/assets/approved/`（Spra-worldで確定した画像。1254×1254・透明背景のPNG）
 - 対応するタスク: `TASKS.md`「Spra-worldの画像の活用（第1段階）」（この設計で足す）
 
 ## 1. 背景と目的
@@ -88,7 +88,7 @@ Spra-worldで、1点ずつ精巧な画像が確定している。タッチは今
 
 ### 5-1. 画像（`tools/spru-assets/`）
 
-- `crops.json` の `sources` に、25枚の元の画像を足す（置き場所は `extract.py` に渡す素材集のフォルダ `company/spra/mascot/assets` からの相対。`../../spra-world/assets/approved/...`）
+- `crops.json` の `sources` に、25枚の元の画像を足す（置き場所は `extract.py` に渡す素材集のフォルダ `company/spra/mascot/assets` からの相対。`../../assets/approved/...`）
 - `items` に、1点ずつ `{ "key": ..., "source": ..., "box": [0, 0, 1254, 1254], "width": N }` を足す。余白は `extract.py` が詰める（`mode` の既定は `all`）
 - `width`: 元の絵の「中身の幅」に倍率をかけた値。1マスの物は倍率0.22、2×2の物は倍率0.43（4章の「大きな建物」は元の絵が約1200pxなので、約520px）。細い物（街灯・若い木）は、同じ倍率なので細く出る
   - 元の絵の中身の幅は、`approved/*/manifest.json` の `contentWidth`

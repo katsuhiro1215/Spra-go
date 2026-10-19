@@ -2,7 +2,7 @@
 
 - 作成日: 2026-10-07
 - ステータス: Owner合意済み（2026-10-07。モールも3×3、4×4は今後もっと大きな物を考えるときに。城・五重塔の絵はChatGPTで再生成し、届いたら入れ替える）。実装計画に進む
-- 前提: `docs/design/2026-09-27-spru-wave-e-design.md`（広がる地図・大きな建物）、`docs/design/2026-10-05-world-items-stage1-design.md`（建物の絵）。正式な建物の絵と大きさの決まりは、`company/spra/spra-world/assets/approved/building/`（`manifest.json` の `logicalFootprint`）
+- 前提: `docs/design/2026-09-27-spru-wave-e-design.md`（広がる地図・大きな建物）、`docs/design/2026-10-05-world-items-stage1-design.md`（建物の絵）。正式な建物の絵と大きさの決まりは、`company/spra/assets/approved/building/`（`manifest.json` の `logicalFootprint`）
 
 ## 1. 目的
 

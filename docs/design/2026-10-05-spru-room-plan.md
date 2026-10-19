@@ -59,7 +59,7 @@
   - `ROOM_CANVAS = 1254`
   - `roomItems(mode, pose): { key: RoomAssetKey; left: number; top: number; width: number; height: number }[]` — 奥から手前の順（部屋→ベッド〈夜は眠るスプル入り〉→テーブル→椅子→スプル〈昼のみ〉）。`left`・`top`・`width`・`height` は、元の1254×1254の座標での、描く位置と大きさ（`scale` と足元の中心から計算）
 
-- [ ] `make_room.py`: 元の絵を `company/spra/spra-world/assets/approved/` から読み、透明な余白を詰めて（アルファ>24の範囲）、長い方の辺が、部屋1024・家具と眠るスプル512・スプル384になるようWebPにする。`frontend/public/spru/room/{キー}.webp` に出し、`room-assets.ts` を書き出す。合計が400KB以内か表示する
+- [ ] `make_room.py`: 元の絵を `company/spra/assets/approved/` から読み、透明な余白を詰めて（アルファ>24の範囲）、長い方の辺が、部屋1024・家具と眠るスプル512・スプル384になるようWebPにする。`frontend/public/spru/room/{キー}.webp` に出し、`room-assets.ts` を書き出す。合計が400KB以内か表示する
 - [ ] 先にテスト（RED）: `room-layout.test.ts`: すべての物が、1254×1254の中に収まる・昼は `bed` が入り `bed_sleeping` は入らない／夜は逆でスプル（`spru_*`）が入らない・描く順が、部屋が最初・昼のスプルが最後・倍率どおりの大きさ（`width = ROOM_ASSETS[key].width × scale`）・`pose` が `wave`・`sit`・`idle` で、スプルの絵が切り替わる。**Expected:** 失敗
 - [ ] 実装（初期値は設計書4章の表。ベッド 0.34・眠るスプル入りベッド 0.30・テーブル 0.27・椅子 0.19・スプル 0.20。座る・手を振るスプルは、待機と、足元の中心をそろえる。座る絵は、座面接地点を足元の中心にする） **Expected:** 通る
 - [ ] コミット `#00402: feat:部屋の素材(部屋・家具・眠るスプル・スプルの3つのポーズ)の変換と、配置を決める関数を足す`

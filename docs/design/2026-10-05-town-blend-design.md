@@ -57,7 +57,7 @@
 
 ### 3-4. 素材の加工（`tools/ground-assets/`）
 
-- 原画（`company/spra/spra-world/assets/approved/ground/`）を読み、**上下左右のつなぎ目を消し**（半分ずらした絵と、中央を残す形でなじませる）、512pxのWebPにして `frontend/public/spru/ground/{キー}.webp` に出す
+- 原画（`company/spra/assets/approved/ground/`）を読み、**上下左右のつなぎ目を消し**（半分ずらした絵と、中央を残す形でなじませる）、512pxのWebPにして `frontend/public/spru/ground/{キー}.webp` に出す
 - 小物のシートは、輪郭ごとに切り出して、1枚ずつのWebPにする
 - 画面側の一覧（`components/world/ground-art.ts`）は、手で書く（枚数が少ないため）。素材が増えたら行を足す
 

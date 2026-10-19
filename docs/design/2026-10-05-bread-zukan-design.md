@@ -3,7 +3,7 @@
 - 作成日: 2026-10-05
 - ステータス: 案（Ownerの承認待ち。範囲「図鑑だけ」・集め方「毎日のおつかいでもらう」・置き場所「じぶんの中に新しい入口」はOwner決定済み）
 - 前提: 町のアイテム追加（`docs/design/2026-10-05-world-items-stage1-design.md`。第1段階）、今日のおつかい（`app/Support/Errands.php`、`docs/design/2026-09-27-spru-wave-d-design.md` 3-1）、おみやげ（`profile_souvenirs`）
-- 素材: `company/spra/spra-world/assets/approved/item/` のうち、パン10種・作物4種・小麦粉1つ（15点）
+- 素材: `company/spra/assets/approved/item/` のうち、パン10種・作物4種・小麦粉1つ（15点）
 - 対応するタスク: `TASKS.md`「Spra-worldの確定画像の活用」第2段階
 
 ## 1. 背景と目的

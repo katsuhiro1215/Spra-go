@@ -3,7 +3,7 @@ import type { SpruImage } from "./spru-assets";
 /**
  * Spra Go用のリアクション12コマ(喜ぶ・跳ねる・「いて！」など)。素材集(spru-assets.ts)とは別に持つ。
  * 立ち姿の高さを素材集の立ち姿(208)に合わせてあるので、SpruFigure の standHeight でそのまま大きさがそろう。
- * 原本は company/spra/spra-world/assets/approved/mascot/spru/reactions/(manifest.json に倍率を記録)
+ * 原本は company/spra/assets/approved/mascot/spru/reactions/(manifest.json に倍率を記録)
  */
 export const SPRU_REACTIONS = {
   "react-jump": { src: "/spru/reactions/jump.webp", width: 170, height: 203 },

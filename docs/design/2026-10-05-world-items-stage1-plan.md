@@ -77,7 +77,7 @@ saku_mall | サクモール | building/saku_mall_01 | landmark | 2 | 14 | 700
 **Files:** `tools/spru-assets/crops.json`、`frontend/public/spru/items/*.webp`（25枚）、`frontend/src/components/spru/spru-assets.ts`（`extract.py` が書き出す）
 
 - [ ] 表から `crops.json` に足す一回限りのスクリプトを、作業用の場所（scratchpad）に書く。各行について:
-  - `sources`: `"world_{key}": "../../spra-world/assets/approved/{元の画像}.png"`
+  - `sources`: `"world_{key}": "../../assets/approved/{元の画像}.png"`
   - `items`: `{ "key": key, "source": "world_{key}", "box": [0, 0, 1254, 1254], "width": W }`
   - `W` = 元のPNGの透明でない範囲（アルファ>24）の幅 × 倍率（大きさ1は0.22、2は0.43）を整数にした値
   - すでにキーがある場合は上書き（何度実行しても同じ）
