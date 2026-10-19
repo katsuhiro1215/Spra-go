@@ -34,8 +34,8 @@ class TownDemoCommand extends Command
      */
     private const LAYOUT = [
         // 道は横が y=3・y=9、縦が x=3・x=9。ブロックごとに、道に面して家・店を置き、あいだに木や花
-        // ブロックA(0-2,0-2): スプルの家のまわり
-        ['cottage', 0, 0], ['red_house', 1, 0], ['leaf_cottage', 0, 1],
+        // ブロックA(0-2,0-2): スプルの家(0,1)・畑(2,2)のまわり
+        ['cottage', 0, 0], ['red_house', 1, 0], ['tulip', 2, 1],
         // ブロックB(4-8,0-2): 商店
         ['bakery', 4, 1], ['fire_station', 6, 1], ['mailbox', 8, 1], ['street_lamp', 8, 2], ['tree', 5, 0], ['flowerbed', 6, 0], ['tulip', 7, 0],
         // ブロックC(10-16,0-2): 名所(竹林のほう)
