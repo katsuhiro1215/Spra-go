@@ -233,7 +233,7 @@ describe("種を答えの門に当てて、すぐ答える(設計書3-2章)", ()
 
 describe("種の飛び方", () => {
   it("種は、約SHOT_MSで画面の上まで飛ぶ。門の位置(TRAVEL)とは別の、実時間", () => {
-    expect(SHOT_MS).toBeGreaterThan(300);
+    expect(SHOT_MS).toBeGreaterThan(150);
     expect(SHOT_MS).toBeLessThan(700);
     expect(TRAVEL).toBeGreaterThan(0);
   });

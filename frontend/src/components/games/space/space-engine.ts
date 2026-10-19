@@ -62,8 +62,8 @@ export const TRAVEL = 0.75;
 /** ものが、ロケットに当たる範囲(着く時刻の前後) */
 export const HIT_WINDOW = 0.07;
 /** 種が、いちばん下から上まで飛ぶ時間(ミリ秒)と、次に投げられるまでの時間・こわれた隕石の見た目の時間 */
-export const SHOT_MS = 450;
-export const SHOT_COOLDOWN_MS = 500;
+export const SHOT_MS = 260;
+export const SHOT_COOLDOWN_MS = 350;
 export const BLAST_MS = 300;
 /** 隕石の段が並ぶ範囲と、星が着く時刻 */
 const ROW_FROM = 0.3;
