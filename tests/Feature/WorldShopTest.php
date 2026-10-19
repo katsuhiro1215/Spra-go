@@ -144,7 +144,7 @@ it('品ぞろえ: シーダーの全アイテムの絵のキーが asset_keys �
     $first = ShopItem::query()->where('type', 'decoration')->count();
     $this->seed(WorldItemSeeder::class);
 
-    expect(ShopItem::query()->where('type', 'decoration')->count())->toBe($first)->toBe(144); // ラン限定5点(タネ交換所)を含む
+    expect(ShopItem::query()->where('type', 'decoration')->count())->toBe($first)->toBe(145); // ラン限定5点(タネ交換所)を含む
     foreach (ShopItem::query()->where('type', 'decoration')->get() as $item) {
         expect(config('world.asset_keys'))->toContain($item->assetKey());
     }

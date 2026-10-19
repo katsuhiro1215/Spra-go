@@ -161,7 +161,7 @@ it('町のAPIのバッグのアイテムにも大きさが付く', function () {
     $this->getJson('/api/world')->assertOk()->assertJsonPath('bag.0.footprint', 2);
 });
 
-it('品ぞろえのシーダーで、2×2の建物46(ラン限定のゴールゲートを含む)・3×3の建物9(モール2つ・村長の家・風車の庭・城・五重塔・姫路城・東大寺・首里城)を含む144種類(ラン限定5点を含む)がそろい、2回実行しても増えない', function () {
+it('品ぞろえのシーダーで、2×2の建物47(ラン限定のゴールゲートを含む)・3×3の建物9(モール2つ・村長の家・風車の庭・城・五重塔・姫路城・東大寺・首里城)を含む144種類(ラン限定5点を含む)がそろい、2回実行しても増えない', function () {
     $this->seed(WorldItemSeeder::class);
     $this->seed(WorldItemSeeder::class);
 
@@ -169,11 +169,11 @@ it('品ぞろえのシーダーで、2×2の建物46(ラン限定のゴールゲ
     $big = $items->filter(fn (ShopItem $item) => $item->footprint() === 2)->pluck('name');
     $large = $items->filter(fn (ShopItem $item) => $item->footprint() === 3)->pluck('name');
 
-    expect($items)->toHaveCount(144)
-        ->and($big)->toHaveCount(46)
+    expect($items)->toHaveCount(145)
+        ->and($big)->toHaveCount(47)
         ->and($large)->toHaveCount(9)
         ->and($large->all())->toContain('お城', '五重塔', '姫路城', '東大寺', '首里城')
-        ->and($big->all())->toContain('カフェ', 'タワー', 'パン屋', 'ビッグ・ベン', '凱旋門', '南大門', '和風の家', '噴水', '大きな船', '灯台', '金閣寺')
+        ->and($big->all())->toContain('カフェ', '交番', 'タワー', 'パン屋', 'ビッグ・ベン', '凱旋門', '南大門', '和風の家', '噴水', '大きな船', '灯台', '金閣寺')
         ->and($items->firstWhere('name', 'タワー')->only(['price', 'min_level']))->toBe(['price' => 1500, 'min_level' => 12]);
 });
 
