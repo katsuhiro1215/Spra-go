@@ -55,7 +55,7 @@ onion | 玉ねぎ | onion | crop | harvested_onion_01
 ## Task 1: 計画のコミットと、画像の生成を始める（時間がかかるので先に）
 
 - [ ] この計画を #00370 でコミットする
-- [ ] `tools/spru-assets/crops.json` に15点を足す（前回と同じく、書式を崩さず、`sources` の最後と `items` の最後に行を足す）。`sources`: `"zukan_{key}": "../../spra-world/assets/approved/item/{元の画像}.png"`。`items`: `{"key": "zukan_{key}", "source": "zukan_{key}", "box": [0, 0, 1254, 1254], "width": 192}`
+- [ ] `tools/spru-assets/crops.json` に15点を足す（前回と同じく、書式を崩さず、`sources` の最後と `items` の最後に行を足す）。`sources`: `"zukan_{key}": "../../assets/approved/item/{元の画像}.png"`。`items`: `{"key": "zukan_{key}", "source": "zukan_{key}", "box": [0, 0, 1254, 1254], "width": 192}`
 - [ ] 画像の生成を**バックグラウンドで**始める（全素材を作り直すので10分前後かかる）: `python3 tools/spru-assets/extract.py ../../company/spra/mascot/assets`（リポジトリ直下から）。終わるまで、Task 2〜4に進む
 - [ ] コミットは Task 5 で行う（画像と `spru-assets.ts` と `crops.json` を一緒に）
 

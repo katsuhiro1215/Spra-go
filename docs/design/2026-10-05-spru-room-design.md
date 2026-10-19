@@ -3,7 +3,7 @@
 - 作成日: 2026-10-05
 - ステータス: 案（Ownerの承認待ち）。Owner決定済み: 「見るだけの部屋」（家具は固定・置き換えなし）、「新しいスプルの絵は部屋のスプルだけに使う」（町のスプルと仲間の絵は今のまま。ルミの新しい絵は今回は使わない）
 - 前提: 町（`docs/design/2026-09-26-world-town-design.md`）、スプルの様子（`components/spru/mood.ts`）、第1〜3段階の確定画像の活用（`docs/design/2026-10-05-world-items-stage1-design.md` ほか）
-- 素材（Spra-worldの確定画像）: `company/spra/spra-world/assets/approved/` の `interior/spru_house_room_01.png`（部屋）、`furniture/spru_bed_01.png`・`spru_table_01.png`・`spru_chair_01.png`、`state/spru_bed_sleeping_01.png`（ベッドで眠るスプル）、`mascot/spru/idle/spru_idle_lower_left_01.png`・`actions/spru_wave_lower_left_01.png`・`spru_sit_lower_left_01.png`
+- 素材（Spra-worldの確定画像）: `company/spra/assets/approved/` の `interior/spru_house_room_01.png`（部屋）、`furniture/spru_bed_01.png`・`spru_table_01.png`・`spru_chair_01.png`、`state/spru_bed_sleeping_01.png`（ベッドで眠るスプル）、`mascot/spru/idle/spru_idle_lower_left_01.png`・`actions/spru_wave_lower_left_01.png`・`spru_sit_lower_left_01.png`
 - 対応するタスク: `TASKS.md`「Spra-worldの確定画像の活用」3
 
 ## 1. 背景と目的

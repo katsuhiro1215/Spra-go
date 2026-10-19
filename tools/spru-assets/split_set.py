@@ -5,7 +5,7 @@
   4棟のシート: python3 tools/spru-assets/split_set.py <シート.png> <出力フォルダ> 左上 右上 左下 右下
   1棟ずつの絵(フォルダの中の全部): python3 tools/spru-assets/split_set.py --single <入力フォルダ> <出力フォルダ>
     (入力は、`fire-station.png` のように、ハイフンの名前。出力は `fire_station.png` に直す)
-  例: python3 tools/spru-assets/split_set.py ../../company/spra/spra-go/town-set.png ../../company/spra/spra-go/town-shops bakery fish_shop greengrocer meat_shop
+  例: python3 tools/spru-assets/split_set.py ../../company/spra/spra-go/town-set.png ../../company/spra/assets/approved/building/town-shops bakery fish_shop greengrocer meat_shop
 
 - 背景を抜いたときの半透明の縁を、不透明度のしきい値と1ピクセルの縮めで取り除き、縁をなめらかにする
 - 出力は、余白をつめない(絵の置き場所は extract.py が決める)。1棟1ファイル {名前}.png

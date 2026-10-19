@@ -55,7 +55,7 @@
 
 **Files:** `tools/ground-assets/make_ground.py`、`frontend/public/spru/ground/*.webp`、`frontend/src/components/world/ground-art.ts`
 
-- [ ] `make_ground.py` を作る: 原画（`company/spra/spra-world/assets/` の指定のPNG）を読み、512×512に縮め、**つなぎ目を消す**（半分ずらした絵と、中央を残すぼかしマスクで合成。試作と同じ方法）、WebPで `frontend/public/spru/ground/{キー}.webp`（品質85）に出す。入力と出力の対応は、スクリプト冒頭の表にする。最初の表: `grass_town ← source/terrain/soft_grass_01/v002.png`、`path ← source/terrain/warm_dirt_path_01/v001.png`。ほかのキー（`grass_bamboo`・`sand`・`hill`・`grove`・`meadow`）は、`approved/ground/` の絵が届いたら表に足す（まだ無いキーは、飛ばして、何を飛ばしたかを表示する）
+- [ ] `make_ground.py` を作る: 原画（`company/spra/assets/` の指定のPNG）を読み、512×512に縮め、**つなぎ目を消す**（半分ずらした絵と、中央を残すぼかしマスクで合成。試作と同じ方法）、WebPで `frontend/public/spru/ground/{キー}.webp`（品質85）に出す。入力と出力の対応は、スクリプト冒頭の表にする。最初の表: `grass_town ← source/terrain/soft_grass_01/v002.png`、`path ← source/terrain/warm_dirt_path_01/v001.png`。ほかのキー（`grass_bamboo`・`sand`・`hill`・`grove`・`meadow`）は、`approved/ground/` の絵が届いたら表に足す（まだ無いキーは、飛ばして、何を飛ばしたかを表示する）
 - [ ] 実行して、端の差を測る: 出力を2×2に並べた画像の、つなぎ目の線上の画素の差が、絵の中の隣り合う画素の差の2倍以内か（スクリプトで数値を表示）。つなぎ目が見えるものは、ぼかしの幅を調整する
 - [ ] `ground-art.ts` を作る: `GROUND_ART: Partial<Record<Ground | "path" | "grove" | "meadow", { src: string; size: number }>>`（出力した絵だけ。`grass` → `grass_town`、`path`）、`GROUND_DECALS: { src: string; width: number; height: number }[]`（今は空）
 - [ ] 追加の画像の合計が1MB以内か確かめる（`du`）

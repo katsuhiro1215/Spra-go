@@ -4,7 +4,7 @@
 使い方(projects/Spra-go で):
     python3 -I tools/space/import-images.py [入力フォルダ] [--dry-run]
 
-- 入力の既定: ../../company/spra/spra-world/assets/incoming/space
+- 入力の既定: ../../company/spra/assets/incoming/space
 - キーの一覧は database/data/space/pictures.csv(1列目)。ファイル名 {キー}.png
 - 検査: 正方形か、解像度、キーの過不足(足りない・知らないファイル名)
 - 出力: frontend/public/space/{キー}.webp(正方形 512px、画質 82)
@@ -17,7 +17,7 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_SRC = ROOT / "../../company/spra/spra-world/assets/incoming/space"
+DEFAULT_SRC = ROOT / "../../company/spra/assets/incoming/space"
 OUT = ROOT / "frontend/public/space"
 SIZE = 512
 QUALITY = 82

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """町の地面の絵(真上から見た平らな正方形)を、つなぎ目を消して、512pxのWebPにする。
 
-使い方(リポジトリ直下で): python3 tools/ground-assets/make_ground.py ../../company/spra/spra-world/assets
+使い方(リポジトリ直下で): python3 tools/ground-assets/make_ground.py ../../company/spra/assets
 
 - 設計書: docs/design/2026-10-05-town-blend-design.md 3-4。依頼書: company/spra/spra-world/prompts/batches/002-ground-textures.md
 - 上下左右がつながるよう、半分ずらした絵と、中央を残すぼかしマスクで合成する
@@ -21,7 +21,7 @@ SEAMLESS_RATIO = 1.2  # つなぎ目の比がこれ以下なら、もともと�
 SEAMLESS_BY_EYE = {"road_kr"}
 BLUR_BAND = 0.14  # 端からこの割合の帯を、ずらした絵となじませる
 
-# キー → 素材の置き場所(company/spra/spra-world/assets からの相対)。approved/ground/ に届いた絵を足していく
+# キー → 素材の置き場所(company/spra/assets からの相対)。approved/ground/ に届いた絵を足していく
 SOURCES = {
     "grass_town": "approved/ground/ground_grass_town_01.png",
     "path": "source/terrain/warm_dirt_path_01/v001.png",  # 仮

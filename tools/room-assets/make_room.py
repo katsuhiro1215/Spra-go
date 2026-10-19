@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """スプルの家の中(見るだけの部屋)の絵を、透明な余白を詰めてWebPにし、配置に使う一覧を書き出す。
 
-使い方(リポジトリ直下で): python3 tools/room-assets/make_room.py ../../company/spra/spra-world/assets
+使い方(リポジトリ直下で): python3 tools/room-assets/make_room.py ../../company/spra/assets
 
 - 設計書: docs/design/2026-10-05-spru-room-design.md 3章
 - 出力: frontend/public/spru/room/{キー}.webp と frontend/src/components/room/room-assets.ts(手で直さない)
