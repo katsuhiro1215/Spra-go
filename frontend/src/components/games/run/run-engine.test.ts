@@ -24,6 +24,8 @@ import {
   RUN_HEARTS,
   scoreOf,
   MAX_SEED_VALUE_PER_SEC,
+  towerOrder,
+  towerShape,
   SPEED_MAX,
   SPEED_START,
   SPEED_STEP,
@@ -382,13 +384,13 @@ function platformBot(state: RunState): RunState {
     const climbFromGround = standing && state.y === 0 && next.top <= PLATFORM_TOPS.low && ahead > 0 && ahead <= state.speed * 0.5;
     const climbFromLow = standing && state.y > 0 && state.y < next.top && next.top > PLATFORM_TOPS.low && ahead > 0 && ahead <= state.speed * 0.45;
     if (climbFromGround || climbFromLow) return jump(state);
-    // 床の上から、1段上の床(横に重なっているもの)へ
-    if (standing && state.y > 0) {
-      const above = state.platforms.find(
-        (q) => Math.abs(q.top - (state.y + PLATFORM_STEP)) < 0.5 && q.x - state.distance - front <= state.speed * 0.4 && q.x + q.w - state.distance > SPRU_X + 70,
-      );
-      if (above) return jump(state);
-    }
+  }
+  // 床の上から、1段上の床(すき間の先にあるもの)へ
+  if (standing && state.y > 0) {
+    const above = state.platforms.find(
+      (q) => Math.abs(q.top - (state.y + PLATFORM_STEP)) < 0.5 && q.x - state.distance - front <= state.speed * 0.35 && q.x + q.w - state.distance > SPRU_X + 70,
+    );
+    if (above) return jump(state);
   }
   // 床の上の岩・地面のじゃまもの
   const rock = state.obstacles.find((o) => (o.base ?? 0) > 0 && o.x - state.distance + o.w > SPRU_X);
@@ -498,14 +500,14 @@ describe("タネの波", () => {
 
 
 describe("そびえる床(タワー): 画面の高いところまで、床を一段ずつ登る", () => {
-  const towerAt = (elapsedMs: number) => {
+  const towerAt = (elapsedMs: number, roll = 0.1) => {
     let s = { ...empty(createRun(5)), elapsedMs };
-    const built = PATTERNS.tower.build({ x: 400, speed: 300, passSpeed: 300, elapsedMs: s.elapsedMs, roll: () => 0.4 });
+    const built = PATTERNS.tower.build({ x: 400, speed: 300, passSpeed: 300, elapsedMs: s.elapsedMs, roll: () => roll });
     s = { ...s, platforms: built.platforms, seeds: built.seeds };
     return { s, built };
   };
 
-  it("段の高さの差は、1回のジャンプで登れる大きさ。上の段は、下の段と、横に重なっている", () => {
+  it("段の高さの差は、1回のジャンプで登れる大きさ。段と段の間には、見て分かるすき間があり、そのすき間は、ジャンプで渡れる広さ", () => {
     const single = (JUMP_V * JUMP_V) / (2 * GRAVITY);
     const { built } = towerAt(30_000);
     const tiers = [...built.platforms].sort((a, b) => a.top - b.top);
@@ -513,8 +515,9 @@ describe("そびえる床(タワー): 画面の高いところまで、床を一
     expect(PLATFORM_STEP).toBeLessThan(single - 15);
     for (let i = 1; i < tiers.length; i++) {
       expect(tiers[i].top - tiers[i - 1].top).toBe(PLATFORM_STEP);
-      expect(tiers[i].x).toBeLessThan(tiers[i - 1].x + tiers[i - 1].w - 60);
-      expect(tiers[i].x).toBeGreaterThan(tiers[i - 1].x);
+      const gap = tiers[i].x - (tiers[i - 1].x + tiers[i - 1].w);
+      expect(gap).toBeGreaterThanOrEqual(40);
+      expect(gap).toBeLessThanOrEqual(80);
     }
   });
 
@@ -552,6 +555,63 @@ describe("そびえる床(タワー): 画面の高いところまで、床を一
   });
 });
 
+
+describe("雲の床の形(のぼるだけ・山のぼり・くだり・ジグザグ)", () => {
+  it("20秒より前は、のぼるだけ。そのあとは、乱数で3つの形が出る", () => {
+    for (const roll of [0.1, 0.5, 0.9]) expect(towerShape(19_000, roll)).toBe("climb");
+    expect([0.1, 0.5, 0.9].map((roll) => towerShape(30_000, roll))).toEqual(["climb", "peak", "zigzag"]);
+  });
+
+  it("並びの段の番号: 山のぼり・くだりは登って降りる。ジグザグは2段登って1段降りる。どれも、隣の床との高さの差は1段", () => {
+    expect(towerOrder("climb", 4)).toEqual([0, 1, 2, 3]);
+    expect(towerOrder("peak", 4)).toEqual([0, 1, 2, 3, 2, 1, 0]);
+    expect(towerOrder("zigzag", 4)).toEqual([0, 1, 2, 1, 2, 3, 2, 1]);
+    for (const shape of ["climb", "peak", "zigzag"] as const) {
+      for (const tiers of [3, 4, 5]) {
+        const order = towerOrder(shape, tiers);
+        expect(Math.max(...order)).toBe(tiers - 1);
+        for (let i = 1; i < order.length; i++) expect(Math.abs(order[i] - order[i - 1])).toBe(1);
+      }
+    }
+  });
+
+  it("山のぼり・くだりとジグザグは、いちばん高い床のあと、降りる床がある。床どうしは重ならず、すき間がある", () => {
+    for (const roll of [0.5, 0.9]) {
+      const built = PATTERNS.tower.build({ x: 400, speed: 300, passSpeed: 300, elapsedMs: 40_000, roll: () => roll });
+      const tops = built.platforms.map((p) => p.top);
+      const topIndex = tops.indexOf(Math.max(...tops));
+      expect(topIndex).toBeLessThan(tops.length - 1);
+      expect(tops.length).toBeLessThanOrEqual(9);
+      for (let i = 1; i < built.platforms.length; i++) {
+        expect(built.platforms[i].x - (built.platforms[i - 1].x + built.platforms[i - 1].w)).toBeGreaterThanOrEqual(40);
+      }
+    }
+  });
+
+  it("どの形でも、お手本の子は、ぶつからずに登って・降りられ、半分より多くの雲に乗れる", () => {
+    for (const roll of [0.1, 0.5, 0.9]) {
+      let towers = 0;
+      let reached = 0;
+      for (let seed = 1; seed <= 20; seed++) {
+        const built = PATTERNS.tower.build({ x: 400, speed: 300, passSpeed: 300, elapsedMs: 40_000, roll: () => roll });
+        let s = { ...empty(createRun(seed)), platforms: built.platforms, seeds: built.seeds, speed: 300, elapsedMs: 40_000 };
+        s = { ...s, distance: 400 - SPRU_X - 40 };
+        const visited = new Set<number>();
+        s = run(s, 9000, (x) => {
+          if (x.standing && x.y >= PLATFORM_TOPS.low + PLATFORM_STEP * 2) {
+            const p = x.platforms.find((q) => q.top === x.y);
+            if (p) visited.add(p.x);
+          }
+          return platformBot(x);
+        });
+        expect({ roll, seed, hearts: s.hearts }).toEqual({ roll, seed, hearts: RUN_HEARTS });
+        towers += built.platforms.filter((p) => p.top >= PLATFORM_TOPS.low + PLATFORM_STEP * 2).length;
+        reached += visited.size;
+      }
+      expect({ roll, ok: reached > towers * 0.5 }).toEqual({ roll, ok: true });
+    }
+  });
+});
 
 describe("新しい障害物", () => {
   it("ハチは、頭の少し上に浮いている。走って下をくぐればぶつからず、ジャンプするとぶつかる", () => {
@@ -600,7 +660,7 @@ describe("途中から始める(試作で、後半のパターンをすぐ試す
 describe("画面の高さに合わせたタワー", () => {
   const towerWith = (ceiling: number, elapsedMs: number) => {
     const s = createRun(5, elapsedMs, ceiling);
-    return PATTERNS.tower.build({ x: 400, speed: 300, passSpeed: 300, elapsedMs, roll: () => 0.4, ceiling: s.ceiling });
+    return PATTERNS.tower.build({ x: 400, speed: 300, passSpeed: 300, elapsedMs, roll: () => 0.1, ceiling: s.ceiling });
   };
 
   it("画面が高いほど、高い段まで積む。いちばん高い床の上のタネが、画面の高さに入る", () => {

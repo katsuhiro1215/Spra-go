@@ -329,6 +329,36 @@ function platformRow(p: Platform, y: number, spacing: number, rareAt: number | n
   return Array.from({ length: count }, (_, i) => seedAt(p.x + from + i * spacing, y, "platform", i === rareAt ? rare : null));
 }
 
+/** タワーの形。のぼるだけ(登ったあと、地面まで降りる)・山のぼり・くだり(登って、反対側を一段ずつ降りる)・ジグザグ(2段のぼって1段くだる) */
+export type TowerShape = "climb" | "peak" | "zigzag";
+/** 山のぼり・ジグザグが出始める時間(それまでは、のぼるだけ) */
+export const TOWER_SHAPES_FROM_MS = 20_000;
+
+export function towerShape(elapsedMs: number, roll: number): TowerShape {
+  if (elapsedMs < TOWER_SHAPES_FROM_MS || roll < 0.4) return "climb";
+  return roll < 0.75 ? "peak" : "zigzag";
+}
+
+/** タワーの床の並び(段の番号。0 がいちばん低い床)。左から右へ */
+export function towerOrder(shape: TowerShape, tiers: number): number[] {
+  const up = Array.from({ length: tiers }, (_, k) => k);
+  if (shape === "climb") return up;
+  if (shape === "peak") return [...up, ...up.slice(0, -1).reverse()];
+  const order = [0];
+  let k = 0;
+  while (k < tiers - 1) {
+    for (let i = 0; i < 2 && k < tiers - 1; i++) order.push(++k);
+    if (k < tiers - 1) order.push(--k);
+  }
+  while (k > 1) order.push(--k);
+  return order;
+}
+
+/** 床と床のすき間。1段登る・降りるジャンプで、かならず渡れる広さ */
+export function towerGap(speed: number): number {
+  return clamp(speed * 0.2, 40, 80);
+}
+
 const PATTERNS_TABLE: Record<PatternId, Pattern> = {
   // じゃまもの1つと、そのまわりのタネ(これまでのパターン)
   single: {
@@ -423,7 +453,8 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
       return { obstacles: [], seeds, platforms: [low, high], end: high.x + high.w, gap: platformExitGap(speed, high.top), extra: speed * 0.4 };
     },
   },
-  // そびえる床: 床を一段ずつ高く重ねて、空までタネがつながる(画面いっぱいを使う)。段の数は時間とともに増える
+  // そびえる雲の床: 床を一段ずつ高くして、空までタネがつながる(画面いっぱいを使う)。段の数は時間とともに増える。
+  // 段と段の間には、すき間(TOWER_GAP)をあける。形は3つ: のぼるだけ(登ったあと地面まで降りる)・山のぼり・くだり・ジグザグ
   tower: {
     kind: "platform",
     from: 14_000,
@@ -432,16 +463,24 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
       // 12秒ごとに1段ふえる。画面の高さに入る段までで、少なくとも3段
       const fits = Math.floor((ceiling - 100 - PLATFORM_TOPS.low) / PLATFORM_STEP) + 1;
       const tiers = clamp(3 + Math.floor(Math.max(0, elapsedMs - 14_000) / 12_000), 3, Math.max(3, Math.min(8, fits)));
-      const w = clamp(speed * 1.2, 240, 440);
-      const offset = clamp(speed * 0.3, 80, 140);
-      const platforms = Array.from({ length: tiers }, (_, k) => ({ x: x + k * offset, w, top: PLATFORM_TOPS.low + k * PLATFORM_STEP }));
-      const top = platforms[tiers - 1];
+      const shape = towerShape(elapsedMs, roll());
+      // 山のぼり・ジグザグは、床の数が増えるので、段は 5つ・4つまで
+      const order = towerOrder(shape, shape === "climb" ? tiers : Math.min(tiers, shape === "peak" ? 5 : 4));
+      const w = clamp(speed * 0.7, 170, 290);
+      const gap = towerGap(speed);
+      const platforms = order.map((tier, i) => ({ x: x + i * (w + gap), w, top: PLATFORM_TOPS.low + tier * PLATFORM_STEP }));
+      const top = platforms.reduce((best, p) => (p.top > best.top ? p : best));
       const seeds: Seed[] = platforms.flatMap((p) => platformRow(p, onTopY(p.top), 40, null, null, 30, 30));
-      // 空のタネ: いちばん上の床の上に、横にならべる。まんなかの1つが金
+      // 床と床の間の空に、ジャンプで取るタネ(通り道)
+      for (let i = 1; i < platforms.length; i++) {
+        const [a, b] = [platforms[i - 1], platforms[i]];
+        seeds.push(seedAt(a.x + a.w + gap / 2, Math.max(a.top, b.top) + 50, "high"));
+      }
       // 空のまんなかのタネは、ごほうび(銀。ときどき金)
       const prize: Rare = roll() < 0.3 ? "gold" : "silver";
       const sky = [0, 1, 2, 3, 4].map((i) => seedAt(top.x + top.w / 2 + (i - 2) * 34, top.top + 95, "high", i === 2 ? prize : null));
-      return { obstacles: [], seeds: [...seeds, ...sky], platforms, end: top.x + top.w, gap: platformExitGap(speed, top.top), extra: speed * 0.4 };
+      const last = platforms[platforms.length - 1];
+      return { obstacles: [], seeds: [...seeds, ...sky], platforms, end: last.x + last.w, gap: platformExitGap(speed, last.top), extra: speed * 0.4 };
     },
   },
   // 長い床の上の岩。床の上でも、ジャンプしてこえる
