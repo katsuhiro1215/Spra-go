@@ -10,6 +10,7 @@ import {
   footprintTiles,
   hasAnchorsOutside,
   isOpenTile,
+  itemSize,
   landEdges,
   landmarkFootprint,
   occupiedTiles,
@@ -286,5 +287,47 @@ describe("池(まわりが、すべて開いた陸でかこまれた水)", () =>
     expect(edges.left.some(([x, y]) => x === 6 && y === 5)).toBe(false); // (6,5)の左手前は池
     // 池でなく海のとき(まわりが閉じている)は、今までどおり崖が付く
     expect(landEdges(withWater(1, [[6, 6]])).right.some(([x, y]) => x === 5 && y === 6)).toBe(true);
+  });
+});
+
+describe("長方形の大きさ(幅×高さ。docs/design/2026-10-19-town-rect-design.md)", () => {
+  it("itemSize: w・h があればそれ、なければ footprint の正方形", () => {
+    expect(itemSize({ footprint: 2 })).toEqual({ w: 2, h: 2 });
+    expect(itemSize({ footprint: 3, w: 3, h: 2 })).toEqual({ w: 3, h: 2 });
+    expect(itemSize({ footprint: 3, w: 2, h: 3 })).toEqual({ w: 2, h: 3 });
+  });
+
+  it("footprintTiles: 幅は x の向き、高さは y の向き。高さを省くと正方形", () => {
+    expect(footprintTiles(4, 4, 3, 2)).toEqual([[4, 4], [5, 4], [6, 4], [4, 5], [5, 5], [6, 5]]);
+    expect(footprintTiles(1, 1, 2)).toEqual([[1, 1], [2, 1], [1, 2], [2, 2]]);
+  });
+
+  it("depthTile・footprintCenter: 幅・高さで、手前のマス・真ん中が決まる", () => {
+    expect(depthTile(4, 4, 3, 2)).toEqual({ x: 6, y: 5 });
+    expect(depthTile(4, 4, 2)).toEqual({ x: 5, y: 5 });
+    expect(footprintCenter(4, 4, 3, 2)).toEqual(tileCenter(5, 4.5));
+    expect(footprintCenter(4, 4, 2)).toEqual(tileCenter(4.5, 4.5));
+  });
+
+  it("occupiedTiles: 置いた長方形が、その向きのマスを使う", () => {
+    const used = occupiedTiles([{ id: 1, x: 4, y: 4, footprint: 3, w: 3, h: 2 }], null);
+    expect([...used].sort()).toEqual(["4,4", "4,5", "5,4", "5,5", "6,4", "6,5"]);
+  });
+
+  it("validAnchors: 長方形の大きさ{w,h}で、おさまる奥のマスを返す(雲・道にかかる所は出ない)", () => {
+    const land = landAt(1);
+    const anchors = validAnchors(land, [], { w: 3, h: 2 }, null);
+    // 町の右下ブロック(x=4〜6・y=4〜6)に、3×2 は y=4・5 の2通り
+    expect(anchors.has("4,4")).toBe(true);
+    expect(anchors.has("4,5")).toBe(true);
+    expect(anchors.has("5,4")).toBe(false); // x=7 が雲
+    expect(anchors.has("4,6")).toBe(false); // y=7 が雲
+    // 反転した 2×3 なら、x=4〜5・6の2通り、y=4 から
+    const rotated = validAnchors(land, [], { w: 2, h: 3 }, null);
+    expect(rotated.has("4,4")).toBe(true);
+    expect(rotated.has("5,4")).toBe(true);
+    expect(rotated.has("4,5")).toBe(false);
+    // 数字だけの大きさ(今まで)も使える
+    expect(validAnchors(land, [], 2, null).has("4,4")).toBe(true);
   });
 });

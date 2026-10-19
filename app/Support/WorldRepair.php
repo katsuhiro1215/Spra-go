@@ -74,7 +74,7 @@ class WorldRepair
         $items = $profile->worldItems()->with('shopItem')->whereNotNull('x')->whereNotNull('y')->orderBy('id')->get();
 
         foreach ($items as $item) {
-            $tiles = WorldPlacement::tiles($item->x, $item->y, $item->shopItem->footprint());
+            $tiles = WorldPlacement::tiles($item->x, $item->y, ...$item->size());
 
             if (! self::terrainAllows($tiles, $profile->level) || self::overlaps($tiles, $occupied)) {
                 $unplaceable[] = $item->id;

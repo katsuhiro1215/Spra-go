@@ -11,6 +11,7 @@ import {
   SOUVENIR_ART_KEYS,
   artOptionLabel,
   assetFootprint,
+  assetSize,
   isBigAsset,
 } from "./art-keys";
 
@@ -30,9 +31,20 @@ describe("町のアイテムの絵のキー", () => {
     expect([...ITEM_ART_KEYS].sort()).toEqual(keys.sort());
   });
 
-  it("絵の大きさは config/world.php の asset_footprints と同じ(2×2・3×3)", () => {
-    const sizes = Object.fromEntries([...phpArray("asset_footprints").matchAll(/'([a-z0-9_]+)'\s*=>\s*(\d+)/g)].map((m) => [m[1], Number(m[2])]));
+  it("絵の大きさは config/world.php の asset_footprints と同じ(数字の N×N か、[幅, 高さ])", () => {
+    const sizes = Object.fromEntries(
+      [...phpArray("asset_footprints").matchAll(/'([a-z0-9_]+)'\s*=>\s*(\d+|\[\s*\d+\s*,\s*\d+\s*\])/g)].map((m) => [
+        m[1],
+        m[2].startsWith("[") ? (m[2].match(/\d+/g) as string[]).map(Number) : Number(m[2]),
+      ]),
+    );
     expect({ ...ASSET_FOOTPRINTS }).toEqual(sizes);
+  });
+
+  it("assetSize: 数字は正方形、[幅, 高さ]はそのまま。assetFootprint は、絵の縮尺に使う、幅と高さの平均", () => {
+    expect(assetSize("bench")).toEqual({ w: 1, h: 1 });
+    expect(assetSize("fountain")).toEqual({ w: 2, h: 2 });
+    expect(assetSize(null)).toEqual({ w: 1, h: 1 });
   });
 
   it("大きさは、1(書いていない物)・2・3。大きな物(2以上)が isBigAsset", () => {

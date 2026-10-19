@@ -285,3 +285,27 @@ describe("池", () => {
     expect(buildSceneModel(input()).ground.ponds).toEqual([]);
   });
 });
+
+describe("長方形のアイテム", () => {
+  it("幅×高さで、手前のマス・真ん中が決まる。絵の縮尺(footprint)は、幅と高さの平均", () => {
+    const rect = item(21, "bakery", 4, 4, 3, { w: 3, h: 2 });
+    const model = buildSceneModel(input({ items: [rect] }));
+    const o = model.objects.find((x) => x.kind === "item");
+    expect(o && o.kind === "item" && [o.x, o.y]).toEqual([6, 5]);
+    expect(o && o.kind === "item" && { sx: o.sx, sy: o.sy }).toEqual(footprintCenter(4, 4, 3, 2));
+    expect(o && o.kind === "item" && o.footprint).toBe(2.5);
+  });
+
+  it("反転(w・h が入れ替わる)すると、手前のマス・真ん中が入れ替わる。縮尺は同じ", () => {
+    const flipped = item(22, "bakery", 4, 4, 3, { w: 2, h: 3, mirrored: true });
+    const o = buildSceneModel(input({ items: [flipped] })).objects.find((x) => x.kind === "item");
+    expect(o && o.kind === "item" && [o.x, o.y]).toEqual([5, 6]);
+    expect(o && o.kind === "item" && o.footprint).toBe(2.5);
+  });
+
+  it("プレビューも、幅×高さのマスを使う", () => {
+    const model = buildSceneModel(input({ preview: { x: 4, y: 0, item: item(23, "bakery", 4, 0, 3, { w: 3, h: 2 }) } }));
+    expect(model.preview?.tiles).toHaveLength(6);
+    expect(model.preview?.center).toEqual(footprintCenter(4, 0, 3, 2));
+  });
+});

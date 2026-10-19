@@ -12,12 +12,17 @@ use App\Models\UserProfile;
  */
 class WorldPlacement
 {
-    /** @return list<array{0: int, 1: int}> (x, y) を奥のマスにして使うマス */
-    public static function tiles(int $x, int $y, int $footprint): array
+    /**
+     * (x, y) を奥のマスにして使うマス。幅 $w は x の向き、高さ $h は y の向き(h を書かなければ w×w の正方形)
+     *
+     * @return list<array{0: int, 1: int}>
+     */
+    public static function tiles(int $x, int $y, int $w, ?int $h = null): array
     {
+        $h ??= $w;
         $tiles = [];
-        for ($dy = 0; $dy < $footprint; $dy++) {
-            for ($dx = 0; $dx < $footprint; $dx++) {
+        for ($dy = 0; $dy < $h; $dy++) {
+            for ($dx = 0; $dx < $w; $dx++) {
                 $tiles[] = [$x + $dx, $y + $dy];
             }
         }
@@ -25,10 +30,13 @@ class WorldPlacement
         return $tiles;
     }
 
-    /** 置けなければ422。同時に置いても4マスが重ならないよう、プロフィールはロックしてから渡す */
-    public static function check(UserProfile $profile, ProfileWorldItem $item, int $x, int $y): void
+    /**
+     * 置けなければ422。同時に置いても重ならないよう、プロフィールはロックしてから渡す。
+     * $mirrored を渡すと、その向きの大きさで調べる(反転できるかを調べるとき)。置けないときの言葉は $blockedMessage で変えられる
+     */
+    public static function check(UserProfile $profile, ProfileWorldItem $item, int $x, int $y, ?bool $mirrored = null): void
     {
-        $tiles = self::tiles($x, $y, $item->shopItem->footprint());
+        $tiles = self::tiles($x, $y, ...$item->size($mirrored));
 
         foreach ($tiles as [$tx, $ty]) {
             abort_unless(WorldLand::inBounds($tx, $ty), 422, '土地の外には置けません。');
@@ -58,7 +66,7 @@ class WorldPlacement
             ->whereNotNull('x')->whereNotNull('y')->whereKeyNot($exceptId)->get();
 
         foreach ($others as $other) {
-            foreach (self::tiles($other->x, $other->y, $other->shopItem->footprint()) as [$ox, $oy]) {
+            foreach (self::tiles($other->x, $other->y, ...$other->size()) as [$ox, $oy]) {
                 $occupied["{$ox},{$oy}"] = true;
             }
         }

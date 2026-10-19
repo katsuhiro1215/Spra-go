@@ -3,7 +3,7 @@ import type { Landmark, Tile, WorldItem, WorldLand, WorldPlot } from "./types";
 
 type Plots = Pick<WorldLand, "plots"> & { water?: Tile[] };
 type Rect = Pick<WorldPlot, "x" | "y" | "w" | "h">;
-type Placed = Pick<WorldItem, "id" | "x" | "y" | "footprint">;
+type Placed = Pick<WorldItem, "id" | "x" | "y" | "footprint" | "w" | "h">;
 
 // 区画が開いたときのお祝いのひとこと(設計書5-2)
 const UNLOCK_LINES: Record<string, string> = {
@@ -128,10 +128,16 @@ export function landmarkFootprint(landmark: Landmark): number {
   return landmark.footprint ?? 1;
 }
 
-export function footprintTiles(x: number, y: number, footprint: number): Tile[] {
+/** いまの向きの大きさ(幅 w は x の向き、高さ h は y の向き)。w・h がなければ footprint の正方形 */
+export function itemSize(item: { footprint: number; w?: number; h?: number }): { w: number; h: number } {
+  return { w: item.w ?? item.footprint, h: item.h ?? item.footprint };
+}
+
+/** (x, y) を奥のマスにして使うマス。高さ h を省くと w×w の正方形 */
+export function footprintTiles(x: number, y: number, w: number, h: number = w): Tile[] {
   const tiles: Tile[] = [];
-  for (let dy = 0; dy < footprint; dy++) {
-    for (let dx = 0; dx < footprint; dx++) tiles.push([x + dx, y + dy]);
+  for (let dy = 0; dy < h; dy++) {
+    for (let dx = 0; dx < w; dx++) tiles.push([x + dx, y + dy]);
   }
   return tiles;
 }
@@ -141,19 +147,21 @@ export function occupiedTiles(items: Placed[], exceptId: number | null): Set<str
   const occupied = new Set<string>();
   for (const item of items) {
     if (item.id === exceptId || item.x === null || item.y === null) continue;
-    for (const [x, y] of footprintTiles(item.x, item.y, item.footprint)) occupied.add(tileKey(x, y));
+    const { w, h } = itemSize(item);
+    for (const [x, y] of footprintTiles(item.x, item.y, w, h)) occupied.add(tileKey(x, y));
   }
   return occupied;
 }
 
 /** 置ける場所(奥のマス)。使うマスがすべて、開いた区画にあり、目印・道でなく、ほかと重ならない(設計書3-4) */
-export function validAnchors(land: WorldLand, items: Placed[], footprint: number, exceptId: number | null): Set<string> {
+export function validAnchors(land: WorldLand, items: Placed[], size: number | { w: number; h: number }, exceptId: number | null): Set<string> {
+  const { w, h } = typeof size === "number" ? { w: size, h: size } : size;
   const blocked = new Set(land.blocked.map(([x, y]) => tileKey(x, y)));
   const occupied = occupiedTiles(items, exceptId);
   const anchors = new Set<string>();
   for (let y = 0; y < land.height; y++) {
     for (let x = 0; x < land.width; x++) {
-      const fits = footprintTiles(x, y, footprint).every(
+      const fits = footprintTiles(x, y, w, h).every(
         ([tx, ty]) => isOpenTile(land, tx, ty) && !blocked.has(tileKey(tx, ty)) && !occupied.has(tileKey(tx, ty)),
       );
       if (fits) anchors.add(tileKey(x, y));
@@ -163,13 +171,13 @@ export function validAnchors(land: WorldLand, items: Placed[], footprint: number
 }
 
 /** 重なり順に使うマス。大きな建物は手前のマスで比べる(設計書3-4) */
-export function depthTile(x: number, y: number, footprint: number): { x: number; y: number } {
-  return { x: x + footprint - 1, y: y + footprint - 1 };
+export function depthTile(x: number, y: number, w: number, h: number = w): { x: number; y: number } {
+  return { x: x + w - 1, y: y + h - 1 };
 }
 
 /** 絵を描く位置。大きな建物は4マスの真ん中 */
-export function footprintCenter(x: number, y: number, footprint: number): { sx: number; sy: number } {
-  return tileCenter(x + (footprint - 1) / 2, y + (footprint - 1) / 2);
+export function footprintCenter(x: number, y: number, w: number, h: number = w): { sx: number; sy: number } {
+  return tileCenter(x + (w - 1) / 2, y + (h - 1) / 2);
 }
 
 export function plotCenter(plot: Rect): { sx: number; sy: number } {

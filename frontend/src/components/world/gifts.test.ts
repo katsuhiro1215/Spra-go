@@ -14,5 +14,6 @@ describe("ごほうびの文言", () => {
   it("大きさは N×N", () => {
     expect(sizeLabel(2)).toBe("2×2");
     expect(sizeLabel(3)).toBe("3×3");
+    expect(sizeLabel(3, 2)).toBe("3×2");
   });
 });

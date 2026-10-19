@@ -278,7 +278,7 @@ function ShopContent() {
                       )}
                       {item.footprint > 1 && (
                         <span className="absolute top-1 left-1 rounded-full bg-[#3b7f26] px-1.5 py-0.5 text-[10px] leading-none font-black text-white">
-                          2×2マス
+                          {item.w ?? item.footprint}×{item.h ?? item.footprint}マス
                         </span>
                       )}
                       {isNewItem(item, level) && (

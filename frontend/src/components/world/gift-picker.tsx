@@ -53,7 +53,7 @@ export function GiftPicker({
                   <span className="text-sm font-black">
                     <AutoFurigana text={candidate.name} />
                   </span>
-                  <span className="text-xs font-bold text-[#6b5d45]">{sizeLabel(candidate.footprint)}</span>
+                  <span className="text-xs font-bold text-[#6b5d45]">{sizeLabel(candidate.w ?? candidate.footprint, candidate.h ?? candidate.footprint)}</span>
                 </button>
               </li>
             );
