@@ -34,6 +34,55 @@ export function isWaterTile(land: Plots, x: number, y: number): boolean {
   return waterOf(land).has(tileKey(x, y));
 }
 
+// 池のマスの集合は、land ごとに1回だけ作る
+const pondSets = new WeakMap<object, Set<string>>();
+
+function pondsOf(land: Plots): Set<string> {
+  let set = pondSets.get(land);
+  if (set) return set;
+  set = new Set<string>();
+  const water = waterOf(land);
+  const seen = new Set<string>();
+  const neighbors: Tile[] = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+  for (const start of water) {
+    if (seen.has(start)) continue;
+    // つながった水(上下左右)をひとまとめにし、まわりが全部開いた陸かを調べる
+    const group: Tile[] = [];
+    const queue: Tile[] = [start.split(",").map(Number) as Tile];
+    seen.add(start);
+    let enclosed = true;
+    for (let i = 0; i < queue.length; i++) {
+      const [x, y] = queue[i];
+      group.push([x, y]);
+      for (const [dx, dy] of neighbors) {
+        const nx = x + dx;
+        const ny = y + dy;
+        const key = tileKey(nx, ny);
+        if (water.has(key)) {
+          if (!seen.has(key)) {
+            seen.add(key);
+            queue.push([nx, ny]);
+          }
+        } else if (!isOpenTile(land, nx, ny)) {
+          enclosed = false;
+        }
+      }
+    }
+    if (enclosed) for (const [x, y] of group) set.add(tileKey(x, y));
+  }
+  pondSets.set(land, set);
+  return set;
+}
+
+/** 池のマス(まわりが、すべて開いた陸でかこまれた水。海のくぼみと違い、陸の中の池として描く) */
+export function pondTiles(land: Plots): Tile[] {
+  return [...pondsOf(land)].map((key) => key.split(",").map(Number) as Tile);
+}
+
+export function isPondTile(land: Plots, x: number, y: number): boolean {
+  return pondsOf(land).has(tileKey(x, y));
+}
+
 /** 開いた区画にある、陸のマス(海は含まない) */
 export function isOpenTile(land: Plots, x: number, y: number): boolean {
   return (plotAt(land, x, y)?.unlocked ?? false) && !isWaterTile(land, x, y);
@@ -67,8 +116,9 @@ export function openTilesPath(land: Plots, dy = 0): string {
 export function landEdges(land: Plots): { left: Tile[]; right: Tile[] } {
   const tiles = openTiles(land);
   return {
-    left: tiles.filter(([x, y]) => !isOpenTile(land, x, y + 1)),
-    right: tiles.filter(([x, y]) => !isOpenTile(land, x + 1, y)),
+    // 池のとなりは、陸がつづいているのと同じ(池は陸の中の水なので、崖を付けない)
+    left: tiles.filter(([x, y]) => !isOpenTile(land, x, y + 1) && !isPondTile(land, x, y + 1)),
+    right: tiles.filter(([x, y]) => !isOpenTile(land, x + 1, y) && !isPondTile(land, x + 1, y)),
   };
 }
 

@@ -276,3 +276,12 @@ describe("歩くスプル", () => {
     expect(a.ground).toBe(ground);
   });
 });
+
+describe("池", () => {
+  it("まわりが開いた陸でかこまれた水は、池として地面に入る。海のくぼみは入らない", () => {
+    const withWater = (water: [number, number][]) => buildSceneModel(input({ land: { ...land, water } }));
+    expect(withWater([[2, 1]]).ground.ponds).toEqual([[2, 1]]);
+    expect(withWater([[3, 3]]).ground.ponds).toEqual([]); // 東が雲の区画(竹林)
+    expect(buildSceneModel(input()).ground.ponds).toEqual([]);
+  });
+});

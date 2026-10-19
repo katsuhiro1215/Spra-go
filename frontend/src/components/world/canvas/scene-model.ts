@@ -24,6 +24,7 @@ import {
   openTiles,
   openTilesPath,
   plotAt,
+  pondTiles,
 } from "../land";
 import { ITEM_IMAGE_FIT } from "../item-image-fit";
 import type { Ground, Tile, WorldCompanion, WorldGarden, WorldItem, WorldLand, WorldPlot } from "../types";
@@ -106,6 +107,8 @@ export type GroundModel = {
   edgesRight: { sx: number; sy: number }[];
   /** 地面の絵がある開いた区画(1つの菱形で塗る) */
   plots: { key: string; ground: Ground; points: Pt[]; art: { src: string; size: number } }[];
+  /** 池のマス(まわりが開いた陸でかこまれた水。陸の中の池として描く) */
+  ponds: Tile[];
   /** 絵のない地面の市松 */
   checker: { x: number; y: number; color: string }[];
   pathTiles: Tile[];
@@ -241,6 +244,7 @@ export function buildGroundModel(input: Pick<SceneInput, "land" | "items" | "com
       points: parsePoints(plotPoints(plot)),
       art: { src: GROUND_ART[plot.ground]!.src, size: GROUND_ART[plot.ground]!.size },
     })),
+    ponds: pondTiles(land),
     checker,
     pathTiles,
     road: road ? { src: road.art.src, size: road.art.size } : null,
