@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """4棟を1枚にしたシート(2×2配置)を、1棟ずつの透明PNGに切り分け、縁のにじみ(黄色〜オレンジのふち)を取り除く。
 
-使い方(リポジトリ直下で): python3 tools/spru-assets/split_set.py <シート.png> <出力フォルダ> 左上 右上 左下 右下
+使い方(リポジトリ直下で):
+  4棟のシート: python3 tools/spru-assets/split_set.py <シート.png> <出力フォルダ> 左上 右上 左下 右下
+  1棟ずつの絵(フォルダの中の全部): python3 tools/spru-assets/split_set.py --single <入力フォルダ> <出力フォルダ>
+    (入力は、`fire-station.png` のように、ハイフンの名前。出力は `fire_station.png` に直す)
   例: python3 tools/spru-assets/split_set.py ../../company/spra/spra-go/town-set.png ../../company/spra/spra-go/town-shops bakery fish_shop greengrocer meat_shop
 
 - 背景を抜いたときの半透明の縁を、不透明度のしきい値と1ピクセルの縮めで取り除き、縁をなめらかにする
@@ -36,5 +39,17 @@ def main(sheet: Path, out: Path, names: list[str]) -> None:
         print(name)
 
 
+def single(src: Path, out: Path) -> None:
+    out.mkdir(parents=True, exist_ok=True)
+    for path in sorted(src.glob("*.png")):
+        if path.stem in ("town-set", "town-shop-scale-compare"):
+            continue
+        clean(Image.open(path).convert("RGBA")).save(out / f"{path.stem.replace('-', '_')}.png")
+        print(path.stem)
+
+
 if __name__ == "__main__":
-    main(Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3:7])
+    if sys.argv[1] == "--single":
+        single(Path(sys.argv[2]), Path(sys.argv[3]))
+    else:
+        main(Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3:7])

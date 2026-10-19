@@ -142,6 +142,7 @@ class WorldItemSeeder extends Seeder
             ['name' => '郵便局', 'price' => 270, 'min_level' => 8, 'asset_key' => 'post_office'],
             ['name' => '駅の小屋', 'price' => 300, 'min_level' => 9, 'asset_key' => 'station_hut'],
             ['name' => '消防小屋', 'price' => 330, 'min_level' => 10, 'asset_key' => 'fire_station'],
+            ['name' => '交番', 'price' => 320, 'min_level' => 10, 'asset_key' => 'koban'],
             ['name' => '座る猫', 'price' => 40, 'min_level' => 3, 'asset_key' => 'cat_sitting'],
             ['name' => '座る犬', 'price' => 40, 'min_level' => 3, 'asset_key' => 'dog_sitting'],
             ['name' => 'ニワトリ', 'price' => 35, 'min_level' => 2, 'asset_key' => 'hen'],

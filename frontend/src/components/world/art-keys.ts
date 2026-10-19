@@ -131,6 +131,7 @@ export const ITEM_ART_KEYS = [
   "post_office",
   "station_hut",
   "fire_station",
+  "koban",
   "cat_sitting",
   "dog_sitting",
   "hen",
@@ -300,6 +301,7 @@ export const ITEM_ART_LABELS: Record<ItemArtKey, string> = {
   post_office: "郵便局",
   station_hut: "駅の小屋",
   fire_station: "消防小屋",
+  koban: "交番",
   cat_sitting: "座る猫",
   dog_sitting: "座る犬",
   hen: "ニワトリ",
@@ -449,6 +451,7 @@ export const ITEM_ART_CATEGORIES: Record<ItemArtKey, ItemCategory> = {
   post_office: "house",
   station_hut: "house",
   fire_station: "house",
+  koban: "house",
   cat_sitting: "nature",
   dog_sitting: "nature",
   hen: "nature",
@@ -540,6 +543,7 @@ export const ASSET_FOOTPRINTS: Readonly<Partial<Record<ArtKey, number | readonly
   post_office: 2,
   station_hut: 2,
   fire_station: 2,
+  koban: 2,
 };
 
 /** 絵の大きさ(N×NのN)。1(小)・2(中)・3(大)。絵がなければ1 */
