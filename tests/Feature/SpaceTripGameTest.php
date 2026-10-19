@@ -67,7 +67,7 @@ it('始めると、10問・列の数の選択肢・隕石の段の数・正解�
     $response = $this->postJson('/api/games/space-trip/plays', ['difficulty' => '中級'])
         ->assertOk()
         ->assertJsonPath('lanes', 3)
-        ->assertJsonPath('fall_ms', 6000)
+        ->assertJsonPath('fall_ms', 4000)
         ->assertJsonPath('obstacle_rows', 3)
         ->assertJsonCount(10, 'questions');
 

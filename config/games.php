@@ -75,9 +75,9 @@ return [
         'review_max' => 6,
         'daily_rewarded_plays' => 3,
         'difficulties' => [
-            '初級' => ['lanes' => 2, 'fall_ms' => 8000, 'obstacle_rows' => 2, 'reward' => ['xp' => 3, 'point' => 3]],
-            '中級' => ['lanes' => 3, 'fall_ms' => 6000, 'obstacle_rows' => 3, 'reward' => ['xp' => 4, 'point' => 3]],
-            '上級' => ['lanes' => 4, 'fall_ms' => 4500, 'obstacle_rows' => 4, 'reward' => ['xp' => 5, 'point' => 3]],
+            '初級' => ['lanes' => 2, 'fall_ms' => 5000, 'obstacle_rows' => 2, 'reward' => ['xp' => 3, 'point' => 3]],
+            '中級' => ['lanes' => 3, 'fall_ms' => 4000, 'obstacle_rows' => 3, 'reward' => ['xp' => 4, 'point' => 3]],
+            '上級' => ['lanes' => 4, 'fall_ms' => 3200, 'obstacle_rows' => 4, 'reward' => ['xp' => 5, 'point' => 3]],
         ],
         'max_stars_per_question' => 3,
         'destinations' => [2 => 'moon', 4 => 'mars', 6 => 'jupiter', 8 => 'saturn', 9 => 'neptune', 10 => 'pluto'],

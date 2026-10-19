@@ -71,7 +71,7 @@ describe("避けられない岩をなくす(設計書2・3-4章)", () => {
   });
 
   it("どの難しさ・どの種・どの問題番号でも、置かれた隕石は、よけられる", () => {
-    const levels: [number, number, number][] = [[2, 2, 8000], [3, 3, 6000], [4, 4, 4500]]; // 列・段・fall_ms
+    const levels: [number, number, number][] = [[2, 2, 5000], [3, 3, 4000], [4, 4, 3200]]; // 列・段・fall_ms
     for (const [lanes, rows, fallMs] of levels) {
       for (let seed = 1; seed <= 200; seed++) {
         for (let index = 0; index < 10; index++) {
@@ -84,9 +84,9 @@ describe("避けられない岩をなくす(設計書2・3-4章)", () => {
 
   it("道どおりに動けば、1回も隕石に当たらない(置き方・当たり・動きの通し)", () => {
     const lanesSettings: SpaceSettings[] = [
-      { lanes: 2, fallMs: 8000, obstacleRows: 2 },
-      { lanes: 3, fallMs: 6000, obstacleRows: 3 },
-      { lanes: 4, fallMs: 4500, obstacleRows: 4 },
+      { lanes: 2, fallMs: 5000, obstacleRows: 2 },
+      { lanes: 3, fallMs: 4000, obstacleRows: 3 },
+      { lanes: 4, fallMs: 3200, obstacleRows: 4 },
     ];
     for (const s of lanesSettings) {
       for (let seed = 1; seed <= 30; seed++) {
