@@ -56,6 +56,8 @@ export type SceneInput = {
   preview: { x: number; y: number; item: WorldItem } | null;
   veil: { keys: string[]; fading: boolean } | null;
   reviewGiver: string | null;
+  /** 見るだけ(家族の町)。畑の光は出さない */
+  readOnly?: boolean;
 };
 
 export type ImageDraw = { src: string; size: { width: number; height: number }; placement: ImagePlacement };
@@ -337,7 +339,7 @@ export function buildSceneModel(input: SceneInput): SceneModel {
     veil: input.veil
       ? { fading: input.veil.fading, clouds: land.plots.filter((plot) => input.veil!.keys.includes(plot.key)).map((plot) => cloudOf(land, plot)) }
       : null,
-    gardenGlow: !input.placing && (garden.can_sow || garden.can_water),
+    gardenGlow: !input.placing && !input.readOnly && (garden.can_sow || garden.can_water),
     gardenTile: [garden.x, garden.y],
     validTiles: input.placing ? [...input.validTiles].map((key) => key.split(",").map(Number) as Tile) : [],
     preview:

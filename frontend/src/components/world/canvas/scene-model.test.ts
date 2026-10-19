@@ -179,6 +179,7 @@ describe("雲・置く場所・プレビュー", () => {
     expect(buildSceneModel(input()).gardenGlow).toBe(false);
     expect(buildSceneModel(input({ garden: { ...garden, can_water: true } })).gardenGlow).toBe(true);
     expect(buildSceneModel(input({ garden: { ...garden, can_water: true }, placing: true })).gardenGlow).toBe(false);
+    expect(buildSceneModel(input({ garden: { ...garden, can_water: true }, readOnly: true })).gardenGlow).toBe(false); // 家族の町は見るだけ
   });
 
   it("プレビューは、使うマスと、うす絵の位置", () => {
