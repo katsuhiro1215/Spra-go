@@ -1,78 +1,23 @@
 "use client";
 
-import { useMemo } from "react";
-
 import { AutoFurigana } from "@/components/app/auto-furigana";
-import { bloomRect, type Bloom } from "@/components/spru/bloom";
+import type { Bloom } from "@/components/spru/bloom";
 import type { SpruView } from "@/components/spru/mood";
-import {
-  COMPANION_IMAGES,
-  SPRU_BLOOM,
-  SPRU_IMAGES,
-  SPRU_STAND_HEIGHT,
-  type CompanionKey,
-} from "@/components/spru/spru-assets";
+import { COMPANION_IMAGES, type CompanionKey } from "@/components/spru/spru-assets";
 import { SpruFace } from "@/components/spru/spru-figure";
 
 import { TIME_THEME } from "./ambience";
-import { roadArt, roadEdge } from "@/components/travel/road";
-
-import { GROUND_ART, GROUND_DECALS, type GroundArtKey } from "./ground-art";
-import { blendCells, blendGroups, type BlendKind } from "./blend";
-import { decalAt, decalOffset, pathEdges, patternMatrix, plotPoints, roadMarks } from "./ground";
-import { GardenArt } from "./garden-art";
-import { HALF_H, HALF_W, LAND_THICKNESS, sceneViewBox, tileCenter, tileKey, tilePoints, toPercent } from "./iso";
-import { ItemArt } from "./item-art";
-import { lightCircles } from "./item-image";
-import {
-  cloudArea,
-  cloudLabel,
-  depthTile,
-  footprintCenter,
-  footprintTiles,
-  isOpenTile,
-  landEdges,
-  landmarkFootprint,
-  occupiedTiles,
-  openTiles,
-  plotAt,
-  plotCenter,
-  openTilesPath,
-} from "./land";
-import { LandmarkArt } from "./landmark-art";
+import { buildSceneModel, groundSignature } from "./canvas/scene-model";
+import { TownCanvas } from "./canvas/town-canvas";
+import { HALF_H, HALF_W, sceneViewBox, tileCenter, toPercent } from "./iso";
+import { cloudLabel, depthTile, footprintCenter, landmarkFootprint, plotCenter } from "./land";
 import type { TimeOfDay } from "./time-of-day";
-import type { Ground, WorldCompanion, WorldGarden, WorldItem, WorldLand, WorldPlot } from "./types";
+import type { WorldCompanion, WorldGarden, WorldItem, WorldLand, WorldPlot } from "./types";
 
-// 町の中のスプルの立ち姿の高さ(SVGの単位)。座る・寝る・仲間は素材集の縮尺どおりにそろえる
-const TOWN_STAND_HEIGHT = 58;
-const TOWN_SCALE = TOWN_STAND_HEIGHT / SPRU_STAND_HEIGHT;
-
-// 区画の地面の色(設計書3-1)。tile は市松の2色、lip は側面の上の縁(左手前・右手前)
-const GROUND: Record<Ground, { tile: [string, string]; lip: [string, string] }> = {
-  grass: { tile: ["#b4e19b", "#a9da8e"], lip: ["#86c56d", "#74b35d"] },
-  bamboo: { tile: ["#94d17e", "#88c872"], lip: ["#6fae55", "#5f9e47"] },
-  sand: { tile: ["#f3e2b3", "#ecd8a2"], lip: ["#e0c88c", "#d3ba7c"] },
-  hill: { tile: ["#c8eda9", "#bee69d"], lip: ["#9fd684", "#8cc672"] },
-  riverbank: { tile: ["#a8d98e", "#9dd283"], lip: ["#7bbb62", "#6aab53"] },
-  plateau: { tile: ["#cfe58f", "#c6df84"], lip: ["#a9c96b", "#97b95c"] },
-  islet: { tile: ["#f1e0a6", "#ead69a"], lip: ["#dcc27f", "#cdb26e"] },
-};
-const PATH_COLOR = "#f1dfbb";
-// 林・花畑の地面の絵が届くまでの色(設計書 2026-10-05-town-blend 4-2)
-const BLEND_FALLBACK: Record<BlendKind, { color: string; opacity: number }> = {
-  grove: { color: "#5f9e47", opacity: 0.45 },
-  meadow: { color: "#f3b7d6", opacity: 0.35 },
-};
-const SOIL = { left: "#d7a574", right: "#bf8a5b" };
+// 町の絵はCanvas(canvas/)で描く。ここでは、その上に重ねる、押せる場所(透明なボタン)・雲の札・吹き出しを作る
+// (docs/design/2026-10-19-town-canvas-design.md)
 
 type PlacedCompanion = WorldCompanion & { key: CompanionKey; x: number; y: number };
-
-// x, y は重なり順に使うマス(大きな建物は手前のマス)、sx, sy は絵を描く位置
-type SceneObject =
-  | { kind: "landmark"; id: string; x: number; y: number; sx: number; sy: number; landmarkKey: string; footprint: number }
-  | { kind: "item"; id: string; x: number; y: number; sx: number; sy: number; item: WorldItem }
-  | { kind: "companion"; id: string; x: number; y: number; sx: number; sy: number; companion: PlacedCompanion; index: number }
-  | { kind: "spru"; id: string; x: number; y: number; sx: number; sy: number };
 
 type TapTarget = {
   id: string;
@@ -94,45 +39,6 @@ const byDepth = (a: { x: number; y: number }, b: { x: number; y: number }) => a.
 
 function isPlacedCompanion(companion: WorldCompanion): companion is PlacedCompanion {
   return companion.x !== null && companion.y !== null && companion.key in COMPANION_IMAGES;
-}
-
-// 土地の側面(左手前・右手前)の形。depth は下へ伸ばす長さ
-function leftFace(sx: number, sy: number, depth: number): string {
-  return `${sx - HALF_W},${sy} ${sx},${sy + HALF_H} ${sx},${sy + HALF_H + depth} ${sx - HALF_W},${sy + depth}`;
-}
-
-function rightFace(sx: number, sy: number, depth: number): string {
-  return `${sx},${sy + HALF_H} ${sx + HALF_W},${sy} ${sx + HALF_W},${sy + depth} ${sx},${sy + HALF_H + depth}`;
-}
-
-// 雲の区画を隠す雲。区画のマスに1つおきに丸を置いて、もこもこにする。area(区画の形)で切り取り、開いた区画にかからないようにする
-function Clouds({ plot, area, className }: { plot: WorldPlot; area: string; className?: string }) {
-  const puffs: { key: string; sx: number; sy: number }[] = [];
-  for (let y = plot.y; y < plot.y + plot.h; y++) {
-    for (let x = plot.x; x < plot.x + plot.w; x++) {
-      if ((x + y) % 2 === 0) puffs.push({ key: tileKey(x, y), ...tileCenter(x, y) });
-    }
-  }
-  const clipId = `cloud-area-${plot.key}`;
-  return (
-    <g clipPath={`url(#${clipId})`}>
-      <clipPath id={clipId}>
-        <polygon points={area} />
-      </clipPath>
-      <g className={className}>
-        <g fill="#dfeaf2">
-          {puffs.map((p) => (
-            <circle key={p.key} cx={p.sx} cy={p.sy + 4} r={34} />
-          ))}
-        </g>
-        <g fill="#ffffff">
-          {puffs.map((p) => (
-            <circle key={p.key} cx={p.sx} cy={p.sy - 4} r={33} />
-          ))}
-        </g>
-      </g>
-    </g>
-  );
 }
 
 export function WorldScene({
@@ -189,122 +95,16 @@ export function WorldScene({
   roadStyle?: string;
 }) {
   const theme = TIME_THEME[timeOfDay];
-  // 夜は物を少し暗くする(明かりは暗くしない)
-  const artStyle = theme.dimObjects ? { filter: "brightness(0.78) saturate(0.85)" } : undefined;
   const vb = sceneViewBox(land.width, land.height);
-  const pathSet = new Set(land.paths.map(([x, y]) => tileKey(x, y)));
-  const tiles = openTiles(land);
-  const edges = landEdges(land);
-  const groundOf = (x: number, y: number) => GROUND[plotAt(land, x, y)?.ground ?? "grass"];
-  // 地面の絵(設計書 2026-10-05-town-blend 3章)。絵がある地面の区画は1つの菱形で塗り、絵がない地面は今のマスごとの市松で塗る
-  const openPlots = land.plots.filter((plot) => plot.unlocked);
-  const artPlots = openPlots.filter((plot) => GROUND_ART[plot.ground]);
-  const checkerTiles = tiles.filter(([x, y]) => !pathSet.has(tileKey(x, y)) && !GROUND_ART[plotAt(land, x, y)?.ground ?? "grass"]);
-  const road = roadArt(roadStyle);
-  const pathArt = road?.art;
-  const edge = roadEdge(roadStyle);
-  const pathTiles = tiles.filter(([x, y]) => pathSet.has(tileKey(x, y)));
-  const pathFill = road ? `url(#ground-${road.key})` : PATH_COLOR;
-  const artKeys = (Object.keys(GROUND_ART) as GroundArtKey[]).filter((key) => GROUND_ART[key]);
-  const pathLines = useMemo(
-    () => (pathArt ? pathEdges(land.paths, (x, y) => isOpenTile(land, x, y)) : []),
-    [land, pathArt],
-  );
-  const marks = useMemo(
-    () => (pathArt && edge.marks ? roadMarks(land.paths, (x, y) => isOpenTile(land, x, y)) : null),
-    [land, pathArt, edge.marks],
-  );
-  // 小物は、道・目印・アイテム・スプル・仲間が立たないマスに、マスの座標から決まる位置へ置く(毎回同じ)
-  const decals = useMemo(() => {
-    if (GROUND_DECALS.length === 0) return [];
-    const taken = new Set([
-      ...land.blocked.map(([x, y]) => tileKey(x, y)),
-      ...occupiedTiles(items, null),
-      tileKey(land.spru.x, land.spru.y),
-      ...companions.filter(isPlacedCompanion).map((c) => tileKey(c.x, c.y)),
-    ]);
-    const out: { key: string; kind: number; x: number; y: number }[] = [];
-    for (const [x, y] of openTiles(land)) {
-      if (taken.has(tileKey(x, y))) continue;
-      const kind = decalAt(x, y, GROUND_DECALS.length);
-      if (kind !== null) out.push({ key: `decal-${x},${y}`, kind, x, y });
-    }
-    return out;
-  }, [land, items, companions]);
-  // 林・花畑: 木・花が3つ以上隣り合うまとまりの足元(まとまりのマスと周囲1マス。道・目印・スプル・仲間・ほかのアイテムのマスは除く)
-  const blendLayers = useMemo(() => {
-    const groups = blendGroups(items);
-    if (groups.length === 0) return [];
-    const fixed = [
-      ...land.blocked.map(([x, y]) => tileKey(x, y)),
-      tileKey(land.spru.x, land.spru.y),
-      ...companions.filter(isPlacedCompanion).map((c) => tileKey(c.x, c.y)),
-    ];
-    return groups.map((group) => {
-      const others = occupiedTiles(items.filter((item) => !group.itemIds.includes(item.id)), null);
-      const blocked = new Set([...fixed, ...others]);
-      return { kind: group.kind, cells: blendCells(group, blocked, (x, y) => isOpenTile(land, x, y)) };
-    });
-  }, [land, items, companions]);
+  const sceneInput = { land, items, companions, garden, spru, bloom, theme, roadStyle, validTiles, placing, preview, veil, reviewGiver, readOnly };
   const lockedPlots = land.plots.filter((plot) => !plot.unlocked);
-  const veiledPlots = veil ? land.plots.filter((plot) => veil.keys.includes(plot.key)) : [];
   const placed = items.filter((item): item is WorldItem & { x: number; y: number } => item.x !== null && item.y !== null);
   const placedCompanions = companions.filter(isPlacedCompanion);
 
   const at = (x: number, y: number) => ({ x, y, ...tileCenter(x, y) });
-  // 奥から手前へ描くことで、手前の物が奥の物に重なる
-  const objects: SceneObject[] = [
-    ...land.landmarks.map((l, i) => ({
-      kind: "landmark" as const,
-      id: `landmark-${i}`,
-      ...depthTile(l.x, l.y, landmarkFootprint(l)),
-      ...footprintCenter(l.x, l.y, landmarkFootprint(l)),
-      landmarkKey: l.key,
-      footprint: landmarkFootprint(l),
-    })),
-    ...placed.map((item) => ({
-      kind: "item" as const,
-      id: `item-${item.id}`,
-      ...depthTile(item.x, item.y, item.footprint),
-      ...footprintCenter(item.x, item.y, item.footprint),
-      item,
-    })),
-    ...placedCompanions.map((companion, index) => ({
-      kind: "companion" as const,
-      id: `companion-${companion.key}`,
-      ...at(companion.x, companion.y),
-      companion,
-      index,
-    })),
-    { kind: "spru" as const, id: "spru", ...at(land.spru.x, land.spru.y) },
-  ]
-    .filter((o) => !(o.kind === "spru" && spru.sleeping))
-    .sort(byDepth);
-
-  // 海は、地図の枠の背景の1枚(TownMap の town-sea。ゆっくり動く)。陸の縁には、浅瀬と波打ち際を重ねる(崖の足元に合わせて下へずらす)
-  const landPath = openTilesPath(land);
-  const shorePath = openTilesPath(land, LAND_THICKNESS);
-  // 夜の暗さは、土地の形(側面とマス)に重ねる
-  const landFaces = [
-    ...edges.left.map(([x, y]) => leftFace(tileCenter(x, y).sx, tileCenter(x, y).sy, LAND_THICKNESS)),
-    ...edges.right.map(([x, y]) => rightFace(tileCenter(x, y).sx, tileCenter(x, y).sy, LAND_THICKNESS)),
-  ];
-  // 地面は、マスごとでなく、開いた区画ごとの1つの菱形で重ね(マスごとだと、重なりの縁に細い線が出るため)、海のマスは陸の形で切り抜く
-  const plotShapes = openPlots.map((plot) => plotPoints(plot));
-  const previewTiles = preview ? footprintTiles(preview.x, preview.y, preview.item.footprint) : [];
-  const previewCenter = preview ? footprintCenter(preview.x, preview.y, preview.item.footprint) : null;
   const spruCenter = tileCenter(land.spru.x, land.spru.y);
   // 吹き出しのしっぽがSの先のつぼみ・花に重ならない高さ
   const bubble = toPercent(spruCenter.sx, spruCenter.sy - 72, vb);
-
-  const spruAsset = SPRU_IMAGES[spru.image];
-  const spruW = spruAsset.width * TOWN_SCALE;
-  const spruH = spruAsset.height * TOWN_SCALE;
-  const spruX = -spruW / 2;
-  const spruY = -spruH + 2;
-  const spruBloom = bloom ? bloomRect(spru.image, bloom) : null;
-  const spruMotion = spru.sleeping ? undefined : spru.image === "jump" ? "animate-spru-hop" : "animate-spru-bob";
-  const gardenGlow = !placing && !readOnly && (garden.can_sow || garden.can_water);
 
   const talking = companionTalk ? (placedCompanions.find((c) => c.key === companionTalk.key) ?? null) : null;
   const talkCenter = talking ? tileCenter(talking.x, talking.y) : null;
@@ -381,293 +181,15 @@ export function WorldScene({
 
   return (
     <div className="relative w-full" style={{ aspectRatio: `${vb.width} / ${vb.height}` }}>
-      <svg viewBox={`${vb.x} ${vb.y} ${vb.width} ${vb.height}`} className="absolute inset-0 h-full w-full" aria-hidden>
-        <defs>
-          {artKeys.map((key) => {
-            const art = GROUND_ART[key]!;
-            return (
-              <pattern
-                key={key}
-                id={`ground-${key}`}
-                patternUnits="userSpaceOnUse"
-                width={art.size}
-                height={art.size}
-                patternTransform={patternMatrix(art.size)}
-              >
-                <image href={art.src} width={art.size} height={art.size} />
-              </pattern>
-            );
-          })}
-          {/* 崖の岩肌。左の面は右下がり、右の面は右上がりに斜めにして貼る。1マスの段差(32)ごとに草の帯が面の上端にそろう */}
-          <pattern id="cliff-left" patternUnits="userSpaceOnUse" width={128} height={LAND_THICKNESS} patternTransform="matrix(1 0.5 0 1 0 0)">
-            <image href="/town/cliff.webp" width={128} height={64} preserveAspectRatio="none" />
-          </pattern>
-          <pattern id="cliff-right" patternUnits="userSpaceOnUse" width={128} height={LAND_THICKNESS} patternTransform="matrix(1 -0.5 0 1 0 0)">
-            <image href="/town/cliff.webp" x={-48} width={128} height={64} preserveAspectRatio="none" />
-            <image href="/town/cliff.webp" x={80} width={128} height={64} preserveAspectRatio="none" />
-          </pattern>
-          <clipPath id="land-clip">
-            <path d={landPath} />
-          </clipPath>
-          <filter id="shore-blur" x="-10%" y="-10%" width="120%" height="120%">
-            <feGaussianBlur stdDeviation="7" />
-          </filter>
-          <filter id="blend-soft" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="3" />
-          </filter>
-          {blendLayers.map((layer, i) => (
-            <mask key={`blend-mask-${i}`} id={`blend-mask-${i}`} maskUnits="userSpaceOnUse" x={vb.x} y={vb.y} width={vb.width} height={vb.height}>
-              <g fill="white" filter="url(#blend-soft)">
-                {layer.cells.map(([x, y]) => (
-                  <polygon key={tileKey(x, y)} points={tilePoints(x, y)} />
-                ))}
-              </g>
-            </mask>
-          ))}
-        </defs>
-        <g style={theme.dimObjects ? { filter: "brightness(0.6)" } : undefined}>
-          <path d={shorePath} fill="none" stroke="#8fe3f0" strokeWidth={44} strokeLinejoin="round" opacity={0.5} filter="url(#shore-blur)" />
-          <path d={shorePath} fill="none" stroke="#e9fbff" strokeWidth={9} strokeLinejoin="round" className="town-foam" />
-        </g>
-
-        {edges.left.map(([x, y]) => {
-          const { sx, sy } = tileCenter(x, y);
-          return (
-            <g key={`edge-left-${x},${y}`}>
-              <polygon points={leftFace(sx, sy, LAND_THICKNESS)} fill="url(#cliff-left)" stroke={SOIL.left} strokeWidth={0.4} />
-            </g>
-          );
-        })}
-        {edges.right.map(([x, y]) => {
-          const { sx, sy } = tileCenter(x, y);
-          return (
-            <g key={`edge-right-${x},${y}`}>
-              <polygon points={rightFace(sx, sy, LAND_THICKNESS)} fill="url(#cliff-right)" stroke={SOIL.right} strokeWidth={0.4} />
-              <polygon points={rightFace(sx, sy, LAND_THICKNESS)} fill="#2a1a0c" opacity={0.2} />
-            </g>
-          );
-        })}
-
-        <g clipPath="url(#land-clip)">
-          {artPlots.map((plot) => (
-            <polygon key={`ground-${plot.key}`} points={plotPoints(plot)} fill={`url(#ground-${plot.ground})`} />
-          ))}
-        </g>
-        {checkerTiles.map(([x, y]) => (
-          <polygon key={tileKey(x, y)} points={tilePoints(x, y)} fill={groundOf(x, y).tile[(x + y) % 2]} />
-        ))}
-        {pathTiles.map(([x, y]) => (
-          <polygon
-            key={`path-${x},${y}`}
-            points={tilePoints(x, y)}
-            fill={pathFill}
-            stroke={pathArt ? pathFill : undefined}
-            strokeWidth={pathArt ? 1 : undefined}
-          />
-        ))}
-        {pathLines.length > 0 && (
-          <>
-            {edge.band && (
-              <>
-                <clipPath id="road-inner-clip">
-                  {pathTiles.map(([x, y]) => (
-                    <polygon key={`clip-${x},${y}`} points={tilePoints(x, y)} />
-                  ))}
-                </clipPath>
-                <g
-                  clipPath="url(#road-inner-clip)"
-                  stroke={edge.band}
-                  strokeWidth={edge.bandWidth * 2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                >
-                  {pathLines.map((d, i) => (
-                    <path key={i} d={d} />
-                  ))}
-                </g>
-              </>
-            )}
-            {marks && (
-              <g fill="none" stroke="#fffdf5" strokeOpacity={0.88} strokeLinecap="butt">
-                {marks.center.map((d, i) => (
-                  <path key={`center-${i}`} d={d} strokeWidth={1.4} strokeDasharray="4 3" />
-                ))}
-                {marks.crossings.map((d, i) => (
-                  <path key={`cross-${i}`} d={d} strokeWidth={1.8} />
-                ))}
-              </g>
-            )}
-            <g
-              stroke={edge.line}
-              strokeOpacity={edge.lineOpacity}
-              strokeWidth={edge.lineWidth}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-            >
-              {pathLines.map((d, i) => (
-                <path key={i} d={d} />
-              ))}
-            </g>
-          </>
-        )}
-        {blendLayers.map((layer, i) => {
-          const art = GROUND_ART[layer.kind];
-          const fallback = BLEND_FALLBACK[layer.kind];
-          return (
-            <rect
-              key={`blend-${i}`}
-              x={vb.x}
-              y={vb.y}
-              width={vb.width}
-              height={vb.height}
-              fill={art ? `url(#ground-${layer.kind})` : fallback.color}
-              fillOpacity={art ? 1 : fallback.opacity}
-              mask={`url(#blend-mask-${i})`}
-            />
-          );
-        })}
-        {decals.map(({ key, kind, x, y }) => {
-          const decal = GROUND_DECALS[kind];
-          const { sx, sy } = tileCenter(x, y);
-          const { dx, dy } = decalOffset(x, y);
-          // 草・石などは、立てて(つぶさずに)小さく置く。足元がマスの中心にくる
-          const width = 20;
-          const height = (width * decal.height) / decal.width;
-          return (
-            <image
-              key={key}
-              href={decal.src}
-              x={sx + dx - width / 2}
-              y={sy + dy - height * 0.8}
-              width={width}
-              height={height}
-            />
-          );
-        })}
-
-        {theme.groundTint && (
-          <g fill={theme.groundTint.color} opacity={theme.groundTint.opacity}>
-            {landFaces.map((points, i) => (
-              <polygon key={i} points={points} />
-            ))}
-            <g clipPath="url(#land-clip)">
-              {plotShapes.map((points, i) => (
-                <polygon key={i} points={points} />
-              ))}
-            </g>
-          </g>
-        )}
-
-        {gardenGlow && (
-          <polygon
-            points={tilePoints(garden.x, garden.y)}
-            fill="#ffe27a"
-            stroke="#d99a12"
-            strokeWidth={1.5}
-            className="animate-tile-pulse"
-          />
-        )}
-
-        {placing &&
-          [...validTiles].map((key) => {
-            const [x, y] = key.split(",").map(Number);
-            return (
-              <polygon
-                key={`valid-${key}`}
-                points={tilePoints(x, y)}
-                fill="#ffe27a"
-                stroke="#d99a12"
-                strokeWidth={1.5}
-                className="animate-tile-pulse"
-              />
-            );
-          })}
-
-        {previewTiles.map(([x, y]) => (
-          <polygon key={`preview-${x},${y}`} points={tilePoints(x, y)} fill="#9fd8ff" stroke="#3a8fc9" strokeWidth={1.5} />
-        ))}
-
-        {lockedPlots.map((plot) => (
-          <Clouds key={`cloud-${plot.key}`} plot={plot} area={cloudArea(land, plot)} />
-        ))}
-
-        {objects.map((o) => {
-          const { sx, sy } = o;
-          const hopping = o.kind === "companion" && companionTalk?.key === o.companion.key;
-          return (
-            <g key={o.id} transform={`translate(${sx} ${sy})`}>
-              {o.kind === "landmark" && (
-                <>
-                  <g style={artStyle}>
-                    {o.landmarkKey === "garden" ? (
-                      <GardenArt state={garden.state} look={garden.look} />
-                    ) : (
-                      <LandmarkArt landmarkKey={o.landmarkKey} footprint={o.footprint} />
-                    )}
-                  </g>
-                  {theme.lit &&
-                    lightCircles(o.landmarkKey, o.footprint).map((light, index) => (
-                      <circle key={index} cx={light.cx} cy={light.cy} r={light.r} fill="#ffd98a" opacity={0.5} />
-                    ))}
-                </>
-              )}
-              {o.kind === "item" && (
-                <g className={o.item.id === poppedItemId ? "animate-pop-in" : undefined}>
-                  <g style={artStyle}>
-                    <ItemArt assetKey={o.item.asset_key} mirrored={o.item.mirrored} />
-                  </g>
-                  {theme.lit &&
-                    lightCircles(o.item.asset_key, o.item.footprint).map((light, index) => (
-                      <circle key={index} cx={light.cx} cy={light.cy} r={light.r} fill="#ffd98a" opacity={0.5} />
-                    ))}
-                </g>
-              )}
-              {o.kind === "companion" && (
-                <CompanionFigure
-                  key={hopping ? `hop-${companionTalk?.at}` : "idle"}
-                  companionKey={o.companion.key}
-                  delay={o.index * 0.5}
-                  quiet={quiet}
-                  hopping={hopping}
-                  partner={o.companion.is_partner}
-                  review={reviewGiver === o.companion.key}
-                />
-              )}
-              {o.kind === "spru" && (
-                <>
-                  <g key={spru.image} className={spruMotion}>
-                    <image href={spruAsset.src} x={spruX} y={spruY} width={spruW} height={spruH} />
-                    {bloom && spruBloom && (
-                      <image
-                        href={SPRU_BLOOM[bloom].src}
-                        x={spruX + spruBloom.x * TOWN_SCALE}
-                        y={spruY + spruBloom.y * TOWN_SCALE}
-                        width={spruBloom.width * TOWN_SCALE}
-                        height={spruBloom.height * TOWN_SCALE}
-                      />
-                    )}
-                  </g>
-                  {reviewGiver === "spru" && <ReviewMark x={spruX + spruW - 4} y={spruY + 8} quiet={quiet} />}
-                </>
-              )}
-            </g>
-          );
-        })}
-
-        {spru.sleeping && house && <SleepMark x={houseCenter.sx + 14} y={houseCenter.sy - 86} quiet={quiet} />}
-
-        {preview && previewCenter && (
-          <g transform={`translate(${previewCenter.sx} ${previewCenter.sy})`} opacity={0.6}>
-            <ItemArt assetKey={preview.item.asset_key} />
-          </g>
-        )}
-
-        {veiledPlots.map((plot) => (
-          <Clouds key={`veil-${plot.key}`} plot={plot} area={cloudArea(land, plot)} className={veil?.fading ? "animate-cloud-clear" : undefined} />
-        ))}
-      </svg>
+      <TownCanvas
+        model={buildSceneModel(sceneInput)}
+        groundKey={groundSignature(sceneInput)}
+        quiet={quiet}
+        poppedItemId={poppedItemId}
+        spruImage={spru.image}
+        companionTalk={companionTalk}
+        veilFading={veil?.fading ?? false}
+      />
 
       {placing &&
         [...validTiles].map((key) => {
@@ -771,81 +293,3 @@ export function WorldScene({
   );
 }
 
-// 仲間はタップしたときだけ跳ねる。夜は静かにゆれない(動きを減らす設定はCSSで止まる)
-function CompanionFigure({
-  companionKey,
-  delay,
-  quiet,
-  hopping,
-  partner,
-  review,
-}: {
-  companionKey: CompanionKey;
-  delay: number;
-  quiet: boolean;
-  hopping: boolean;
-  partner: boolean;
-  review: boolean;
-}) {
-  const asset = COMPANION_IMAGES[companionKey];
-  const width = asset.width * TOWN_SCALE;
-  const height = asset.height * TOWN_SCALE;
-  const motion = hopping ? "animate-spru-hop" : quiet ? undefined : "animate-spru-bob";
-  return (
-    <>
-      <g
-        className={motion}
-        style={motion === "animate-spru-bob" ? { animationDuration: "3.2s", animationDelay: `${delay}s` } : undefined}
-      >
-        <image href={asset.src} x={-width / 2} y={-height + 2} width={width} height={height} />
-      </g>
-      {partner && <PartnerTag />}
-      {review && <ReviewMark x={width / 2 - 2} y={-height + 10} quiet={quiet} />}
-    </>
-  );
-}
-
-// 相棒の足元の札(設計書5-1)
-function PartnerTag() {
-  return (
-    <g transform="translate(0 7)">
-      <rect x={-13} y={-5.5} width={26} height={11} rx={5.5} fill="#3b7f26" stroke="#fff" strokeWidth={1} />
-      <text y={3} textAnchor="middle" fontSize={7.5} fontWeight={900} fill="#fff">
-        <AutoFurigana text="相棒" />
-      </text>
-    </g>
-  );
-}
-
-// 復習を出す人の頭の上の「！」。CSSの動きがtransform属性を上書きしないよう、位置と動きの<g>を分ける
-function ReviewMark({ x, y, quiet }: { x: number; y: number; quiet: boolean }) {
-  return (
-    <g transform={`translate(${x} ${y})`}>
-      <g className={quiet ? undefined : "animate-spru-bob"} style={quiet ? undefined : { animationDuration: "1.2s" }}>
-        <circle r={7.5} fill="#f28c28" stroke="#fff" strokeWidth={1.5} />
-        <text y={3.8} textAnchor="middle" fontSize={11} fontWeight={900} fill="#fff">
-          !
-        </text>
-      </g>
-    </g>
-  );
-}
-
-/** スプルの家の上の「z z z」。スプルが家の中で寝ているしるし(静かにしたいときは動かさない) */
-function SleepMark({ x, y, quiet }: { x: number; y: number; quiet: boolean }) {
-  return (
-    <g transform={`translate(${x} ${y})`} aria-hidden>
-      <g className={quiet ? undefined : "animate-spru-bob"}>
-        <text fontSize={12} fontWeight={900} fill="#ffffff" stroke="#5a4526" strokeWidth={0.6} paintOrder="stroke" x={0} y={0}>
-          z
-        </text>
-        <text fontSize={16} fontWeight={900} fill="#ffffff" stroke="#5a4526" strokeWidth={0.7} paintOrder="stroke" x={9} y={-9}>
-          z
-        </text>
-        <text fontSize={20} fontWeight={900} fill="#ffffff" stroke="#5a4526" strokeWidth={0.8} paintOrder="stroke" x={20} y={-20}>
-          z
-        </text>
-      </g>
-    </g>
-  );
-}
