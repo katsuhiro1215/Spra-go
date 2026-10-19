@@ -7,7 +7,7 @@ use App\Support\WorldLand;
 | 広がる地図と雲の区画(docs/design/2026-09-27-spru-wave-e-design.md 3-1・3-2・4-4)
 |--------------------------------------------------------------------------
 |
-| 地図は17×17で、町(7×7)の手前に竹林(Lv.5)・海辺(Lv.10)・丘(Lv.15)・川辺(Lv.20)・高原(Lv.25)・離島(Lv.30)が続く。
+| 地図は17×17(2026-10-19に外側へ広げて32×32。新しい区画は WorldLandExpansionTest)で、町(7×7)の手前に竹林(Lv.5)・海辺(Lv.10)・丘(Lv.15)・川辺(Lv.20)・高原(Lv.25)・離島(Lv.30)が続く。
 | まだ開いていない区画は雲に隠れていて置けない。開いた区画は次に町を開いたときに1回だけ祝う。
 |
 */
@@ -17,9 +17,9 @@ it('Lv.1では町だけが開いていて、区画は7つとも返る', function
 
     $land = $this->getJson('/api/world')->assertOk()->json('land');
 
-    expect($land['width'])->toBe(17)
-        ->and($land['height'])->toBe(17)
-        ->and(collect($land['plots'])->pluck('unlocked', 'key')->all())
+    expect($land['width'])->toBe(32)
+        ->and($land['height'])->toBe(32)
+        ->and(collect($land['plots'])->take(7)->pluck('unlocked', 'key')->all())
         ->toBe(['town' => true, 'bamboo' => false, 'beach' => false, 'hill' => false, 'river' => false, 'plateau' => false, 'island' => false])
         ->and($land['plots'][1])->toBe([
             'key' => 'bamboo', 'name' => '竹林', 'x' => 7, 'y' => 0, 'w' => 5, 'h' => 7,
@@ -122,6 +122,7 @@ it('家族の町の土地は、見に行った人ではなくその人のレベ�
     $sister->update(['level' => 10]);
 
     $plots = collect($this->getJson("/api/family/{$sister->id}")->assertOk()->json('land.plots'))
+        ->take(7)
         ->pluck('unlocked', 'key')
         ->all();
 
@@ -146,16 +147,16 @@ it('目印の大きさ(footprint)がない目印は、1マスだけがブロッ�
     expect(WorldLand::blocked())->toContain([2, 0])->toContain([3, 0])->toContain([4, 0])->not->toContain([5, 0])->not->toContain([5, 1]);
 });
 
-it('区画は7つで、Lv1・5・10・15・20・25・30で開く', function () {
+it('はじめの7区画は、Lv1・5・10・15・20・25・30で開く', function () {
     $plots = collect(config('world.land.plots'));
 
-    expect($plots->pluck('key')->all())->toBe(['town', 'bamboo', 'beach', 'hill', 'river', 'plateau', 'island'])
-        ->and($plots->pluck('min_level')->all())->toBe([1, 5, 10, 15, 20, 25, 30]);
+    expect($plots->take(7)->pluck('key')->all())->toBe(['town', 'bamboo', 'beach', 'hill', 'river', 'plateau', 'island'])
+        ->and($plots->take(7)->pluck('min_level')->all())->toBe([1, 5, 10, 15, 20, 25, 30]);
 });
 
-it('区画は重ならず、地図の中に隙間がない(17×17)', function () {
+it('今の7区画は重ならず、17×17の中に隙間がない(全体の32×32は WorldLandExpansionTest)', function () {
     $cells = [];
-    foreach (config('world.land.plots') as $plot) {
+    foreach (collect(config('world.land.plots'))->take(7) as $plot) {
         for ($x = $plot['x']; $x < $plot['x'] + $plot['w']; $x++) {
             for ($y = $plot['y']; $y < $plot['y'] + $plot['h']; $y++) {
                 expect($cells["{$x},{$y}"] ?? null)->toBeNull();
@@ -164,9 +165,7 @@ it('区画は重ならず、地図の中に隙間がない(17×17)', function ()
         }
     }
 
-    expect(count($cells))->toBe(17 * 17)
-        ->and(WorldLand::width())->toBe(17)
-        ->and(WorldLand::height())->toBe(17);
+    expect(count($cells))->toBe(17 * 17);
 });
 
 /*

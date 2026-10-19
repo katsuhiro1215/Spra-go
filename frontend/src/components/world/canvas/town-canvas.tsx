@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { prefersReducedMotion } from "@/lib/motion";
 
 import { foamOpacity } from "./animation";
+import { canvasDpr, canvasWidthPx } from "./canvas-budget";
 import { drawFoam, drawLand, drawShoreGlow, type DrawEnv } from "./draw-ground";
 import { strokeTiles } from "../roads/road-edit";
 import { drawObjectsLayer, type Motion, type ObjectEnv, type RoadPreview } from "./draw-objects";
@@ -13,9 +14,6 @@ import { modelSources, type SceneModel } from "./scene-model";
 import { tileAt } from "./tile-at";
 import type { Tile } from "../types";
 
-/** 画面の密度の上限と、Canvasの幅(ピクセル)の上限(設計書8章) */
-const MAX_DPR = 2;
-const MAX_WIDTH_PX = 4096;
 /** 黒を重ねる濃さ。夜の物の `brightness(0.78)` と同じ明るさになる */
 const DIM_ALPHA = 0.22;
 
@@ -138,8 +136,8 @@ export function TownCanvas({
     const measure = () => {
       const cssWidth = canvas.clientWidth;
       if (cssWidth === 0) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
-      const width = Math.min(Math.round(cssWidth * dpr), MAX_WIDTH_PX);
+      const dpr = canvasDpr(window.devicePixelRatio, modelRef.current.vb.width);
+      const width = canvasWidthPx(cssWidth, dpr);
       setSize((old) => (old && old.width === width ? old : { width, scale: width / modelRef.current.vb.width }));
     };
     measure();

@@ -97,10 +97,54 @@ class WorldLand
         return array_map(fn (array $plot) => $plot['key'], $plots);
     }
 
-    /** @return list<array{key: string, x: int, y: int, footprint?: int}> 全区画の目印。footprint(N×Nマス)がなければ1マス */
+    /** @return list<array{key: string, x: int, y: int, footprint?: int}> 全区画の目印(決まった目印 + 自然の景色)。footprint(N×Nマス)がなければ1マス */
     public static function landmarks(): array
     {
-        return config('world.land.landmarks');
+        return [...config('world.land.landmarks'), ...self::scenery()];
+    }
+
+    /**
+     * 新しい区画の自然の景色(置けない飾り。docs/design/2026-10-19-town-land-design.md 3-3)。
+     * 区画の面積の約 density に、マスの座標から決まる位置(何度呼んでも同じ)。道・区画のふち1マス・海には置かない
+     *
+     * @return list<array{key: string, x: int, y: int}>
+     */
+    public static function scenery(): array
+    {
+        $config = config('world.land.scenery');
+        if (! $config) {
+            return [];
+        }
+        $signature = md5(json_encode([$config, config('world.land.plots'), config('world.land.paths'), config('world.land.water')]));
+        static $cache = [];
+        if (isset($cache[$signature])) {
+            return $cache[$signature];
+        }
+
+        $paths = array_flip(array_map(fn (array $t) => "{$t[0]},{$t[1]}", self::paths()));
+        $water = array_flip(array_map(fn (array $t) => "{$t[0]},{$t[1]}", self::water()));
+        $keys = $config['keys'];
+        $limit = (int) round($config['density'] * 10000);
+        $out = [];
+        foreach (self::plots() as $plot) {
+            if (! in_array($plot['key'], $config['plots'], true)) {
+                continue;
+            }
+            for ($y = $plot['y'] + 1; $y < $plot['y'] + $plot['h'] - 1; $y++) {
+                for ($x = $plot['x'] + 1; $x < $plot['x'] + $plot['w'] - 1; $x++) {
+                    $tile = "{$x},{$y}";
+                    if (isset($paths[$tile]) || isset($water[$tile])) {
+                        continue;
+                    }
+                    $hash = crc32("scenery:{$x}:{$y}");
+                    if ($hash % 10000 < $limit) {
+                        $out[] = ['key' => $keys[intdiv($hash, 10000) % count($keys)], 'x' => $x, 'y' => $y];
+                    }
+                }
+            }
+        }
+
+        return $cache[$signature] = $out;
     }
 
     /** @return list<array{0: int, 1: int}> 全区画の道 */

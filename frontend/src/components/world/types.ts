@@ -5,7 +5,8 @@ import type { ItemCategory } from "./categories";
 export type Tile = [number, number];
 
 export type Landmark = {
-  key: "spru_house" | "torii" | "stone_lantern" | "garden" | "bamboo_grove" | "pier";
+  /** 決まった目印(spru_house・torii・stone_lantern・garden・bamboo_grove・pier)か、新しい区画の自然の景色(tree・pine・large_tree・birch・bush・rock) */
+  key: string;
   x: number;
   y: number;
   /** N×Nマス使う目印(Spruの家は2)。なければ1マス */

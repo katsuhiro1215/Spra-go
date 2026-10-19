@@ -1,6 +1,7 @@
 import { GROUND_DECALS } from "../ground-art";
 import { HALF_H, HALF_W, LAND_THICKNESS, tileCenter } from "../iso";
 import { BLEND_FALLBACK, SOIL } from "./palette";
+import { drawClouds } from "./draw-clouds";
 import { CLIFF_SRC, type GroundModel, type SceneModel } from "./scene-model";
 
 /**
@@ -297,4 +298,7 @@ export function drawLand(ctx: Ctx, env: DrawEnv, model: SceneModel) {
     ctx.drawImage(tint.canvas, 0, 0);
     ctx.restore();
   }
+
+  // 閉じた区画の雲(動かないので、ここに保存する)。物より先に描く順は、今までと同じ
+  drawClouds(ctx, model.clouds);
 }

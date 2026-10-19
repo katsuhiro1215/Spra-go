@@ -72,8 +72,8 @@ describe("スクロール位置", () => {
 });
 
 describe("拡大・縮小(2026-10-12 Owner提案)", () => {
-  it("倍率は 0.4・0.6・1・1.5 の4段階。1が今の大きさ", () => {
-    expect(ZOOM_STEPS).toEqual([0.4, 0.6, 1, 1.5]);
+  it("倍率は 0.2・0.35・0.6・1・1.5 の5段階。1が今の大きさ(0.2で32×32の全部が入る)", () => {
+    expect(ZOOM_STEPS).toEqual([0.2, 0.35, 0.6, 1, 1.5]);
     expect(mapLayout(LAND, 480, 1)).toEqual(mapLayout(LAND, 480));
   });
 
@@ -90,7 +90,8 @@ describe("拡大・縮小(2026-10-12 Owner提案)", () => {
     expect(nextZoom(1, "in")).toBe(1.5);
     expect(nextZoom(1, "out")).toBe(0.6);
     expect(nextZoom(1.5, "in")).toBe(1.5);
-    expect(nextZoom(0.4, "out")).toBe(0.4);
+    expect(nextZoom(0.2, "out")).toBe(0.2);
+    expect(nextZoom(0.35, "out")).toBe(0.2);
   });
 
   it("倍率を変えても、枠の真ん中に見えていた場所が真ん中のまま(はみ出さない)", () => {
