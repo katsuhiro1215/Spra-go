@@ -16,7 +16,10 @@ import {
   createSpaceGame,
   moveBy,
   moveTo,
+  SHOT_COOLDOWN_MS,
+  SHOT_MS,
   SPACE_HEARTS,
+  throwSeed,
   tick,
   totalStars,
   TRAVEL,
@@ -30,6 +33,7 @@ const ROCKET_PX = 96;
 const METEOR_PX = 44;
 const STAR_PX = 34;
 const GATE_PX = 76;
+const SHOT_PX = 22;
 const COUNTDOWN_FROM = 3;
 const COUNTDOWN_STEP_MS = 700;
 
@@ -111,11 +115,26 @@ export function SpaceGame({
       } else if (event.key === "ArrowRight") {
         event.preventDefault();
         setState((current) => moveBy(current, 1));
+      } else if (event.key === " " || event.key === "ArrowUp") {
+        event.preventDefault();
+        if (!event.repeat) setState((current) => throwSeed(current));
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  // 種を投げた音(ためている時間が、投げた直後の値に戻ったとき)
+  const throwStamp = state.cooldownMs === SHOT_COOLDOWN_MS ? state.index * 1000 + state.progress : null;
+  useEffect(() => {
+    if (throwStamp !== null) playSound("select");
+  }, [throwStamp, playSound]);
+
+  // 隕石をこわした音
+  const blastCount = state.blasts.length;
+  useEffect(() => {
+    if (blastCount > 0) playSound("coin");
+  }, [blastCount, playSound]);
 
   // 門をくぐったときの音
   const lastAnswer = state.answers.at(-1);
@@ -134,6 +153,10 @@ export function SpaceGame({
   const step = (direction: -1 | 1) => {
     if (pausedRef.current) return;
     setState((current) => moveBy(current, direction));
+  };
+  const fire = () => {
+    if (pausedRef.current) return;
+    setState((current) => throwSeed(current));
   };
   const goTo = (lane: number) => {
     if (pausedRef.current) return;
@@ -227,6 +250,33 @@ export function SpaceGame({
               );
             })}
 
+          {/* こわれた隕石 */}
+          {state.blasts.map((blast, index) => {
+            const factor = itemFactor(state.progress, blast.at, TRAVEL);
+            return (
+              <div
+                key={`blast-${blast.lane}-${blast.at}-${index}`}
+                aria-hidden
+                className="pointer-events-none absolute flex animate-pop-in items-center justify-center text-3xl"
+                style={{ left: `${blast.lane * laneWidth}%`, width: `${laneWidth}%`, top: topOf(factor, METEOR_PX), height: METEOR_PX, opacity: Math.min(1, blast.ms / 200) }}
+              >
+                ✨
+              </div>
+            );
+          })}
+
+          {/* 投げた種 */}
+          {state.shots.map((shot, index) => (
+            <div
+              key={`shot-${index}-${shot.lane}`}
+              aria-hidden
+              className="pointer-events-none absolute flex justify-center"
+              style={{ left: `${shot.lane * laneWidth}%`, width: `${laneWidth}%`, top: topOf(1 - shot.ms / SHOT_MS, SHOT_PX), height: SHOT_PX }}
+            >
+              <SeedArt size={SHOT_PX} />
+            </div>
+          ))}
+
           {/* 答えの門 */}
           {isVisible(gateFactor) && (
             <div className="pointer-events-none absolute right-0 left-0 flex gap-2 px-2" style={{ top: topOf(gateFactor, GATE_PX), height: GATE_PX }}>
@@ -284,9 +334,17 @@ export function SpaceGame({
           )}
         </div>
 
-        <div className="mt-3 grid grid-cols-2 gap-3">
+        <div className="mt-3 grid grid-cols-[1fr_1.5fr_1fr] gap-3">
           <AppButton variant="default" aria-label="左に動く" onClick={() => step(-1)} className="h-16 text-2xl">
             ◀
+          </AppButton>
+          <AppButton
+            variant="primary"
+            aria-label="種をなげる"
+            onClick={fire}
+            className={cn("h-16 text-lg transition-opacity", state.cooldownMs > 0 && "opacity-50")}
+          >
+            <AutoFurigana text="なげる" />
           </AppButton>
           <AppButton variant="default" aria-label="右に動く" onClick={() => step(1)} className="h-16 text-2xl">
             ▶
@@ -329,6 +387,16 @@ function MeteorArt({ size }: { size: number }) {
       <circle cx="15" cy="16" r="4" fill="#7a6857" />
       <circle cx="29" cy="26" r="5" fill="#7a6857" />
       <circle cx="18" cy="30" r="3" fill="#7a6857" />
+    </svg>
+  );
+}
+
+/** 投げる種(丸い豆に小さな芽。仮の図形) */
+function SeedArt({ size }: { size: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden className="drop-shadow-[0_0_6px_rgba(160,255,120,0.9)]">
+      <ellipse cx="12" cy="14" rx="7" ry="8" fill="#9be15d" stroke="#5aa832" strokeWidth="1.5" />
+      <path d="M12 7 C12 3 15 2 17 3 C16 6 14 7 12 7Z" fill="#4caf3a" />
     </svg>
   );
 }

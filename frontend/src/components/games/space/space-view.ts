@@ -22,7 +22,7 @@ export function destinationLine(key: string): string {
   return `ロケットが ${destinationName(key)} に たどりついたよ！`;
 }
 
-export const SPACE_MOVE_HINT = "◀▶でロケットを動かそう";
+export const SPACE_MOVE_HINT = "◀▶で動く ／ なげるで岩をこわす・答えの門に当てると、すぐ答えられるよ";
 
 /** 集めた星の表示 */
 export function starsText(count: number): string {

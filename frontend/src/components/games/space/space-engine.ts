@@ -1,5 +1,7 @@
 import type { GameQuestion } from "@/components/games/game-question";
 
+import { itemFactor } from "./space-view";
+
 /**
  * うちゅう旅行のゲームの動き(docs/design/2026-10-09-space-trip-design.md 3章)。
  * ロケットは下で列を動く。1問の間に、隕石と星が上から来て、最後に答えの門が着く。門に着いたとき、いる列の門で答えが決まる。
@@ -11,6 +13,10 @@ export type SpaceSettings = { lanes: number; fallMs: number; obstacleRows: numbe
 export type SpacePhase = "falling" | "feedback" | "done";
 export type SpaceAnswer = { questionId: number; choiceId: number; correct: boolean; stars: number };
 export type SpaceItem = { kind: "meteor" | "star"; lane: number; at: number; done: boolean };
+/** 飛んでいる種(列と、投げてからの時間)。ミリ秒は実時間 */
+export type SpaceShot = { lane: number; ms: number };
+/** こわれた隕石の見た目(列と、その隕石の着く時刻と、残り時間) */
+export type SpaceBlast = { lane: number; at: number; ms: number };
 
 export type SpaceState = {
   questions: GameQuestion[];
@@ -34,6 +40,11 @@ export type SpaceState = {
   starsLocked: boolean;
   /** ぶつかったあとの、ロケットがゆれている残りの時間 */
   hitMs: number;
+  /** 飛んでいる種(設計書 2026-10-19-space-trip-shoot-design.md 3章) */
+  shots: SpaceShot[];
+  /** 次に種を投げられるまでの、残りの時間(ミリ秒) */
+  cooldownMs: number;
+  blasts: SpaceBlast[];
   score: number;
   combo: number;
   bestCombo: number;
@@ -50,6 +61,10 @@ export const MAX_STEP_MS = 100;
 export const TRAVEL = 0.75;
 /** ものが、ロケットに当たる範囲(着く時刻の前後) */
 export const HIT_WINDOW = 0.07;
+/** 種が、いちばん下から上まで飛ぶ時間(ミリ秒)と、次に投げられるまでの時間・こわれた隕石の見た目の時間 */
+export const SHOT_MS = 450;
+export const SHOT_COOLDOWN_MS = 500;
+export const BLAST_MS = 300;
 /** 隕石の段が並ぶ範囲と、星が着く時刻 */
 const ROW_FROM = 0.3;
 const ROW_TO = 0.7;
@@ -69,24 +84,92 @@ function random(seed: number): () => number {
   };
 }
 
+/** 列を移るのにかかる時間(ミリ秒): 隣の列まで400。1列遠いごとに150ふえる */
+export function moveMs(distance: number): number {
+  return distance === 0 ? 0 : 400 + 150 * (distance - 1);
+}
+
+/** 1つの段の隕石の着く時刻(at)ごとに、隕石のある列を集める(時刻の早い順) */
+function meteorRows(items: SpaceItem[]): { at: number; blocked: Set<number> }[] {
+  const rows = new Map<number, Set<number>>();
+  for (const item of items) {
+    if (item.kind !== "meteor") continue;
+    rows.set(item.at, (rows.get(item.at) ?? new Set()).add(item.lane));
+  }
+  return [...rows.entries()].sort((a, b) => a[0] - b[0]).map(([at, blocked]) => ({ at, blocked }));
+}
+
+/**
+ * 前の段で「いてよい列」から、次の段で「いてよい列」を求める(設計書3-4章)。
+ * 次の段で隕石のない列のうち、同じ列のまま、または、あいだに列を移る時間があって移れる列。
+ * 2つの段の当たりの範囲が重なっているときは、同じ列のままでないといけない
+ */
+function reachable(previous: Set<number>, prevAt: number, at: number, blocked: Set<number>, lanes: number, fallMs: number): Set<number> {
+  const out = new Set<number>();
+  const overlap = at - prevAt < HIT_WINDOW * 2 - 1e-9;
+  const gapMs = (at - prevAt - HIT_WINDOW * 2) * fallMs;
+  for (let lane = 0; lane < lanes; lane++) {
+    if (blocked.has(lane)) continue;
+    for (const from of previous) {
+      if (from === lane || (!overlap && gapMs >= moveMs(Math.abs(lane - from)))) {
+        out.add(lane);
+        break;
+      }
+    }
+  }
+  return out;
+}
+
+/** 置かれた隕石を、よけながら通れる道があるか(最初の段の前は、どの列にもいられる) */
+export function hasSafePath(items: SpaceItem[], lanes: number, fallMs: number): boolean {
+  const rows = meteorRows(items);
+  let safe = new Set(Array.from({ length: lanes }, (_, lane) => lane));
+  let prevAt = -1;
+  for (const row of rows) {
+    safe = reachable(safe, prevAt, row.at, row.blocked, lanes, fallMs);
+    if (safe.size === 0) return false;
+    prevAt = row.at;
+  }
+  return true;
+}
+
 /**
  * 1問分の隕石と星の置き方(純粋。同じ引数なら同じ結果)。
- * 隕石は、段(rows)ごとに、0または1〜(列の数−1)個。かならず空いている列が残る。
- * 星は最大3つで、近くの隕石と同じ列には置かない
+ * 隕石は、段(rows)ごとに、0または1〜(列の数−1)個。**置いたあと、よけて通れる道があるか調べ**、道が切れる段は、
+ * 置き直す(20回まで)。それでも切れるなら、その段の隕石をなくす(設計書3-4章)。星は最大3つで、近くの隕石と同じ列には置かない
  */
-export function layoutFor(seed: number, index: number, lanes: number, rows: number, calm = false): SpaceItem[] {
+export function layoutFor(seed: number, index: number, lanes: number, rows: number, calm = false, fallMs = 6000): SpaceItem[] {
   const next = random(seed * 7919 + index * 104729 + 12345);
   const items: SpaceItem[] = [];
   const minMeteors = lanes >= 4 ? 1 : 0;
   const maxMeteors = lanes - 1;
+  let safe = new Set(Array.from({ length: lanes }, (_, lane) => lane));
+  let prevAt = -1;
 
   for (let row = 0; row < (calm ? 0 : rows); row++) {
     const at = round(ROW_FROM + ((ROW_TO - ROW_FROM) * (row + 1)) / (rows + 1));
-    const count = minMeteors + Math.floor(next() * (maxMeteors - minMeteors + 1));
-    const free = Array.from({ length: lanes }, (_, lane) => lane);
-    for (let n = 0; n < count; n++) {
-      const pick = Math.floor(next() * free.length);
-      items.push({ kind: "meteor", lane: free.splice(pick, 1)[0], at, done: false });
+    let placed: number[] = [];
+    let after: Set<number> | null = null;
+    for (let attempt = 0; attempt < 20 && after === null; attempt++) {
+      const count = minMeteors + Math.floor(next() * (maxMeteors - minMeteors + 1));
+      const free = Array.from({ length: lanes }, (_, lane) => lane);
+      const picked: number[] = [];
+      for (let n = 0; n < count; n++) picked.push(free.splice(Math.floor(next() * free.length), 1)[0]);
+      const result = reachable(safe, prevAt, at, new Set(picked), lanes, fallMs);
+      if (result.size > 0) {
+        placed = picked;
+        after = result;
+      }
+    }
+    if (after === null) {
+      // どうしても道が切れる段は、隕石を置かない
+      after = reachable(safe, prevAt, at, new Set(), lanes, fallMs);
+      placed = [];
+    }
+    for (const lane of placed) items.push({ kind: "meteor", lane, at, done: false });
+    if (after.size > 0) {
+      safe = after;
+      prevAt = at;
     }
   }
 
@@ -119,10 +202,13 @@ export function createSpaceGame(questions: GameQuestion[], settings: SpaceSettin
     feedbackMs: 0,
     gateLane: null,
     lastCorrect: null,
-    items: layoutFor(seed, 0, settings.lanes, settings.obstacleRows, settings.calm),
+    items: layoutFor(seed, 0, settings.lanes, settings.obstacleRows, settings.calm, settings.fallMs),
     stars: 0,
     starsLocked: false,
     hitMs: 0,
+    shots: [],
+    cooldownMs: 0,
+    blasts: [],
     score: 0,
     combo: 0,
     bestCombo: 0,
@@ -149,14 +235,79 @@ export function tick(state: SpaceState, dtMs: number): SpaceState {
 
   if (state.phase === "falling") {
     const progress = state.progress + dt / state.settings.fallMs;
-    const moved = collide({ ...state, progress, hitMs: Math.max(0, state.hitMs - dt) });
-    return progress >= 1 ? settle(moved) : moved;
+    const base = { ...state, progress, hitMs: Math.max(0, state.hitMs - dt), cooldownMs: Math.max(0, state.cooldownMs - dt) };
+    const flown = flyShots(base, state.progress, dt);
+    if (flown.early !== null) return settle(flown.state, flown.early, true);
+    const moved = collide(flown.state);
+    return progress >= 1 ? settle(moved, moved.lane, false) : moved;
   }
   if (state.phase === "feedback") {
     const feedbackMs = state.feedbackMs - dt;
-    return feedbackMs > 0 ? { ...state, feedbackMs, hitMs: Math.max(0, state.hitMs - dt) } : advance(state);
+    return feedbackMs > 0 ? { ...state, feedbackMs, hitMs: Math.max(0, state.hitMs - dt), blasts: ageBlasts(state.blasts, dt) } : advance(state);
   }
   return state;
+}
+
+/** 種を投げる。進んでいる間で、ためていないときだけ。ロケットがいる列のまっすぐ上へ飛ぶ */
+export function throwSeed(state: SpaceState): SpaceState {
+  if (state.phase !== "falling" || state.cooldownMs > 0) return state;
+  return { ...state, shots: [...state.shots, { lane: state.lane, ms: 0 }], cooldownMs: SHOT_COOLDOWN_MS };
+}
+
+const ageBlasts = (blasts: SpaceBlast[], dt: number): SpaceBlast[] =>
+  blasts.map((blast) => ({ ...blast, ms: blast.ms - dt })).filter((blast) => blast.ms > 0);
+
+/** 種の位置(ものと同じ座標。1でロケットの頭の上、0でいちばん上) */
+const shotFactor = (ms: number) => 1 - ms / SHOT_MS;
+/** 種が、画面の上をこえて消える時間 */
+const SHOT_END_MS = SHOT_MS * 1.15;
+/** 種が、答えの門に当たれる、門の位置のいちばん上(これより上の門は、画面の外) */
+const GATE_TOP = 0;
+
+/**
+ * 種を飛ばす。種の位置が、同じ列のものの位置を、前の時間から今の時間のあいだに、こえたときが当たり
+ * (ものは下へ、種は上へ動く)。1つの種は、いちばんロケットに近い(位置の数が大きい)1つに当たって消える。
+ * 門に当たったら、その列の答えを early として返す(門は、画面の中にあるときだけ)
+ */
+function flyShots(state: SpaceState, prevProgress: number, dt: number): { state: SpaceState; early: number | null } {
+  if (state.shots.length === 0 && state.blasts.length === 0) return { state, early: null };
+
+  let items = state.items;
+  let stars = state.stars;
+  const blasts = ageBlasts(state.blasts, dt);
+  const shots: SpaceShot[] = [];
+  let early: number | null = null;
+
+  for (const shot of state.shots) {
+    const s0 = shotFactor(shot.ms);
+    const s1 = shotFactor(shot.ms + dt);
+    let hit: { factor: number; index: number } | null = null;
+    items.forEach((item, index) => {
+      if (item.done || item.lane !== shot.lane) return;
+      const f0 = itemFactor(prevProgress, item.at, TRAVEL);
+      const f1 = itemFactor(state.progress, item.at, TRAVEL);
+      if (s0 - f0 >= 0 && s1 - f1 <= 0 && (hit === null || f1 > hit.factor)) hit = { factor: f1, index };
+    });
+    const g0 = itemFactor(prevProgress, 1, TRAVEL);
+    const g1 = itemFactor(state.progress, 1, TRAVEL);
+    const gateHit = s0 - g0 >= 0 && s1 - g1 <= 0 && g1 >= GATE_TOP;
+
+    if (gateHit && (hit === null || g1 > (hit as { factor: number }).factor)) {
+      early = shot.lane;
+      continue;
+    }
+    if (hit !== null) {
+      const { index } = hit as { factor: number; index: number };
+      const item = items[index];
+      items = items.map((it, i) => (i === index ? { ...it, done: true } : it));
+      if (item.kind === "meteor") blasts.push({ lane: item.lane, at: item.at, ms: BLAST_MS });
+      else if (!state.starsLocked) stars += 1;
+      continue;
+    }
+    if (shot.ms + dt < SHOT_END_MS) shots.push({ lane: shot.lane, ms: shot.ms + dt });
+  }
+
+  return { state: { ...state, items, stars, shots, blasts }, early };
 }
 
 /** ロケットがいる列で、当たる範囲に入ったものを片づける。隕石は星をゼロにし、星は(ぶつかっていなければ)数える */
@@ -186,19 +337,21 @@ function pointsFor(correct: boolean, combo: number): number {
   return SCORE_RULES.correct + (combo >= SCORE_RULES.comboBonusFrom ? SCORE_RULES.comboBonus : 0);
 }
 
-/** 門に着いたとき、いる列の門で答えを決める */
-function settle(state: SpaceState): SpaceState {
+/** 答えを決める。門に着いたとき(early でない)は、いる列の門。種を門に当てたとき(early)は、当てた列の門で、その場で止まる */
+function settle(state: SpaceState, lane: number, early: boolean): SpaceState {
   const question = state.questions[state.index];
-  const choice = question.choices[state.lane];
+  const choice = question.choices[lane];
   const correct = choice.id === question.correctChoiceId;
   const combo = correct ? state.combo + 1 : 0;
 
   return {
     ...state,
-    progress: 1,
+    progress: early ? state.progress : 1,
     phase: "feedback",
     feedbackMs: correct ? FEEDBACK_MS.correct : FEEDBACK_MS.wrong,
-    gateLane: state.lane,
+    shots: [],
+    cooldownMs: 0,
+    gateLane: lane,
     lastCorrect: correct,
     score: state.score + pointsFor(correct, combo) + state.stars,
     combo,
@@ -221,10 +374,13 @@ function advance(state: SpaceState): SpaceState {
     feedbackMs: 0,
     gateLane: null,
     lastCorrect: null,
-    items: layoutFor(state.seed, nextIndex, state.settings.lanes, state.settings.obstacleRows, state.settings.calm),
+    items: layoutFor(state.seed, nextIndex, state.settings.lanes, state.settings.obstacleRows, state.settings.calm, state.settings.fallMs),
     stars: 0,
     starsLocked: false,
     hitMs: 0,
+    shots: [],
+    cooldownMs: 0,
+    blasts: [],
   };
 }
 
