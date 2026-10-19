@@ -166,3 +166,20 @@ it('品ぞろえ: 新しい25点のうち、2×2は6点・3×3は4点で、ほ�
         expect(ShopItem::query()->where('meta->asset_key', $key)->firstOrFail()->footprint())->toBe(1);
     }
 });
+
+it('Owner管理画面のアイテム一覧に、カテゴリ・大きさ・持っている人数が付く', function () {
+    $owner = Owner::factory()->create();
+    $profile = createActiveProfile();
+    $bakery = ShopItem::create([
+        'name' => 'パン屋', 'price' => 200, 'currency' => 'point', 'min_level' => 5,
+        'type' => 'decoration', 'meta' => ['asset_key' => 'bakery'],
+    ]);
+    $profile->worldItems()->create(['shop_item_id' => $bakery->id]);
+    $profile->worldItems()->create(['shop_item_id' => $bakery->id]);
+    $potion = ShopItem::create(['name' => '回復薬', 'price' => 10, 'currency' => 'coin', 'type' => 'potion', 'meta' => ['heal' => 5]]);
+
+    $rows = collect($this->actingAs($owner, 'owner')->getJson('/api/owner/shop-items')->assertOk()->json())->keyBy('id');
+
+    expect($rows[$bakery->id])->toMatchArray(['category' => 'house', 'w' => 2, 'h' => 2, 'owned_count' => 2])
+        ->and($rows[$potion->id])->toMatchArray(['category' => null, 'w' => null, 'h' => null, 'owned_count' => 0]);
+});

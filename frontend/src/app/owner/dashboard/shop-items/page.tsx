@@ -37,7 +37,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ITEM_ART_KEYS, artOptionLabel } from "@/components/world/art-keys";
+import { CATEGORY_LABELS, ITEM_CATEGORIES } from "@/components/world/categories";
 import { apiFetch } from "@/lib/api";
+import { SIZE_OPTIONS, artLabel, filterItems, noFilter, sizeText, unusedArtKeys, type ListFilter } from "./filter";
 
 const TYPES = [
   { value: "potion", label: "回復薬" },
@@ -62,8 +64,40 @@ type ShopItem = {
   price: number;
   type: ItemType;
   min_level: number;
-  meta: { heal?: number; asset_key?: string; not_for_sale?: boolean } | null;
+  category: string | null;
+  w: number | null;
+  h: number | null;
+  owned_count: number;
+  meta: { heal?: number; asset_key?: string; not_for_sale?: boolean; souvenir_of?: string } | null;
 };
+
+function categoryLabel(category: string | null): string {
+  return category ? (CATEGORY_LABELS as Record<string, string>)[category] ?? category : "";
+}
+
+/** 絵の小さな見本。絵がないアイテム(回復薬など)や、絵のファイルがないときは、空の枠を出す */
+function Thumb({ item, size }: { item: ShopItem; size: number }) {
+  const [broken, setBroken] = useState(false);
+  const key = item.meta?.asset_key;
+  return (
+    <div
+      className="flex shrink-0 items-center justify-center rounded-md bg-muted"
+      style={{ width: size, height: size }}
+    >
+      {key && !broken ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={`/spru/items/${key}.webp`}
+          alt={item.name}
+          className="max-h-full max-w-full object-contain"
+          onError={() => setBroken(true)}
+        />
+      ) : (
+        <span className="text-xs text-muted-foreground">{key ? "絵なし" : "—"}</span>
+      )}
+    </div>
+  );
+}
 
 type FormValues = {
   name: string;
@@ -92,6 +126,9 @@ export default function Page() {
   const [values, setValues] = useState<FormValues>(emptyForm);
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const [filter, setFilter] = useState<ListFilter>(noFilter);
+  const [detail, setDetail] = useState<ShopItem | null>(null);
 
   const [deleteTarget, setDeleteTarget] = useState<ShopItem | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
@@ -201,13 +238,16 @@ export default function Page() {
     await loadItems();
   }
 
+  const shown = items ? filterItems(items, filter) : [];
+  const unused = items ? unusedArtKeys(items) : [];
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold">ショップ管理</h1>
+          <h1 className="text-xl font-semibold">アイテム管理</h1>
           <p className="text-sm text-muted-foreground">
-            {items ? `全${items.length}件` : "読み込み中..."}
+            {items ? `全${items.length}件中 ${shown.length}件を表示` : "読み込み中..."}
           </p>
         </div>
         <Button onClick={openCreate}>
@@ -217,48 +257,148 @@ export default function Page() {
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 
+      <div className="flex flex-wrap gap-2">
+        <Input
+          className="w-48"
+          placeholder="名前・絵のキーで検索"
+          value={filter.query}
+          onChange={(e) => setFilter((prev) => ({ ...prev, query: e.target.value }))}
+        />
+        <FilterSelect
+          value={filter.type}
+          onChange={(type) => setFilter((prev) => ({ ...prev, type }))}
+          all="すべての種類"
+          options={TYPES.map((t) => ({ value: t.value, label: t.label }))}
+        />
+        <FilterSelect
+          value={filter.category}
+          onChange={(category) => setFilter((prev) => ({ ...prev, category }))}
+          all="すべてのカテゴリ"
+          options={ITEM_CATEGORIES.map((c) => ({ value: c, label: CATEGORY_LABELS[c] }))}
+        />
+        <FilterSelect
+          value={filter.size}
+          onChange={(size) => setFilter((prev) => ({ ...prev, size }))}
+          all="すべての大きさ"
+          options={SIZE_OPTIONS.filter((o) => o.value !== "all").map((o) => ({ value: o.value, label: o.label }))}
+        />
+      </div>
+
+      {items && unused.length > 0 && (
+        <p className="text-xs text-muted-foreground">
+          絵はあるのに、どのアイテムにも使っていない絵が{unused.length}点あります:{" "}
+          {unused.map((key) => artLabel(key)).join("、")}
+        </p>
+      )}
+
       {items && (
         <div className="flex flex-col divide-y divide-border rounded-lg border border-border">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center gap-4 px-4 py-3 hover:bg-muted/50"
-            >
-              <div className="flex-1">
-                <p className="text-sm font-medium">{item.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  {typeLabel(item.type)} ・ {item.price}
-                  {item.type === "decoration" ? "pt" : "Coin"}
-                  {item.meta?.heal ? ` ・ 回復量:${item.meta.heal}` : ""}
-                  {item.type === "decoration" ? ` ・ Lv.${item.min_level}〜` : ""}
-                  {item.meta?.not_for_sale ? " ・ 非売品(種から咲く)" : ""}
-                </p>
-              </div>
+          {shown.length === 0 && (
+            <p className="px-4 py-6 text-center text-sm text-muted-foreground">
+              条件に合うアイテムがありません。
+            </p>
+          )}
+          {shown.map((item) => {
+            const size = sizeText(item);
+            return (
+              <div
+                key={item.id}
+                className="flex items-center gap-4 px-4 py-2 hover:bg-muted/50"
+              >
+                <button
+                  type="button"
+                  className="flex flex-1 items-center gap-4 text-left"
+                  onClick={() => setDetail(item)}
+                >
+                  <Thumb item={item} size={48} />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">{item.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {typeLabel(item.type)}
+                      {item.category ? ` ・ ${categoryLabel(item.category)}` : ""}
+                      {size ? ` ・ ${size}` : ""} ・ {item.price}
+                      {item.type === "decoration" ? "pt" : "Coin"}
+                      {item.meta?.heal ? ` ・ 回復量:${item.meta.heal}` : ""}
+                      {item.type === "decoration" ? ` ・ Lv.${item.min_level}〜` : ""}
+                      {item.meta?.not_for_sale ? " ・ 非売品" : ""}
+                    </p>
+                  </div>
+                </button>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon-sm" aria-label="その他の操作">
-                    <MoreHorizontal />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {!item.meta?.not_for_sale && (
-                    <DropdownMenuItem onClick={() => openEdit(item)}>
-                      編集
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon-sm" aria-label="その他の操作">
+                      <MoreHorizontal />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => setDetail(item)}>詳細</DropdownMenuItem>
+                    {!item.meta?.not_for_sale && (
+                      <DropdownMenuItem onClick={() => openEdit(item)}>
+                        編集
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem
+                      variant="destructive"
+                      onClick={() => setDeleteTarget(item)}
+                    >
+                      削除
                     </DropdownMenuItem>
-                  )}
-                  <DropdownMenuItem
-                    variant="destructive"
-                    onClick={() => setDeleteTarget(item)}
-                  >
-                    削除
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            );
+          })}
         </div>
       )}
+
+      <Dialog open={detail !== null} onOpenChange={(open) => !open && setDetail(null)}>
+        <DialogContent>
+          {detail && (
+            <>
+              <DialogHeader>
+                <DialogTitle>{detail.name}</DialogTitle>
+              </DialogHeader>
+              <div className="flex justify-center">
+                <Thumb item={detail} size={200} />
+              </div>
+              <dl className="grid grid-cols-[7rem_1fr] gap-x-3 gap-y-1.5 text-sm">
+                <Detail label="種類" value={typeLabel(detail.type)} />
+                {detail.category && <Detail label="カテゴリ" value={categoryLabel(detail.category)} />}
+                {sizeText(detail) && (
+                  <Detail
+                    label="広さ"
+                    value={`${sizeText(detail)}マス${detail.w !== detail.h ? "(長方形)" : ""}`}
+                  />
+                )}
+                <Detail label="価格" value={`${detail.price}${detail.type === "decoration" ? "pt" : "Coin"}`} />
+                {detail.type === "decoration" && <Detail label="必要レベル" value={`Lv.${detail.min_level}〜`} />}
+                {detail.meta?.heal ? <Detail label="回復量" value={`${detail.meta.heal}`} /> : null}
+                {detail.meta?.asset_key && (
+                  <Detail label="絵のキー" value={`${detail.meta.asset_key}(${artLabel(detail.meta.asset_key)})`} />
+                )}
+                {detail.meta?.souvenir_of && <Detail label="おみやげ" value={`${detail.meta.souvenir_of}で入手`} />}
+                {detail.meta?.not_for_sale && <Detail label="販売" value="非売品(種から咲く・旅で入手)" />}
+                <Detail label="持っている数" value={`${detail.owned_count}個(全プレイヤーの合計)`} />
+              </dl>
+              <DialogFooter>
+                {!detail.meta?.not_for_sale && (
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      const target = detail;
+                      setDetail(null);
+                      openEdit(target);
+                    }}
+                  >
+                    編集
+                  </Button>
+                )}
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
@@ -412,5 +552,42 @@ export default function Page() {
         </AlertDialogContent>
       </AlertDialog>
     </div>
+  );
+}
+
+function Detail({ label, value }: { label: string; value: string }) {
+  return (
+    <>
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd>{value}</dd>
+    </>
+  );
+}
+
+function FilterSelect({
+  value,
+  onChange,
+  all,
+  options,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  all: string;
+  options: { value: string; label: string }[];
+}) {
+  return (
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger className="w-40">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="all">{all}</SelectItem>
+        {options.map((o) => (
+          <SelectItem key={o.value} value={o.value}>
+            {o.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
