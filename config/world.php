@@ -101,6 +101,8 @@ return [
         'large_tree' => 2, 'greengrocer' => 2, 'fish_shop' => 2, 'meat_shop' => 2, 'produce_shop' => 2,
         'chief_hall' => 3, 'stone_tower_hall' => 2, 'windmill_garden' => 3, 'spru_mall' => 3, 'saku_mall' => 3,
         'sky_tower' => 2, 'saku_blossom_tower' => 2, 'golden_leaf_temple' => 2, 'spru_house_lv2' => 2, 'spru_house_lv3' => 2, 'human_house' => 2, 'wheat_field' => 2, 'carrot_field' => 2, 'potato_field' => 2, 'onion_field' => 2, 'cabbage_field' => 2, 'tomato_field' => 2, 'cucumber_field' => 2, 'pumpkin_field' => 2, 'corn_field' => 2, 'eggplant_field' => 2, 'watermelon_field' => 2, 'himeji_castle' => 3, 'bus_small' => 2, 'fire_truck' => 2, 'delivery_truck' => 2, 'tractor' => 2, 'train_engine' => 2,  'todaiji_hall' => 3, 'shuri_castle' => 3, 'flower_shop' => 2, 'clinic' => 2, 'small_school' => 2, 'post_office' => 2, 'station_hut' => 2, 'fire_station' => 2, 'koban' => 2,
+        // 小さな家の仲間(2026-10-20 Ownerの指定で1×1から2×2へ)
+        'cottage' => 2, 'red_house' => 2, 'seed_storehouse' => 2, 'resident_cottage' => 2, 'leaf_cottage' => 2, 'blue_flower_cottage' => 2, 'forest_flower_house' => 2,
     ],
 
     /*

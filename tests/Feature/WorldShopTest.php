@@ -150,11 +150,11 @@ it('品ぞろえ: シーダーの全アイテムの絵のキーが asset_keys �
     }
 });
 
-it('品ぞろえ: 新しい25点のうち、2×2は6点・3×3は4点で、ほかは1マス', function () {
+it('品ぞろえ: 新しい25点のうち、2×2は11点(小さな家の仲間5点を含む)・3×3は4点で、ほかは1マス', function () {
     $this->seed(WorldItemSeeder::class);
-    $big = ['large_tree', 'greengrocer', 'fish_shop', 'meat_shop', 'produce_shop', 'stone_tower_hall'];
+    $big = ['large_tree', 'greengrocer', 'fish_shop', 'meat_shop', 'produce_shop', 'stone_tower_hall', 'seed_storehouse', 'resident_cottage', 'leaf_cottage', 'blue_flower_cottage', 'forest_flower_house'];
     $large = ['chief_hall', 'windmill_garden', 'spru_mall', 'saku_mall'];
-    $small = ['young_tree', 'pathside_flowers', 'pathside_stone', 'stream', 'vegetable_bed', 'broadleaf_tree', 'spring', 'leaf_lamp', 'wooden_bridge', 'woodland_torii', 'seed_storehouse', 'resident_cottage', 'leaf_cottage', 'blue_flower_cottage', 'forest_flower_house'];
+    $small = ['young_tree', 'pathside_flowers', 'pathside_stone', 'stream', 'vegetable_bed', 'broadleaf_tree', 'spring', 'leaf_lamp', 'wooden_bridge', 'woodland_torii'];
 
     foreach ($big as $key) {
         expect(ShopItem::query()->where('meta->asset_key', $key)->firstOrFail()->footprint())->toBe(2);

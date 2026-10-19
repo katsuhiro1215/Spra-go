@@ -544,6 +544,13 @@ export const ASSET_FOOTPRINTS: Readonly<Partial<Record<ArtKey, number | readonly
   station_hut: 2,
   fire_station: 2,
   koban: 2,
+  cottage: 2,
+  red_house: 2,
+  seed_storehouse: 2,
+  resident_cottage: 2,
+  leaf_cottage: 2,
+  blue_flower_cottage: 2,
+  forest_flower_house: 2,
 };
 
 /** 絵の大きさ(N×NのN)。1(小)・2(中)・3(大)。絵がなければ1 */

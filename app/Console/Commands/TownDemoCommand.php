@@ -35,33 +35,35 @@ class TownDemoCommand extends Command
     private const LAYOUT = [
         // 道は横が y=3・y=9、縦が x=3・x=9。ブロックごとに、道に面して家・店を置き、あいだに木や花
         // ブロックA(0-2,0-2): スプルの家(0,1)・畑(2,2)のまわり
-        ['cottage', 0, 0], ['red_house', 1, 0], ['tulip', 2, 1],
+        ['tulip', 2, 1],
         // ブロックB(4-8,0-2): 商店
         ['bakery', 4, 1], ['fire_station', 6, 1], ['mailbox', 8, 1], ['street_lamp', 8, 2], ['tree', 5, 0], ['flowerbed', 6, 0], ['tulip', 7, 0],
         // ブロックC(10-16,0-2): 名所(竹林のほう)
         ['sakura', 11, 1], ['sakura', 11, 0], ['sakura', 11, 2], ['chief_hall', 12, 0], ['bush', 15, 2], ['bush', 16, 2], ['stone_lantern', 10, 2],
         // ブロックD(0-2,4-8): 住宅
         ['station_hut', 0, 4], ['flowerbed', 2, 4], ['flowerbed', 2, 5], ['tree', 0, 6], ['bench', 1, 6], ['tulip', 2, 6],
-        ['red_house', 0, 8], ['leaf_cottage', 1, 8], ['blue_flower_cottage', 2, 8], ['street_lamp', 2, 7],
+        ['street_lamp', 2, 7],
         // ブロックE(4-8,4-8): 公園
-        ['fountain', 5, 5], ['sakura', 4, 4], ['tree', 8, 4], ['pine', 4, 6], ['bench', 7, 5], ['bench', 7, 6], ['flowerbed', 4, 7], ['tulip', 5, 7], ['flowerbed', 6, 7], ['well', 8, 6], ['momiji', 8, 8], ['leaf_lamp', 4, 8], ['leaf_lamp', 8, 7],
+        ['fountain', 5, 5], ['sakura', 4, 4], ['pine', 4, 6], ['bench', 7, 6], ['well', 8, 6], ['momiji', 8, 8], ['leaf_lamp', 8, 7],
         // ブロックF(10-16,4-8): お城と五重塔
         ['castle', 11, 6], ['pagoda', 14, 5], ['tree', 10, 4], ['pine', 10, 6], ['bush', 10, 7], ['sakura', 16, 4], ['stone_lantern', 15, 8], ['bamboo', 10, 5],
         // ブロックG(0-2,10-16): 商店街
         ['flower_shop', 0, 10], ['clinic', 0, 12], ['street_lamp', 1, 14], ['street_lamp', 2, 12], ['street_lamp', 2, 14], ['bench', 2, 16], ['tree', 2, 10],
         // ブロックH(4-8,10-16): モールと畑
-        ['small_school', 4, 10], ['seed_storehouse', 6, 10], ['spru_mall', 6, 11], ['wheat_field', 4, 13], ['carrot_field', 4, 15], ['tree', 4, 12], ['large_tree', 7, 15], ['street_lamp', 8, 10], ['flowerbed', 6, 16], ['tulip', 6, 15],
+        ['small_school', 4, 10], ['spru_mall', 6, 11], ['wheat_field', 4, 13], ['carrot_field', 4, 15], ['tree', 4, 12], ['large_tree', 7, 15], ['street_lamp', 8, 10], ['flowerbed', 6, 16], ['tulip', 6, 15],
         // ブロックI(10-16,10-16): ランドマーク広場
         ['pagoda', 11, 11], ['tower', 15, 10], ['lighthouse', 14, 12], ['big_ben', 10, 14], ['arc_de_triomphe', 12, 14], ['palm', 10, 10],
         ['tree', 10, 12], ['palm', 16, 12],
         // 追加分(2026-10-12): 花・木・街の備品・暮らし。空いているマスに
-        ['lavender', 5, 4], ['cosmos', 6, 4], ['hydrangea', 7, 4], ['rose_bed', 4, 5], ['hedge_square', 8, 5], ['topiary_ball', 0, 7], ['ginkgo', 1, 7],
-        ['birch', 5, 8], ['plum_tree', 6, 8], ['fir_tree', 7, 8], ['willow', 7, 10], ['small_pond', 10, 11],
-        ['wooden_fence', 11, 4], ['low_stone_wall', 12, 4], ['signpost', 13, 4], ['drinking_fountain', 14, 4], ['flower_arch', 15, 4], ['trash_bin', 12, 5],
-        ['scarecrow', 13, 5], ['handcart', 11, 10], ['barrels_crates', 12, 10], ['firewood_pile', 13, 10], ['haystack', 14, 10], ['laundry_line', 14, 11],
+        ['lavender', 5, 4], ['cosmos', 6, 4], ['rose_bed', 4, 5], 
+        ['willow', 7, 10], ['small_pond', 10, 11],
+        ['wooden_fence', 11, 4], ['drinking_fountain', 14, 4], ['flower_arch', 15, 4], 
+        ['handcart', 11, 10], ['barrels_crates', 12, 10], ['firewood_pile', 13, 10], ['haystack', 14, 10], ['laundry_line', 14, 11],
         // 追加分2(2026-10-13): 小さな生き物・柵と塀
-        ['cat_sitting', 10, 0], ['dog_sitting', 7, 7], ['hen', 10, 8], ['sheep', 14, 8], ['birdhouse', 5, 12], ['beehive', 16, 8],
+        ['cat_sitting', 10, 0], ['hen', 10, 8], ['sheep', 14, 8], ['birdhouse', 5, 12], ['beehive', 16, 8],
         ['hedge_long', 6, 14], ['fence_corner', 7, 14], ['fence_gate', 8, 14], ['wooden_fence_b', 10, 16], ['low_stone_wall_b', 11, 16], ['stone_wall_corner', 12, 16],
+        // 小さな家の仲間は2×2(2026-10-20)。空いている2×2に、まわりの飾りを減らして置く。村人の家・森の花の家はバッグ(AUTO)に入れて、自分で置いて確かめる
+        ['red_house', 0, 7], ['cottage', 4, 7], ['leaf_cottage', 6, 7], ['blue_flower_cottage', 7, 4], ['seed_storehouse', 12, 4],
     ];
 
     /**
@@ -72,6 +74,7 @@ class TownDemoCommand extends Command
     private const AUTO = [
         'potato_field', 'onion_field', 'cabbage_field', 'tomato_field', 'cucumber_field', 'pumpkin_field', 'corn_field', 'eggplant_field', 'watermelon_field',
         'car_red', 'taxi', 'motorbike', 'ambulance', 'bus_small', 'fire_truck', 'delivery_truck', 'tractor', 'train_engine', 'hot_air_balloon', 'sailboat', 'cart_horse_free',
+        'resident_cottage', 'forest_flower_house',
     ];
 
     public function handle(): int

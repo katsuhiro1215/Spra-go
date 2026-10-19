@@ -8,6 +8,14 @@ export const ITEM_IMAGE_FIT: Partial<Record<string, ItemImageFit>> = {
   // 2×2の家(新しい絵 spru-house/spru_house_lv1_01。2026-10-19 Ownerの指定。大きさ・角度はSpra Worldの試作と同じ)。
   // 試作は、見える部分の真ん中を、敷地の真ん中より左に 49px(1254px の絵で。1マスの幅64に合わせると約5.7)ずらしている
   spru_house: { dx: -5.7 },
+  // 1×1用に描いた小さな家の仲間を、2×2に直した(2026-10-20)。絵の幅は約60なので、お店の新しい絵(約75〜105)に近づけて1.5倍にする
+  cottage: { scale: 1.5 },
+  red_house: { scale: 1.5 },
+  seed_storehouse: { scale: 1.5 },
+  resident_cottage: { scale: 1.5 },
+  leaf_cottage: { scale: 1.5 },
+  blue_flower_cottage: { scale: 1.5 },
+  forest_flower_house: { scale: 1.5 },
 };
 
 /** 夜の明かりの光の輪(設計書7-3)。x・y は画像の左上からの割合(0〜1)、r は半径(SVGの単位) */
