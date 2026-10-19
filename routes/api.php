@@ -682,7 +682,15 @@ Route::middleware(['auth:owner'])->prefix('owner/shop-items')->name('owner.shop-
     };
 
     Route::get('/', function () {
-        return ShopItem::query()->orderBy('type')->orderBy('price')->get();
+        // 管理画面の一覧用に、町のアイテムはカテゴリ・大きさ(w×h)を、全アイテムは持っている個数を添える
+        $owned = ProfileWorldItem::query()->selectRaw('shop_item_id, count(*) as total')->groupBy('shop_item_id')->pluck('total', 'shop_item_id');
+
+        return ShopItem::query()->orderBy('type')->orderBy('price')->get()->map(function (ShopItem $item) use ($owned) {
+            $isDecoration = $item->type === 'decoration';
+            [$w, $h] = $isDecoration ? $item->size() : [null, null];
+
+            return [...$item->toArray(), 'category' => $item->category(), 'w' => $w, 'h' => $h, 'owned_count' => (int) ($owned[$item->id] ?? 0)];
+        });
     })->name('index');
 
     Route::post('/', function (Request $request) use ($rules, $normalize) {
