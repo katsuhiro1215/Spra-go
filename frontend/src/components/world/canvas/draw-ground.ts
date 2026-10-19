@@ -201,6 +201,88 @@ function drawPaths(ctx: Ctx, env: DrawEnv, ground: GroundModel) {
   ctx.restore();
 }
 
+/** 池: まわりが開いた陸でかこまれた水を、陸の中の池として描く(岸・水・ゆれる光・はす。座標から決まる、毎回同じ絵) */
+// マスの角(u, v)の座標。マス(x, y)の奥の角が(x, y)
+const corner = (u: number, v: number): [number, number] => [(u - v) * HALF_W, (u + v) * HALF_H];
+
+/** 池のまわりの線だけ(池のマスどうしの境は引かない。マスの継ぎ目が線に見えないように) */
+function pondOutline(ponds: [number, number][]): Path2D {
+  const has = new Set(ponds.map(([x, y]) => `${x},${y}`));
+  const outline = new Path2D();
+  for (const [x, y] of ponds) {
+    const sides: [number, number, [number, number], [number, number]][] = [
+      [x, y - 1, corner(x, y), corner(x + 1, y)],
+      [x + 1, y, corner(x + 1, y), corner(x + 1, y + 1)],
+      [x, y + 1, corner(x + 1, y + 1), corner(x, y + 1)],
+      [x - 1, y, corner(x, y + 1), corner(x, y)],
+    ];
+    for (const [nx, ny, from, to] of sides) {
+      if (has.has(`${nx},${ny}`)) continue;
+      outline.moveTo(from[0], from[1]);
+      outline.lineTo(to[0], to[1]);
+    }
+  }
+  return outline;
+}
+
+function drawPonds(ctx: Ctx, ground: GroundModel) {
+  if (ground.ponds.length === 0) return;
+  const shape = new Path2D();
+  for (const [x, y] of ground.ponds) tilePath(shape, x, y);
+  const outline = pondOutline(ground.ponds);
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+  for (const [x, y] of ground.ponds) {
+    const { sx, sy } = tileCenter(x, y);
+    minX = Math.min(minX, sx - HALF_W);
+    maxX = Math.max(maxX, sx + HALF_W);
+    minY = Math.min(minY, sy - HALF_H);
+    maxY = Math.max(maxY, sy + HALF_H);
+  }
+  ctx.save();
+  ctx.lineJoin = "round";
+  // 岸(土の色の外側の縁)→ 水(深い青緑から、明るい水色へ)→ 水ぎわの明るい線
+  ctx.strokeStyle = "#d0c89c";
+  ctx.lineWidth = 7;
+  ctx.stroke(outline);
+  const water = ctx.createLinearGradient(minX, minY, maxX, maxY);
+  water.addColorStop(0, "#438f88");
+  water.addColorStop(0.45, "#4caeaa");
+  water.addColorStop(1, "#8dd0b5");
+  ctx.fillStyle = water;
+  ctx.fill(shape);
+  // マスの継ぎ目に、すきまの線が出ないよう、同じ水の色でふちを太らせる
+  ctx.strokeStyle = water;
+  ctx.lineWidth = 1;
+  ctx.stroke(shape);
+  ctx.strokeStyle = "#dce3ae";
+  ctx.lineWidth = 2;
+  ctx.stroke(outline);
+  // ゆれる光とはす(マスの座標から決まる位置)
+  ctx.clip(shape);
+  for (const [x, y] of ground.ponds) {
+    const { sx, sy } = tileCenter(x, y);
+    const h = Math.imul(x + 31, 73856093) ^ Math.imul(y + 17, 19349663);
+    const a = (h >>> 0) % 100;
+    ctx.strokeStyle = "rgba(217,250,224,0.35)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 2; i++) {
+      ctx.beginPath();
+      ctx.ellipse(sx + ((a + i * 37) % 30) - 15, sy + ((a + i * 23) % 14) - 7, 10 + i * 6, 2.5, 0, 0.15, 2.6);
+      ctx.stroke();
+    }
+    if (a % 3 === 0) {
+      ctx.fillStyle = "#87ae66";
+      ctx.beginPath();
+      ctx.ellipse(sx + (a % 20) - 10, sy + (a % 10) - 5, 7, 3.2, 0, 0.2, 6.1);
+      ctx.fill();
+    }
+  }
+  ctx.restore();
+}
+
 /** 林・花畑: 地面の絵を、ぼかしたマスの形で切り抜いて重ねる */
 function drawBlend(ctx: Ctx, env: DrawEnv, model: SceneModel) {
   for (const layer of model.ground.blend) {
@@ -267,6 +349,8 @@ export function drawLand(ctx: Ctx, env: DrawEnv, model: SceneModel) {
   }
   ctx.restore();
 
+  drawPonds(ctx, ground);
+
   for (const tile of ground.checker) {
     const path = new Path2D();
     tilePath(path, tile.x, tile.y);
@@ -292,6 +376,10 @@ export function drawLand(ctx: Ctx, env: DrawEnv, model: SceneModel) {
     for (const points of ground.plotShapes) polyPath(shapes, points);
     tint.fill(shapes);
     tint.restore();
+    // 池にも、夜の色を重ねる
+    const ponds = new Path2D();
+    for (const [x, y] of ground.ponds) tilePath(ponds, x, y);
+    tint.fill(ponds);
     ctx.save();
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.globalAlpha = theme.groundTint.opacity;

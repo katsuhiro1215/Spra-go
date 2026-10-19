@@ -17,6 +17,7 @@ import {
   openTilesPath,
   openedLine,
   plotAt,
+  pondTiles,
   plotCenter,
   unlockFocus,
   unlockLine,
@@ -254,5 +255,36 @@ describe("陸の形(1本のパス)", () => {
       expect(shifted[i]).toBe(base[i]);
       expect(shifted[i + 1]).toBe(base[i + 1] + 40);
     }
+  });
+});
+
+describe("池(まわりが、すべて開いた陸でかこまれた水)", () => {
+  const withWater = (level: number, water: Tile[]): WorldLand => ({ ...landAt(level), water });
+
+  it("開いた陸でぐるりとかこまれた水のマスは、池になる", () => {
+    expect(pondTiles(withWater(12, [[6, 6]]))).toEqual([[6, 6]]);
+  });
+
+  it("つながった水(2×2)は、まわり全部が開いた陸なら、全部が池", () => {
+    const land = withWater(12, [[5, 5], [6, 5], [5, 6], [6, 6]]);
+    expect(pondTiles(land)).toHaveLength(4);
+  });
+
+  it("まわりに、地図の外・雲の区画がある水は、池でなく海(くぼみ)のまま", () => {
+    expect(pondTiles(withWater(12, [[6, 0]]))).toEqual([]); // 北は地図の外
+    expect(pondTiles(withWater(1, [[6, 6]]))).toEqual([]); // 東の竹林が雲
+  });
+
+  it("つながった水の一部でも、外にふれる所が閉じていれば、その水全部が池でない", () => {
+    expect(pondTiles(withWater(1, [[5, 5], [6, 5], [6, 6]]))).toEqual([]);
+  });
+
+  it("池のとなりのマスには、池の側に崖(側面)を付けない", () => {
+    const land = withWater(12, [[6, 6]]);
+    const edges = landEdges(land);
+    expect(edges.right.some(([x, y]) => x === 5 && y === 6)).toBe(false); // (5,6)の右手前は池
+    expect(edges.left.some(([x, y]) => x === 6 && y === 5)).toBe(false); // (6,5)の左手前は池
+    // 池でなく海のとき(まわりが閉じている)は、今までどおり崖が付く
+    expect(landEdges(withWater(1, [[6, 6]])).right.some(([x, y]) => x === 5 && y === 6)).toBe(true);
   });
 });
