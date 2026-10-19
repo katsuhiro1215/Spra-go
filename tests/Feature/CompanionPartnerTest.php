@@ -24,7 +24,7 @@ it('仲間の一覧に名前・ハート・相棒かが出て、相棒が先頭�
         ->assertJsonPath('companions.0', [
             'key' => 'lumi', 'name' => 'ピカ', 'official_name' => 'Lumi', 'nickname' => 'ピカ', 'trait' => '光・ひらめき',
             'lines' => ['ひらめいた！いっしょに学ぼう', 'わかった瞬間って、ピカッとするよね'],
-            'hearts' => 2, 'heart_label' => 'なかよし', 'bond' => 25, 'next_heart_bond' => 50, 'is_partner' => true, 'rare' => false, 'in_town' => true, 'x' => 3, 'y' => 2,
+            'hearts' => 2, 'heart_label' => 'なかよし', 'bond' => 25, 'next_heart_bond' => 50, 'is_partner' => true, 'rare' => false, 'in_town' => true, 'x' => 3, 'y' => 4,
         ])
         ->assertJsonPath('companions.1.key', 'ruru')
         ->assertJsonPath('companions.1.is_partner', false)
@@ -71,7 +71,7 @@ it('相棒を替えると、並びと立ち位置と復習を出す人が替わ�
         ->assertJsonPath('companions.0.key', 'kuru')
         ->assertJsonPath('companions.0.is_partner', true)
         ->assertJsonPath('companions.0.x', 3)
-        ->assertJsonPath('companions.0.y', 2)
+        ->assertJsonPath('companions.0.y', 4)
         ->assertJsonPath('companions.1.key', 'momo')
         ->assertJsonPath('companions.1.x', 5)
         ->assertJsonPath('review.giver.key', 'kuru');

@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   canSowSpruSeed,
+  gardenAsk,
+  gardenFrontTiles,
   gardenPrompt,
   growthLabel,
   levelUpGrowthLine,
@@ -136,5 +138,16 @@ describe("mergeNewSeeds", () => {
     expect(mergeNewSeeds([ruby], [])).toEqual([ruby]);
     expect(mergeNewSeeds([ruby], [ruby, gold])).toEqual([ruby, gold]);
     expect(mergeNewSeeds([], [gold])).toEqual([gold]);
+  });
+});
+
+describe("畑の前に行って聞く(docs/design/2026-10-19-garden-layout-design.md)", () => {
+  it("畑の前は、右のマスと手前のマス(十字の道に面した2辺)", () => {
+    expect(gardenFrontTiles({ x: 2, y: 2 })).toEqual([[3, 2], [2, 3]]);
+  });
+
+  it("水やり・種まきの聞き方", () => {
+    expect(gardenAsk("water")).toEqual({ action: "water", question: "水をあげますか？", yes: "あげる" });
+    expect(gardenAsk("sow")).toEqual({ action: "sow", question: "種をまきますか？", yes: "まく" });
   });
 });

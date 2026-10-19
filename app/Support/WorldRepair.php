@@ -37,6 +37,31 @@ class WorldRepair
     }
 
     /**
+     * 引いた道が、今は目印・もとの道・海・雲のマスにかかっているものを消す(目印が動いたとき。引いた道は置き物と違い、バッグに戻す先がない)
+     *
+     * @return array<int, list<array{0: int, 1: int}>> プロフィールの番号 => 消した(消す)道のマス
+     */
+    public static function roads(bool $dryRun = false): array
+    {
+        $result = [];
+
+        UserProfile::query()->whereHas('roads')->orderBy('id')->each(function (UserProfile $profile) use ($dryRun, &$result) {
+            $bad = $profile->roads()->orderBy('id')->get()->filter(
+                fn ($road) => ! WorldLand::inBounds($road->x, $road->y) || ! WorldLand::isOpen($road->x, $road->y, $profile->level) || WorldLand::isBlocked($road->x, $road->y),
+            );
+            if ($bad->isEmpty()) {
+                return;
+            }
+            if (! $dryRun) {
+                $profile->roads()->whereIn('id', $bad->pluck('id'))->delete();
+            }
+            $result[$profile->id] = $bad->map(fn ($road) => [$road->x, $road->y])->values()->all();
+        });
+
+        return $result;
+    }
+
+    /**
      * その子の町で、今の決まりでは置けない物の番号(置いた順に調べ、先に置いた物のマスを使う物は戻す)
      *
      * @return list<int>

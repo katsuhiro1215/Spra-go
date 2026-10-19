@@ -24,6 +24,13 @@ class RepairWorldCommand extends Command
         $verb = $dryRun ? 'バッグに戻す(--dry-run のため、まだ戻していません)' : 'バッグに戻しました';
         $this->info("{$verb}: {$total}個");
 
+        // 引いた道が、動いた目印にかかっていたら消す(バッグに戻す先がない)
+        $roads = WorldRepair::roads($dryRun);
+        foreach ($roads as $profileId => $tiles) {
+            $this->line("プロフィール {$profileId}: 引いた道 ".count($tiles).'マス（'.implode(' ', array_map(fn ($t) => "({$t[0]},{$t[1]})", $tiles)).'）');
+        }
+        $this->info(($dryRun ? '消す(--dry-run のため、まだ消していません)' : '消しました').': 引いた道 '.array_sum(array_map('count', $roads)).'マス');
+
         return self::SUCCESS;
     }
 }

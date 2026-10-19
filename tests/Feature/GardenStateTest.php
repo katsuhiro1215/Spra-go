@@ -21,13 +21,13 @@ it('新しいプロフィールは育ち具合0から始まる', function () {
     $this->getJson('/api/world')->assertOk()->assertJsonPath('spru.growth', 0);
 });
 
-it('畑はスプルの家の左隣のマス(0,2)にあり、アイテムを置けないマスになる', function () {
+it('畑は十字の道に面したマス(2,2)にあり、アイテムを置けないマスになる', function () {
     createActiveProfile();
 
     $response = $this->getJson('/api/world')->assertOk();
 
-    expect($response->json('land.blocked'))->toContain([0, 2]);
-    $response->assertJsonPath('garden.x', 0)
+    expect($response->json('land.blocked'))->toContain([2, 2]);
+    $response->assertJsonPath('garden.x', 2)
         ->assertJsonPath('garden.y', 2)
         ->assertJsonPath('garden.state', 'empty');
 });
@@ -107,7 +107,7 @@ it('生まれた仲間は、生まれた順に道の立ち位置つきで出る'
         ->assertJsonPath('companions.0', [
             'key' => 'ruru', 'name' => 'Ruru', 'official_name' => 'Ruru', 'nickname' => null, 'trait' => '水・知恵',
             'lines' => ['じっくり考えるのが好き'], 'hearts' => 1, 'heart_label' => 'はじめまして', 'bond' => 0,
-            'next_heart_bond' => 20, 'is_partner' => false, 'rare' => false, 'in_town' => true, 'x' => 3, 'y' => 2,
+            'next_heart_bond' => 20, 'is_partner' => false, 'rare' => false, 'in_town' => true, 'x' => 3, 'y' => 4,
         ])
         ->assertJsonPath('companions.1.key', 'lumi')
         ->assertJsonPath('companions.1.x', 5)

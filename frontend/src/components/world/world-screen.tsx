@@ -26,7 +26,8 @@ import { ErrandReturn } from "./errand-return";
 import { ErrandSheet } from "./errand-sheet";
 import { errandGo, townPrompt } from "./errands";
 import { Festive } from "./festive";
-import { canSowSpruSeed, mergeNewSeeds, pickGardenTap, seedLabel } from "./garden";
+import { canSowSpruSeed, gardenAsk, gardenFrontTiles, mergeNewSeeds, pickGardenTap, seedLabel } from "./garden";
+import { GardenAsk } from "./garden-ask";
 import { GreetingsCard } from "./greetings-card";
 import { ItemActionSheet } from "./item-action-sheet";
 import { cloudLine, hasAnchorsOutside, openedLine, unlockFocus, validAnchors } from "./land";
@@ -116,6 +117,9 @@ export function WorldScreen() {
   // 道をつくる間の短いお知らせ(上の赤い帯だと、地図がずれて引きにくいので、道具の上に出す)
   const [roadNote, setRoadNote] = useState<string | null>(null);
   const roadQueue = useRef<Promise<void>>(Promise.resolve());
+  // 畑の用事(水やり・種まき・種えらび)。Spruが畑の前まで歩き、着いたら聞く(docs/design/2026-10-19-garden-layout-design.md)
+  const [gardenVisit, setGardenVisit] = useState<{ seq: number; action: "water" | "sow" | "choose"; phase: "walking" | "ask" } | null>(null);
+  const visitSeq = useRef(0);
   const { profile: sharedProfile, applyPartial, refresh: refreshProfile } = useProfile();
   const [world, setWorld] = useState<WorldData | null>(null);
   const [shop, setShop] = useState<ShopListItem[]>([]);
@@ -485,7 +489,7 @@ export function WorldScreen() {
     }
     const tap = pickSpruTap({ canSow: canSowSpruSeed(world.garden), review: world.review });
     if (tap === "sow") {
-      sow();
+      startGardenVisit("sow");
       return;
     }
     if (tap === "review") {
@@ -507,13 +511,35 @@ export function WorldScreen() {
     });
   }
 
+  // 畑の用事を始める: Spruが畑の前まで歩く。着いたら(onGardenArrive)、聞く・種の一覧を出す
+  function startGardenVisit(action: "water" | "sow" | "choose") {
+    visitSeq.current += 1;
+    setGardenVisit({ seq: visitSeq.current, action, phase: "walking" });
+  }
+
+  function handleGardenArrive(seq: number) {
+    if (!gardenVisit || gardenVisit.seq !== seq) return;
+    if (gardenVisit.action === "choose") {
+      setGardenVisit(null);
+      setPickerOpen(true);
+    } else {
+      setGardenVisit({ ...gardenVisit, phase: "ask" });
+    }
+  }
+
   function handleGardenTap() {
     if (!world || gardenBusy) return;
     const tap = pickGardenTap(world.garden);
-    if (tap.action === "sow") sow();
-    else if (tap.action === "choose") setPickerOpen(true);
-    else if (tap.action === "water") water();
-    else setEvent({ kind: "say", at: Date.now(), image: tap.image, line: tap.line });
+    if (tap.action === "say") setEvent({ kind: "say", at: Date.now(), image: tap.image, line: tap.line });
+    else startGardenVisit(tap.action === "choose" ? "choose" : tap.action);
+  }
+
+  async function answerGarden() {
+    const visit = gardenVisit;
+    if (!visit || visit.phase !== "ask" || visit.action === "choose") return;
+    setGardenVisit(null);
+    if (visit.action === "water") await water();
+    else await sow();
   }
 
   function handleCompanionTap(key: string) {
@@ -646,6 +672,7 @@ export function WorldScreen() {
   }, [roadNote]);
 
   function openRoadTools() {
+    setGardenVisit(null);
     setSelected(null);
     setMessage(null);
     setRoadNote(null);
@@ -839,6 +866,9 @@ export function WorldScreen() {
               veil={veil}
               preview={preview && placingItem ? { ...preview, item: placingItem } : null}
               roads={roadControls}
+              visit={world && gardenVisit && !placingItem && !roadMode ? { seq: gardenVisit.seq, targets: gardenFrontTiles(world.garden) } : null}
+              onArrive={handleGardenArrive}
+              onWalkStart={() => setGardenVisit(null)}
             />
           </TownMap>
           {/* 空の飾りは地図と一緒に動かさず、見えている枠の上に重ねる(設計書3-3) */}
@@ -856,6 +886,10 @@ export function WorldScreen() {
           </Link>
         )}
       </div>
+
+      {gardenVisit?.phase === "ask" && gardenVisit.action !== "choose" && !placingItem && !roadMode && (
+        <GardenAsk ask={gardenAsk(gardenVisit.action)} busy={gardenBusy} onYes={answerGarden} onNo={() => setGardenVisit(null)} />
+      )}
 
       {roadMode && (
         <RoadToolbar
@@ -876,6 +910,7 @@ export function WorldScreen() {
         <ItemActionSheet
           item={selected}
           onMove={() => {
+            setGardenVisit(null);
             setPlacingId(selected.id);
             setPreview(null);
             setSelected(null);

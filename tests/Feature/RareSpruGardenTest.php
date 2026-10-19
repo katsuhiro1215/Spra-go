@@ -155,7 +155,7 @@ it('立ち位置は町にいる子だけに、相棒を先頭にして前から�
     $this->getJson('/api/world')->assertOk()
         ->assertJsonPath('companions.0.key', 'kuru')
         ->assertJsonPath('companions.0.x', 3)
-        ->assertJsonPath('companions.0.y', 2)
+        ->assertJsonPath('companions.0.y', 4)
         ->assertJsonPath('companions.1.key', 'lumi')
         ->assertJsonPath('companions.1.in_town', false)
         ->assertJsonPath('companions.1.x', null)
