@@ -8,7 +8,7 @@ import { SpruFace } from "@/components/spru/spru-figure";
 
 import { TIME_THEME } from "./ambience";
 import { buildSceneModel, groundSignature } from "./canvas/scene-model";
-import { TownCanvas } from "./canvas/town-canvas";
+import { TownCanvas, type RoadControls } from "./canvas/town-canvas";
 import { HALF_H, HALF_W, sceneViewBox, tileCenter, toPercent } from "./iso";
 import { cloudLabel, depthTile, footprintCenter, landmarkFootprint, plotCenter } from "./land";
 import type { TimeOfDay } from "./time-of-day";
@@ -66,7 +66,10 @@ export function WorldScene({
   preview = null,
   readOnly = false,
   roadStyle = "jp",
+  roads = null,
 }: {
+  /** 道を引く道具が出ている間の操作。あるときは、押せる場所(透明ボタン)を止める */
+  roads?: RoadControls | null;
   land: WorldLand;
   items: WorldItem[];
   validTiles: Set<string>;
@@ -95,6 +98,8 @@ export function WorldScene({
   roadStyle?: string;
 }) {
   const theme = TIME_THEME[timeOfDay];
+  // 道の道具が出ている間は、アイテム・家・畑・仲間・スプル・雲の札を押せなくする(間違えて開かないように)
+  const lock = roads ? "pointer-events-none " : "";
   const vb = sceneViewBox(land.width, land.height);
   const sceneInput = { land, items, companions, garden, spru, bloom, theme, roadStyle, validTiles, placing, preview, veil, reviewGiver, readOnly };
   const lockedPlots = land.plots.filter((plot) => !plot.unlocked);
@@ -189,6 +194,7 @@ export function WorldScene({
         spruImage={spru.image}
         companionTalk={companionTalk}
         veilFading={veil?.fading ?? false}
+        roads={roads}
       />
 
       {placing &&
@@ -201,7 +207,7 @@ export function WorldScene({
               type="button"
               aria-label={`横${x + 1}・縦${y + 1}のマスに置く`}
               onClick={() => onTileTap(x, y)}
-              className="absolute focus-visible:outline-3 focus-visible:outline-[#f2b632]"
+              className={`${lock}absolute focus-visible:outline-3 focus-visible:outline-[#f2b632]`}
               style={{
                 ...boxStyle(sx, sy, HALF_W, HALF_H, HALF_H),
                 clipPath: "polygon(50% 0, 100% 50%, 50% 100%, 0 50%)",
@@ -218,7 +224,7 @@ export function WorldScene({
             aria-label={target.label}
             onClick={target.onTap}
             data-spru={target.spru ? "" : undefined}
-            className="absolute rounded-lg focus-visible:outline-3 focus-visible:outline-[#f2b632]"
+            className={`${lock}absolute rounded-lg focus-visible:outline-3 focus-visible:outline-[#f2b632]`}
             style={boxStyle(target.sx, target.sy, target.halfWidth, target.up, target.down)}
           />
         );
@@ -242,7 +248,7 @@ export function WorldScene({
             disabled={placing}
             onClick={() => onCloudTap(plot)}
             aria-label={`${plot.name}(レベル${plot.min_level}で解放)`}
-            className={`${className} focus-visible:outline-3 focus-visible:outline-[#f2b632] disabled:pointer-events-none`}
+            className={`${lock}${className} focus-visible:outline-3 focus-visible:outline-[#f2b632] disabled:pointer-events-none`}
             style={style}
           >
             {text}
@@ -258,7 +264,7 @@ export function WorldScene({
           aria-label="スプル"
           disabled={placing}
           onClick={onSpruTap}
-          className="absolute rounded-full focus-visible:outline-3 focus-visible:outline-[#f2b632] disabled:pointer-events-none"
+          className={`${lock}absolute rounded-full focus-visible:outline-3 focus-visible:outline-[#f2b632] disabled:pointer-events-none`}
           style={boxStyle(spruCenter.sx, spruCenter.sy, 20, 60, 6)}
         />
       )}

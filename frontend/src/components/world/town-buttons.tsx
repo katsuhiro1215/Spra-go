@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Backpack, Sprout } from "lucide-react";
+import { Backpack, Route, Sprout } from "lucide-react";
 
 import { AssetImage } from "@/components/app/asset-image";
 import { AutoFurigana } from "@/components/app/auto-furigana";
@@ -20,7 +20,9 @@ export function TownButtons({
   onErrands,
   onLiveliness,
   onRoster,
+  onRoads,
 }: {
+  onRoads?: () => void;
   errands: WorldErrands;
   lively: Liveliness;
   familyCount: number;
@@ -65,6 +67,14 @@ export function TownButtons({
           <AutoFurigana text="なかま" />
         </span>
       </button>
+      {onRoads && (
+        <button type="button" onClick={onRoads} className={PILL} aria-label="道をつくる">
+          <Route className="h-3.5 w-3.5 text-[#3b7f26]" aria-hidden />
+          <span>
+            <AutoFurigana text="道をつくる" />
+          </span>
+        </button>
+      )}
       {familyCount > 0 && (
         <Link href="/family" className={PILL}>
           <AssetImage asset={SPRU_ICONS.family} size={24} />

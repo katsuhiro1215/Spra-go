@@ -288,8 +288,27 @@ function drawClouds(ctx: Ctx, clouds: CloudDraw[], transform?: { opacity: number
   }
 }
 
+/** 道を引いている途中の先読み(docs/design/2026-10-19-town-roads-design.md 3-1)。valid が真のマスは明るく、偽は赤 */
+export type RoadPreview = { tool: "draw" | "erase"; tiles: [number, number][]; hover: [number, number] | null; valid: (x: number, y: number) => boolean };
+
+function drawRoadPreview(ctx: Ctx, preview: RoadPreview) {
+  const mark = (x: number, y: number, hover: boolean) => {
+    const ok = preview.valid(x, y);
+    tileShape(ctx, x, y);
+    ctx.globalAlpha = hover ? 0.45 : 0.75;
+    ctx.fillStyle = !ok ? "#e0705a" : preview.tool === "erase" ? "#f0a35c" : "#fff3b0";
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = !ok ? "#c4452e" : "#d99a12";
+    ctx.lineWidth = hover ? 1 : 1.5;
+    ctx.stroke();
+  };
+  if (preview.hover && preview.tiles.length === 0) mark(preview.hover[0], preview.hover[1], true);
+  for (const [x, y] of preview.tiles) mark(x, y, false);
+}
+
 /** 動く層を、奥から手前へ描く */
-export function drawObjectsLayer(ctx: Ctx, env: ObjectEnv, model: SceneModel, motion: Motion) {
+export function drawObjectsLayer(ctx: Ctx, env: ObjectEnv, model: SceneModel, motion: Motion, roadPreview?: RoadPreview | null) {
   const pulse = pulseOpacity(motion.t);
   if (model.gardenGlow) glowTile(ctx, model.gardenTile[0], model.gardenTile[1], quietPulse(motion, pulse));
   for (const [x, y] of model.validTiles) glowTile(ctx, x, y, quietPulse(motion, pulse));
@@ -304,6 +323,8 @@ export function drawObjectsLayer(ctx: Ctx, env: ObjectEnv, model: SceneModel, mo
       ctx.stroke();
     }
   }
+
+  if (roadPreview) drawRoadPreview(ctx, roadPreview);
 
   drawClouds(ctx, model.clouds);
 

@@ -1,14 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 import { prefersReducedMotion } from "@/lib/motion";
 
 import { foamOpacity } from "./animation";
 import { drawFoam, drawLand, drawShoreGlow, type DrawEnv } from "./draw-ground";
-import { drawObjectsLayer, type Motion, type ObjectEnv } from "./draw-objects";
+import { strokeTiles } from "../roads/road-edit";
+import { drawObjectsLayer, type Motion, type ObjectEnv, type RoadPreview } from "./draw-objects";
 import { createImageCache, loadBrowserImage } from "./image-cache";
 import { modelSources, type SceneModel } from "./scene-model";
+import { tileAt } from "./tile-at";
+import type { Tile } from "../types";
 
 /** 画面の密度の上限と、Canvasの幅(ピクセル)の上限(設計書8章) */
 const MAX_DPR = 2;
@@ -17,6 +20,18 @@ const MAX_WIDTH_PX = 4096;
 const DIM_ALPHA = 0.22;
 
 type Stamp = { key: string | number; start: number };
+
+/** 道を引く・消すの操作(docs/design/2026-10-19-town-roads-design.md)。tool が move のときは、地図を動かすだけ */
+export type RoadControls = {
+  tool: "draw" | "erase" | "move";
+  /** 地図の広さ(マス)。なぞるマスを、この範囲に収める */
+  width: number;
+  height: number;
+  /** そのマスに、いまの道具が使えるか(先読みの色分け) */
+  valid: (x: number, y: number) => boolean;
+  /** なぞり終わったとき(指を離したとき)、なぞったマスを渡す */
+  onStroke: (tiles: Tile[]) => void;
+};
 
 const nowSeconds = () => performance.now() / 1000;
 
@@ -46,7 +61,9 @@ export function TownCanvas({
   spruImage,
   companionTalk,
   veilFading,
+  roads = null,
 }: {
+  roads?: RoadControls | null;
   model: SceneModel;
   /** 動かない層が変わるかの鍵(scene-model.ts の groundSignature) */
   groundKey: string;
@@ -66,11 +83,14 @@ export function TownCanvas({
   const stamps = useRef<{ pop: Stamp | null; hop: Stamp | null; spru: Stamp | null; veil: Stamp | null }>({ pop: null, hop: null, spru: null, veil: null });
   const reduced = useRef(false);
   const quietRef = useRef(quiet);
+  const roadsRef = useRef(roads);
+  const stroke = useRef<{ tiles: Tile[]; last: Tile | null; active: boolean; hover: Tile | null }>({ tiles: [], last: null, active: false, hover: null });
 
   // 描くときに読む値を、描くたびの render のあとで最新にする(render の中では ref を書き換えない)
   useEffect(() => {
     modelRef.current = model;
     quietRef.current = quiet;
+    roadsRef.current = roads;
   });
 
   // 画像の読み込み。まとまって読めたら、描き直す
@@ -161,7 +181,10 @@ export function TownCanvas({
       spruHop: isReduced ? null : since(stamps.current.spru),
       veilClear: since(stamps.current.veil),
     };
-    drawObjectsLayer(ctx, objectEnv, m, motion);
+    const r = roadsRef.current;
+    const preview: RoadPreview | null =
+      r && r.tool !== "move" ? { tool: r.tool, tiles: stroke.current.tiles, hover: stroke.current.hover, valid: r.valid } : null;
+    drawObjectsLayer(ctx, objectEnv, m, motion, preview);
   }
   const drawRef = useRef(draw);
   useEffect(() => {
@@ -240,5 +263,70 @@ export function TownCanvas({
     if (reduced.current) drawRef.current();
   }, [model, quiet, size, version]);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden />;
+  // 道を引く・消すときの、指(マウス)の動き。押したまま動かした道すじを、離したときにまとめて渡す
+  const drawing = roads !== null && roads.tool !== "move";
+
+  function tileOf(e: PointerEvent<HTMLCanvasElement>): Tile | null {
+    const canvas = canvasRef.current;
+    const r = roadsRef.current;
+    if (!canvas || !r) return null;
+    const [x, y] = tileAt({ x: e.clientX, y: e.clientY }, canvas.getBoundingClientRect(), modelRef.current.vb);
+    // 地図の外は、いちばん近いマスに収める(遠くへ引いても、細長い線が飛ばないように)
+    return [Math.min(Math.max(x, 0), r.width - 1), Math.min(Math.max(y, 0), r.height - 1)];
+  }
+
+  function redrawNow() {
+    if (reduced.current) drawRef.current();
+  }
+
+  function onPointerDown(e: PointerEvent<HTMLCanvasElement>) {
+    if (!drawing || (e.pointerType === "mouse" && e.button !== 0)) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const t = tileOf(e);
+    stroke.current = { tiles: t ? [t] : [], last: t, active: true, hover: t };
+    redrawNow();
+  }
+
+  function onPointerMove(e: PointerEvent<HTMLCanvasElement>) {
+    if (!drawing) return;
+    const t = tileOf(e);
+    const s = stroke.current;
+    s.hover = t;
+    if (s.active && t && s.last && (t[0] !== s.last[0] || t[1] !== s.last[1])) {
+      const known = new Set(s.tiles.map(([x, y]) => `${x},${y}`));
+      for (const tile of strokeTiles(s.last, t).slice(1)) if (!known.has(`${tile[0]},${tile[1]}`)) s.tiles.push(tile);
+      s.last = t;
+    }
+    redrawNow();
+  }
+
+  function onPointerUp(e: PointerEvent<HTMLCanvasElement>) {
+    const s = stroke.current;
+    if (!s.active) return;
+    const tiles = s.tiles;
+    stroke.current = { tiles: [], last: null, active: false, hover: tileOf(e) };
+    redrawNow();
+    roadsRef.current?.onStroke(tiles);
+  }
+
+  function onPointerCancel() {
+    stroke.current = { tiles: [], last: null, active: false, hover: null };
+    redrawNow();
+  }
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 h-full w-full"
+      style={drawing ? { touchAction: "none", cursor: "crosshair" } : undefined}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerCancel}
+      onPointerLeave={() => {
+        stroke.current.hover = null;
+      }}
+      aria-hidden
+    />
+  );
 }

@@ -140,6 +140,9 @@ return [
     | レベルでどこまで開いているかだけ。目印・道がどの区画のものかは座標で決まる。目印と道のマスには置けない。
     */
 
+    // 自分で引ける道(docs/design/2026-10-19-town-roads-design.md)。max は引ける数の上限(マス)
+    'roads' => ['max' => 300],
+
     'land' => [
         'plots' => [
             ['key' => 'town', 'name' => 'はじまりの町', 'x' => 0, 'y' => 0, 'w' => 7, 'h' => 7, 'min_level' => 1, 'ground' => 'grass'],

@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Models\UserProfile;
+
 /**
  * 土地(docs/design/2026-09-27-spru-wave-e-design.md 3-1)。形は全員同じで設定ファイルに持ち、
  * 人によって違うのは、レベルでどこまで開いているかだけ。
@@ -133,17 +135,21 @@ class WorldLand
     }
 
     /** 町のAPIに出す土地。区画は雲の区画も含めてすべて、目印・道・置けないマスは開いた区画のものだけ */
-    public static function toArray(int $level): array
+    public static function toArray(int $level, ?UserProfile $profile = null): array
     {
         $open = fn (int $x, int $y) => self::isOpen($x, $y, $level);
+        // 自分で引いた道は、もとの道と同じに、paths と blocked(置けない)に入れる。引いた道だけの一覧は custom_paths
+        $custom = $profile ? array_values(array_filter(WorldRoads::tiles($profile), fn (array $t) => $open($t[0], $t[1]))) : [];
 
         return [
             'width' => self::width(),
             'height' => self::height(),
             'plots' => array_map(fn (array $plot) => [...$plot, 'unlocked' => $level >= $plot['min_level']], self::plots()),
             'landmarks' => array_values(array_filter(self::landmarks(), fn (array $l) => $open($l['x'], $l['y']))),
-            'paths' => array_values(array_filter(self::paths(), fn (array $t) => $open($t[0], $t[1]))),
-            'blocked' => array_values(array_filter(self::blocked(), fn (array $t) => $open($t[0], $t[1]))),
+            'paths' => [...array_values(array_filter(self::paths(), fn (array $t) => $open($t[0], $t[1]))), ...$custom],
+            'custom_paths' => $custom,
+            'roads_max' => (int) config('world.roads.max'),
+            'blocked' => [...array_values(array_filter(self::blocked(), fn (array $t) => $open($t[0], $t[1]))), ...$custom],
             'water' => self::water(),
             'spru' => config('world.land.spru'),
         ];

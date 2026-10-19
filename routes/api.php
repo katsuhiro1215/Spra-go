@@ -68,6 +68,7 @@ use App\Support\Travel;
 use App\Support\Words;
 use App\Support\WorldLand;
 use App\Support\WorldPlacement;
+use App\Support\WorldRoads;
 use App\Support\Zukan;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
@@ -1607,6 +1608,24 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
         return ['road_style' => Travel::roadStyle($profile)];
     })->name('road');
 
+    // 自分で道を引く・消す(docs/design/2026-10-19-town-roads-design.md 4章)。全部通るか、全部通らないか
+    Route::post('/roads', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $data = $request->validate([
+            'add' => ['array', 'max:100'],
+            'add.*' => ['array', 'size:2'],
+            'add.*.*' => ['integer'],
+            'remove' => ['array', 'max:100'],
+            'remove.*' => ['array', 'size:2'],
+            'remove.*.*' => ['integer'],
+        ]);
+        $add = array_map('array_values', $data['add'] ?? []);
+        $remove = array_map('array_values', $data['remove'] ?? []);
+        abort_if($add === [] && $remove === [], 422, '引く道も、消す道もないよ。');
+
+        return ['custom_paths' => WorldRoads::apply($profile, $add, $remove)];
+    })->name('roads');
+
     Route::get('/', function (Request $request) {
         $profile = ActiveProfile::require($request);
         $profile->regenerateHp();
@@ -1623,7 +1642,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
         $items = $profile->worldItems()->with('shopItem')->orderBy('id')->get();
 
         return [
-            'land' => WorldLand::toArray($profile->level),
+            'land' => WorldLand::toArray($profile->level, $profile),
             'road_style' => Travel::roadStyle($profile),
             'items' => $items->filter->isPlaced()->values()->map->toWorldArray(),
             'bag' => $items->reject->isPlaced()->values()->map->toWorldArray(),

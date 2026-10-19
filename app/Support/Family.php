@@ -61,7 +61,7 @@ class Family
 
         return [
             'profile' => ['id' => $other->id, 'name' => $other->name, 'level' => $other->level],
-            'land' => WorldLand::toArray($other->level),
+            'land' => WorldLand::toArray($other->level, $other),
             'road_style' => Travel::roadStyle($other),
             'items' => $other->worldItems()->with('shopItem')->whereNotNull('x')->whereNotNull('y')->orderBy('id')->get()
                 ->map->toWorldArray()->values()->all(),
