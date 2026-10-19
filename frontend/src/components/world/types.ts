@@ -50,7 +50,12 @@ export type WorldLand = {
   plots: WorldPlot[];
   /** landmarks・paths・blocked は開いている区画のものだけ */
   landmarks: Landmark[];
+  /** もとの道 + 自分で引いた道 */
   paths: Tile[];
+  /** 自分で引いた道だけ(消せる道。docs/design/2026-10-19-town-roads-design.md) */
+  custom_paths?: Tile[];
+  /** 引ける数の上限(マス) */
+  roads_max?: number;
   blocked: Tile[];
   /** 海のマス(陸の四隅を欠いた海岸線。地図の外と同じで、開いた区画の中でも陸ではない) */
   water?: Tile[];

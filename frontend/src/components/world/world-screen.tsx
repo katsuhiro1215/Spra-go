@@ -72,6 +72,22 @@ import type {
 import { WelcomeGift } from "./welcome-gift";
 import { WorldHud } from "./world-hud";
 import { WorldScene } from "./world-scene";
+import type { RoadControls } from "./canvas/town-canvas";
+import { sendRoads } from "./roads/road-api";
+import {
+  applyEdit,
+  canDrawAt,
+  canEraseAt,
+  diffStroke,
+  emptyHistory,
+  isEmptyEdit,
+  recordEdit,
+  redoEdit,
+  undoEdit,
+  withCustomRoads,
+  type Edit,
+} from "./roads/road-edit";
+import { RoadToolbar, type RoadMode } from "./roads/road-toolbar";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 
 const WELCOME_AMOUNT = 100;
@@ -94,6 +110,12 @@ export function WorldScreen() {
   const [selected, setSelected] = useState<WorldItem | null>(null);
   const [poppedItemId, setPoppedItemId] = useState<number | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  // 道をつくる道具(docs/design/2026-10-19-town-roads-design.md)。null は、道具を出していない
+  const [roadMode, setRoadMode] = useState<RoadMode | null>(null);
+  const [roadHistory, setRoadHistory] = useState(emptyHistory);
+  // 道をつくる間の短いお知らせ(上の赤い帯だと、地図がずれて引きにくいので、道具の上に出す)
+  const [roadNote, setRoadNote] = useState<string | null>(null);
+  const roadQueue = useRef<Promise<void>>(Promise.resolve());
   const { profile: sharedProfile, applyPartial, refresh: refreshProfile } = useProfile();
   const [world, setWorld] = useState<WorldData | null>(null);
   const [shop, setShop] = useState<ShopListItem[]>([]);
@@ -570,6 +592,78 @@ export function WorldScreen() {
     }
   }
 
+  // 道を引く・消す: 画面にすぐ反映し、サーバーへは順番に送る(送っている間に次を送らない)。失敗したら、サーバーの道に戻す
+  function commitRoadEdit(edit: Edit) {
+    if (!world || isEmptyEdit(edit)) return;
+    setWorld((prev) => (prev ? { ...prev, land: withCustomRoads(prev.land, applyEdit(prev.land.custom_paths ?? [], edit)) } : prev));
+    roadQueue.current = roadQueue.current.then(async () => {
+      const result = await sendRoads(edit);
+      if (result.ok) {
+        setWorld((prev) => (prev ? { ...prev, land: withCustomRoads(prev.land, result.custom) } : prev));
+        return;
+      }
+      setRoadNote(result.message);
+      setEvent({ kind: "error", at: Date.now() });
+      setRoadHistory(emptyHistory());
+      const res = await apiFetch("/api/world").catch(() => null);
+      if (res?.ok) {
+        const fresh = (await res.json()) as WorldData;
+        setWorld((prev) => (prev ? { ...prev, land: fresh.land } : prev));
+      }
+    });
+  }
+
+  function handleRoadStroke(tiles: [number, number][]) {
+    if (!world || (roadMode !== "draw" && roadMode !== "erase")) return;
+    const edit = diffStroke(roadMode, tiles, world.land, world.items);
+    if (isEmptyEdit(edit)) {
+      if (tiles.length > 0) setRoadNote(roadMode === "draw" ? "ここには、道をひけないよ。" : "ここには、消せる道がないよ。");
+      return;
+    }
+    setRoadNote(null);
+    setRoadHistory((history) => recordEdit(history, edit));
+    commitRoadEdit(edit);
+  }
+
+  function undoRoad() {
+    const undone = undoEdit(roadHistory);
+    if (!undone) return;
+    setRoadHistory(undone.history);
+    commitRoadEdit(undone.edit);
+  }
+
+  function redoRoad() {
+    const redone = redoEdit(roadHistory);
+    if (!redone) return;
+    setRoadHistory(redone.history);
+    commitRoadEdit(redone.edit);
+  }
+
+  useEffect(() => {
+    if (!roadNote) return;
+    const timer = setTimeout(() => setRoadNote(null), 2600);
+    return () => clearTimeout(timer);
+  }, [roadNote]);
+
+  function openRoadTools() {
+    setSelected(null);
+    setMessage(null);
+    setRoadNote(null);
+    setRoadHistory(emptyHistory());
+    setRoadMode("draw");
+  }
+
+  const roadControls: RoadControls | null =
+    world && roadMode
+      ? {
+          tool: roadMode,
+          width: world.land.width,
+          height: world.land.height,
+          valid: (x, y) => (roadMode === "erase" ? canEraseAt(world.land, x, y) : canDrawAt(world.land, world.items, x, y)),
+          onStroke: handleRoadStroke,
+        }
+      : null;
+
   // 2×2の建物は、光るマスを押すと下見になり、［ここに建てる］で決まる(設計書3-4・5-3)
   function handleTileTap(x: number, y: number) {
     if (!placingItem) return;
@@ -706,7 +800,7 @@ export function WorldScreen() {
           <AutoFurigana text="日本 · はじまりの町" />
         </p>
 
-        {!placingItem && (
+        {!placingItem && !roadMode && (
           <TownButtons
             errands={world.errands}
             lively={lively}
@@ -714,11 +808,12 @@ export function WorldScreen() {
             onErrands={() => setErrandsOpen(true)}
             onLiveliness={() => setLivelinessOpen(true)}
             onRoster={openRoster}
+            onRoads={openRoadTools}
           />
         )}
 
         <div className="relative mt-2 px-1">
-          <TownMap land={world.land} focus={focus} dim={TIME_THEME[timeOfDay].dimObjects}>
+          <TownMap land={world.land} focus={focus} dim={TIME_THEME[timeOfDay].dimObjects} lockScroll={roadMode === "draw" || roadMode === "erase"}>
             <WorldScene
               land={world.land}
               roadStyle={world.road_style}
@@ -743,6 +838,7 @@ export function WorldScreen() {
               onCloudTap={handleCloudTap}
               veil={veil}
               preview={preview && placingItem ? { ...preview, item: placingItem } : null}
+              roads={roadControls}
             />
           </TownMap>
           {/* 空の飾りは地図と一緒に動かさず、見えている枠の上に重ねる(設計書3-3) */}
@@ -750,7 +846,7 @@ export function WorldScreen() {
           <Ambience timeOfDay={timeOfDay} season={townSeason} />
         </div>
 
-        {!placingItem && (
+        {!placingItem && !roadMode && (
           <Link
             href={continueHref}
             className="mx-auto mt-4 flex h-[52px] items-center gap-2 rounded-full bg-[#3b7f26] pr-6 pl-3 text-base font-black text-white shadow-[0_5px_0_#285a19,0_10px_18px_rgba(40,90,25,0.28)]"
@@ -760,6 +856,19 @@ export function WorldScreen() {
           </Link>
         )}
       </div>
+
+      {roadMode && (
+        <RoadToolbar
+          mode={roadMode}
+          canUndo={roadHistory.past.length > 0}
+          canRedo={roadHistory.future.length > 0}
+          onMode={setRoadMode}
+          onUndo={undoRoad}
+          onRedo={redoRoad}
+          onDone={() => setRoadMode(null)}
+          note={roadNote}
+        />
+      )}
 
       <BottomNav />
 

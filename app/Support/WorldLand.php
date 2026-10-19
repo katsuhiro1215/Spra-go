@@ -148,6 +148,7 @@ class WorldLand
             'landmarks' => array_values(array_filter(self::landmarks(), fn (array $l) => $open($l['x'], $l['y']))),
             'paths' => [...array_values(array_filter(self::paths(), fn (array $t) => $open($t[0], $t[1]))), ...$custom],
             'custom_paths' => $custom,
+            'roads_max' => (int) config('world.roads.max'),
             'blocked' => [...array_values(array_filter(self::blocked(), fn (array $t) => $open($t[0], $t[1]))), ...$custom],
             'water' => self::water(),
             'spru' => config('world.land.spru'),

@@ -19,8 +19,11 @@ export function TownMap({
   land,
   focus,
   dim = false,
+  lockScroll = false,
   children,
 }: {
+  /** 道を引いている間は、マウスのドラッグで地図を動かさない(引くのに使うので) */
+  lockScroll?: boolean;
   land: WorldLand;
   /** 夜は海を暗くする */
   dim?: boolean;
@@ -101,7 +104,7 @@ export function TownMap({
       pinch.current.distance = 0;
     }
     const el = scrollRef.current;
-    if (e.pointerType !== "mouse" || e.button !== 0 || !el) return;
+    if (lockScroll || e.pointerType !== "mouse" || e.button !== 0 || !el) return;
     drag.current = { x: e.clientX, y: e.clientY, left: el.scrollLeft, top: el.scrollTop, moved: false };
   }
 
