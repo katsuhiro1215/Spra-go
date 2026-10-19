@@ -5,7 +5,7 @@ import { SPRU_IMAGES } from "@/components/spru/spru-assets";
 import { footprintCenter, depthTile } from "../land";
 import { imagePlacement } from "../item-image";
 import type { WorldCompanion, WorldGarden, WorldItem, WorldLand } from "../types";
-import { buildSceneModel, type SceneInput } from "./scene-model";
+import { buildSceneModel, CLIFF_SRC, groundSignature, modelSources, type SceneInput } from "./scene-model";
 
 /** docs/design/2026-10-19-town-canvas-design.md 5章・7章。SVG版(world-scene.tsx)と同じ計算になること */
 
@@ -221,5 +221,31 @@ describe("仲間とスプル", () => {
     const model = buildSceneModel(input());
     const s = model.objects.find((o) => o.kind === "spru");
     expect(s && s.kind === "spru" && Math.round(s.height)).toBe(Math.round((SPRU_IMAGES.front.height * 58) / 208));
+  });
+});
+
+describe("読み込む画像の一覧", () => {
+  it("崖・地面・道・小物・アイテム・スプルの絵を、重なりなく挙げる", () => {
+    const model = buildSceneModel(input({ items: [item(1, "tree", 2, 0), item(2, "tree", 1, 0)] }));
+    const srcs = modelSources(model);
+    expect(new Set(srcs).size).toBe(srcs.length);
+    expect(srcs).toContain(CLIFF_SRC);
+    expect(srcs).toContain("/spru/items/tree.webp");
+    expect(srcs).toContain(SPRU_IMAGES.front.src);
+    for (const plot of model.ground.plots) expect(srcs).toContain(plot.art.src);
+  });
+});
+
+describe("動かない層の鍵", () => {
+  it("スプルの言葉・畑の水やりなど、地面に関わらない変化では変わらない", () => {
+    const a = groundSignature(input());
+    expect(groundSignature(input({ garden: { ...garden, can_water: true }, bloom: "flower" }))).toBe(a);
+  });
+
+  it("アイテムを置く・動かす、道の絵、夜になる、で変わる", () => {
+    const a = groundSignature(input());
+    expect(groundSignature(input({ items: [item(1, "tree", 2, 2)] }))).not.toBe(a);
+    expect(groundSignature(input({ roadStyle: "us" }))).not.toBe(a);
+    expect(groundSignature(input({ theme: night }))).not.toBe(a);
   });
 });

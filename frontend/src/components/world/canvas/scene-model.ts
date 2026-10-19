@@ -94,7 +94,7 @@ export type GroundModel = {
   edgesLeft: { sx: number; sy: number }[];
   edgesRight: { sx: number; sy: number }[];
   /** 地面の絵がある開いた区画(1つの菱形で塗る) */
-  plots: { key: string; ground: Ground; points: Pt[] }[];
+  plots: { key: string; ground: Ground; points: Pt[]; art: { src: string; size: number } }[];
   /** 絵のない地面の市松 */
   checker: { x: number; y: number; color: string }[];
   pathTiles: Tile[];
@@ -225,7 +225,12 @@ export function buildSceneModel(input: SceneInput): SceneModel {
     shorePath: openTilesPath(land, 32),
     edgesLeft: edges.left.map(([x, y]) => tileCenter(x, y)),
     edgesRight: edges.right.map(([x, y]) => tileCenter(x, y)),
-    plots: artPlots.map((plot) => ({ key: plot.key, ground: plot.ground, points: parsePoints(plotPoints(plot)) })),
+    plots: artPlots.map((plot) => ({
+      key: plot.key,
+      ground: plot.ground,
+      points: parsePoints(plotPoints(plot)),
+      art: { src: GROUND_ART[plot.ground]!.src, size: GROUND_ART[plot.ground]!.size },
+    })),
     checker,
     pathTiles,
     road: road ? { src: road.art.src, size: road.art.size } : null,
@@ -348,4 +353,48 @@ export function buildSceneModel(input: SceneInput): SceneModel {
         : null,
     sleepMark: spru.sleeping && houseCenter ? { sx: houseCenter.sx + 14, sy: houseCenter.sy - 86 } : null,
   };
+}
+
+/** 崖の岩肌の絵 */
+export const CLIFF_SRC = "/town/cliff.webp";
+
+/** この町を描くのに要る画像(読み込む物)。重なりなし */
+export function modelSources(model: SceneModel): string[] {
+  const srcs = new Set<string>([CLIFF_SRC]);
+  for (const plot of model.ground.plots) srcs.add(plot.art.src);
+  if (model.ground.road) srcs.add(model.ground.road.src);
+  for (const layer of model.ground.blend) if (layer.art) srcs.add(layer.art.src);
+  for (const decal of model.ground.decals) srcs.add(GROUND_DECALS[decal.kind].src);
+  for (const o of model.objects) {
+    if (o.kind === "landmark") {
+      if (o.image) srcs.add(o.image.src);
+      if (o.garden?.plant) srcs.add(o.garden.plant.src);
+    } else if (o.kind === "item") {
+      if (o.image) srcs.add(o.image.src);
+    } else if (o.kind === "spru") {
+      srcs.add(o.src);
+      if (o.bloom) srcs.add(o.bloom.src);
+    } else {
+      srcs.add(o.src);
+    }
+  }
+  if (model.preview?.item.image) srcs.add(model.preview.item.image.src);
+  // 絵のない「スプルの花」は、花の絵を重ねて描く
+  const flower = model.objects.some((o) => o.kind === "item" && o.fallback === "flower") || model.preview?.item.fallback === "flower";
+  if (flower) srcs.add(SPRU_BLOOM.flower.src);
+  return [...srcs];
+}
+
+/**
+ * 動かない層(地面・崖・道・小物など)が変わるかを調べる鍵。同じなら、保存した層を使い回す。
+ * アイテム・仲間・スプルの位置は、小物や林・花畑の置き場所を変えるので含める
+ */
+export function groundSignature(input: SceneInput): string {
+  return JSON.stringify([
+    input.land,
+    input.items.map((i) => [i.id, i.x, i.y, i.footprint, i.asset_key]),
+    input.companions.filter(isPlacedCompanion).map((c) => [c.key, c.x, c.y]),
+    input.roadStyle,
+    input.theme,
+  ]);
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { bloomRect, type Bloom } from "@/components/spru/bloom";
@@ -15,6 +15,8 @@ import {
 import { SpruFace } from "@/components/spru/spru-figure";
 
 import { TIME_THEME } from "./ambience";
+import { buildSceneModel, groundSignature, type SceneInput } from "./canvas/scene-model";
+import { TownCanvas } from "./canvas/town-canvas";
 import { roadArt, roadEdge } from "@/components/travel/road";
 
 import { GROUND_ART, GROUND_DECALS, type GroundArtKey } from "./ground-art";
@@ -135,6 +137,24 @@ function Clouds({ plot, area, className }: { plot: WorldPlot; area: string; clas
   );
 }
 
+// 開発中の切り替え: URLに ?canvas=1 を付けると、町の絵をCanvasで描く(?canvas=0 で戻す)。
+// 置く画面などでURLが書き換わっても続くよう、この端末に覚える(docs/design/2026-10-19-town-canvas-design.md 4章。切り替えが終わったら消す)
+const CANVAS_FLAG = "town-canvas";
+const noopSubscribe = () => () => {};
+function readCanvasFlag(): boolean {
+  try {
+    const param = new URLSearchParams(window.location.search).get("canvas");
+    if (param === "1") window.localStorage.setItem(CANVAS_FLAG, "1");
+    if (param === "0") window.localStorage.removeItem(CANVAS_FLAG);
+    return window.localStorage.getItem(CANVAS_FLAG) === "1";
+  } catch {
+    return false;
+  }
+}
+function useCanvasMode(): boolean {
+  return useSyncExternalStore(noopSubscribe, readCanvasFlag, () => false);
+}
+
 export function WorldScene({
   land,
   items,
@@ -189,6 +209,10 @@ export function WorldScene({
   roadStyle?: string;
 }) {
   const theme = TIME_THEME[timeOfDay];
+  const canvasMode = useCanvasMode();
+  const sceneInput: SceneInput | null = canvasMode
+    ? { land, items, companions, garden, spru, bloom, theme, roadStyle, validTiles, placing, preview, veil, reviewGiver }
+    : null;
   // 夜は物を少し暗くする(明かりは暗くしない)
   const artStyle = theme.dimObjects ? { filter: "brightness(0.78) saturate(0.85)" } : undefined;
   const vb = sceneViewBox(land.width, land.height);
@@ -381,6 +405,17 @@ export function WorldScene({
 
   return (
     <div className="relative w-full" style={{ aspectRatio: `${vb.width} / ${vb.height}` }}>
+      {sceneInput ? (
+        <TownCanvas
+          model={buildSceneModel(sceneInput)}
+          groundKey={groundSignature(sceneInput)}
+          quiet={quiet}
+          poppedItemId={poppedItemId}
+          spruImage={spru.image}
+          companionTalk={companionTalk}
+          veilFading={veil?.fading ?? false}
+        />
+      ) : (
       <svg viewBox={`${vb.x} ${vb.y} ${vb.width} ${vb.height}`} className="absolute inset-0 h-full w-full" aria-hidden>
         <defs>
           {artKeys.map((key) => {
@@ -668,6 +703,7 @@ export function WorldScene({
           <Clouds key={`veil-${plot.key}`} plot={plot} area={cloudArea(land, plot)} className={veil?.fading ? "animate-cloud-clear" : undefined} />
         ))}
       </svg>
+      )}
 
       {placing &&
         [...validTiles].map((key) => {
