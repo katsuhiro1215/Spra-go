@@ -128,16 +128,17 @@ it('家族の町の土地は、見に行った人ではなくその人のレベ�
     expect($plots)->toBe(['town' => true, 'bamboo' => true, 'beach' => true, 'hill' => false, 'river' => false, 'plateau' => false, 'island' => false]);
 });
 
-it('Spruの家は2×2。(1,1)から4マスが置けないマスで、畑は家の左隣(0,2)、道は動かない', function () {
+it('畑は、十字の道(x=3・y=3)に面した(2,2)。Spruの家は2×2で、畑の左側(0,1)から4マス。道は動かない', function () {
     createActiveProfile();
 
     $land = $this->getJson('/api/world')->assertOk()->json('land');
 
-    expect(collect($land['landmarks'])->firstWhere('key', 'spru_house'))->toBe(['key' => 'spru_house', 'x' => 1, 'y' => 1, 'footprint' => 2])
-        ->and(collect($land['landmarks'])->firstWhere('key', 'garden'))->toBe(['key' => 'garden', 'x' => 0, 'y' => 2])
-        ->and($land['blocked'])->toContain([1, 1])->toContain([2, 1])->toContain([1, 2])->toContain([2, 2])->toContain([0, 2])
-        ->and($land['paths'])->toContain([3, 1])->toContain([3, 2])->toContain([0, 3])->toContain([1, 3])->toContain([2, 3])
-        ->and($land['paths'])->not->toContain([0, 2])
+    expect(collect($land['landmarks'])->firstWhere('key', 'spru_house'))->toBe(['key' => 'spru_house', 'x' => 0, 'y' => 1, 'footprint' => 2])
+        ->and(collect($land['landmarks'])->firstWhere('key', 'garden'))->toBe(['key' => 'garden', 'x' => 2, 'y' => 2])
+        ->and($land['blocked'])->toContain([0, 1])->toContain([1, 1])->toContain([0, 2])->toContain([1, 2])->toContain([2, 2])
+        ->and($land['blocked'])->not->toContain([2, 1]) // 家のとなりの、あいたマス
+        ->and($land['paths'])->toContain([3, 1])->toContain([3, 2])->toContain([2, 3])->toContain([3, 3])
+        ->and($land['paths'])->not->toContain([2, 2]) // 畑の両わき(右(3,2)・手前(2,3))が、十字の道
         ->and($land['spru'])->toBe(['x' => 4, 'y' => 3]);
 });
 

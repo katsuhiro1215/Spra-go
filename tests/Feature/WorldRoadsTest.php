@@ -143,3 +143,18 @@ it('開いた区画(竹林)にも、レベルが足りれば引ける', function
 
     postRoads($this, [[8, 2]])->assertOk()->assertJsonPath('custom_paths', [[8, 2]]);
 });
+
+it('町の目印が動いて、引いた道が目印のマスにかかったら、world:repair が引いた道を消す(置き物と同じ。何度流しても同じ)', function () {
+    $profile = createActiveProfile();
+    postRoads($this, [[5, 5]])->assertOk();
+    // いまは目印のマス(家(0,1)・畑(2,2))に、引いた道が残っている状態をつくる
+    ProfileRoad::create(['user_profile_id' => $profile->id, 'x' => 0, 'y' => 1]);
+    ProfileRoad::create(['user_profile_id' => $profile->id, 'x' => 2, 'y' => 2]);
+
+    $dry = \App\Support\WorldRepair::roads(true);
+    expect($dry[$profile->id])->toBe([[0, 1], [2, 2]])->and(ProfileRoad::count())->toBe(3);
+
+    \App\Support\WorldRepair::roads();
+    expect(ProfileRoad::query()->pluck('x', 'y')->all())->toBe([5 => 5])
+        ->and(\App\Support\WorldRepair::roads())->toBe([]);
+});

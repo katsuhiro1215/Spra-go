@@ -35,7 +35,7 @@ it('家のマス・畑のマス・道のマスにある物は、バッグに戻�
     $this->artisan('world:repair')->assertSuccessful();
 
     expect(isPlacedNow($item))->toBeFalse();
-})->with(['家の右' => [2, 1], '家の手前' => [2, 2], '畑' => [0, 2], '道' => [3, 2]]);
+})->with(['家の右' => [1, 1], '家の手前' => [1, 2], '畑' => [2, 2], '道' => [3, 2]]);
 
 it('雲に隠れた区画・地図の外にある物は、バッグに戻る', function () {
     $profile = createActiveProfile();
@@ -51,7 +51,7 @@ it('置ける物は動かさない。バッグの中の物もそのまま。2回
     $profile = createActiveProfile();
     $kept = createPlacedBench($profile, 5, 5);
     $bag = createBuilding($profile, 'fountain');
-    createPlacedBench($profile, 2, 2); // 家の下にある
+    createPlacedBench($profile, 1, 2); // 家の下にある
 
     $this->artisan('world:repair')->expectsOutputToContain('1個')->assertSuccessful();
     $this->artisan('world:repair')->expectsOutputToContain('0個')->assertSuccessful();
@@ -63,7 +63,7 @@ it('置ける物は動かさない。バッグの中の物もそのまま。2回
 
 it('--dry-run は、戻す物を出すだけで、何も変えない', function () {
     $profile = createActiveProfile();
-    $item = createPlacedBench($profile, 2, 1);
+    $item = createPlacedBench($profile, 1, 1);
 
     $this->artisan('world:repair', ['--dry-run' => true])->expectsOutputToContain('1個')->assertSuccessful();
 
