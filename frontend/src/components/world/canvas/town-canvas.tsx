@@ -62,8 +62,11 @@ export function TownCanvas({
   companionTalk,
   veilFading,
   roads = null,
+  onTileClick,
 }: {
   roads?: RoadControls | null;
+  /** 何もないマスをタップしたとき(Spruを歩かせる)。道具が出ているときは呼ばない */
+  onTileClick?: (x: number, y: number) => void;
   model: SceneModel;
   /** 動かない層が変わるかの鍵(scene-model.ts の groundSignature) */
   groundKey: string;
@@ -323,6 +326,11 @@ export function TownCanvas({
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
+      onClick={(e) => {
+        if (!onTileClick || drawing || !canvasRef.current) return;
+        const [x, y] = tileAt({ x: e.clientX, y: e.clientY }, canvasRef.current.getBoundingClientRect(), modelRef.current.vb);
+        onTileClick(x, y);
+      }}
       onPointerLeave={() => {
         stroke.current.hover = null;
       }}

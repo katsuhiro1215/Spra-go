@@ -5,7 +5,7 @@ import { SPRU_IMAGES } from "@/components/spru/spru-assets";
 import { footprintCenter, depthTile } from "../land";
 import { imagePlacement } from "../item-image";
 import type { WorldCompanion, WorldGarden, WorldItem, WorldLand } from "../types";
-import { buildSceneModel, CLIFF_SRC, groundSignature, modelSources, type SceneInput } from "./scene-model";
+import { buildGroundModel, buildSceneModel, CLIFF_SRC, groundSignature, modelSources, type SceneInput } from "./scene-model";
 
 /** docs/design/2026-10-19-town-canvas-design.md 5章・7章。SVG版(world-scene.tsx)と同じ計算になること */
 
@@ -248,5 +248,31 @@ describe("動かない層の鍵", () => {
     expect(groundSignature(input({ items: [item(1, "tree", 2, 2)] }))).not.toBe(a);
     expect(groundSignature(input({ roadStyle: "us" }))).not.toBe(a);
     expect(groundSignature(input({ theme: night }))).not.toBe(a);
+  });
+});
+
+describe("歩くスプル", () => {
+  it("歩いている間は、小数のマスの位置で、重なり順に入り、向きの3コマの絵を持つ", () => {
+    const model = buildSceneModel(input({ walker: { x: 1.5, y: 3, dir: "lower_right", walking: true } }));
+    const s = model.objects.find((o) => o.kind === "spru");
+    expect(s && s.kind === "spru" && [s.x, s.y]).toEqual([1.5, 3]);
+    expect(s && s.kind === "spru" && s.walk?.frames.step_l).toBe("/spru/walk/lower_right_step_l.webp");
+    expect(s && s.kind === "spru" && s.bloom).toBeNull(); // 歩く絵には、つぼみ・花の位置がない
+  });
+
+  it("立っているときは、いつもの場所と立ち姿(歩く絵なし)", () => {
+    const standing = buildSceneModel(input({ walker: { x: 2, y: 2, dir: "lower_left", walking: false } }));
+    const s = standing.objects.find((o) => o.kind === "spru");
+    expect(s && s.kind === "spru" && s.walk).toBeNull();
+    const none = buildSceneModel(input()).objects.find((o) => o.kind === "spru");
+    expect(none && none.kind === "spru" && [none.x, none.y]).toEqual([3, 3]);
+  });
+
+  it("歩く絵12枚は、先に読み込む。地面は、スプルの位置が変わっても同じ物を使い回せる", () => {
+    const model = buildSceneModel(input());
+    expect(modelSources(model).filter((src) => src.startsWith("/spru/walk/"))).toHaveLength(12);
+    const ground = buildGroundModel(input());
+    const a = buildSceneModel(input({ walker: { x: 1, y: 1, dir: "lower_left", walking: true } }), ground);
+    expect(a.ground).toBe(ground);
   });
 });
