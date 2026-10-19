@@ -495,7 +495,7 @@ describe("タネの波", () => {
     }
     expect(total).toBeGreaterThan(100);
     expect(taken).toBeGreaterThan(total * 0.6);
-  });
+  }, 60_000); // 重い計算。全体を並列で流すと5秒をこえることがある
 });
 
 
@@ -798,5 +798,5 @@ describe("ゆっくりスタートでも、どの障害物も、跳ぶタイミ�
       }
     }
     expect(worst).toBeLessThan(MAX_SEED_VALUE_PER_SEC);
-  });
+  }, 60_000); // 重い計算。全体を並列で流すと5秒をこえることがある
 });
