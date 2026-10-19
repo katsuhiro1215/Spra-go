@@ -256,6 +256,12 @@ class UserProfile extends Model
         return $this->hasMany(ProfileWorldItem::class);
     }
 
+    /** 自分で引いた町の道(docs/design/2026-10-19-town-roads-design.md) */
+    public function roads(): HasMany
+    {
+        return $this->hasMany(ProfileRoad::class);
+    }
+
     public function seeds(): HasMany
     {
         return $this->hasMany(ProfileSeed::class);

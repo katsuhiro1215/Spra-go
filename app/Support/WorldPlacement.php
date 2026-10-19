@@ -40,6 +40,10 @@ class WorldPlacement
             abort_if(WorldLand::isBlocked($tx, $ty), 422, 'そこには置けません。');
         }
 
+        foreach ($tiles as [$tx, $ty]) {
+            abort_if(WorldRoads::has($profile, $tx, $ty), 422, 'そこには、あなたの引いた道があるよ。');
+        }
+
         $occupied = self::occupied($profile, $item->id);
         foreach ($tiles as [$tx, $ty]) {
             abort_if(isset($occupied["{$tx},{$ty}"]), 422, 'そこにはもう置いてあります。');
@@ -47,7 +51,7 @@ class WorldPlacement
     }
 
     /** @return array<string, true> 自分以外の置いたアイテムが使っているマス */
-    private static function occupied(UserProfile $profile, int $exceptId): array
+    public static function occupied(UserProfile $profile, int $exceptId): array
     {
         $occupied = [];
         $others = $profile->worldItems()->with('shopItem')
