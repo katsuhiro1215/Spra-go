@@ -199,7 +199,7 @@ export const SPRU_ITEMS = {
   "sunflower": { src: "/spru/items/sunflower.webp", width: 166, height: 194 },
   "bush": { src: "/spru/items/bush.webp", width: 160, height: 153 },
   "flower_pots": { src: "/spru/items/flower_pots.webp", width: 170, height: 148 },
-  "spru_house": { src: "/spru/items/spru_house.webp", width: 320, height: 344 },
+  "spru_house": { src: "/spru/items/spru_house.webp", width: 307, height: 350 },
   "torii": { src: "/spru/items/torii.webp", width: 205, height: 220 },
   "tree": { src: "/spru/items/tree.webp", width: 214, height: 228 },
   "chochin": { src: "/spru/items/chochin.webp", width: 135, height: 191 },
