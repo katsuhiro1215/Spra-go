@@ -15,11 +15,9 @@ import { ArrivedCountryCard, LockedCountryCard } from "@/components/learn/countr
 import { learnSections, type LearnCountry } from "@/components/learn/country-cards";
 import { LockedCountrySheet } from "@/components/travel/locked-country";
 import { apiFetch } from "@/lib/api";
-import { listedGames, MINI_QUIZ_EMPTY, newGameNotices, readDismissed, writeDismissed, type MiniQuiz, type RolloutGame } from "@/lib/mini-app";
+import { daysLeft, limitedGame, listedGames, newGameNotices, readDismissed, todayJst, writeDismissed, type RolloutGame } from "@/lib/mini-app";
 
 type Status = "checking" | "ready";
-
-const tileVariants = ["primary", "secondary", "warning", "danger"] as const;
 
 // 国旗のカードの並び(docs/design/2026-09-29-learn-flag-cards-design.md 3-1)。スマホ2列・パソコン3列
 const CARD_GRID_CLASS = "grid grid-cols-2 gap-4 md:grid-cols-3";
@@ -27,11 +25,10 @@ const CARD_GRID_CLASS = "grid grid-cols-2 gap-4 md:grid-cols-3";
 export default function Page() {
   const router = useRouter();
   const [status, setStatus] = useState<Status>("checking");
-  const [miniQuizzes, setMiniQuizzes] = useState<MiniQuiz[] | null>(null);
   const [rolloutGames, setRolloutGames] = useState<RolloutGame[] | null>(null);
   const [dismissedGames, setDismissedGames] = useState<string[]>([]);
   const [countries, setCountries] = useState<LearnCountry[] | null>(null);
-  const [miniAppOpen, setMiniAppOpen] = useState(false);
+  const [today] = useState(() => todayJst());
   const [lockedCountry, setLockedCountry] = useState<LearnCountry | null>(null);
 
   useEffect(() => {
@@ -58,14 +55,9 @@ export default function Page() {
         setStatus("ready");
 
         setDismissedGames(readDismissed(typeof window === "undefined" ? null : window.localStorage));
-        const [miniQuizzesRes, countriesRes, gamesRes] = await Promise.all([
-          apiFetch("/api/mini-quizzes"),
-          apiFetch("/api/countries"),
-          apiFetch("/api/games"),
-        ]);
+        const [countriesRes, gamesRes] = await Promise.all([apiFetch("/api/countries"), apiFetch("/api/games")]);
         if (!active) return;
         setRolloutGames(gamesRes.ok ? await gamesRes.json() : []);
-        setMiniQuizzes(miniQuizzesRes.ok ? await miniQuizzesRes.json() : []);
         if (countriesRes.ok) {
           setCountries(await countriesRes.json());
         }
@@ -88,6 +80,8 @@ export default function Page() {
   const { arrived, notYet } = learnSections(countries ?? []);
   const games = listedGames(rolloutGames);
   const notices = newGameNotices(games, dismissedGames);
+  const event = limitedGame(games);
+  const eventLeft = event ? daysLeft(event.endsOn, today) : null;
   const dismissNotice = (key: string) => {
     const next = [...dismissedGames, key];
     setDismissedGames(next);
@@ -124,12 +118,36 @@ export default function Page() {
           <SkyText muted className="mt-1 text-sm">
             <AutoFurigana text="着いた国で学べるよ" />
           </SkyText>
-          <Link href="/words" className="mt-3 inline-block">
-            <AppButton variant="warning" size="sm" className="shadow">
-              📖 <AutoFurigana text="単語帳" />
-            </AppButton>
-          </Link>
+          <div className="mt-3 flex justify-center gap-3">
+            <Link href="/words">
+              <AppButton variant="warning" size="sm" className="shadow">
+                📖 <AutoFurigana text="単語帳" />
+              </AppButton>
+            </Link>
+            <Link href="/games" className="relative">
+              <AppButton variant="warning" size="sm" className="shadow">
+                🎮 <AutoFurigana text="ミニゲーム" />
+              </AppButton>
+              {notices.length > 0 && <span aria-hidden className="absolute -top-1 -right-1 size-3 rounded-full bg-[#d94a3a]" />}
+            </Link>
+          </div>
         </div>
+
+        {event && (
+          <Link href={event.href} className="w-full max-w-md">
+            <div className="flex flex-col items-center gap-1 rounded-3xl bg-[#fff3c4] px-4 py-4 text-center text-[#3b3226] shadow-[0_6px_16px_rgba(0,0,0,0.15)]">
+              <span className="rounded-full bg-white px-3 py-0.5 text-xs font-black text-[#7a5a12]">
+                <AutoFurigana text={eventLeft ? `期間限定　あと${eventLeft}日` : "期間限定"} />
+              </span>
+              <span className="text-xl font-black">
+                <AutoFurigana text={event.title} />
+              </span>
+              <span className="text-sm font-bold">
+                <AutoFurigana text={event.description} />
+              </span>
+            </div>
+          </Link>
+        )}
 
         {!countries ? (
           <SpruLoading />
@@ -171,93 +189,6 @@ export default function Page() {
           </div>
         )}
       </main>
-
-      {/* ミニアプリ: 右端タブから引き出すドロワー(メインのアプリ選択を邪魔しない) */}
-      <button
-        type="button"
-        onClick={() => setMiniAppOpen(true)}
-        aria-label="ミニアプリを開く"
-        className="fixed top-1/2 right-0 z-30 -translate-y-1/2 rounded-l-xl bg-[#fffaf0] px-2 py-3 text-[#3b3226] shadow-[0_4px_14px_rgba(59,50,38,0.2)] hover:bg-white"
-      >
-        ◀
-        {notices.length > 0 && <span aria-hidden className="absolute -top-1 -left-1 size-3 rounded-full bg-[#d94a3a]" />}
-      </button>
-
-      {miniAppOpen && (
-        <div className="fixed inset-0 z-40 flex justify-end">
-          <button
-            type="button"
-            aria-label="ミニアプリを閉じる"
-            onClick={() => setMiniAppOpen(false)}
-            className="flex-1 bg-[rgba(38,48,28,0.38)]"
-          />
-          <div className="flex w-72 max-w-[85vw] flex-col gap-3 overflow-y-auto bg-[#fffaf0] p-4 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-black text-[#3b3226]">ミニアプリ</h2>
-              <button
-                type="button"
-                onClick={() => setMiniAppOpen(false)}
-                aria-label="閉じる"
-                className="rounded-full p-1 text-[#6b5d45] hover:bg-[#f5efe1]"
-              >
-                ✕
-              </button>
-            </div>
-            {/* ミニゲーム(docs/design/2026-10-04-mini-app-tidy-design.md 5章)。ゲームを増やすときは lib/mini-app.ts の一覧に足す */}
-            <h3 className="text-xs font-black text-[#6b5d45]">ミニゲーム</h3>
-            {games.map((game) => (
-              <Link key={game.key} href={game.href} onClick={() => setMiniAppOpen(false)}>
-                <AppButton variant="warning" size="sm" className="h-auto w-full flex-col gap-0.5 py-2 shadow">
-                  {(game.new || game.featured || game.seasonal || game.limited) && (
-                    <span className="flex gap-1 text-[10px] font-black">
-                      {game.new && <span className="rounded-full bg-[#d94a3a] px-2 py-0.5 text-white">NEW</span>}
-                      {game.featured && (
-                        <span className="rounded-full bg-white px-2 py-0.5 text-[#3b3226]">
-                          <AutoFurigana text="今週のゲーム ごほうび1.5ばい" />
-                        </span>
-                      )}
-                      {game.limited && (
-                        <span className="rounded-full bg-white px-2 py-0.5 text-[#3b3226]">
-                          <AutoFurigana text="期間限定" />
-                        </span>
-                      )}
-                      {game.seasonal && (
-                        <span className="rounded-full bg-white px-2 py-0.5 text-[#3b3226]">
-                          <AutoFurigana text="きせつ" />
-                        </span>
-                      )}
-                    </span>
-                  )}
-                  <span>
-                    <AutoFurigana text={game.title} />
-                  </span>
-                  <span className="text-[11px] font-bold opacity-80">
-                    <AutoFurigana text={game.description} />
-                  </span>
-                </AppButton>
-              </Link>
-            ))}
-            <h3 className="text-xs font-black text-[#6b5d45]">ミニクイズ</h3>
-            {!miniQuizzes ? (
-              <p className="text-xs text-[#6b5d45]"><AutoFurigana text="読み込み中..." /></p>
-            ) : miniQuizzes.length === 0 ? (
-              <p className="text-xs text-[#6b5d45]">
-                <AutoFurigana text={MINI_QUIZ_EMPTY} />
-              </p>
-            ) : (
-              <div className="grid grid-cols-2 gap-2">
-                {miniQuizzes.map((quiz, index) => (
-                  <Link key={quiz.id} href={`/play/${quiz.id}`} onClick={() => setMiniAppOpen(false)}>
-                    <AppButton variant={tileVariants[index % tileVariants.length]} size="sm" className="w-full shadow">
-                      {quiz.name}
-                    </AppButton>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {lockedCountry && <LockedCountrySheet name={lockedCountry.name} onClose={() => setLockedCountry(null)} />}
 

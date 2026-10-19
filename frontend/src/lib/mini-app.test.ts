@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { CATCH_MODES } from "@/components/games/catch/catch-view";
 
-import { listedGames, MINI_GAMES, MINI_QUIZ_EMPTY, newGameNotices, readDismissed, writeDismissed } from "./mini-app";
+import { daysLeft, limitedGame, listedGames, MINI_GAMES, MINI_QUIZ_EMPTY, newGameNotices, readDismissed, writeDismissed } from "./mini-app";
 
 describe("ミニゲームの一覧", () => {
   it("スプルキャッチ（えいたんご）が入っていて、名前・説明・行き先がある", () => {
@@ -89,5 +89,24 @@ describe("ミニゲームの小出し(docs/design/2026-10-09-minigame-rollout-de
     expect(readDismissed(storage)).toEqual([]);
     expect(readDismissed(null)).toEqual([]);
     expect(() => writeDismissed({ setItem: () => { throw new Error("blocked"); } }, ["a"])).not.toThrow();
+  });
+});
+
+describe("期間限定のカード(学ぶ画面)", () => {
+  it("終わる日まで、あと何日か(今日を含む。終わる日の当日は1日)。終わったら null", () => {
+    expect(daysLeft("2026-11-03", "2026-10-20")).toBe(15);
+    expect(daysLeft("2026-11-03", "2026-11-03")).toBe(1);
+    expect(daysLeft("2026-11-03", "2026-11-04")).toBeNull();
+    expect(daysLeft(null, "2026-10-20")).toBeNull();
+  });
+
+  it("期間限定のゲームがあれば、いちばん先に終わる1本。なければ null", () => {
+    const flags = { new: false, featured: false, seasonal: false };
+    const games = listedGames([
+      { key: "catch", ...flags },
+      { key: "spru-run", ...flags, limited: true, ends_on: "2026-11-03" },
+    ]);
+    expect(limitedGame(games)?.key).toBe("spru-run");
+    expect(limitedGame(listedGames([{ key: "catch", ...flags }]))).toBeNull();
   });
 });
