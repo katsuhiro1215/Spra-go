@@ -152,6 +152,13 @@ return [
             ['key' => 'river', 'name' => '川辺', 'x' => 12, 'y' => 0, 'w' => 5, 'h' => 12, 'min_level' => 20, 'ground' => 'riverbank'],
             ['key' => 'plateau', 'name' => '高原', 'x' => 0, 'y' => 12, 'w' => 12, 'h' => 5, 'min_level' => 25, 'ground' => 'plateau'],
             ['key' => 'island', 'name' => '離島', 'x' => 12, 'y' => 12, 'w' => 5, 'h' => 5, 'min_level' => 30, 'ground' => 'islet'],
+            // 17×17の外側(東と南)に足した、6つの区画。地図は32×32になる(docs/design/2026-10-19-town-land-design.md 3-1)。地面は今ある絵の使い回し
+            ['key' => 'forest', 'name' => '東の森', 'x' => 17, 'y' => 0, 'w' => 5, 'h' => 12, 'min_level' => 35, 'ground' => 'bamboo'],
+            ['key' => 'meadow', 'name' => '草原', 'x' => 22, 'y' => 0, 'w' => 10, 'h' => 12, 'min_level' => 40, 'ground' => 'grass'],
+            ['key' => 'east_coast', 'name' => '東の海辺', 'x' => 17, 'y' => 12, 'w' => 15, 'h' => 5, 'min_level' => 45, 'ground' => 'sand'],
+            ['key' => 'south_woods', 'name' => '南の林', 'x' => 0, 'y' => 17, 'w' => 12, 'h' => 15, 'min_level' => 50, 'ground' => 'hill'],
+            ['key' => 'south_highland', 'name' => '南の高原', 'x' => 12, 'y' => 17, 'w' => 5, 'h' => 15, 'min_level' => 55, 'ground' => 'plateau'],
+            ['key' => 'south_isle', 'name' => '南東の島', 'x' => 17, 'y' => 17, 'w' => 15, 'h' => 15, 'min_level' => 60, 'ground' => 'islet'],
         ],
         'landmarks' => [
             ['key' => 'stone_lantern', 'x' => 2, 'y' => 0],
@@ -178,6 +185,18 @@ return [
             [3, 1], [3, 2], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [3, 10], [3, 11], [3, 12], [3, 13], [3, 14], [3, 15], [3, 16],
             // 縦の道(竹林・丘を南北へ)
             [9, 0], [9, 1], [9, 2], [9, 4], [9, 5], [9, 6], [9, 7], [9, 8], [9, 10], [9, 11], [9, 12], [9, 13], [9, 14], [9, 15], [9, 16],
+            // 32×32に広げた分。格子を端まで延ばす(横 y=3・9 を x=31 まで、縦 x=3・9 を y=31 まで)。新しい区画の中の道は、自分で引く
+            ...array_map(fn (int $x) => [$x, 3], range(17, 31)),
+            ...array_map(fn (int $x) => [$x, 9], range(17, 31)),
+            ...array_map(fn (int $y) => [3, $y], range(17, 31)),
+            ...array_map(fn (int $y) => [9, $y], range(17, 31)),
+        ],
+        // 新しい区画の自然の景色(置けない飾り。docs/design/2026-10-19-town-land-design.md 3-3)。区画の面積の約8%に、座標から決まる位置へ置く。
+        // 道・区画のふち1マス・海には置かない。今の7区画には置かない(置いた物に影響しないため)
+        'scenery' => [
+            'plots' => ['forest', 'meadow', 'east_coast', 'south_woods', 'south_highland', 'south_isle'],
+            'density' => 0.08,
+            'keys' => ['tree', 'pine', 'large_tree', 'birch', 'bush', 'rock'],
         ],
         // 海にするところ(陸の四隅を欠いた海岸線)。[x, y, 幅, 高さ]。地図の外と同じで、何も置けない。北の隅は家と鳥居があるので陸のまま
         'water' => [[15, 0, 2, 2], [14, 14, 3, 3], [0, 15, 2, 2]],

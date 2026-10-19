@@ -324,7 +324,7 @@ export function WorldScene({
         const pos = toPercent(sx, sy - 10, vb);
         const style = { left: `${pos.left}%`, top: `${pos.top}%` };
         const className =
-          "absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(255,250,240,0.95)] px-3 py-1 text-[12px] font-black whitespace-nowrap text-[#5a4526] shadow-[0_2px_6px_rgba(59,50,38,0.16)]";
+          "town-cloud-label absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(255,250,240,0.95)] px-3 py-1 text-[12px] font-black whitespace-nowrap text-[#5a4526] shadow-[0_2px_6px_rgba(59,50,38,0.16)]";
         const text = <AutoFurigana text={cloudLabel(plot)} />;
         return readOnly || !onCloudTap ? (
           <span key={`cloud-label-${plot.key}`} className={`pointer-events-none ${className}`} style={style}>

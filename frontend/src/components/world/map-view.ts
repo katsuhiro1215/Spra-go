@@ -35,8 +35,8 @@ export function mapLayout(land: Pick<WorldLand, "width" | "height" | "plots">, v
   return { map, scale, width: map.width * scale, height: map.height * scale, viewHeight: home.height * base };
 }
 
-/** 拡大・縮小の倍率(1が、町が枠の横幅に収まる今の大きさ。0.4で全部の土地が1画面に入る) */
-export const ZOOM_STEPS = [0.4, 0.6, 1, 1.5];
+/** 拡大・縮小の倍率(1が、町が枠の横幅に収まる今の大きさ。0.2で、32×32の全部の土地が1画面に入る) */
+export const ZOOM_STEPS = [0.2, 0.35, 0.6, 1, 1.5];
 
 export function nextZoom(zoom: number, direction: "in" | "out"): number {
   const i = ZOOM_STEPS.indexOf(zoom);

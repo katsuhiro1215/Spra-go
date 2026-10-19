@@ -40,7 +40,7 @@ it('家のマス・畑のマス・道のマスにある物は、バッグに戻�
 it('雲に隠れた区画・地図の外にある物は、バッグに戻る', function () {
     $profile = createActiveProfile();
     $cloud = createPlacedBench($profile, 8, 1); // 竹林(Lv.5)。Lv.1では雲
-    $outside = createPlacedBench($profile, 17, 0);
+    $outside = createPlacedBench($profile, 32, 0);
 
     $this->artisan('world:repair')->assertSuccessful();
 

@@ -3,7 +3,8 @@ import { SPRU_BLOOM } from "@/components/spru/spru-assets";
 import { HALF_H, HALF_W, tileCenter } from "../iso";
 import { walkFrame } from "../roads/walk";
 import { bobOffset, cloudClear, hopOffset, popState, pulseOpacity } from "./animation";
-import type { CloudDraw, ObjectArt, SceneModel, SceneObject } from "./scene-model";
+import { drawClouds } from "./draw-clouds";
+import type { ObjectArt, SceneModel, SceneObject } from "./scene-model";
 
 /**
  * 動く層の描き方(docs/design/2026-10-19-town-canvas-design.md 5・6章)。毎フレーム、奥から手前へ描く。
@@ -259,37 +260,6 @@ function drawObject(ctx: Ctx, env: ObjectEnv, model: SceneModel, o: SceneObject,
   ctx.restore();
 }
 
-function drawClouds(ctx: Ctx, clouds: CloudDraw[], transform?: { opacity: number; dy: number; scale: number }) {
-  for (const cloud of clouds) {
-    ctx.save();
-    const area = new Path2D();
-    cloud.area.forEach(([x, y], i) => (i === 0 ? area.moveTo(x, y) : area.lineTo(x, y)));
-    area.closePath();
-    ctx.clip(area);
-    if (transform) {
-      // 雲の真ん中を軸に、消えながら上へ行って大きくなる
-      const xs = cloud.puffs.map((p) => p.sx);
-      const ys = cloud.puffs.map((p) => p.sy);
-      const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
-      const cy = (Math.min(...ys) + Math.max(...ys)) / 2;
-      ctx.globalAlpha = transform.opacity;
-      ctx.translate(cx, cy + transform.dy);
-      ctx.scale(transform.scale, transform.scale);
-      ctx.translate(-cx, -cy);
-    }
-    for (const [dy, r, color] of [[4, 34, "#dfeaf2"], [-4, 33, "#ffffff"]] as const) {
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      for (const p of cloud.puffs) {
-        ctx.moveTo(p.sx + r, p.sy + dy);
-        ctx.arc(p.sx, p.sy + dy, r, 0, Math.PI * 2);
-      }
-      ctx.fill();
-    }
-    ctx.restore();
-  }
-}
-
 /** 道を引いている途中の先読み(docs/design/2026-10-19-town-roads-design.md 3-1)。valid が真のマスは明るく、偽は赤 */
 export type RoadPreview = { tool: "draw" | "erase"; tiles: [number, number][]; hover: [number, number] | null; valid: (x: number, y: number) => boolean };
 
@@ -327,8 +297,6 @@ export function drawObjectsLayer(ctx: Ctx, env: ObjectEnv, model: SceneModel, mo
   }
 
   if (roadPreview) drawRoadPreview(ctx, roadPreview);
-
-  drawClouds(ctx, model.clouds);
 
   for (const o of model.objects) drawObject(ctx, env, model, o, motion);
 

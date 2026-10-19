@@ -157,7 +157,8 @@ export function TownMap({
   }
 
   return (
-    <div className="relative">
+    // 遠くから見ている(0.35倍以下)ときは、雲の札を隠す(区画が13あるので、重なって読めないため)
+    <div className="relative" data-town-zoom={zoom <= 0.35 ? "far" : "near"}>
       {/* 海は枠いっぱいの背景1枚。陸が動いても海は動かない(上下は空へ溶ける) */}
       <div className="town-sea" style={dim ? { filter: "brightness(0.55) saturate(0.9)" } : undefined} aria-hidden />
       <div

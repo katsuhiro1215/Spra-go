@@ -136,8 +136,8 @@ it('いくつも理由があるときは、地図の外→雲→道・目印の�
     $profile->update(['level' => 3]);
     $castle = createBuilding($profile);
 
-    // (17,2) が地図の外、(16,2) が雲
-    $this->patchJson("/api/world/items/{$castle->id}", ['x' => 16, 'y' => 2])
+    // (32,2) が地図の外、(31,2) が雲
+    $this->patchJson("/api/world/items/{$castle->id}", ['x' => 31, 'y' => 2])
         ->assertJsonPath('message', '土地の外には置けません。');
     // (7,2)・(7,3) が雲、(6,3) が道
     $this->patchJson("/api/world/items/{$castle->id}", ['x' => 6, 'y' => 2])

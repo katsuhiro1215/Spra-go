@@ -785,6 +785,10 @@
     transform: translate3d(-960px, 960px, 0);
   }
 }
+/* 遠くから見ているとき(0.35倍以下)は、雲の区画の札を隠す(TownMap の data-town-zoom) */
+[data-town-zoom="far"] .town-cloud-label {
+  display: none;
+}
 .town-foam {
   opacity: 0.55;
   animation: town-foam 6s ease-in-out infinite;
