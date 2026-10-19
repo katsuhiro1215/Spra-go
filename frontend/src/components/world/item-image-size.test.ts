@@ -12,7 +12,7 @@ const width = (key: string) => {
 describe("2×2の建物の絵の幅(2026-10-20 Ownerの指定)", () => {
   it("家は、Spruの家と同じ幅(約69)", () => {
     const target = width("spru_house");
-    for (const key of ["cottage", "red_house", "seed_storehouse", "resident_cottage", "leaf_cottage", "blue_flower_cottage", "forest_flower_house", "human_house"]) {
+    for (const key of ["cottage", "red_house", "seed_storehouse", "resident_cottage", "leaf_cottage", "blue_flower_cottage", "forest_flower_house", "human_house", "japanese_house"]) {
       expect(Math.abs(width(key) - target), key).toBeLessThan(0.5);
     }
   });

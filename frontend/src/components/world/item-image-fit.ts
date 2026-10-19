@@ -17,6 +17,7 @@ export const ITEM_IMAGE_FIT: Partial<Record<string, ItemImageFit>> = {
   blue_flower_cottage: { scale: 1.150 },
   forest_flower_house: { scale: 1.195 },
   human_house: { scale: 0.616 },
+  japanese_house: { scale: 0.618 },
   // お店(2×2)は、幅約80単位にそろえる。書き出した絵は約75〜105で、90前後は大きいと感じる(2026-10-20 Ownerの指定。80/(幅px×0.225))
   bakery: { scale: 0.889 },
   fish_shop: { scale: 0.889 },
