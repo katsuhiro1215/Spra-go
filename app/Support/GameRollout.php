@@ -20,6 +20,15 @@ class GameRollout
         'puzzle-space' => CatchGame::PUZZLE_SPACE_GAME,
     ];
 
+    /** スプルランは、ほかのミニゲーム(クイズ)と作りが違うので、PATHS(キャッチと同じ道を登録する一覧)には入れない */
+    public const RUN_PATH = 'spru-run';
+
+    /** @return array<string, string> PATHS + スプルラン */
+    public static function allPaths(): array
+    {
+        return self::PATHS + [self::RUN_PATH => RunGame::GAME];
+    }
+
     /**
      * 今日出ているゲーム(出す日が来ていて、季節の中)
      *
@@ -30,7 +39,7 @@ class GameRollout
         $today ??= Garden::today();
 
         return array_values(array_filter(
-            self::PATHS,
+            self::allPaths(),
             fn (string $game) => self::isAvailable($game, $today),
         ));
     }
@@ -44,7 +53,8 @@ class GameRollout
     public static function featured(?string $today = null): ?string
     {
         $today ??= Garden::today();
-        $available = self::available($today);
+        // スプルランは、今週のゲーム(1.5倍)の順番に入れない
+        $available = array_values(array_diff(self::available($today), [RunGame::GAME]));
 
         $seasonal = array_values(array_filter($available, fn (string $game) => self::catalog($game)['season'] !== null));
         if ($seasonal !== []) {
@@ -89,7 +99,7 @@ class GameRollout
         $featured = self::featured($today);
         $items = [];
 
-        foreach (self::PATHS as $key => $game) {
+        foreach (self::allPaths() as $key => $game) {
             if (! self::isAvailable($game, $today)) {
                 continue;
             }
@@ -98,6 +108,8 @@ class GameRollout
                 'new' => self::isNew($profile, $game, $today),
                 'featured' => $game === $featured,
                 'seasonal' => self::catalog($game)['season'] !== null,
+                'limited' => self::catalog($game)['ends_on'] !== null,
+                'ends_on' => self::catalog($game)['ends_on'],
             ];
         }
 
@@ -111,11 +123,16 @@ class GameRollout
             return false;
         }
 
+        // 終わる日(その日を含む)をすぎたら出さない
+        if ($catalog['ends_on'] !== null && $today > $catalog['ends_on']) {
+            return false;
+        }
+
         return $catalog['season'] === null || self::inSeason($catalog['season'], substr($today, 5));
     }
 
     /** 毎年の期間('MM-DD' 〜 'MM-DD'、両端を含む。12-20〜01-05 のような年またぎも) */
-    private static function inSeason(array $season, string $monthDay): bool
+    public static function inSeason(array $season, string $monthDay): bool
     {
         ['from' => $from, 'until' => $until] = $season;
 
@@ -124,9 +141,9 @@ class GameRollout
             : ($monthDay >= $from || $monthDay <= $until);
     }
 
-    /** @return array{released_on: ?string, season: ?array{from: string, until: string}} */
+    /** @return array{released_on: ?string, ends_on: ?string, season: ?array{from: string, until: string}} */
     private static function catalog(string $game): array
     {
-        return (config("games.{$game}.catalog") ?? []) + ['released_on' => null, 'season' => null];
+        return (config("games.{$game}.catalog") ?? []) + ['released_on' => null, 'ends_on' => null, 'season' => null];
     }
 }

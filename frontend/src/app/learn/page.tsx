@@ -208,12 +208,17 @@ export default function Page() {
             {games.map((game) => (
               <Link key={game.key} href={game.href} onClick={() => setMiniAppOpen(false)}>
                 <AppButton variant="warning" size="sm" className="h-auto w-full flex-col gap-0.5 py-2 shadow">
-                  {(game.new || game.featured || game.seasonal) && (
+                  {(game.new || game.featured || game.seasonal || game.limited) && (
                     <span className="flex gap-1 text-[10px] font-black">
                       {game.new && <span className="rounded-full bg-[#d94a3a] px-2 py-0.5 text-white">NEW</span>}
                       {game.featured && (
                         <span className="rounded-full bg-white px-2 py-0.5 text-[#3b3226]">
                           <AutoFurigana text="今週のゲーム ごほうび1.5ばい" />
+                        </span>
+                      )}
+                      {game.limited && (
+                        <span className="rounded-full bg-white px-2 py-0.5 text-[#3b3226]">
+                          <AutoFurigana text="期間限定" />
                         </span>
                       )}
                       {game.seasonal && (

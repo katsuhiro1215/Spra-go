@@ -16,7 +16,7 @@ use Illuminate\Support\Carbon;
 beforeEach(function () {
     $this->travelTo(Carbon::parse('2026-10-09 03:00:00', 'UTC')); // 日本時間 10/9(金) 12:00
     // 出し分けの確認は、今ある3本で行う(パズルはまだ出さない)
-    foreach (['puzzle_flag', 'puzzle_space'] as $game) {
+    foreach (['puzzle_flag', 'puzzle_space', 'spru_run'] as $game) {
         config(["games.{$game}.catalog" => ['released_on' => '2099-01-01', 'season' => null]]);
     }
 });

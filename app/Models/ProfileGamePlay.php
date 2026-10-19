@@ -23,6 +23,12 @@ class ProfileGamePlay extends Model
         'elapsed_ms',
         'rewarded',
         'time_verified',
+        'distance_m',
+        'seeds_earned',
+        'seed_value',
+        'run_seed',
+        'ceiling',
+        'started_at',
     ];
 
     protected function casts(): array
@@ -38,6 +44,12 @@ class ProfileGamePlay extends Model
             'stars' => 'integer',
             'rewarded' => 'boolean',
             'time_verified' => 'boolean',
+            'started_at' => 'datetime',
+            'distance_m' => 'integer',
+            'seeds_earned' => 'integer',
+            'seed_value' => 'integer',
+            'run_seed' => 'integer',
+            'ceiling' => 'integer',
         ];
     }
 

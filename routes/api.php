@@ -54,6 +54,8 @@ use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
 use App\Support\QuizVariants;
 use App\Support\Ranking;
+use App\Support\RunGame;
+use App\Support\RunSeedShop;
 use App\Support\RareSeeds;
 use App\Support\Review;
 use App\Support\ReviewPicker;
@@ -1518,6 +1520,8 @@ Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
 
     return ShopItem::query()
         ->whereIn('type', config('shop.enabled_types'))
+        // ランのタネで買う物は、タネ交換所(/run-seed-shop)だけに並べる
+        ->where('currency', '!=', RunSeedShop::CURRENCY)
         ->orderBy('type')
         ->orderBy('min_level')
         ->orderBy('price')
@@ -1945,6 +1949,71 @@ foreach (GameRollout::PATHS as $path => $game) {
         })->name('plays.finish');
     });
 }
+
+// ミニゲーム「スプルラン」(docs/design/2026-10-22-spru-run-design.md 14-3)。練習はサーバーを使わない。本番だけ
+Route::middleware(['auth:sanctum', EnsureGameAvailable::class.':'.RunGame::GAME])->prefix('games/spru-run')->name('games.spru-run.')->group(function () {
+    Route::get('/', fn (Request $request) => RunGame::summary(ActiveProfile::require($request)))->name('show');
+
+    Route::get('/ranking', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $data = $request->validate([
+            'scope' => ['required', 'in:family,public'],
+            'difficulty' => ['required', 'string', Rule::in([config('games.spru_run.difficulty')])],
+            'period' => ['required', 'in:week,all'],
+        ]);
+        abort_if($data['scope'] === 'public' && $data['period'] === 'all', 422, 'みんなのランキングは、今週だけです。');
+        abort_if($data['scope'] === 'public' && ! UserSchema::query()->whereKey($profile->user_schema_id)->value('ranking_public'), 403, 'みんなのランキングは、おうちの人がオンにすると見られます。');
+
+        return Ranking::board($profile, RunGame::GAME, $data['difficulty'], $data['scope'], $data['period']);
+    })->name('ranking');
+
+    Route::post('/plays', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $data = $request->validate(['ceiling' => ['required', 'integer', 'between:'.config('games.spru_run.ceiling.min').','.config('games.spru_run.ceiling.max')]]);
+
+        return DB::transaction(function () use ($profile, $data) {
+            // 同時に始めても、回数をこえないよう、プロフィールの行を握る
+            UserProfile::query()->whereKey($profile->id)->lockForUpdate()->firstOrFail();
+
+            return RunGame::start($profile, $data['ceiling']);
+        });
+    })->name('plays.store');
+
+    Route::post('/plays/{play}/abandon', function (Request $request, ProfileGamePlay $play) {
+        $profile = ActiveProfile::require($request);
+        abort_unless($play->user_profile_id === $profile->id && $play->game === RunGame::GAME, 404);
+
+        return RunGame::abandon($play);
+    })->name('plays.abandon');
+
+    Route::post('/plays/{play}/finish', function (Request $request, ProfileGamePlay $play) {
+        $profile = ActiveProfile::require($request);
+        abort_unless($play->user_profile_id === $profile->id && $play->game === RunGame::GAME, 404);
+        $data = $request->validate(['distance_m' => ['required', 'integer', 'min:0'], 'seed_value' => ['required', 'integer', 'min:0']]);
+
+        return DB::transaction(function () use ($play, $data) {
+            $locked = ProfileGamePlay::query()->whereKey($play->id)->lockForUpdate()->firstOrFail();
+
+            return RunGame::finish($locked, $data['distance_m'], $data['seed_value']);
+        });
+    })->name('plays.finish');
+});
+
+// タネ交換所(docs/design/2026-10-22-spru-run-design.md 14-6、2026-10-17-spru-costumes-design.md)。ランのタネで、ラン限定の町のかざり・きせかえを買う。
+// スプルランの期間が終わっても開いている(集めたタネを、使い切れるように)
+Route::middleware(['auth:sanctum'])->prefix('run-seed-shop')->name('run-seed-shop.')->group(function () {
+    Route::get('/', fn (Request $request) => RunSeedShop::list(ActiveProfile::require($request)))->name('index');
+
+    Route::post('/items/{shopItem}/buy', fn (Request $request, ShopItem $shopItem) => RunSeedShop::buyItem(ActiveProfile::require($request), $shopItem))->name('items.buy');
+
+    Route::post('/costumes/{key}/buy', fn (Request $request, string $key) => RunSeedShop::buyCostume(ActiveProfile::require($request), $key))->name('costumes.buy');
+
+    Route::put('/costume', function (Request $request) {
+        $data = $request->validate(['key' => ['present', 'nullable', 'string']]);
+
+        return RunSeedShop::equip(ActiveProfile::require($request), $data['key']);
+    })->name('costume');
+});
 
 // みんなのランキングの保護者のスイッチとニックネーム(docs/design/2026-10-13-ranking-design.md 5章)
 Route::middleware(['auth:sanctum'])->prefix('ranking')->name('ranking.')->group(function () {

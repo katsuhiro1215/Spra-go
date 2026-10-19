@@ -177,5 +177,20 @@ class WorldItemSeeder extends Seeder
                 ],
             );
         }
+
+        // スプルラン限定(タネ交換所。docs/design/2026-10-22-spru-run-design.md 14-6)。値段はランのタネの数(倍率をかけない)
+        $runItems = [
+            ['name' => 'タネの花だん', 'price' => 300, 'asset_key' => 'run_seed_bed'],
+            ['name' => 'ランのしるべ', 'price' => 600, 'asset_key' => 'run_signpost'],
+            ['name' => 'ランのトロフィー', 'price' => 1500, 'asset_key' => 'run_trophy'],
+            ['name' => 'ゴールゲート', 'price' => 2000, 'asset_key' => 'run_gate'],
+            ['name' => '光るタネの像', 'price' => 3000, 'asset_key' => 'run_golden_seed'],
+        ];
+        foreach ($runItems as $item) {
+            ShopItem::query()->updateOrCreate(
+                ['type' => 'decoration', 'name' => $item['name']],
+                ['price' => $item['price'], 'currency' => 'run_seed', 'min_level' => 1, 'meta' => ['asset_key' => $item['asset_key']]],
+            );
+        }
     }
 }
