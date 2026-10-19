@@ -75,6 +75,22 @@ export function routeTo(from: Tile, to: Tile, walkable: (x: number, y: number) =
   return [];
 }
 
+/** 行き先がいくつかあるとき、経路がいちばん短いものを選ぶ(畑の前は2か所)。いまその行き先にいれば、経路は空。どこへも行けなければ null */
+export function nearestRoute(
+  from: Tile,
+  targets: Tile[],
+  walkable: (x: number, y: number) => boolean,
+): { target: Tile; path: Tile[] } | null {
+  const here = targets.find(([x, y]) => x === from[0] && y === from[1]);
+  if (here) return { target: here, path: [] };
+  let best: { target: Tile; path: Tile[] } | null = null;
+  for (const target of targets) {
+    const path = routeTo(from, target, walkable);
+    if (path.length > 0 && (!best || path.length < best.path.length)) best = { target, path };
+  }
+  return best;
+}
+
 /** 動く向きから、絵の向き(+xが右下、−xが左上、+yが左下、−yが右上) */
 export function facing(dx: number, dy: number): WalkDirection {
   if (Math.abs(dx) > Math.abs(dy)) return dx > 0 ? "lower_right" : "upper_left";

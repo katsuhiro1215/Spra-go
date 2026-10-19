@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import type { Bloom } from "@/components/spru/bloom";
@@ -13,9 +13,9 @@ import { buildGroundModel, buildSceneModel, groundSignature, type SceneInput } f
 import { TownCanvas, type RoadControls } from "./canvas/town-canvas";
 import { HALF_H, HALF_W, sceneViewBox, tileCenter, toPercent } from "./iso";
 import { cloudLabel, depthTile, footprintCenter, landmarkFootprint, plotCenter } from "./land";
-import { idleWalker, isWalking, stepWalker, walkableTiles, walkTo, type Walker } from "./roads/walk";
+import { idleWalker, isWalking, nearestRoute, stepWalker, walkableTiles, walkTo, type Walker } from "./roads/walk";
 import type { TimeOfDay } from "./time-of-day";
-import type { WorldCompanion, WorldGarden, WorldItem, WorldLand, WorldPlot } from "./types";
+import type { Tile, WorldCompanion, WorldGarden, WorldItem, WorldLand, WorldPlot } from "./types";
 
 // 町の絵はCanvas(canvas/)で描く。ここでは、その上に重ねる、押せる場所(透明なボタン)・雲の札・吹き出しを作る
 // (docs/design/2026-10-19-town-canvas-design.md)
@@ -70,7 +70,15 @@ export function WorldScene({
   readOnly = false,
   roadStyle = "jp",
   roads = null,
+  visit = null,
+  onArrive,
+  onWalkStart,
 }: {
+  /** Spruを、行き先のうちいちばん近いマスまで歩かせる(畑の前)。seq が変わるたびに、新しい依頼。着いたら onArrive(seq) */
+  visit?: { seq: number; targets: Tile[] } | null;
+  onArrive?: (seq: number) => void;
+  /** 町のマスをタップして、自分で歩かせたとき(畑の用事をやめる合図) */
+  onWalkStart?: () => void;
   /** 道を引く道具が出ている間の操作。あるときは、押せる場所(透明ボタン)を止める */
   roads?: RoadControls | null;
   land: WorldLand;
@@ -134,8 +142,27 @@ export function WorldScene({
 
   function handleTileClick(x: number, y: number) {
     if (readOnly || placing || roads || spru.sleeping || !walkable(x, y)) return;
+    onWalkStart?.();
     setWalker((w) => walkTo(w, [x, y], walkable));
   }
+
+  // 畑の前への依頼: 新しい seq のとき、いちばん近い行き先へ歩かせる(描いている最中に状態を直す書き方。着いたかは下の effect が見る)
+  const [handledSeq, setHandledSeq] = useState(visit?.seq ?? 0);
+  const [pendingSeq, setPendingSeq] = useState<number | null>(null);
+  if (visit && visit.seq !== handledSeq) {
+    setHandledSeq(visit.seq);
+    setPendingSeq(visit.seq);
+    const head = walker.path[0];
+    const from: Tile = head ?? [Math.round(walker.x), Math.round(walker.y)];
+    const route = nearestRoute(from, visit.targets, walkable);
+    if (route && route.path.length > 0) setWalker((w) => walkTo(w, route.target, walkable));
+  }
+  const arrivedSeq = useRef<number | null>(null);
+  useEffect(() => {
+    if (pendingSeq === null || walking || arrivedSeq.current === pendingSeq) return;
+    arrivedSeq.current = pendingSeq;
+    onArrive?.(pendingSeq);
+  }, [pendingSeq, walking, onArrive]);
 
   const sceneInput: SceneInput = {
     land,

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { WorldLand } from "../types";
-import { facing, idleWalker, isWalking, routeTo, stepWalker, walkableTiles, walkFrame, walkTo, WALK_SPEED } from "./walk";
+import { facing, idleWalker, isWalking, routeTo, stepWalker, nearestRoute, walkableTiles, walkFrame, walkTo, WALK_SPEED } from "./walk";
 
 /** docs/design/2026-10-19-town-roads-design.md 3-2・5-1 */
 
@@ -122,5 +122,23 @@ describe("歩ける場所", () => {
     expect(ok(2, 0)).toBe(true);
     expect(ok(0, 3)).toBe(true); // 道
     for (const [x, y] of [[1, 1], [2, 2], [0, 0], [3, 0], [3, 3], [4, 1], [9, 9], [-1, 0]]) expect(ok(x, y)).toBe(false);
+  });
+});
+
+describe("畑の前まで(いちばん近い行き先)", () => {
+  it("いくつかの行き先のうち、経路がいちばん短いものを選ぶ", () => {
+    const result = nearestRoute([0, 0], [[5, 5], [1, 0]], open);
+    expect(result?.target).toEqual([1, 0]);
+    expect(result?.path).toEqual([[1, 0]]);
+  });
+
+  it("もう行き先にいるなら、経路は空", () => {
+    expect(nearestRoute([2, 2], [[2, 2], [4, 4]], open)).toEqual({ target: [2, 2], path: [] });
+  });
+
+  it("行けない行き先は飛ばす。どこへも行けなければ null", () => {
+    const blocked = (x: number, y: number) => open(x, y) && !(x === 1 && y === 0);
+    expect(nearestRoute([0, 0], [[1, 0], [0, 2]], blocked)?.target).toEqual([0, 2]);
+    expect(nearestRoute([0, 0], [[9, 9]], open)).toBeNull();
   });
 });

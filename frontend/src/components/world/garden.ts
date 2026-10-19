@@ -1,6 +1,6 @@
 import type { SpruImageKey } from "@/components/spru/spru-assets";
 
-import type { NewSeed, WorldGarden } from "./types";
+import type { NewSeed, Tile, WorldGarden } from "./types";
 
 export type GardenTap =
   | { action: "sow" }
@@ -74,4 +74,21 @@ export function levelUpGrowthLine(growth: number, gardenBusy: boolean): string |
   if (growth === 2) return "スプルの花が咲いた！";
   if (growth >= 3) return gardenBusy ? "畑の芽が育ったら、種をまけるよ" : "種ができた！町でまいてみよう";
   return null;
+}
+
+/** 畑の前(手前の2辺。右のマスと手前のマス)。Spruは、ここまで歩いてきて、水やり・種まきを聞く(docs/design/2026-10-19-garden-layout-design.md) */
+export function gardenFrontTiles(garden: Pick<WorldGarden, "x" | "y">): Tile[] {
+  return [
+    [garden.x + 1, garden.y],
+    [garden.x, garden.y + 1],
+  ];
+}
+
+/** 畑の前で聞くこと。種を選ぶとき(choose)は、聞かずに種の一覧を出す。言葉だけのとき(say)は、歩かない */
+export type GardenAsk = { action: "water" | "sow"; question: string; yes: string };
+
+export function gardenAsk(action: "water" | "sow"): GardenAsk {
+  return action === "water"
+    ? { action, question: "水をあげますか？", yes: "あげる" }
+    : { action, question: "種をまきますか？", yes: "まく" };
 }
