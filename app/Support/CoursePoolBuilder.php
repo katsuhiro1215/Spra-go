@@ -39,9 +39,9 @@ class CoursePoolBuilder
             return ['stages' => 0, 'pool' => 0];
         }
 
-        // 日本は、分野ごとのステージ(JapanCourse)。原稿が取り込まれていない間は、そのまま
-        if (in_array(strtolower($country->code), config('courses.themed_countries', []), true)) {
-            return JapanCourse::build($country, $category);
+        // 日本・アメリカは、分野ごとのステージ(ThemedCourse)。原稿が取り込まれていない間は、そのまま
+        if (in_array(strtolower($country->code), array_keys(config('themed_courses.countries', [])), true)) {
+            return ThemedCourse::build($country, $category);
         }
 
         return DB::transaction(function () use ($country, $category, $definition) {

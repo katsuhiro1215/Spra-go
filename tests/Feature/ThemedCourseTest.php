@@ -45,7 +45,7 @@ it('日本の級を、8つの分野のステージ＋ボスの9ステージに�
 
     $stages = japanStages($country, '初級');
     expect($stages->pluck('stage_number')->all())->toBe(range(1, 9))
-        ->and($stages->take(8)->pluck('theme_name')->all())->toBe(array_values(config('japan_course.fields')))
+        ->and($stages->take(8)->pluck('theme_name')->all())->toBe(array_values(config('themed_courses.countries.jp.fields')))
         ->and($stages->last()->is_boss)->toBeTrue()->and($stages->last()->theme_name)->toBe('日本のまとめ')
         ->and($stages->last()->title_reward)->toBe('日本はかせ');
     foreach ($stages->take(8) as $stage) {
@@ -202,4 +202,33 @@ it('ステージを遊ぶAPIは、テーマの名前を返し、やさしい順�
 
     $prompts = collect($response->json('questions'))->pluck('prompt')->all();
     expect($prompts)->toBe(['初級-21-1', '初級-21-2', '初級-21-3']);
+});
+
+it('アメリカも、8つの分野のステージ＋ボスの9ステージに並べ直す。前からあった問題(ステージ1〜5)は分野に入らない', function () {
+    $country = Country::create(['code' => 'us', 'three_code' => 'USA', 'name' => 'アメリカ合衆国', 'name_en' => 'United States', 'country_code' => 840]);
+    $root = Category::firstOrCreate(['name' => '国旗', 'parent_id' => null]);
+    $category = Category::create(['name' => 'アメリカ合衆国', 'parent_id' => $root->id]);
+    $quiz = Quiz::create(['title' => 'アメリカ初級', 'difficulty' => '初級', 'country_id' => $country->id]);
+    foreach (range(21, 28) as $number) {
+        $stage = Stage::create(['category_id' => $category->id, 'country_id' => $country->id, 'difficulty' => '初級', 'stage_number' => $number, 'question_count' => 3]);
+        foreach ([1, 2, 3] as $grade) {
+            $question = Question::create(['quiz_id' => $quiz->id, 'country_id' => $country->id, 'prompt' => "US-{$number}-{$grade}", 'meta' => ['grade' => $grade, 'key' => "KUS{$number}{$grade}"]]);
+            $stage->questions()->attach($question->id, ['order' => $grade]);
+        }
+    }
+    // 前からあったアメリカの問題(国旗など)のステージ1
+    $oldStage = Stage::create(['category_id' => $category->id, 'country_id' => $country->id, 'difficulty' => '初級', 'stage_number' => 1, 'question_count' => 10]);
+    $old = Question::create(['quiz_id' => $quiz->id, 'country_id' => $country->id, 'prompt' => 'アメリカの首都は？']);
+    $oldStage->questions()->attach($old->id, ['order' => 1]);
+
+    CoursePoolBuilder::buildCountry($country);
+
+    $stages = japanStages($country, '初級');
+    expect($stages->pluck('stage_number')->all())->toBe(range(1, 9))
+        ->and($stages->take(8)->pluck('theme_name')->all())->toBe(array_values(config('themed_courses.countries.us.fields')))
+        ->and($stages->last()->theme_name)->toBe('アメリカのまとめ')
+        ->and($stages->last()->title_reward)->toBe('アメリカはかせ')
+        ->and($stages->last()->questions()->count())->toBe(8 * 3)
+        ->and($stages->first()->questions()->pluck('prompt')->all())->toBe(['US-21-1', 'US-21-2', 'US-21-3'])
+        ->and(DB::table('stage_questions')->where('question_id', $old->id)->count())->toBe(0);
 });
