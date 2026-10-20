@@ -1,0 +1,6034 @@
+{
+ "country_name": "アメリカ合衆国",
+ "country_code": "US",
+ "difficulty": "初級",
+ "stages": [
+  {
+   "stage_number": 21,
+   "theme_key": "phrase",
+   "theme_name": "アメリカ英語とマナー",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US01-B-001",
+     "type": "multiple_choice",
+     "prompt": "昼すぎに会った人へ使う英語のあいさつは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "Good afternoon",
+       "is_correct": true
+      },
+      {
+       "label": "Good evening",
+       "is_correct": false
+      },
+      {
+       "label": "Good luck",
+       "is_correct": false
+      },
+      {
+       "label": "Good night",
+       "is_correct": false
+      }
+     ],
+     "explanation": "Good afternoonは、昼から夕方前のあいさつだよ。"
+    },
+    {
+     "key": "US01-B-002",
+     "type": "multiple_choice",
+     "prompt": "夕方や夜に会った人へ使う英語のあいさつは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "Goodbye",
+       "is_correct": false
+      },
+      {
+       "label": "Good afternoon",
+       "is_correct": false
+      },
+      {
+       "label": "Good evening",
+       "is_correct": true
+      },
+      {
+       "label": "Good night",
+       "is_correct": false
+      }
+     ],
+     "explanation": "Good eveningは、夕方や夜に会ったときに使うよ。"
+    },
+    {
+     "key": "US01-B-003",
+     "type": "multiple_choice",
+     "prompt": "Thank youと言われたときの返事は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "Good luck",
+       "is_correct": false
+      },
+      {
+       "label": "Excuse me",
+       "is_correct": false
+      },
+      {
+       "label": "See you later",
+       "is_correct": false
+      },
+      {
+       "label": "You're welcome",
+       "is_correct": true
+      }
+     ],
+     "explanation": "You're welcomeは、ありがとうへの返事だよ。"
+    },
+    {
+     "key": "US01-B-004",
+     "type": "multiple_choice",
+     "prompt": "店を出る人に「よい一日を」と伝える言葉は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "Welcome home",
+       "is_correct": false
+      },
+      {
+       "label": "Happy birthday",
+       "is_correct": false
+      },
+      {
+       "label": "Have a nice day",
+       "is_correct": true
+      },
+      {
+       "label": "Good morning",
+       "is_correct": false
+      }
+     ],
+     "explanation": "Have a nice dayは、別れぎわにも使う言葉だよ。"
+    },
+    {
+     "key": "US01-B-005",
+     "type": "multiple_choice",
+     "prompt": "来てくれた人をむかえる「ようこそ」は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "Take care!",
+       "is_correct": false
+      },
+      {
+       "label": "Congratulations!",
+       "is_correct": false
+      },
+      {
+       "label": "Good luck!",
+       "is_correct": false
+      },
+      {
+       "label": "Welcome!",
+       "is_correct": true
+      }
+     ],
+     "explanation": "Welcomeは、人をよろこんでむかえる言葉だよ。"
+    },
+    {
+     "key": "US01-B-006",
+     "type": "multiple_choice",
+     "prompt": "試合の前の友だちをおうえんする言葉は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "Excuse me!",
+       "is_correct": false
+      },
+      {
+       "label": "Welcome!",
+       "is_correct": false
+      },
+      {
+       "label": "Good night!",
+       "is_correct": false
+      },
+      {
+       "label": "Good luck!",
+       "is_correct": true
+      }
+     ],
+     "explanation": "Good luckは、うまくいくようにおうえんする言葉だよ。"
+    },
+    {
+     "key": "US01-B-007",
+     "type": "multiple_choice",
+     "prompt": "友だちが大会で勝ったときに伝える言葉は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "See you tomorrow!",
+       "is_correct": false
+      },
+      {
+       "label": "You're welcome!",
+       "is_correct": false
+      },
+      {
+       "label": "Good afternoon!",
+       "is_correct": false
+      },
+      {
+       "label": "Congratulations!",
+       "is_correct": true
+      }
+     ],
+     "explanation": "Congratulationsは、お祝いを伝える言葉だよ。"
+    },
+    {
+     "key": "US01-B-008",
+     "type": "multiple_choice",
+     "prompt": "友だちに気軽に声をかける短いあいさつは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "Bye!",
+       "is_correct": false
+      },
+      {
+       "label": "Hi!",
+       "is_correct": true
+      },
+      {
+       "label": "Thanks!",
+       "is_correct": false
+      },
+      {
+       "label": "Please!",
+       "is_correct": false
+      }
+     ],
+     "explanation": "Hiは、親しい人にも使う短いあいさつだよ。"
+    },
+    {
+     "key": "US01-B-009",
+     "type": "multiple_choice",
+     "prompt": "【絵】少しはなれた友だちに気づいてもらう動きは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "目をかくす",
+       "is_correct": false
+      },
+      {
+       "label": "手をふる",
+       "is_correct": true
+      },
+      {
+       "label": "口をふさぐ",
+       "is_correct": false
+      },
+      {
+       "label": "背中を向ける",
+       "is_correct": false
+      }
+     ],
+     "explanation": "手をふると、声が届かなくてもあいさつできるよ。",
+     "image": "/quiz/us/us01-wave-greeting.webp"
+    },
+    {
+     "key": "US01-B-010",
+     "type": "multiple_choice",
+     "prompt": "相手が「Please call me Alex.」と言った。どうよぶ？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "アレックス",
+       "is_correct": true
+      },
+      {
+       "label": "先生とだけ",
+       "is_correct": false
+      },
+      {
+       "label": "名前をよばない",
+       "is_correct": false
+      },
+      {
+       "label": "名字だけ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "こう言われたら、伝えられた名前でよんでよいよ。"
+    },
+    {
+     "key": "US01-B-011",
+     "type": "multiple_choice",
+     "prompt": "相手の言葉が聞き取れなかったとき、よい聞き方は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "大声で笑う",
+       "is_correct": false
+      },
+      {
+       "label": "話をやめて歩く",
+       "is_correct": false
+      },
+      {
+       "label": "分かったふりをする",
+       "is_correct": false
+      },
+      {
+       "label": "もう一度お願いする",
+       "is_correct": true
+      }
+     ],
+     "explanation": "聞き返すときは、ていねいにもう一度お願いしよう。"
+    },
+    {
+     "key": "US01-B-012",
+     "type": "multiple_choice",
+     "prompt": "会ったばかりの人をハグしたい。まずどうする？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "すぐ強く抱きしめる",
+       "is_correct": false
+      },
+      {
+       "label": "後ろから近づく",
+       "is_correct": false
+      },
+      {
+       "label": "相手がよいかたしかめる",
+       "is_correct": true
+      },
+      {
+       "label": "何も言わず手を引く",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハグが苦手な人もいるので、相手の気持ちをたしかめよう。"
+    },
+    {
+     "key": "US01-B-013",
+     "type": "true_false",
+     "prompt": "How are you?と聞かれたら、いつも長く体調を話さなければならない。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "あいさつとして聞かれたときは、短い返事でもよいよ。"
+    },
+    {
+     "key": "US01-B-014",
+     "type": "multiple_choice",
+     "prompt": "【絵】席についたあと、布のナプキンを置く場所は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "皿の中",
+       "is_correct": false
+      },
+      {
+       "label": "ひざの上",
+       "is_correct": true
+      },
+      {
+       "label": "頭の上",
+       "is_correct": false
+      },
+      {
+       "label": "いすの下",
+       "is_correct": false
+      }
+     ],
+     "explanation": "布のナプキンは、広げてひざの上に置くよ。",
+     "image": "/quiz/us/us01-napkin-lap.webp"
+    },
+    {
+     "key": "US01-B-015",
+     "type": "multiple_choice",
+     "prompt": "口に食べ物が入っているときのよいマナーは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "立って歩き回る",
+       "is_correct": false
+      },
+      {
+       "label": "大きな声で話す",
+       "is_correct": false
+      },
+      {
+       "label": "口を閉じてかむ",
+       "is_correct": true
+      },
+      {
+       "label": "食べ物を見せる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "口を閉じてかむと、いっしょに食べる人も気持ちよいよ。"
+    },
+    {
+     "key": "US01-B-016",
+     "type": "multiple_choice",
+     "prompt": "店員が料理を運んでくれた。まず伝えたい言葉は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "注文のやり直し",
+       "is_correct": false
+      },
+      {
+       "label": "自分の住所",
+       "is_correct": false
+      },
+      {
+       "label": "お礼の言葉",
+       "is_correct": true
+      },
+      {
+       "label": "明日の天気",
+       "is_correct": false
+      }
+     ],
+     "explanation": "料理を受け取るときも、お礼を伝えると気持ちがよいよ。"
+    },
+    {
+     "key": "US01-B-017",
+     "type": "multiple_choice",
+     "prompt": "【絵】店のレジに人がならんでいる。どこで待つ？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "レジの台の上",
+       "is_correct": false
+      },
+      {
+       "label": "列のいちばん前",
+       "is_correct": false
+      },
+      {
+       "label": "出口の外",
+       "is_correct": false
+      },
+      {
+       "label": "列のいちばん後ろ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "順番を守り、列のいちばん後ろにならぼう。",
+     "image": "/quiz/us/us01-line.webp"
+    },
+    {
+     "key": "US01-B-018",
+     "type": "true_false",
+     "prompt": "エレベーターは、中の人が出る前に乗りこむのがよい。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "中の人が出てから乗ると、安全ですれちがいやすいよ。"
+    },
+    {
+     "key": "US01-B-019",
+     "type": "multiple_choice",
+     "prompt": "公園で出たごみはどうする？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "池へ流す",
+       "is_correct": false
+      },
+      {
+       "label": "ごみ箱へ入れる",
+       "is_correct": true
+      },
+      {
+       "label": "木の下へかくす",
+       "is_correct": false
+      },
+      {
+       "label": "道に置いて帰る",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ごみは決められたごみ箱へ入れるか、持ち帰ろう。"
+    },
+    {
+     "key": "US01-B-020",
+     "type": "multiple_choice",
+     "prompt": "道を歩いてわたるとき、使う場所は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "駐車場の奥",
+       "is_correct": false
+      },
+      {
+       "label": "植えこみ",
+       "is_correct": false
+      },
+      {
+       "label": "車の間",
+       "is_correct": false
+      },
+      {
+       "label": "横断歩道",
+       "is_correct": true
+      }
+     ],
+     "explanation": "信号や横断歩道を使い、安全をたしかめてわたろう。"
+    },
+    {
+     "key": "US01-B-021",
+     "type": "multiple_choice",
+     "prompt": "アメリカで気温を表すとき、よく使う単位は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "華氏",
+       "is_correct": true
+      },
+      {
+       "label": "リットル",
+       "is_correct": false
+      },
+      {
+       "label": "摂氏",
+       "is_correct": false
+      },
+      {
+       "label": "メートル",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカの日常の気温表示では、華氏がよく使われるよ。"
+    },
+    {
+     "key": "US01-B-022",
+     "type": "multiple_choice",
+     "prompt": "アメリカで長い道のきょりに、よく使う単位は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ガロン",
+       "is_correct": false
+      },
+      {
+       "label": "ポンド",
+       "is_correct": false
+      },
+      {
+       "label": "インチ",
+       "is_correct": false
+      },
+      {
+       "label": "マイル",
+       "is_correct": true
+      }
+     ],
+     "explanation": "道路のきょりや速さには、マイルがよく使われるよ。"
+    },
+    {
+     "key": "US01-B-023",
+     "type": "multiple_choice",
+     "prompt": "時こくの後ろにa.m.がある。いつの時こく？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "夕方だけ",
+       "is_correct": false
+      },
+      {
+       "label": "午前",
+       "is_correct": true
+      },
+      {
+       "label": "午後",
+       "is_correct": false
+      },
+      {
+       "label": "真夜中だけ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "a.m.は、午前の時こくを表すよ。"
+    },
+    {
+     "key": "US01-B-024",
+     "type": "multiple_choice",
+     "prompt": "時こくの後ろにp.m.がある。いつの時こく？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "正午まで",
+       "is_correct": false
+      },
+      {
+       "label": "朝だけ",
+       "is_correct": false
+      },
+      {
+       "label": "午後",
+       "is_correct": true
+      },
+      {
+       "label": "午前",
+       "is_correct": false
+      }
+     ],
+     "explanation": "p.m.は、正午より後の時こくを表すよ。"
+    },
+    {
+     "key": "US01-B-025",
+     "type": "multiple_choice",
+     "prompt": "【絵】アメリカで子どもを学校へ運ぶことが多い乗り物は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "消防車",
+       "is_correct": false
+      },
+      {
+       "label": "スクールバス",
+       "is_correct": true
+      },
+      {
+       "label": "配送トラック",
+       "is_correct": false
+      },
+      {
+       "label": "観光バス",
+       "is_correct": false
+      }
+     ],
+     "explanation": "黄色いスクールバスは、子どもの通学に使われるよ。",
+     "image": "/quiz/us/us01-school-bus.webp"
+    },
+    {
+     "key": "US01-B-026",
+     "type": "multiple_choice",
+     "prompt": "アメリカのkindergartenは、ふつう何年生の前？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "6年生",
+       "is_correct": false
+      },
+      {
+       "label": "3年生",
+       "is_correct": false
+      },
+      {
+       "label": "1年生",
+       "is_correct": true
+      },
+      {
+       "label": "高校1年生",
+       "is_correct": false
+      }
+     ],
+     "explanation": "kindergartenは、1年生の前の学年だよ。"
+    },
+    {
+     "key": "US01-B-027",
+     "type": "multiple_choice",
+     "prompt": "イギリス英語のlorryに近い、アメリカ英語は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "taxi",
+       "is_correct": false
+      },
+      {
+       "label": "truck",
+       "is_correct": true
+      },
+      {
+       "label": "train",
+       "is_correct": false
+      },
+      {
+       "label": "trailer",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカ英語では、トラックをtruckというよ。"
+    },
+    {
+     "key": "US01-B-028",
+     "type": "multiple_choice",
+     "prompt": "イギリス英語のpavementに近い、アメリカ英語は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "sidewalk",
+       "is_correct": true
+      },
+      {
+       "label": "crosswalk",
+       "is_correct": false
+      },
+      {
+       "label": "highway",
+       "is_correct": false
+      },
+      {
+       "label": "driveway",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカ英語では、歩道をsidewalkというよ。"
+    },
+    {
+     "key": "US01-B-029",
+     "type": "multiple_choice",
+     "prompt": "アメリカ英語でmansionは、どんな家？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "大きく立派な家",
+       "is_correct": true
+      },
+      {
+       "label": "学校の教室",
+       "is_correct": false
+      },
+      {
+       "label": "車を置く建物",
+       "is_correct": false
+      },
+      {
+       "label": "小さな貸し部屋",
+       "is_correct": false
+      }
+     ],
+     "explanation": "英語のmansionは、大きく立派な家を表すよ。"
+    },
+    {
+     "key": "US01-B-030",
+     "type": "multiple_choice",
+     "prompt": "日本語の「コンセント」をアメリカ英語で言うと？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "outlet",
+       "is_correct": true
+      },
+      {
+       "label": "switch",
+       "is_correct": false
+      },
+      {
+       "label": "consent",
+       "is_correct": false
+      },
+      {
+       "label": "battery",
+       "is_correct": false
+      }
+     ],
+     "explanation": "電気を取るコンセントは、アメリカ英語でoutletというよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 22,
+   "theme_key": "geography",
+   "theme_name": "アメリカの基本情報",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US02-B-001",
+     "type": "multiple_choice",
+     "prompt": "アメリカ本土の西がわに広がる海は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "大西洋",
+       "is_correct": false
+      },
+      {
+       "label": "北極海",
+       "is_correct": false
+      },
+      {
+       "label": "太平洋",
+       "is_correct": true
+      },
+      {
+       "label": "インド洋",
+       "is_correct": false
+      }
+     ],
+     "explanation": "西がわには太平洋、東がわには大西洋が広がるよ。"
+    },
+    {
+     "key": "US02-B-002",
+     "type": "multiple_choice",
+     "prompt": "アメリカ本土の東がわに広がる海は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "大西洋",
+       "is_correct": true
+      },
+      {
+       "label": "太平洋",
+       "is_correct": false
+      },
+      {
+       "label": "地中海",
+       "is_correct": false
+      },
+      {
+       "label": "日本海",
+       "is_correct": false
+      }
+     ],
+     "explanation": "東がわには大西洋が広がるよ。"
+    },
+    {
+     "key": "US02-B-003",
+     "type": "multiple_choice",
+     "prompt": "アメリカ本土を東西からはさむ二つの大きな海は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "北極海と日本海",
+       "is_correct": false
+      },
+      {
+       "label": "インド洋と日本海",
+       "is_correct": false
+      },
+      {
+       "label": "大西洋と太平洋",
+       "is_correct": true
+      },
+      {
+       "label": "地中海と紅海",
+       "is_correct": false
+      }
+     ],
+     "explanation": "東に大西洋、西に太平洋があるよ。"
+    },
+    {
+     "key": "US02-B-004",
+     "type": "multiple_choice",
+     "prompt": "アメリカの多くがあるのは、赤道よりどちらがわ？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "南がわ",
+       "is_correct": false
+      },
+      {
+       "label": "赤道の上だけ",
+       "is_correct": false
+      },
+      {
+       "label": "北がわ",
+       "is_correct": true
+      },
+      {
+       "label": "南極の近く",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカは赤道より北の北半球にあるよ。"
+    },
+    {
+     "key": "US02-B-005",
+     "type": "multiple_choice",
+     "prompt": "アメリカがあるのは、地球の東西で分けると主にどちら？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "東半球",
+       "is_correct": false
+      },
+      {
+       "label": "西半球",
+       "is_correct": true
+      },
+      {
+       "label": "南極点",
+       "is_correct": false
+      },
+      {
+       "label": "北極点",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカは主に西半球にある国だよ。"
+    },
+    {
+     "key": "US02-B-006",
+     "type": "multiple_choice",
+     "prompt": "アメリカ本土と陸の国境でつながる二つの国は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "カナダとメキシコ",
+       "is_correct": true
+      },
+      {
+       "label": "メキシコとチリ",
+       "is_correct": false
+      },
+      {
+       "label": "カナダとブラジル",
+       "is_correct": false
+      },
+      {
+       "label": "ブラジルとチリ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "北にカナダ、南にメキシコがあるよ。"
+    },
+    {
+     "key": "US02-B-007",
+     "type": "multiple_choice",
+     "prompt": "アメリカの州のうち、ひと続きにならぶ州はいくつ？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "48州",
+       "is_correct": true
+      },
+      {
+       "label": "13州",
+       "is_correct": false
+      },
+      {
+       "label": "25州",
+       "is_correct": false
+      },
+      {
+       "label": "50州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アラスカ州とハワイ州をのぞく48州がひと続きだよ。"
+    },
+    {
+     "key": "US02-B-008",
+     "type": "multiple_choice",
+     "prompt": "ひと続きの48州と、アラスカ州の間にある国は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "メキシコ",
+       "is_correct": false
+      },
+      {
+       "label": "グリーンランド",
+       "is_correct": false
+      },
+      {
+       "label": "キューバ",
+       "is_correct": false
+      },
+      {
+       "label": "カナダ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アラスカ州と48州の間にはカナダがあるよ。"
+    },
+    {
+     "key": "US02-B-009",
+     "type": "multiple_choice",
+     "prompt": "ハワイ州は、どんな土地からできている？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "大きな砂ばく",
+       "is_correct": false
+      },
+      {
+       "label": "一つの半島",
+       "is_correct": false
+      },
+      {
+       "label": "海にうかぶ島々",
+       "is_correct": true
+      },
+      {
+       "label": "内陸の平野",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハワイ州は、太平洋にある島々からできているよ。"
+    },
+    {
+     "key": "US02-B-010",
+     "type": "true_false",
+     "prompt": "アメリカの50州は、すべて陸でひと続きになっている。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アラスカ州とハワイ州は、48州からはなれているよ。"
+    },
+    {
+     "key": "US02-B-011",
+     "type": "multiple_choice",
+     "prompt": "アメリカの国の中心となる首都は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ニューヨーク",
+       "is_correct": false
+      },
+      {
+       "label": "ロサンゼルス",
+       "is_correct": false
+      },
+      {
+       "label": "シカゴ",
+       "is_correct": false
+      },
+      {
+       "label": "ワシントンD.C.",
+       "is_correct": true
+      }
+     ],
+     "explanation": "首都はワシントンD.C.だよ。"
+    },
+    {
+     "key": "US02-B-012",
+     "type": "multiple_choice",
+     "prompt": "アメリカ国旗の50個の星が表すものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "50の都市",
+       "is_correct": false
+      },
+      {
+       "label": "50の川",
+       "is_correct": false
+      },
+      {
+       "label": "50の山",
+       "is_correct": false
+      },
+      {
+       "label": "50の州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "星は、アメリカをつくる50の州を表すよ。"
+    },
+    {
+     "key": "US02-B-013",
+     "type": "multiple_choice",
+     "prompt": "アメリカ国旗にある赤と白のしまは、何本？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "13本",
+       "is_correct": true
+      },
+      {
+       "label": "50本",
+       "is_correct": false
+      },
+      {
+       "label": "25本",
+       "is_correct": false
+      },
+      {
+       "label": "10本",
+       "is_correct": false
+      }
+     ],
+     "explanation": "13本のしまは、国のもとになった13の植民地を表すよ。"
+    },
+    {
+     "key": "US02-B-014",
+     "type": "multiple_choice",
+     "prompt": "アメリカ国旗に使われる三つの色は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "赤・白・青",
+       "is_correct": true
+      },
+      {
+       "label": "白・緑・紫",
+       "is_correct": false
+      },
+      {
+       "label": "赤・黄・緑",
+       "is_correct": false
+      },
+      {
+       "label": "青・黄・黒",
+       "is_correct": false
+      }
+     ],
+     "explanation": "国旗には赤、白、青の三色が使われているよ。"
+    },
+    {
+     "key": "US02-B-015",
+     "type": "multiple_choice",
+     "prompt": "【絵】アメリカの国の鳥は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "フクロウ",
+       "is_correct": false
+      },
+      {
+       "label": "クジャク",
+       "is_correct": false
+      },
+      {
+       "label": "ツル",
+       "is_correct": false
+      },
+      {
+       "label": "ハクトウワシ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ハクトウワシは、アメリカを表す国の鳥だよ。",
+     "image": "/quiz/us/us02-bald-eagle.webp"
+    },
+    {
+     "key": "US02-B-016",
+     "type": "multiple_choice",
+     "prompt": "アメリカの国の花は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ヒマワリ",
+       "is_correct": false
+      },
+      {
+       "label": "チューリップ",
+       "is_correct": false
+      },
+      {
+       "label": "バラ",
+       "is_correct": true
+      },
+      {
+       "label": "サクラ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "バラは、アメリカの国の花に決められているよ。"
+    },
+    {
+     "key": "US02-B-017",
+     "type": "multiple_choice",
+     "prompt": "アメリカの国の木は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "オーク",
+       "is_correct": true
+      },
+      {
+       "label": "スギ",
+       "is_correct": false
+      },
+      {
+       "label": "サクラ",
+       "is_correct": false
+      },
+      {
+       "label": "ヤシ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "オークは、アメリカの国の木だよ。"
+    },
+    {
+     "key": "US02-B-018",
+     "type": "multiple_choice",
+     "prompt": "アメリカの国のほ乳動物は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "アメリカバイソン",
+       "is_correct": true
+      },
+      {
+       "label": "ジャイアントパンダ",
+       "is_correct": false
+      },
+      {
+       "label": "カンガルー",
+       "is_correct": false
+      },
+      {
+       "label": "ホッキョクグマ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカバイソンは、国を表すほ乳動物だよ。"
+    },
+    {
+     "key": "US02-B-019",
+     "type": "multiple_choice",
+     "prompt": "アメリカのお金の基本の単位は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ドル",
+       "is_correct": true
+      },
+      {
+       "label": "円",
+       "is_correct": false
+      },
+      {
+       "label": "ユーロ",
+       "is_correct": false
+      },
+      {
+       "label": "ポンド",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカでは、ドルを基本の単位に使うよ。"
+    },
+    {
+     "key": "US02-B-020",
+     "type": "multiple_choice",
+     "prompt": "1ドルは、何セント？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "50セント",
+       "is_correct": false
+      },
+      {
+       "label": "100セント",
+       "is_correct": true
+      },
+      {
+       "label": "1000セント",
+       "is_correct": false
+      },
+      {
+       "label": "10セント",
+       "is_correct": false
+      }
+     ],
+     "explanation": "100セントを合わせると1ドルになるよ。"
+    },
+    {
+     "key": "US02-B-021",
+     "type": "multiple_choice",
+     "prompt": "ペニーとよばれる硬貨は、何セント？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "10セント",
+       "is_correct": false
+      },
+      {
+       "label": "5セント",
+       "is_correct": false
+      },
+      {
+       "label": "25セント",
+       "is_correct": false
+      },
+      {
+       "label": "1セント",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ペニーは1セントの硬貨のよび名だよ。"
+    },
+    {
+     "key": "US02-B-022",
+     "type": "multiple_choice",
+     "prompt": "ニッケルとよばれる硬貨は、何セント？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "50セント",
+       "is_correct": false
+      },
+      {
+       "label": "1セント",
+       "is_correct": false
+      },
+      {
+       "label": "20セント",
+       "is_correct": false
+      },
+      {
+       "label": "5セント",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ニッケルは5セントの硬貨のよび名だよ。"
+    },
+    {
+     "key": "US02-B-023",
+     "type": "multiple_choice",
+     "prompt": "ダイムとよばれる硬貨は、何セント？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "100セント",
+       "is_correct": false
+      },
+      {
+       "label": "10セント",
+       "is_correct": true
+      },
+      {
+       "label": "25セント",
+       "is_correct": false
+      },
+      {
+       "label": "2セント",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ダイムは10セントの硬貨のよび名だよ。"
+    },
+    {
+     "key": "US02-B-024",
+     "type": "multiple_choice",
+     "prompt": "クォーターとよばれる硬貨は、何セント？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "15セント",
+       "is_correct": false
+      },
+      {
+       "label": "5セント",
+       "is_correct": false
+      },
+      {
+       "label": "25セント",
+       "is_correct": true
+      },
+      {
+       "label": "50セント",
+       "is_correct": false
+      }
+     ],
+     "explanation": "クォーターは25セントの硬貨のよび名だよ。"
+    },
+    {
+     "key": "US02-B-025",
+     "type": "multiple_choice",
+     "prompt": "5ドルを記号で書くとき、正しいものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "$5",
+       "is_correct": true
+      },
+      {
+       "label": "5¢",
+       "is_correct": false
+      },
+      {
+       "label": "¢5",
+       "is_correct": false
+      },
+      {
+       "label": "5$",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ドル記号は、ふつう数字の前に書くよ。"
+    },
+    {
+     "key": "US02-B-026",
+     "type": "true_false",
+     "prompt": "アメリカでは、国じゅうの時計がいつも同じ時こくをしめす。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "国土が広く、場所によって時こくがちがうよ。"
+    },
+    {
+     "key": "US02-B-027",
+     "type": "multiple_choice",
+     "prompt": "同じしゅんかんでは、東がわと西がわのどちらが先の時こく？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "いつも同じ",
+       "is_correct": false
+      },
+      {
+       "label": "東がわ",
+       "is_correct": true
+      },
+      {
+       "label": "季節で反対",
+       "is_correct": false
+      },
+      {
+       "label": "西がわ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "東がわの時計は、西がわより先に進んでいるよ。"
+    },
+    {
+     "key": "US02-B-028",
+     "type": "multiple_choice",
+     "prompt": "アメリカの国の力は、大きくいくつに分けられる？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "三つ",
+       "is_correct": true
+      },
+      {
+       "label": "五つ",
+       "is_correct": false
+      },
+      {
+       "label": "二つ",
+       "is_correct": false
+      },
+      {
+       "label": "四つ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "国の力を三つに分け、たがいに見守るしくみだよ。"
+    },
+    {
+     "key": "US02-B-029",
+     "type": "multiple_choice",
+     "prompt": "アメリカをつくる州の数は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "50州",
+       "is_correct": true
+      },
+      {
+       "label": "48州",
+       "is_correct": false
+      },
+      {
+       "label": "52州",
+       "is_correct": false
+      },
+      {
+       "label": "51州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカには50の州があるよ。"
+    },
+    {
+     "key": "US02-B-030",
+     "type": "multiple_choice",
+     "prompt": "アメリカの国を分ける、大きな行政の単位は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "県",
+       "is_correct": false
+      },
+      {
+       "label": "府",
+       "is_correct": false
+      },
+      {
+       "label": "道",
+       "is_correct": false
+      },
+      {
+       "label": "州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アメリカは、50の州を中心にできているよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 23,
+   "theme_key": "capital",
+   "theme_name": "州と州都",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US03-B-001",
+     "type": "multiple_choice",
+     "prompt": "ハワイ州の州都は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ホノルル",
+       "is_correct": true
+      },
+      {
+       "label": "ジュノー",
+       "is_correct": false
+      },
+      {
+       "label": "オースティン",
+       "is_correct": false
+      },
+      {
+       "label": "サクラメント",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハワイ州の州都はホノルルだよ。"
+    },
+    {
+     "key": "US03-B-002",
+     "type": "multiple_choice",
+     "prompt": "ジュノーは、どの州の州都？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "アラスカ州",
+       "is_correct": true
+      },
+      {
+       "label": "カリフォルニア州",
+       "is_correct": false
+      },
+      {
+       "label": "ハワイ州",
+       "is_correct": false
+      },
+      {
+       "label": "テキサス州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アラスカ州の州都はジュノーだよ。"
+    },
+    {
+     "key": "US03-B-003",
+     "type": "multiple_choice",
+     "prompt": "カリフォルニア州で、州政府の中心となる都市は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "オルバニー",
+       "is_correct": false
+      },
+      {
+       "label": "タラハシー",
+       "is_correct": false
+      },
+      {
+       "label": "オースティン",
+       "is_correct": false
+      },
+      {
+       "label": "サクラメント",
+       "is_correct": true
+      }
+     ],
+     "explanation": "カリフォルニア州の州都はサクラメントだよ。"
+    },
+    {
+     "key": "US03-B-004",
+     "type": "multiple_choice",
+     "prompt": "州都がオースティンである州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ニューヨーク州",
+       "is_correct": false
+      },
+      {
+       "label": "フロリダ州",
+       "is_correct": false
+      },
+      {
+       "label": "アラスカ州",
+       "is_correct": false
+      },
+      {
+       "label": "テキサス州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "テキサス州の州都はオースティンだよ。"
+    },
+    {
+     "key": "US03-B-005",
+     "type": "multiple_choice",
+     "prompt": "ニューヨーク州の州都は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "タラハシー",
+       "is_correct": false
+      },
+      {
+       "label": "オルバニー",
+       "is_correct": true
+      },
+      {
+       "label": "オリンピア",
+       "is_correct": false
+      },
+      {
+       "label": "カーソンシティ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューヨーク州の州都はオルバニーだよ。"
+    },
+    {
+     "key": "US03-B-006",
+     "type": "multiple_choice",
+     "prompt": "タラハシーは、どの州の州都？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ネバダ州",
+       "is_correct": false
+      },
+      {
+       "label": "ワシントン州",
+       "is_correct": false
+      },
+      {
+       "label": "フロリダ州",
+       "is_correct": true
+      },
+      {
+       "label": "アリゾナ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "フロリダ州の州都はタラハシーだよ。"
+    },
+    {
+     "key": "US03-B-007",
+     "type": "multiple_choice",
+     "prompt": "ネバダ州で、州政府の中心となる都市は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "フェニックス",
+       "is_correct": false
+      },
+      {
+       "label": "オリンピア",
+       "is_correct": false
+      },
+      {
+       "label": "カーソンシティ",
+       "is_correct": true
+      },
+      {
+       "label": "ボストン",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ネバダ州の州都はカーソンシティだよ。"
+    },
+    {
+     "key": "US03-B-008",
+     "type": "multiple_choice",
+     "prompt": "州都がオリンピアである州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "テキサス州",
+       "is_correct": false
+      },
+      {
+       "label": "マサチューセッツ州",
+       "is_correct": false
+      },
+      {
+       "label": "ワシントン州",
+       "is_correct": true
+      },
+      {
+       "label": "ニューヨーク州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ワシントン州の州都はオリンピアだよ。"
+    },
+    {
+     "key": "US03-B-009",
+     "type": "multiple_choice",
+     "prompt": "アリゾナ州の州都は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ボストン",
+       "is_correct": false
+      },
+      {
+       "label": "ホノルル",
+       "is_correct": false
+      },
+      {
+       "label": "ジュノー",
+       "is_correct": false
+      },
+      {
+       "label": "フェニックス",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アリゾナ州の州都はフェニックスだよ。"
+    },
+    {
+     "key": "US03-B-010",
+     "type": "multiple_choice",
+     "prompt": "ボストンは、どの州の州都？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ワシントン州",
+       "is_correct": false
+      },
+      {
+       "label": "ネバダ州",
+       "is_correct": false
+      },
+      {
+       "label": "マサチューセッツ州",
+       "is_correct": true
+      },
+      {
+       "label": "フロリダ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "マサチューセッツ州の州都はボストンだよ。"
+    },
+    {
+     "key": "US03-B-011",
+     "type": "multiple_choice",
+     "prompt": "国勢調査局の分け方で、カリフォルニア州はどの地方？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "南部",
+       "is_correct": false
+      },
+      {
+       "label": "北東部",
+       "is_correct": false
+      },
+      {
+       "label": "西部",
+       "is_correct": true
+      },
+      {
+       "label": "中西部",
+       "is_correct": false
+      }
+     ],
+     "explanation": "カリフォルニア州は西部に入るよ。"
+    },
+    {
+     "key": "US03-B-012",
+     "type": "multiple_choice",
+     "prompt": "国勢調査局の分け方で、テキサス州はどの地方？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "南部",
+       "is_correct": true
+      },
+      {
+       "label": "北東部",
+       "is_correct": false
+      },
+      {
+       "label": "西部",
+       "is_correct": false
+      },
+      {
+       "label": "中西部",
+       "is_correct": false
+      }
+     ],
+     "explanation": "テキサス州は南部に入るよ。"
+    },
+    {
+     "key": "US03-B-013",
+     "type": "multiple_choice",
+     "prompt": "ニューヨーク州が入る地方は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "南部",
+       "is_correct": false
+      },
+      {
+       "label": "西部",
+       "is_correct": false
+      },
+      {
+       "label": "北東部",
+       "is_correct": true
+      },
+      {
+       "label": "中西部",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューヨーク州は北東部に入るよ。"
+    },
+    {
+     "key": "US03-B-014",
+     "type": "multiple_choice",
+     "prompt": "次のうち、西部に入る州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "テキサス州",
+       "is_correct": false
+      },
+      {
+       "label": "フロリダ州",
+       "is_correct": false
+      },
+      {
+       "label": "ネバダ州",
+       "is_correct": true
+      },
+      {
+       "label": "ニューヨーク州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ネバダ州は西部に入るよ。"
+    },
+    {
+     "key": "US03-B-015",
+     "type": "multiple_choice",
+     "prompt": "次のうち、南部に入る州は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ニューヨーク州",
+       "is_correct": false
+      },
+      {
+       "label": "カリフォルニア州",
+       "is_correct": false
+      },
+      {
+       "label": "フロリダ州",
+       "is_correct": true
+      },
+      {
+       "label": "マサチューセッツ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "フロリダ州は南部に入るよ。"
+    },
+    {
+     "key": "US03-B-016",
+     "type": "multiple_choice",
+     "prompt": "次のうち、北東部に入る州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ハワイ州",
+       "is_correct": false
+      },
+      {
+       "label": "アリゾナ州",
+       "is_correct": false
+      },
+      {
+       "label": "マサチューセッツ州",
+       "is_correct": true
+      },
+      {
+       "label": "テキサス州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "マサチューセッツ州は北東部に入るよ。"
+    },
+    {
+     "key": "US03-B-017",
+     "type": "multiple_choice",
+     "prompt": "国勢調査局が使う4地方の名前はどれ？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "東南部",
+       "is_correct": false
+      },
+      {
+       "label": "中央部",
+       "is_correct": false
+      },
+      {
+       "label": "中西部",
+       "is_correct": true
+      },
+      {
+       "label": "北西部",
+       "is_correct": false
+      }
+     ],
+     "explanation": "4地方は、北東部・中西部・南部・西部だよ。"
+    },
+    {
+     "key": "US03-B-018",
+     "type": "multiple_choice",
+     "prompt": "次のうち、西部に入る島の州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ハワイ州",
+       "is_correct": true
+      },
+      {
+       "label": "フロリダ州",
+       "is_correct": false
+      },
+      {
+       "label": "テキサス州",
+       "is_correct": false
+      },
+      {
+       "label": "ニューヨーク州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハワイ州は西部に入るよ。"
+    },
+    {
+     "key": "US03-B-019",
+     "type": "multiple_choice",
+     "prompt": "カリフォルニア州が面する海岸は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "メキシコ湾岸",
+       "is_correct": false
+      },
+      {
+       "label": "北極海岸",
+       "is_correct": false
+      },
+      {
+       "label": "太平洋岸",
+       "is_correct": true
+      },
+      {
+       "label": "大西洋岸",
+       "is_correct": false
+      }
+     ],
+     "explanation": "カリフォルニア州は、アメリカ本土の西海岸にあるよ。"
+    },
+    {
+     "key": "US03-B-020",
+     "type": "multiple_choice",
+     "prompt": "フロリダ州の土地の形に近いものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "内陸の平野",
+       "is_correct": false
+      },
+      {
+       "label": "海にうかぶ島",
+       "is_correct": false
+      },
+      {
+       "label": "半島",
+       "is_correct": true
+      },
+      {
+       "label": "細長い地峡",
+       "is_correct": false
+      }
+     ],
+     "explanation": "フロリダ州は、南東部から海へ半島状にのびるよ。"
+    },
+    {
+     "key": "US03-B-021",
+     "type": "true_false",
+     "prompt": "アリゾナ州は、南でメキシコと国境をせっしている。",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アリゾナ州の南にはメキシコがあるよ。"
+    },
+    {
+     "key": "US03-B-022",
+     "type": "multiple_choice",
+     "prompt": "テキサス州がせっする国と海の組み合わせは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "カナダと太平洋",
+       "is_correct": false
+      },
+      {
+       "label": "メキシコとメキシコ湾",
+       "is_correct": true
+      },
+      {
+       "label": "メキシコと北極海",
+       "is_correct": false
+      },
+      {
+       "label": "カナダと大西洋",
+       "is_correct": false
+      }
+     ],
+     "explanation": "テキサス州は、メキシコとの国境と湾岸を持つよ。"
+    },
+    {
+     "key": "US03-B-023",
+     "type": "multiple_choice",
+     "prompt": "ニューヨーク州がせっする国と海の組み合わせは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "メキシコと太平洋",
+       "is_correct": false
+      },
+      {
+       "label": "カナダと大西洋",
+       "is_correct": true
+      },
+      {
+       "label": "メキシコとメキシコ湾",
+       "is_correct": false
+      },
+      {
+       "label": "カナダと北極海",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューヨーク州は、カナダとの国境と大西洋岸を持つよ。"
+    },
+    {
+     "key": "US03-B-024",
+     "type": "multiple_choice",
+     "prompt": "ネバダ州は、カリフォルニア州から見てどちら？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "東",
+       "is_correct": true
+      },
+      {
+       "label": "西",
+       "is_correct": false
+      },
+      {
+       "label": "南",
+       "is_correct": false
+      },
+      {
+       "label": "北",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ネバダ州は、カリフォルニア州の東どなりだよ。"
+    },
+    {
+     "key": "US03-B-025",
+     "type": "multiple_choice",
+     "prompt": "ワシントン州は、陸続きの48州のどこにある？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "北東の角",
+       "is_correct": false
+      },
+      {
+       "label": "南西の角",
+       "is_correct": false
+      },
+      {
+       "label": "南東の角",
+       "is_correct": false
+      },
+      {
+       "label": "北西の角",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ワシントン州は、48州の北西の角にあるよ。"
+    },
+    {
+     "key": "US03-B-026",
+     "type": "multiple_choice",
+     "prompt": "マサチューセッツ州がある海岸は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "大西洋岸",
+       "is_correct": true
+      },
+      {
+       "label": "太平洋岸",
+       "is_correct": false
+      },
+      {
+       "label": "メキシコ湾岸",
+       "is_correct": false
+      },
+      {
+       "label": "北極海岸",
+       "is_correct": false
+      }
+     ],
+     "explanation": "マサチューセッツ州は北東部の海岸にあるよ。"
+    },
+    {
+     "key": "US03-B-027",
+     "type": "multiple_choice",
+     "prompt": "アラスカ州がある大陸は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "アフリカ大陸",
+       "is_correct": false
+      },
+      {
+       "label": "ヨーロッパ大陸",
+       "is_correct": false
+      },
+      {
+       "label": "南アメリカ大陸",
+       "is_correct": false
+      },
+      {
+       "label": "北アメリカ大陸",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アラスカ州は北アメリカ大陸の北西にあるよ。"
+    },
+    {
+     "key": "US03-B-028",
+     "type": "multiple_choice",
+     "prompt": "ハワイ州がある海の場所は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "北大西洋",
+       "is_correct": false
+      },
+      {
+       "label": "北極海",
+       "is_correct": false
+      },
+      {
+       "label": "中央太平洋",
+       "is_correct": true
+      },
+      {
+       "label": "地中海",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハワイ州は中央太平洋にある島の州だよ。"
+    },
+    {
+     "key": "US03-B-029",
+     "type": "multiple_choice",
+     "prompt": "ロサンゼルスがある州は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "カリフォルニア州",
+       "is_correct": true
+      },
+      {
+       "label": "アラスカ州",
+       "is_correct": false
+      },
+      {
+       "label": "ワシントン州",
+       "is_correct": false
+      },
+      {
+       "label": "ネバダ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ロサンゼルスはカリフォルニア州にあるよ。"
+    },
+    {
+     "key": "US03-B-030",
+     "type": "multiple_choice",
+     "prompt": "マイアミがある州は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ハワイ州",
+       "is_correct": false
+      },
+      {
+       "label": "アリゾナ州",
+       "is_correct": false
+      },
+      {
+       "label": "フロリダ州",
+       "is_correct": true
+      },
+      {
+       "label": "マサチューセッツ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "マイアミはフロリダ州にあるよ。"
+    },
+    {
+     "key": "US03-B-031",
+     "type": "true_false",
+     "prompt": "ラスベガスは、カリフォルニア州にある。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ラスベガスがあるのはネバダ州だよ。"
+    },
+    {
+     "key": "US03-B-032",
+     "type": "multiple_choice",
+     "prompt": "シアトルがある州は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "アラスカ州",
+       "is_correct": false
+      },
+      {
+       "label": "アリゾナ州",
+       "is_correct": false
+      },
+      {
+       "label": "カリフォルニア州",
+       "is_correct": false
+      },
+      {
+       "label": "ワシントン州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "シアトルはワシントン州にあるよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 24,
+   "theme_key": "heritage",
+   "theme_name": "祝日・行事・くらし・スポーツ",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US04-B-001",
+     "type": "multiple_choice",
+     "prompt": "ハロウィンは、何月何日？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "11月1日",
+       "is_correct": false
+      },
+      {
+       "label": "10月31日",
+       "is_correct": true
+      },
+      {
+       "label": "9月30日",
+       "is_correct": false
+      },
+      {
+       "label": "12月31日",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハロウィンは、毎年10月31日だよ。"
+    },
+    {
+     "key": "US04-B-002",
+     "type": "multiple_choice",
+     "prompt": "ハロウィンで、子どもが家をたずねておかしをもらう行事は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "たこあげ大会",
+       "is_correct": false
+      },
+      {
+       "label": "たまごさがし",
+       "is_correct": false
+      },
+      {
+       "label": "トリック・オア・トリート",
+       "is_correct": true
+      },
+      {
+       "label": "プレゼントこうかん",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ふんそうして家をたずね、おかしをもらうことがあるよ。"
+    },
+    {
+     "key": "US04-B-003",
+     "type": "multiple_choice",
+     "prompt": "かぼちゃをくりぬいて作る、このかざりは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "クリスマスリース",
+       "is_correct": false
+      },
+      {
+       "label": "ジャック・オー・ランタン",
+       "is_correct": true
+      },
+      {
+       "label": "バースデーケーキ",
+       "is_correct": false
+      },
+      {
+       "label": "イースターエッグ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "顔の形にくりぬいたかぼちゃのかざりだよ。",
+     "image": "/quiz/us/us04-jack-o-lantern.webp"
+    },
+    {
+     "key": "US04-B-004",
+     "type": "true_false",
+     "prompt": "ハロウィンは、アメリカの連邦祝日である。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "広く楽しまれる行事だが、連邦祝日ではないよ。"
+    },
+    {
+     "key": "US04-B-005",
+     "type": "multiple_choice",
+     "prompt": "アメリカの感謝祭は、いつ？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "11月の第2火曜日",
+       "is_correct": false
+      },
+      {
+       "label": "10月の第1月曜日",
+       "is_correct": false
+      },
+      {
+       "label": "11月の第4木曜日",
+       "is_correct": true
+      },
+      {
+       "label": "12月の第4金曜日",
+       "is_correct": false
+      }
+     ],
+     "explanation": "感謝祭は、11月の第4木曜日だよ。"
+    },
+    {
+     "key": "US04-B-006",
+     "type": "multiple_choice",
+     "prompt": "感謝祭の食事で、よく知られるこの鳥は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "にわとり",
+       "is_correct": false
+      },
+      {
+       "label": "あひる",
+       "is_correct": false
+      },
+      {
+       "label": "七面鳥",
+       "is_correct": true
+      },
+      {
+       "label": "うずら",
+       "is_correct": false
+      }
+     ],
+     "explanation": "七面鳥は、今の感謝祭でよく食べられる料理だよ。",
+     "image": "/quiz/us/us04-thanksgiving-turkey.webp"
+    },
+    {
+     "key": "US04-B-007",
+     "type": "multiple_choice",
+     "prompt": "感謝祭で大切にされる気持ちは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "勝ちたい気持ち",
+       "is_correct": false
+      },
+      {
+       "label": "ありがとうの気持ち",
+       "is_correct": true
+      },
+      {
+       "label": "こわがらせる気持ち",
+       "is_correct": false
+      },
+      {
+       "label": "早く走る気持ち",
+       "is_correct": false
+      }
+     ],
+     "explanation": "家族や友人と集まり、感謝を表す人が多いよ。"
+    },
+    {
+     "key": "US04-B-008",
+     "type": "multiple_choice",
+     "prompt": "アメリカの独立記念日は、何月何日？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "5月1日",
+       "is_correct": false
+      },
+      {
+       "label": "7月4日",
+       "is_correct": true
+      },
+      {
+       "label": "9月2日",
+       "is_correct": false
+      },
+      {
+       "label": "8月15日",
+       "is_correct": false
+      }
+     ],
+     "explanation": "独立記念日は、毎年7月4日だよ。"
+    },
+    {
+     "key": "US04-B-009",
+     "type": "multiple_choice",
+     "prompt": "独立記念日は、何を記念する日？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "春のしゅうかく",
+       "is_correct": false
+      },
+      {
+       "label": "冬の始まり",
+       "is_correct": false
+      },
+      {
+       "label": "国の独立",
+       "is_correct": true
+      },
+      {
+       "label": "新しい学年",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカが独立をせん言したことを記念する日だよ。"
+    },
+    {
+     "key": "US04-B-010",
+     "type": "multiple_choice",
+     "prompt": "独立記念日に、よく見られるものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "こいのぼり",
+       "is_correct": false
+      },
+      {
+       "label": "ひな人形",
+       "is_correct": false
+      },
+      {
+       "label": "雪だるま",
+       "is_correct": false
+      },
+      {
+       "label": "花火",
+       "is_correct": true
+      }
+     ],
+     "explanation": "花火やパレードで祝う町が多いよ。"
+    },
+    {
+     "key": "US04-B-011",
+     "type": "multiple_choice",
+     "prompt": "クリスマスは、何月何日？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "12月25日",
+       "is_correct": true
+      },
+      {
+       "label": "11月25日",
+       "is_correct": false
+      },
+      {
+       "label": "12月15日",
+       "is_correct": false
+      },
+      {
+       "label": "1月25日",
+       "is_correct": false
+      }
+     ],
+     "explanation": "クリスマスは、毎年12月25日だよ。"
+    },
+    {
+     "key": "US04-B-012",
+     "type": "multiple_choice",
+     "prompt": "クリスマスツリーに付けるかざりは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "オーナメント",
+       "is_correct": true
+      },
+      {
+       "label": "切手",
+       "is_correct": false
+      },
+      {
+       "label": "信号き",
+       "is_correct": false
+      },
+      {
+       "label": "バット",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ツリーには、玉や星などのオーナメントをかざるよ。"
+    },
+    {
+     "key": "US04-B-013",
+     "type": "multiple_choice",
+     "prompt": "クリスマスに、だんろの近くなどにつるすものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "くつ下",
+       "is_correct": true
+      },
+      {
+       "label": "野球ぼう",
+       "is_correct": false
+      },
+      {
+       "label": "水とう",
+       "is_correct": false
+      },
+      {
+       "label": "雨がさ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "小さなプレゼントを入れるくつ下をかざることがあるよ。"
+    },
+    {
+     "key": "US04-B-014",
+     "type": "multiple_choice",
+     "prompt": "ニューイヤーズ・イブは、いつ？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "12月31日",
+       "is_correct": true
+      },
+      {
+       "label": "1月2日",
+       "is_correct": false
+      },
+      {
+       "label": "6月30日",
+       "is_correct": false
+      },
+      {
+       "label": "10月31日",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューイヤーズ・イブは、元日の前の日だよ。"
+    },
+    {
+     "key": "US04-B-015",
+     "type": "multiple_choice",
+     "prompt": "アメリカで、きん急のときに電話する番号は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "911",
+       "is_correct": true
+      },
+      {
+       "label": "118",
+       "is_correct": false
+      },
+      {
+       "label": "110",
+       "is_correct": false
+      },
+      {
+       "label": "119",
+       "is_correct": false
+      }
+     ],
+     "explanation": "911は、きん急の助けをよぶ番号だよ。"
+    },
+    {
+     "key": "US04-B-016",
+     "type": "multiple_choice",
+     "prompt": "911で、よべる助けは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "けいさつ・消防・救急",
+       "is_correct": true
+      },
+      {
+       "label": "図書館・学校・公園",
+       "is_correct": false
+      },
+      {
+       "label": "空港・駅・港",
+       "is_correct": false
+      },
+      {
+       "label": "店・ホテル・食堂",
+       "is_correct": false
+      }
+     ],
+     "explanation": "けいさつ、消防、救急のきん急の助けにつながるよ。"
+    },
+    {
+     "key": "US04-B-017",
+     "type": "true_false",
+     "prompt": "アメリカでは、車は道の右側を走る。",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカの道路では、車は右側を走るよ。"
+    },
+    {
+     "key": "US04-B-018",
+     "type": "multiple_choice",
+     "prompt": "911に電話したら、まず伝える大切なことは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "旅行の予定",
+       "is_correct": false
+      },
+      {
+       "label": "学校の教科",
+       "is_correct": false
+      },
+      {
+       "label": "きん急の場所",
+       "is_correct": true
+      },
+      {
+       "label": "好きな食べ物",
+       "is_correct": false
+      }
+     ],
+     "explanation": "助けが行けるように、場所をはっきり伝えよう。"
+    },
+    {
+     "key": "US04-B-019",
+     "type": "multiple_choice",
+     "prompt": "アメリカの手紙で、切手をはる場所は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "右下",
+       "is_correct": false
+      },
+      {
+       "label": "左下",
+       "is_correct": false
+      },
+      {
+       "label": "右上",
+       "is_correct": true
+      },
+      {
+       "label": "左上",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ふうとうの表の右上に切手をはるよ。"
+    },
+    {
+     "key": "US04-B-020",
+     "type": "multiple_choice",
+     "prompt": "ZIPコードは、何に使う番号？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "郵便をとどける",
+       "is_correct": true
+      },
+      {
+       "label": "車をうんてんする",
+       "is_correct": false
+      },
+      {
+       "label": "時こくを知らせる",
+       "is_correct": false
+      },
+      {
+       "label": "体温をはかる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ZIPコードは、郵便を分けてとどけるために使うよ。"
+    },
+    {
+     "key": "US04-B-021",
+     "type": "multiple_choice",
+     "prompt": "クラスで学校の外へ学びに行くことは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ホームルーム",
+       "is_correct": false
+      },
+      {
+       "label": "ランチタイム",
+       "is_correct": false
+      },
+      {
+       "label": "フィールドトリップ",
+       "is_correct": true
+      },
+      {
+       "label": "ベッドタイム",
+       "is_correct": false
+      }
+     ],
+     "explanation": "博物館などへ学びに行く校外学習だよ。"
+    },
+    {
+     "key": "US04-B-022",
+     "type": "multiple_choice",
+     "prompt": "サイエンスフェアで、子どもが見せるものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "通学の切符",
+       "is_correct": false
+      },
+      {
+       "label": "昼食のこんだて",
+       "is_correct": false
+      },
+      {
+       "label": "教室のそうじ道具",
+       "is_correct": false
+      },
+      {
+       "label": "実験や研究",
+       "is_correct": true
+      }
+     ],
+     "explanation": "科学の実験や調べたことをしょうかいする行事だよ。"
+    },
+    {
+     "key": "US04-B-023",
+     "type": "multiple_choice",
+     "prompt": "スペリング・ビーで、ちょうせんすることは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "英単語を正しくつづる",
+       "is_correct": true
+      },
+      {
+       "label": "絵を速くかき上げる",
+       "is_correct": false
+      },
+      {
+       "label": "ボールを遠くへ投げる",
+       "is_correct": false
+      },
+      {
+       "label": "楽器を大きく鳴らす",
+       "is_correct": false
+      }
+     ],
+     "explanation": "聞いた英単語のつづりを答える大会だよ。"
+    },
+    {
+     "key": "US04-B-024",
+     "type": "multiple_choice",
+     "prompt": "放課後のクラブやスポーツは、何とよばれる？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "入学式",
+       "is_correct": false
+      },
+      {
+       "label": "昼休み",
+       "is_correct": false
+      },
+      {
+       "label": "家庭科",
+       "is_correct": false
+      },
+      {
+       "label": "課外活動",
+       "is_correct": true
+      }
+     ],
+     "explanation": "じゅぎょうの外で行う活動を課外活動というよ。"
+    },
+    {
+     "key": "US04-B-025",
+     "type": "multiple_choice",
+     "prompt": "このバットとグローブを使うスポーツは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "野球",
+       "is_correct": true
+      },
+      {
+       "label": "バスケットボール",
+       "is_correct": false
+      },
+      {
+       "label": "アイスホッケー",
+       "is_correct": false
+      },
+      {
+       "label": "アメリカンフットボール",
+       "is_correct": false
+      }
+     ],
+     "explanation": "野球では、バットでボールを打ち、グローブで取るよ。",
+     "image": "/quiz/us/us04-baseball-gear.webp"
+    },
+    {
+     "key": "US04-B-026",
+     "type": "multiple_choice",
+     "prompt": "バスケットボールで、ボールを通して点を取るものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "エンドゾーン",
+       "is_correct": false
+      },
+      {
+       "label": "リング",
+       "is_correct": true
+      },
+      {
+       "label": "ホームベース",
+       "is_correct": false
+      },
+      {
+       "label": "ゴールポスト",
+       "is_correct": false
+      }
+     ],
+     "explanation": "高い所にあるリングへボールを入れて点を取るよ。"
+    },
+    {
+     "key": "US04-B-027",
+     "type": "multiple_choice",
+     "prompt": "アメリカンフットボールで使うボールの形は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "小さな立方体",
+       "is_correct": false
+      },
+      {
+       "label": "平たい円ばん",
+       "is_correct": false
+      },
+      {
+       "label": "先のとがっただ円",
+       "is_correct": true
+      },
+      {
+       "label": "まん丸",
+       "is_correct": false
+      }
+     ],
+     "explanation": "両はしがとがった、だ円形のボールを使うよ。"
+    },
+    {
+     "key": "US04-B-028",
+     "type": "multiple_choice",
+     "prompt": "こおりの上で、この黒い円ばんを打つスポーツは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "テニス",
+       "is_correct": false
+      },
+      {
+       "label": "野球",
+       "is_correct": false
+      },
+      {
+       "label": "バレーボール",
+       "is_correct": false
+      },
+      {
+       "label": "アイスホッケー",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アイスホッケーでは、パックという円ばんを打つよ。",
+     "image": "/quiz/us/us04-hockey-puck.webp"
+    },
+    {
+     "key": "US04-B-029",
+     "type": "multiple_choice",
+     "prompt": "野球で、ストライクがいくつになると三しん？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "4つ",
+       "is_correct": false
+      },
+      {
+       "label": "2つ",
+       "is_correct": false
+      },
+      {
+       "label": "5つ",
+       "is_correct": false
+      },
+      {
+       "label": "3つ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "三つのストライクで三しんになるよ。"
+    },
+    {
+     "key": "US04-B-030",
+     "type": "multiple_choice",
+     "prompt": "アメリカンフットボールのタッチダウンは何点？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "10点",
+       "is_correct": false
+      },
+      {
+       "label": "3点",
+       "is_correct": false
+      },
+      {
+       "label": "1点",
+       "is_correct": false
+      },
+      {
+       "label": "6点",
+       "is_correct": true
+      }
+     ],
+     "explanation": "タッチダウンは6点だよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 25,
+   "theme_key": "heritage",
+   "theme_name": "食べ物・名物",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US05-B-001",
+     "type": "multiple_choice",
+     "prompt": "この食べ物は、何？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ハンバーガー",
+       "is_correct": true
+      },
+      {
+       "label": "アップルパイ",
+       "is_correct": false
+      },
+      {
+       "label": "パンケーキ",
+       "is_correct": false
+      },
+      {
+       "label": "ホットドッグ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "丸いパンに肉などをはさんだ食べ物だよ。",
+     "image": "/quiz/us/us05-hamburger.webp"
+    },
+    {
+     "key": "US05-B-002",
+     "type": "multiple_choice",
+     "prompt": "長いパンにソーセージをはさんだ、この食べ物は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ホットドッグ",
+       "is_correct": true
+      },
+      {
+       "label": "ミートローフ",
+       "is_correct": false
+      },
+      {
+       "label": "グリルドチーズ",
+       "is_correct": false
+      },
+      {
+       "label": "ロブスターロール",
+       "is_correct": false
+      }
+     ],
+     "explanation": "細長いパンとソーセージが目じるしだよ。",
+     "image": "/quiz/us/us05-hot-dog.webp"
+    },
+    {
+     "key": "US05-B-003",
+     "type": "multiple_choice",
+     "prompt": "パンにチーズをはさみ、焼いてとかす料理は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "グリルドチーズ",
+       "is_correct": true
+      },
+      {
+       "label": "フレンチトースト",
+       "is_correct": false
+      },
+      {
+       "label": "クラブサンド",
+       "is_correct": false
+      },
+      {
+       "label": "コーンブレッド",
+       "is_correct": false
+      }
+     ],
+     "explanation": "チーズがとけるまでパンを焼くサンドイッチだよ。"
+    },
+    {
+     "key": "US05-B-004",
+     "type": "multiple_choice",
+     "prompt": "PB&Jサンドイッチに、はさむものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "たまごとレタス",
+       "is_correct": false
+      },
+      {
+       "label": "ハムとチーズ",
+       "is_correct": false
+      },
+      {
+       "label": "ピーナツバターとジャム",
+       "is_correct": true
+      },
+      {
+       "label": "魚とポテト",
+       "is_correct": false
+      }
+     ],
+     "explanation": "PBはピーナツバター、Jはジャムを表すよ。"
+    },
+    {
+     "key": "US05-B-005",
+     "type": "multiple_choice",
+     "prompt": "ぼうにさしたソーセージへ衣を付けてあげる料理は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "クラブケーキ",
+       "is_correct": false
+      },
+      {
+       "label": "チキンウィング",
+       "is_correct": false
+      },
+      {
+       "label": "コーンドッグ",
+       "is_correct": true
+      },
+      {
+       "label": "オニオンリング",
+       "is_correct": false
+      }
+     ],
+     "explanation": "とうもろこしの粉を使う衣が名前の元だよ。"
+    },
+    {
+     "key": "US05-B-006",
+     "type": "multiple_choice",
+     "prompt": "スロッピー・ジョーで、パンにはさむ主なものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "味を付けたひき肉",
+       "is_correct": true
+      },
+      {
+       "label": "ゆでたロブスター",
+       "is_correct": false
+      },
+      {
+       "label": "焼いたマシュマロ",
+       "is_correct": false
+      },
+      {
+       "label": "生のりんご",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ソースで味を付けたひき肉をパンにはさむよ。"
+    },
+    {
+     "key": "US05-B-007",
+     "type": "multiple_choice",
+     "prompt": "丸く焼いた生地を重ね、シロップをかけるこの料理は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ビスケット",
+       "is_correct": false
+      },
+      {
+       "label": "パンケーキ",
+       "is_correct": true
+      },
+      {
+       "label": "ワッフル",
+       "is_correct": false
+      },
+      {
+       "label": "ベーグル",
+       "is_correct": false
+      }
+     ],
+     "explanation": "朝食で食べることが多い、平たく丸い料理だよ。",
+     "image": "/quiz/us/us05-pancakes.webp"
+    },
+    {
+     "key": "US05-B-008",
+     "type": "multiple_choice",
+     "prompt": "表面に四角いくぼみがある、この食べ物は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "マフィン",
+       "is_correct": false
+      },
+      {
+       "label": "ドーナツ",
+       "is_correct": false
+      },
+      {
+       "label": "ワッフル",
+       "is_correct": true
+      },
+      {
+       "label": "ブラウニー",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ワッフルの表面には、あみ目のようなくぼみがあるよ。",
+     "image": "/quiz/us/us05-waffle.webp"
+    },
+    {
+     "key": "US05-B-009",
+     "type": "multiple_choice",
+     "prompt": "朝食のシリアルに、よくかけるものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ケチャップ",
+       "is_correct": false
+      },
+      {
+       "label": "牛乳",
+       "is_correct": true
+      },
+      {
+       "label": "しょうゆ",
+       "is_correct": false
+      },
+      {
+       "label": "スープ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "シリアルに牛乳をかけて食べることが多いよ。"
+    },
+    {
+     "key": "US05-B-010",
+     "type": "multiple_choice",
+     "prompt": "たまごをまぜながら焼く料理は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ゆでたまご",
+       "is_correct": false
+      },
+      {
+       "label": "スクランブルエッグ",
+       "is_correct": true
+      },
+      {
+       "label": "ポーチドエッグ",
+       "is_correct": false
+      },
+      {
+       "label": "目玉焼き",
+       "is_correct": false
+      }
+     ],
+     "explanation": "たまごをまぜて、やわらかく焼く料理だよ。"
+    },
+    {
+     "key": "US05-B-011",
+     "type": "multiple_choice",
+     "prompt": "オートミールの主な材料は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "オーツ麦",
+       "is_correct": true
+      },
+      {
+       "label": "白いんげん豆",
+       "is_correct": false
+      },
+      {
+       "label": "とうもろこし",
+       "is_correct": false
+      },
+      {
+       "label": "じゃがいも",
+       "is_correct": false
+      }
+     ],
+     "explanation": "オーツ麦をやわらかくにて作るよ。"
+    },
+    {
+     "key": "US05-B-012",
+     "type": "multiple_choice",
+     "prompt": "まん中にあながある、丸いパンは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "コーンブレッド",
+       "is_correct": false
+      },
+      {
+       "label": "クロワッサン",
+       "is_correct": false
+      },
+      {
+       "label": "バゲット",
+       "is_correct": false
+      },
+      {
+       "label": "ベーグル",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ベーグルは、輪のような形のパンだよ。"
+    },
+    {
+     "key": "US05-B-013",
+     "type": "multiple_choice",
+     "prompt": "チキンウィングは、にわとりのどの部分？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "くび",
+       "is_correct": false
+      },
+      {
+       "label": "むね",
+       "is_correct": false
+      },
+      {
+       "label": "あし",
+       "is_correct": false
+      },
+      {
+       "label": "つばさ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ウィングは英語で、つばさという意味だよ。"
+    },
+    {
+     "key": "US05-B-014",
+     "type": "true_false",
+     "prompt": "バーベキューは、いつも強い火で短い時間だけ焼く。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "けむりや弱い火で、長く火を通す作り方もあるよ。"
+    },
+    {
+     "key": "US05-B-015",
+     "type": "multiple_choice",
+     "prompt": "ひき肉をパンのような形にして焼く料理は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ミートローフ",
+       "is_correct": true
+      },
+      {
+       "label": "ビーフシチュー",
+       "is_correct": false
+      },
+      {
+       "label": "ローストチキン",
+       "is_correct": false
+      },
+      {
+       "label": "スペアリブ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ひき肉を細長くまとめて、オーブンで焼くよ。"
+    },
+    {
+     "key": "US05-B-016",
+     "type": "multiple_choice",
+     "prompt": "フライドチキンは、どんな料理？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "生で食べるぶた肉",
+       "is_correct": false
+      },
+      {
+       "label": "水でにた牛肉",
+       "is_correct": false
+      },
+      {
+       "label": "衣を付けてあげたとり肉",
+       "is_correct": true
+      },
+      {
+       "label": "けむりでかわかした魚",
+       "is_correct": false
+      }
+     ],
+     "explanation": "とり肉に衣を付け、油であげる料理だよ。"
+    },
+    {
+     "key": "US05-B-017",
+     "type": "multiple_choice",
+     "prompt": "パンにロブスターの身をはさんだ、この料理は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "フィッシュタコス",
+       "is_correct": false
+      },
+      {
+       "label": "ロブスターロール",
+       "is_correct": true
+      },
+      {
+       "label": "ツナサンド",
+       "is_correct": false
+      },
+      {
+       "label": "クラブケーキ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ロブスターをパンにはさんだ海辺の名物だよ。",
+     "image": "/quiz/us/us05-lobster-roll.webp"
+    },
+    {
+     "key": "US05-B-018",
+     "type": "multiple_choice",
+     "prompt": "クラブケーキの主な材料は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "バナナ",
+       "is_correct": false
+      },
+      {
+       "label": "カニの身",
+       "is_correct": true
+      },
+      {
+       "label": "牛のひき肉",
+       "is_correct": false
+      },
+      {
+       "label": "とうふ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "カニの身をまとめて、丸く焼く料理だよ。"
+    },
+    {
+     "key": "US05-B-019",
+     "type": "multiple_choice",
+     "prompt": "クラムチャウダーに入る「クラム」は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "たこ",
+       "is_correct": false
+      },
+      {
+       "label": "さけ",
+       "is_correct": false
+      },
+      {
+       "label": "二まい貝",
+       "is_correct": true
+      },
+      {
+       "label": "えび",
+       "is_correct": false
+      }
+     ],
+     "explanation": "クラムは、アサリなどの二まい貝だよ。"
+    },
+    {
+     "key": "US05-B-020",
+     "type": "multiple_choice",
+     "prompt": "りんごを入れて焼く、このデザートは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "アップルパイ",
+       "is_correct": true
+      },
+      {
+       "label": "パンプキンパイ",
+       "is_correct": false
+      },
+      {
+       "label": "キーライムパイ",
+       "is_correct": false
+      },
+      {
+       "label": "ピーカンパイ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "りんごをパイ生地でつつんで焼くよ。",
+     "image": "/quiz/us/us05-apple-pie.webp"
+    },
+    {
+     "key": "US05-B-021",
+     "type": "multiple_choice",
+     "prompt": "四角く切ることが多い、チョコレートの焼きがしは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "クッキー",
+       "is_correct": false
+      },
+      {
+       "label": "ブラウニー",
+       "is_correct": true
+      },
+      {
+       "label": "プリン",
+       "is_correct": false
+      },
+      {
+       "label": "カップケーキ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ブラウニーは、しっとりしたチョコの焼きがしだよ。"
+    },
+    {
+     "key": "US05-B-022",
+     "type": "true_false",
+     "prompt": "ドーナツは、すべてまん中にあながある。",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "中にクリームを入れた、あなのないドーナツもあるよ。"
+    },
+    {
+     "key": "US05-B-023",
+     "type": "multiple_choice",
+     "prompt": "アイスにソースや果物をのせたデザートは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "チーズケーキ",
+       "is_correct": false
+      },
+      {
+       "label": "ゼリー",
+       "is_correct": false
+      },
+      {
+       "label": "マシュマロ",
+       "is_correct": false
+      },
+      {
+       "label": "サンデー",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アイスクリームにいろいろな物をのせるよ。"
+    },
+    {
+     "key": "US05-B-024",
+     "type": "multiple_choice",
+     "prompt": "ニューヨーク風チーズケーキに、よく使うものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "トマトソース",
+       "is_correct": false
+      },
+      {
+       "label": "とうもろこしの粉だけ",
+       "is_correct": false
+      },
+      {
+       "label": "クリームチーズ",
+       "is_correct": true
+      },
+      {
+       "label": "チェダーチーズだけ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "クリームチーズなどで、なめらかな生地を作るよ。"
+    },
+    {
+     "key": "US05-B-025",
+     "type": "multiple_choice",
+     "prompt": "感謝祭のデザートで、よく知られるパイは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "パンプキンパイ",
+       "is_correct": true
+      },
+      {
+       "label": "チェリーパイ",
+       "is_correct": false
+      },
+      {
+       "label": "レモンパイ",
+       "is_correct": false
+      },
+      {
+       "label": "バナナパイ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "かぼちゃを使うパイは、感謝祭でよく知られるよ。"
+    },
+    {
+     "key": "US05-B-026",
+     "type": "multiple_choice",
+     "prompt": "冬の行事で見かける、人の形の焼きがしは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "プレッツェル",
+       "is_correct": false
+      },
+      {
+       "label": "ジンジャーブレッド",
+       "is_correct": true
+      },
+      {
+       "label": "ブラウニー",
+       "is_correct": false
+      },
+      {
+       "label": "ビスケット",
+       "is_correct": false
+      }
+     ],
+     "explanation": "しょうがなどで味を付け、人の形に焼くことがあるよ。"
+    },
+    {
+     "key": "US05-B-027",
+     "type": "multiple_choice",
+     "prompt": "冬の行事で見かける、つえの形のあめは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ポップコーンボール",
+       "is_correct": false
+      },
+      {
+       "label": "キャラメルアップル",
+       "is_correct": false
+      },
+      {
+       "label": "キャンディケーン",
+       "is_correct": true
+      },
+      {
+       "label": "ジェリービーンズ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "赤と白のしまが多い、つえの形のあめだよ。"
+    },
+    {
+     "key": "US05-B-028",
+     "type": "multiple_choice",
+     "prompt": "レモンのしる、水、さとうなどで作る飲み物は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ミルクシェイク",
+       "is_correct": false
+      },
+      {
+       "label": "アップルサイダー",
+       "is_correct": false
+      },
+      {
+       "label": "ホットチョコレート",
+       "is_correct": false
+      },
+      {
+       "label": "レモネード",
+       "is_correct": true
+      }
+     ],
+     "explanation": "レモンのすっぱさと、さとうのあまさがあるよ。"
+    },
+    {
+     "key": "US05-B-029",
+     "type": "multiple_choice",
+     "prompt": "アイスクリームと牛乳をまぜる飲み物は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "オレンジジュース",
+       "is_correct": false
+      },
+      {
+       "label": "ミルクシェイク",
+       "is_correct": true
+      },
+      {
+       "label": "アイスティー",
+       "is_correct": false
+      },
+      {
+       "label": "トマトジュース",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アイスと牛乳を、冷たくなめらかにまぜるよ。"
+    },
+    {
+     "key": "US05-B-030",
+     "type": "multiple_choice",
+     "prompt": "お茶を冷やし、氷を入れた飲み物は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "アイスティー",
+       "is_correct": true
+      },
+      {
+       "label": "レモンスカッシュ",
+       "is_correct": false
+      },
+      {
+       "label": "コーヒー",
+       "is_correct": false
+      },
+      {
+       "label": "ホットココア",
+       "is_correct": false
+      }
+     ],
+     "explanation": "冷たいお茶に氷を入れて飲むよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 26,
+   "theme_key": "heritage",
+   "theme_name": "観光地・都市・文化",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US06-B-001",
+     "type": "multiple_choice",
+     "prompt": "この像の名前は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "リンカーン記念堂",
+       "is_correct": false
+      },
+      {
+       "label": "ワシントン記念塔",
+       "is_correct": false
+      },
+      {
+       "label": "ゲートウェイ・アーチ",
+       "is_correct": false
+      },
+      {
+       "label": "自由の女神像",
+       "is_correct": true
+      }
+     ],
+     "explanation": "たいまつを持つ、ニューヨークの有名な像だよ。",
+     "image": "/quiz/us/us06-statue-liberty.webp"
+    },
+    {
+     "key": "US06-B-002",
+     "type": "multiple_choice",
+     "prompt": "この高い建物がある都市は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ボストン",
+       "is_correct": false
+      },
+      {
+       "label": "シカゴ",
+       "is_correct": false
+      },
+      {
+       "label": "シアトル",
+       "is_correct": false
+      },
+      {
+       "label": "ニューヨーク",
+       "is_correct": true
+      }
+     ],
+     "explanation": "エンパイア・ステート・ビルはニューヨークにあるよ。",
+     "image": "/quiz/us/us06-empire-state.webp"
+    },
+    {
+     "key": "US06-B-003",
+     "type": "true_false",
+     "prompt": "セントラルパークは、ニューヨークにある大きな公園である。",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "マンハッタンに広がる大きな都市公園だよ。"
+    },
+    {
+     "key": "US06-B-004",
+     "type": "multiple_choice",
+     "prompt": "ブロードウェイで、よく知られるものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ミュージカルやげき",
+       "is_correct": true
+      },
+      {
+       "label": "野球の試合",
+       "is_correct": false
+      },
+      {
+       "label": "動物のぼく場",
+       "is_correct": false
+      },
+      {
+       "label": "ロケットの発しゃ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "多くのげき場が集まり、舞台を楽しめるよ。"
+    },
+    {
+     "key": "US06-B-005",
+     "type": "multiple_choice",
+     "prompt": "この白い建物は、何？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ホワイトハウス",
+       "is_correct": true
+      },
+      {
+       "label": "国立公文書館",
+       "is_correct": false
+      },
+      {
+       "label": "国会議事堂",
+       "is_correct": false
+      },
+      {
+       "label": "最高裁判所",
+       "is_correct": false
+      }
+     ],
+     "explanation": "大統領がくらし、仕事をする建物だよ。",
+     "image": "/quiz/us/us06-white-house.webp"
+    },
+    {
+     "key": "US06-B-006",
+     "type": "multiple_choice",
+     "prompt": "大きな丸い屋根がある、この建物は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ホワイトハウス",
+       "is_correct": false
+      },
+      {
+       "label": "アメリカ合衆国議会議事堂",
+       "is_correct": true
+      },
+      {
+       "label": "リンカーン記念堂",
+       "is_correct": false
+      },
+      {
+       "label": "スミソニアン城",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカの議会が開かれる建物だよ。",
+     "image": "/quiz/us/us06-capitol.webp"
+    },
+    {
+     "key": "US06-B-007",
+     "type": "multiple_choice",
+     "prompt": "リンカーン記念堂の中にある大きな像は、だれ？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ジョージ・ワシントン",
+       "is_correct": false
+      },
+      {
+       "label": "トーマス・ジェファソン",
+       "is_correct": false
+      },
+      {
+       "label": "セオドア・ルーズベルト",
+       "is_correct": false
+      },
+      {
+       "label": "エイブラハム・リンカーン",
+       "is_correct": true
+      }
+     ],
+     "explanation": "すわったリンカーンの大きな像があるよ。"
+    },
+    {
+     "key": "US06-B-008",
+     "type": "multiple_choice",
+     "prompt": "ワシントン記念塔は、どんな形？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "左右に開く橋",
+       "is_correct": false
+      },
+      {
+       "label": "顔をほった山",
+       "is_correct": false
+      },
+      {
+       "label": "細長い石の塔",
+       "is_correct": true
+      },
+      {
+       "label": "大きな丸い屋根",
+       "is_correct": false
+      }
+     ],
+     "explanation": "空へ細くのびる、石でできた記念塔だよ。"
+    },
+    {
+     "key": "US06-B-009",
+     "type": "multiple_choice",
+     "prompt": "この赤みのある大きな橋は、何？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "タコマナローズ橋",
+       "is_correct": false
+      },
+      {
+       "label": "ブルックリン橋",
+       "is_correct": false
+      },
+      {
+       "label": "ベイブリッジ",
+       "is_correct": false
+      },
+      {
+       "label": "ゴールデン・ゲート・ブリッジ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "サンフランシスコの海の入口にかかる橋だよ。",
+     "image": "/quiz/us/us06-golden-gate.webp"
+    },
+    {
+     "key": "US06-B-010",
+     "type": "multiple_choice",
+     "prompt": "スペースニードルがある都市は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "サクラメント",
+       "is_correct": false
+      },
+      {
+       "label": "サンディエゴ",
+       "is_correct": false
+      },
+      {
+       "label": "ポートランド",
+       "is_correct": false
+      },
+      {
+       "label": "シアトル",
+       "is_correct": true
+      }
+     ],
+     "explanation": "円ばんのような上部を持つシアトルの塔だよ。"
+    },
+    {
+     "key": "US06-B-011",
+     "type": "multiple_choice",
+     "prompt": "ハリウッドの大きな文字の看板がある都市は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "フェニックス",
+       "is_correct": false
+      },
+      {
+       "label": "ロサンゼルス",
+       "is_correct": true
+      },
+      {
+       "label": "サンフランシスコ",
+       "is_correct": false
+      },
+      {
+       "label": "ラスベガス",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハリウッドはロサンゼルスにある地区だよ。"
+    },
+    {
+     "key": "US06-B-012",
+     "type": "multiple_choice",
+     "prompt": "サンフランシスコのケーブルカーは、何のなかま？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "山を登る馬車",
+       "is_correct": false
+      },
+      {
+       "label": "空を飛ぶ乗り物",
+       "is_correct": false
+      },
+      {
+       "label": "路面を走る車両",
+       "is_correct": true
+      },
+      {
+       "label": "海を進む船",
+       "is_correct": false
+      }
+     ],
+     "explanation": "道路にある線路を走る、町の乗り物だよ。"
+    },
+    {
+     "key": "US06-B-013",
+     "type": "multiple_choice",
+     "prompt": "この大きなアーチがある都市は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "セントルイス",
+       "is_correct": true
+      },
+      {
+       "label": "デトロイト",
+       "is_correct": false
+      },
+      {
+       "label": "アトランタ",
+       "is_correct": false
+      },
+      {
+       "label": "ダラス",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ゲートウェイ・アーチはセントルイスにあるよ。",
+     "image": "/quiz/us/us06-gateway-arch.webp"
+    },
+    {
+     "key": "US06-B-014",
+     "type": "multiple_choice",
+     "prompt": "フレンチ・クオーターで知られる都市は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "シャーロット",
+       "is_correct": false
+      },
+      {
+       "label": "ニューオーリンズ",
+       "is_correct": true
+      },
+      {
+       "label": "ヒューストン",
+       "is_correct": false
+      },
+      {
+       "label": "メンフィス",
+       "is_correct": false
+      }
+     ],
+     "explanation": "古い建物が多いニューオーリンズの地区だよ。"
+    },
+    {
+     "key": "US06-B-015",
+     "type": "multiple_choice",
+     "prompt": "「クラウド・ゲート」という鏡のような作品がある都市は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ミネアポリス",
+       "is_correct": false
+      },
+      {
+       "label": "ミルウォーキー",
+       "is_correct": false
+      },
+      {
+       "label": "シカゴ",
+       "is_correct": true
+      },
+      {
+       "label": "クリーブランド",
+       "is_correct": false
+      }
+     ],
+     "explanation": "シカゴの公園にある、金属の大きな作品だよ。"
+    },
+    {
+     "key": "US06-B-016",
+     "type": "multiple_choice",
+     "prompt": "自由の女神像が右手に持つものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "かぎ",
+       "is_correct": false
+      },
+      {
+       "label": "つえ",
+       "is_correct": false
+      },
+      {
+       "label": "本",
+       "is_correct": false
+      },
+      {
+       "label": "たいまつ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "右手で、自由を表すたいまつを高く上げているよ。"
+    },
+    {
+     "key": "US06-B-017",
+     "type": "multiple_choice",
+     "prompt": "ラシュモア山にほられた大きな顔は、何人？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "8人",
+       "is_correct": false
+      },
+      {
+       "label": "6人",
+       "is_correct": false
+      },
+      {
+       "label": "2人",
+       "is_correct": false
+      },
+      {
+       "label": "4人",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アメリカの大統領4人の顔がほられているよ。"
+    },
+    {
+     "key": "US06-B-018",
+     "type": "multiple_choice",
+     "prompt": "フィラデルフィアにある、自由のしるしとして知られる鐘は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "自由の鐘",
+       "is_correct": true
+      },
+      {
+       "label": "ゲートウェイ・アーチ",
+       "is_correct": false
+      },
+      {
+       "label": "リンカーン記念堂",
+       "is_correct": false
+      },
+      {
+       "label": "ワシントン記念塔",
+       "is_correct": false
+      }
+     ],
+     "explanation": "自由の鐘は、フィラデルフィアにある歴史的な鐘だよ。"
+    },
+    {
+     "key": "US06-B-019",
+     "type": "multiple_choice",
+     "prompt": "国立航空宇宙博物館で見られるものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "農具やトラクター",
+       "is_correct": false
+      },
+      {
+       "label": "飛行機や宇宙船",
+       "is_correct": true
+      },
+      {
+       "label": "魚やさんご",
+       "is_correct": false
+      },
+      {
+       "label": "楽器や楽ふ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "空を飛ぶ物や宇宙を旅する物を学べるよ。"
+    },
+    {
+     "key": "US06-B-020",
+     "type": "multiple_choice",
+     "prompt": "国立自然史博物館で学ぶものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "車の運転方法",
+       "is_correct": false
+      },
+      {
+       "label": "恐竜や動物や石",
+       "is_correct": true
+      },
+      {
+       "label": "映画の作り方",
+       "is_correct": false
+      },
+      {
+       "label": "料理の作り方",
+       "is_correct": false
+      }
+     ],
+     "explanation": "生き物や地球の歴史を学べる博物館だよ。"
+    },
+    {
+     "key": "US06-B-021",
+     "type": "multiple_choice",
+     "prompt": "美術館で見られるものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "飛行機の時刻表",
+       "is_correct": false
+      },
+      {
+       "label": "野球の得点板",
+       "is_correct": false
+      },
+      {
+       "label": "絵や彫刻",
+       "is_correct": true
+      },
+      {
+       "label": "消防車や救急車",
+       "is_correct": false
+      }
+     ],
+     "explanation": "美術館では、さまざまな芸術作品を見られるよ。"
+    },
+    {
+     "key": "US06-B-022",
+     "type": "multiple_choice",
+     "prompt": "ジャズと、とくに結びつきが深い都市は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "オマハ",
+       "is_correct": false
+      },
+      {
+       "label": "アンカレジ",
+       "is_correct": false
+      },
+      {
+       "label": "ニューオーリンズ",
+       "is_correct": true
+      },
+      {
+       "label": "ソルトレークシティ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューオーリンズはジャズの歩みと深く結びつくよ。"
+    },
+    {
+     "key": "US06-B-023",
+     "type": "multiple_choice",
+     "prompt": "カントリー音楽の中心地として知られる都市は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ボルチモア",
+       "is_correct": false
+      },
+      {
+       "label": "ナッシュビル",
+       "is_correct": true
+      },
+      {
+       "label": "ピッツバーグ",
+       "is_correct": false
+      },
+      {
+       "label": "マイアミ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ナッシュビルにはカントリー音楽の文化が根づくよ。"
+    },
+    {
+     "key": "US06-B-024",
+     "type": "multiple_choice",
+     "prompt": "ジャズの「即興」とは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "同じ音だけを続けること",
+       "is_correct": false
+      },
+      {
+       "label": "その場で音を組み立てること",
+       "is_correct": true
+      },
+      {
+       "label": "楽ふをかざること",
+       "is_correct": false
+      },
+      {
+       "label": "楽器を音なしで持つこと",
+       "is_correct": false
+      }
+     ],
+     "explanation": "演奏しながら、新しい音の流れを作ることだよ。"
+    },
+    {
+     "key": "US06-B-025",
+     "type": "multiple_choice",
+     "prompt": "ハリウッドと結びつきが深いものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "農業",
+       "is_correct": false
+      },
+      {
+       "label": "映画",
+       "is_correct": true
+      },
+      {
+       "label": "造船",
+       "is_correct": false
+      },
+      {
+       "label": "林業",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハリウッドは映画の町として広く知られるよ。"
+    },
+    {
+     "key": "US06-B-026",
+     "type": "true_false",
+     "prompt": "ミュージカルは、歌やダンスを使わない舞台である。",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ミュージカルは、歌やダンスも使って物語を見せるよ。"
+    },
+    {
+     "key": "US06-B-027",
+     "type": "multiple_choice",
+     "prompt": "舞台のうらで、照明や大道具を動かす人たちは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "観客",
+       "is_correct": false
+      },
+      {
+       "label": "案内客",
+       "is_correct": false
+      },
+      {
+       "label": "記者",
+       "is_correct": false
+      },
+      {
+       "label": "舞台スタッフ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "舞台スタッフが、見えない所から公演を支えるよ。"
+    },
+    {
+     "key": "US06-B-028",
+     "type": "multiple_choice",
+     "prompt": "ハワイの伝統的なダンスは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "フラ",
+       "is_correct": true
+      },
+      {
+       "label": "フラメンコ",
+       "is_correct": false
+      },
+      {
+       "label": "タンゴ",
+       "is_correct": false
+      },
+      {
+       "label": "バレエ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "フラは動きや歌で物語や思いを伝えるよ。"
+    },
+    {
+     "key": "US06-B-029",
+     "type": "multiple_choice",
+     "prompt": "ハワイの「レイ」は、どんなもの？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "石をつんだ塔",
+       "is_correct": false
+      },
+      {
+       "label": "木をくりぬいた舟",
+       "is_correct": false
+      },
+      {
+       "label": "花や葉などをつないだ飾り",
+       "is_correct": true
+      },
+      {
+       "label": "雪で作った家",
+       "is_correct": false
+      }
+     ],
+     "explanation": "レイは花や葉などをつなぎ、首などにかけるよ。"
+    },
+    {
+     "key": "US06-B-030",
+     "type": "multiple_choice",
+     "prompt": "ウクレレは、どんな楽器？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "弦をはじく楽器",
+       "is_correct": true
+      },
+      {
+       "label": "かぎ盤をおす楽器",
+       "is_correct": false
+      },
+      {
+       "label": "息をふく楽器",
+       "is_correct": false
+      },
+      {
+       "label": "皮をたたく楽器",
+       "is_correct": false
+      }
+     ],
+     "explanation": "小さな体に弦があり、指ではじいて音を出すよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 27,
+   "theme_key": "geography",
+   "theme_name": "自然・国立公園",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US07-B-001",
+     "type": "multiple_choice",
+     "prompt": "アメリカの東がわに長く続く山なみは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "アパラチア山脈",
+       "is_correct": true
+      },
+      {
+       "label": "シエラネバダ山脈",
+       "is_correct": false
+      },
+      {
+       "label": "カスケード山脈",
+       "is_correct": false
+      },
+      {
+       "label": "アラスカ山脈",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アパラチア山脈は、東がわに長く続くよ。"
+    },
+    {
+     "key": "US07-B-002",
+     "type": "multiple_choice",
+     "prompt": "カリフォルニア州を通る高い山なみは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "オザーク山地",
+       "is_correct": false
+      },
+      {
+       "label": "アパラチア山脈",
+       "is_correct": false
+      },
+      {
+       "label": "シエラネバダ山脈",
+       "is_correct": true
+      },
+      {
+       "label": "ブルーリッジ山脈",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ヨセミテなどがある西部の山なみだよ。"
+    },
+    {
+     "key": "US07-B-003",
+     "type": "multiple_choice",
+     "prompt": "いくつもの山が長くつながった地形は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "三角州",
+       "is_correct": false
+      },
+      {
+       "label": "半島",
+       "is_correct": false
+      },
+      {
+       "label": "平野",
+       "is_correct": false
+      },
+      {
+       "label": "山脈",
+       "is_correct": true
+      }
+     ],
+     "explanation": "山が列のようにつながった地形を山脈というよ。"
+    },
+    {
+     "key": "US07-B-004",
+     "type": "true_false",
+     "prompt": "グレート・スモーキー山脈の青いもやは、山火事のけむりだけでできる。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "森から出る物しつや水分などが、青いもやを作るよ。"
+    },
+    {
+     "key": "US07-B-005",
+     "type": "multiple_choice",
+     "prompt": "川の水は、ふつうどちらへ流れる？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "低い所から高い所",
+       "is_correct": false
+      },
+      {
+       "label": "空から雲の中",
+       "is_correct": false
+      },
+      {
+       "label": "高い所から低い所",
+       "is_correct": true
+      },
+      {
+       "label": "海から山の上",
+       "is_correct": false
+      }
+     ],
+     "explanation": "川の水は、重力で低い所へ流れていくよ。"
+    },
+    {
+     "key": "US07-B-006",
+     "type": "multiple_choice",
+     "prompt": "アメリカとメキシコの国境の一部を流れる川は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "オハイオ川",
+       "is_correct": false
+      },
+      {
+       "label": "コロンビア川",
+       "is_correct": false
+      },
+      {
+       "label": "リオグランデ川",
+       "is_correct": true
+      },
+      {
+       "label": "ハドソン川",
+       "is_correct": false
+      }
+     ],
+     "explanation": "リオグランデ川は、国境の一部になっているよ。"
+    },
+    {
+     "key": "US07-B-007",
+     "type": "multiple_choice",
+     "prompt": "アメリカ北西部から太平洋へ流れる大きな川は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "テネシー川",
+       "is_correct": false
+      },
+      {
+       "label": "リオグランデ川",
+       "is_correct": false
+      },
+      {
+       "label": "ミズーリ川",
+       "is_correct": false
+      },
+      {
+       "label": "コロンビア川",
+       "is_correct": true
+      }
+     ],
+     "explanation": "コロンビア川は、北西部から太平洋へ流れるよ。"
+    },
+    {
+     "key": "US07-B-008",
+     "type": "multiple_choice",
+     "prompt": "ミシシッピ川に合流する大きな川は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "コネティカット川",
+       "is_correct": false
+      },
+      {
+       "label": "ミズーリ川",
+       "is_correct": true
+      },
+      {
+       "label": "サクラメント川",
+       "is_correct": false
+      },
+      {
+       "label": "コロラド川",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ミズーリ川は、セントルイス近くで合流するよ。"
+    },
+    {
+     "key": "US07-B-009",
+     "type": "multiple_choice",
+     "prompt": "五大湖で、すべてがアメリカの中にある湖は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "スペリオル湖",
+       "is_correct": false
+      },
+      {
+       "label": "ミシガン湖",
+       "is_correct": true
+      },
+      {
+       "label": "エリー湖",
+       "is_correct": false
+      },
+      {
+       "label": "オンタリオ湖",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ミシガン湖だけが、すべてアメリカの中にあるよ。"
+    },
+    {
+     "key": "US07-B-010",
+     "type": "multiple_choice",
+     "prompt": "五大湖で、水面の広さがいちばん大きい湖は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ヒューロン湖",
+       "is_correct": false
+      },
+      {
+       "label": "エリー湖",
+       "is_correct": false
+      },
+      {
+       "label": "スペリオル湖",
+       "is_correct": true
+      },
+      {
+       "label": "オンタリオ湖",
+       "is_correct": false
+      }
+     ],
+     "explanation": "スペリオル湖は、五大湖で水面が最も広いよ。"
+    },
+    {
+     "key": "US07-B-011",
+     "type": "multiple_choice",
+     "prompt": "ユタ州のグレートソルト湖の水は、どんな水？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "温泉だけの水",
+       "is_correct": false
+      },
+      {
+       "label": "塩分が多い水",
+       "is_correct": true
+      },
+      {
+       "label": "すべてこおった水",
+       "is_correct": false
+      },
+      {
+       "label": "砂糖が多い水",
+       "is_correct": false
+      }
+     ],
+     "explanation": "出口のない湖で、水がかわくと塩分が残るよ。"
+    },
+    {
+     "key": "US07-B-012",
+     "type": "true_false",
+     "prompt": "五大湖の水は、すべて海のような塩水である。",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "五大湖は、広いけれど水は淡水だよ。"
+    },
+    {
+     "key": "US07-B-013",
+     "type": "multiple_choice",
+     "prompt": "この深い谷を作り続けている川は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "リオグランデ川",
+       "is_correct": false
+      },
+      {
+       "label": "コロンビア川",
+       "is_correct": false
+      },
+      {
+       "label": "ハドソン川",
+       "is_correct": false
+      },
+      {
+       "label": "コロラド川",
+       "is_correct": true
+      }
+     ],
+     "explanation": "コロラド川が岩をけずり、深い谷を作ったよ。",
+     "image": "/quiz/us/us07-grand-canyon.webp"
+    },
+    {
+     "key": "US07-B-014",
+     "type": "multiple_choice",
+     "prompt": "エバーグレーズ国立公園に広がる景色は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "水の多い湿地",
+       "is_correct": true
+      },
+      {
+       "label": "砂だけの砂漠",
+       "is_correct": false
+      },
+      {
+       "label": "氷だけの海岸",
+       "is_correct": false
+      },
+      {
+       "label": "雪だけの山地",
+       "is_correct": false
+      }
+     ],
+     "explanation": "南フロリダに、浅い水が流れる広い湿地があるよ。"
+    },
+    {
+     "key": "US07-B-015",
+     "type": "multiple_choice",
+     "prompt": "ヨセミテ国立公園で有名な景色は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "草原と大きな沼",
+       "is_correct": false
+      },
+      {
+       "label": "赤土の平らな畑",
+       "is_correct": false
+      },
+      {
+       "label": "サンゴしょうと砂浜",
+       "is_correct": false
+      },
+      {
+       "label": "花こう岩のがけと滝",
+       "is_correct": true
+      }
+     ],
+     "explanation": "氷河がけずった谷に、大きながけや滝があるよ。"
+    },
+    {
+     "key": "US07-B-016",
+     "type": "multiple_choice",
+     "prompt": "この場所で、地面からふき上がるものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "木の葉と土",
+       "is_correct": false
+      },
+      {
+       "label": "海水と魚",
+       "is_correct": false
+      },
+      {
+       "label": "熱い水とゆげ",
+       "is_correct": true
+      },
+      {
+       "label": "冷たい砂と雪",
+       "is_correct": false
+      }
+     ],
+     "explanation": "オールド・フェイスフルは、熱い水とゆげを上げるよ。",
+     "image": "/quiz/us/us07-old-faithful.webp"
+    },
+    {
+     "key": "US07-B-017",
+     "type": "multiple_choice",
+     "prompt": "アメリカとカナダの間にある、この大きな滝は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ヨセミテ滝",
+       "is_correct": false
+      },
+      {
+       "label": "マルトノマ滝",
+       "is_correct": false
+      },
+      {
+       "label": "ルビー滝",
+       "is_correct": false
+      },
+      {
+       "label": "ナイアガラの滝",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ナイアガラの滝は、二つの国の国境にあるよ。",
+     "image": "/quiz/us/us07-niagara-falls.webp"
+    },
+    {
+     "key": "US07-B-018",
+     "type": "multiple_choice",
+     "prompt": "セント・ヘレンズ山は、どんな山？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "砂山",
+       "is_correct": false
+      },
+      {
+       "label": "石灰岩の丘",
+       "is_correct": false
+      },
+      {
+       "label": "火山",
+       "is_correct": true
+      },
+      {
+       "label": "氷山",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ワシントン州にある火山だよ。"
+    },
+    {
+     "key": "US07-B-019",
+     "type": "multiple_choice",
+     "prompt": "海の水面が、決まったように上がったり下がったりする動きは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "潮の満ち引き",
+       "is_correct": true
+      },
+      {
+       "label": "川の合流",
+       "is_correct": false
+      },
+      {
+       "label": "火山のふん火",
+       "is_correct": false
+      },
+      {
+       "label": "氷河の移動",
+       "is_correct": false
+      }
+     ],
+     "explanation": "月などの引力で、海の高さが変わるよ。"
+    },
+    {
+     "key": "US07-B-020",
+     "type": "multiple_choice",
+     "prompt": "潮が引いた岩場に、水が残ってできる小さな池は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "火口湖",
+       "is_correct": false
+      },
+      {
+       "label": "温泉池",
+       "is_correct": false
+      },
+      {
+       "label": "三日月湖",
+       "is_correct": false
+      },
+      {
+       "label": "潮だまり",
+       "is_correct": true
+      }
+     ],
+     "explanation": "潮だまりでは、小さな海の生き物を見られるよ。"
+    },
+    {
+     "key": "US07-B-021",
+     "type": "multiple_choice",
+     "prompt": "海岸の沖に細長く続き、波を弱める砂の島は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "氷の島",
+       "is_correct": false
+      },
+      {
+       "label": "火山島",
+       "is_correct": false
+      },
+      {
+       "label": "川の中州",
+       "is_correct": false
+      },
+      {
+       "label": "バリア島",
+       "is_correct": true
+      }
+     ],
+     "explanation": "バリア島は、海岸を波やあらしから守るよ。"
+    },
+    {
+     "key": "US07-B-022",
+     "type": "multiple_choice",
+     "prompt": "あたたかい海の上で育つ、大きなうずのあらしは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "雪なだれ",
+       "is_correct": false
+      },
+      {
+       "label": "ハリケーン",
+       "is_correct": true
+      },
+      {
+       "label": "砂あらし",
+       "is_correct": false
+      },
+      {
+       "label": "ブリザード",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハリケーンは、あたたかい海から力をもらうよ。"
+    },
+    {
+     "key": "US07-B-023",
+     "type": "multiple_choice",
+     "prompt": "雲から地面へ細長くのびる、回る風の柱は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "津波",
+       "is_correct": false
+      },
+      {
+       "label": "竜巻",
+       "is_correct": true
+      },
+      {
+       "label": "洪水",
+       "is_correct": false
+      },
+      {
+       "label": "干ばつ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "竜巻は、はげしく回る空気の柱だよ。"
+    },
+    {
+     "key": "US07-B-024",
+     "type": "multiple_choice",
+     "prompt": "強い風で雪がふき、前が見えにくくなるあらしは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ブリザード",
+       "is_correct": true
+      },
+      {
+       "label": "雷雨",
+       "is_correct": false
+      },
+      {
+       "label": "ハリケーン",
+       "is_correct": false
+      },
+      {
+       "label": "熱波",
+       "is_correct": false
+      }
+     ],
+     "explanation": "強い風と雪で、見えるきょりが短くなるよ。"
+    },
+    {
+     "key": "US07-B-025",
+     "type": "multiple_choice",
+     "prompt": "このハクトウワシが、よく食べるものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "木の葉",
+       "is_correct": false
+      },
+      {
+       "label": "海そう",
+       "is_correct": false
+      },
+      {
+       "label": "花のみつ",
+       "is_correct": false
+      },
+      {
+       "label": "魚",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ハクトウワシは、水辺で魚をとることが多いよ。",
+     "image": "/quiz/us/us07-bald-eagle.webp"
+    },
+    {
+     "key": "US07-B-026",
+     "type": "multiple_choice",
+     "prompt": "このアメリカバイソンが、主に食べるものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "木の実だけ",
+       "is_correct": false
+      },
+      {
+       "label": "虫",
+       "is_correct": false
+      },
+      {
+       "label": "草",
+       "is_correct": true
+      },
+      {
+       "label": "魚",
+       "is_correct": false
+      }
+     ],
+     "explanation": "バイソンは草原で草などを食べるよ。",
+     "image": "/quiz/us/us07-bison.webp"
+    },
+    {
+     "key": "US07-B-027",
+     "type": "multiple_choice",
+     "prompt": "アメリカアリゲーターが、よくくらす場所は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "西部のかわいた砂丘",
+       "is_correct": false
+      },
+      {
+       "label": "南東部の淡水の湿地",
+       "is_correct": true
+      },
+      {
+       "label": "太平洋の深い海",
+       "is_correct": false
+      },
+      {
+       "label": "北部の雪山の頂上",
+       "is_correct": false
+      }
+     ],
+     "explanation": "池や沼など、あたたかい地方の淡水に多いよ。"
+    },
+    {
+     "key": "US07-B-028",
+     "type": "multiple_choice",
+     "prompt": "このサワロサボテンは、水を主にどこへためる？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "地面の石",
+       "is_correct": false
+      },
+      {
+       "label": "太いくき",
+       "is_correct": true
+      },
+      {
+       "label": "とげの先",
+       "is_correct": false
+      },
+      {
+       "label": "花びら",
+       "is_correct": false
+      }
+     ],
+     "explanation": "雨の水を太いくきにたくわえるよ。",
+     "image": "/quiz/us/us07-saguaro.webp"
+    },
+    {
+     "key": "US07-B-029",
+     "type": "multiple_choice",
+     "prompt": "海岸に近い森で、とても高く育つ木は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "コーストレッドウッド",
+       "is_correct": true
+      },
+      {
+       "label": "マングローブ",
+       "is_correct": false
+      },
+      {
+       "label": "サワロサボテン",
+       "is_correct": false
+      },
+      {
+       "label": "ジョシュアツリー",
+       "is_correct": false
+      }
+     ],
+     "explanation": "コーストレッドウッドは、世界でも特に高い木だよ。"
+    },
+    {
+     "key": "US07-B-030",
+     "type": "multiple_choice",
+     "prompt": "ジャイアントセコイアの目立つ特ちょうは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "とても太いみき",
+       "is_correct": true
+      },
+      {
+       "label": "水にうかぶ葉",
+       "is_correct": false
+      },
+      {
+       "label": "地面をはうつる",
+       "is_correct": false
+      },
+      {
+       "label": "一年だけの命",
+       "is_correct": false
+      }
+     ],
+     "explanation": "長く生き、みきがとても太く育つ木だよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 28,
+   "theme_key": "heritage",
+   "theme_name": "歴史・産業・科学",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US08-B-001",
+     "type": "multiple_choice",
+     "prompt": "アメリカが独立する前、多くの植民地をおさめていた国は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "スペイン",
+       "is_correct": false
+      },
+      {
+       "label": "フランス",
+       "is_correct": false
+      },
+      {
+       "label": "イギリス",
+       "is_correct": true
+      },
+      {
+       "label": "オランダ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "13の植民地は、イギリスからの独立をめざしたよ。"
+    },
+    {
+     "key": "US08-B-002",
+     "type": "multiple_choice",
+     "prompt": "独立せん言が伝えた大切な考えは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "王だけがけん利を持つ",
+       "is_correct": false
+      },
+      {
+       "label": "人は生まれながらにけん利を持つ",
+       "is_correct": true
+      },
+      {
+       "label": "お金持ちだけがけん利を持つ",
+       "is_correct": false
+      },
+      {
+       "label": "軍人だけがけん利を持つ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "命、自由、幸せを求めることを大切なけん利としたよ。"
+    },
+    {
+     "key": "US08-B-003",
+     "type": "multiple_choice",
+     "prompt": "この絵のような古い文書を書く道具は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ものさし",
+       "is_correct": false
+      },
+      {
+       "label": "羽ペン",
+       "is_correct": true
+      },
+      {
+       "label": "絵筆",
+       "is_correct": false
+      },
+      {
+       "label": "木づち",
+       "is_correct": false
+      }
+     ],
+     "explanation": "独立せん言などの文書は、羽ペンで書かれたよ。",
+     "image": "/quiz/us/us08-declaration-quill.webp"
+    },
+    {
+     "key": "US08-B-004",
+     "type": "multiple_choice",
+     "prompt": "アメリカのけん法を作る会議が開かれた町は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "フィラデルフィア",
+       "is_correct": true
+      },
+      {
+       "label": "ボストン",
+       "is_correct": false
+      },
+      {
+       "label": "ボルチモア",
+       "is_correct": false
+      },
+      {
+       "label": "ニューヨーク",
+       "is_correct": false
+      }
+     ],
+     "explanation": "1787年、フィラデルフィアで会議が開かれたよ。"
+    },
+    {
+     "key": "US08-B-005",
+     "type": "multiple_choice",
+     "prompt": "アメリカの初代大統領はだれ？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ジョージ・ワシントン",
+       "is_correct": true
+      },
+      {
+       "label": "セオドア・ルーズベルト",
+       "is_correct": false
+      },
+      {
+       "label": "トーマス・ジェファーソン",
+       "is_correct": false
+      },
+      {
+       "label": "エイブラハム・リンカーン",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ワシントンは1789年に初代大統領になったよ。"
+    },
+    {
+     "key": "US08-B-006",
+     "type": "multiple_choice",
+     "prompt": "ワシントンが大統領を助ける人たちとして集めたのは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "裁判官の集まり",
+       "is_correct": false
+      },
+      {
+       "label": "船長の集まり",
+       "is_correct": false
+      },
+      {
+       "label": "大臣たちの集まり",
+       "is_correct": true
+      },
+      {
+       "label": "農家の集まり",
+       "is_correct": false
+      }
+     ],
+     "explanation": "大臣たちの集まりは、今の内かくのもとになったよ。"
+    },
+    {
+     "key": "US08-B-007",
+     "type": "multiple_choice",
+     "prompt": "独立せん言の文の大部分を書いた人は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "トーマス・ジェファーソン",
+       "is_correct": true
+      },
+      {
+       "label": "ジェームズ・マディソン",
+       "is_correct": false
+      },
+      {
+       "label": "ベンジャミン・フランクリン",
+       "is_correct": false
+      },
+      {
+       "label": "ジョージ・ワシントン",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ジェファーソンが中心となって文を書いたよ。"
+    },
+    {
+     "key": "US08-B-008",
+     "type": "multiple_choice",
+     "prompt": "セオドア・ルーズベルトが力を入れたことは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "電話を発明すること",
+       "is_correct": false
+      },
+      {
+       "label": "月へ人を送ること",
+       "is_correct": false
+      },
+      {
+       "label": "鉄道を初めて作ること",
+       "is_correct": false
+      },
+      {
+       "label": "森や自然を守ること",
+       "is_correct": true
+      }
+     ],
+     "explanation": "国の森や自然を守る取り組みを進めたよ。"
+    },
+    {
+     "key": "US08-B-009",
+     "type": "multiple_choice",
+     "prompt": "昔の蒸気機関車を動かす力を作ったものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "人がこぐペダル",
+       "is_correct": false
+      },
+      {
+       "label": "太陽の光だけ",
+       "is_correct": false
+      },
+      {
+       "label": "水を熱してできる蒸気",
+       "is_correct": true
+      },
+      {
+       "label": "風を受けるほ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "石炭などで水を熱し、蒸気の力で走ったよ。"
+    },
+    {
+     "key": "US08-B-010",
+     "type": "multiple_choice",
+     "prompt": "大陸横だん鉄道は、アメリカの何をつないだ？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "東と西",
+       "is_correct": true
+      },
+      {
+       "label": "山の上と海の中",
+       "is_correct": false
+      },
+      {
+       "label": "北と南だけ",
+       "is_correct": false
+      },
+      {
+       "label": "島と島だけ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "東西を鉄道で行き来しやすくしたよ。",
+     "image": "/quiz/us/us08-golden-spike.webp"
+    },
+    {
+     "key": "US08-B-011",
+     "type": "multiple_choice",
+     "prompt": "ゴールドラッシュで、多くの人がさがしたものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "真珠",
+       "is_correct": false
+      },
+      {
+       "label": "塩",
+       "is_correct": false
+      },
+      {
+       "label": "石炭",
+       "is_correct": false
+      },
+      {
+       "label": "金",
+       "is_correct": true
+      }
+     ],
+     "explanation": "1848年に金が見つかり、多くの人が西へ向かったよ。"
+    },
+    {
+     "key": "US08-B-012",
+     "type": "true_false",
+     "prompt": "大陸横だん鉄道ができると、東西の旅は前より短くなった。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "何か月もかかった旅が、何日かでできるようになったよ。"
+    },
+    {
+     "key": "US08-B-013",
+     "type": "multiple_choice",
+     "prompt": "ベルが開発し、1876年に特許を取ったものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "蓄音機",
+       "is_correct": false
+      },
+      {
+       "label": "飛行機",
+       "is_correct": false
+      },
+      {
+       "label": "電話",
+       "is_correct": true
+      },
+      {
+       "label": "電球",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ベルの電話は、声を電気の信号にして送ったよ。"
+    },
+    {
+     "key": "US08-B-014",
+     "type": "multiple_choice",
+     "prompt": "エジソンのチームが長く使えるようにしたものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "手回し電話",
+       "is_correct": false
+      },
+      {
+       "label": "ガソリン自動車",
+       "is_correct": false
+      },
+      {
+       "label": "蒸気機関車",
+       "is_correct": false
+      },
+      {
+       "label": "実用的な電球",
+       "is_correct": true
+      }
+     ],
+     "explanation": "電球だけでなく、電気を送るしくみも整えたよ。",
+     "image": "/quiz/us/us08-light-bulb.webp"
+    },
+    {
+     "key": "US08-B-015",
+     "type": "multiple_choice",
+     "prompt": "電線で遠くへ合図を送る昔の道具は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "望遠鏡",
+       "is_correct": false
+      },
+      {
+       "label": "温度計",
+       "is_correct": false
+      },
+      {
+       "label": "電信機",
+       "is_correct": true
+      },
+      {
+       "label": "方位磁針",
+       "is_correct": false
+      }
+     ],
+     "explanation": "電気の信号を使って、遠くへ文を送ったよ。"
+    },
+    {
+     "key": "US08-B-016",
+     "type": "multiple_choice",
+     "prompt": "モールス信号で文字を表すものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "丸い絵と四角い絵",
+       "is_correct": false
+      },
+      {
+       "label": "赤い旗と青い旗",
+       "is_correct": false
+      },
+      {
+       "label": "高い音だけ",
+       "is_correct": false
+      },
+      {
+       "label": "短い合図と長い合図",
+       "is_correct": true
+      }
+     ],
+     "explanation": "点と線のような短い合図と長い合図を組み合わせるよ。"
+    },
+    {
+     "key": "US08-B-017",
+     "type": "multiple_choice",
+     "prompt": "ライト兄弟が1903年に飛ばした乗り物は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "自動車",
+       "is_correct": false
+      },
+      {
+       "label": "電車",
+       "is_correct": false
+      },
+      {
+       "label": "蒸気船",
+       "is_correct": false
+      },
+      {
+       "label": "飛行機",
+       "is_correct": true
+      }
+     ],
+     "explanation": "動力があり、向きを変えられる飛行に成功したよ。",
+     "image": "/quiz/us/us08-wright-flyer.webp"
+    },
+    {
+     "key": "US08-B-018",
+     "type": "multiple_choice",
+     "prompt": "ライト兄弟の初飛行が行われた州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "オハイオ州",
+       "is_correct": false
+      },
+      {
+       "label": "ノースカロライナ州",
+       "is_correct": true
+      },
+      {
+       "label": "メリーランド州",
+       "is_correct": false
+      },
+      {
+       "label": "バージニア州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "キティホーク近くで初飛行に成功したよ。"
+    },
+    {
+     "key": "US08-B-019",
+     "type": "multiple_choice",
+     "prompt": "飛行機のつばさが生み出す上向きの力は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "重力",
+       "is_correct": false
+      },
+      {
+       "label": "まさつ力",
+       "is_correct": false
+      },
+      {
+       "label": "よう力",
+       "is_correct": true
+      },
+      {
+       "label": "磁力",
+       "is_correct": false
+      }
+     ],
+     "explanation": "つばさのまわりの空気が、上向きの力を生むよ。"
+    },
+    {
+     "key": "US08-B-020",
+     "type": "multiple_choice",
+     "prompt": "部品が作業する人の前を順に動く作り方は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "畑作り",
+       "is_correct": false
+      },
+      {
+       "label": "手作り",
+       "is_correct": false
+      },
+      {
+       "label": "石切り",
+       "is_correct": false
+      },
+      {
+       "label": "流れ作業",
+       "is_correct": true
+      }
+     ],
+     "explanation": "同じ作業を分けると、自動車を速く多く作れたよ。",
+     "image": "/quiz/us/us08-assembly-line.webp"
+    },
+    {
+     "key": "US08-B-021",
+     "type": "multiple_choice",
+     "prompt": "NASAが主に調べているものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "空と宇ちゅう",
+       "is_correct": true
+      },
+      {
+       "label": "海の魚だけ",
+       "is_correct": false
+      },
+      {
+       "label": "山の植物だけ",
+       "is_correct": false
+      },
+      {
+       "label": "昔の絵だけ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "NASAは飛行や宇ちゅうを研究する機関だよ。"
+    },
+    {
+     "key": "US08-B-022",
+     "type": "multiple_choice",
+     "prompt": "1969年、アポロ11号が着いた天体は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "金星",
+       "is_correct": false
+      },
+      {
+       "label": "月",
+       "is_correct": true
+      },
+      {
+       "label": "火星",
+       "is_correct": false
+      },
+      {
+       "label": "木星",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アポロ11号で人が初めて月面に着いたよ。",
+     "image": "/quiz/us/us08-apollo-moon.webp"
+    },
+    {
+     "key": "US08-B-023",
+     "type": "multiple_choice",
+     "prompt": "宇ちゅう服が人を守るものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "雨の日のぬかるみ",
+       "is_correct": false
+      },
+      {
+       "label": "森の虫さされ",
+       "is_correct": false
+      },
+      {
+       "label": "海の大きな波",
+       "is_correct": false
+      },
+      {
+       "label": "空気や温度の大きなちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "宇ちゅうでは空気がなく、温度の変化も大きいよ。"
+    },
+    {
+     "key": "US08-B-024",
+     "type": "true_false",
+     "prompt": "アポロ11号は、火星に人を着陸させた。",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アポロ11号が人を着陸させたのは月だよ。"
+    },
+    {
+     "key": "US08-B-025",
+     "type": "multiple_choice",
+     "prompt": "シリコンバレーがある州は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "カリフォルニア州",
+       "is_correct": true
+      },
+      {
+       "label": "テキサス州",
+       "is_correct": false
+      },
+      {
+       "label": "フロリダ州",
+       "is_correct": false
+      },
+      {
+       "label": "アラスカ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "電子やコンピューターの研究で知られる地域だよ。"
+    },
+    {
+     "key": "US08-B-026",
+     "type": "multiple_choice",
+     "prompt": "コンピューターの小さなチップによく使う材料は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ガラスだけ",
+       "is_correct": false
+      },
+      {
+       "label": "シリコン",
+       "is_correct": true
+      },
+      {
+       "label": "木材",
+       "is_correct": false
+      },
+      {
+       "label": "羊毛",
+       "is_correct": false
+      }
+     ],
+     "explanation": "シリコンは電気の流れを調整できる材料だよ。"
+    },
+    {
+     "key": "US08-B-027",
+     "type": "multiple_choice",
+     "prompt": "コンピューターは、何にしたがって計算や動作をする？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "天気の予報",
+       "is_correct": false
+      },
+      {
+       "label": "プログラムの命令",
+       "is_correct": true
+      },
+      {
+       "label": "人の表情",
+       "is_correct": false
+      },
+      {
+       "label": "時計の音",
+       "is_correct": false
+      }
+     ],
+     "explanation": "命令を順に実行して、計算や動作をするよ。"
+    },
+    {
+     "key": "US08-B-028",
+     "type": "multiple_choice",
+     "prompt": "コーンベルトで多く育てられる作物は？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "バナナ",
+       "is_correct": false
+      },
+      {
+       "label": "オリーブ",
+       "is_correct": false
+      },
+      {
+       "label": "コーヒー",
+       "is_correct": false
+      },
+      {
+       "label": "トウモロコシ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "中西部には、トウモロコシ畑が広がる地域があるよ。"
+    },
+    {
+     "key": "US08-B-029",
+     "type": "multiple_choice",
+     "prompt": "グレートプレーンズの広い畑で育てられることが多い作物は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "小麦",
+       "is_correct": true
+      },
+      {
+       "label": "パイナップル",
+       "is_correct": false
+      },
+      {
+       "label": "茶",
+       "is_correct": false
+      },
+      {
+       "label": "カカオ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "広く平らな土地を使い、小麦などを育てるよ。"
+    },
+    {
+     "key": "US08-B-030",
+     "type": "multiple_choice",
+     "prompt": "牛の乳から作られるものは？",
+     "grade": 1,
+     "choices": [
+      {
+       "label": "チーズ",
+       "is_correct": true
+      },
+      {
+       "label": "塩",
+       "is_correct": false
+      },
+      {
+       "label": "小麦粉",
+       "is_correct": false
+      },
+      {
+       "label": "砂糖",
+       "is_correct": false
+      }
+     ],
+     "explanation": "牛乳は、チーズやバターなどに加工されるよ。"
+    }
+   ]
+  }
+ ]
+}

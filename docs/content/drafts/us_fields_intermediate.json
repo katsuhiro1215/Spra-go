@@ -1,0 +1,6002 @@
+{
+ "country_name": "アメリカ合衆国",
+ "country_code": "US",
+ "difficulty": "中級",
+ "stages": [
+  {
+   "stage_number": 21,
+   "theme_key": "phrase",
+   "theme_name": "アメリカ英語とマナー",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US01-M-001",
+     "type": "multiple_choice",
+     "prompt": "初対面の人とのsmall talkに向く話題は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "投票した人",
+       "is_correct": false
+      },
+      {
+       "label": "天気の話",
+       "is_correct": true
+      },
+      {
+       "label": "家の値段",
+       "is_correct": false
+      },
+      {
+       "label": "給料の金額",
+       "is_correct": false
+      }
+     ],
+     "explanation": "天気は、初対面でも話しやすい話題の一つだよ。"
+    },
+    {
+     "key": "US01-M-002",
+     "type": "multiple_choice",
+     "prompt": "会ったばかりの人に聞くと、こまりやすい質問は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "きょうの天気はどうか",
+       "is_correct": false
+      },
+      {
+       "label": "いくら給料をもらうか",
+       "is_correct": true
+      },
+      {
+       "label": "近くに駅があるか",
+       "is_correct": false
+      },
+      {
+       "label": "週末に何をしたか",
+       "is_correct": false
+      }
+     ],
+     "explanation": "お金などの個人的な質問は、親しくなるまでさけよう。"
+    },
+    {
+     "key": "US01-M-003",
+     "type": "multiple_choice",
+     "prompt": "待ち合わせにおくれそう。よい行動は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "何も言わず帰る",
+       "is_correct": false
+      },
+      {
+       "label": "時間を決め直さない",
+       "is_correct": false
+      },
+      {
+       "label": "早めに連絡する",
+       "is_correct": true
+      },
+      {
+       "label": "相手を待たせ続ける",
+       "is_correct": false
+      }
+     ],
+     "explanation": "おくれると分かったら、早めに相手へ知らせよう。"
+    },
+    {
+     "key": "US01-M-004",
+     "type": "multiple_choice",
+     "prompt": "招待状にRSVPと返事の期日がある。どうする？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "時間だけ書き直す",
+       "is_correct": false
+      },
+      {
+       "label": "期日までに返事する",
+       "is_correct": true
+      },
+      {
+       "label": "当日まで返事しない",
+       "is_correct": false
+      },
+      {
+       "label": "招待状を人にあげる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "RSVPは、出席できるか返事を求めるしるしだよ。"
+    },
+    {
+     "key": "US01-M-005",
+     "type": "multiple_choice",
+     "prompt": "イギリス英語のqueueに近い、アメリカ英語は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "route",
+       "is_correct": false
+      },
+      {
+       "label": "lane",
+       "is_correct": false
+      },
+      {
+       "label": "line",
+       "is_correct": true
+      },
+      {
+       "label": "row",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカ英語では、順番を待つ列をlineというよ。"
+    },
+    {
+     "key": "US01-M-006",
+     "type": "multiple_choice",
+     "prompt": "イギリス英語でholidayという休みを、アメリカ英語では？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "weekend",
+       "is_correct": false
+      },
+      {
+       "label": "vacation",
+       "is_correct": true
+      },
+      {
+       "label": "season",
+       "is_correct": false
+      },
+      {
+       "label": "festival",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカ英語では、旅行などの休みをvacationともいうよ。"
+    },
+    {
+     "key": "US01-M-007",
+     "type": "multiple_choice",
+     "prompt": "イギリス英語のautumnに近い、アメリカ英語は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "summer",
+       "is_correct": false
+      },
+      {
+       "label": "spring",
+       "is_correct": false
+      },
+      {
+       "label": "winter",
+       "is_correct": false
+      },
+      {
+       "label": "fall",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アメリカ英語では、秋をfallとよぶことが多いよ。"
+    },
+    {
+     "key": "US01-M-008",
+     "type": "multiple_choice",
+     "prompt": "イギリス英語のtorchに近い、アメリカ英語は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "candlelight",
+       "is_correct": false
+      },
+      {
+       "label": "headlight",
+       "is_correct": false
+      },
+      {
+       "label": "flashlight",
+       "is_correct": true
+      },
+      {
+       "label": "streetlight",
+       "is_correct": false
+      }
+     ],
+     "explanation": "手に持つかい中電灯は、アメリカ英語でflashlightだよ。"
+    },
+    {
+     "key": "US01-M-009",
+     "type": "multiple_choice",
+     "prompt": "「中心」のアメリカ英語のつづりは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "center",
+       "is_correct": true
+      },
+      {
+       "label": "centre",
+       "is_correct": false
+      },
+      {
+       "label": "centar",
+       "is_correct": false
+      },
+      {
+       "label": "senter",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカ英語ではcenter、イギリス英語ではcentreだよ。"
+    },
+    {
+     "key": "US01-M-010",
+     "type": "multiple_choice",
+     "prompt": "有名な人にもらう「サイン」を英語で言うと？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "autograph",
+       "is_correct": true
+      },
+      {
+       "label": "design",
+       "is_correct": false
+      },
+      {
+       "label": "symbol",
+       "is_correct": false
+      },
+      {
+       "label": "signal",
+       "is_correct": false
+      }
+     ],
+     "explanation": "有名な人の自筆サインは、autographというよ。"
+    },
+    {
+     "key": "US01-M-011",
+     "type": "multiple_choice",
+     "prompt": "日本語の「シャープペンシル」を英語で言うと？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "sharp pen",
+       "is_correct": false
+      },
+      {
+       "label": "metal pen",
+       "is_correct": false
+      },
+      {
+       "label": "click pencil",
+       "is_correct": false
+      },
+      {
+       "label": "mechanical pencil",
+       "is_correct": true
+      }
+     ],
+     "explanation": "しんを出して使う筆記具は、mechanical pencilだよ。"
+    },
+    {
+     "key": "US01-M-012",
+     "type": "multiple_choice",
+     "prompt": "日本語の「リモコン」を英語で言うと？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "remote button",
+       "is_correct": false
+      },
+      {
+       "label": "radio switch",
+       "is_correct": false
+      },
+      {
+       "label": "remote control",
+       "is_correct": true
+      },
+      {
+       "label": "control box",
+       "is_correct": false
+      }
+     ],
+     "explanation": "リモコンは、英語でremote controlというよ。"
+    },
+    {
+     "key": "US01-M-013",
+     "type": "multiple_choice",
+     "prompt": "日本語の「サラリーマン」に近い英語は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "office customer",
+       "is_correct": false
+      },
+      {
+       "label": "office student",
+       "is_correct": false
+      },
+      {
+       "label": "office visitor",
+       "is_correct": false
+      },
+      {
+       "label": "office worker",
+       "is_correct": true
+      }
+     ],
+     "explanation": "会社などで働く人は、office workerなどと表せるよ。"
+    },
+    {
+     "key": "US01-M-014",
+     "type": "true_false",
+     "prompt": "チップは、サービスに対して客が自分で決めて加えるお金である。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "チップは、客が金額を決めて自分の意思で渡すものだよ。"
+    },
+    {
+     "key": "US01-M-015",
+     "type": "multiple_choice",
+     "prompt": "レストランでチップを足す前に、まず何をたしかめる？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "窓が開いているか",
+       "is_correct": false
+      },
+      {
+       "label": "サービス料が入っているか",
+       "is_correct": true
+      },
+      {
+       "label": "皿の色が同じか",
+       "is_correct": false
+      },
+      {
+       "label": "いすの数が多いか",
+       "is_correct": false
+      }
+     ],
+     "explanation": "会計にサービス料が入っていることもあるので確認しよう。"
+    },
+    {
+     "key": "US01-M-016",
+     "type": "multiple_choice",
+     "prompt": "店で食べきれなかった料理を持ち帰る箱は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "food locker",
+       "is_correct": false
+      },
+      {
+       "label": "to-go box",
+       "is_correct": true
+      },
+      {
+       "label": "lunch desk",
+       "is_correct": false
+      },
+      {
+       "label": "carry plate",
+       "is_correct": false
+      }
+     ],
+     "explanation": "持ち帰りたいときは、to-go boxをお願いできるよ。"
+    },
+    {
+     "key": "US01-M-017",
+     "type": "multiple_choice",
+     "prompt": "店員をよぶときの、おだやかな方法は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "指を鳴らし続ける",
+       "is_correct": false
+      },
+      {
+       "label": "食器をたたいて鳴らす",
+       "is_correct": false
+      },
+      {
+       "label": "大声で何度もさけぶ",
+       "is_correct": false
+      },
+      {
+       "label": "目を合わせて軽く手を上げる",
+       "is_correct": true
+      }
+     ],
+     "explanation": "目を合わせ、軽く合図すると相手に伝わりやすいよ。"
+    },
+    {
+     "key": "US01-M-018",
+     "type": "true_false",
+     "prompt": "アメリカでは、値札の金額に売上税がいつも全部入っている。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "州や町により、会計で売上税が加わることがあるよ。"
+    },
+    {
+     "key": "US01-M-019",
+     "type": "multiple_choice",
+     "prompt": "買った品を返したい。先に何をたしかめる？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "店の返品ルール",
+       "is_correct": true
+      },
+      {
+       "label": "店員の出身地",
+       "is_correct": false
+      },
+      {
+       "label": "ほかの客の荷物",
+       "is_correct": false
+      },
+      {
+       "label": "近くの天気予報",
+       "is_correct": false
+      }
+     ],
+     "explanation": "返品できる期間や条件は店でちがうので、先に確認しよう。"
+    },
+    {
+     "key": "US01-M-020",
+     "type": "multiple_choice",
+     "prompt": "買い物のあと、返品や金額確認に役立つものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "レシート",
+       "is_correct": true
+      },
+      {
+       "label": "値札の台",
+       "is_correct": false
+      },
+      {
+       "label": "買い物かご",
+       "is_correct": false
+      },
+      {
+       "label": "店の時計",
+       "is_correct": false
+      }
+     ],
+     "explanation": "レシートは、買った日や金額の記録になるよ。"
+    },
+    {
+     "key": "US01-M-021",
+     "type": "multiple_choice",
+     "prompt": "静かな公共の場所で電話するとき、よい行動は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "長く大声で話す",
+       "is_correct": false
+      },
+      {
+       "label": "声を小さくする",
+       "is_correct": true
+      },
+      {
+       "label": "音を何度も鳴らす",
+       "is_correct": false
+      },
+      {
+       "label": "スピーカーを最大にする",
+       "is_correct": false
+      }
+     ],
+     "explanation": "まわりの人に気を配り、声や音を小さくしよう。"
+    },
+    {
+     "key": "US01-M-022",
+     "type": "multiple_choice",
+     "prompt": "アメリカで人の体重に、よく使う単位は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ガロン",
+       "is_correct": false
+      },
+      {
+       "label": "マイル",
+       "is_correct": false
+      },
+      {
+       "label": "ヤード",
+       "is_correct": false
+      },
+      {
+       "label": "ポンド",
+       "is_correct": true
+      }
+     ],
+     "explanation": "体重は、ポンドで表すことが多いよ。"
+    },
+    {
+     "key": "US01-M-023",
+     "type": "multiple_choice",
+     "prompt": "アメリカで短い長さに、よく使う単位は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ガロン",
+       "is_correct": false
+      },
+      {
+       "label": "華氏",
+       "is_correct": false
+      },
+      {
+       "label": "マイル",
+       "is_correct": false
+      },
+      {
+       "label": "インチ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "小さな長さには、インチがよく使われるよ。"
+    },
+    {
+     "key": "US01-M-024",
+     "type": "multiple_choice",
+     "prompt": "アメリカで多めの液体の量に使う単位は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ガロン",
+       "is_correct": true
+      },
+      {
+       "label": "ポンド",
+       "is_correct": false
+      },
+      {
+       "label": "オンス重",
+       "is_correct": false
+      },
+      {
+       "label": "フィート",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ガソリンや牛乳などの量に、ガロンが使われるよ。"
+    },
+    {
+     "key": "US01-M-025",
+     "type": "multiple_choice",
+     "prompt": "アメリカで数字だけの日付を書くとき、よくある順番は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "日・月・年",
+       "is_correct": false
+      },
+      {
+       "label": "月・日・年",
+       "is_correct": true
+      },
+      {
+       "label": "日・年・月",
+       "is_correct": false
+      },
+      {
+       "label": "年・月・日",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカでは、月・日・年の順がよく使われるよ。"
+    },
+    {
+     "key": "US01-M-026",
+     "type": "multiple_choice",
+     "prompt": "アメリカ式で07/04/2026は、いつ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "2026年4月7日",
+       "is_correct": false
+      },
+      {
+       "label": "2007年4月26日",
+       "is_correct": false
+      },
+      {
+       "label": "2026年7月4日",
+       "is_correct": true
+      },
+      {
+       "label": "2026年7月14日",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカ式の数字の日付は、月を先に読むよ。"
+    },
+    {
+     "key": "US01-M-027",
+     "type": "multiple_choice",
+     "prompt": "昼の12時を、読みまちがいなく書く言葉は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "0 morning",
+       "is_correct": false
+      },
+      {
+       "label": "12 noon",
+       "is_correct": true
+      },
+      {
+       "label": "12 midnight",
+       "is_correct": false
+      },
+      {
+       "label": "24 evening",
+       "is_correct": false
+      }
+     ],
+     "explanation": "noonと書けば、昼の12時だとはっきり分かるよ。"
+    },
+    {
+     "key": "US01-M-028",
+     "type": "multiple_choice",
+     "prompt": "学校で昼食を食べる場所としてよく使う言葉は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "cafeteria",
+       "is_correct": true
+      },
+      {
+       "label": "gymnasium",
+       "is_correct": false
+      },
+      {
+       "label": "auditorium",
+       "is_correct": false
+      },
+      {
+       "label": "laboratory",
+       "is_correct": false
+      }
+     ],
+     "explanation": "学校の食堂は、cafeteriaとよばれることが多いよ。"
+    },
+    {
+     "key": "US01-M-029",
+     "type": "multiple_choice",
+     "prompt": "学校のrecessは、どんな時間？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "テスト時間",
+       "is_correct": false
+      },
+      {
+       "label": "そうじ時間",
+       "is_correct": false
+      },
+      {
+       "label": "登校時間",
+       "is_correct": false
+      },
+      {
+       "label": "休み時間",
+       "is_correct": true
+      }
+     ],
+     "explanation": "recessは、外などで遊べる休み時間だよ。"
+    },
+    {
+     "key": "US01-M-030",
+     "type": "multiple_choice",
+     "prompt": "アメリカの教育でK-12が表すものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "1年に12回の休み",
+       "is_correct": false
+      },
+      {
+       "label": "大学の12科目",
+       "is_correct": false
+      },
+      {
+       "label": "12人の先生の組",
+       "is_correct": false
+      },
+      {
+       "label": "幼稚園から12年生まで",
+       "is_correct": true
+      }
+     ],
+     "explanation": "Kはkindergarten、12は12年生を表すよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 22,
+   "theme_key": "geography",
+   "theme_name": "アメリカの基本情報",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US02-M-001",
+     "type": "multiple_choice",
+     "prompt": "ひと続きの48州は、どの二つの国の間にある？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "キューバとブラジル",
+       "is_correct": false
+      },
+      {
+       "label": "カナダとキューバ",
+       "is_correct": false
+      },
+      {
+       "label": "カナダとメキシコ",
+       "is_correct": true
+      },
+      {
+       "label": "メキシコとブラジル",
+       "is_correct": false
+      }
+     ],
+     "explanation": "48州は、北のカナダと南のメキシコの間にあるよ。"
+    },
+    {
+     "key": "US02-M-002",
+     "type": "multiple_choice",
+     "prompt": "アメリカ本土の南東がわにある大きな湾は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "メキシコ湾",
+       "is_correct": true
+      },
+      {
+       "label": "ベンガル湾",
+       "is_correct": false
+      },
+      {
+       "label": "ハドソン湾",
+       "is_correct": false
+      },
+      {
+       "label": "東京湾",
+       "is_correct": false
+      }
+     ],
+     "explanation": "メキシコ湾は、アメリカ本土の南東がわにあるよ。"
+    },
+    {
+     "key": "US02-M-003",
+     "type": "multiple_choice",
+     "prompt": "アラスカ州は、カナダから見ると主にどちらがわ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "東の海上",
+       "is_correct": false
+      },
+      {
+       "label": "南東がわ",
+       "is_correct": false
+      },
+      {
+       "label": "北西がわ",
+       "is_correct": true
+      },
+      {
+       "label": "真南",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アラスカ州は、カナダの北西がわにあるよ。"
+    },
+    {
+     "key": "US02-M-004",
+     "type": "multiple_choice",
+     "prompt": "ハワイ州があるのは、太平洋のどのあたり？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "地中海東部",
+       "is_correct": false
+      },
+      {
+       "label": "北極海沿岸",
+       "is_correct": false
+      },
+      {
+       "label": "中央太平洋",
+       "is_correct": true
+      },
+      {
+       "label": "北大西洋",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハワイ州は、中央太平洋の島々からできているよ。"
+    },
+    {
+     "key": "US02-M-005",
+     "type": "multiple_choice",
+     "prompt": "国勢調査局が分けるアメリカの大きな地域は、いくつ？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "4地域",
+       "is_correct": true
+      },
+      {
+       "label": "6地域",
+       "is_correct": false
+      },
+      {
+       "label": "3地域",
+       "is_correct": false
+      },
+      {
+       "label": "8地域",
+       "is_correct": false
+      }
+     ],
+     "explanation": "北東部・中西部・南部・西部の4地域だよ。"
+    },
+    {
+     "key": "US02-M-006",
+     "type": "multiple_choice",
+     "prompt": "国勢調査局の地域分けで、アラスカ州とハワイ州はどこ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "北東部",
+       "is_correct": false
+      },
+      {
+       "label": "南部",
+       "is_correct": false
+      },
+      {
+       "label": "西部",
+       "is_correct": true
+      },
+      {
+       "label": "中西部",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アラスカ州とハワイ州は、どちらも西部に入るよ。"
+    },
+    {
+     "key": "US02-M-007",
+     "type": "multiple_choice",
+     "prompt": "国勢調査局の4地域を、さらに細かく分けた区分はいくつ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "20区分",
+       "is_correct": false
+      },
+      {
+       "label": "9区分",
+       "is_correct": true
+      },
+      {
+       "label": "13区分",
+       "is_correct": false
+      },
+      {
+       "label": "5区分",
+       "is_correct": false
+      }
+     ],
+     "explanation": "4地域は、さらに9つの区分に分かれるよ。"
+    },
+    {
+     "key": "US02-M-008",
+     "type": "true_false",
+     "prompt": "ワシントンD.C.は、アメリカの50州の一つである。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ワシントンD.C.は州ではなく、国のための連邦区だよ。"
+    },
+    {
+     "key": "US02-M-009",
+     "type": "multiple_choice",
+     "prompt": "アメリカの国歌の名前は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "自由の歌",
+       "is_correct": false
+      },
+      {
+       "label": "新世界の歌",
+       "is_correct": false
+      },
+      {
+       "label": "美しきアメリカ",
+       "is_correct": false
+      },
+      {
+       "label": "星条旗",
+       "is_correct": true
+      }
+     ],
+     "explanation": "アメリカの国歌は「星条旗」だよ。"
+    },
+    {
+     "key": "US02-M-010",
+     "type": "multiple_choice",
+     "prompt": "アメリカの国璽は、主に何に使われる？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "学校の時間わり",
+       "is_correct": false
+      },
+      {
+       "label": "店のレシート",
+       "is_correct": false
+      },
+      {
+       "label": "国の公式文書",
+       "is_correct": true
+      },
+      {
+       "label": "道路の信号",
+       "is_correct": false
+      }
+     ],
+     "explanation": "国璽は、条約など国の公式文書に使われるよ。"
+    },
+    {
+     "key": "US02-M-011",
+     "type": "multiple_choice",
+     "prompt": "【絵】国璽のワシが持つオリーブの枝が表すものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "寒さ",
+       "is_correct": false
+      },
+      {
+       "label": "速さ",
+       "is_correct": false
+      },
+      {
+       "label": "平和",
+       "is_correct": true
+      },
+      {
+       "label": "農業",
+       "is_correct": false
+      }
+     ],
+     "explanation": "オリーブの枝は、平和を表しているよ。",
+     "image": "/quiz/us/us02-great-seal.webp"
+    },
+    {
+     "key": "US02-M-012",
+     "type": "multiple_choice",
+     "prompt": "国璽のワシが持つ矢が表すものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "海の広さ",
+       "is_correct": false
+      },
+      {
+       "label": "学びの大切さ",
+       "is_correct": false
+      },
+      {
+       "label": "国を守る力",
+       "is_correct": true
+      },
+      {
+       "label": "食べ物の豊かさ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "矢は、国を守る力を表しているよ。"
+    },
+    {
+     "key": "US02-M-013",
+     "type": "multiple_choice",
+     "prompt": "ハーフダラー硬貨は、何セント？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "50セント",
+       "is_correct": true
+      },
+      {
+       "label": "20セント",
+       "is_correct": false
+      },
+      {
+       "label": "75セント",
+       "is_correct": false
+      },
+      {
+       "label": "100セント",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハーフダラーは、1ドルの半分の50セントだよ。"
+    },
+    {
+     "key": "US02-M-014",
+     "type": "multiple_choice",
+     "prompt": "クォーターを何枚集めると1ドル？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "4枚",
+       "is_correct": true
+      },
+      {
+       "label": "2枚",
+       "is_correct": false
+      },
+      {
+       "label": "5枚",
+       "is_correct": false
+      },
+      {
+       "label": "10枚",
+       "is_correct": false
+      }
+     ],
+     "explanation": "25セントを4枚で100セント、つまり1ドルだよ。"
+    },
+    {
+     "key": "US02-M-015",
+     "type": "multiple_choice",
+     "prompt": "ダイムを何枚集めると1ドル？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "25枚",
+       "is_correct": false
+      },
+      {
+       "label": "20枚",
+       "is_correct": false
+      },
+      {
+       "label": "10枚",
+       "is_correct": true
+      },
+      {
+       "label": "4枚",
+       "is_correct": false
+      }
+     ],
+     "explanation": "10セントを10枚で1ドルになるよ。"
+    },
+    {
+     "key": "US02-M-016",
+     "type": "multiple_choice",
+     "prompt": "ニッケルを何枚集めると1ドル？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "10枚",
+       "is_correct": false
+      },
+      {
+       "label": "20枚",
+       "is_correct": true
+      },
+      {
+       "label": "5枚",
+       "is_correct": false
+      },
+      {
+       "label": "50枚",
+       "is_correct": false
+      }
+     ],
+     "explanation": "5セントを20枚で1ドルになるよ。"
+    },
+    {
+     "key": "US02-M-017",
+     "type": "multiple_choice",
+     "prompt": "今のアメリカ硬貨で、直径がいちばん小さいものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ニッケル",
+       "is_correct": false
+      },
+      {
+       "label": "ダイム",
+       "is_correct": true
+      },
+      {
+       "label": "クォーター",
+       "is_correct": false
+      },
+      {
+       "label": "ペニー",
+       "is_correct": false
+      }
+     ],
+     "explanation": "10セントのダイムは、直径がいちばん小さいよ。"
+    },
+    {
+     "key": "US02-M-018",
+     "type": "multiple_choice",
+     "prompt": "ひと続きの48州にある主な時間帯は、いくつ？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "6時間帯",
+       "is_correct": false
+      },
+      {
+       "label": "2時間帯",
+       "is_correct": false
+      },
+      {
+       "label": "9時間帯",
+       "is_correct": false
+      },
+      {
+       "label": "4時間帯",
+       "is_correct": true
+      }
+     ],
+     "explanation": "東部・中部・山岳部・太平洋の4時間帯だよ。"
+    },
+    {
+     "key": "US02-M-019",
+     "type": "multiple_choice",
+     "prompt": "東から西へならぶ時間帯の正しい順は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "山岳部・太平洋・東部・中部",
+       "is_correct": false
+      },
+      {
+       "label": "東部・中部・山岳部・太平洋",
+       "is_correct": true
+      },
+      {
+       "label": "中部・東部・太平洋・山岳部",
+       "is_correct": false
+      },
+      {
+       "label": "太平洋・山岳部・中部・東部",
+       "is_correct": false
+      }
+     ],
+     "explanation": "本土の主な時間帯は、東からこの順にならぶよ。"
+    },
+    {
+     "key": "US02-M-020",
+     "type": "multiple_choice",
+     "prompt": "東部時間が正午のとき、太平洋時間は何時？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "午前11時",
+       "is_correct": false
+      },
+      {
+       "label": "午前9時",
+       "is_correct": true
+      },
+      {
+       "label": "午前10時",
+       "is_correct": false
+      },
+      {
+       "label": "午後3時",
+       "is_correct": false
+      }
+     ],
+     "explanation": "太平洋時間は、東部時間より3時間おそいよ。"
+    },
+    {
+     "key": "US02-M-021",
+     "type": "true_false",
+     "prompt": "ハワイ州は、夏時間を使っていない。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ハワイ州は、時計を進める夏時間を使わないよ。"
+    },
+    {
+     "key": "US02-M-022",
+     "type": "multiple_choice",
+     "prompt": "国の法律をつくる役目を持つのは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "連邦裁判所",
+       "is_correct": false
+      },
+      {
+       "label": "中央銀行",
+       "is_correct": false
+      },
+      {
+       "label": "大統領府",
+       "is_correct": false
+      },
+      {
+       "label": "アメリカ議会",
+       "is_correct": true
+      }
+     ],
+     "explanation": "法律をつくる立法の中心は、アメリカ議会だよ。"
+    },
+    {
+     "key": "US02-M-023",
+     "type": "multiple_choice",
+     "prompt": "アメリカ議会をつくる二つの院は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "東院と西院",
+       "is_correct": false
+      },
+      {
+       "label": "上院と下院",
+       "is_correct": true
+      },
+      {
+       "label": "州院と市院",
+       "is_correct": false
+      },
+      {
+       "label": "民院と王院",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アメリカ議会は、上院と下院からできているよ。"
+    },
+    {
+     "key": "US02-M-024",
+     "type": "multiple_choice",
+     "prompt": "国の法律を実行する行政府の長は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "最高裁長官",
+       "is_correct": false
+      },
+      {
+       "label": "上院議長",
+       "is_correct": false
+      },
+      {
+       "label": "州知事",
+       "is_correct": false
+      },
+      {
+       "label": "大統領",
+       "is_correct": true
+      }
+     ],
+     "explanation": "大統領は、国の行政府をみちびく役目を持つよ。"
+    },
+    {
+     "key": "US02-M-025",
+     "type": "multiple_choice",
+     "prompt": "法律が憲法に合うかを判断するのは、どの部門？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "立法部門",
+       "is_correct": false
+      },
+      {
+       "label": "行政部門",
+       "is_correct": false
+      },
+      {
+       "label": "司法部門",
+       "is_correct": true
+      },
+      {
+       "label": "地方部門",
+       "is_correct": false
+      }
+     ],
+     "explanation": "最高裁判所などの司法部門が判断するよ。"
+    },
+    {
+     "key": "US02-M-026",
+     "type": "multiple_choice",
+     "prompt": "三つの部門がたがいに力をおさえるしくみは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "地方自治",
+       "is_correct": false
+      },
+      {
+       "label": "抑制と均衡",
+       "is_correct": true
+      },
+      {
+       "label": "多数決",
+       "is_correct": false
+      },
+      {
+       "label": "自由貿易",
+       "is_correct": false
+      }
+     ],
+     "explanation": "一つの部門に力が集まりすぎないためのしくみだよ。"
+    },
+    {
+     "key": "US02-M-027",
+     "type": "multiple_choice",
+     "prompt": "アメリカの各州が持っている、州の基本ルールは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "国連憲章",
+       "is_correct": false
+      },
+      {
+       "label": "会社の規則",
+       "is_correct": false
+      },
+      {
+       "label": "州憲法",
+       "is_correct": true
+      },
+      {
+       "label": "市の校則",
+       "is_correct": false
+      }
+     ],
+     "explanation": "各州には、その州のしくみを決める州憲法があるよ。"
+    },
+    {
+     "key": "US02-M-028",
+     "type": "multiple_choice",
+     "prompt": "州の行政府の長は、ふつう何とよばれる？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "裁判官",
+       "is_correct": false
+      },
+      {
+       "label": "市長",
+       "is_correct": false
+      },
+      {
+       "label": "大使",
+       "is_correct": false
+      },
+      {
+       "label": "知事",
+       "is_correct": true
+      }
+     ],
+     "explanation": "各州の行政府は、知事がみちびくよ。"
+    },
+    {
+     "key": "US02-M-029",
+     "type": "multiple_choice",
+     "prompt": "プエルトリコは、アメリカの何にあたる？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "郡",
+       "is_correct": false
+      },
+      {
+       "label": "領域",
+       "is_correct": true
+      },
+      {
+       "label": "首都",
+       "is_correct": false
+      },
+      {
+       "label": "州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "プエルトリコはアメリカの領域で、50州には入らないよ。"
+    },
+    {
+     "key": "US02-M-030",
+     "type": "multiple_choice",
+     "prompt": "グアムがあるのは、太平洋のどのあたり？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "地中海西部",
+       "is_correct": false
+      },
+      {
+       "label": "南インド洋",
+       "is_correct": false
+      },
+      {
+       "label": "北大西洋",
+       "is_correct": false
+      },
+      {
+       "label": "西太平洋",
+       "is_correct": true
+      }
+     ],
+     "explanation": "グアムは、西太平洋にあるアメリカの領域だよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 23,
+   "theme_key": "capital",
+   "theme_name": "州と州都",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US03-M-001",
+     "type": "multiple_choice",
+     "prompt": "コロラド州の州都は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "デンバー",
+       "is_correct": true
+      },
+      {
+       "label": "ハリスバーグ",
+       "is_correct": false
+      },
+      {
+       "label": "スプリングフィールド",
+       "is_correct": false
+      },
+      {
+       "label": "アトランタ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "コロラド州の州都はデンバーだよ。"
+    },
+    {
+     "key": "US03-M-002",
+     "type": "multiple_choice",
+     "prompt": "スプリングフィールドは、どの州の州都？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "イリノイ州",
+       "is_correct": true
+      },
+      {
+       "label": "ジョージア州",
+       "is_correct": false
+      },
+      {
+       "label": "ペンシルベニア州",
+       "is_correct": false
+      },
+      {
+       "label": "コロラド州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "イリノイ州の州都はスプリングフィールドだよ。"
+    },
+    {
+     "key": "US03-M-003",
+     "type": "multiple_choice",
+     "prompt": "ペンシルベニア州で、州政府の中心となる都市は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "セーラム",
+       "is_correct": false
+      },
+      {
+       "label": "ハリスバーグ",
+       "is_correct": true
+      },
+      {
+       "label": "バトンルージュ",
+       "is_correct": false
+      },
+      {
+       "label": "アトランタ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ペンシルベニア州の州都はハリスバーグだよ。"
+    },
+    {
+     "key": "US03-M-004",
+     "type": "multiple_choice",
+     "prompt": "州都がアトランタである州は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ジョージア州",
+       "is_correct": true
+      },
+      {
+       "label": "ルイジアナ州",
+       "is_correct": false
+      },
+      {
+       "label": "イリノイ州",
+       "is_correct": false
+      },
+      {
+       "label": "オレゴン州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ジョージア州の州都はアトランタだよ。"
+    },
+    {
+     "key": "US03-M-005",
+     "type": "multiple_choice",
+     "prompt": "ルイジアナ州の州都は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "セーラム",
+       "is_correct": false
+      },
+      {
+       "label": "ランシング",
+       "is_correct": false
+      },
+      {
+       "label": "コロンバス",
+       "is_correct": false
+      },
+      {
+       "label": "バトンルージュ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ルイジアナ州の州都はバトンルージュだよ。"
+    },
+    {
+     "key": "US03-M-006",
+     "type": "multiple_choice",
+     "prompt": "セーラムは、どの州の州都？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "オハイオ州",
+       "is_correct": false
+      },
+      {
+       "label": "テネシー州",
+       "is_correct": false
+      },
+      {
+       "label": "オレゴン州",
+       "is_correct": true
+      },
+      {
+       "label": "ミシガン州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "オレゴン州の州都はセーラムだよ。"
+    },
+    {
+     "key": "US03-M-007",
+     "type": "multiple_choice",
+     "prompt": "ミシガン州で、州政府の中心となる都市は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "コロンバス",
+       "is_correct": false
+      },
+      {
+       "label": "リッチモンド",
+       "is_correct": false
+      },
+      {
+       "label": "ナッシュビル",
+       "is_correct": false
+      },
+      {
+       "label": "ランシング",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ミシガン州の州都はランシングだよ。"
+    },
+    {
+     "key": "US03-M-008",
+     "type": "multiple_choice",
+     "prompt": "州都がコロンバスである州は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ミネソタ州",
+       "is_correct": false
+      },
+      {
+       "label": "バージニア州",
+       "is_correct": false
+      },
+      {
+       "label": "ノースカロライナ州",
+       "is_correct": false
+      },
+      {
+       "label": "オハイオ州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "オハイオ州の州都はコロンバスだよ。"
+    },
+    {
+     "key": "US03-M-009",
+     "type": "multiple_choice",
+     "prompt": "テネシー州の州都は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ローリー",
+       "is_correct": false
+      },
+      {
+       "label": "セントポール",
+       "is_correct": false
+      },
+      {
+       "label": "リッチモンド",
+       "is_correct": false
+      },
+      {
+       "label": "ナッシュビル",
+       "is_correct": true
+      }
+     ],
+     "explanation": "テネシー州の州都はナッシュビルだよ。"
+    },
+    {
+     "key": "US03-M-010",
+     "type": "multiple_choice",
+     "prompt": "リッチモンドは、どの州の州都？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "バージニア州",
+       "is_correct": true
+      },
+      {
+       "label": "ニュージャージー州",
+       "is_correct": false
+      },
+      {
+       "label": "ミズーリ州",
+       "is_correct": false
+      },
+      {
+       "label": "ニューメキシコ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "バージニア州の州都はリッチモンドだよ。"
+    },
+    {
+     "key": "US03-M-011",
+     "type": "multiple_choice",
+     "prompt": "ノースカロライナ州で、州政府の中心となる都市は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ローリー",
+       "is_correct": true
+      },
+      {
+       "label": "トレントン",
+       "is_correct": false
+      },
+      {
+       "label": "ジェファーソンシティ",
+       "is_correct": false
+      },
+      {
+       "label": "セントポール",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ノースカロライナ州の州都はローリーだよ。"
+    },
+    {
+     "key": "US03-M-012",
+     "type": "multiple_choice",
+     "prompt": "州都がセントポールである州は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ペンシルベニア州",
+       "is_correct": false
+      },
+      {
+       "label": "ミネソタ州",
+       "is_correct": true
+      },
+      {
+       "label": "コロラド州",
+       "is_correct": false
+      },
+      {
+       "label": "イリノイ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ミネソタ州の州都はセントポールだよ。"
+    },
+    {
+     "key": "US03-M-013",
+     "type": "multiple_choice",
+     "prompt": "ミズーリ州の州都は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "サンタフェ",
+       "is_correct": false
+      },
+      {
+       "label": "デンバー",
+       "is_correct": false
+      },
+      {
+       "label": "ジェファーソンシティ",
+       "is_correct": true
+      },
+      {
+       "label": "トレントン",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ミズーリ州の州都はジェファーソンシティだよ。"
+    },
+    {
+     "key": "US03-M-014",
+     "type": "multiple_choice",
+     "prompt": "トレントンは、どの州の州都？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "オレゴン州",
+       "is_correct": false
+      },
+      {
+       "label": "ルイジアナ州",
+       "is_correct": false
+      },
+      {
+       "label": "ジョージア州",
+       "is_correct": false
+      },
+      {
+       "label": "ニュージャージー州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ニュージャージー州の州都はトレントンだよ。"
+    },
+    {
+     "key": "US03-M-015",
+     "type": "multiple_choice",
+     "prompt": "ニューメキシコ州で、州政府の中心となる都市は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "デンバー",
+       "is_correct": false
+      },
+      {
+       "label": "スプリングフィールド",
+       "is_correct": false
+      },
+      {
+       "label": "サンタフェ",
+       "is_correct": true
+      },
+      {
+       "label": "ハリスバーグ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューメキシコ州の州都はサンタフェだよ。"
+    },
+    {
+     "key": "US03-M-016",
+     "type": "multiple_choice",
+     "prompt": "イリノイ州が入る地方は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "西部",
+       "is_correct": false
+      },
+      {
+       "label": "中西部",
+       "is_correct": true
+      },
+      {
+       "label": "北東部",
+       "is_correct": false
+      },
+      {
+       "label": "南部",
+       "is_correct": false
+      }
+     ],
+     "explanation": "イリノイ州は中西部に入るよ。"
+    },
+    {
+     "key": "US03-M-017",
+     "type": "true_false",
+     "prompt": "ペンシルベニア州は、中西部に入る。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ペンシルベニア州は北東部に入るよ。"
+    },
+    {
+     "key": "US03-M-018",
+     "type": "multiple_choice",
+     "prompt": "次の4州で、国勢調査局の南部に入るものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "オレゴン州",
+       "is_correct": false
+      },
+      {
+       "label": "ジョージア州",
+       "is_correct": true
+      },
+      {
+       "label": "コロラド州",
+       "is_correct": false
+      },
+      {
+       "label": "ミシガン州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ジョージア州は南部に入るよ。"
+    },
+    {
+     "key": "US03-M-019",
+     "type": "multiple_choice",
+     "prompt": "次の4州で、国勢調査局の西部に入るものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "バージニア州",
+       "is_correct": false
+      },
+      {
+       "label": "オレゴン州",
+       "is_correct": true
+      },
+      {
+       "label": "オハイオ州",
+       "is_correct": false
+      },
+      {
+       "label": "ニュージャージー州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "オレゴン州は西部に入るよ。"
+    },
+    {
+     "key": "US03-M-020",
+     "type": "multiple_choice",
+     "prompt": "コロラド州のすぐ南にある州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ノースカロライナ州",
+       "is_correct": false
+      },
+      {
+       "label": "テネシー州",
+       "is_correct": false
+      },
+      {
+       "label": "ミネソタ州",
+       "is_correct": false
+      },
+      {
+       "label": "ニューメキシコ州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ニューメキシコ州はコロラド州の南どなりだよ。"
+    },
+    {
+     "key": "US03-M-021",
+     "type": "multiple_choice",
+     "prompt": "ユタ州の東、ニューメキシコ州の北にある州は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "コロラド州",
+       "is_correct": true
+      },
+      {
+       "label": "ペンシルベニア州",
+       "is_correct": false
+      },
+      {
+       "label": "ミズーリ州",
+       "is_correct": false
+      },
+      {
+       "label": "イリノイ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "コロラド州は、ユタ州の東でニューメキシコ州の北だよ。"
+    },
+    {
+     "key": "US03-M-022",
+     "type": "true_false",
+     "prompt": "ミシガン州は、二つの大きな半島からできている。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ミシガン州には上半島と下半島があるよ。"
+    },
+    {
+     "key": "US03-M-023",
+     "type": "multiple_choice",
+     "prompt": "州の中の地域をパリッシュとよぶ州は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ルイジアナ州",
+       "is_correct": true
+      },
+      {
+       "label": "ジョージア州",
+       "is_correct": false
+      },
+      {
+       "label": "ニューメキシコ州",
+       "is_correct": false
+      },
+      {
+       "label": "ミシガン州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ルイジアナ州では、郡にあたる区分をパリッシュとよぶよ。"
+    },
+    {
+     "key": "US03-M-024",
+     "type": "multiple_choice",
+     "prompt": "アリゾナ・コロラド・ニューメキシコの3州と、一点でせっする州は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ルイジアナ州",
+       "is_correct": false
+      },
+      {
+       "label": "オハイオ州",
+       "is_correct": false
+      },
+      {
+       "label": "ユタ州",
+       "is_correct": true
+      },
+      {
+       "label": "テネシー州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "4州が一点でせっする場所をフォーコーナーズというよ。"
+    },
+    {
+     "key": "US03-M-025",
+     "type": "multiple_choice",
+     "prompt": "カリフォルニア州の北どなりは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "バージニア州",
+       "is_correct": false
+      },
+      {
+       "label": "ミネソタ州",
+       "is_correct": false
+      },
+      {
+       "label": "オレゴン州",
+       "is_correct": true
+      },
+      {
+       "label": "ノースカロライナ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "オレゴン州はカリフォルニア州の北どなりだよ。"
+    },
+    {
+     "key": "US03-M-026",
+     "type": "multiple_choice",
+     "prompt": "オレゴン州の北どなりは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ミズーリ州",
+       "is_correct": false
+      },
+      {
+       "label": "ワシントン州",
+       "is_correct": true
+      },
+      {
+       "label": "ニュージャージー州",
+       "is_correct": false
+      },
+      {
+       "label": "ニューメキシコ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ワシントン州はオレゴン州の北どなりだよ。"
+    },
+    {
+     "key": "US03-M-027",
+     "type": "multiple_choice",
+     "prompt": "ネバダ州の西どなりは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ジョージア州",
+       "is_correct": false
+      },
+      {
+       "label": "カリフォルニア州",
+       "is_correct": true
+      },
+      {
+       "label": "オレゴン州",
+       "is_correct": false
+      },
+      {
+       "label": "ルイジアナ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "カリフォルニア州はネバダ州の西どなりだよ。"
+    },
+    {
+     "key": "US03-M-028",
+     "type": "multiple_choice",
+     "prompt": "テキサス州の東どなりは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "テネシー州",
+       "is_correct": false
+      },
+      {
+       "label": "ミシガン州",
+       "is_correct": false
+      },
+      {
+       "label": "ルイジアナ州",
+       "is_correct": true
+      },
+      {
+       "label": "オハイオ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ルイジアナ州はテキサス州の東どなりだよ。"
+    },
+    {
+     "key": "US03-M-029",
+     "type": "multiple_choice",
+     "prompt": "ニューヨーク州の南がわで、長く境をせっする州は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ペンシルベニア州",
+       "is_correct": true
+      },
+      {
+       "label": "バージニア州",
+       "is_correct": false
+      },
+      {
+       "label": "ミネソタ州",
+       "is_correct": false
+      },
+      {
+       "label": "ノースカロライナ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ペンシルベニア州はニューヨーク州の南どなりだよ。"
+    },
+    {
+     "key": "US03-M-030",
+     "type": "multiple_choice",
+     "prompt": "マサチューセッツ州の西どなりは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ミズーリ州",
+       "is_correct": false
+      },
+      {
+       "label": "ニューヨーク州",
+       "is_correct": true
+      },
+      {
+       "label": "ニューメキシコ州",
+       "is_correct": false
+      },
+      {
+       "label": "ニュージャージー州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューヨーク州はマサチューセッツ州の西どなりだよ。"
+    },
+    {
+     "key": "US03-M-031",
+     "type": "multiple_choice",
+     "prompt": "フロリダ州の北どなりで、大西洋に面する州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ハワイ州",
+       "is_correct": false
+      },
+      {
+       "label": "アラスカ州",
+       "is_correct": false
+      },
+      {
+       "label": "ジョージア州",
+       "is_correct": true
+      },
+      {
+       "label": "カリフォルニア州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ジョージア州はフロリダ州の北どなりだよ。"
+    },
+    {
+     "key": "US03-M-032",
+     "type": "multiple_choice",
+     "prompt": "ニューメキシコ州の東と南の両方で境をせっする州は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "マサチューセッツ州",
+       "is_correct": false
+      },
+      {
+       "label": "テキサス州",
+       "is_correct": true
+      },
+      {
+       "label": "ワシントン州",
+       "is_correct": false
+      },
+      {
+       "label": "ネバダ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "テキサス州はニューメキシコ州の東と南にせっするよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 24,
+   "theme_key": "heritage",
+   "theme_name": "祝日・行事・くらし・スポーツ",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US04-M-001",
+     "type": "multiple_choice",
+     "prompt": "キング牧師のたん生日を記念する祝日は、いつ？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "2月の第2月曜日",
+       "is_correct": false
+      },
+      {
+       "label": "3月の第3火曜日",
+       "is_correct": false
+      },
+      {
+       "label": "1月の第1金曜日",
+       "is_correct": false
+      },
+      {
+       "label": "1月の第3月曜日",
+       "is_correct": true
+      }
+     ],
+     "explanation": "連邦祝日は、1月の第3月曜日だよ。"
+    },
+    {
+     "key": "US04-M-002",
+     "type": "multiple_choice",
+     "prompt": "ワシントンのたん生日を記念する祝日は、いつ？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "3月の第2月曜日",
+       "is_correct": false
+      },
+      {
+       "label": "4月の第3金曜日",
+       "is_correct": false
+      },
+      {
+       "label": "2月の第1木曜日",
+       "is_correct": false
+      },
+      {
+       "label": "2月の第3月曜日",
+       "is_correct": true
+      }
+     ],
+     "explanation": "連邦祝日は、2月の第3月曜日だよ。"
+    },
+    {
+     "key": "US04-M-003",
+     "type": "multiple_choice",
+     "prompt": "メモリアル・デーは、いつ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "5月の最後の月曜日",
+       "is_correct": true
+      },
+      {
+       "label": "7月の最初の日曜日",
+       "is_correct": false
+      },
+      {
+       "label": "6月の最後の金曜日",
+       "is_correct": false
+      },
+      {
+       "label": "5月の最初の火曜日",
+       "is_correct": false
+      }
+     ],
+     "explanation": "メモリアル・デーは、5月の最後の月曜日だよ。"
+    },
+    {
+     "key": "US04-M-004",
+     "type": "multiple_choice",
+     "prompt": "レイバー・デーは、いつ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "8月の第4木曜日",
+       "is_correct": false
+      },
+      {
+       "label": "10月の第1火曜日",
+       "is_correct": false
+      },
+      {
+       "label": "9月の第2金曜日",
+       "is_correct": false
+      },
+      {
+       "label": "9月の第1月曜日",
+       "is_correct": true
+      }
+     ],
+     "explanation": "レイバー・デーは、9月の第1月曜日だよ。"
+    },
+    {
+     "key": "US04-M-005",
+     "type": "multiple_choice",
+     "prompt": "ジューンティーンスは、何月何日？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "8月19日",
+       "is_correct": false
+      },
+      {
+       "label": "6月19日",
+       "is_correct": true
+      },
+      {
+       "label": "6月9日",
+       "is_correct": false
+      },
+      {
+       "label": "7月19日",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ジューンティーンスは、毎年6月19日だよ。"
+    },
+    {
+     "key": "US04-M-006",
+     "type": "multiple_choice",
+     "prompt": "ベテランズ・デーは、何月何日？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "10月11日",
+       "is_correct": false
+      },
+      {
+       "label": "11月11日",
+       "is_correct": true
+      },
+      {
+       "label": "11月21日",
+       "is_correct": false
+      },
+      {
+       "label": "12月11日",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ベテランズ・デーは、毎年11月11日だよ。"
+    },
+    {
+     "key": "US04-M-007",
+     "type": "multiple_choice",
+     "prompt": "メモリアル・デーに、主にしのぶ人は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "新しく市民になった人",
+       "is_correct": false
+      },
+      {
+       "label": "スポーツで勝った人",
+       "is_correct": false
+      },
+      {
+       "label": "学校を卒業した人",
+       "is_correct": false
+      },
+      {
+       "label": "軍につとめて亡くなった人",
+       "is_correct": true
+      }
+     ],
+     "explanation": "軍につとめて亡くなった人をしのぶ日だよ。"
+    },
+    {
+     "key": "US04-M-008",
+     "type": "multiple_choice",
+     "prompt": "ベテランズ・デーに、主にたたえる人は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "工場ではたらく人",
+       "is_correct": false
+      },
+      {
+       "label": "学校で教える人",
+       "is_correct": false
+      },
+      {
+       "label": "農場で作物を作る人",
+       "is_correct": false
+      },
+      {
+       "label": "軍につとめた人",
+       "is_correct": true
+      }
+     ],
+     "explanation": "軍につとめたすべての人をたたえる日だよ。"
+    },
+    {
+     "key": "US04-M-009",
+     "type": "true_false",
+     "prompt": "連邦祝日には、すべての学校と店が必ず休みになる。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "休むかどうかは、学校や店などでちがうよ。"
+    },
+    {
+     "key": "US04-M-010",
+     "type": "multiple_choice",
+     "prompt": "独立せん言がさいたくされた年は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "1945年",
+       "is_correct": false
+      },
+      {
+       "label": "1776年",
+       "is_correct": true
+      },
+      {
+       "label": "1865年",
+       "is_correct": false
+      },
+      {
+       "label": "1492年",
+       "is_correct": false
+      }
+     ],
+     "explanation": "独立せん言は1776年7月4日にさいたくされたよ。"
+    },
+    {
+     "key": "US04-M-011",
+     "type": "multiple_choice",
+     "prompt": "1776年7月4日に独立せん言をさいたくしたのは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "国勢調査局",
+       "is_correct": false
+      },
+      {
+       "label": "最高裁判所",
+       "is_correct": false
+      },
+      {
+       "label": "大陸会議",
+       "is_correct": true
+      },
+      {
+       "label": "国立公園局",
+       "is_correct": false
+      }
+     ],
+     "explanation": "当時の大陸会議が独立せん言をさいたくしたよ。"
+    },
+    {
+     "key": "US04-M-012",
+     "type": "multiple_choice",
+     "prompt": "独立記念日に町で開かれることがある行事は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "雪まつり",
+       "is_correct": false
+      },
+      {
+       "label": "入学しけん",
+       "is_correct": false
+      },
+      {
+       "label": "田植え",
+       "is_correct": false
+      },
+      {
+       "label": "パレード",
+       "is_correct": true
+      }
+     ],
+     "explanation": "パレードや花火で祝う町があるよ。"
+    },
+    {
+     "key": "US04-M-013",
+     "type": "multiple_choice",
+     "prompt": "独立記念日のかざりで、よく使われる色は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "赤・白・青",
+       "is_correct": true
+      },
+      {
+       "label": "黒・金・むらさき",
+       "is_correct": false
+      },
+      {
+       "label": "黄・緑・茶",
+       "is_correct": false
+      },
+      {
+       "label": "水色・桃・灰色",
+       "is_correct": false
+      }
+     ],
+     "explanation": "国旗と同じ赤・白・青のかざりがよく見られるよ。"
+    },
+    {
+     "key": "US04-M-014",
+     "type": "multiple_choice",
+     "prompt": "感謝祭の食事で、七面鳥にそえることがあるものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "クランベリーソース",
+       "is_correct": true
+      },
+      {
+       "label": "しょうゆ",
+       "is_correct": false
+      },
+      {
+       "label": "カレーソース",
+       "is_correct": false
+      },
+      {
+       "label": "チョコレートソース",
+       "is_correct": false
+      }
+     ],
+     "explanation": "クランベリーソースは、感謝祭でよく知られる味だよ。"
+    },
+    {
+     "key": "US04-M-015",
+     "type": "multiple_choice",
+     "prompt": "感謝祭で、よく食べられるじゃがいも料理は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "大学いも",
+       "is_correct": false
+      },
+      {
+       "label": "いもようかん",
+       "is_correct": false
+      },
+      {
+       "label": "マッシュポテト",
+       "is_correct": true
+      },
+      {
+       "label": "ポテトチップス",
+       "is_correct": false
+      }
+     ],
+     "explanation": "マッシュポテトは、感謝祭の食事でよく見られるよ。"
+    },
+    {
+     "key": "US04-M-016",
+     "type": "multiple_choice",
+     "prompt": "感謝祭に、多くの人がすることは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "家族や友人と集まる",
+       "is_correct": true
+      },
+      {
+       "label": "町中で雪かきをする",
+       "is_correct": false
+      },
+      {
+       "label": "学校で入学式をする",
+       "is_correct": false
+      },
+      {
+       "label": "海で花火を上げる",
+       "is_correct": false
+      }
+     ],
+     "explanation": "家族や友人と食事をしてすごす人が多いよ。"
+    },
+    {
+     "key": "US04-M-017",
+     "type": "multiple_choice",
+     "prompt": "感謝祭の次の日として知られる日は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ブラックフライデー",
+       "is_correct": true
+      },
+      {
+       "label": "エイプリルフール",
+       "is_correct": false
+      },
+      {
+       "label": "グラウンドホッグデー",
+       "is_correct": false
+      },
+      {
+       "label": "バレンタインデー",
+       "is_correct": false
+      }
+     ],
+     "explanation": "感謝祭の次の金曜日は、ブラックフライデーとよばれるよ。"
+    },
+    {
+     "key": "US04-M-018",
+     "type": "multiple_choice",
+     "prompt": "子どもがもらったハロウィンのおかしは、食べる前にどうする？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "大人が安全をたしかめる",
+       "is_correct": true
+      },
+      {
+       "label": "すぐ全部を食べる",
+       "is_correct": false
+      },
+      {
+       "label": "知らない人にわたす",
+       "is_correct": false
+      },
+      {
+       "label": "道に広げて数える",
+       "is_correct": false
+      }
+     ],
+     "explanation": "食べる前に、大人がつつみなどをたしかめよう。"
+    },
+    {
+     "key": "US04-M-019",
+     "type": "multiple_choice",
+     "prompt": "夜のハロウィンで、車から見えやすくする物は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "黒いマント",
+       "is_correct": false
+      },
+      {
+       "label": "大きなマスク",
+       "is_correct": false
+      },
+      {
+       "label": "反しゃテープ",
+       "is_correct": true
+      },
+      {
+       "label": "長いスカート",
+       "is_correct": false
+      }
+     ],
+     "explanation": "反しゃテープやライトで、見えやすくすると安全だよ。"
+    },
+    {
+     "key": "US04-M-020",
+     "type": "multiple_choice",
+     "prompt": "ハロウィンのこわい体験を楽しむ場所は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "体育館",
+       "is_correct": false
+      },
+      {
+       "label": "図書室",
+       "is_correct": false
+      },
+      {
+       "label": "水族館",
+       "is_correct": false
+      },
+      {
+       "label": "おばけやしき",
+       "is_correct": true
+      }
+     ],
+     "explanation": "おばけやしきは、ハロウィンで人気の行事の一つだよ。"
+    },
+    {
+     "key": "US04-M-021",
+     "type": "true_false",
+     "prompt": "ジャック・オー・ランタンには、電池式ライトも使える。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "火を使わないライトは、やけどや火事をへらせるよ。"
+    },
+    {
+     "key": "US04-M-022",
+     "type": "multiple_choice",
+     "prompt": "冬の休みのかざりで、ドアにかける丸いものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "リース",
+       "is_correct": true
+      },
+      {
+       "label": "フリスビー",
+       "is_correct": false
+      },
+      {
+       "label": "うきわ",
+       "is_correct": false
+      },
+      {
+       "label": "メダル",
+       "is_correct": false
+      }
+     ],
+     "explanation": "木の葉などで作るリースをドアにかざることがあるよ。"
+    },
+    {
+     "key": "US04-M-023",
+     "type": "multiple_choice",
+     "prompt": "クリスマスに、家族や友人の間ですることがあるのは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "運転めんきょ更新",
+       "is_correct": false
+      },
+      {
+       "label": "プレゼントこうかん",
+       "is_correct": true
+      },
+      {
+       "label": "卒業しょう書じゅよ",
+       "is_correct": false
+      },
+      {
+       "label": "入学しけん",
+       "is_correct": false
+      }
+     ],
+     "explanation": "家族や友人とプレゼントをおくり合う人がいるよ。"
+    },
+    {
+     "key": "US04-M-024",
+     "type": "multiple_choice",
+     "prompt": "冬のホリデーシーズンに、家の外で見られるかざりは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "交通しん号",
+       "is_correct": false
+      },
+      {
+       "label": "道路の白線",
+       "is_correct": false
+      },
+      {
+       "label": "色のついたライト",
+       "is_correct": true
+      },
+      {
+       "label": "工事のさく",
+       "is_correct": false
+      }
+     ],
+     "explanation": "家や木をライトでかざることがあるよ。"
+    },
+    {
+     "key": "US04-M-025",
+     "type": "multiple_choice",
+     "prompt": "大みそかのカウントダウンは、何時を目ざす？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "午後3時",
+       "is_correct": false
+      },
+      {
+       "label": "午前6時",
+       "is_correct": false
+      },
+      {
+       "label": "午前0時",
+       "is_correct": true
+      },
+      {
+       "label": "正午",
+       "is_correct": false
+      }
+     ],
+     "explanation": "午前0時になると、新しい年が始まるよ。"
+    },
+    {
+     "key": "US04-M-026",
+     "type": "multiple_choice",
+     "prompt": "学校のイヤーブックに、よくのるものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "町のバス路線",
+       "is_correct": false
+      },
+      {
+       "label": "生徒の写真や思い出",
+       "is_correct": true
+      },
+      {
+       "label": "店のしょう品ねだん",
+       "is_correct": false
+      },
+      {
+       "label": "病院のよやく表",
+       "is_correct": false
+      }
+     ],
+     "explanation": "イヤーブックは、その年の学校生活をまとめる本だよ。"
+    },
+    {
+     "key": "US04-M-027",
+     "type": "multiple_choice",
+     "prompt": "スクールプレイで、生徒がすることは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "道路のしゅう理",
+       "is_correct": false
+      },
+      {
+       "label": "げきの上えん",
+       "is_correct": true
+      },
+      {
+       "label": "空港のけいび",
+       "is_correct": false
+      },
+      {
+       "label": "郵便のはい達",
+       "is_correct": false
+      }
+     ],
+     "explanation": "生徒が役をえんじて、げきを発表する行事だよ。"
+    },
+    {
+     "key": "US04-M-028",
+     "type": "multiple_choice",
+     "prompt": "PTAは、主にだれが協力する会？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "運転手と乗客",
+       "is_correct": false
+      },
+      {
+       "label": "医師と患者",
+       "is_correct": false
+      },
+      {
+       "label": "店員と客",
+       "is_correct": false
+      },
+      {
+       "label": "保護者と先生",
+       "is_correct": true
+      }
+     ],
+     "explanation": "保護者と先生が、学校のために協力する会だよ。"
+    },
+    {
+     "key": "US04-M-029",
+     "type": "multiple_choice",
+     "prompt": "アメリカの公立学校を、地いきでまとめるしくみは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ポストオフィス",
+       "is_correct": false
+      },
+      {
+       "label": "スクールディストリクト",
+       "is_correct": true
+      },
+      {
+       "label": "ファイヤーステーション",
+       "is_correct": false
+      },
+      {
+       "label": "ショッピングモール",
+       "is_correct": false
+      }
+     ],
+     "explanation": "公立学校は、地いきの学校区が運えいすることが多いよ。"
+    },
+    {
+     "key": "US04-M-030",
+     "type": "multiple_choice",
+     "prompt": "ふつうのバスケットボールで、コートに出る1チームの人数は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "9人",
+       "is_correct": false
+      },
+      {
+       "label": "11人",
+       "is_correct": false
+      },
+      {
+       "label": "5人",
+       "is_correct": true
+      },
+      {
+       "label": "6人",
+       "is_correct": false
+      }
+     ],
+     "explanation": "バスケットボールは、1チーム5人でコートに出るよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 25,
+   "theme_key": "heritage",
+   "theme_name": "食べ物・名物",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US05-M-001",
+     "type": "multiple_choice",
+     "prompt": "ルーベンサンドに使うものの組み合わせは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ピーナツバターとバナナ",
+       "is_correct": false
+      },
+      {
+       "label": "たまごとツナ",
+       "is_correct": false
+      },
+      {
+       "label": "コンビーフとザワークラウト",
+       "is_correct": true
+      },
+      {
+       "label": "えびとアボカド",
+       "is_correct": false
+      }
+     ],
+     "explanation": "肉、発こうキャベツ、チーズなどをパンにはさむよ。"
+    },
+    {
+     "key": "US05-M-002",
+     "type": "multiple_choice",
+     "prompt": "チーズステーキで知られる都市は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "シアトル",
+       "is_correct": false
+      },
+      {
+       "label": "マイアミ",
+       "is_correct": false
+      },
+      {
+       "label": "フィラデルフィア",
+       "is_correct": true
+      },
+      {
+       "label": "デンバー",
+       "is_correct": false
+      }
+     ],
+     "explanation": "うす切り牛肉とチーズを長いパンにはさむ名物だよ。"
+    },
+    {
+     "key": "US05-M-003",
+     "type": "multiple_choice",
+     "prompt": "ハッシュブラウンの主な材料は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "さつまいも",
+       "is_correct": false
+      },
+      {
+       "label": "にんじん",
+       "is_correct": false
+      },
+      {
+       "label": "じゃがいも",
+       "is_correct": true
+      },
+      {
+       "label": "かぼちゃ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "細かくしたじゃがいもを焼く朝食料理だよ。"
+    },
+    {
+     "key": "US05-M-004",
+     "type": "multiple_choice",
+     "prompt": "エッグベネディクトで、たまごの下に置くことが多いものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ライスケーキ",
+       "is_correct": false
+      },
+      {
+       "label": "イングリッシュマフィン",
+       "is_correct": true
+      },
+      {
+       "label": "トルティーヤ",
+       "is_correct": false
+      },
+      {
+       "label": "ワッフルコーン",
+       "is_correct": false
+      }
+     ],
+     "explanation": "パンに肉やたまごを重ね、ソースをかけるよ。"
+    },
+    {
+     "key": "US05-M-005",
+     "type": "multiple_choice",
+     "prompt": "フレンチトーストは、パンを何にひたして焼く？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "たまごと牛乳",
+       "is_correct": true
+      },
+      {
+       "label": "トマトと水",
+       "is_correct": false
+      },
+      {
+       "label": "果汁とこしょう",
+       "is_correct": false
+      },
+      {
+       "label": "油としお",
+       "is_correct": false
+      }
+     ],
+     "explanation": "たまごと牛乳をまぜた液に、パンをひたして焼くよ。"
+    },
+    {
+     "key": "US05-M-006",
+     "type": "multiple_choice",
+     "prompt": "ビスケット・アンド・グレイビーで、ビスケットにかけるものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "肉入りの白いソース",
+       "is_correct": true
+      },
+      {
+       "label": "いちごジャム",
+       "is_correct": false
+      },
+      {
+       "label": "メープルシロップ",
+       "is_correct": false
+      },
+      {
+       "label": "チョコソース",
+       "is_correct": false
+      }
+     ],
+     "explanation": "くだいたソーセージを入れた白いソースが定番だよ。"
+    },
+    {
+     "key": "US05-M-007",
+     "type": "multiple_choice",
+     "prompt": "テキサスのバーベキューで、よく知られる牛肉は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ローストビーフ",
+       "is_correct": false
+      },
+      {
+       "label": "サーロインステーキ",
+       "is_correct": false
+      },
+      {
+       "label": "ビーフカツ",
+       "is_correct": false
+      },
+      {
+       "label": "ブリスケット",
+       "is_correct": true
+      }
+     ],
+     "explanation": "むねに近いかたい肉を、低い温度で長く焼くよ。"
+    },
+    {
+     "key": "US05-M-008",
+     "type": "multiple_choice",
+     "prompt": "カロライナ地方のバーベキューで、よく知られる肉は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "牛タン",
+       "is_correct": false
+      },
+      {
+       "label": "ほぐしたぶた肉",
+       "is_correct": true
+      },
+      {
+       "label": "七面鳥の丸焼き",
+       "is_correct": false
+      },
+      {
+       "label": "ラムチョップ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "やわらかくしたぶた肉を、細くほぐして食べるよ。"
+    },
+    {
+     "key": "US05-M-009",
+     "type": "multiple_choice",
+     "prompt": "メンフィスのバーベキューで、よく知られる料理は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "チキンパイ",
+       "is_correct": false
+      },
+      {
+       "label": "ポークリブ",
+       "is_correct": true
+      },
+      {
+       "label": "ラムシチュー",
+       "is_correct": false
+      },
+      {
+       "label": "ビーフバーガー",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ぶたのリブを、たれやスパイスで味付けするよ。"
+    },
+    {
+     "key": "US05-M-010",
+     "type": "multiple_choice",
+     "prompt": "カンザスシティ風バーベキューのたれの特ちょうは？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "とろみと甘みがある",
+       "is_correct": true
+      },
+      {
+       "label": "乳だけで白い",
+       "is_correct": false
+      },
+      {
+       "label": "果物だけで作る",
+       "is_correct": false
+      },
+      {
+       "label": "水のようにうすい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "トマトを使う、こい色のたれがよく知られるよ。"
+    },
+    {
+     "key": "US05-M-011",
+     "type": "multiple_choice",
+     "prompt": "バッファローウィングの名にあるバッファローは、どの州の都市？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ニューヨーク州",
+       "is_correct": true
+      },
+      {
+       "label": "テキサス州",
+       "is_correct": false
+      },
+      {
+       "label": "アリゾナ州",
+       "is_correct": false
+      },
+      {
+       "label": "オレゴン州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューヨーク州バッファローの名が付いた料理だよ。"
+    },
+    {
+     "key": "US05-M-012",
+     "type": "multiple_choice",
+     "prompt": "ニューイングランド風クラムチャウダーの色は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "赤い",
+       "is_correct": false
+      },
+      {
+       "label": "緑色",
+       "is_correct": false
+      },
+      {
+       "label": "白っぽい",
+       "is_correct": true
+      },
+      {
+       "label": "黒い",
+       "is_correct": false
+      }
+     ],
+     "explanation": "牛乳やクリームを使うので、白っぽくなるよ。"
+    },
+    {
+     "key": "US05-M-013",
+     "type": "true_false",
+     "prompt": "マンハッタン風クラムチャウダーは、トマトを使う。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "トマトを使うので、赤い色になるよ。"
+    },
+    {
+     "key": "US05-M-014",
+     "type": "multiple_choice",
+     "prompt": "ロブスターでよく知られる州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "カンザス州",
+       "is_correct": false
+      },
+      {
+       "label": "ネバダ州",
+       "is_correct": false
+      },
+      {
+       "label": "メイン州",
+       "is_correct": true
+      },
+      {
+       "label": "ユタ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "大西洋に面するメイン州は、ロブスターで有名だよ。"
+    },
+    {
+     "key": "US05-M-015",
+     "type": "multiple_choice",
+     "prompt": "ブルークラブとクラブケーキで知られる州は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "アイオワ州",
+       "is_correct": false
+      },
+      {
+       "label": "モンタナ州",
+       "is_correct": false
+      },
+      {
+       "label": "コロラド州",
+       "is_correct": false
+      },
+      {
+       "label": "メリーランド州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "チェサピーク湾のブルークラブが食文化を支えるよ。"
+    },
+    {
+     "key": "US05-M-016",
+     "type": "multiple_choice",
+     "prompt": "サンフランシスコの海産物として知られるカニは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ズワイガニ",
+       "is_correct": false
+      },
+      {
+       "label": "ダンジネスクラブ",
+       "is_correct": true
+      },
+      {
+       "label": "ヤシガニ",
+       "is_correct": false
+      },
+      {
+       "label": "キングクラブ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "西海岸のダンジネスクラブは、町の名物の一つだよ。"
+    },
+    {
+     "key": "US05-M-017",
+     "type": "multiple_choice",
+     "prompt": "ガンボで知られる州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ルイジアナ州",
+       "is_correct": true
+      },
+      {
+       "label": "オハイオ州",
+       "is_correct": false
+      },
+      {
+       "label": "ワイオミング州",
+       "is_correct": false
+      },
+      {
+       "label": "バーモント州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ガンボは、ルイジアナを代表するにこみ料理だよ。"
+    },
+    {
+     "key": "US05-M-018",
+     "type": "multiple_choice",
+     "prompt": "ジャンバラヤの中心になる食材は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "米",
+       "is_correct": true
+      },
+      {
+       "label": "じゃがいも",
+       "is_correct": false
+      },
+      {
+       "label": "パン",
+       "is_correct": false
+      },
+      {
+       "label": "めん",
+       "is_correct": false
+      }
+     ],
+     "explanation": "米を肉や海産物、野菜といっしょにたく料理だよ。"
+    },
+    {
+     "key": "US05-M-019",
+     "type": "multiple_choice",
+     "prompt": "ポーボーイは、どんな料理？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "米のにこみ",
+       "is_correct": false
+      },
+      {
+       "label": "あまいドーナツ",
+       "is_correct": false
+      },
+      {
+       "label": "長いパンのサンドイッチ",
+       "is_correct": true
+      },
+      {
+       "label": "丸いパイ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "フランスパンに肉や海産物をはさむ料理だよ。"
+    },
+    {
+     "key": "US05-M-020",
+     "type": "multiple_choice",
+     "prompt": "テキサス州の公式料理は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "チリ",
+       "is_correct": true
+      },
+      {
+       "label": "ロコモコ",
+       "is_correct": false
+      },
+      {
+       "label": "クラムチャウダー",
+       "is_correct": false
+      },
+      {
+       "label": "ガンボ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "肉などをとうがらしとにるチリが公式料理だよ。"
+    },
+    {
+     "key": "US05-M-021",
+     "type": "multiple_choice",
+     "prompt": "シンシナティ・チリは、何にかけて食べることで知られる？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "パンケーキ",
+       "is_correct": false
+      },
+      {
+       "label": "スパゲッティ",
+       "is_correct": true
+      },
+      {
+       "label": "白いご飯",
+       "is_correct": false
+      },
+      {
+       "label": "ワッフル",
+       "is_correct": false
+      }
+     ],
+     "explanation": "細いめんにチリをかける食べ方が知られるよ。"
+    },
+    {
+     "key": "US05-M-022",
+     "type": "multiple_choice",
+     "prompt": "深い皿のようなピザで知られる都市は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "フェニックス",
+       "is_correct": false
+      },
+      {
+       "label": "ホノルル",
+       "is_correct": false
+      },
+      {
+       "label": "シカゴ",
+       "is_correct": true
+      },
+      {
+       "label": "ボストン",
+       "is_correct": false
+      }
+     ],
+     "explanation": "シカゴのディープディッシュは、ふちが高いピザだよ。"
+    },
+    {
+     "key": "US05-M-023",
+     "type": "multiple_choice",
+     "prompt": "フロリダ州の公式パイは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ブルーベリーパイ",
+       "is_correct": false
+      },
+      {
+       "label": "アップルパイ",
+       "is_correct": false
+      },
+      {
+       "label": "チェリーパイ",
+       "is_correct": false
+      },
+      {
+       "label": "キーライムパイ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "キーライムパイは、フロリダ州の公式パイだよ。"
+    },
+    {
+     "key": "US05-M-024",
+     "type": "true_false",
+     "prompt": "ボストンクリームパイは、名前にパイとあるがケーキのなかま。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "スポンジ生地にクリームをはさむケーキだよ。"
+    },
+    {
+     "key": "US05-M-025",
+     "type": "multiple_choice",
+     "prompt": "ピーカンパイに使う木の実は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "アーモンド",
+       "is_correct": false
+      },
+      {
+       "label": "ピスタチオ",
+       "is_correct": false
+      },
+      {
+       "label": "ピーカン",
+       "is_correct": true
+      },
+      {
+       "label": "カシューナッツ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ピーカンをたっぷりのせて焼くパイだよ。"
+    },
+    {
+     "key": "US05-M-026",
+     "type": "multiple_choice",
+     "prompt": "感謝祭の食事で、パンやハーブから作るつけ合わせは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "オニオンディップ",
+       "is_correct": false
+      },
+      {
+       "label": "コールスロー",
+       "is_correct": false
+      },
+      {
+       "label": "マカロニサラダ",
+       "is_correct": false
+      },
+      {
+       "label": "スタッフィング",
+       "is_correct": true
+      }
+     ],
+     "explanation": "パンなどを味付けして焼くつけ合わせだよ。"
+    },
+    {
+     "key": "US05-M-027",
+     "type": "multiple_choice",
+     "prompt": "秋の祭りで見かける、りんごをあまくおおったおかしは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "キャラメルアップル",
+       "is_correct": true
+      },
+      {
+       "label": "アップルソース",
+       "is_correct": false
+      },
+      {
+       "label": "レモンバー",
+       "is_correct": false
+      },
+      {
+       "label": "フルーツゼリー",
+       "is_correct": false
+      }
+     ],
+     "explanation": "りんごをキャラメルでおおい、ぼうにさすよ。"
+    },
+    {
+     "key": "US05-M-028",
+     "type": "multiple_choice",
+     "prompt": "ももでよく知られる州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ロードアイランド州",
+       "is_correct": false
+      },
+      {
+       "label": "アラスカ州",
+       "is_correct": false
+      },
+      {
+       "label": "ノースダコタ州",
+       "is_correct": false
+      },
+      {
+       "label": "ジョージア州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ジョージア州は、ももと結びつきの深い州だよ。"
+    },
+    {
+     "key": "US05-M-029",
+     "type": "multiple_choice",
+     "prompt": "アイダホ州の公式の野菜は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "たまねぎ",
+       "is_correct": false
+      },
+      {
+       "label": "じゃがいも",
+       "is_correct": true
+      },
+      {
+       "label": "にんじん",
+       "is_correct": false
+      },
+      {
+       "label": "トマト",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アイダホ州は、じゃがいもを公式の野菜にしているよ。"
+    },
+    {
+     "key": "US05-M-030",
+     "type": "multiple_choice",
+     "prompt": "ワシントン州の公式の果物は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "いちご",
+       "is_correct": false
+      },
+      {
+       "label": "オレンジ",
+       "is_correct": false
+      },
+      {
+       "label": "ぶどう",
+       "is_correct": false
+      },
+      {
+       "label": "りんご",
+       "is_correct": true
+      }
+     ],
+     "explanation": "りんごは、ワシントン州の公式の果物だよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 26,
+   "theme_key": "heritage",
+   "theme_name": "観光地・都市・文化",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US06-M-001",
+     "type": "multiple_choice",
+     "prompt": "自由の女神像が立つ島は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ルーズベルト島",
+       "is_correct": false
+      },
+      {
+       "label": "マンハッタン島",
+       "is_correct": false
+      },
+      {
+       "label": "リバティ島",
+       "is_correct": true
+      },
+      {
+       "label": "ガバナーズ島",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューヨーク港のリバティ島に立っているよ。"
+    },
+    {
+     "key": "US06-M-002",
+     "type": "multiple_choice",
+     "prompt": "エンパイア・ステート・ビルの建築様式は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ロマネスク",
+       "is_correct": false
+      },
+      {
+       "label": "アールデコ",
+       "is_correct": true
+      },
+      {
+       "label": "ゴシック",
+       "is_correct": false
+      },
+      {
+       "label": "バロック",
+       "is_correct": false
+      }
+     ],
+     "explanation": "直線的な形や飾りを使うアールデコの高層建築だよ。"
+    },
+    {
+     "key": "US06-M-003",
+     "type": "multiple_choice",
+     "prompt": "セントラルパークがある地区は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "クイーンズ",
+       "is_correct": false
+      },
+      {
+       "label": "マンハッタン",
+       "is_correct": true
+      },
+      {
+       "label": "ブロンクス",
+       "is_correct": false
+      },
+      {
+       "label": "ブルックリン",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューヨーク市マンハッタンの中心部に広がるよ。"
+    },
+    {
+     "key": "US06-M-004",
+     "type": "multiple_choice",
+     "prompt": "ワシントン記念塔がたたえる人物は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "エイブラハム・リンカーン",
+       "is_correct": false
+      },
+      {
+       "label": "アレクサンダー・ハミルトン",
+       "is_correct": false
+      },
+      {
+       "label": "ベンジャミン・フランクリン",
+       "is_correct": false
+      },
+      {
+       "label": "ジョージ・ワシントン",
+       "is_correct": true
+      }
+     ],
+     "explanation": "初代大統領ワシントンをたたえる記念塔だよ。"
+    },
+    {
+     "key": "US06-M-005",
+     "type": "multiple_choice",
+     "prompt": "国会議事堂の中央にある丸い大広間は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ロタンダ",
+       "is_correct": true
+      },
+      {
+       "label": "コンコース",
+       "is_correct": false
+      },
+      {
+       "label": "オーバルオフィス",
+       "is_correct": false
+      },
+      {
+       "label": "ギャラリー",
+       "is_correct": false
+      }
+     ],
+     "explanation": "大きなドームの下にある円形の広間だよ。"
+    },
+    {
+     "key": "US06-M-006",
+     "type": "multiple_choice",
+     "prompt": "ナショナル・モールは、どんな場所？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "記念碑や博物館が集まる公園",
+       "is_correct": true
+      },
+      {
+       "label": "工場が集まる地区",
+       "is_correct": false
+      },
+      {
+       "label": "農場が広がる草原",
+       "is_correct": false
+      },
+      {
+       "label": "船が集まる港",
+       "is_correct": false
+      }
+     ],
+     "explanation": "首都の記念碑や博物館を歩いてめぐれる場所だよ。"
+    },
+    {
+     "key": "US06-M-007",
+     "type": "multiple_choice",
+     "prompt": "ゴールデン・ゲート・ブリッジは、どの種類の橋？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "つり橋",
+       "is_correct": true
+      },
+      {
+       "label": "木造の屋根付き橋",
+       "is_correct": false
+      },
+      {
+       "label": "石造りのアーチ橋",
+       "is_correct": false
+      },
+      {
+       "label": "上下に開く橋",
+       "is_correct": false
+      }
+     ],
+     "explanation": "太いケーブルから道路をつるす大きな橋だよ。"
+    },
+    {
+     "key": "US06-M-008",
+     "type": "multiple_choice",
+     "prompt": "ゴールデン・ゲート・ブリッジの色の名は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "インターナショナルオレンジ",
+       "is_correct": true
+      },
+      {
+       "label": "フォレストグリーン",
+       "is_correct": false
+      },
+      {
+       "label": "サンドベージュ",
+       "is_correct": false
+      },
+      {
+       "label": "スカイブルー",
+       "is_correct": false
+      }
+     ],
+     "explanation": "霧の中でも見えやすい赤みのある色だよ。"
+    },
+    {
+     "key": "US06-M-009",
+     "type": "multiple_choice",
+     "prompt": "スペースニードルが作られた大きな行事は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "1984年の万国博覧会",
+       "is_correct": false
+      },
+      {
+       "label": "1904年の万国博覧会",
+       "is_correct": false
+      },
+      {
+       "label": "1962年の万国博覧会",
+       "is_correct": true
+      },
+      {
+       "label": "1939年の万国博覧会",
+       "is_correct": false
+      }
+     ],
+     "explanation": "シアトルで開かれた1962年の博覧会のために作られたよ。"
+    },
+    {
+     "key": "US06-M-010",
+     "type": "multiple_choice",
+     "prompt": "ゲートウェイ・アーチの外側に使われる金属は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ステンレス鋼",
+       "is_correct": true
+      },
+      {
+       "label": "青銅",
+       "is_correct": false
+      },
+      {
+       "label": "鉄だけ",
+       "is_correct": false
+      },
+      {
+       "label": "アルミニウム",
+       "is_correct": false
+      }
+     ],
+     "explanation": "銀色に光るステンレス鋼で外側がおおわれているよ。"
+    },
+    {
+     "key": "US06-M-011",
+     "type": "multiple_choice",
+     "prompt": "高架を走る「L」とよばれる鉄道で知られる都市は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "コロンバス",
+       "is_correct": false
+      },
+      {
+       "label": "シカゴ",
+       "is_correct": true
+      },
+      {
+       "label": "インディアナポリス",
+       "is_correct": false
+      },
+      {
+       "label": "カンザスシティ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "シカゴの町を走る鉄道は「L」の名で親しまれるよ。"
+    },
+    {
+     "key": "US06-M-012",
+     "type": "multiple_choice",
+     "prompt": "フレンチ・クオーターがある州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ルイジアナ州",
+       "is_correct": true
+      },
+      {
+       "label": "テネシー州",
+       "is_correct": false
+      },
+      {
+       "label": "ミシシッピ州",
+       "is_correct": false
+      },
+      {
+       "label": "アーカンソー州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ニューオーリンズはルイジアナ州にあるよ。"
+    },
+    {
+     "key": "US06-M-013",
+     "type": "multiple_choice",
+     "prompt": "ナッシュビルで、録音スタジオなどが集まる地区は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "マグニフィセント・マイル",
+       "is_correct": false
+      },
+      {
+       "label": "フレンチ・クオーター",
+       "is_correct": false
+      },
+      {
+       "label": "ミュージック・ロウ",
+       "is_correct": true
+      },
+      {
+       "label": "ウォール街",
+       "is_correct": false
+      }
+     ],
+     "explanation": "音楽産業が集まる、歴史ある地区だよ。"
+    },
+    {
+     "key": "US06-M-014",
+     "type": "true_false",
+     "prompt": "フィラデルフィアの自由の鐘には、大きなひびが見える。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "自由の鐘には、目立つ大きなひびがあるよ。"
+    },
+    {
+     "key": "US06-M-015",
+     "type": "multiple_choice",
+     "prompt": "ラシュモア山の彫刻がある州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "モンタナ州",
+       "is_correct": false
+      },
+      {
+       "label": "ワイオミング州",
+       "is_correct": false
+      },
+      {
+       "label": "ノースダコタ州",
+       "is_correct": false
+      },
+      {
+       "label": "サウスダコタ州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ブラックヒルズがあるサウスダコタ州の記念物だよ。"
+    },
+    {
+     "key": "US06-M-016",
+     "type": "multiple_choice",
+     "prompt": "ワシントン記念塔の高さに最も近いものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "約169メートル",
+       "is_correct": true
+      },
+      {
+       "label": "約69メートル",
+       "is_correct": false
+      },
+      {
+       "label": "約269メートル",
+       "is_correct": false
+      },
+      {
+       "label": "約369メートル",
+       "is_correct": false
+      }
+     ],
+     "explanation": "高さは約169メートルあるよ。"
+    },
+    {
+     "key": "US06-M-017",
+     "type": "multiple_choice",
+     "prompt": "リンカーン記念堂の外側にある36本の柱は、何を表す？",
+     "grade": 4,
+     "choices": [
+      {
+       "label": "リンカーンが亡くなった時の州",
+       "is_correct": true
+      },
+      {
+       "label": "建設にかかった年の数",
+       "is_correct": false
+      },
+      {
+       "label": "完成した年の月の数",
+       "is_correct": false
+      },
+      {
+       "label": "歴代大統領の人数",
+       "is_correct": false
+      }
+     ],
+     "explanation": "36本は、1865年に連邦にあった州を表すよ。"
+    },
+    {
+     "key": "US06-M-018",
+     "type": "multiple_choice",
+     "prompt": "多くの博物館や美術館を持つスミソニアン協会の中心都市は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "デンバー",
+       "is_correct": false
+      },
+      {
+       "label": "ワシントンD.C.",
+       "is_correct": true
+      },
+      {
+       "label": "フィラデルフィア",
+       "is_correct": false
+      },
+      {
+       "label": "オースティン",
+       "is_correct": false
+      }
+     ],
+     "explanation": "首都にはスミソニアンの多くの施設が集まるよ。"
+    },
+    {
+     "key": "US06-M-019",
+     "type": "multiple_choice",
+     "prompt": "国立航空宇宙博物館の本館がある場所は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "セントラルパーク",
+       "is_correct": false
+      },
+      {
+       "label": "ミレニアムパーク",
+       "is_correct": false
+      },
+      {
+       "label": "ゴールデンゲートパーク",
+       "is_correct": false
+      },
+      {
+       "label": "ナショナル・モール",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ワシントンD.C.のナショナル・モールに本館があるよ。"
+    },
+    {
+     "key": "US06-M-020",
+     "type": "multiple_choice",
+     "prompt": "国立自然史博物館の研究に近いものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "生物や地球のしくみ",
+       "is_correct": true
+      },
+      {
+       "label": "映画の撮影方法",
+       "is_correct": false
+      },
+      {
+       "label": "道路や鉄道の運行",
+       "is_correct": false
+      },
+      {
+       "label": "法律や裁判のしくみ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "自然界の生物、石、化石などを研究するよ。"
+    },
+    {
+     "key": "US06-M-021",
+     "type": "multiple_choice",
+     "prompt": "国立アメリカ・インディアン博物館が伝えるものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ヨーロッパの王室文化",
+       "is_correct": false
+      },
+      {
+       "label": "古代ローマの軍事史",
+       "is_correct": false
+      },
+      {
+       "label": "南極の探検記録",
+       "is_correct": false
+      },
+      {
+       "label": "先住民の歴史と生きた文化",
+       "is_correct": true
+      }
+     ],
+     "explanation": "先住民の見方を大切に、歴史や文化を伝えるよ。"
+    },
+    {
+     "key": "US06-M-022",
+     "type": "multiple_choice",
+     "prompt": "初期のニューオーリンズ・ジャズで、前列を組むことが多かった楽器は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ギター・バンジョー・マンドリン",
+       "is_correct": false
+      },
+      {
+       "label": "コルネット・クラリネット・トロンボーン",
+       "is_correct": true
+      },
+      {
+       "label": "フルート・オーボエ・ファゴット",
+       "is_correct": false
+      },
+      {
+       "label": "バイオリン・チェロ・ハープ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "三つの管楽器が音を重ねる形がよく見られたよ。"
+    },
+    {
+     "key": "US06-M-023",
+     "type": "multiple_choice",
+     "prompt": "ブルースの歩みと深く結びつく人びとは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "北欧の航海者",
+       "is_correct": false
+      },
+      {
+       "label": "古代ローマ人",
+       "is_correct": false
+      },
+      {
+       "label": "アフリカ系アメリカ人",
+       "is_correct": true
+      },
+      {
+       "label": "中世の騎士",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ブルースはアフリカ系アメリカ人の音楽から育ったよ。"
+    },
+    {
+     "key": "US06-M-024",
+     "type": "multiple_choice",
+     "prompt": "ブルーグラスで、よく使われる楽器の組み合わせは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "シンセサイザー・ドラム・サックス",
+       "is_correct": false
+      },
+      {
+       "label": "ピアノ・ハープ・チューバ",
+       "is_correct": false
+      },
+      {
+       "label": "オルガン・フルート・チェロ",
+       "is_correct": false
+      },
+      {
+       "label": "バンジョー・フィドル・マンドリン",
+       "is_correct": true
+      }
+     ],
+     "explanation": "弦楽器を中心に、速い演奏を聞かせる音楽だよ。"
+    },
+    {
+     "key": "US06-M-025",
+     "type": "multiple_choice",
+     "prompt": "映画の撮影で、演技や画面作りをまとめる人は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "観客",
+       "is_correct": false
+      },
+      {
+       "label": "売店員",
+       "is_correct": false
+      },
+      {
+       "label": "案内係",
+       "is_correct": false
+      },
+      {
+       "label": "監督",
+       "is_correct": true
+      }
+     ],
+     "explanation": "監督は、俳優や撮影スタッフと映画を作り上げるよ。"
+    },
+    {
+     "key": "US06-M-026",
+     "type": "multiple_choice",
+     "prompt": "映画のせりふや場面を書いた台本は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "新聞",
+       "is_correct": false
+      },
+      {
+       "label": "楽ふ",
+       "is_correct": false
+      },
+      {
+       "label": "設計図",
+       "is_correct": false
+      },
+      {
+       "label": "脚本",
+       "is_correct": true
+      }
+     ],
+     "explanation": "脚本には、せりふや場面の流れが書かれているよ。"
+    },
+    {
+     "key": "US06-M-027",
+     "type": "multiple_choice",
+     "prompt": "アカデミー賞は、何をたたえる行事？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "学校の成績",
+       "is_correct": false
+      },
+      {
+       "label": "科学の発見だけ",
+       "is_correct": false
+      },
+      {
+       "label": "スポーツの記録",
+       "is_correct": false
+      },
+      {
+       "label": "映画のすぐれた仕事",
+       "is_correct": true
+      }
+     ],
+     "explanation": "映画の演技、監督、音、衣装などをたたえる授賞式だよ。"
+    },
+    {
+     "key": "US06-M-028",
+     "type": "true_false",
+     "prompt": "ティピーは、アメリカのすべての先住民が同じように使った家である。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ティピーは平原地方の人びとの伝統的な家だよ。"
+    },
+    {
+     "key": "US06-M-029",
+     "type": "multiple_choice",
+     "prompt": "タオス・プエブロの伝統的な建物に使うものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "日干しれんが",
+       "is_correct": true
+      },
+      {
+       "label": "氷のブロック",
+       "is_correct": false
+      },
+      {
+       "label": "大理石の柱",
+       "is_correct": false
+      },
+      {
+       "label": "鉄の板",
+       "is_correct": false
+      }
+     ],
+     "explanation": "土などを日に当てて固めたれんがを使うよ。"
+    },
+    {
+     "key": "US06-M-030",
+     "type": "multiple_choice",
+     "prompt": "ディネの織物で、よく知られる材料は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ガラス",
+       "is_correct": false
+      },
+      {
+       "label": "鉄線",
+       "is_correct": false
+      },
+      {
+       "label": "羊毛",
+       "is_correct": true
+      },
+      {
+       "label": "竹",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ディネの織り手は羊毛で美しい織物を作るよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 27,
+   "theme_key": "geography",
+   "theme_name": "自然・国立公園",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US07-M-001",
+     "type": "multiple_choice",
+     "prompt": "大陸分水れいは、何を分ける場所？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "森の木の高さ",
+       "is_correct": false
+      },
+      {
+       "label": "川が流れる向き",
+       "is_correct": true
+      },
+      {
+       "label": "動物の足あと",
+       "is_correct": false
+      },
+      {
+       "label": "山の色のちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "雨水が別々の海へ向かう境目だよ。"
+    },
+    {
+     "key": "US07-M-002",
+     "type": "multiple_choice",
+     "prompt": "つながった48州で最も高いホイットニー山がある山脈は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "カスケード山脈",
+       "is_correct": false
+      },
+      {
+       "label": "シエラネバダ山脈",
+       "is_correct": true
+      },
+      {
+       "label": "アパラチア山脈",
+       "is_correct": false
+      },
+      {
+       "label": "ロッキー山脈",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ホイットニー山は、シエラネバダ山脈にあるよ。"
+    },
+    {
+     "key": "US07-M-003",
+     "type": "multiple_choice",
+     "prompt": "アパラチアン・トレイルが通る州はいくつ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "14州",
+       "is_correct": true
+      },
+      {
+       "label": "20州",
+       "is_correct": false
+      },
+      {
+       "label": "26州",
+       "is_correct": false
+      },
+      {
+       "label": "8州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "アパラチア山脈にそって14州を通る道だよ。"
+    },
+    {
+     "key": "US07-M-004",
+     "type": "multiple_choice",
+     "prompt": "一つの川へ水が集まる土地全体を何という？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "火口",
+       "is_correct": false
+      },
+      {
+       "label": "海岸線",
+       "is_correct": false
+      },
+      {
+       "label": "山頂",
+       "is_correct": false
+      },
+      {
+       "label": "流域",
+       "is_correct": true
+      }
+     ],
+     "explanation": "雨や雪どけ水が同じ川へ集まる土地だよ。"
+    },
+    {
+     "key": "US07-M-005",
+     "type": "multiple_choice",
+     "prompt": "スネーク川が最後に合流する大きな川は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "リオグランデ川",
+       "is_correct": false
+      },
+      {
+       "label": "コロラド川",
+       "is_correct": false
+      },
+      {
+       "label": "アーカンソー川",
+       "is_correct": false
+      },
+      {
+       "label": "コロンビア川",
+       "is_correct": true
+      }
+     ],
+     "explanation": "スネーク川は、コロンビア川の大きな支流だよ。"
+    },
+    {
+     "key": "US07-M-006",
+     "type": "multiple_choice",
+     "prompt": "コロンビア川の多くのダムで使われる水の力は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "太陽光発電",
+       "is_correct": false
+      },
+      {
+       "label": "地熱発電",
+       "is_correct": false
+      },
+      {
+       "label": "風力発電",
+       "is_correct": false
+      },
+      {
+       "label": "水力発電",
+       "is_correct": true
+      }
+     ],
+     "explanation": "流れる水でタービンを回し、電気を作るよ。"
+    },
+    {
+     "key": "US07-M-007",
+     "type": "multiple_choice",
+     "prompt": "五大湖が持つ、世界の地表の淡水のわり合いに近いものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "約2パーセント",
+       "is_correct": false
+      },
+      {
+       "label": "約50パーセント",
+       "is_correct": false
+      },
+      {
+       "label": "約80パーセント",
+       "is_correct": false
+      },
+      {
+       "label": "約21パーセント",
+       "is_correct": true
+      }
+     ],
+     "explanation": "五大湖には、地表の淡水のおよそ21%があるよ。"
+    },
+    {
+     "key": "US07-M-008",
+     "type": "multiple_choice",
+     "prompt": "ナイアガラ川がつないでいる二つの湖は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "スペリオル湖とミシガン湖",
+       "is_correct": false
+      },
+      {
+       "label": "エリー湖とオンタリオ湖",
+       "is_correct": true
+      },
+      {
+       "label": "ヒューロン湖とエリー湖",
+       "is_correct": false
+      },
+      {
+       "label": "ミシガン湖とヒューロン湖",
+       "is_correct": false
+      }
+     ],
+     "explanation": "エリー湖の水がナイアガラ川を通り、オンタリオ湖へ流れるよ。"
+    },
+    {
+     "key": "US07-M-009",
+     "type": "multiple_choice",
+     "prompt": "タホ湖がさかいにある二つの州は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ユタ州とコロラド州",
+       "is_correct": false
+      },
+      {
+       "label": "オレゴン州とワシントン州",
+       "is_correct": false
+      },
+      {
+       "label": "カリフォルニア州とネバダ州",
+       "is_correct": true
+      },
+      {
+       "label": "アリゾナ州とニューメキシコ州",
+       "is_correct": false
+      }
+     ],
+     "explanation": "カリフォルニア州とネバダ州のさかいにあるよ。"
+    },
+    {
+     "key": "US07-M-010",
+     "type": "multiple_choice",
+     "prompt": "イエローストーン国立公園のオールド・フェイスフルは何？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "石灰岩の洞くつ",
+       "is_correct": false
+      },
+      {
+       "label": "間欠泉",
+       "is_correct": true
+      },
+      {
+       "label": "氷河",
+       "is_correct": false
+      },
+      {
+       "label": "サンゴしょう",
+       "is_correct": false
+      }
+     ],
+     "explanation": "地下で熱せられた水を、くり返しふき上げるよ。"
+    },
+    {
+     "key": "US07-M-011",
+     "type": "multiple_choice",
+     "prompt": "グレート・スモーキー山脈国立公園がまたがる二つの州は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ワシントン州とオレゴン州",
+       "is_correct": false
+      },
+      {
+       "label": "ユタ州とアリゾナ州",
+       "is_correct": false
+      },
+      {
+       "label": "コロラド州とニューメキシコ州",
+       "is_correct": false
+      },
+      {
+       "label": "テネシー州とノースカロライナ州",
+       "is_correct": true
+      }
+     ],
+     "explanation": "二つの州のさかいに広がる山の公園だよ。"
+    },
+    {
+     "key": "US07-M-012",
+     "type": "multiple_choice",
+     "prompt": "セコイア国立公園で守られている大きな木は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ジャイアントセコイア",
+       "is_correct": true
+      },
+      {
+       "label": "コーストレッドウッド",
+       "is_correct": false
+      },
+      {
+       "label": "ジョシュアツリー",
+       "is_correct": false
+      },
+      {
+       "label": "サワロサボテン",
+       "is_correct": false
+      }
+     ],
+     "explanation": "太く大きく育つジャイアントセコイアの森があるよ。"
+    },
+    {
+     "key": "US07-M-013",
+     "type": "multiple_choice",
+     "prompt": "ザイオン国立公園で目立つ地形は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "白い氷だけの島",
+       "is_correct": false
+      },
+      {
+       "label": "サンゴでできた島",
+       "is_correct": false
+      },
+      {
+       "label": "黒い溶岩だけの平野",
+       "is_correct": false
+      },
+      {
+       "label": "赤い砂岩の谷やがけ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "赤や白の砂岩が、深い谷や高いがけを作るよ。"
+    },
+    {
+     "key": "US07-M-014",
+     "type": "multiple_choice",
+     "prompt": "ナイアガラの滝を作る滝は、いくつ？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "三つ",
+       "is_correct": true
+      },
+      {
+       "label": "五つ",
+       "is_correct": false
+      },
+      {
+       "label": "一つ",
+       "is_correct": false
+      },
+      {
+       "label": "七つ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ホースシュー、アメリカン、ブライダルベールの三つだよ。"
+    },
+    {
+     "key": "US07-M-015",
+     "type": "multiple_choice",
+     "prompt": "ハワイの島々を作る大きな力は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "火山活動",
+       "is_correct": true
+      },
+      {
+       "label": "風で運ばれた砂",
+       "is_correct": false
+      },
+      {
+       "label": "流氷の積み重なり",
+       "is_correct": false
+      },
+      {
+       "label": "川の土砂",
+       "is_correct": false
+      }
+     ],
+     "explanation": "海底の火山から出た溶岩が島を作ったよ。"
+    },
+    {
+     "key": "US07-M-016",
+     "type": "multiple_choice",
+     "prompt": "間欠泉が水をふき上げる力になるものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "強い季節風",
+       "is_correct": false
+      },
+      {
+       "label": "川の水車",
+       "is_correct": false
+      },
+      {
+       "label": "地下でたまる水蒸気",
+       "is_correct": true
+      },
+      {
+       "label": "海から来る大波",
+       "is_correct": false
+      }
+     ],
+     "explanation": "地下の水が熱せられ、水蒸気の力が高まるよ。"
+    },
+    {
+     "key": "US07-M-017",
+     "type": "multiple_choice",
+     "prompt": "ジョシュアツリーが多く育つ砂漠は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "チワワ砂漠",
+       "is_correct": false
+      },
+      {
+       "label": "モハーベ砂漠",
+       "is_correct": true
+      },
+      {
+       "label": "ソノラ砂漠",
+       "is_correct": false
+      },
+      {
+       "label": "グレートベースン砂漠",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ジョシュアツリーは、モハーベ砂漠を代表する植物だよ。"
+    },
+    {
+     "key": "US07-M-018",
+     "type": "multiple_choice",
+     "prompt": "川の淡水と海の塩水がまざる場所は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "山の尾根",
+       "is_correct": false
+      },
+      {
+       "label": "氷河の上",
+       "is_correct": false
+      },
+      {
+       "label": "河口の入り江",
+       "is_correct": true
+      },
+      {
+       "label": "砂漠の中心",
+       "is_correct": false
+      }
+     ],
+     "explanation": "このような場所をエスチュアリーというよ。"
+    },
+    {
+     "key": "US07-M-019",
+     "type": "multiple_choice",
+     "prompt": "カリフォルニアの海に広がるケルプの森は、何の集まり？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "流木の山",
+       "is_correct": false
+      },
+      {
+       "label": "サンゴの骨",
+       "is_correct": false
+      },
+      {
+       "label": "大きな海そう",
+       "is_correct": true
+      },
+      {
+       "label": "海底の木",
+       "is_correct": false
+      }
+     ],
+     "explanation": "大きな海そうが、生き物のすみかを作るよ。"
+    },
+    {
+     "key": "US07-M-020",
+     "type": "multiple_choice",
+     "prompt": "サンゴしょうを長い時間かけて作るものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "火山灰だけ",
+       "is_correct": false
+      },
+      {
+       "label": "海底の鉄くず",
+       "is_correct": false
+      },
+      {
+       "label": "川から来た氷",
+       "is_correct": false
+      },
+      {
+       "label": "サンゴのかたい骨格",
+       "is_correct": true
+      }
+     ],
+     "explanation": "小さなサンゴの骨格が重なって広がるよ。"
+    },
+    {
+     "key": "US07-M-021",
+     "type": "multiple_choice",
+     "prompt": "海水が入る湿地で育ちやすい植物は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "雪原の地衣類",
+       "is_correct": false
+      },
+      {
+       "label": "砂漠のサボテン",
+       "is_correct": false
+      },
+      {
+       "label": "高山のコケ",
+       "is_correct": false
+      },
+      {
+       "label": "塩に強い草",
+       "is_correct": true
+      }
+     ],
+     "explanation": "塩性湿地には、塩水にたえる草が育つよ。"
+    },
+    {
+     "key": "US07-M-022",
+     "type": "multiple_choice",
+     "prompt": "ハリケーンが力を得る場所は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "かわいた山の上",
+       "is_correct": false
+      },
+      {
+       "label": "こおった湖の上",
+       "is_correct": false
+      },
+      {
+       "label": "深い洞くつの中",
+       "is_correct": false
+      },
+      {
+       "label": "あたたかい海の上",
+       "is_correct": true
+      }
+     ],
+     "explanation": "あたたかい海水と湿った空気が力になるよ。"
+    },
+    {
+     "key": "US07-M-023",
+     "type": "multiple_choice",
+     "prompt": "竜巻警報が出たとき、まずすることは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "安全な建物の内側へ入る",
+       "is_correct": true
+      },
+      {
+       "label": "広い野原へ出る",
+       "is_correct": false
+      },
+      {
+       "label": "窓の近くで空を見る",
+       "is_correct": false
+      },
+      {
+       "label": "車で竜巻を追いかける",
+       "is_correct": false
+      }
+     ],
+     "explanation": "低い階の窓から遠い場所へ、すぐに動こう。"
+    },
+    {
+     "key": "US07-M-024",
+     "type": "multiple_choice",
+     "prompt": "ハリケーンが陸に上がると弱まりやすい主な理由は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "あたたかい海の力を失う",
+       "is_correct": true
+      },
+      {
+       "label": "山から冷たい水が出る",
+       "is_correct": false
+      },
+      {
+       "label": "雲がすべて雪になる",
+       "is_correct": false
+      },
+      {
+       "label": "月の引力が消える",
+       "is_correct": false
+      }
+     ],
+     "explanation": "海から受け取っていた熱と水分が減るよ。"
+    },
+    {
+     "key": "US07-M-025",
+     "type": "multiple_choice",
+     "prompt": "プレーリーなどで、とても速く走る動物は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "アリゲーター",
+       "is_correct": false
+      },
+      {
+       "label": "プロングホーン",
+       "is_correct": true
+      },
+      {
+       "label": "マナティー",
+       "is_correct": false
+      },
+      {
+       "label": "ビーバー",
+       "is_correct": false
+      }
+     ],
+     "explanation": "プロングホーンは、開けた草原を速く走るよ。"
+    },
+    {
+     "key": "US07-M-026",
+     "type": "true_false",
+     "prompt": "アメリカクロクマには、茶色や金色に近い毛の個体もいる。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "名前がクロクマでも、毛の色にはちがいがあるよ。"
+    },
+    {
+     "key": "US07-M-027",
+     "type": "multiple_choice",
+     "prompt": "マナティーが主に食べるものは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "水鳥のたまご",
+       "is_correct": false
+      },
+      {
+       "label": "水草や海草",
+       "is_correct": true
+      },
+      {
+       "label": "貝だけ",
+       "is_correct": false
+      },
+      {
+       "label": "小さな魚",
+       "is_correct": false
+      }
+     ],
+     "explanation": "マナティーは、水辺の植物を食べるほ乳動物だよ。"
+    },
+    {
+     "key": "US07-M-028",
+     "type": "multiple_choice",
+     "prompt": "ジョシュアツリーは、植物のなかまでは何に近い？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ユッカのなかま",
+       "is_correct": true
+      },
+      {
+       "label": "マツのなかま",
+       "is_correct": false
+      },
+      {
+       "label": "シダのなかま",
+       "is_correct": false
+      },
+      {
+       "label": "コケのなかま",
+       "is_correct": false
+      }
+     ],
+     "explanation": "ジョシュアツリーは、ユッカというなかまの植物だよ。"
+    },
+    {
+     "key": "US07-M-029",
+     "type": "multiple_choice",
+     "prompt": "海岸の塩水にたえ、根を広げる木は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "サトウカエデ",
+       "is_correct": false
+      },
+      {
+       "label": "マングローブ",
+       "is_correct": true
+      },
+      {
+       "label": "ジャイアントセコイア",
+       "is_correct": false
+      },
+      {
+       "label": "ブリストルコーンパイン",
+       "is_correct": false
+      }
+     ],
+     "explanation": "マングローブは、あたたかい海岸の湿地に育つよ。"
+    },
+    {
+     "key": "US07-M-030",
+     "type": "true_false",
+     "prompt": "プレーリーの草には、地中深くまで根をのばすものがある。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "深い根は、水を取り、土をつなぎ止めるよ。"
+    }
+   ]
+  },
+  {
+   "stage_number": 28,
+   "theme_key": "heritage",
+   "theme_name": "歴史・産業・科学",
+   "is_boss": false,
+   "title_reward": null,
+   "questions": [
+    {
+     "key": "US08-M-001",
+     "type": "multiple_choice",
+     "prompt": "アメリカのけん法が署名された年は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "1776年",
+       "is_correct": false
+      },
+      {
+       "label": "1803年",
+       "is_correct": false
+      },
+      {
+       "label": "1791年",
+       "is_correct": false
+      },
+      {
+       "label": "1787年",
+       "is_correct": true
+      }
+     ],
+     "explanation": "けん法は1787年9月17日に署名されたよ。"
+    },
+    {
+     "key": "US08-M-002",
+     "type": "multiple_choice",
+     "prompt": "けん法より前に国のしくみを定めていた文書は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "奴れい解放せん言",
+       "is_correct": false
+      },
+      {
+       "label": "けん利章典",
+       "is_correct": false
+      },
+      {
+       "label": "連合き約",
+       "is_correct": true
+      },
+      {
+       "label": "独立せん言",
+       "is_correct": false
+      }
+     ],
+     "explanation": "連合き約の弱点を直す話から、新しいけん法作りが始まったよ。"
+    },
+    {
+     "key": "US08-M-003",
+     "type": "multiple_choice",
+     "prompt": "けん利章典の10の修正が成立した年は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "1801年",
+       "is_correct": false
+      },
+      {
+       "label": "1791年",
+       "is_correct": true
+      },
+      {
+       "label": "1781年",
+       "is_correct": false
+      },
+      {
+       "label": "1787年",
+       "is_correct": false
+      }
+     ],
+     "explanation": "州の承認がそろい、1791年にけん法の一部になったよ。"
+    },
+    {
+     "key": "US08-M-004",
+     "type": "multiple_choice",
+     "prompt": "リンカーンが1863年に出した文書は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "奴れい解放せん言",
+       "is_correct": true
+      },
+      {
+       "label": "モンローせん言",
+       "is_correct": false
+      },
+      {
+       "label": "独立せん言",
+       "is_correct": false
+      },
+      {
+       "label": "けん利章典",
+       "is_correct": false
+      }
+     ],
+     "explanation": "反乱中の地域で、奴れいの人びとの自由を示したよ。"
+    },
+    {
+     "key": "US08-M-005",
+     "type": "multiple_choice",
+     "prompt": "南北戦争の間、リンカーンが守ろうとしたものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "州をすべて分けること",
+       "is_correct": false
+      },
+      {
+       "label": "国を一つに保つこと",
+       "is_correct": true
+      },
+      {
+       "label": "王を国の元首にすること",
+       "is_correct": false
+      },
+      {
+       "label": "首都を西へ移すこと",
+       "is_correct": false
+      }
+     ],
+     "explanation": "分かれようとした国を一つに保とうとしたよ。"
+    },
+    {
+     "key": "US08-M-006",
+     "type": "multiple_choice",
+     "prompt": "大こうきょうへの対さくとして始まった政策の集まりは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ホームステッド",
+       "is_correct": false
+      },
+      {
+       "label": "ニューディール",
+       "is_correct": true
+      },
+      {
+       "label": "マーシャル・プラン",
+       "is_correct": false
+      },
+      {
+       "label": "ゴールドラッシュ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "フランクリン・ルーズベルトが仕事や立て直しを進めたよ。"
+    },
+    {
+     "key": "US08-M-007",
+     "type": "multiple_choice",
+     "prompt": "カリフォルニアで金が見つかった年は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "1883年",
+       "is_correct": false
+      },
+      {
+       "label": "1828年",
+       "is_correct": false
+      },
+      {
+       "label": "1848年",
+       "is_correct": true
+      },
+      {
+       "label": "1869年",
+       "is_correct": false
+      }
+     ],
+     "explanation": "金の発見をきっかけに、多くの人が西へ向かったよ。"
+    },
+    {
+     "key": "US08-M-008",
+     "type": "multiple_choice",
+     "prompt": "最初の大陸横だん鉄道がつながった場所は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ユタ州プロモントリー・サミット",
+       "is_correct": true
+      },
+      {
+       "label": "コロラド州デンバー",
+       "is_correct": false
+      },
+      {
+       "label": "カリフォルニア州サクラメント",
+       "is_correct": false
+      },
+      {
+       "label": "ネブラスカ州オマハ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "1869年、東西からの線路がここでつながったよ。"
+    },
+    {
+     "key": "US08-M-009",
+     "type": "multiple_choice",
+     "prompt": "西側から鉄道を作る工事で大きな役わりを果たした人びとは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "南米の牧場主",
+       "is_correct": false
+      },
+      {
+       "label": "ヨーロッパの王族",
+       "is_correct": false
+      },
+      {
+       "label": "中国から来た労働者",
+       "is_correct": true
+      },
+      {
+       "label": "北極のたんけん家",
+       "is_correct": false
+      }
+     ],
+     "explanation": "多くの中国系労働者が山やさばくで工事を進めたよ。"
+    },
+    {
+     "key": "US08-M-010",
+     "type": "multiple_choice",
+     "prompt": "ベルが電話の特許を取った年は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "1844年",
+       "is_correct": false
+      },
+      {
+       "label": "1903年",
+       "is_correct": false
+      },
+      {
+       "label": "1876年",
+       "is_correct": true
+      },
+      {
+       "label": "1879年",
+       "is_correct": false
+      }
+     ],
+     "explanation": "1876年3月に電話の特許が認められたよ。"
+    },
+    {
+     "key": "US08-M-011",
+     "type": "multiple_choice",
+     "prompt": "エジソンの照明システムが初めて公開された年は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "1869年",
+       "is_correct": false
+      },
+      {
+       "label": "1889年",
+       "is_correct": false
+      },
+      {
+       "label": "1899年",
+       "is_correct": false
+      },
+      {
+       "label": "1879年",
+       "is_correct": true
+      }
+     ],
+     "explanation": "研究所を電灯で照らし、しくみ全体を見せたよ。"
+    },
+    {
+     "key": "US08-M-012",
+     "type": "multiple_choice",
+     "prompt": "メンロパークで行われたことは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "チームで発明の実験を重ねた",
+       "is_correct": true
+      },
+      {
+       "label": "小麦の品種だけを育てた",
+       "is_correct": false
+      },
+      {
+       "label": "月面着陸を指令した",
+       "is_correct": false
+      },
+      {
+       "label": "大陸横だん鉄道をつないだ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "道具をそろえた研究所で、仲間と実験を進めたよ。"
+    },
+    {
+     "key": "US08-M-013",
+     "type": "multiple_choice",
+     "prompt": "ライト兄弟が動力飛行に成功した年は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "1893年",
+       "is_correct": false
+      },
+      {
+       "label": "1903年",
+       "is_correct": true
+      },
+      {
+       "label": "1923年",
+       "is_correct": false
+      },
+      {
+       "label": "1913年",
+       "is_correct": false
+      }
+     ],
+     "explanation": "1903年12月17日に飛行へ成功したよ。"
+    },
+    {
+     "key": "US08-M-014",
+     "type": "multiple_choice",
+     "prompt": "ライト兄弟が、つばさの形を調べるために使ったものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "温室",
+       "is_correct": false
+      },
+      {
+       "label": "水そう",
+       "is_correct": false
+      },
+      {
+       "label": "天文台",
+       "is_correct": false
+      },
+      {
+       "label": "風どう",
+       "is_correct": true
+      }
+     ],
+     "explanation": "風を流すそうちで、つばさにはたらく力を調べたよ。"
+    },
+    {
+     "key": "US08-M-015",
+     "type": "true_false",
+     "prompt": "流れ作業では、一人が最初から最後まで自動車を組み立てる。",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": false
+      },
+      {
+       "label": "まちがい",
+       "is_correct": true
+      }
+     ],
+     "explanation": "作業を分け、部品を順に動かして組み立てるよ。"
+    },
+    {
+     "key": "US08-M-016",
+     "type": "multiple_choice",
+     "prompt": "アポロ11号を打ち上げた大きなロケットは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "スペースシャトル",
+       "is_correct": false
+      },
+      {
+       "label": "マーキュリー",
+       "is_correct": false
+      },
+      {
+       "label": "ジュノーI",
+       "is_correct": false
+      },
+      {
+       "label": "サターンV",
+       "is_correct": true
+      }
+     ],
+     "explanation": "サターンVが月へ向かう宇ちゅう船を運んだよ。"
+    },
+    {
+     "key": "US08-M-017",
+     "type": "multiple_choice",
+     "prompt": "月着陸船の主な役わりは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "人工衛星を修理する",
+       "is_correct": false
+      },
+      {
+       "label": "地球の海に着水する",
+       "is_correct": false
+      },
+      {
+       "label": "火星の土を運ぶ",
+       "is_correct": false
+      },
+      {
+       "label": "月面へ下りて再び上がる",
+       "is_correct": true
+      }
+     ],
+     "explanation": "司令船から分かれ、月面との行き来に使ったよ。"
+    },
+    {
+     "key": "US08-M-018",
+     "type": "multiple_choice",
+     "prompt": "アポロ11号を地上から支えた管制室がある町は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "シアトル",
+       "is_correct": false
+      },
+      {
+       "label": "マイアミ",
+       "is_correct": false
+      },
+      {
+       "label": "シカゴ",
+       "is_correct": false
+      },
+      {
+       "label": "ヒューストン",
+       "is_correct": true
+      }
+     ],
+     "explanation": "ヒューストンの管制チームが飛行を見守ったよ。"
+    },
+    {
+     "key": "US08-M-019",
+     "type": "multiple_choice",
+     "prompt": "トランジスターのはたらきに近いものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "電気信号のスイッチ",
+       "is_correct": true
+      },
+      {
+       "label": "光を集めるレンズ",
+       "is_correct": false
+      },
+      {
+       "label": "音を大きくする箱だけ",
+       "is_correct": false
+      },
+      {
+       "label": "水をためるタンク",
+       "is_correct": false
+      }
+     ],
+     "explanation": "電気を流したり止めたりし、信号を強くもできるよ。"
+    },
+    {
+     "key": "US08-M-020",
+     "type": "multiple_choice",
+     "prompt": "集積回路とは、どのようなもの？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "一本の電線だけの回路",
+       "is_correct": false
+      },
+      {
+       "label": "紙に書いただけの回路",
+       "is_correct": false
+      },
+      {
+       "label": "歯車だけで動く回路",
+       "is_correct": false
+      },
+      {
+       "label": "多くの電子部品を一つにまとめた回路",
+       "is_correct": true
+      }
+     ],
+     "explanation": "小さなチップに多くの部品を作りこむよ。"
+    },
+    {
+     "key": "US08-M-021",
+     "type": "multiple_choice",
+     "prompt": "インターネットの説明として近いものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "紙の手紙を運ぶしくみ",
+       "is_correct": false
+      },
+      {
+       "label": "多くのネットワークをつないだしくみ",
+       "is_correct": true
+      },
+      {
+       "label": "一台だけで動く計算機",
+       "is_correct": false
+      },
+      {
+       "label": "テレビの電波だけの名前",
+       "is_correct": false
+      }
+     ],
+     "explanation": "別々のネットワークを共通の方法でつないでいるよ。"
+    },
+    {
+     "key": "US08-M-022",
+     "type": "multiple_choice",
+     "prompt": "コンバインが行う作業は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "畑に雨を降らせる",
+       "is_correct": false
+      },
+      {
+       "label": "果物を冷とうする",
+       "is_correct": false
+      },
+      {
+       "label": "牛乳をびんに入れる",
+       "is_correct": false
+      },
+      {
+       "label": "作物をかり取り、実を分ける",
+       "is_correct": true
+      }
+     ],
+     "explanation": "いくつかのしゅうかく作業を一台で行う機械だよ。"
+    },
+    {
+     "key": "US08-M-023",
+     "type": "multiple_choice",
+     "prompt": "同じ畑で育てる作物を年ごとに変える方法は？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "養魚",
+       "is_correct": false
+      },
+      {
+       "label": "輪作",
+       "is_correct": true
+      },
+      {
+       "label": "放牧",
+       "is_correct": false
+      },
+      {
+       "label": "植林",
+       "is_correct": false
+      }
+     ],
+     "explanation": "作物を入れかえると、土を守りやすくなるよ。"
+    },
+    {
+     "key": "US08-M-024",
+     "type": "multiple_choice",
+     "prompt": "雨が少ない畑へ水を送るしくみは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "冷ぞう",
+       "is_correct": false
+      },
+      {
+       "label": "風力発電",
+       "is_correct": false
+      },
+      {
+       "label": "かんがい",
+       "is_correct": true
+      },
+      {
+       "label": "採くつ",
+       "is_correct": false
+      }
+     ],
+     "explanation": "川や地下水などを畑へ送り、作物を育てるよ。"
+    },
+    {
+     "key": "US08-M-025",
+     "type": "multiple_choice",
+     "prompt": "ローザ・パークスが1955年にしたことは？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "けん法に最初に署名した",
+       "is_correct": false
+      },
+      {
+       "label": "月着陸船を設計した",
+       "is_correct": false
+      },
+      {
+       "label": "鉄道の最後のくぎを打った",
+       "is_correct": false
+      },
+      {
+       "label": "バスの席をゆずる命令をこばんだ",
+       "is_correct": true
+      }
+     ],
+     "explanation": "人種で席を分ける決まりに、静かに反対したよ。"
+    },
+    {
+     "key": "US08-M-026",
+     "type": "multiple_choice",
+     "prompt": "モンゴメリー・バス・ボイコットで行われたことは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "列車を無料で走らせた",
+       "is_correct": false
+      },
+      {
+       "label": "学校の授業をすべて止めた",
+       "is_correct": false
+      },
+      {
+       "label": "飛行場を新しく作った",
+       "is_correct": false
+      },
+      {
+       "label": "差別のあるバスを利用しなかった",
+       "is_correct": true
+      }
+     ],
+     "explanation": "多くの人がバスに乗らず、平等を求めたよ。"
+    },
+    {
+     "key": "US08-M-027",
+     "type": "multiple_choice",
+     "prompt": "キング牧師が「私には夢がある」と演説した行進は？",
+     "grade": 2,
+     "choices": [
+      {
+       "label": "大陸横だん行進",
+       "is_correct": false
+      },
+      {
+       "label": "ワシントン大行進",
+       "is_correct": true
+      },
+      {
+       "label": "自由の道行進",
+       "is_correct": false
+      },
+      {
+       "label": "月への行進",
+       "is_correct": false
+      }
+     ],
+     "explanation": "1963年、仕事と自由を求める集まりで話したよ。"
+    },
+    {
+     "key": "US08-M-028",
+     "type": "multiple_choice",
+     "prompt": "ブラウン対教育委員会の判決がしめしたことは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "学校はすべて私立にする",
+       "is_correct": false
+      },
+      {
+       "label": "公立学校を人種で分けるのは認められない",
+       "is_correct": true
+      },
+      {
+       "label": "教科書を州ごとに同じにする",
+       "is_correct": false
+      },
+      {
+       "label": "大学だけを無料にする",
+       "is_correct": false
+      }
+     ],
+     "explanation": "1954年、学校の人種分けを認めない判決が出たよ。"
+    },
+    {
+     "key": "US08-M-029",
+     "type": "multiple_choice",
+     "prompt": "1964年の公民権法が禁じたものは？",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "大学で科学を学ぶこと",
+       "is_correct": false
+      },
+      {
+       "label": "新聞に意見を書くこと",
+       "is_correct": false
+      },
+      {
+       "label": "公共の場所や仕事での人種差別",
+       "is_correct": true
+      },
+      {
+       "label": "州をこえて旅行すること",
+       "is_correct": false
+      }
+     ],
+     "explanation": "人種などによる差別を法律で禁じたよ。"
+    },
+    {
+     "key": "US08-M-030",
+     "type": "true_false",
+     "prompt": "1965年の投票権法は、人種を理由に投票をさまたげることを禁じた。",
+     "grade": 3,
+     "choices": [
+      {
+       "label": "ただしい",
+       "is_correct": true
+      },
+      {
+       "label": "まちがい",
+       "is_correct": false
+      }
+     ],
+     "explanation": "投票するけん利を差別から守る法律だよ。"
+    }
+   ]
+  }
+ ]
+}

@@ -11,21 +11,26 @@ use App\Models\Stage;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 日本のメインの道を、級ごとに「8つの分野(1分野＝1ステージ)＋ボス」の9ステージに並べ直す(docs/design/2026-10-21-japan-themed-course-design.md)。
+ * 日本・アメリカのメインの道を、級ごとに「8つの分野(1分野＝1ステージ)＋ボス」の9ステージに並べ直す(docs/design/2026-10-21-japan-themed-course-design.md、2026-10-21-usa-themed-course-design.md)。国ごとの定義は config/themed_courses.php
  * 分野の問題は、取り込みのステージ(番号 20+分野の番号)と、前からあった問題(地図・祝日行事)から集める。
  * ステージの意味が変わったとき(テーマの名前が変わったとき)だけ、そのステージの進み具合・抽選の記録を消す。何度実行しても同じ結果になる
  */
-class JapanCourse
+class ThemedCourse
 {
     /** @return array{stages: int, pool: int} */
     public static function build(Country $country, Category $category): array
     {
-        return DB::transaction(function () use ($country, $category) {
+        $definition = config('themed_courses.countries.'.strtolower($country->code));
+        if (! $definition) {
+            return ['stages' => 0, 'pool' => 0];
+        }
+
+        return DB::transaction(function () use ($country, $category, $definition) {
             $totals = ['stages' => 0, 'pool' => 0];
             $all = Stage::query()->where('category_id', $category->id)->where('country_id', $country->id)->get()->groupBy('difficulty');
 
-            foreach (config('japan_course.levels') as $difficulty => $level) {
-                $built = self::buildLevel($country, $category, $difficulty, $all->get($difficulty) ?? collect(), $level);
+            foreach (config('themed_courses.levels') as $difficulty => $level) {
+                $built = self::buildLevel($country, $category, $difficulty, $all->get($difficulty) ?? collect(), $level, $definition);
                 $totals['stages'] += $built['stages'];
                 $totals['pool'] += $built['pool'];
             }
@@ -35,11 +40,11 @@ class JapanCourse
     }
 
     /** @return array{stages: int, pool: int} */
-    private static function buildLevel(Country $country, Category $category, string $difficulty, $existing, array $level): array
+    private static function buildLevel(Country $country, Category $category, string $difficulty, $existing, array $level, array $definition): array
     {
-        $offset = config('japan_course.import_offset');
-        $fields = config('japan_course.fields');
-        $legacy = config('japan_course.legacy_stages');
+        $offset = config('themed_courses.import_offset');
+        $fields = $definition['fields'];
+        $legacy = $definition['legacy_stages'];
 
         // 分野ごとの問題(難しさの低い順。難しさのない問題は、真ん中の3)
         $byField = [];
@@ -67,7 +72,7 @@ class JapanCourse
         $grades = [];
         foreach (Question::query()->whereIn('id', collect($byField)->flatMap(fn ($ids) => array_keys($ids))->unique()->all())->get() as $question) {
             $meta = $question->meta ?? [];
-            // 絵・地図のない問題には、その国の国旗を出さない(食べ物の問題に日の丸が出てしまうため)
+            // 絵・地図のない問題には、その国の国旗を出さない(食べ物の問題に国旗が出てしまうため)
             $extra = (isset($meta['grade']) ? [] : ['grade' => $default])
                 + (isset($meta['image']) || isset($meta['map']) || isset($meta['no_flag']) ? [] : ['no_flag' => true]);
             if ($extra !== []) {
@@ -83,7 +88,7 @@ class JapanCourse
             return $list;
         }, $byField);
 
-        $title = $existing->first(fn (Stage $stage) => $stage->is_boss && $stage->title_reward)?->title_reward ?? config('japan_course.boss_title');
+        $title = $existing->first(fn (Stage $stage) => $stage->is_boss && $stage->title_reward)?->title_reward ?? $definition['boss_title'];
         $totals = ['stages' => 0, 'pool' => 0];
 
         foreach ($fields as $number => $name) {
@@ -108,7 +113,7 @@ class JapanCourse
             }
         }
         $bossNumber = count($fields) + 1;
-        self::upsert($country, $category, $difficulty, $bossNumber, '日本のまとめ', $level['boss'], true, $title, $boss);
+        self::upsert($country, $category, $difficulty, $bossNumber, $definition['boss_name'], $level['boss'], true, $title, $boss);
         $totals['stages']++;
         $totals['pool'] += count($boss);
 
