@@ -133,3 +133,29 @@ it('おさらいは、そのステージと同じ大もとのカテゴリの問�
 
     expect($questions->where('review', true)->pluck('id')->all())->toBe([$same->id]);
 });
+
+it('国のステージのおさらいは、同じ国の問題だけ。ほかの国(日本の地図など)の問題は、同じ国旗カテゴリでも足さない', function () {
+    $profile = createActiveProfile();
+    $profile->trips()->create(['destination' => 'us', 'arrived_at' => now()]);
+    $root = Category::create(['name' => '国旗'.uniqid()]);
+    $japanCategory = Category::create(['name' => '日本'.uniqid(), 'parent_id' => $root->id]);
+    $usCategory = Category::create(['name' => 'アメリカ'.uniqid(), 'parent_id' => $root->id]);
+    $japan = App\Models\Country::create(['code' => 'jp', 'three_code' => 'JPN', 'name' => '日本', 'name_en' => 'Japan', 'country_code' => 392]);
+    $us = App\Models\Country::create(['code' => 'us', 'three_code' => 'USA', 'name' => 'アメリカ合衆国', 'name_en' => 'United States', 'country_code' => 840]);
+    $usStage = Stage::create(['category_id' => $usCategory->id, 'country_id' => $us->id, 'difficulty' => '初級', 'stage_number' => 1, 'is_boss' => false, 'question_count' => 1]);
+    $usOther = Stage::create(['category_id' => $usCategory->id, 'country_id' => $us->id, 'difficulty' => '初級', 'stage_number' => 2, 'is_boss' => false, 'question_count' => 1]);
+    $jpStage = Stage::create(['category_id' => $japanCategory->id, 'country_id' => $japan->id, 'difficulty' => '初級', 'stage_number' => 1, 'is_boss' => false, 'question_count' => 1]);
+    [$own, $sameCountry, $otherCountry] = [createQuestionWithChoices()[0], createQuestionWithChoices()[0], createQuestionWithChoices()[0]];
+    $sameCountry->update(['country_id' => $us->id]);
+    $otherCountry->update(['country_id' => $japan->id]);
+    $usStage->questions()->attach($own->id, ['order' => 1]);
+    $usOther->questions()->attach($sameCountry->id, ['order' => 1]);
+    $jpStage->questions()->attach($otherCountry->id, ['order' => 1]);
+    foreach ([$sameCountry, $otherCountry] as $question) {
+        QuestionMemory::record($profile, $question->id, false, '2026-09-20');
+    }
+
+    $questions = collect($this->getJson("/api/stages/{$usStage->id}")->assertOk()->json('questions'));
+
+    expect($questions->where('review', true)->pluck('id')->all())->toBe([$sameCountry->id]);
+});

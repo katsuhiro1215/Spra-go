@@ -44,13 +44,13 @@ class QuestionMemory
      * @param  list<int>  $excludeIds
      * @return list<int>
      */
-    public static function dueIds(UserProfile $profile, int $limit, array $excludeIds = [], ?int $preferCountryId = null, ?int $rootCategoryId = null): array
+    public static function dueIds(UserProfile $profile, int $limit, array $excludeIds = [], ?int $preferCountryId = null, ?int $rootCategoryId = null, bool $sameCountryOnly = false): array
     {
         if ($limit <= 0) {
             return [];
         }
 
-        return self::narrow(self::dueQuery($profile), $excludeIds, $preferCountryId, $rootCategoryId)
+        return self::narrow(self::dueQuery($profile), $excludeIds, $preferCountryId, $rootCategoryId, $sameCountryOnly)
             ->orderBy('profile_question_memories.due_on')
             ->orderBy('profile_question_memories.id')
             ->limit($limit)
@@ -67,7 +67,7 @@ class QuestionMemory
      * @param  list<int>  $excludeIds
      * @return list<int>
      */
-    public static function slotIds(UserProfile $profile, string $slot, int $limit, array $excludeIds = [], ?int $preferCountryId = null, ?int $rootCategoryId = null): array
+    public static function slotIds(UserProfile $profile, string $slot, int $limit, array $excludeIds = [], ?int $preferCountryId = null, ?int $rootCategoryId = null, bool $sameCountryOnly = false): array
     {
         if ($limit <= 0) {
             return [];
@@ -88,7 +88,7 @@ class QuestionMemory
             'weak' => self::weakQuery($profile, $today, $config['weak_gap_days']),
             'almost' => self::dueQuery($profile)->where('profile_question_memories.level', '>=', 5),
         };
-        self::narrow($query, $excludeIds, $preferCountryId, $rootCategoryId);
+        self::narrow($query, $excludeIds, $preferCountryId, $rootCategoryId, $sameCountryOnly);
         match ($slot) {
             'recent_wrong' => $query->orderByDesc('profile_question_memories.wrong_on'),
             'weak' => $query->orderBy('profile_question_memories.last_answered_on'),
@@ -247,7 +247,7 @@ class QuestionMemory
      *
      * @param  list<int>  $excludeIds
      */
-    private static function narrow(Builder $query, array $excludeIds, ?int $preferCountryId, ?int $rootCategoryId = null): Builder
+    private static function narrow(Builder $query, array $excludeIds, ?int $preferCountryId, ?int $rootCategoryId = null, bool $sameCountryOnly = false): Builder
     {
         return $query
             ->whereNull('questions.meta->catch_only')
@@ -258,6 +258,8 @@ class QuestionMemory
                 ->join('categories as cat', 'cat.id', '=', 'st.category_id')
                 ->whereColumn('sq.question_id', 'profile_question_memories.question_id')
                 ->whereRaw('COALESCE(cat.parent_id, cat.id) = ?', [$rootCategoryId])))
+            // 国のステージ(日本・アメリカなど)のおさらいは、同じ国の問題だけ。ほかの国の問題(日本の地図など)を混ぜない
+            ->when($sameCountryOnly && $preferCountryId !== null, fn (Builder $inner) => $inner->where('questions.country_id', $preferCountryId))
             ->when($excludeIds !== [], fn (Builder $inner) => $inner->whereNotIn('profile_question_memories.question_id', $excludeIds))
             ->when($preferCountryId !== null, fn (Builder $inner) => $inner->orderByRaw(
                 'CASE WHEN questions.country_id = ? THEN 0 ELSE 1 END',

@@ -28,7 +28,7 @@ class ReviewPicker
     }
 
     /**
-     * ステージのおさらいの問題(`review.stage_mix` 問)。先頭の1問は優先の枠から(国を先に)、残りは出す日が古い順(国を先に)
+     * ステージのおさらいの問題(`review.stage_mix` 問)。先頭の1問は優先の枠から、残りは出す日が古い順。国のステージは、同じ国の問題だけ(ほかの国の問題は混ぜない)
      *
      * @param  list<int>  $excludeIds  ステージ自身の問題
      * @param  ?int  $rootCategoryId  ステージの大もとのカテゴリ。あれば、そのカテゴリの問題だけ混ぜる
@@ -39,7 +39,7 @@ class ReviewPicker
         $size = config('review.stage_mix');
         $first = [];
         foreach (config('review.priority.stage') as $slot) {
-            $first = QuestionMemory::slotIds($profile, $slot, min(1, $size), $excludeIds, $countryId, $rootCategoryId);
+            $first = QuestionMemory::slotIds($profile, $slot, min(1, $size), $excludeIds, $countryId, $rootCategoryId, $countryId !== null);
             if ($first !== []) {
                 break;
             }
@@ -47,7 +47,7 @@ class ReviewPicker
 
         return [
             ...$first,
-            ...QuestionMemory::dueIds($profile, $size - count($first), [...$excludeIds, ...$first], $countryId, $rootCategoryId),
+            ...QuestionMemory::dueIds($profile, $size - count($first), [...$excludeIds, ...$first], $countryId, $rootCategoryId, $countryId !== null),
         ];
     }
 }

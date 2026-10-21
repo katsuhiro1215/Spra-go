@@ -177,7 +177,7 @@ it('毎日の復習: 出す日が来た問題がなく、苦手の語だけが�
         ->and(array_diff(ReviewPicker::daily($profile, 2), $wrong))->toBe([]);
 });
 
-it('ステージのおさらい: 先頭の1問は最近まちがえた問題(その国を先に)。残りは古い順。ステージ自身の問題は除く', function () {
+it('ステージのおさらい: 国のステージは同じ国の問題だけ(先頭は最近まちがえた問題、残りは古い順)。国のないステージは国を問わない。ステージ自身の問題は除く', function () {
     $profile = createActiveProfile();
     $gb = createTravelCountry('gb', 'イギリス');
     $profile->trips()->create(['destination' => 'gb', 'arrived_at' => now()]);
@@ -186,11 +186,14 @@ it('ステージのおさらい: 先頭の1問は最近まちがえた問題(そ
     $mineWrong = pickerMemory($profile, ['wrong_on' => '2026-10-06', 'due_on' => '2026-10-07']);
     $mineWrong->update(['country_id' => $gb->id]);
     $stageOwn = pickerMemory($profile, ['wrong_on' => '2026-10-08', 'due_on' => '2026-10-09']);
+    $mineOverdue = pickerMemory($profile, ['due_on' => '2026-10-02']);
+    $mineOverdue->update(['country_id' => $gb->id]);
 
     $ids = ReviewPicker::stage($profile, [$stageOwn->id], $gb->id);
 
-    // 先頭 = その国のまちがえた問題(国を先に)。2問目 = 古い順(ステージの問題と先頭の問題は除く)
-    expect($ids)->toBe([$mineWrong->id, $overdue[0]]);
+    // 国のステージ: 先頭 = その国のまちがえた問題。2問目 = その国の問題を古い順(ほかの国の問題は入れない。ステージの問題と先頭の問題は除く)
+    expect($ids)->toBe([$mineWrong->id, $mineOverdue->id])
+        ->and(array_intersect($ids, [...$overdue, $otherWrong->id]))->toBe([]);
     expect(ReviewPicker::stage($profile, [$stageOwn->id], null)[0])->toBe($otherWrong->id);
 });
 
