@@ -220,3 +220,23 @@ scripts/deploy.sh --no-pull
 - `composer audit`: 0件(guzzle・laravel/framework・league/commonmark・flysystem を更新)。
 - `npm audit --omit=dev`: Next.js を 16.4.0 に更新(critical 解消)。残りの高リスク7件は `shadcn` の CLI 内部(braces・ts-morph など)で、ビルド時の CSS 取り込みにしか使わず、本番の実行物(standalone)には入らない。`shadcn` 側の更新が出たら上げる。
 - 公開前と、月1回は両方を再実行する。
+
+## 7. PHP・Node.js のセキュリティ更新(2026-10-21 の経験から)
+PHP・Node.js の本体に重大な脆弱性が出たときの手順。公式Dockerイメージ(`php:8.5-fpm-alpine`・`node:22-alpine`)は、本体のリリースより数時間〜1日おくれて更新される。**おくれているあいだに作り直しても、古いPHP・Nodeのまま**になる。
+
+1. **情報の見方**: PHP は php.net のニュース、Node.js は nodejs.org の vulnerability のブログ(公式だけ。似たドメインの偽サイトに注意)。直った版の番号を控える。
+2. **公式イメージが更新されたかを確かめる**: Docker Hub の `php` の `8.5-fpm-alpine`(`last_updated` が公開日より後か)、`docker-library/php` の `versions.json` の `8.5` の版。Node は `22.x.y-alpine` の版。
+3. **止めるとき(危険度が高く、更新がまだのとき)**: PHP を動かす `app` と `scheduler` を止める。画面(Next)とDBは動いたまま。
+   ```
+   docker compose --env-file .env.production -f compose.prod.yaml stop app scheduler
+   ```
+   メンテナンスモード(`artisan down`)は、リクエストがPHPの中で処理されるので、PHP本体の脆弱性には効かない。
+4. **更新して再開**: 土台を取り直して、キャッシュなしで作る(`--pull-base`)。
+   ```
+   cd ~/Spra-go && git pull --ff-only
+   scripts/deploy.sh --no-pull --pull-base
+   docker compose --env-file .env.production -f compose.prod.yaml exec app php -v    # 直った版か
+   docker compose --env-file .env.production -f compose.prod.yaml exec next node -v  # 直った版か
+   ```
+5. **ホストOS**(Ubuntu): `sudo apt-get update && sudo apt-get -y upgrade`。`/var/run/reboot-required` があれば再起動(再起動後は `docker compose ... up -d`)。ホストにはPHPを入れていないので、PHPの脆弱性の対象外。
+6. **`Dockerfile.prod` の備え**: `session.upload_progress.enabled=0`・`fatal_error_backtraces=0`(2026-10-21 の CVE-2026-109619 への備え。使っていない機能なので、更新後も無効のまま)。

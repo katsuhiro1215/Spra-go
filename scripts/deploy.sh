@@ -3,6 +3,8 @@
 # Spra Go の本番デプロイ(Lightsail 上で実行)。docs/ops/production-runbook.md 参照。
 #   cd ~/Spra-go && scripts/deploy.sh            # 取り込み・ビルド・マイグレーション・再作成・確認
 #   scripts/deploy.sh --no-pull                  # git pull を飛ばす(手元で直したとき)
+#   scripts/deploy.sh --pull-base                # 土台のイメージ(php・node・caddy)を取り直し、キャッシュなしで作る(PHP・Node の更新のとき)
+#   (--no-pull と --pull-base は、いっしょに付けてよい)
 #
 # 失敗したらそこで止まる(set -e)。ビルドのメモリが足りないときは、先にスワップを足す(runbook 3章)。
 
@@ -24,13 +26,24 @@ if grep -Eq '^(APP_KEY|DB_PASSWORD)=$' "$ENV_FILE"; then
   exit 1
 fi
 
-if [[ "${1:-}" != "--no-pull" ]]; then
+GIT_PULL=1
+BUILD_ARGS=()
+for arg in "$@"; do
+  case "$arg" in
+    --no-pull) GIT_PULL=0 ;;
+    # 公式の php・node のイメージが更新されたとき(セキュリティの修正など)は、サーバーに残った古い土台を使わないようにする
+    --pull-base) BUILD_ARGS=(--pull --no-cache) ;;
+    *) echo "知らない引数です: $arg" >&2; exit 1 ;;
+  esac
+done
+
+if [[ "$GIT_PULL" == "1" ]]; then
   git pull --ff-only
 fi
 
 echo "== ビルド(1つずつ。メモリを食うので並列にしない) =="
 for service in app caddy next; do
-  "${COMPOSE[@]}" build "$service"
+  "${COMPOSE[@]}" build ${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"} "$service"
 done
 
 echo "== データベースを起動してマイグレーション =="
