@@ -4,8 +4,11 @@ namespace App\Providers;
 
 use App\Models\Admin;
 use App\Models\Owner;
+use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +27,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // パスワードを再設定したら、その人の Tane のトークンを全部失効させる(盗まれたトークンを残さない)。
+        // 運営側(Admin・Owner)の再設定には関係しない
+        Event::listen(PasswordReset::class, function (PasswordReset $event) {
+            if ($event->user instanceof User) {
+                $event->user->tokens()->delete();
+            }
+        });
+
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
             $prefix = match (true) {
                 $notifiable instanceof Admin => '/admin',

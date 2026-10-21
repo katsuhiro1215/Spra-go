@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Tane\TokenController;
 use App\Http\Controllers\Owner\PuzzleImageController;
 use App\Http\Middleware\EnsureGameAvailable;
 use App\Models\Admin;
@@ -125,6 +126,11 @@ Route::get('/registration', fn () => [
     'invite_required' => AppSettings::inviteCode() !== '',
     'google' => GoogleAuthController::enabled(),
 ])->name('registration.info');
+
+// Tane(算数アプリ)のトークンのログイン・ログアウト(docs/design/2026-10-21-tane-account-sync-request.md)。
+// 既存のクッキーのログイン(/login)は変えない。TANE_LOGIN_ENABLED が off の間、発行は 403
+Route::post('/auth/token', [TokenController::class, 'store'])->middleware('throttle:20,1')->name('tane.token.store');
+Route::delete('/auth/token', [TokenController::class, 'destroy'])->middleware('auth:sanctum')->name('tane.token.destroy');
 
 Route::middleware(['auth:owner'])->get('/owner/settings', fn () => AppSettings::all())->name('owner.settings.show');
 
