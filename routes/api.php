@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Tane\ProgressController;
 use App\Http\Controllers\Tane\TokenController;
 use App\Http\Controllers\Owner\PuzzleImageController;
 use App\Http\Middleware\EnsureGameAvailable;
@@ -132,6 +133,12 @@ Route::get('/registration', fn () => [
 Route::post('/auth/token', [TokenController::class, 'store'])->middleware('throttle:20,1')->name('tane.token.store');
 Route::post('/auth/register-token', [TokenController::class, 'register'])->middleware('throttle:10,1')->name('tane.token.register');
 Route::delete('/auth/token', [TokenController::class, 'destroy'])->middleware('auth:sanctum')->name('tane.token.destroy');
+
+// Tane の記録。プレイヤーがログインした人の家族のものかを、毎回 TaneProfiles::authorize で確かめる(違えば 403)
+Route::middleware(['auth:sanctum'])->prefix('tane')->name('tane.')->group(function () {
+    Route::get('/profiles/{profile}/progress', [ProgressController::class, 'show'])->name('progress.show');
+    Route::put('/profiles/{profile}/progress', [ProgressController::class, 'update'])->middleware('throttle:60,1')->name('progress.update');
+});
 
 Route::middleware(['auth:owner'])->get('/owner/settings', fn () => AppSettings::all())->name('owner.settings.show');
 

@@ -365,3 +365,24 @@ function preparePuzzleFlag(array $excluded = []): void
     }
     config(['games.puzzle_flag.image_kinds' => $kinds]);
 }
+
+/**
+ * Tane のテスト用。家族アカウント・プレイヤー・Bearer トークンを作る(クッキーのログインは使わない)。
+ *
+ * @return array{0: User, 1: UserProfile, 2: string}
+ */
+function taneUser(string $profileName = 'たろう'): array
+{
+    $user = User::factory()->create();
+    $profile = $user->schema()->create(['name' => 'テスト家族'])->profiles()->create(['name' => $profileName]);
+
+    return [$user, $profile, $user->createToken('tane:test')->plainTextToken];
+}
+
+/** そのトークンで、次の1回のリクエストを呼ぶ(前のリクエストのログイン状態を持ち越さない) */
+function taneAs(string $token): Tests\TestCase
+{
+    app('auth')->forgetGuards();
+
+    return test()->withToken($token);
+}
