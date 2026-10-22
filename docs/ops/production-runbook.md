@@ -75,6 +75,7 @@ nano .env.production
 - `SPRA_CONTACT_API_URL`（`https://<Spraのドメイン>/api/contacts`）・`SPRA_CONTACT_API_KEY`・`SPRA_CONTACT_CATEGORY_ID`
 - `GOOGLE_CLIENT_ID`・`GOOGLE_CLIENT_SECRET`（Googleでのログインを使うとき。空なら使わない）
 - `STRIPE_*` は空のまま
+- `TANE_URL`（Tane の画面の場所。CORS で許可する。例 `https://tane.spra.jp`。空なら許可しない）・`TANE_LOGIN_ENABLED`（既定 `false`。Tane の規約・プライバシーポリシーの更新が済むまで `false` のまま。`false` の間、`POST /api/auth/token` と `POST /api/auth/register-token` は 403。すでに発行ずみのトークンで呼ぶ記録の入口は動く）。`true` にするときは、法務（規約・プライバシーポリシーの更新、同意のしなおし）の完了を確かめてから、`.env.production` を直して、4-3 の `up -d --force-recreate` で反映する
 
 ### 2-3. ビルド用のスワップ（初回と、Nextを作り直すとき）
 
