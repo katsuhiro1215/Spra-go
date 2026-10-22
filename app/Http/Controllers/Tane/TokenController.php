@@ -71,6 +71,7 @@ class TokenController extends Controller
         $token = $request->user()->currentAccessToken();
         // クッキーのログイン(TransientToken)で呼ばれたときは、消すトークンが無い
         if ($token instanceof PersonalAccessToken) {
+            ParentController::forget($token);
             $token->delete();
         }
 

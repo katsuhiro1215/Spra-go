@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Owner\PuzzleImageController;
+use App\Http\Controllers\Tane\ParentController;
 use App\Http\Controllers\Tane\ProgressController;
 use App\Http\Controllers\Tane\TokenController;
-use App\Http\Controllers\Owner\PuzzleImageController;
 use App\Http\Middleware\EnsureGameAvailable;
 use App\Models\Admin;
 use App\Models\Category;
@@ -47,6 +48,7 @@ use App\Support\LevelCompanions;
 use App\Support\LevelCurve;
 use App\Support\LevelGifts;
 use App\Support\MiniQuizzes;
+use App\Support\ParentPassword;
 use App\Support\PlayableQuestion;
 use App\Support\PlayTime;
 use App\Support\Prefecture\PrefectureBadges;
@@ -56,12 +58,12 @@ use App\Support\QuestionAnswerResolver;
 use App\Support\QuestionMemory;
 use App\Support\QuizVariants;
 use App\Support\Ranking;
-use App\Support\RunGame;
-use App\Support\RunSeedShop;
 use App\Support\RareSeeds;
 use App\Support\Review;
 use App\Support\ReviewPicker;
 use App\Support\Roster;
+use App\Support\RunGame;
+use App\Support\RunSeedShop;
 use App\Support\SpaceCards;
 use App\Support\SpaceMap;
 use App\Support\StageDraw;
@@ -76,14 +78,13 @@ use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\StripeClient;
 use Stripe\Webhook as StripeWebhook;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -138,7 +139,10 @@ Route::delete('/auth/token', [TokenController::class, 'destroy'])->middleware('a
 Route::middleware(['auth:sanctum'])->prefix('tane')->name('tane.')->group(function () {
     Route::get('/profiles/{profile}/progress', [ProgressController::class, 'show'])->name('progress.show');
     Route::put('/profiles/{profile}/progress', [ProgressController::class, 'update'])->middleware('throttle:60,1')->name('progress.update');
+    // 保護者の画面。パスワードを入れ直して確認ずみ(15分)のトークンだけが、家族の全員の記録を読める
+    Route::get('/parent/records', [ParentController::class, 'records'])->name('parent.records');
 });
+Route::post('/auth/confirm-password', [ParentController::class, 'confirm'])->middleware('auth:sanctum')->name('tane.confirm-password');
 
 Route::middleware(['auth:owner'])->get('/owner/settings', fn () => AppSettings::all())->name('owner.settings.show');
 
@@ -1910,7 +1914,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
             if ($item->isPlaced() && $item->size()[0] !== $item->size()[1]) {
                 try {
                     WorldPlacement::check($profile, $item, $item->x, $item->y, ! $item->mirrored);
-                } catch (\Symfony\Component\HttpKernel\Exception\HttpException) {
+                } catch (HttpException) {
                     abort(422, 'ひっくり返すと、ほかの物や道にぶつかるよ。');
                 }
             }
@@ -2076,20 +2080,10 @@ Route::middleware(['auth:sanctum'])->prefix('run-seed-shop')->name('run-seed-sho
 
 // みんなのランキングの保護者のスイッチとニックネーム(docs/design/2026-10-13-ranking-design.md 5章)
 Route::middleware(['auth:sanctum'])->prefix('ranking')->name('ranking.')->group(function () {
-    // 保護者かどうかは、パスワードの入れ直しで確かめる。パスワードのないアカウント(Googleだけで登録)は確かめられないので、
-    // パスワードを設定するまでは、みんなのランキングをオンにできない・ニックネームを変えられない
-    $confirm = function (Request $request): void {
-        $hash = $request->user()->password;
-        abort_if($hash === null, 422, 'パスワードを設定すると使えます。ログイン画面の「パスワードをわすれた」から設定してください。');
-        // まちがいは1分に6回まで(子どもが総当たりで保護者のパスワードを探せないように)
-        $key = 'ranking-confirm:'.$request->user()->id;
-        abort_if(RateLimiter::tooManyAttempts($key, 6), 429, 'しばらくしてから、もう一度ためしてください。');
-        $request->validate(['password' => ['required', 'string']]);
-        if (! Hash::check($request->input('password'), $hash)) {
-            RateLimiter::hit($key, 60);
-            abort(422, 'パスワードが違います。');
-        }
-    };
+    // 保護者かどうかは、パスワードの入れ直しで確かめる(Tane の保護者の画面と同じ確かめ方。App\Support\ParentPassword)。
+    // パスワードのないアカウント(Googleだけで登録)は確かめられないので、パスワードを設定するまでは、
+    // みんなのランキングをオンにできない・ニックネームを変えられない
+    $confirm = fn (Request $request) => ParentPassword::confirm($request);
 
     Route::get('/settings', function (Request $request) {
         $profile = ActiveProfile::require($request);
