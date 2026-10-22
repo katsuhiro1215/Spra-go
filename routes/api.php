@@ -130,6 +130,7 @@ Route::get('/registration', fn () => [
 // Tane(算数アプリ)のトークンのログイン・ログアウト(docs/design/2026-10-21-tane-account-sync-request.md)。
 // 既存のクッキーのログイン(/login)は変えない。TANE_LOGIN_ENABLED が off の間、発行は 403
 Route::post('/auth/token', [TokenController::class, 'store'])->middleware('throttle:20,1')->name('tane.token.store');
+Route::post('/auth/register-token', [TokenController::class, 'register'])->middleware('throttle:10,1')->name('tane.token.register');
 Route::delete('/auth/token', [TokenController::class, 'destroy'])->middleware('auth:sanctum')->name('tane.token.destroy');
 
 Route::middleware(['auth:owner'])->get('/owner/settings', fn () => AppSettings::all())->name('owner.settings.show');

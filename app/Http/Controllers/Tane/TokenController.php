@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tane;
 
+use App\Actions\RegisterUser;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Support\Tane\TokenIssuer;
@@ -50,6 +51,18 @@ class TokenController extends Controller
         RateLimiter::clear($key);
 
         return response()->json(TokenIssuer::issue($user, $data['device_name']), 201);
+    }
+
+    /** Tane からの登録。Spra Go と同じ招待制・同意・家族アカウントの決まりで作り、トークンを返す */
+    public function register(Request $request, RegisterUser $register): JsonResponse
+    {
+        TokenIssuer::ensureEnabled();
+        // 登録したあとにトークンの名前でつまずかないよう、先に確かめる
+        $request->validate(['device_name' => ['required', 'string', 'max:100']]);
+
+        $user = $register->handle($request);
+
+        return response()->json(TokenIssuer::issue($user, $request->string('device_name')->toString()), 201);
     }
 
     /** 今のトークンだけを失効させる(ほかの端末のトークンは残る) */

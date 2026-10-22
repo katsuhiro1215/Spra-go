@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\RegisterUser;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Support\AppSettings;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 
 class RegisteredUserController extends Controller
@@ -20,42 +16,9 @@ class RegisteredUserController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(Request $request): Response
+    public function store(Request $request, RegisterUser $register): Response
     {
-        // 招待制の試験公開(docs/design/2026-10-03-closed-beta-design.md 3-2)。おやすみ中は受け付けず、
-        // 招待コードが設定されていれば、合うコードを必須にする
-        abort_unless(AppSettings::registrationOpen(), 403, 'いまは登録をおやすみしています');
-
-        $codeRequired = AppSettings::inviteCode() !== '';
-
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'invite_code' => $codeRequired ? ['required', 'string'] : ['nullable'],
-            'terms' => ['accepted'],
-        ], ['invite_code.required' => '招待コードを入れてください', 'terms.accepted' => '利用規約とプライバシーポリシーに同意してください']);
-
-        if ($codeRequired && ! AppSettings::inviteCodeMatches($request->string('invite_code'))) {
-            throw ValidationException::withMessages(['invite_code' => '招待コードが違います']);
-        }
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->string('password')),
-        ]);
-        // 同意した日時と版を残す(docs/legal の制定日が版)
-        $user->forceFill(['terms_accepted_at' => now(), 'terms_version' => config('legal.version')])->save();
-
-        $user->schema()->create();
-
-        // 確認メールを送る(docs/design/2026-09-29-email-verify-reset-design.md 4-1)。メールのサーバーが止まっていても
-        // 登録は成功させ、エラーは記録に残す(アカウントはもうできているので、失敗を返すと登録し直せなくなる。メールは
-        // プロフィール選びのお知らせの「もう一度送る」から送り直せる)
-        rescue(fn () => event(new Registered($user)));
-
-        Auth::login($user);
+        Auth::login($register->handle($request));
 
         return response()->noContent();
     }

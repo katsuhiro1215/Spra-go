@@ -11,7 +11,7 @@ beforeEach(function () {
 
 function taneLogin(string $email, string $password = 'password', array $extra = [])
 {
-    return test()->postJson('/api/auth/token', ['email' => $email, 'password' => $password, 'device_name' => 'iPad'] + $extra);
+    return test()->postJson('/api/auth/token', array_merge(['email' => $email, 'password' => $password, 'device_name' => 'iPad'], $extra));
 }
 
 test('正しいメールとパスワードでトークンが返り、そのトークンでログインした状態になる', function () {
