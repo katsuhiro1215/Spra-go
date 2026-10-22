@@ -67,6 +67,7 @@ use App\Support\RunSeedShop;
 use App\Support\SpaceCards;
 use App\Support\SpaceMap;
 use App\Support\StageDraw;
+use App\Support\Tane\DashboardSummary;
 use App\Support\TimeLimit;
 use App\Support\Travel;
 use App\Support\Words;
@@ -121,6 +122,9 @@ Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
         ],
     ];
 })->name('owner.dashboard.summary');
+
+// Tane の中の遊ばれ方(Owner ダッシュボードの Tane のカード)。全体の数だけで、個人の記録は出さない
+Route::middleware(['auth:owner'])->get('/owner/dashboard/tane', fn () => DashboardSummary::summary())->name('owner.dashboard.tane');
 
 // ログイン不要。登録画面が、招待コードの欄を出すか・おやすみ中かを知るための問い合わせ(コードそのものは返さない)
 Route::get('/registration', fn () => [
