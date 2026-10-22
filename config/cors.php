@@ -19,7 +19,8 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')],
+    // Tane の画面(TANE_URL)も許可する。空なら足さない
+    'allowed_origins' => array_values(array_filter([env('FRONTEND_URL', 'http://localhost:3000'), env('TANE_URL')])),
 
     'allowed_origins_patterns' => [],
 

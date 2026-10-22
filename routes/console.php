@@ -13,3 +13,6 @@ Schedule::command('analytics:aggregate')->dailyAt('00:10')->timezone('Asia/Tokyo
 
 // 中央管理システム(Spra)へ送れていない保護者のご意見を、5分ごとに送り直す(設定がなければ何もしない)
 Schedule::command('feedbacks:relay')->everyFiveMinutes()->withoutOverlapping();
+
+// 期限切れの Tane のトークンを、毎日消す(期限から24時間たったもの)
+Schedule::command('sanctum:prune-expired --hours=24')->daily();

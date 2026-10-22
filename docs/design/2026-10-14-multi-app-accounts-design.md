@@ -122,6 +122,8 @@ Spra Go・Tane・Spra World（開発前）を、**1つのアカウントで使�
 | 4 | Spra World の追加（`config/apps.php` に1行） | | 開発後 |
 | 5 | 特典（`user_benefits`） | | 必要になったとき |
 
+**段階2の Spra Go 側は実装済み（2026-10-22。ブランチ `feature/tane-account-sync`）。`TANE_LOGIN_ENABLED` は off のまま。残りは Tane の画面側（計画B）と、段階3（法務）。**
+
 Taneの分割4（記録の同期）は、このうち段階2に含まれる。Taneの★の記録をSpra Goのデータベースへ送る表は、Taneの設計書で別に決める。
 
 ### 10-1. Taneの公開（2026-10-28ごろ）は、ログインなし（Owner決定 2026-10-14、案A）
