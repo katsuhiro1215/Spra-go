@@ -165,3 +165,14 @@ test('アカウントを消すと、Tane の記録も一緒に消える', functi
     expect(TaneStageRecord::count())->toBe(0)->and(TaneProfileState::count())->toBe(0)->and(TanePlayDay::count())->toBe(0);
     expect(User::count())->toBe(1);
 });
+
+test('入口の守り: 配列が大きすぎると422(ステージの記録1000件超・遊んだ日60件超)', function () {
+    [, $profile, $token] = taneUser();
+    $stars = [];
+    foreach (range(1, 1001) as $n) {
+        $stars['add-'.$n] = 1;
+    }
+
+    taneAs($token)->putJson("/api/tane/profiles/{$profile->id}/progress", ['progress' => taneProgress(['stars' => $stars])])->assertUnprocessable()->assertJsonValidationErrors('progress.stars');
+    taneAs($token)->putJson("/api/tane/profiles/{$profile->id}/progress", ['progress' => taneProgress(), 'playDays' => array_fill(0, 61, '2026-10-21')])->assertUnprocessable()->assertJsonValidationErrors('playDays');
+});
