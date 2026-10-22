@@ -44,6 +44,7 @@ services:
             - '443:443'
         environment:
             WEB_SITE: ${WEB_SITE:-go.spra.jp}
+            TANE_SITE: ${TANE_SITE:-http://tane.invalid}
             API_SITE: ${API_SITE:-api.go.spra.jp}
             CADDY_ACME_EMAIL: ${CADDY_ACME_EMAIL:-admin@example.com}
         volumes:
@@ -71,6 +72,24 @@ services:
         image: spra-go-next-prod
         restart: always
         mem_limit: 256m
+        logging: *logging
+
+    # Tane(静的ファイルを配るだけの小さな Caddy)。Tane のリポジトリが無い間は作らない(profile: tane。
+    # scripts/deploy.sh が、TANE_SRC のフォルダがあるときだけ有効にする)
+    tane:
+        profiles: ['tane']
+        build:
+            context: .
+            dockerfile: Dockerfile.prod
+            target: tane
+            additional_contexts:
+                tane-src: ${TANE_SRC:-../tane/frontend}
+            args:
+                NEXT_PUBLIC_SPRA_API_URL: ${TANE_API_URL:-https://api.go.spra.jp}
+                NEXT_PUBLIC_TANE_LOGIN: ${TANE_LOGIN:-}
+        image: spra-go-tane-prod
+        restart: always
+        mem_limit: 48m
         logging: *logging
 
     scheduler:

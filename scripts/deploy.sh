@@ -41,8 +41,25 @@ if [[ "$GIT_PULL" == "1" ]]; then
   git pull --ff-only
 fi
 
+# Tane(静的ファイル)。Tane のリポジトリを ~/tane に置いてあるときだけ、いっしょに作って配る(無ければ Spra Go だけ)。
+# 場所を変えるときは TANE_SRC=<tane/frontend の絶対パス> を付けて実行する
+SERVICES=(app caddy next)
+UP_SERVICES=(app scheduler caddy next)
+TANE_SRC="${TANE_SRC:-$REPO_DIR/../tane/frontend}"
+if [[ -f "$TANE_SRC/package.json" ]]; then
+  TANE_SRC="$(cd "$TANE_SRC" && pwd)"
+  export TANE_SRC
+  export COMPOSE_PROFILES=tane
+  if [[ "$GIT_PULL" == "1" ]]; then
+    git -C "$TANE_SRC/.." pull --ff-only
+  fi
+  SERVICES+=(tane)
+  UP_SERVICES+=(tane)
+  echo "Tane も配ります: $TANE_SRC"
+fi
+
 echo "== ビルド(1つずつ。メモリを食うので並列にしない) =="
-for service in app caddy next; do
+for service in "${SERVICES[@]}"; do
   "${COMPOSE[@]}" build ${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"} "$service"
 done
 
@@ -51,7 +68,7 @@ echo "== データベースを起動してマイグレーション =="
 "${COMPOSE[@]}" run --rm app php artisan migrate --force
 
 echo "== 再作成 =="
-"${COMPOSE[@]}" up -d --force-recreate app scheduler caddy next
+"${COMPOSE[@]}" up -d --force-recreate "${UP_SERVICES[@]}"
 "${COMPOSE[@]}" exec -T app php artisan optimize
 
 echo "== 確認 =="

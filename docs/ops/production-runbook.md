@@ -217,6 +217,20 @@ scripts/deploy.sh --no-pull
 - Ownerの追加は `php artisan owner:create` だけ（HTTPの登録は無い）。
 - 招待コードは、友人に渡す前に必ず設定する。
 
+## Tane(静的ファイル)を同じインスタンスに置く(2026-10-23)
+
+Tane は Node を動かさず、書き出した静的ファイル（`out/`）を、小さな Caddy（`tane` コンテナ、メモリ48MB）が配る。外向きの Caddy が `tane.spra.jp` を受けて中継する。
+
+**初回の準備（サーバー）**
+1. Tane のリポジトリを、Spra Go のとなりに置く: `cd ~ && git clone https://github.com/katsuhiro1215/tane.git tane`（非公開なら、デプロイキーかトークンが要る）。`~/tane/frontend` があると、`scripts/deploy.sh` がいっしょに作る（無ければ Spra Go だけ。場所を変えるときは `TANE_SRC=<絶対パス> scripts/deploy.sh`）。
+2. DNS に `tane` の A レコード（`go` と同じ IP）を作り、`dig +short tane.spra.jp` で確かめる。
+3. `.env.production` に `TANE_SITE=tane.spra.jp`・`TANE_URL=https://tane.spra.jp`（`TANE_API_URL` は既定のまま）。`TANE_LOGIN` と `TANE_LOGIN_ENABLED` は、規約の更新が済むまで空／false。
+4. `scripts/deploy.sh --no-pull`（Tane のビルドが加わる。メモリが足りなければスワップ、2-3）。外向きの Caddy が `tane.spra.jp` の証明書を自動で取る。
+
+**確認**: `https://tane.spra.jp/`、`/stage/add-1/`（直接開く）、`/stage/zzz/`（404のページ）。`curl -I https://tane.spra.jp/sw.js` が `Cache-Control: no-cache`。
+
+**ふだんの更新**: Tane を直したら、Tane を push → サーバーで `scripts/deploy.sh`（Tane も `git pull` して作り直す）。`NEXT_PUBLIC_*`（`TANE_LOGIN`・`TANE_API_URL`）はビルドに埋め込まれるので、変えたときも再ビルド（deploy.sh）。
+
 ## 依存パッケージの脆弱性チェック(2026-10-12)
 - `composer audit`: 0件(guzzle・laravel/framework・league/commonmark・flysystem を更新)。
 - `npm audit --omit=dev`: Next.js を 16.4.0 に更新(critical 解消)。残りの高リスク7件は `shadcn` の CLI 内部(braces・ts-morph など)で、ビルド時の CSS 取り込みにしか使わず、本番の実行物(standalone)には入らない。`shadcn` 側の更新が出たら上げる。

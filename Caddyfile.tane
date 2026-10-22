@@ -1,0 +1,27 @@
+# Tane(静的書き出し)を配る内側の Caddy。外向きの HTTPS・ホスト名の振り分けは、外向きの Caddy(Caddyfile.prod)が行う。
+# ここは compose のネットワークの中だけで、HTTP(80)で待つ。
+{
+	auto_https off
+}
+
+:80 {
+	encode gzip
+	root * /srv
+	file_server
+
+	# 一覧にない URL(静的書き出しで作っていないページ)は、書き出された 404.html を 404 のまま返す
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
+
+	# ビルドごとにファイル名が変わる _next/static は長く持たせる。それ以外(HTML・sw.js・manifest)は毎回確かめさせる
+	@immutable path /_next/static/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+	@revalidate not path /_next/static/* /sounds/* /spru/* /icons/*
+	header @revalidate Cache-Control "no-cache"
+
+	header {
+		X-Content-Type-Options "nosniff"
+	}
+}

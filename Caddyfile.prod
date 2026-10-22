@@ -39,3 +39,16 @@
 		Referrer-Policy "strict-origin-when-cross-origin"
 	}
 }
+
+# Tane(静的ファイル。中身は tane コンテナが配る)。TANE_SITE が未設定のうちは、HTTPS の証明書を取りにいかない宛先にしておく。
+# DNS(tane.spra.jp)ができて、TANE_SITE=tane.spra.jp を .env.production に入れてから有効になる
+{$TANE_SITE:http://tane.invalid} {
+	encode gzip
+
+	reverse_proxy tane:80
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+	}
+}

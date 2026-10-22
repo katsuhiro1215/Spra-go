@@ -119,3 +119,31 @@ USER nextjs
 EXPOSE 3000
 
 CMD ["node", "server.js"]
+
+########################################
+# Tane(静的書き出し)。Tane のリポジトリは別なので、ビルドの文脈として名前付きで受け取る(compose の additional_contexts: tane-src)。
+# 配るのは小さな Caddy 1つ。Node は動かさない(docs/design/2026-10-22-tane-static-export-request.md)
+########################################
+FROM node:22-alpine AS tane-build
+
+WORKDIR /app
+
+COPY --from=tane-src package.json package-lock.json ./
+RUN npm ci
+
+COPY --from=tane-src . ./
+
+# NEXT_PUBLIC_* はビルドのときに埋め込まれる(変えるには再ビルド)。NEXT_PUBLIC_TANE_LOGIN は "on" のときだけログインの入口が出る
+ARG NEXT_PUBLIC_SPRA_API_URL
+ARG NEXT_PUBLIC_TANE_LOGIN
+ENV NEXT_PUBLIC_SPRA_API_URL=$NEXT_PUBLIC_SPRA_API_URL \
+    NEXT_PUBLIC_TANE_LOGIN=$NEXT_PUBLIC_TANE_LOGIN \
+    NEXT_TELEMETRY_DISABLED=1 \
+    NODE_OPTIONS=--max-old-space-size=1024
+
+RUN npm run build
+
+FROM caddy:2-alpine AS tane
+
+COPY Caddyfile.tane /etc/caddy/Caddyfile
+COPY --from=tane-build /app/out /srv
