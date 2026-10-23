@@ -144,7 +144,7 @@ export function ProfileSheet({
                     「{target.name}」を削除する？
                   </AlertDialogPrimitive.Title>
                   <AlertDialogPrimitive.Description className="text-sm font-bold text-[#6b5d45]">
-                    <AutoFurigana text="冒険の記録も消えます" />
+                    <AutoFurigana text="冒険の記録も、Taneの記録も消えます" />
                   </AlertDialogPrimitive.Description>
                   <div className="mt-1 flex gap-2">
                     <AlertDialogPrimitive.Cancel className="h-12 flex-1 rounded-2xl border-2 border-b-4 border-[#e8dfcf] bg-white text-base font-black">
