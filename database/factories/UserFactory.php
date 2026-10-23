@@ -30,6 +30,9 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            // 現在の版に同意ずみの人(同意が古い人は、テストで terms_version を変える)
+            'terms_accepted_at' => now(),
+            'terms_version' => config('legal.version'),
         ];
     }
 

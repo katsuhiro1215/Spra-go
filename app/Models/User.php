@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,6 +34,12 @@ class User extends Authenticatable implements MustVerifyEmail
             'terms_accepted_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /** 利用規約・プライバシーポリシーの、いまの版に同意していないか(空も古い扱い)。docs/design/2026-10-23-shared-account-legal-design.md */
+    public function termsOutdated(): bool
+    {
+        return $this->terms_version !== config('legal.version');
     }
 
     public function apps(): HasMany

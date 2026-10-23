@@ -18,6 +18,7 @@ class TokenIssuer
                 'name' => $user->name,
                 'email' => $user->email,
                 'email_verified' => $user->hasVerifiedEmail(),
+                'terms_outdated' => $user->termsOutdated(),
             ],
         ];
     }

@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Middleware\EnsureEmailIsVerified;
+use App\Http\Middleware\EnsureTermsCurrent;
+use App\Http\Middleware\RecordAppUsage;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -14,12 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->api(prepend: [
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            EnsureFrontendRequestsAreStateful::class,
         ]);
 
         // どのアプリを使っているかを残す(X-Spra-App ヘッダー。docs/design/2026-10-14-multi-app-accounts-design.md)
         $middleware->api(append: [
-            \App\Http\Middleware\RecordAppUsage::class,
+            RecordAppUsage::class,
         ]);
 
         // 本番は Caddy(リバースプロキシ)の裏で動く。PHP-FPM は外に公開しないので、すべてのプロキシを信用してよい。
@@ -27,7 +31,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
 
         $middleware->alias([
-            'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
+            'verified' => EnsureEmailIsVerified::class,
+            'terms.current' => EnsureTermsCurrent::class,
         ]);
 
         //

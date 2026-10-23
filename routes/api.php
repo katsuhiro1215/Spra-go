@@ -88,8 +88,21 @@ use Stripe\Webhook as StripeWebhook;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
+    // 同意が古いか(画面が同意のしなおしの画面へ送る)。docs/design/2026-10-23-shared-account-legal-design.md
+    return array_merge($request->user()->toArray(), [
+        'terms_outdated' => $request->user()->termsOutdated(),
+        'terms_version_current' => config('legal.version'),
+    ]);
 });
+
+// 利用規約・プライバシーポリシーの、いまの版への同意。古い画面でちがう版に同意させないよう、版が一致するときだけ受け付ける
+Route::middleware(['auth:sanctum'])->post('/terms/accept', function (Request $request) {
+    $request->validate(['version' => ['required', 'string', Rule::in([config('legal.version')])]]);
+
+    $request->user()->forceFill(['terms_accepted_at' => now(), 'terms_version' => config('legal.version')])->save();
+
+    return response()->noContent();
+})->name('terms.accept');
 
 Route::middleware(['auth:admin'])->get('/admin/user', function (Request $request) {
     return $request->user('admin');
@@ -140,7 +153,7 @@ Route::post('/auth/register-token', [TokenController::class, 'register'])->middl
 Route::delete('/auth/token', [TokenController::class, 'destroy'])->middleware('auth:sanctum')->name('tane.token.destroy');
 
 // Tane の記録。プレイヤーがログインした人の家族のものかを、毎回 TaneProfiles::authorize で確かめる(違えば 403)
-Route::middleware(['auth:sanctum'])->prefix('tane')->name('tane.')->group(function () {
+Route::middleware(['auth:sanctum', 'terms.current'])->prefix('tane')->name('tane.')->group(function () {
     Route::get('/profiles/{profile}/progress', [ProgressController::class, 'show'])->name('progress.show');
     Route::put('/profiles/{profile}/progress', [ProgressController::class, 'update'])->middleware('throttle:60,1')->name('progress.update');
     // 保護者の画面。パスワードを入れ直して確認ずみ(15分)のトークンだけが、家族の全員の記録を読める

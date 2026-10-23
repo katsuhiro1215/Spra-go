@@ -10,6 +10,7 @@ import { ProfileProvider } from "@/components/app/profile-provider";
 import { ServiceWorkerRegister } from "@/components/app/service-worker-register";
 import { SoundControls } from "@/components/app/sound-controls";
 import { SoundProvider } from "@/components/app/sound-provider";
+import { TermsGate } from "@/components/legal/terms-gate";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -54,6 +55,7 @@ export default function RootLayout({
               <ServiceWorkerRegister />
               <PlayTimeTracker />
               <BgmRouter />
+              <TermsGate />
             </ProfileProvider>
           </SoundProvider>
         </AccessibilityProvider>
