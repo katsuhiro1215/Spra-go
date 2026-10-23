@@ -214,6 +214,7 @@ export default function Page() {
                   プライバシーポリシー
                 </Link>
                 に同意します
+                <span className="mt-0.5 block text-xs font-bold text-[#6b5d45]">Tane など、ほかのアプリでも同じ規約を使います</span>
               </span>
             </label>
 

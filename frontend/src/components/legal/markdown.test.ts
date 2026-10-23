@@ -89,7 +89,7 @@ describe("公開する規約・プライバシーポリシー", () => {
     expect(TERMS_MD).toContain("栫 勝宏");
     expect(TERMS_MD).toContain("info@spra.jp");
     expect(TERMS_MD).toContain("奈良地方裁判所");
-    expect(TERMS_MD).toContain("2026年10月14日");
+    expect(TERMS_MD).toContain("2026年10月23日");
     expect(PRIVACY_MD).toContain("奈良県奈良市");
     expect(PRIVACY_MD).toContain("ランキング");
   });
