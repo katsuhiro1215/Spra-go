@@ -171,6 +171,34 @@ return [
         'speed' => ['start' => 180, 'step' => 18, 'every_ms' => 10000, 'max' => 420, 'px_per_m' => 40],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | スプルスイム
+    |--------------------------------------------------------------------------
+    |
+    | docs/design/2026-11-10-spru-swim-design.md。練習はサーバーに送らない。本番は1日 daily_real_plays 回、
+    | スイムコイン(コイン・経験値・学習ポイント・ランのタネとは別)がもらえる。公開するときに released_on / ends_on を決める。
+    | max_coin_value_per_sec は、swim-engine.ts の MAX_COIN_VALUE_PER_SEC と同じ値にする。
+    |
+    */
+
+    'spru_swim' => [
+        'catalog' => ['released_on' => env('SPRU_SWIM_RELEASED_ON', '2099-01-01'), 'ends_on' => env('SPRU_SWIM_ENDS_ON'), 'season' => null],
+        'difficulty' => 'ふつう',
+        'daily_real_plays' => 2,
+        'first_play_bonus' => 50,
+        'max_coins_per_play' => 600,
+        'abandon_free_ms' => 10000,
+        'unfinished_expire_ms' => 600000,
+        // swim-game.tsx の ceilingForScreen() の範囲と合わせる
+        'ceiling' => ['min' => 220, 'max' => 520],
+        'max_coin_value_per_sec' => 20,
+        'score' => ['distance' => 2, 'coin' => 2],
+        // 速さ(1秒に進む広さ。一定)。40 = 1m。swim-engine.ts の SWIM_SPEED / PX_PER_M と同じ
+        'speed' => 170,
+        'px_per_m' => 40,
+    ],
+
     'rollout' => [
         'new_days' => 14,
         'daily_rewarded_total' => 6,

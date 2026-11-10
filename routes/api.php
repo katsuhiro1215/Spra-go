@@ -67,6 +67,8 @@ use App\Support\RunSeedShop;
 use App\Support\SpaceCards;
 use App\Support\SpaceMap;
 use App\Support\StageDraw;
+use App\Support\SwimCoinShop;
+use App\Support\SwimGame;
 use App\Support\Tane\DashboardSummary;
 use App\Support\TimeLimit;
 use App\Support\Travel;
@@ -2079,6 +2081,55 @@ Route::middleware(['auth:sanctum', EnsureGameAvailable::class.':'.RunGame::GAME]
     })->name('plays.finish');
 });
 
+// ミニゲーム「スプルスイム」(docs/design/2026-11-10-spru-swim-design.md)。練習はサーバーを使わない。本番だけ
+Route::middleware(['auth:sanctum', EnsureGameAvailable::class.':'.SwimGame::GAME])->prefix('games/spru-swim')->name('games.spru-swim.')->group(function () {
+    Route::get('/', fn (Request $request) => SwimGame::summary(ActiveProfile::require($request)))->name('show');
+
+    Route::get('/ranking', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $data = $request->validate([
+            'scope' => ['required', 'in:family,public'],
+            'difficulty' => ['required', 'string', Rule::in([config('games.spru_swim.difficulty')])],
+            'period' => ['required', 'in:week,all'],
+        ]);
+        abort_if($data['scope'] === 'public' && $data['period'] === 'all', 422, 'みんなのランキングは、今週だけです。');
+        abort_if($data['scope'] === 'public' && ! UserSchema::query()->whereKey($profile->user_schema_id)->value('ranking_public'), 403, 'みんなのランキングは、おうちの人がオンにすると見られます。');
+
+        return Ranking::board($profile, SwimGame::GAME, $data['difficulty'], $data['scope'], $data['period']);
+    })->name('ranking');
+
+    Route::post('/plays', function (Request $request) {
+        $profile = ActiveProfile::require($request);
+        $data = $request->validate(['ceiling' => ['required', 'integer', 'between:'.config('games.spru_swim.ceiling.min').','.config('games.spru_swim.ceiling.max')]]);
+
+        return DB::transaction(function () use ($profile, $data) {
+            // 同時に始めても、回数をこえないよう、プロフィールの行を握る
+            UserProfile::query()->whereKey($profile->id)->lockForUpdate()->firstOrFail();
+
+            return SwimGame::start($profile, $data['ceiling']);
+        });
+    })->name('plays.store');
+
+    Route::post('/plays/{play}/abandon', function (Request $request, ProfileGamePlay $play) {
+        $profile = ActiveProfile::require($request);
+        abort_unless($play->user_profile_id === $profile->id && $play->game === SwimGame::GAME, 404);
+
+        return SwimGame::abandon($play);
+    })->name('plays.abandon');
+
+    Route::post('/plays/{play}/finish', function (Request $request, ProfileGamePlay $play) {
+        $profile = ActiveProfile::require($request);
+        abort_unless($play->user_profile_id === $profile->id && $play->game === SwimGame::GAME, 404);
+        $data = $request->validate(['distance_m' => ['required', 'integer', 'min:0'], 'coin_value' => ['required', 'integer', 'min:0']]);
+
+        return DB::transaction(function () use ($play, $data) {
+            $locked = ProfileGamePlay::query()->whereKey($play->id)->lockForUpdate()->firstOrFail();
+
+            return SwimGame::finish($locked, $data['distance_m'], $data['coin_value']);
+        });
+    })->name('plays.finish');
+});
+
 // タネ交換所(docs/design/2026-10-22-spru-run-design.md 14-6、2026-10-17-spru-costumes-design.md)。ランのタネで、ラン限定の町のかざり・きせかえを買う。
 // スプルランの期間が終わっても開いている(集めたタネを、使い切れるように)
 Route::middleware(['auth:sanctum'])->prefix('run-seed-shop')->name('run-seed-shop.')->group(function () {
@@ -2093,6 +2144,14 @@ Route::middleware(['auth:sanctum'])->prefix('run-seed-shop')->name('run-seed-sho
 
         return RunSeedShop::equip(ActiveProfile::require($request), $data['key']);
     })->name('costume');
+});
+
+// スイムコイン交換所(docs/design/2026-11-10-spru-swim-design.md、2026-10-17-spru-costumes-design.md 10章)。
+// スイムコインで、きせかえを買う。着せ替え(PUT)は run-seed-shop 側のものを共有して使う(ワードローブはアカウント共有の1着だけ)
+Route::middleware(['auth:sanctum'])->prefix('swim-coin-shop')->name('swim-coin-shop.')->group(function () {
+    Route::get('/', fn (Request $request) => SwimCoinShop::list(ActiveProfile::require($request)))->name('index');
+
+    Route::post('/costumes/{key}/buy', fn (Request $request, string $key) => SwimCoinShop::buyCostume(ActiveProfile::require($request), $key))->name('costumes.buy');
 });
 
 // みんなのランキングの保護者のスイッチとニックネーム(docs/design/2026-10-13-ranking-design.md 5章)

@@ -22,9 +22,18 @@ class RunSeedShop
         return collect(config('costumes.items'))->keyBy('key')->all();
     }
 
+    /** window(一回限りの YYYY-MM-DD 範囲)があればそちらを、無ければ season(毎年繰り返す MM-DD)を見る */
     public static function costumeInSeason(array $costume, ?string $today = null): bool
     {
-        return GameRollout::inSeason($costume['season'], substr($today ?? Garden::today(), 5));
+        $today ??= Garden::today();
+
+        if (($costume['window'] ?? null) !== null) {
+            ['from' => $from, 'until' => $until] = $costume['window'];
+
+            return $today >= $from && $today <= $until;
+        }
+
+        return GameRollout::inSeason($costume['season'], substr($today, 5));
     }
 
     /** いま着ている衣装(キーと名前)。着ていなければ null */
@@ -57,7 +66,9 @@ class RunSeedShop
             ]);
 
         // 持っている衣装は、季節の外でも並べる(着替えるため)。持っていない衣装は、季節の間だけ並べる
+        // currency を書いていない物は run_seed(ランのタネ)扱い。この一覧(タネ交換所)は run_seed の物だけを対象にする
         $costumes = collect(self::costumes())
+            ->filter(fn (array $c) => ($c['currency'] ?? self::CURRENCY) === self::CURRENCY)
             ->filter(fn (array $c) => in_array($c['key'], $owned, true) || self::costumeInSeason($c))
             ->map(fn (array $c) => [
                 'key' => $c['key'],
@@ -89,21 +100,25 @@ class RunSeedShop
         });
     }
 
-    /** きせかえを買う: 季節の間だけ。1着ずつ。財布を引いて、衣装を渡す(1つの取引。二重の押しでも2回引かない) */
+    /**
+     * きせかえを買う: 季節(または window)の間だけ。1着ずつ。財布を引いて、衣装を渡す(1つの取引。二重の押しでも2回引かない)。
+     * 通貨は衣装ごとの currency(既定 run_seed)。ラン・スイムどちらの通貨で買った衣装も、同じワードローブに入る
+     */
     public static function buyCostume(UserProfile $profile, string $key): array
     {
         $costume = self::costumes()[$key] ?? null;
         abort_if($costume === null, 404);
+        $currency = $costume['currency'] ?? self::CURRENCY;
 
-        return DB::transaction(function () use ($profile, $costume) {
+        return DB::transaction(function () use ($profile, $costume, $currency) {
             $locked = UserProfile::query()->whereKey($profile->id)->lockForUpdate()->firstOrFail();
             abort_if($locked->costumes()->where('costume_key', $costume['key'])->exists(), 422, 'もう持っています。');
             abort_unless(self::costumeInSeason($costume), 422, 'この季節の衣装ではありません。');
-            abort_if($locked->run_seeds < $costume['price'], 422, 'タネが足りません。');
-            $locked->applyEconomy(['run_seed' => -$costume['price']], 'run_seed_costume');
+            abort_if($locked->walletBalance($currency) < $costume['price'], 422, '足りません。');
+            $locked->applyEconomy([$currency => -$costume['price']], "{$currency}_costume");
             $locked->costumes()->create(['costume_key' => $costume['key'], 'acquired_at' => now()]);
 
-            return ['seeds' => (int) $locked->run_seeds, 'costume_key' => $locked->costume_key];
+            return ['seeds' => (int) $locked->run_seeds, 'coins' => (int) $locked->swim_coins, 'costume_key' => $locked->costume_key];
         });
     }
 

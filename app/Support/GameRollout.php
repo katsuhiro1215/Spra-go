@@ -20,13 +20,15 @@ class GameRollout
         'puzzle-space' => CatchGame::PUZZLE_SPACE_GAME,
     ];
 
-    /** スプルランは、ほかのミニゲーム(クイズ)と作りが違うので、PATHS(キャッチと同じ道を登録する一覧)には入れない */
+    /** スプルラン・スプルスイムは、ほかのミニゲーム(クイズ)と作りが違うので、PATHS(キャッチと同じ道を登録する一覧)には入れない */
     public const RUN_PATH = 'spru-run';
 
-    /** @return array<string, string> PATHS + スプルラン */
+    public const SWIM_PATH = 'spru-swim';
+
+    /** @return array<string, string> PATHS + スプルラン + スプルスイム */
     public static function allPaths(): array
     {
-        return self::PATHS + [self::RUN_PATH => RunGame::GAME];
+        return self::PATHS + [self::RUN_PATH => RunGame::GAME, self::SWIM_PATH => SwimGame::GAME];
     }
 
     /**
@@ -53,8 +55,8 @@ class GameRollout
     public static function featured(?string $today = null): ?string
     {
         $today ??= Garden::today();
-        // スプルランは、今週のゲーム(1.5倍)の順番に入れない
-        $available = array_values(array_diff(self::available($today), [RunGame::GAME]));
+        // スプルラン・スプルスイムは、今週のゲーム(1.5倍)の順番に入れない
+        $available = array_values(array_diff(self::available($today), [RunGame::GAME, SwimGame::GAME]));
 
         $seasonal = array_values(array_filter($available, fn (string $game) => self::catalog($game)['season'] !== null));
         if ($seasonal !== []) {

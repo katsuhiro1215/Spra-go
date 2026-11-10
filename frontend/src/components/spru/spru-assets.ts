@@ -145,6 +145,19 @@ export const COSTUME_IMAGES = {
   "christmas": { src: "/spru/costumes/christmas.webp", width: 142, height: 249 },
   "valentine": { src: "/spru/costumes/valentine.webp", width: 122, height: 252 },
   "summer": { src: "/spru/costumes/summer.webp", width: 143, height: 250 },
+  // スイムコイン交換所(2026-11-11)。tools/spru-assets/extract.py の素材集が今の環境に無いため、この12件だけ手で足した
+  "hero-knight": { src: "/spru/costumes/hero-knight.webp", width: 296, height: 250 },
+  "hero-samurai": { src: "/spru/costumes/hero-samurai.webp", width: 298, height: 250 },
+  "hero-wizard": { src: "/spru/costumes/hero-wizard.webp", width: 307, height: 250 },
+  "hero-archer": { src: "/spru/costumes/hero-archer.webp", width: 331, height: 250 },
+  "cool-sunglasses": { src: "/spru/costumes/cool-sunglasses.webp", width: 195, height: 250 },
+  "cool-biker": { src: "/spru/costumes/cool-biker.webp", width: 296, height: 250 },
+  "cool-ninja": { src: "/spru/costumes/cool-ninja.webp", width: 269, height: 250 },
+  "cool-cowboy": { src: "/spru/costumes/cool-cowboy.webp", width: 325, height: 250 },
+  "kawaii-heart": { src: "/spru/costumes/kawaii-heart.webp", width: 246, height: 250 },
+  "kawaii-rain": { src: "/spru/costumes/kawaii-rain.webp", width: 253, height: 250 },
+  "kawaii-swim": { src: "/spru/costumes/kawaii-swim.webp", width: 229, height: 250 },
+  "kawaii-sleep": { src: "/spru/costumes/kawaii-sleep.webp", width: 269, height: 250 },
 } as const satisfies Record<string, SpruImage>;
 
 export const BADGE_IMAGES = {

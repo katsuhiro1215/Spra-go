@@ -29,6 +29,9 @@ class ProfileGamePlay extends Model
         'run_seed',
         'ceiling',
         'started_at',
+        'coin_value',
+        'coins_earned',
+        'swim_seed',
     ];
 
     protected function casts(): array
@@ -50,6 +53,9 @@ class ProfileGamePlay extends Model
             'seed_value' => 'integer',
             'run_seed' => 'integer',
             'ceiling' => 'integer',
+            'coin_value' => 'integer',
+            'coins_earned' => 'integer',
+            'swim_seed' => 'integer',
         ];
     }
 

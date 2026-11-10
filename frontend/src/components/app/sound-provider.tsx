@@ -25,7 +25,10 @@ export type SoundKey =
   | "warning"
   | "maintenance"
   | "decide"
-  | "select";
+  | "select"
+  | "swimClear"
+  | "swimBump"
+  | "swimBigClear";
 export type BgmKey = BgmTrack;
 
 const SOUND_FILES: Record<SoundKey, string> = {
@@ -42,6 +45,9 @@ const SOUND_FILES: Record<SoundKey, string> = {
   maintenance: "/sounds/maintenance.mp3",
   decide: "/sounds/decide4.mp3",
   select: "/sounds/decide41.mp3",
+  swimClear: "/sounds/swim-clear.mp3",
+  swimBump: "/sounds/swim-bump.mp3",
+  swimBigClear: "/sounds/swim-big-clear.mp3",
 };
 
 // Suno v6で作った曲。ループ用に切り出し、音量を-16 LUFSにそろえてある(制作記録: company/spra/spra-theme/docs/)
@@ -49,6 +55,7 @@ const BGM_FILES: Record<BgmKey, string> = {
   home: "/sounds/bgm-home.mp3",
   quiz: "/sounds/bgm-quiz.mp3",
   minigame: "/sounds/bgm-minigame.mp3",
+  swim: "/sounds/bgm-swim.mp3",
   space: "/sounds/bgm-space.mp3",
 };
 

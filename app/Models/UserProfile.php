@@ -15,7 +15,7 @@ class UserProfile extends Model
         'name', 'avatar', 'hp', 'max_hp', 'hp_updated_at', 'xp', 'coins', 'points', 'world_welcomed_at', 'world_plots_seen', 'road_style',
         'level', 'combo', 'best_combo', 'current_streak', 'best_streak', 'last_played_date',
         'bloom_base_level', 'last_correct_on', 'partner_companion_key', 'last_review_on', 'reviews_completed',
-        'ranking_nickname', 'run_seeds', 'costume_key',
+        'ranking_nickname', 'run_seeds', 'costume_key', 'swim_coins',
     ];
 
     /**
@@ -328,6 +328,15 @@ class UserProfile extends Model
      * @param  array<string,int>  $deltas  type(hp/coin/xp/point) => delta
      * @return array{leveled_up: bool, deltas: array<string,int>}
      */
+    /** 通貨の種類から財布の残高を読む(タネ交換所・スイムコイン交換所の値段チェックで共通に使う) */
+    public function walletBalance(string $currency): int
+    {
+        return match ($currency) {
+            'run_seed' => (int) $this->run_seeds,
+            'swim_coin' => (int) $this->swim_coins,
+        };
+    }
+
     public function applyEconomy(array $deltas, string $reason, ?Question $question = null, ?Stage $stage = null): array
     {
         $leveledUp = false;
@@ -348,6 +357,7 @@ class UserProfile extends Model
                 'xp' => $this->xp = max(0, $this->xp + $delta),
                 'point' => $this->points = max(0, $this->points + $delta),
                 'run_seed' => $this->run_seeds = max(0, $this->run_seeds + $delta),
+                'swim_coin' => $this->swim_coins = max(0, $this->swim_coins + $delta),
             };
 
             $this->currencyLedger()->create([

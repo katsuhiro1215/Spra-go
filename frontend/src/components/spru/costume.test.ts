@@ -13,4 +13,10 @@ describe("着ている衣装の絵(docs/design/2026-10-17-spru-costumes-design.m
   it("季節のあいさつ用の4つ(halloween など)は、着られる衣装ではないので null", () => {
     expect(costumeImage("halloween")).toBeNull();
   });
+
+  it("スイムコイン交換所の衣装(hero-・cool-・kawaii-)も、着られる衣装として返る", () => {
+    expect(costumeImage("hero-knight")?.src).toBe("/spru/costumes/hero-knight.webp");
+    expect(costumeImage("cool-biker")?.src).toBe("/spru/costumes/cool-biker.webp");
+    expect(costumeImage("kawaii-heart")?.src).toBe("/spru/costumes/kawaii-heart.webp");
+  });
 });

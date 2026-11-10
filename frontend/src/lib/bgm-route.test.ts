@@ -27,6 +27,10 @@ describe("bgmForPath: 画面ごとに、どのBGMを鳴らすか", () => {
     }
   });
 
+  it("スプルスイムは、専用の曲(ミニゲームの共通曲ではない)", () => {
+    expect(bgmForPath("/games/spru-swim")).toBe("swim");
+  });
+
   it("ログイン・登録・Owner/Adminなどは、BGMなし(鳴っていたら止める)", () => {
     for (const path of ["/login", "/register", "/forgot-password", "/owner/dashboard", "/admin/login", "/about", "/blog"]) {
       expect(bgmForPath(path), path).toBe("none");
