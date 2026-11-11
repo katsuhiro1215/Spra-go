@@ -40,6 +40,13 @@ describe("ミニゲームの一覧", () => {
     expect(spaceTrip).toMatchObject({ title: CATCH_MODES.space_trip.title, href: "/games/space-trip" });
     expect(spaceTrip?.description).toContain("ロケット");
   });
+
+  it("スプルスイムが入っていて、名前・説明・行き先がある", () => {
+    const swim = MINI_GAMES.find((game) => game.key === "spru-swim");
+
+    expect(swim).toMatchObject({ title: "スプルスイム", href: "/games/spru-swim" });
+    expect(swim?.description.length).toBeGreaterThan(0);
+  });
 });
 
 describe("ミニゲームの小出し(docs/design/2026-10-09-minigame-rollout-design.md)", () => {

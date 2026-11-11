@@ -27,6 +27,12 @@ export const MINI_GAMES = [
     href: "/games/spru-run",
   },
   {
+    key: "spru-swim",
+    title: "スプルスイム",
+    description: "タップでうく！ 泳いでスイムコインを集めよう！",
+    href: "/games/spru-swim",
+  },
+  {
     key: "puzzle-flag",
     title: "スライドパズル（こっき）",
     description: "バラバラの国旗を、スライドして完成させよう！",
