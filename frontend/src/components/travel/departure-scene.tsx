@@ -53,7 +53,7 @@ export function DepartureScene({ destination, reduced, onDone }: { destination: 
       </p>
 
       {phase === "walk" && (
-        <div className="flex flex-col items-center">
+        <div key="walk" className="animate-travel-phase-in flex flex-col items-center">
           <OutingImage image="back" height={150} className="animate-outing-walk-away" />
           {!plane && (
             <svg viewBox="0 0 200 40" width={220} aria-hidden>
@@ -66,17 +66,17 @@ export function DepartureScene({ destination, reduced, onDone }: { destination: 
 
       {phase === "sail" &&
         (plane ? (
-          <div className="relative flex h-40 w-full items-center">
+          <div key="sail-plane" className="animate-travel-phase-in relative flex h-40 w-full items-center">
             {[
-              [10, 12],
-              [56, 4],
-              [78, 34],
-            ].map(([left, top]) => (
+              [10, 12, 4.5, 0],
+              [56, 4, 5.5, -1.8],
+              [78, 34, 5, -3.4],
+            ].map(([left, top, duration, delay]) => (
               <span
                 key={left}
                 aria-hidden
-                className="absolute h-6 w-16 rounded-full bg-white/80"
-                style={{ left: `${left}%`, top: `${top}%` }}
+                className="animate-travel-cloud-bob absolute h-6 w-16 rounded-full bg-white/80"
+                style={{ left: `${left}%`, top: `${top}%`, animationDuration: `${duration}s`, animationDelay: `${delay}s` }}
               />
             ))}
             <div className="animate-plane-fly absolute left-1/2 -ml-[85px]">
@@ -84,7 +84,7 @@ export function DepartureScene({ destination, reduced, onDone }: { destination: 
             </div>
           </div>
         ) : (
-          <div className="relative flex h-40 w-full items-center">
+          <div key="sail-ship" className="animate-travel-phase-in relative flex h-40 w-full items-center">
             <div className="animate-boat-sail absolute left-1/2 -ml-[85px]">
               <AssetImage asset={vehicleImage("ship")} size={150} flip />
             </div>
@@ -101,7 +101,22 @@ export function DepartureScene({ destination, reduced, onDone }: { destination: 
         ))}
 
       {phase === "arrive" && (
-        <div className="flex flex-col items-center gap-3 px-6 text-center">
+        <div key="arrive" className="animate-travel-phase-in relative flex flex-col items-center gap-3 px-6 text-center">
+          {[
+            [18, 10, 0],
+            [84, 22, 0.15],
+            [8, 55, 0.3],
+            [90, 60, 0.45],
+          ].map(([left, top, delay]) => (
+            <span
+              key={left}
+              aria-hidden
+              className="animate-travel-arrive-sparkle absolute text-2xl"
+              style={{ left: `${left}%`, top: `${top}%`, animationDelay: `${delay}s` }}
+            >
+              ✨
+            </span>
+          ))}
           <OutingImage image="run" height={160} className="animate-outing-run-in" />
           <h2 className="text-2xl font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
             <AutoFurigana text={`${destination.name}に着いた！`} />

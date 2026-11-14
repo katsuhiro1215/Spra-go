@@ -582,6 +582,100 @@
     animation: plane-fly 1.6s ease-in-out both;
   }
 
+  /* せかいの地図(2026-11-14追記): 島のぷかぷか・海のきらめき・航路の点線が流れる動き */
+  @keyframes travel-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+  .animate-travel-bob {
+    animation: travel-bob 3.2s ease-in-out infinite both;
+  }
+
+  @keyframes travel-wave {
+    0%,
+    100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+  .animate-travel-wave {
+    animation: travel-wave 3s ease-in-out infinite both;
+  }
+
+  @keyframes travel-route-march {
+    to {
+      stroke-dashoffset: -18;
+    }
+  }
+  .animate-travel-route {
+    animation: travel-route-march 1.2s linear infinite;
+  }
+
+  @keyframes travel-cloud-drift {
+    from {
+      left: -15%;
+    }
+    to {
+      left: 115%;
+    }
+  }
+  .animate-travel-cloud {
+    animation: travel-cloud-drift 26s linear infinite;
+  }
+
+  /* 出発の場面(2026-11-14追記): 場面が切り替わるときのふわっとした出現、到着のキラキラ */
+  @keyframes travel-phase-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .animate-travel-phase-in {
+    animation: travel-phase-in 0.4s ease-out both;
+  }
+
+  @keyframes travel-cloud-bob {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-14px);
+    }
+  }
+  .animate-travel-cloud-bob {
+    animation: travel-cloud-bob 4.5s ease-in-out infinite both;
+  }
+
+  @keyframes travel-arrive-sparkle {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) rotate(0deg);
+    }
+    40% {
+      opacity: 1;
+      transform: scale(1) rotate(45deg);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.5) rotate(90deg);
+    }
+  }
+  .animate-travel-arrive-sparkle {
+    animation: travel-arrive-sparkle 1.1s ease-out both;
+  }
+
   @keyframes season-card {
     0% {
       opacity: 0;
@@ -696,7 +790,13 @@
     .animate-boat-sail,
     .animate-plane-fly,
     .animate-season-card,
-    .festive-float {
+    .festive-float,
+    .animate-travel-bob,
+    .animate-travel-wave,
+    .animate-travel-route,
+    .animate-travel-phase-in,
+    .animate-travel-cloud-bob,
+    .animate-travel-arrive-sparkle {
       animation: none !important;
     }
     /* 舞うものは止めると画面に散らばって見えるため、出さない */
@@ -705,7 +805,8 @@
     .festive-fly,
     .festive-flutter,
     .festive-firework,
-    .animate-cloud-clear {
+    .animate-cloud-clear,
+    .animate-travel-cloud {
       display: none;
     }
   }

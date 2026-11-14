@@ -24,9 +24,24 @@ function islandPoint(index: number) {
   return ISLANDS[index] ?? { x: last.x, y: last.y - (index - ISLANDS.length + 1) * 40 };
 }
 
-function Island({ x, y, visited, glow, dim }: { x: number; y: number; visited: boolean; glow: boolean; dim: boolean }) {
+// 島をぷかぷか浮かせる(2026-11-14追記)。並びすぎて揃って見えないよう、島ごとにずらす
+function Island({
+  x,
+  y,
+  visited,
+  glow,
+  dim,
+  bobDelay = 0,
+}: {
+  x: number;
+  y: number;
+  visited: boolean;
+  glow: boolean;
+  dim: boolean;
+  bobDelay?: number;
+}) {
   return (
-    <g opacity={dim ? 0.55 : 1}>
+    <g className="animate-travel-bob" style={{ animationDelay: `${bobDelay}s` }} opacity={dim ? 0.55 : 1}>
       {glow && <ellipse cx={x} cy={y} rx={50} ry={23} fill="#fff6b0" opacity={0.7} className="animate-pulse" />}
       <ellipse cx={x} cy={y + 4} rx={42} ry={18} fill="#3f93c4" opacity={0.35} />
       <ellipse cx={x} cy={y} rx={40} ry={17} fill={dim ? "#cfc8b8" : "#f1dfae"} />
@@ -54,6 +69,13 @@ function Island({ x, y, visited, glow, dim }: { x: number; y: number; visited: b
     </g>
   );
 }
+
+// 背景にゆっくり流れる雲(2026-11-14追記)。見た目だけの飾りなので aria-hidden
+const CLOUDS = [
+  { top: 8, duration: 32, delay: 0 },
+  { top: 22, duration: 40, delay: -14 },
+  { top: 15, duration: 36, delay: -26 },
+];
 
 /** まだの国でチケットがないとき、島と名前をうす暗くする */
 function isDim(destination: Destination): boolean {
@@ -92,6 +114,8 @@ export function TravelMap({
             fill="none"
             opacity={0.5}
             strokeLinecap="round"
+            className="animate-travel-wave"
+            style={{ animationDelay: `${i * 0.5}s` }}
           />
         ))}
         {destinations.map((destination, index) => {
@@ -106,10 +130,11 @@ export function TravelMap({
               strokeDasharray="2 7"
               strokeLinecap="round"
               opacity={0.95}
+              className="animate-travel-route"
             />
           );
         })}
-        <g>
+        <g className="animate-travel-bob">
           <ellipse cx={HOME.x} cy={HOME.y + 5} rx={60} ry={25} fill="#3f93c4" opacity={0.35} />
           <ellipse cx={HOME.x} cy={HOME.y} rx={58} ry={24} fill="#f1dfae" />
           <ellipse cx={HOME.x - 6} cy={HOME.y - 5} rx={44} ry={16} fill="#7cc26a" />
@@ -126,10 +151,20 @@ export function TravelMap({
               visited={destination.state === "visited"}
               glow={destination.can_depart}
               dim={isDim(destination)}
+              bobDelay={index * 0.4}
             />
           );
         })}
       </svg>
+
+      {CLOUDS.map((cloud, i) => (
+        <span
+          key={i}
+          aria-hidden
+          className="animate-travel-cloud absolute h-5 w-14 rounded-full bg-white/60 blur-[1px]"
+          style={{ top: `${cloud.top}%`, left: "-15%", animationDuration: `${cloud.duration}s`, animationDelay: `${cloud.delay}s` }}
+        />
+      ))}
 
       {destinations.map((destination, index) => {
         const point = islandPoint(index);
