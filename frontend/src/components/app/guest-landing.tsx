@@ -24,63 +24,70 @@ const SAMPLE_COUNTRIES: { code: StampKey; name: string }[] = [
  */
 export function GuestLanding() {
   return (
-    <SkyPage backdrop="/landing/guest-bg.webp" className="items-center px-5 pt-5 pb-8">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 z-0 h-36 bg-gradient-to-b from-black/35 to-transparent" />
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-64 bg-gradient-to-t from-black/50 to-transparent" />
+    <SkyPage className="items-center">
+      {/* スマホの縦長比率で作った壁紙なので、PCなど横長の画面では幅480pxのカードに収め、
+          両脇は(写真を引き伸ばさず)SkyPageの空色グラデーションのまま見せる */}
+      <div
+        className="relative flex w-full max-w-[480px] flex-1 flex-col items-center overflow-hidden px-5 pt-5 pb-8 bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: "url(/landing/guest-bg.webp)" }}
+      >
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 z-0 h-36 bg-gradient-to-b from-black/35 to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-64 bg-gradient-to-t from-black/50 to-transparent" />
 
-      <div className="relative z-10 flex w-full items-start justify-between">
-        <LogoMark size={40} />
-        <span className="rounded-full bg-black/30 px-2.5 py-1 text-xs font-bold text-white/90">{APP_VERSION}</span>
-      </div>
+        <div className="relative z-10 flex w-full items-start justify-between">
+          <LogoMark size={40} />
+          <span className="rounded-full bg-black/30 px-2.5 py-1 text-xs font-bold text-white/90">{APP_VERSION}</span>
+        </div>
 
-      <div className="relative z-10 mt-10 flex w-full max-w-[340px] flex-col items-center">
-        <div className="flex w-full flex-col items-center rounded-3xl bg-black/20 px-5 py-5 backdrop-blur-sm">
-          <h1 className="text-[34px] font-black tracking-wide text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">Spra Go</h1>
-          <p className="mt-1 text-sm font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.45)]">
-            <AutoFurigana text="学ぶほど、世界が広がる。" />
-          </p>
+        <div className="relative z-10 mt-10 flex w-full max-w-[340px] flex-col items-center">
+          <div className="flex w-full flex-col items-center rounded-3xl bg-black/20 px-5 py-5 backdrop-blur-sm">
+            <h1 className="text-[34px] font-black tracking-wide text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">Spra Go</h1>
+            <p className="mt-1 text-sm font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.45)]">
+              <AutoFurigana text="学ぶほど、世界が広がる。" />
+            </p>
 
+            <Link
+              href="/register"
+              className="mt-6 flex h-[54px] w-full items-center justify-center rounded-2xl border-b-4 border-[#285a19] bg-[#3b7f26] text-lg font-black text-white shadow-lg hover:bg-[#438b2d] focus-visible:ring-4 focus-visible:ring-[#9fd8ff] focus-visible:outline-none active:translate-y-0.5 active:border-b-0"
+            >
+              はじめる
+            </Link>
+          </div>
           <Link
-            href="/register"
-            className="mt-6 flex h-[54px] w-full items-center justify-center rounded-2xl border-b-4 border-[#285a19] bg-[#3b7f26] text-lg font-black text-white shadow-lg hover:bg-[#438b2d] focus-visible:ring-4 focus-visible:ring-[#9fd8ff] focus-visible:outline-none active:translate-y-0.5 active:border-b-0"
+            href="/login"
+            className="mt-3 flex items-center gap-1.5 rounded-full bg-[#fffaf0] py-1 pr-4 pl-1.5 text-sm font-black text-[#2b6fa3] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
           >
-            はじめる
+            <AssetImage asset={SPRU_ICONS.login} size={28} />
+            <AutoFurigana text="アカウントをお持ちの方はログイン" />
           </Link>
         </div>
-        <Link
-          href="/login"
-          className="mt-3 flex items-center gap-1.5 rounded-full bg-[#fffaf0] py-1 pr-4 pl-1.5 text-sm font-black text-[#2b6fa3] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
-        >
-          <AssetImage asset={SPRU_ICONS.login} size={28} />
-          <AutoFurigana text="アカウントをお持ちの方はログイン" />
-        </Link>
-      </div>
 
-      <div className="relative z-10 mt-auto flex w-full max-w-[340px] flex-col items-center">
-        <p className="text-xs font-bold text-white/85 drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
-          <AutoFurigana text="登録なしでお試しクイズ" />
-        </p>
-        <ul className="mt-2 flex justify-center gap-3">
-          {SAMPLE_COUNTRIES.map(({ code, name }) => (
-            <li key={code}>
-              <Link
-                href={`/world/${code}`}
-                aria-label={`${name}のお試しクイズ`}
-                className="flex flex-col items-center gap-0.5 rounded-xl focus-visible:ring-4 focus-visible:ring-[#9fd8ff] focus-visible:outline-none"
-              >
-                <Image
-                  src={STAMP_IMAGES[code].src}
-                  alt=""
-                  width={60}
-                  height={60}
-                  className="h-[60px] w-[60px] -rotate-6 object-contain transition-transform hover:rotate-0"
-                />
-                <span className="text-[11px] font-bold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">{name}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <LegalLinks className="mt-6 text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]" />
+        <div className="relative z-10 mt-auto flex w-full max-w-[340px] flex-col items-center">
+          <p className="text-xs font-bold text-white/85 drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+            <AutoFurigana text="登録なしでお試しクイズ" />
+          </p>
+          <ul className="mt-2 flex justify-center gap-3">
+            {SAMPLE_COUNTRIES.map(({ code, name }) => (
+              <li key={code}>
+                <Link
+                  href={`/world/${code}`}
+                  aria-label={`${name}のお試しクイズ`}
+                  className="flex flex-col items-center gap-0.5 rounded-xl focus-visible:ring-4 focus-visible:ring-[#9fd8ff] focus-visible:outline-none"
+                >
+                  <Image
+                    src={STAMP_IMAGES[code].src}
+                    alt=""
+                    width={60}
+                    height={60}
+                    className="h-[60px] w-[60px] -rotate-6 object-contain transition-transform hover:rotate-0"
+                  />
+                  <span className="text-[11px] font-bold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">{name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <LegalLinks className="mt-6 text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]" />
+        </div>
       </div>
     </SkyPage>
   );
