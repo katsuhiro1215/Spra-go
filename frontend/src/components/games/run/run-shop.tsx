@@ -17,7 +17,7 @@ type Confirm = { kind: "costume"; row: CostumeRow } | { kind: "item"; row: ShopI
 
 /**
  * タネ交換所(docs/design/2026-10-17-spru-costumes-design.md 6章)。ランのタネで、きせかえと、ラン限定の町のかざりを買う。
- * 買う前に確認を出す。持っているきせかえは、ここで着替える(「ふつうのスプル」に戻せる)
+ * 買う前に確認を出す。持っているきせかえは、ここで着替える(「ふつうのスプラ」に戻せる)
  */
 export function RunShop() {
   const [shop, setShop] = useState<SeedShop | null>(null);
@@ -70,7 +70,7 @@ export function RunShop() {
         {tab === "costumes" ? (
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col items-center gap-2 rounded-3xl bg-[#fffaf0] p-3 shadow-[0_4px_12px_rgba(0,0,0,0.12)]">
-              <p className="text-sm font-black">ふつうのスプル</p>
+              <p className="text-sm font-black">ふつうのスプラ</p>
               <AppButton variant={shop?.costume_key ? "default" : "primary"} size="sm" disabled={!shop?.costume_key} onClick={() => wear(null)}>
                 {shop?.costume_key ? "もどす" : "着ているよ"}
               </AppButton>

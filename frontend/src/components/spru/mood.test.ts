@@ -111,7 +111,7 @@ describe("pickTownMood", () => {
     expect(pickTownMood(input({ now: t(21, 59), lastInteractionAt: t(21, 59) })).sleeping).toBe(false);
   });
 
-  it("夜にスプルを起こすと1分間は起きていて、さわらないまま1分たつとまた寝る", () => {
+  it("夜にスプラを起こすと1分間は起きていて、さわらないまま1分たつとまた寝る", () => {
     const woke = t(23);
     const at = (idle: number) =>
       pickTownMood(input({ now: woke + idle, lastInteractionAt: woke, nightWokenAt: woke }));

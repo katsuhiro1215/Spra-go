@@ -76,7 +76,7 @@ describe("町のアイテムの絵のキー", () => {
     expect(artOptionLabel("pagoda")).toBe("五重塔（名所・3×3）");
     expect(artOptionLabel("fountain")).toBe("噴水（かざり・2×2）");
     expect(artOptionLabel("boat_large")).toBe("大きな船（のりもの・2×2）");
-    expect(artOptionLabel("spru_mall")).toBe("スプルモール（名所・3×3）");
+    expect(artOptionLabel("spru_mall")).toBe("スプラモール（名所・3×3）");
   });
 
   it("おみやげの絵のキーは config/travel.php のおみやげと同じ", () => {

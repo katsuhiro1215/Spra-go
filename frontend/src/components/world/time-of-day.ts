@@ -19,7 +19,7 @@ export function getSeason(date: Date): Season {
   return "winter";
 }
 
-/** スプルが寝ている時間(22:00〜5:59)。夜の19〜22時は起きている */
+/** スプラが寝ている時間(22:00〜5:59)。夜の19〜22時は起きている */
 export function isSpruSleepTime(date: Date): boolean {
   const hour = date.getHours();
   return hour >= 22 || hour < 6;

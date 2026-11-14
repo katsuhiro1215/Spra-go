@@ -13,8 +13,8 @@ it('町を開くと満たした色の種を渡し、お祝いは1回目だけ', 
     $profile->update(['level' => 10, 'bloom_base_level' => 10]);
 
     $this->getJson('/api/world')->assertOk()
-        ->assertJsonPath('new_seeds', [['key' => 'silver', 'name' => 'シルバースプル', 'reason' => 'レベル10になったね']])
-        ->assertJsonPath('garden.seed_bag', [['key' => 'silver', 'name' => 'シルバースプル']])
+        ->assertJsonPath('new_seeds', [['key' => 'silver', 'name' => 'シルバースプラ', 'reason' => 'レベル10になったね']])
+        ->assertJsonPath('garden.seed_bag', [['key' => 'silver', 'name' => 'シルバースプラ']])
         ->assertJsonPath('garden.spru_seed_ready', false)
         ->assertJsonPath('garden.can_sow', true)
         ->assertJsonPath('garden.look', null);
@@ -73,7 +73,7 @@ it('知らないキー・仲間のキー・花のキーは 422', function (strin
     expect($profile->seeds()->count())->toBe(0);
 })->with(['riri', 'lumi', 'spru_flower', 'unknown']);
 
-it('ふくろに種があっても、スプルの種ができていなければスプルの種はまけない', function () {
+it('ふくろに種があっても、スプラの種ができていなければスプラの種はまけない', function () {
     $profile = createActiveProfile();
     $profile->specialSeeds()->create(['rare_key' => 'silver', 'granted_at' => now()]);
 
@@ -94,7 +94,7 @@ it('畑に種が育っていると、特別な種もまけない', function () {
     expect($profile->specialSeeds()->first()->planted_at)->toBeNull();
 });
 
-it('スプルの種の見た目は、生まれる子にかかわらず spru', function (string $result) {
+it('スプラの種の見た目は、生まれる子にかかわらず spru', function (string $result) {
     $profile = createActiveProfile();
     $profile->seeds()->create(['result_key' => $result]);
 
@@ -103,7 +103,7 @@ it('スプルの種の見た目は、生まれる子にかかわらず spru', fu
     expect($response->getContent())->not->toContain('"'.$result.'"');
 })->with(['momo', 'spru_flower']);
 
-it('特別な種に3回水をあげると、そのレアスプルが生まれる', function () {
+it('特別な種に3回水をあげると、そのレアスプラが生まれる', function () {
     $profile = createActiveProfile();
     $profile->update(['last_correct_on' => Garden::today()]);
     $profile->seeds()->create(['result_key' => 'silver', 'waterings' => 2, 'last_watered_on' => '2026-01-01']);
@@ -111,7 +111,7 @@ it('特別な種に3回水をあげると、そのレアスプルが生まれる
     $this->postJson('/api/world/garden/water')->assertOk()
         ->assertJsonPath('born.kind', 'companion')
         ->assertJsonPath('born.key', 'silver')
-        ->assertJsonPath('born.name', 'シルバースプル')
+        ->assertJsonPath('born.name', 'シルバースプラ')
         ->assertJsonPath('born.trait', '銀・こつこつ')
         ->assertJsonPath('born.lines', ['レベル10、おめでとう！ピカピカだね'])
         ->assertJsonPath('born.rare', true)
@@ -120,7 +120,7 @@ it('特別な種に3回水をあげると、そのレアスプルが生まれる
         ->assertJsonPath('born.x', 3);
 });
 
-it('スプルの種からレアスプルも仲間も生まれず、いつもスプルの花になる', function () {
+it('スプラの種からレアスプラも仲間も生まれず、いつもスプラの花になる', function () {
     $profile = createActiveProfile();
 
     foreach (range(1, 10) as $i) {

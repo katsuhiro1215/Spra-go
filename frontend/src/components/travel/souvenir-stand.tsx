@@ -62,7 +62,7 @@ export function SouvenirStand({
       </ul>
       {message && (
         <div role="status" className="flex items-center gap-2 rounded-2xl bg-[#f5efe1] p-2">
-          {message.ok && <SpruFigure image="happy" standHeight={56} alt="よろこぶスプル" />}
+          {message.ok && <SpruFigure image="happy" standHeight={56} alt="よろこぶスプラ" />}
           <p className={`text-sm font-bold ${message.ok ? "text-[#3b3226]" : "text-[#c2402c]"}`}>
             <AutoFurigana text={message.text} />
             {message.ok && (

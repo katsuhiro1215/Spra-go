@@ -100,7 +100,7 @@ it('プロフィールごとに作り、消された問題の記録は読み飛�
         ->toBe([$profile->id, $sibling->id]);
 });
 
-it('まちがえると wrong_on にその日が付き、正解すると空に戻る(スプルキャッチ。設計書4-4)', function () {
+it('まちがえると wrong_on にその日が付き、正解すると空に戻る(スプラキャッチ。設計書4-4)', function () {
     $profile = createActiveProfile();
     [$question] = createQuestionWithChoices();
 

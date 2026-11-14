@@ -258,7 +258,7 @@ function setProfileLevel(UserProfile $profile, int $level): void
     $profile->update(['level' => $level]);
 }
 
-/** スプルキャッチの問題の出どころ「英語を学ぶ」のステージ(docs/design/2026-09-29-spru-catch-design.md 4-1) */
+/** スプラキャッチの問題の出どころ「英語を学ぶ」のステージ(docs/design/2026-09-29-spru-catch-design.md 4-1) */
 function createCatchStage(Country $country, string $difficulty = '初級', int $number = 1): Stage
 {
     $category = Category::query()->firstOrCreate(['name' => '英語を学ぶ'], ['is_language_mode' => true]);
@@ -274,7 +274,7 @@ function createCatchStage(Country $country, string $difficulty = '初級', int $
 /** 問題を作ってステージに入れる。$labels の1つ目が正解 */
 function createCatchQuestion(Stage $stage, array $labels = ['疲れた', '元気な', '眠い', '怒った'], string $type = 'multiple_choice'): Question
 {
-    $quiz = Quiz::create(['title' => 'スプルキャッチのテスト', 'difficulty' => $stage->difficulty]);
+    $quiz = Quiz::create(['title' => 'スプラキャッチのテスト', 'difficulty' => $stage->difficulty]);
     $question = Question::create(['quiz_id' => $quiz->id, 'type' => $type, 'prompt' => '「tired」の意味は？']);
     foreach (array_values($labels) as $index => $label) {
         $question->choices()->create(['label' => $label, 'is_correct' => $index === 0, 'order' => $index + 1]);
@@ -285,7 +285,7 @@ function createCatchQuestion(Stage $stage, array $labels = ['疲れた', '元気
 }
 
 /**
- * アメリカに着いたプロフィールに、その難しさのスプルキャッチの問題を $count 問(1以上)用意する
+ * アメリカに着いたプロフィールに、その難しさのスプラキャッチの問題を $count 問(1以上)用意する
  *
  * @return list<Question>
  */

@@ -92,7 +92,7 @@ export default function Page({ params }: { params: Promise<{ key: string }> }) {
         </Link>
 
         <section className="flex items-center gap-3 rounded-3xl bg-[#fffaf0] p-4 text-[#3b3226] shadow-lg">
-          <SpruFigure image="happy" standHeight={88} alt="よろこぶスプル" />
+          <SpruFigure image="happy" standHeight={88} alt="よろこぶスプラ" />
           <div className="flex min-w-0 flex-col gap-1">
             <h1 className="flex items-center gap-2 text-2xl font-black">
               <Flag src={destination.flag} size={32} />

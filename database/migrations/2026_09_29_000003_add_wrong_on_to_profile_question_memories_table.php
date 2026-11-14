@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  * 最後の答えがまちがいだった日(docs/design/2026-09-29-spru-catch-design.md 4-4)。
- * スプルキャッチで「最近まちがえた問題」を先に出すのに使う。今までの記録には入れない
+ * スプラキャッチで「最近まちがえた問題」を先に出すのに使う。今までの記録には入れない
  */
 return new class extends Migration
 {

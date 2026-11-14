@@ -11,7 +11,7 @@ describe("下のメニューの並び", () => {
     expect(NAV_ITEMS[2].key).toBe("town");
   });
 
-  it("どのメニューにも、スプルのアイコンの絵がある(docs/design/2026-09-29-spru-icons-design.md 4-1)", () => {
+  it("どのメニューにも、スプラのアイコンの絵がある(docs/design/2026-09-29-spru-icons-design.md 4-1)", () => {
     expect(NAV_ITEMS.map((item) => item.icon)).toEqual(["nav-learn", "nav-trip", "nav-town", "nav-shop"]);
     for (const item of NAV_ITEMS) {
       expect(SPRU_ICONS[item.icon]).toBeDefined();

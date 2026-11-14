@@ -89,7 +89,7 @@ export function SpaceResult({
             </p>
           </>
         )}
-        <SpruFigure image="happy" bloom={perfect ? "flower" : null} standHeight={90} alt="喜ぶスプル" />
+        <SpruFigure image="happy" bloom={perfect ? "flower" : null} standHeight={90} alt="喜ぶスプラ" />
         {result.new_best && (
           <p className="animate-pop-in rounded-full bg-[#f2b632] px-3 py-1 text-sm font-black">
             <AutoFurigana text="新記録！" />

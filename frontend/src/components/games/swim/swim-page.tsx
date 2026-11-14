@@ -23,7 +23,7 @@ type Phase =
   | { kind: "result"; mode: "real"; state: SwimState; saved: SwimFinish | null };
 
 /**
- * スプルスイム(docs/design/2026-11-10-spru-swim-design.md)。
+ * スプラスイム(docs/design/2026-11-10-spru-swim-design.md)。
  * 練習: 何回でも・コインは出ない・サーバーに送らない(ベストはこの画面を開いているあいだだけ)。
  * 本番: 1日2回・コイン・ランキング。始める前に確認の画面を出す
  */
@@ -120,7 +120,7 @@ export function SwimPageView() {
             <AutoFurigana text={`期間限定　あと${summary.days_left}日`} />
           </p>
         )}
-        <h1 className="text-3xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">スプルスイム</h1>
+        <h1 className="text-3xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">スプラスイム</h1>
 
         {summary && (
           <p className="rounded-full bg-white/90 px-4 py-1 text-sm font-black text-[#7a5a12]">

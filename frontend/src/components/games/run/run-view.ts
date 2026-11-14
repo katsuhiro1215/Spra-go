@@ -2,7 +2,7 @@ import { PLATFORM_ART, RUN_ASSETS } from "./run-assets";
 import { INVINCIBLE_MS, PLATFORM_STEP, PLATFORM_TOPS, WORLD_W, type Obstacle, type ObstacleKind, type Platform, type RunState } from "./run-engine";
 
 /**
- * スプルランの描くための計算(docs/design/2026-10-22-spru-run-design.md 5章)。
+ * スプラランの描くための計算(docs/design/2026-10-22-spru-run-design.md 5章)。
  * 場面は画面いっぱい。ゲームの中の大きさ・横の位置は、場面の横幅の割合(cqw)で描く(横 WORLD_W が場面の横幅)。
  * 高さは、地面の上の線(場面の下から GROUND_CQH %)からの位置にする。縦に長い画面ほど、空が広くなる
  */
@@ -25,14 +25,14 @@ export function scrollCqw(distance: number, factor: number): string {
 
 export type SpruPose = "run-a" | "run-b" | "jump" | "double-jump" | "triple-jump" | "hit";
 
-/** スプルの絵: ぶつかった直後はびっくり、空中はジャンプ(2段目は丸まる・3段目は別の絵)、走るときは2枚を交互に */
+/** スプラの絵: ぶつかった直後はびっくり、空中はジャンプ(2段目は丸まる・3段目は別の絵)、走るときは2枚を交互に */
 export function spruPose(state: RunState): SpruPose {
   if (state.invincibleMs > INVINCIBLE_MS - 400) return "hit";
   if (!state.standing) return state.jumps >= 3 ? "triple-jump" : state.jumps === 2 ? "double-jump" : "jump";
   return Math.floor(state.distance / 36) % 2 === 0 ? "run-a" : "run-b";
 }
 
-/** スプルの絵の大きさ(ゲームの中の広さ)。走る1枚目を runHeight の高さにし、ほかのポーズも同じ倍率にする */
+/** スプラの絵の大きさ(ゲームの中の広さ)。走る1枚目を runHeight の高さにし、ほかのポーズも同じ倍率にする */
 export function spruDraw(pose: SpruPose, runHeight: number): { src: string; width: number; height: number } {
   const asset = RUN_ASSETS[pose];
   const scale = runHeight / RUN_ASSETS["run-a"].height;

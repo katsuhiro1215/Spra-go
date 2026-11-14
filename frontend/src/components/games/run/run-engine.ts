@@ -1,8 +1,8 @@
 /**
- * スプルランのゲームの動き(docs/design/2026-10-22-spru-run-design.md 2章)。
+ * スプラランのゲームの動き(docs/design/2026-10-22-spru-run-design.md 2章)。
  * ゲームの中は、横 WORLD_W の広さで計算する(画面の横幅に合わせて拡大して描く。縦は画面の高さしだいで、空が広くなる)。
  * 高さ y は、地面からの高さ(上が大きい)。じゃまもの・タネの x は「コースの上の位置」で、画面の位置は x − distance。
- * スプルは、画面の SPRU_X から SPRU_W の幅にいる。時間を進める・跳ぶのはここの関数だけで行い、画面はこの状態を描くだけにする
+ * スプラは、画面の SPRU_X から SPRU_W の幅にいる。時間を進める・跳ぶのはここの関数だけで行い、画面はこの状態を描くだけにする
  */
 export type ObstacleKind = "rock" | "stump" | "puddle" | "bush" | "fence" | "mushroom" | "hedgehog" | "bee";
 /** base は、じゃまものが立っている高さ(床の上の岩は、床の高さ。地面は 0 か省略) */
@@ -96,7 +96,7 @@ export const OBSTACLES: Record<ObstacleKind, { w: number; h: number; tall: boole
   // ハチは、空中に浮いている(base)。走ってくぐれば当たらず、ジャンプすると当たる
   bee: { w: 44, h: 34, tall: false },
 };
-/** ハチが浮いている高さ(いちばん下)。走るスプルの高さ(50)より、少し高い */
+/** ハチが浮いている高さ(いちばん下)。走るスプラの高さ(50)より、少し高い */
 export const BEE_BASE = 62;
 
 const LOW_KINDS: ObstacleKind[] = ["rock", "stump", "puddle", "mushroom", "hedgehog"];
@@ -249,13 +249,13 @@ function move(s: RunState, dtMs: number): RunState {
   };
 }
 
-/** 床の上に、スプルの足が乗るか(スプルの左右を少しせまくして、はしにかすっただけでは乗らない) */
+/** 床の上に、スプラの足が乗るか(スプラの左右を少しせまくして、はしにかすっただけでは乗らない) */
 function overlapsSpru(p: Platform, distance: number): boolean {
   const x = p.x - distance;
   return x < SPRU_X + SPRU_W - 6 && x + p.w > SPRU_X + 6;
 }
 
-/** スプルの当たりの箱と重なったものを片づける */
+/** スプラの当たりの箱と重なったものを片づける */
 function collide(s: RunState): RunState {
   const left = SPRU_X;
   const right = SPRU_X + SPRU_W;
@@ -319,7 +319,7 @@ const seedAt = (x: number, y: number, kind: SeedKind, rare: Rare = null): Seed =
 const GOLD_RATE = 0.08;
 const SILVER_RATE = 0.3;
 const rareOf = (value: number): Rare => (value < GOLD_RATE ? "gold" : value < GOLD_RATE + SILVER_RATE ? "silver" : null);
-/** 床の上に立ったスプルの体の真ん中の高さ */
+/** 床の上に立ったスプラの体の真ん中の高さ */
 const onTopY = (top: number) => top + SPRU_H / 2;
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
@@ -374,7 +374,7 @@ const PATTERNS_TABLE: Record<PatternId, Pattern> = {
       const center = idealCenterTime(tall);
       const seeds: Seed[] = [];
       if (roll() < 0.5) {
-        // じゃまものの上の弧: ちょうどよく跳んだときの、スプルの体の真ん中の通り道に並べる
+        // じゃまものの上の弧: ちょうどよく跳んだときの、スプラの体の真ん中の通り道に並べる
         [-2, -1, 0, 1, 2].forEach((n) =>
           seeds.push(seedAt(x + w / 2 + n * ARC_SPACING, jumpHeightAt(center + (n * ARC_SPACING) / passSpeed, tall) + SPRU_H / 2, "arc", n === 0 ? rare : null)),
         );

@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('profile_special_seeds', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_profile_id')->constrained()->cascadeOnDelete();
-            // レアスプルのキー(ruby など。config/companions.php の list)
+            // レアスプラのキー(ruby など。config/companions.php の list)
             $table->string('rare_key');
             $table->timestamp('granted_at');
             $table->timestamp('planted_at')->nullable();

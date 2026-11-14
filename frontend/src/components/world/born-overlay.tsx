@@ -14,7 +14,7 @@ import type { BornResult } from "./types";
 // 花が咲いてから本人が出るまで(docs/design/2026-09-29-rare-spru-design.md 5-4)
 const FLOWER_MS = 800;
 
-/** 3回目の水やりで生まれたときの全画面のお祝い(B回の設計書3-5)。仲間・レアスプルは、先にその子の花が咲く */
+/** 3回目の水やりで生まれたときの全画面のお祝い(B回の設計書3-5)。仲間・レアスプラは、先にその子の花が咲く */
 export function BornOverlay({ born, onClose }: { born: BornResult; onClose: () => void }) {
   const companion = born.kind === "companion" ? born : null;
   // お祝いは操作の後にだけ出る(サーバーでは描かない)ので、最初の状態で動きを減らす設定を見てよい
@@ -46,7 +46,7 @@ export function BornOverlay({ born, onClose }: { born: BornResult; onClose: () =
             <Image
               key={bloomed ? "figure" : "flower"}
               src={asset.src}
-              alt={companion ? (bloomed ? companion.name : "") : "スプルの花"}
+              alt={companion ? (bloomed ? companion.name : "") : "スプラの花"}
               width={Math.round((asset.width * height) / asset.height)}
               height={height}
               className={bloomed ? "animate-spru-hop" : "animate-pop-in"}
@@ -54,7 +54,7 @@ export function BornOverlay({ born, onClose }: { born: BornResult; onClose: () =
           )}
         </div>
         <h2 id="born-title" className="text-2xl font-black text-[#2e6b1c]">
-          <AutoFurigana text={companion ? `${companion.name}が生まれた！` : "スプルの花が咲いた！"} />
+          <AutoFurigana text={companion ? `${companion.name}が生まれた！` : "スプラの花が咲いた！"} />
         </h2>
         {companion ? (
           <>

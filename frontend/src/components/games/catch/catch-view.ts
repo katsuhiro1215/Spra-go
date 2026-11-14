@@ -3,20 +3,20 @@ import { GROWTH_IMAGES, SPRU_BLOOM, type SpruImage } from "@/components/spru/spr
 
 import { FEEDBACK_MS, THROW_POSE_MS, type CatchState, type GrowthStage } from "./catch-engine";
 
-/** スプルキャッチの見た目の計算(docs/design/2026-09-29-spru-catch-design.md 7章) */
+/** スプラキャッチの見た目の計算(docs/design/2026-09-29-spru-catch-design.md 7章) */
 export const CATCH_LOCKED_MESSAGE = "アメリカかイギリスに着くと遊べるよ";
 
-export const CATCH_TITLE = "スプルキャッチ（えいたんご）";
+export const CATCH_TITLE = "スプラキャッチ（えいたんご）";
 
 /** 難しさを選ぶ画面の「あそびかた」(docs/design/2026-10-04-mini-app-tidy-design.md 4-3) */
 export const CATCH_HOW_TO = [
   "問題が上に出るよ",
-  "答えの言葉をタップ！スプルが種を投げてキャッチするよ",
+  "答えの言葉をタップ！スプラが種を投げてキャッチするよ",
   "10問やってみよう。ハートは3つ",
 ] as const;
 
 export const CATCH_TAP_HINT = "答えをタップ！";
-export const CATCH_MOVE_HINT = "◀▶でスプルを動かしても取れるよ";
+export const CATCH_MOVE_HINT = "◀▶でスプラを動かしても取れるよ";
 
 export type CatchMode = "catch" | "flag_catch" | "space_trip" | "puzzle_flag" | "puzzle_space";
 
@@ -36,7 +36,7 @@ export const CATCH_MODES: Record<
 > = {
   catch: {
     title: CATCH_TITLE,
-    intro: "落ちてくる答えを、スプルでキャッチしよう",
+    intro: "落ちてくる答えを、スプラでキャッチしよう",
     howTo: CATCH_HOW_TO,
     apiPath: "/api/games/catch",
     missedHeading: "まちがえた言葉",
@@ -44,9 +44,9 @@ export const CATCH_MODES: Record<
     emptyLink: true,
   },
   flag_catch: {
-    title: "スプルキャッチ（こっき）",
-    intro: "流れてくる国旗を、スプルでキャッチしよう",
-    howTo: ["「国名」の国旗が上に出るよ", "流れてくる国旗をタップ！スプルが種を投げてキャッチするよ", "10問やってみよう。ハートは3つ"],
+    title: "スプラキャッチ（こっき）",
+    intro: "流れてくる国旗を、スプラでキャッチしよう",
+    howTo: ["「国名」の国旗が上に出るよ", "流れてくる国旗をタップ！スプラが種を投げてキャッチするよ", "10問やってみよう。ハートは3つ"],
     apiPath: "/api/games/flag-catch",
     missedHeading: "まちがえた国旗",
     emptyMessage: "国旗の問題はじゅんびちゅうだよ",
@@ -83,7 +83,7 @@ export const CATCH_MODES: Record<
 
 export type SpruPose = "back" | "throw" | "cheer" | "sad";
 
-/** スプルの絵の決まり。落ちている間は後ろ姿。種を投げた直後の少しの間は投げる絵。そのあとは正解なら喜び・まちがいならがっかり */
+/** スプラの絵の決まり。落ちている間は後ろ姿。種を投げた直後の少しの間は投げる絵。そのあとは正解なら喜び・まちがいならがっかり */
 export function spruPose(state: CatchState): SpruPose {
   if (state.phase !== "feedback") return "back";
   if (state.lastVia === "throw") {

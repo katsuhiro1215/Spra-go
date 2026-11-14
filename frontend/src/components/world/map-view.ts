@@ -68,7 +68,7 @@ export function scrollForPlot(plot: Rect, layout: MapLayout, viewWidth: number):
   return { left: clamp(left, layout.width - viewWidth), top: clamp(top, layout.height - layout.viewHeight) };
 }
 
-/** 最初の位置(町が枠に収まる位置)から、枠の幅か高さの4分の1より離れたか(「スプルの家へ戻る」を出す) */
+/** 最初の位置(町が枠に収まる位置)から、枠の幅か高さの4分の1より離れたか(「スプラの家へ戻る」を出す) */
 export function isAwayFromHome(scroll: Scroll, home: Scroll, viewWidth: number, viewHeight: number): boolean {
   return Math.abs(scroll.left - home.left) > viewWidth / 4 || Math.abs(scroll.top - home.top) > viewHeight / 4;
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
- * スプルラン(docs/design/2026-10-22-spru-run-design.md 14章)。クイズのミニゲーム(CatchGame)とは分ける。
+ * スプララン(docs/design/2026-10-22-spru-run-design.md 14章)。クイズのミニゲーム(CatchGame)とは分ける。
  * 練習はサーバーに送らない。ここは本番だけ: 1日の回数・タネの財布・点数をサーバーで計算し直す
  */
 class RunGame

@@ -1572,7 +1572,7 @@ Route::middleware(['auth:sanctum'])->get('/shop', function (Request $request) {
         ->orderBy('min_level')
         ->orderBy('price')
         ->get()
-        // 種から咲く「スプルの花」・旅のおみやげなどの非売品は出さない
+        // 種から咲く「スプラの花」・旅のおみやげなどの非売品は出さない
         ->reject(fn (ShopItem $item) => $item->meta['not_for_sale'] ?? false)
         ->values()
         ->map(fn (ShopItem $item) => [
@@ -1769,7 +1769,7 @@ Route::middleware(['auth:sanctum'])->prefix('world')->name('world.')->group(func
 
     Route::post('/garden/sow', function (Request $request) {
         $activeProfile = ActiveProfile::require($request);
-        // spru(スプルの種)か、レアスプルの色だけ(docs/design/2026-09-29-rare-spru-design.md 4-5)
+        // spru(スプラの種)か、レアスプラの色だけ(docs/design/2026-09-29-rare-spru-design.md 4-5)
         $data = $request->validate(
             ['seed' => ['nullable', 'string', Rule::in(['spru', ...array_keys(RareSeeds::rares())])]],
             ['seed.in' => 'その種は持っていないよ', 'seed.string' => 'その種は持っていないよ'],
@@ -1968,7 +1968,7 @@ Route::middleware(['auth:sanctum'])->get('/space/cards', fn (Request $request) =
 // 今出ているミニゲームの一覧(NEW・今週・季節の札つき。docs/design/2026-10-09-minigame-rollout-design.md 3-3)
 Route::middleware(['auth:sanctum'])->get('/games', fn (Request $request) => GameRollout::list(ActiveProfile::require($request)))->name('games.index');
 
-// ミニゲーム「スプルキャッチ」(docs/design/2026-09-29-spru-catch-design.md 6-3)と、国旗版「スプルキャッチ(こっき)」
+// ミニゲーム「スプラキャッチ」(docs/design/2026-09-29-spru-catch-design.md 6-3)と、国旗版「スプラキャッチ(こっき)」
 // (docs/design/2026-10-05-flag-catch-design.md 5章)。同じ処理を、ゲームの名前だけ変えて登録する
 foreach (GameRollout::PATHS as $path => $game) {
     Route::middleware(['auth:sanctum', EnsureGameAvailable::class.":{$game}"])->prefix("games/{$path}")->name("games.{$path}.")->group(function () use ($game) {
@@ -2032,7 +2032,7 @@ foreach (GameRollout::PATHS as $path => $game) {
     });
 }
 
-// ミニゲーム「スプルラン」(docs/design/2026-10-22-spru-run-design.md 14-3)。練習はサーバーを使わない。本番だけ
+// ミニゲーム「スプララン」(docs/design/2026-10-22-spru-run-design.md 14-3)。練習はサーバーを使わない。本番だけ
 Route::middleware(['auth:sanctum', EnsureGameAvailable::class.':'.RunGame::GAME])->prefix('games/spru-run')->name('games.spru-run.')->group(function () {
     Route::get('/', fn (Request $request) => RunGame::summary(ActiveProfile::require($request)))->name('show');
 
@@ -2081,7 +2081,7 @@ Route::middleware(['auth:sanctum', EnsureGameAvailable::class.':'.RunGame::GAME]
     })->name('plays.finish');
 });
 
-// ミニゲーム「スプルスイム」(docs/design/2026-11-10-spru-swim-design.md)。練習はサーバーを使わない。本番だけ
+// ミニゲーム「スプラスイム」(docs/design/2026-11-10-spru-swim-design.md)。練習はサーバーを使わない。本番だけ
 Route::middleware(['auth:sanctum', EnsureGameAvailable::class.':'.SwimGame::GAME])->prefix('games/spru-swim')->name('games.spru-swim.')->group(function () {
     Route::get('/', fn (Request $request) => SwimGame::summary(ActiveProfile::require($request)))->name('show');
 
@@ -2131,7 +2131,7 @@ Route::middleware(['auth:sanctum', EnsureGameAvailable::class.':'.SwimGame::GAME
 });
 
 // タネ交換所(docs/design/2026-10-22-spru-run-design.md 14-6、2026-10-17-spru-costumes-design.md)。ランのタネで、ラン限定の町のかざり・きせかえを買う。
-// スプルランの期間が終わっても開いている(集めたタネを、使い切れるように)
+// スプラランの期間が終わっても開いている(集めたタネを、使い切れるように)
 Route::middleware(['auth:sanctum'])->prefix('run-seed-shop')->name('run-seed-shop.')->group(function () {
     Route::get('/', fn (Request $request) => RunSeedShop::list(ActiveProfile::require($request)))->name('index');
 

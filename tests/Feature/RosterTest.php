@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 */
 
-it('仲間5人→レアスプル10色の順で、状態と条件を出す', function () {
+it('仲間5人→レアスプラ10色の順で、状態と条件を出す', function () {
     $profile = createActiveProfile();
     $profile->update(['level' => 10, 'bloom_base_level' => 10]);
     $profile->companions()->create(['companion_key' => 'lumi', 'nickname' => 'ピカ', 'bond' => 25]);
@@ -17,7 +17,7 @@ it('仲間5人→レアスプル10色の順で、状態と条件を出す', func
     $response = $this->getJson('/api/world/roster')->assertOk()
         ->assertJsonPath('town_limit', 5)
         ->assertJsonPath('town_count', 1)
-        ->assertJsonPath('new_seeds', [['key' => 'silver', 'name' => 'シルバースプル', 'reason' => 'レベル10になったね']]);
+        ->assertJsonPath('new_seeds', [['key' => 'silver', 'name' => 'シルバースプラ', 'reason' => 'レベル10になったね']]);
 
     expect(collect($response->json('members'))->pluck('key')->all())->toBe([
         'lumi', 'momo', 'kuru', 'piko', 'ruru',
@@ -28,7 +28,7 @@ it('仲間5人→レアスプル10色の順で、状態と条件を出す', func
         ->assertJsonPath('members.1', ['key' => 'momo', 'name' => '？？？', 'rare' => false, 'status' => 'waiting', 'in_town' => false, 'is_partner' => false, 'hearts' => 0, 'condition' => null])
         ->assertJsonPath('members.5.status', 'growing')
         ->assertJsonPath('members.6', [
-            'key' => 'sapphire', 'name' => 'サファイアスプル', 'rare' => true, 'status' => 'waiting', 'in_town' => false, 'is_partner' => false, 'hearts' => 0,
+            'key' => 'sapphire', 'name' => 'サファイアスプラ', 'rare' => true, 'status' => 'waiting', 'in_town' => false, 'is_partner' => false, 'hearts' => 0,
             'condition' => ['text' => '外国に着く', 'current' => 0, 'target' => 1, 'unit' => 'か国'],
         ])
         ->assertJsonPath('members.7.status', 'in_bag')

@@ -168,7 +168,7 @@ describe("雲の範囲", () => {
 });
 
 describe("雲とお祝いの文", () => {
-  it("雲の札とスプルのひとこと", () => {
+  it("雲の札とスプラのひとこと", () => {
     expect(cloudLabel(plotOf("bamboo"))).toBe("竹林 Lv.4で解放");
     expect(cloudLine(plotOf("bamboo"))).toBe("レベル4になると雲が晴れるよ");
   });

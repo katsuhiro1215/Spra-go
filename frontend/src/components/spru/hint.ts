@@ -1,6 +1,6 @@
 import type { ShopListItem, WorldItem } from "@/components/world/types";
 
-/** スプルをタップしたときのひとこと。上から順に最初に当てはまるもの(設計書5-2) */
+/** スプラをタップしたときのひとこと。上から順に最初に当てはまるもの(設計書5-2) */
 export function pickTownHint({
   bag,
   points,

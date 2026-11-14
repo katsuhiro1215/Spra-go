@@ -2,7 +2,7 @@
 export type WalkDirection = "lower_left" | "lower_right" | "upper_left" | "upper_right";
 export type WalkFrame = "passing" | "step_l" | "step_r";
 
-/** 歩くスプルの絵の大きさ。12枚とも同じ大きさで、足元は下の真ん中 */
+/** 歩くスプラの絵の大きさ。12枚とも同じ大きさで、足元は下の真ん中 */
 export const SPRU_WALK_SIZE = { width: 127, height: 200 } as const;
 
 export const SPRU_WALK: Record<`${WalkDirection}_${WalkFrame}`, string> = {

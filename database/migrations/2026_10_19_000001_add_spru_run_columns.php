@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/** スプルラン(docs/design/2026-10-22-spru-run-design.md 14-3)。本番の回の記録と、ランのタネの財布 */
+/** スプララン(docs/design/2026-10-22-spru-run-design.md 14-3)。本番の回の記録と、ランのタネの財布 */
 return new class extends Migration
 {
     public function up(): void

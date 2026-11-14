@@ -18,7 +18,7 @@ const errand = (overrides: Partial<WorldErrand> = {}): WorldErrand => ({
   target: 5,
   progress: 0,
   claimed: false,
-  giver: { kind: "spru", key: null, name: "スプル" },
+  giver: { kind: "spru", key: null, name: "スプラ" },
   ...overrides,
 });
 const errands = (items: WorldErrand[]): WorldErrands => ({ date: "2026-09-27", items, bonus: { amount: 30, claimed: false, gift_left: 15 } });
@@ -35,7 +35,7 @@ const garden: WorldGarden = {
   can_sow: false,
   can_water: false,
 };
-const noReview: WorldReview = { available: false, count: 0, giver: { kind: "spru", key: null, name: "スプル" } };
+const noReview: WorldReview = { available: false, count: 0, giver: { kind: "spru", key: null, name: "スプラ" } };
 
 describe("おつかいの名前とひとこと", () => {
   it("正解のおつかいは目標の数を入れる", () => {
@@ -98,7 +98,7 @@ describe("［学ぶ／行く］の行き先", () => {
   });
 });
 
-describe("スプルのふだんのひとことの優先順", () => {
+describe("スプラのふだんのひとことの優先順", () => {
   it("受け取れるおつかいが一番上", () => {
     expect(
       townPrompt({ errands: errands([errand({ progress: 5 })]), garden: { ...garden, spru_seed_ready: true, can_sow: true }, review: noReview }),

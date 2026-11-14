@@ -40,7 +40,7 @@ export function LevelUpOverlay({
       >
         <Image
           src={scene.src}
-          alt="成長するスプル"
+          alt="成長するスプラ"
           width={200}
           height={Math.round((200 * scene.height) / scene.width)}
           className="rounded-2xl"

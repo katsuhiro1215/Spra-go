@@ -133,12 +133,12 @@ export type WorldGarden = {
   x: number;
   y: number;
   state: GardenState;
-  /** 育っている種の見た目。spru(仲間の種もこれ)か、レアスプルの色。空の畑は null */
+  /** 育っている種の見た目。spru(仲間の種もこれ)か、レアスプラの色。空の畑は null */
   look: string | null;
   waterings: number;
   learned_today: boolean;
   watered_today: boolean;
-  /** スプルの種(レベルアップ3回)ができている */
+  /** スプラの種(レベルアップ3回)ができている */
   spru_seed_ready: boolean;
   seed_bag: SeedBagItem[];
   can_sow: boolean;

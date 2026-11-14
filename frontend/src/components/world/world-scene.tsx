@@ -33,7 +33,7 @@ type TapTarget = {
   halfWidth: number;
   up: number;
   down: number;
-  /** スプルに関わるタップ(家)。ほかの操作として数えない(昼のうたた寝を起こさない) */
+  /** スプラに関わるタップ(家)。ほかの操作として数えない(昼のうたた寝を起こさない) */
   spru?: boolean;
 };
 
@@ -94,7 +94,7 @@ export function WorldScene({
   poppedItemId: number | null;
   garden: WorldGarden;
   onGardenTap: () => void;
-  /** スプルの家をタップしたとき(部屋を開く。設計書 2026-10-05-spru-room 6章)。なければ、家はタップできない */
+  /** スプラの家をタップしたとき(部屋を開く。設計書 2026-10-05-spru-room 6章)。なければ、家はタップできない */
   onHouseTap?: () => void;
   companions: WorldCompanion[];
   onCompanionTap: (key: string) => void;
@@ -109,7 +109,7 @@ export function WorldScene({
   roadStyle?: string;
 }) {
   const theme = TIME_THEME[timeOfDay];
-  // 道の道具が出ている間は、アイテム・家・畑・仲間・スプル・雲の札を押せなくする(間違えて開かないように)
+  // 道の道具が出ている間は、アイテム・家・畑・仲間・スプラ・雲の札を押せなくする(間違えて開かないように)
   const lock = roads ? "pointer-events-none " : "";
   const vb = sceneViewBox(land.width, land.height);
 
@@ -233,7 +233,7 @@ export function WorldScene({
   const gardenTarget: TapTarget[] = readOnly
     ? []
     : [{ id: "garden-button", ...at(garden.x, garden.y), label: "畑", onTap: onGardenTap, halfWidth: 22, up: 36, down: 12 }];
-  // スプルの家は、地面と同じく目印なので、アイテム・仲間のタップより奥(最初)に置き、近くのタップをじゃましない
+  // スプラの家は、地面と同じく目印なので、アイテム・仲間のタップより奥(最初)に置き、近くのタップをじゃましない
   const house = land.landmarks.find((landmark) => landmark.key === "spru_house");
   // 家は2×2。押せる範囲と寝ているときの印は、4マスの真ん中・手前の角に合わせる
   const houseCenter = house
@@ -246,7 +246,7 @@ export function WorldScene({
           {
             id: "house-button",
             ...houseCenter,
-            label: "スプルの家(中をのぞく)",
+            label: "スプラの家(中をのぞく)",
             onTap: onHouseTap,
             halfWidth: 60,
             up: 110,
@@ -345,12 +345,12 @@ export function WorldScene({
         );
       })}
 
-      {/* 寝ているスプルは家の中にいる(町には出ない)ので、押す範囲も、吹き出しも出さない。起こすのは、家の中の部屋でタップする */}
+      {/* 寝ているスプラは家の中にいる(町には出ない)ので、押す範囲も、吹き出しも出さない。起こすのは、家の中の部屋でタップする */}
       {!spru.sleeping && (
         <button
           type="button"
           data-spru
-          aria-label="スプル"
+          aria-label="スプラ"
           disabled={placing}
           onClick={onSpruTap}
           className={`${lock}absolute rounded-full focus-visible:outline-3 focus-visible:outline-[#f2b632] disabled:pointer-events-none`}
@@ -373,7 +373,7 @@ export function WorldScene({
         </div>
       )}
 
-      {/* 仲間の吹き出しは、隣に立つスプルの吹き出しより手前に出す */}
+      {/* 仲間の吹き出しは、隣に立つスプラの吹き出しより手前に出す */}
       {talking && talkPos && companionTalk && (
         <div
           className="pointer-events-none absolute z-10 w-max max-w-[172px] -translate-x-1/2 -translate-y-full rounded-xl bg-white px-2.5 py-1 text-[11.5px] leading-snug font-bold text-[#3b3226] shadow-[0_2px_8px_rgba(59,50,38,0.16)]"

@@ -1,4 +1,4 @@
-/** スプルの家の中(見るだけの部屋)の様子を決める純粋な関数(設計書 2026-10-05-spru-room 5章) */
+/** スプラの家の中(見るだけの部屋)の様子を決める純粋な関数(設計書 2026-10-05-spru-room 5章) */
 
 export type RoomMode = "day" | "night";
 export type RoomSpruPose = "idle" | "wave" | "sit";
@@ -8,7 +8,7 @@ export const ROOM_SIT_AFTER_MS = 8000;
 
 const DAY_LINES = ["やっほー！", "おかえり！", "きょうも いい日だね"];
 
-/** 町のスプルが寝ていれば夜の絵(ベッドで眠る)。時刻は部屋で計算せず、町の様子をそのまま使う */
+/** 町のスプラが寝ていれば夜の絵(ベッドで眠る)。時刻は部屋で計算せず、町の様子をそのまま使う */
 export function roomMode(sleeping: boolean): RoomMode {
   return sleeping ? "night" : "day";
 }

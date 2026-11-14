@@ -301,7 +301,7 @@ export function SpaceGame({
             </div>
           )}
 
-          {/* ロケットのスプル */}
+          {/* ロケットのスプラ */}
           <div
             className="pointer-events-none absolute bottom-0 flex justify-center transition-[left] duration-150"
             style={{ left: `${state.lane * laneWidth}%`, width: `${laneWidth}%`, height: ROCKET_PX }}
@@ -309,7 +309,7 @@ export function SpaceGame({
             <div className={cn("relative h-full", state.hitMs > 0 && "animate-catch-shake")}>
               <Image
                 src={rocket.src}
-                alt="ロケットのスプル"
+                alt="ロケットのスプラ"
                 width={Math.round(((ROCKET_PX - 14) * rocket.width) / rocket.height)}
                 height={ROCKET_PX - 14}
                 className="h-[calc(100%-14px)] w-auto"

@@ -1,5 +1,5 @@
 /**
- * スプルスイムの流れの、画面を描かない部分(docs/design/2026-11-10-spru-swim-design.md。run-flow.ts と同じ考え方)。
+ * スプラスイムの流れの、画面を描かない部分(docs/design/2026-11-10-spru-swim-design.md。run-flow.ts と同じ考え方)。
  * 練習(コインなし・サーバーなし)と本番(1日2回・コイン・ランキング)
  */
 export type SwimMode = "practice" | "real";

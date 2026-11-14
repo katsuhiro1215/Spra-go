@@ -1,5 +1,5 @@
 /**
- * スプルランの流れの、画面を描かない部分(docs/design/2026-10-22-spru-run-design.md 14-2)。
+ * スプラランの流れの、画面を描かない部分(docs/design/2026-10-22-spru-run-design.md 14-2)。
  * 練習(タネなし・サーバーなし)と本番(1日2回・タネ・ランキング)
  */
 export type RunMode = "practice" | "real";

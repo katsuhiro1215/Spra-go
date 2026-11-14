@@ -49,7 +49,7 @@ it('町のAPIに、家族のほかのプレイヤーの数が出る', function (
     $this->getJson('/api/world')->assertJsonPath('family_count', 1);
 });
 
-it('家族の町は、置いたアイテム・仲間・スプル・畑の見た目だけを見せる', function () {
+it('家族の町は、置いたアイテム・仲間・スプラ・畑の見た目だけを見せる', function () {
     $me = createActiveProfile();
     $sister = createFamilyMember($me, 'いもうと');
     $sister->update(['level' => 5, 'bloom_base_level' => 4, 'points' => 500]);

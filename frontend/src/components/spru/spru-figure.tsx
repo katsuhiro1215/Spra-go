@@ -12,7 +12,7 @@ import {
 import { SPRU_REACTIONS, type SpruReactionKey } from "./spru-reactions";
 
 /**
- * HTMLの中でスプルを出す(クイズ・演出用)。standHeight は立ち姿のときの高さ(px)で、
+ * HTMLの中でスプラを出す(クイズ・演出用)。standHeight は立ち姿のときの高さ(px)で、
  * 座る・寝るなどほかの画像は素材集の縮尺どおりに大きさをそろえる。bloom はSの先のつぼみ・花。
  * eager は、開いてすぐ見える大きな絵(ログイン・登録など)で遅れて読み込まないようにする
  */

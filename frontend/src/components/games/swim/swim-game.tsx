@@ -16,7 +16,7 @@ import { bottomCss, isBlinkOff, obstacleDraw, scrollCqw, sizeCqw, SWIM_HINT, spr
 
 const COUNTDOWN_FROM = 3;
 const COUNTDOWN_STEP_MS = 700;
-/** スプルの絵の大きさ(ゲームの中の広さ) */
+/** スプラの絵の大きさ(ゲームの中の広さ) */
 const SPRU_DRAW_H = 70;
 const COIN_DRAW_H = 36;
 /** 上の表示のぶん、天井を低くしておく余白(px)。run-game.tsx の ceilingForScreen と同じ考え方 */
@@ -28,7 +28,7 @@ export function ceilingForScreen(): number {
   return Math.max(220, Math.min(520, (window.innerHeight - TOP_UI_MARGIN) / scale));
 }
 
-/** スプルスイムのゲーム画面(docs/design/2026-11-10-spru-swim-design.md)。練習: 何回でも・サーバーに送らない。本番: サーバーから渡された種・画面の高さで泳ぐ */
+/** スプラスイムのゲーム画面(docs/design/2026-11-10-spru-swim-design.md)。練習: 何回でも・サーバーに送らない。本番: サーバーから渡された種・画面の高さで泳ぐ */
 export function SwimGame({
   seed,
   startMs = 0,
@@ -208,7 +208,7 @@ export function SwimGame({
           );
         })}
 
-        {/* スプル */}
+        {/* スプラ */}
         <div
           className={cn("pointer-events-none absolute", isBlinkOff(state) && "opacity-30")}
           style={{
@@ -218,7 +218,7 @@ export function SwimGame({
             height: sizeCqw(spru.height),
           }}
         >
-          <Image src={spru.src} alt="スプル" fill sizes="90px" unoptimized className="object-contain" loading="eager" />
+          <Image src={spru.src} alt="スプラ" fill sizes="90px" unoptimized className="object-contain" loading="eager" />
         </div>
 
         {/* 上の表示 */}

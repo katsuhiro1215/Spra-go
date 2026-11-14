@@ -3,7 +3,7 @@ import { SpruFace } from "@/components/spru/spru-figure";
 
 import { reviewInvite } from "./companions";
 
-/** 復習の誘い(仲間のカードの一番上と、スプルの復習カードで共通。設計書3-5) */
+/** 復習の誘い(仲間のカードの一番上と、スプラの復習カードで共通。設計書3-5) */
 export function ReviewInvite({ count, onStart }: { count: number; onStart: () => void }) {
   return (
     <div className="flex flex-col gap-2 rounded-2xl bg-[#fff1dc] p-3">
@@ -21,7 +21,7 @@ export function ReviewInvite({ count, onStart }: { count: number; onStart: () =>
   );
 }
 
-/** スプルが復習を出す日に、スプルをタップしたときのカード */
+/** スプラが復習を出す日に、スプラをタップしたときのカード */
 export function ReviewCard({ count, onStart, onClose }: { count: number; onStart: () => void; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(38,48,28,0.38)]">
@@ -34,7 +34,7 @@ export function ReviewCard({ count, onStart, onClose }: { count: number; onStart
       >
         <h2 id="review-card-title" className="flex items-center gap-2 text-lg font-black">
           <SpruFace face="happy" size={36} />
-          <AutoFurigana text="スプルからの復習" />
+          <AutoFurigana text="スプラからの復習" />
         </h2>
         <ReviewInvite count={count} onStart={onStart} />
         <button type="button" onClick={onClose} className="h-11 text-sm font-bold text-[#6b5d45]">

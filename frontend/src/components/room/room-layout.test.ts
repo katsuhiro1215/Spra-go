@@ -6,16 +6,16 @@ import { ROOM_CANVAS, ROOM_VIEW, roomItems } from "./room-layout";
 const keys = (mode: "day" | "night", pose: "idle" | "wave" | "sit") => roomItems(mode, pose).map((item) => item.key);
 
 describe("部屋の配置(設計書 2026-10-05-spru-room 4章)", () => {
-  it("昼は、部屋→ベッド→椅子→テーブル→スプルの順(奥から手前。椅子は机の右上=奥にある)", () => {
+  it("昼は、部屋→ベッド→椅子→テーブル→スプラの順(奥から手前。椅子は机の右上=奥にある)", () => {
     expect(keys("day", "idle")).toEqual(["room", "bed", "chair", "table", "spru_idle"]);
   });
 
-  it("夜は、空のベッドの代わりに眠るスプル入りのベッド。起きているスプルは出ない", () => {
+  it("夜は、空のベッドの代わりに眠るスプラ入りのベッド。起きているスプラは出ない", () => {
     expect(keys("night", "idle")).toEqual(["room", "bed_sleeping", "chair", "table"]);
     expect(keys("night", "sit")).not.toContain("spru_sit");
   });
 
-  it("スプルの絵は、様子(待機・手を振る・座る)で切り替わる", () => {
+  it("スプラの絵は、様子(待機・手を振る・座る)で切り替わる", () => {
     expect(keys("day", "wave").at(-1)).toBe("spru_wave");
     expect(keys("day", "sit").at(-1)).toBe("spru_sit");
   });
@@ -53,7 +53,7 @@ describe("部屋の配置(設計書 2026-10-05-spru-room 4章)", () => {
     expect(foot("bed").cx + at("bed").width / 2).toBeLessThanOrEqual(ROOM_VIEW.x + ROOM_VIEW.width);
   });
 
-  it("座るスプルは、立つスプルと足元の中心が同じ", () => {
+  it("座るスプラは、立つスプラと足元の中心が同じ", () => {
     const standing = roomItems("day", "idle").at(-1)!;
     const sitting = roomItems("day", "sit").at(-1)!;
     expect(sitting.left + sitting.width / 2).toBeCloseTo(standing.left + standing.width / 2);

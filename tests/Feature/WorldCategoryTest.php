@@ -12,7 +12,7 @@ use App\Models\ShopItem;
 |
 */
 
-it('設定: asset_keys のすべての絵にカテゴリがあり、おみやげ以外の5つのどれか。スプルの花は しぜん', function () {
+it('設定: asset_keys のすべての絵にカテゴリがあり、おみやげ以外の5つのどれか。スプラの花は しぜん', function () {
     $categories = config('world.asset_categories');
 
     foreach (config('world.asset_keys') as $key) {
@@ -57,7 +57,7 @@ it('ショップ一覧の町のアイテムに category が付き、回復薬は
     expect($items['回復薬']['category'])->toBeNull();
 });
 
-it('町とバッグのアイテムに category が付く(おみやげは souvenir、スプルの花は nature)', function () {
+it('町とバッグのアイテムに category が付く(おみやげは souvenir、スプラの花は nature)', function () {
     $profile = createActiveProfile();
     giveWorldItem($profile, 'castle', placed: true);
     giveWorldItem($profile, 'spru_flower');

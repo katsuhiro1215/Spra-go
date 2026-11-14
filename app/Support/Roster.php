@@ -5,7 +5,7 @@ namespace App\Support;
 use App\Models\UserProfile;
 
 /**
- * なかまの一覧(docs/design/2026-09-29-rare-spru-design.md 4-5・5-5)。仲間5人(設定の順)→レアスプル10色(一覧の順)。
+ * なかまの一覧(docs/design/2026-09-29-rare-spru-design.md 4-5・5-5)。仲間5人(設定の順)→レアスプラ10色(一覧の順)。
  * 仲間は生まれるまで名前も状態も出さない(畑で育っていても waiting・「？？？」)
  */
 class Roster

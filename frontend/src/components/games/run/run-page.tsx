@@ -32,7 +32,7 @@ function screenCeiling(): number {
 }
 
 /**
- * スプルラン(docs/design/2026-10-22-spru-run-design.md 14-2)。
+ * スプララン(docs/design/2026-10-22-spru-run-design.md 14-2)。
  * 練習: 何回でも・タネは出ない・サーバーに送らない(ベストはこの画面を開いているあいだだけ)。
  * 本番: 1日2回・タネ・ランキング。始める前に確認の画面を出す
  */
@@ -133,7 +133,7 @@ export function RunPageView() {
             <AutoFurigana text={`期間限定　あと${summary.days_left}日`} />
           </p>
         )}
-        <h1 className="text-3xl font-black">スプルラン</h1>
+        <h1 className="text-3xl font-black">スプララン</h1>
         {costume ? (
           <Image src={costume.src} alt="" width={costume.width} height={costume.height} unoptimized className="h-36 w-auto" loading="eager" />
         ) : (

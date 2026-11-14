@@ -17,7 +17,7 @@ import type { WorldReview } from "./types";
 const review = (overrides: Partial<WorldReview> = {}): WorldReview => ({
   available: false,
   count: 0,
-  giver: { kind: "spru", key: null, name: "スプル" },
+  giver: { kind: "spru", key: null, name: "スプラ" },
   ...overrides,
 });
 const momoReview = review({ available: true, count: 3, giver: { kind: "companion", key: "momo", name: "モモ" } });
@@ -80,11 +80,11 @@ describe("pickSpruTap", () => {
     expect(pickSpruTap({ canSow: true, review: review({ available: true, count: 2 }) })).toBe("sow");
   });
 
-  it("スプルが出す復習があれば、復習カード", () => {
+  it("スプラが出す復習があれば、復習カード", () => {
     expect(pickSpruTap({ canSow: false, review: review({ available: true, count: 2 }) })).toBe("review");
   });
 
-  it("相棒が出す復習の日は、スプルはふだんどおり", () => {
+  it("相棒が出す復習の日は、スプラはふだんどおり", () => {
     expect(pickSpruTap({ canSow: false, review: momoReview })).toBe("chat");
   });
 
@@ -98,7 +98,7 @@ describe("reviewPrompt", () => {
     expect(reviewPrompt(momoReview)).toBe("モモが復習を用意してるよ");
   });
 
-  it("スプルが出す日", () => {
+  it("スプラが出す日", () => {
     expect(reviewPrompt(review({ available: true, count: 1 }))).toBe("この前の問題、いっしょに復習しよう！");
   });
 
@@ -112,7 +112,7 @@ describe("reviewGiverKey", () => {
     expect(reviewGiverKey(review())).toBeNull();
   });
 
-  it("スプルが出す日は spru", () => {
+  it("スプラが出す日は spru", () => {
     expect(reviewGiverKey(review({ available: true, count: 1 }))).toBe("spru");
   });
 
@@ -121,7 +121,7 @@ describe("reviewGiverKey", () => {
   });
 });
 
-describe("スプルの復習カードの誘い", () => {
+describe("スプラの復習カードの誘い", () => {
   it("おさらいの問題の数を添える", () => {
     expect(reviewInvite(3)).toBe("おさらいの問題、いっしょにやってみよう！（3問）");
   });
@@ -138,7 +138,7 @@ describe("bornNote", () => {
 });
 
 describe("bornLook", () => {
-  it("仲間は緑の花、レアスプルはその色の花", () => {
+  it("仲間は緑の花、レアスプラはその色の花", () => {
     expect(bornLook({ key: "momo", rare: false })).toBe("spru");
     expect(bornLook({ key: "gold", rare: true })).toBe("gold");
   });

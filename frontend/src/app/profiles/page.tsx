@@ -28,7 +28,7 @@ type SheetState = { open: boolean; target: Profile | null; key: number };
 
 const PLATE = "max-w-full truncate rounded-full bg-[#fffaf0] px-2.5 py-0.5 text-[12.5px] font-black text-[#3b3226] shadow-[0_2px_5px_rgba(59,50,38,0.14)]";
 
-/** プロフィール選び(docs/design/2026-09-28-top-profiles-design.md 4章)。スプルの家の前の芝生に家族が並ぶ */
+/** プロフィール選び(docs/design/2026-09-28-top-profiles-design.md 4章)。スプラの家の前の芝生に家族が並ぶ */
 export default function Page() {
   const router = useRouter();
   const { refresh: refreshProfile } = useProfile();

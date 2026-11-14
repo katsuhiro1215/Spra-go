@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/** スプルスイム(docs/design/2026-11-10-spru-swim-design.md)。本番の回の記録と、スイムコインの財布 */
+/** スプラスイム(docs/design/2026-11-10-spru-swim-design.md)。本番の回の記録と、スイムコインの財布 */
 return new class extends Migration
 {
     public function up(): void

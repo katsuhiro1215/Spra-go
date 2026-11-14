@@ -10,7 +10,7 @@ import type { SeasonGreeting } from "./season-greeting";
 // globals.css の season-card と同じ長さ
 const SHOW_MS = 3_000;
 
-/** 期間中に町を開いたときの、衣装のスプルのあいさつ(設計書5-4)。onDone は useCallback で固定して渡す */
+/** 期間中に町を開いたときの、衣装のスプラのあいさつ(設計書5-4)。onDone は useCallback で固定して渡す */
 export function SeasonGreetingCard({ greeting, onDone }: { greeting: SeasonGreeting; onDone: () => void }) {
   useEffect(() => {
     const timer = setTimeout(onDone, SHOW_MS);

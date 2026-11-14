@@ -65,7 +65,7 @@ export function livelinessNextText(lively: Liveliness): string {
   return lively.next ? `${lively.next.label}まで あと${lively.next.remaining}` : "町はおまつり！";
 }
 
-/** 段階が上がったときのスプルのひとこと(設計書3-2) */
+/** 段階が上がったときのスプラのひとこと(設計書3-2) */
 export function livelinessUpLine(label: string): string {
   return `町がにぎやかになったね！『${label}』になったよ`;
 }

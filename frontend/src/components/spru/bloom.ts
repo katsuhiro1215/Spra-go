@@ -13,7 +13,7 @@ export function bloomOf(growth: number): Bloom | null {
   return null;
 }
 
-/** つぼみ・花を描く四角(スプルの画像の中のピクセル座標)。Sの先が無い画像(種まき)は null */
+/** つぼみ・花を描く四角(スプラの画像の中のピクセル座標)。Sの先が無い画像(種まき)は null */
 export function bloomRect(
   image: SpruImageKey,
   bloom: Bloom,

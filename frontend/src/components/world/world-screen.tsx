@@ -124,14 +124,14 @@ export function WorldScreen() {
   const [world, setWorld] = useState<WorldData | null>(null);
   const [shop, setShop] = useState<ShopListItem[]>([]);
   const [welcomeBusy, setWelcomeBusy] = useState(false);
-  // スプルの出し分け(components/spru/mood.ts)に渡す状態。時刻は1秒ごとに進める
+  // スプラの出し分け(components/spru/mood.ts)に渡す状態。時刻は1秒ごとに進める
   const [now, setNow] = useState(() => Date.now());
   const [lastInteractionAt, setLastInteractionAt] = useState(() => Date.now());
   const [event, setEvent] = useState<TownEvent | null>(null);
   const [nightWokenAt, setNightWokenAt] = useState<number | null>(null);
   const [companionTalk, setCompanionTalk] = useState<{ key: string; at: number; line: string } | null>(null);
   const [born, setBorn] = useState<BornResult | null>(null);
-  // スプルの家の中(見るだけの部屋)
+  // スプラの家の中(見るだけの部屋)
   const [roomOpen, setRoomOpen] = useState(false);
   // 種まき・水やりの通信中は、続けて押しても送らない
   const [gardenBusy, setGardenBusy] = useState(false);
@@ -147,7 +147,7 @@ export function WorldScreen() {
   // なかまの一覧(開いたときに読む)と、町に出す・休ませるの通信中
   const [roster, setRoster] = useState<RosterData | null>(null);
   const [townBusy, setTownBusy] = useState(false);
-  // 開いている仲間のカード(仲間のキー)・スプルの復習カード・最初の仲間の名前付け
+  // 開いている仲間のカード(仲間のキー)・スプラの復習カード・最初の仲間の名前付け
   const [sheetKey, setSheetKey] = useState<string | null>(null);
   const [reviewCardOpen, setReviewCardOpen] = useState(false);
   const [naming, setNaming] = useState<WorldCompanion | null>(null);
@@ -242,7 +242,7 @@ export function WorldScreen() {
   const mood = pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing, prompt });
   const talk = companionTalk && now - companionTalk.at < COMPANION_TALK_MS ? companionTalk : null;
 
-  // seed は spru(スプルの種)か、ふくろの特別な種の色(docs/design/2026-09-29-rare-spru-design.md 3-3)
+  // seed は spru(スプラの種)か、ふくろの特別な種の色(docs/design/2026-09-29-rare-spru-design.md 3-3)
   async function sow(seed: string = "spru") {
     if (gardenBusy) return;
     setGardenBusy(true);
@@ -260,7 +260,7 @@ export function WorldScreen() {
       setWorld((prev) => (prev ? { ...prev, spru: next.spru, garden: next.garden } : prev));
       setMessage(null);
       play("correct");
-      // スプルの種はスプルが頭を振って種が飛ぶ。特別な種は畑に植わるだけ(設計書5-3)
+      // スプラの種はスプラが頭を振って種が飛ぶ。特別な種は畑に植わるだけ(設計書5-3)
       if (planted) {
         setEvent({ kind: "say", at: Date.now(), image: "happy", line: `${seedLabel(planted.name)}をまいたよ！毎日水をあげて育てよう` });
       } else {
@@ -470,7 +470,7 @@ export function WorldScreen() {
     router.push("/review");
   }
 
-  // スプル以外をさわったとき。昼に座って・寝ていたら起きる(夜の眠りはスプルをタップしたときだけ起きる)
+  // スプラ以外をさわったとき。昼に座って・寝ていたら起きる(夜の眠りはスプラをタップしたときだけ起きる)
   function handleInteraction(e: { target: EventTarget }) {
     if (e.target instanceof Element && e.target.closest("[data-spru]")) return;
     const at = Date.now();

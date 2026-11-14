@@ -1,6 +1,6 @@
 import type { GameChoice, GameQuestion } from "@/components/games/game-question";
 
-/** スプルキャッチのAPIの返事の形(docs/design/2026-09-29-spru-catch-design.md 6-3) */
+/** スプラキャッチのAPIの返事の形(docs/design/2026-09-29-spru-catch-design.md 6-3) */
 export type CatchDifficulty = "初級" | "中級" | "上級";
 
 export type CatchSummary = {

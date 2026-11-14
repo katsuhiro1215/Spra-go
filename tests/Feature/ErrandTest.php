@@ -88,13 +88,13 @@ it('今日もう水をあげた芽では、水やりのおつかいは出ない'
     expect(errandKinds($this->getJson('/api/world')))->toBe(['correct', 'stage_clear', 'correct']);
 });
 
-it('3つ目は相棒が頼み、1つ目・2つ目はスプルが頼む', function () {
+it('3つ目は相棒が頼み、1つ目・2つ目はスプラが頼む', function () {
     $profile = createActiveProfile();
     $profile->companions()->create(['companion_key' => 'momo', 'nickname' => 'モモ']);
     $profile->update(['partner_companion_key' => 'momo']);
 
     $this->getJson('/api/world')
-        ->assertJsonPath('errands.items.0.giver', ['kind' => 'spru', 'key' => null, 'name' => 'スプル'])
+        ->assertJsonPath('errands.items.0.giver', ['kind' => 'spru', 'key' => null, 'name' => 'スプラ'])
         ->assertJsonPath('errands.items.1.giver.kind', 'spru')
         ->assertJsonPath('errands.items.2.giver', ['kind' => 'partner', 'key' => 'momo', 'name' => 'モモ']);
 });

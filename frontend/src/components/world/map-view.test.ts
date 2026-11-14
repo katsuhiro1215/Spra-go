@@ -62,7 +62,7 @@ describe("スクロール位置", () => {
     expect(scrollForPlot(BEACH, layout, 480)).toEqual({ left: 0, top: 96 });
   });
 
-  it("最初の位置から枠の4分の1より離れたら「スプルの家へ戻る」を出す", () => {
+  it("最初の位置から枠の4分の1より離れたら「スプラの家へ戻る」を出す", () => {
     const home = { left: 160, top: 0 };
     expect(isAwayFromHome({ left: 160, top: 0 }, home, 480, 372)).toBe(false);
     expect(isAwayFromHome({ left: 260, top: 0 }, home, 480, 372)).toBe(false);

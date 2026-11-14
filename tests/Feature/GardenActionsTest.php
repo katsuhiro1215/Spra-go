@@ -46,7 +46,7 @@ it('畑に種が育っていると、次の種はまけない', function () {
         ->assertJsonPath('message', '畑に芽が育っているよ');
 });
 
-it('仲間が全員生まれていれば、種からはスプルの花が咲く', function () {
+it('仲間が全員生まれていれば、種からはスプラの花が咲く', function () {
     $profile = createActiveProfile();
     $profile->update(['level' => 4, 'bloom_base_level' => 1]);
     foreach (['lumi', 'momo', 'kuru', 'piko', 'ruru'] as $key) {
@@ -126,7 +126,7 @@ it('3回目の水やりで仲間が生まれ、道に並ぶ', function () {
     $this->getJson('/api/world')->assertJsonPath('companions.0.key', 'momo');
 });
 
-it('スプルの花はバッグに入り、ショップには出ず、買えない', function () {
+it('スプラの花はバッグに入り、ショップには出ず、買えない', function () {
     $profile = createActiveProfile();
     $profile->update(['last_correct_on' => Garden::today(), 'points' => 100]);
     $profile->seeds()->create(['result_key' => 'spru_flower', 'waterings' => 2]);
@@ -137,15 +137,15 @@ it('スプルの花はバッグに入り、ショップには出ず、買えな�
         ->assertJsonPath('born.world_item.asset_key', 'spru_flower')
         ->assertJsonPath('born.world_item.x', null);
 
-    $this->getJson('/api/world')->assertJsonPath('bag.0.name', 'スプルの花');
-    expect(collect($this->getJson('/api/shop')->json())->pluck('name'))->not->toContain('スプルの花');
+    $this->getJson('/api/world')->assertJsonPath('bag.0.name', 'スプラの花');
+    expect(collect($this->getJson('/api/shop')->json())->pluck('name'))->not->toContain('スプラの花');
 
-    $flower = ShopItem::query()->where('name', 'スプルの花')->firstOrFail();
+    $flower = ShopItem::query()->where('name', 'スプラの花')->firstOrFail();
     $this->postJson("/api/shop/{$flower->id}/purchase")->assertStatus(422);
     expect($profile->fresh()->points)->toBe(100);
 });
 
-it('Ownerはスプルの花を編集できない', function () {
+it('Ownerはスプラの花を編集できない', function () {
     $flower = Garden::flowerShopItem();
     $owner = Owner::factory()->create();
 
@@ -156,10 +156,10 @@ it('Ownerはスプルの花を編集できない', function () {
         'meta' => ['asset_key' => 'bench'],
     ])->assertStatus(422);
 
-    expect($flower->fresh()->name)->toBe('スプルの花');
+    expect($flower->fresh()->name)->toBe('スプラの花');
 });
 
-it('ふつうの種をまくと、いつも「スプルの花」の種になり、仲間は選ばれない', function () {
+it('ふつうの種をまくと、いつも「スプラの花」の種になり、仲間は選ばれない', function () {
     $profile = createActiveProfile();
     $profile->update(['level' => 4, 'bloom_base_level' => 1]);
 
@@ -168,7 +168,7 @@ it('ふつうの種をまくと、いつも「スプルの花」の種になり�
     expect($profile->seeds()->first()->result_key)->toBe('spru_flower');
 });
 
-it('ふつうの種を3回水やりすると、「スプルの花」がバッグに入る(仲間は生まれない)', function () {
+it('ふつうの種を3回水やりすると、「スプラの花」がバッグに入る(仲間は生まれない)', function () {
     $profile = createActiveProfile();
     $profile->update(['level' => 4, 'bloom_base_level' => 1]);
     $this->postJson('/api/world/garden/sow')->assertOk();

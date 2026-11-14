@@ -213,7 +213,7 @@ class Travel
         }
     }
 
-    /** おみやげの町のアイテム(非売品)。そのおみやげを初めてだれかが受け取ったときに作る(スプルの花と同じ) */
+    /** おみやげの町のアイテム(非売品)。そのおみやげを初めてだれかが受け取ったときに作る(スプラの花と同じ) */
     private static function souvenirShopItem(array $destination, array $souvenir): ShopItem
     {
         return ShopItem::query()->firstOrCreate(

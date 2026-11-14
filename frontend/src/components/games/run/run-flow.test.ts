@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { playsLeftText, quitAction, quitMessage, realButtonState } from "./run-flow";
 
-describe("スプルランの流れ(docs/design/2026-10-22-spru-run-design.md 14-2)", () => {
+describe("スプラランの流れ(docs/design/2026-10-22-spru-run-design.md 14-2)", () => {
   it("始めて9秒までのやめるは回を戻し、それをこえたらそこまでの記録で終える(サーバーの10秒より少し手前で分ける)", () => {
     expect(quitAction(0)).toBe("abandon");
     expect(quitAction(9000)).toBe("abandon");

@@ -1,6 +1,6 @@
 import type { RosterCondition, RosterMember, WorldCompanion } from "./types";
 
-/** まだのレアスプルの「あと〇〇」(docs/design/2026-09-29-rare-spru-design.md 5-5) */
+/** まだのレアスプラの「あと〇〇」(docs/design/2026-09-29-rare-spru-design.md 5-5) */
 export function remainingText(condition: RosterCondition): string {
   const left = condition.target - condition.current;
   return left > 0 ? `あと${left}${condition.unit}` : "もうすぐもらえるよ";
@@ -11,7 +11,7 @@ export function progressPercent(condition: RosterCondition): number {
   return Math.min(100, Math.round((condition.current / condition.target) * 100));
 }
 
-/** カードの状態の一言。生まれた子と、まだのレアスプル(条件を出す)は無し */
+/** カードの状態の一言。生まれた子と、まだのレアスプラ(条件を出す)は無し */
 export function statusNote(member: Pick<RosterMember, "status" | "rare">): string | null {
   if (member.status === "in_bag") return "種のふくろにあるよ";
   if (member.status === "growing") return "畑で育っているよ";

@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
- * スプルスイム(docs/design/2026-11-10-spru-swim-design.md)。スプルラン(RunGame.php)と同じ考え方で、
+ * スプラスイム(docs/design/2026-11-10-spru-swim-design.md)。スプララン(RunGame.php)と同じ考え方で、
  * 練習はサーバーに送らない。ここは本番だけ: 1日の回数・コインの財布・点数をサーバーで計算し直す
  */
 class SwimGame

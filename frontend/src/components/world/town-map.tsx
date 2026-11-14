@@ -216,7 +216,7 @@ export function TownMap({
         >
           <House className="h-4 w-4" aria-hidden />
           <span>
-            <AutoFurigana text="スプルの家へ戻る" />
+            <AutoFurigana text="スプラの家へ戻る" />
           </span>
         </button>
       )}

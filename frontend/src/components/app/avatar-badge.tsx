@@ -40,7 +40,7 @@ export function AvatarBadge({
   );
 }
 
-/** 「じぶん」の絵(docs/design/2026-09-29-spru-icons-design.md 4-1・4-2)。プレイヤーがいればそのアバター、いなければスプルのふつうの顔 */
+/** 「じぶん」の絵(docs/design/2026-09-29-spru-icons-design.md 4-1・4-2)。プレイヤーがいればそのアバター、いなければスプラのふつうの顔 */
 export function ProfileAvatar({ profile, size }: { profile: { avatar: string | null } | null; size: number }) {
   if (profile) return <AvatarBadge avatar={profile.avatar} size={size} />;
   const face = SPRU_FACES.normal;

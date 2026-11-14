@@ -16,7 +16,7 @@ export function PlotUnlockCard({ plots, onView }: { plots: WorldPlot[]; onView: 
         aria-labelledby="plot-unlock-title"
         className="flex w-full max-w-[322px] flex-col items-center gap-2.5 rounded-3xl bg-[#fffaf0] px-5 pt-5 pb-5 text-center text-[#3b3226] shadow-[0_16px_36px_rgba(0,0,0,0.22)]"
       >
-        <SpruFigure image="cheer" standHeight={120} alt="よろこぶスプル" className="animate-spru-hop" />
+        <SpruFigure image="cheer" standHeight={120} alt="よろこぶスプラ" className="animate-spru-hop" />
         <h2 id="plot-unlock-title" className="text-xl font-black text-[#2e6b1c]">
           <AutoFurigana text={unlockTitle(plots)} />
         </h2>

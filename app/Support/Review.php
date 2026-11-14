@@ -23,14 +23,14 @@ class Review
         return $profile->last_review_on?->toDateString() === Garden::today();
     }
 
-    /** @return array{kind: string, key: ?string, name: string} 相棒がいれば相棒、いなければスプル */
+    /** @return array{kind: string, key: ?string, name: string} 相棒がいれば相棒、いなければスプラ */
     public static function giver(UserProfile $profile): array
     {
         $partner = Bond::partner($profile);
 
         return $partner
             ? ['kind' => 'companion', 'key' => $partner->companion_key, 'name' => Bond::displayName($partner)]
-            : ['kind' => 'spru', 'key' => null, 'name' => 'スプル'];
+            : ['kind' => 'spru', 'key' => null, 'name' => 'スプラ'];
     }
 
     /** @return array{available: bool, count: int, giver: array{kind: string, key: ?string, name: string}} */

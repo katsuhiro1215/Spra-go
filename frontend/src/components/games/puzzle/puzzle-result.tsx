@@ -55,7 +55,7 @@ export function PuzzleResult({
   return (
     <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center gap-4 px-6 py-10 pb-24 text-center">
       <div className="flex w-full flex-col items-center gap-3 rounded-3xl bg-[#fffaf0] p-6 text-[#3b3226] shadow-[0_8px_22px_rgba(40,70,90,0.16)]">
-        <SpruFigure image="happy" bloom={perfect ? "flower" : null} standHeight={90} alt="喜ぶスプル" />
+        <SpruFigure image="happy" bloom={perfect ? "flower" : null} standHeight={90} alt="喜ぶスプラ" />
         {result.new_best_time && (
           <p className="animate-pop-in rounded-full bg-[#f2b632] px-3 py-1 text-sm font-black">
             <AutoFurigana text="ベストタイム！" />

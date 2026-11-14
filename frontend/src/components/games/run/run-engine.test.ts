@@ -69,7 +69,7 @@ function bot(state: RunState): RunState {
 }
 
 /**
- * ちょうどよく跳ぶ子: じゃまものの真ん中が、決めた時間(idealCenterTime)のあとにスプルの真ん中に来るときに跳ぶ。
+ * ちょうどよく跳ぶ子: じゃまものの真ん中が、決めた時間(idealCenterTime)のあとにスプラの真ん中に来るときに跳ぶ。
  * 高いものは、てっぺんで2段目を跳ぶ
  */
 function idealBot(state: RunState): RunState {
@@ -193,7 +193,7 @@ describe("run-engine", () => {
         }
         return idealBot(x);
       });
-      // スプルが通り過ぎたタネだけを数える(まだ右にあるタネは、取れていなくて当然)
+      // スプラが通り過ぎたタネだけを数える(まだ右にあるタネは、取れていなくて当然)
       let passed = 0;
       for (const item of seen.values()) if (item.x < s.distance + SPRU_X) passed += item.golden ? 5 : item.silver ? 2 : 1;
       expect({ seed, hearts: s.hearts }).toEqual({ seed, hearts: RUN_HEARTS });
@@ -618,7 +618,7 @@ describe("新しい障害物", () => {
     const bee = { kind: "bee" as const, x: SPRU_X - 5, w: OBSTACLES.bee.w, h: OBSTACLES.bee.h, base: BEE_BASE, hit: false };
     const under = run({ ...empty(createRun(1)), obstacles: [{ ...bee }] }, 200);
     expect(under.hearts).toBe(RUN_HEARTS);
-    expect(BEE_BASE).toBeGreaterThan(50); // 走るスプル(高さ50)が、くぐれる
+    expect(BEE_BASE).toBeGreaterThan(50); // 走るスプラ(高さ50)が、くぐれる
     const jumped = run(jump({ ...empty(createRun(1)), obstacles: [{ ...bee, x: SPRU_X + 40 }] }), 400);
     expect(jumped.hearts).toBe(RUN_HEARTS - 1);
   });

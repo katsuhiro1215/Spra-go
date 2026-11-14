@@ -21,7 +21,7 @@ describe("progressPercent", () => {
 });
 
 describe("statusNote", () => {
-  it("状態ごとの一言。生まれた子と、まだのレアスプルは無し", () => {
+  it("状態ごとの一言。生まれた子と、まだのレアスプラは無し", () => {
     expect(statusNote({ status: "waiting", rare: false })).toBe("畑で生まれるよ");
     expect(statusNote({ status: "in_bag", rare: true })).toBe("種のふくろにあるよ");
     expect(statusNote({ status: "growing", rare: true })).toBe("畑で育っているよ");

@@ -9,12 +9,12 @@ describe("plantImage", () => {
     expect(plantImage("spru", "seed")).toBe(GROWTH_IMAGES["spru/seed"]);
   });
 
-  it("見た目が無い・知らない色は、ふつうのスプルの絵", () => {
+  it("見た目が無い・知らない色は、ふつうのスプラの絵", () => {
     expect(plantImage(null, "sprout")).toBe(GROWTH_IMAGES["spru/sprout"]);
     expect(plantImage("riri", "flower")).toBe(GROWTH_IMAGES["spru/flower"]);
   });
 
-  it("10色と、ふつうのスプルの4段階がそろっている", () => {
+  it("10色と、ふつうのスプラの4段階がそろっている", () => {
     const looks = ["spru", "ruby", "sapphire", "silver", "amber", "obsidian", "crystal", "pearl", "emerald", "gold", "platinum"];
     for (const look of looks) {
       for (const stage of ["seed", "sprout", "bud", "flower"] as const) {

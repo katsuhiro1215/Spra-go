@@ -7,7 +7,7 @@ import { SPRU_AVATARS, SPRU_ICONS, SPRU_PAGES, SPRU_STAGES, SPRU_TRAVEL, type Sp
 
 const keys = (record: Record<string, SpruImage>) => Object.keys(record).sort();
 
-describe("スプルのアイコン・画像の一覧(docs/design/2026-09-29-spru-icons-design.md 3-3)", () => {
+describe("スプラのアイコン・画像の一覧(docs/design/2026-09-29-spru-icons-design.md 3-3)", () => {
   it("アイコンは15点", () => {
     expect(keys(SPRU_ICONS)).toEqual([
       "add-player",
@@ -40,7 +40,7 @@ describe("スプルのアイコン・画像の一覧(docs/design/2026-09-29-spru
     expect(keys(SPRU_TRAVEL)).toEqual(["plane", "ship", "ticket"]);
   });
 
-  it("ページの絵は迷子のスプル", () => {
+  it("ページの絵は迷子のスプラ", () => {
     expect(keys(SPRU_PAGES)).toEqual(["lost"]);
   });
 

@@ -121,7 +121,7 @@ function eventLine(event: TownEvent, date: Date): string {
   }
 }
 
-/** 町のスプルの画像・顔・吹き出し。優先順位は できごと → 夜の眠り → さわらない時間 → ふだん(設計書5-1) */
+/** 町のスプラの画像・顔・吹き出し。優先順位は できごと → 夜の眠り → さわらない時間 → ふだん(設計書5-1) */
 export function pickTownMood({ now, lastInteractionAt, event, nightWokenAt, placing, prompt = null }: TownMoodInput): SpruView {
   const date = new Date(now);
   const idleMs = now - lastInteractionAt;
@@ -148,7 +148,7 @@ export function pickTownMood({ now, lastInteractionAt, event, nightWokenAt, plac
   return { image: "three-quarter", face: "normal", line, sleeping: false };
 }
 
-/** クイズの正解・不正解の画面のスプル(設計書5-3。不正解に泣き顔は使わない) */
+/** クイズの正解・不正解の画面のスプラ(設計書5-3。不正解に泣き顔は使わない) */
 export function pickAnswerImage({
   correct,
   combo,

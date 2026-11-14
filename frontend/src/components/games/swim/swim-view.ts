@@ -2,7 +2,7 @@ import { SWIM_ASSETS } from "./swim-assets";
 import { INVINCIBLE_MS, WORLD_W, type Obstacle, type SwimState } from "./swim-engine";
 
 /**
- * スプルスイムの描くための計算(docs/design/2026-11-10-spru-swim-design.md)。
+ * スプラスイムの描くための計算(docs/design/2026-11-10-spru-swim-design.md)。
  * 場面は画面いっぱい。ゲームの中の大きさ・横の位置は、場面の横幅の割合(cqw)で描く(横 WORLD_W が場面の横幅)。
  * 高さは、海底(y=0)からの位置(場面の下から)にする。run-view.ts と同じ考え方(ただし地面の分の余白はない)
  */
@@ -24,14 +24,14 @@ export function scrollCqw(distance: number, factor: number): string {
 
 export type SpruSwimPose = "swim-a" | "swim-b" | "rise" | "hit";
 
-/** スプルの絵: ぶつかった直後はびっくり、タップした直後(上向きに速いとき)は上昇、それ以外は泳ぐ2枚を交互に */
+/** スプラの絵: ぶつかった直後はびっくり、タップした直後(上向きに速いとき)は上昇、それ以外は泳ぐ2枚を交互に */
 export function spruPose(state: SwimState): SpruSwimPose {
   if (state.invincibleMs > INVINCIBLE_MS - 400) return "hit";
   if (state.vy > 50) return "rise";
   return Math.floor(state.distance / 30) % 2 === 0 ? "swim-a" : "swim-b";
 }
 
-/** スプルの絵の大きさ(ゲームの中の広さ)。swim-a を drawHeight の高さにし、ほかのポーズも同じ倍率にする */
+/** スプラの絵の大きさ(ゲームの中の広さ)。swim-a を drawHeight の高さにし、ほかのポーズも同じ倍率にする */
 export function spruDraw(pose: SpruSwimPose, drawHeight: number): { src: string; width: number; height: number } {
   const asset = SWIM_ASSETS[pose];
   const scale = drawHeight / SWIM_ASSETS["swim-a"].height;

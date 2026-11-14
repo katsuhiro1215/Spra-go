@@ -17,7 +17,7 @@ const ROAD_WIDTH = 52;
 
 /**
  * 国のコース・言語のコースの「ステージの道」(docs/design/2026-10-07-main-game-levels-design.md 4-6)。
- * 国の道の絵(roadSrc)を、曲がる道として敷き、周りは草の地面。スプルは次に遊ぶステージの横に立ち、
+ * 国の道の絵(roadSrc)を、曲がる道として敷き、周りは草の地面。スプラは次に遊ぶステージの横に立ち、
  * クリアしたあとに戻ると、前の位置から歩いて動く(walkKey ごとに前回の位置を覚える。動きを減らす設定のときは動かさない)。
  * ステージの丸は StagePath と同じ絵・文言
  */
@@ -39,7 +39,7 @@ export function StageMap({
   const target = walkerTarget(stages);
   const grass = GROUND_ART.grass;
 
-  // スプルの位置。前回の位置(同じ道で最後に立っていた番号)があれば、そこから目的の位置へ歩く
+  // スプラの位置。前回の位置(同じ道で最後に立っていた番号)があれば、そこから目的の位置へ歩く
   const [standAt, setStandAt] = useState<number | null>(() => {
     const previous = readPrevious(walkKey);
     return target !== null && previous !== null && previous < target && !prefersReducedMotion() ? previous : target;
@@ -159,6 +159,6 @@ function writePrevious(key: string, index: number): void {
   try {
     window.localStorage.setItem(`stage-map:${key}`, String(index));
   } catch {
-    // 保存できなくても、スプルが前回の位置から歩かないだけ
+    // 保存できなくても、スプラが前回の位置から歩かないだけ
   }
 }

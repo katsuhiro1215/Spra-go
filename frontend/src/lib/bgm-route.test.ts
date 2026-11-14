@@ -27,7 +27,7 @@ describe("bgmForPath: 画面ごとに、どのBGMを鳴らすか", () => {
     }
   });
 
-  it("スプルスイムは、専用の曲(ミニゲームの共通曲ではない)", () => {
+  it("スプラスイムは、専用の曲(ミニゲームの共通曲ではない)", () => {
     expect(bgmForPath("/games/spru-swim")).toBe("swim");
   });
 

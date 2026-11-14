@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
- * ミニゲーム「スプルキャッチ」(docs/design/2026-09-29-spru-catch-design.md 4〜6章)と、その国旗版「スプルキャッチ(こっき)」
+ * ミニゲーム「スプラキャッチ」(docs/design/2026-09-29-spru-catch-design.md 4〜6章)と、その国旗版「スプラキャッチ(こっき)」
  * (docs/design/2026-10-05-flag-catch-design.md 5章)。ゲームの名前(catch・flag_catch)を引数で受け、設定は config('games.{ゲーム}') から読む。
  * 英語(catch)は「英語を学ぶ」の問題から、選んだ難しさ・鍵のない国・4択・選択肢が短い問題を選ぶ。
  * 国旗(flag_catch)は、難しさごとの国旗キャッチ専用のクイズの問題から選ぶ。

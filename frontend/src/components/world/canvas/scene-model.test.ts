@@ -80,14 +80,14 @@ function input(over: Partial<SceneInput> = {}): SceneInput {
 }
 
 describe("奥から手前の並び", () => {
-  it("目印・アイテム・スプルが、重なり順のマス(x+y、同じならx)で並ぶ", () => {
+  it("目印・アイテム・スプラが、重なり順のマス(x+y、同じならx)で並ぶ", () => {
     const model = buildSceneModel(input({ items: [item(1, "tree", 2, 0), item(2, "tree", 0, 0)] }));
     const keys = model.objects.map((o) => o.x + o.y);
     expect(keys).toEqual([...keys].sort((a, b) => a - b));
-    expect(model.objects.at(-1)?.kind).toBe("spru"); // スプルは(3,3)でいちばん手前
+    expect(model.objects.at(-1)?.kind).toBe("spru"); // スプラは(3,3)でいちばん手前
   });
 
-  it("寝ているスプルは、町に出ない", () => {
+  it("寝ているスプラは、町に出ない", () => {
     const model = buildSceneModel(input({ spru: { image: "front", face: "normal", line: "", sleeping: true } as SceneInput["spru"] }));
     expect(model.objects.some((o) => o.kind === "spru")).toBe(false);
     expect(model.sleepMark).not.toBeNull(); // 家の「zzz」
@@ -154,7 +154,7 @@ describe("地面と道", () => {
     expect(model.ground.pathLines.length).toBeGreaterThan(0);
   });
 
-  it("小物は、道・目印・アイテム・スプルのマスに出ない", () => {
+  it("小物は、道・目印・アイテム・スプラのマスに出ない", () => {
     const model = buildSceneModel(input({ items: [item(1, "tree", 2, 2)] }));
     const keys = new Set(model.ground.decals.map((d) => `${d.x},${d.y}`));
     for (const blocked of ["0,3", "2,2", "3,3"]) expect(keys.has(blocked)).toBe(false);
@@ -189,7 +189,7 @@ describe("雲・置く場所・プレビュー", () => {
   });
 });
 
-describe("仲間とスプル", () => {
+describe("仲間とスプラ", () => {
   const companion = (over: Partial<WorldCompanion> = {}): WorldCompanion => ({
     key: "lumi",
     name: "ルミ",
@@ -218,7 +218,7 @@ describe("仲間とスプル", () => {
     expect(c.kind === "companion" && c.review).toBe(true);
   });
 
-  it("スプルの絵の大きさは、立ち姿の高さを町の大きさ(58)にそろえた縮尺", () => {
+  it("スプラの絵の大きさは、立ち姿の高さを町の大きさ(58)にそろえた縮尺", () => {
     const model = buildSceneModel(input());
     const s = model.objects.find((o) => o.kind === "spru");
     expect(s && s.kind === "spru" && Math.round(s.height)).toBe(Math.round((SPRU_IMAGES.front.height * 58) / 208));
@@ -226,7 +226,7 @@ describe("仲間とスプル", () => {
 });
 
 describe("読み込む画像の一覧", () => {
-  it("崖・地面・道・小物・アイテム・スプルの絵を、重なりなく挙げる", () => {
+  it("崖・地面・道・小物・アイテム・スプラの絵を、重なりなく挙げる", () => {
     const model = buildSceneModel(input({ items: [item(1, "tree", 2, 0), item(2, "tree", 1, 0)] }));
     const srcs = modelSources(model);
     expect(new Set(srcs).size).toBe(srcs.length);
@@ -238,7 +238,7 @@ describe("読み込む画像の一覧", () => {
 });
 
 describe("動かない層の鍵", () => {
-  it("スプルの言葉・畑の水やりなど、地面に関わらない変化では変わらない", () => {
+  it("スプラの言葉・畑の水やりなど、地面に関わらない変化では変わらない", () => {
     const a = groundSignature(input());
     expect(groundSignature(input({ garden: { ...garden, can_water: true }, bloom: "flower" }))).toBe(a);
   });
@@ -251,7 +251,7 @@ describe("動かない層の鍵", () => {
   });
 });
 
-describe("歩くスプル", () => {
+describe("歩くスプラ", () => {
   it("歩いている間は、小数のマスの位置で、重なり順に入り、向きの3コマの絵を持つ", () => {
     const model = buildSceneModel(input({ walker: { x: 1.5, y: 3, dir: "lower_right", walking: true } }));
     const s = model.objects.find((o) => o.kind === "spru");
@@ -268,7 +268,7 @@ describe("歩くスプル", () => {
     expect(none && none.kind === "spru" && [none.x, none.y]).toEqual([3, 3]);
   });
 
-  it("歩く絵12枚は、先に読み込む。地面は、スプルの位置が変わっても同じ物を使い回せる", () => {
+  it("歩く絵12枚は、先に読み込む。地面は、スプラの位置が変わっても同じ物を使い回せる", () => {
     const model = buildSceneModel(input());
     expect(modelSources(model).filter((src) => src.startsWith("/spru/walk/"))).toHaveLength(12);
     const ground = buildGroundModel(input());

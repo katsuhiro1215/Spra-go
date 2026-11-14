@@ -76,7 +76,7 @@ class Errands
                 'claimed' => $errand->claimed_at !== null,
                 'giver' => $errand->giver === 'partner' && $partner
                     ? ['kind' => 'partner', 'key' => $partner->companion_key, 'name' => Bond::displayName($partner)]
-                    : ['kind' => 'spru', 'key' => null, 'name' => 'スプル'],
+                    : ['kind' => 'spru', 'key' => null, 'name' => 'スプラ'],
             ])->values()->all(),
             'bonus' => [
                 'amount' => config('world.errands.bonus'),

@@ -74,7 +74,7 @@ return [
         'cottage', 'red_house', 'bakery', 'japanese_house', 'cafe', 'lighthouse',
         // 特別の名所(docs/design/2026-09-28-town-items-design.md 5-4。各国の有名な建物、高額でレア)
         'kinkakuji', 'sungnyemun', 'arc_de_triomphe', 'big_ben',
-        // スプルラン限定(タネ交換所。docs/design/2026-10-22-spru-run-design.md 14-6)
+        // スプララン限定(タネ交換所。docs/design/2026-10-22-spru-run-design.md 14-6)
         'run_seed_bed', 'run_signpost', 'run_trophy', 'run_gate', 'run_golden_seed',
         // Spra-worldの確定画像(docs/design/2026-10-05-world-items-stage1-design.md)
         'young_tree', 'pathside_flowers', 'pathside_stone', 'stream', 'vegetable_bed', 'broadleaf_tree', 'spring', 'large_tree', 'leaf_lamp',
@@ -107,7 +107,7 @@ return [
 
     /*
     | 町のアイテムのカテゴリ(docs/design/2026-09-28-town-items-design.md 3-2)。絵のキーで決まり、Ownerは選ばない。
-    | asset_keys のすべてのキーに付ける(種から咲くスプルの花も)。おみやげはキーによらず souvenir(ShopItem::category)。
+    | asset_keys のすべてのキーに付ける(種から咲くスプラの花も)。おみやげはキーによらず souvenir(ShopItem::category)。
     | フロントの art-keys.ts の ITEM_ART_CATEGORIES と必ず一致させる(art-keys.test.ts で確かめる)
     */
 
@@ -166,7 +166,7 @@ return [
             ['key' => 'stone_lantern', 'x' => 2, 'y' => 0],
             ['key' => 'torii', 'x' => 3, 'y' => 0],
             ['key' => 'stone_lantern', 'x' => 4, 'y' => 0],
-            // スプルの家は2×2。(0,1) を奥のマスにして4マス使う(footprint がない目印は1マス。docs/design/2026-10-07-town-sizes-design.md 4-3)。畑の左側
+            // スプラの家は2×2。(0,1) を奥のマスにして4マス使う(footprint がない目印は1マス。docs/design/2026-10-07-town-sizes-design.md 4-3)。畑の左側
             ['key' => 'spru_house', 'x' => 0, 'y' => 1, 'footprint' => 2],
             // 十字の道(x=3・y=3)に面した畑。右(3,2)と手前(2,3)が道。種をまいて水やりする(目印なのでアイテムは置けない)。
             // Spruは、畑の前(道のマス)まで歩いてきて、「水をあげますか？」と聞く(docs/design/2026-10-19-garden-layout-design.md)

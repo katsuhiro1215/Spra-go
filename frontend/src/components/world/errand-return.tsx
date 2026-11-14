@@ -19,7 +19,7 @@ type Step = "run" | "reward" | "bonus" | "gift";
 
 const BUTTON = "mt-1 h-[52px] w-full rounded-2xl bg-[#3b7f26] text-base font-black text-white shadow-[0_4px_0_#285a19]";
 
-/** ［受け取る］の場面。リュックのスプルが走って帰ってきて、持っているものを見せる(設計書5-2) */
+/** ［受け取る］の場面。リュックのスプラが走って帰ってきて、持っているものを見せる(設計書5-2) */
 export function ErrandReturn({ errand, result, onClose }: { errand: WorldErrand; result: ErrandClaimResult; onClose: () => void }) {
   const router = useRouter();
   const [step, setStep] = useState<Step>("run");

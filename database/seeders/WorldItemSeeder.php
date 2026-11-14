@@ -81,7 +81,7 @@ class WorldItemSeeder extends Seeder
             ['name' => '村長の家', 'price' => 380, 'min_level' => 10, 'asset_key' => 'chief_hall'],
             ['name' => '石の塔の家', 'price' => 420, 'min_level' => 11, 'asset_key' => 'stone_tower_hall'],
             ['name' => '風車と水の庭', 'price' => 450, 'min_level' => 12, 'asset_key' => 'windmill_garden'],
-            ['name' => 'スプルモール', 'price' => 650, 'min_level' => 13, 'asset_key' => 'spru_mall'],
+            ['name' => 'スプラモール', 'price' => 650, 'min_level' => 13, 'asset_key' => 'spru_mall'],
             ['name' => 'サクモール', 'price' => 700, 'min_level' => 14, 'asset_key' => 'saku_mall'],
             // 町らしさを足す追加分(2026-10-12)。花・木・街の備品・暮らし・名所・家の成長・畑
             ['name' => 'ラベンダー', 'price' => 20, 'min_level' => 2, 'asset_key' => 'lavender'],
@@ -108,11 +108,11 @@ class WorldItemSeeder extends Seeder
             ['name' => '薪の山', 'price' => 30, 'min_level' => 3, 'asset_key' => 'firewood_pile'],
             ['name' => '干し草の山', 'price' => 35, 'min_level' => 3, 'asset_key' => 'haystack'],
             ['name' => '洗濯物', 'price' => 40, 'min_level' => 4, 'asset_key' => 'laundry_line'],
-            ['name' => 'スプルのスカイタワー', 'price' => 600, 'min_level' => 14, 'asset_key' => 'sky_tower'],
+            ['name' => 'スプラのスカイタワー', 'price' => 600, 'min_level' => 14, 'asset_key' => 'sky_tower'],
             ['name' => 'サクの花の塔', 'price' => 750, 'min_level' => 16, 'asset_key' => 'saku_blossom_tower'],
             ['name' => '金色の葉の寺', 'price' => 800, 'min_level' => 16, 'asset_key' => 'golden_leaf_temple'],
-            ['name' => 'スプルの家 Lv2', 'price' => 200, 'min_level' => 9, 'asset_key' => 'spru_house_lv2'],
-            ['name' => 'スプルの家 Lv3', 'price' => 300, 'min_level' => 12, 'asset_key' => 'spru_house_lv3'],
+            ['name' => 'スプラの家 Lv2', 'price' => 200, 'min_level' => 9, 'asset_key' => 'spru_house_lv2'],
+            ['name' => 'スプラの家 Lv3', 'price' => 300, 'min_level' => 12, 'asset_key' => 'spru_house_lv3'],
             ['name' => '青い屋根の家', 'price' => 220, 'min_level' => 8, 'asset_key' => 'human_house'],
             ['name' => '小麦畑', 'price' => 120, 'min_level' => 3, 'asset_key' => 'wheat_field'],
             ['name' => 'にんじん畑', 'price' => 130, 'min_level' => 4, 'asset_key' => 'carrot_field'],
@@ -179,7 +179,7 @@ class WorldItemSeeder extends Seeder
             );
         }
 
-        // スプルラン限定(タネ交換所。docs/design/2026-10-22-spru-run-design.md 14-6)。値段はランのタネの数(倍率をかけない)
+        // スプララン限定(タネ交換所。docs/design/2026-10-22-spru-run-design.md 14-6)。値段はランのタネの数(倍率をかけない)
         $runItems = [
             ['name' => 'タネの花だん', 'price' => 300, 'asset_key' => 'run_seed_bed'],
             ['name' => 'ランのしるべ', 'price' => 600, 'asset_key' => 'run_signpost'],

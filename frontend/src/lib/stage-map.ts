@@ -19,7 +19,7 @@ export function stageMapLayout(count: number, width: number, rowHeight = 96): { 
   return { points, height };
 }
 
-/** スプルが立つステージの番号(0から)。次に遊ぶ(まだクリアしていない最初の)ステージ。全部クリアなら最後。なければ null */
+/** スプラが立つステージの番号(0から)。次に遊ぶ(まだクリアしていない最初の)ステージ。全部クリアなら最後。なければ null */
 export function walkerTarget(stages: { cleared: boolean; locked: boolean }[]): number | null {
   if (stages.length === 0) return null;
   const next = stages.findIndex((stage) => !stage.cleared);

@@ -12,7 +12,7 @@ import { buySwimCostume, equipCostume, fetchSwimCoinShop, type CostumeRow, type 
 
 /**
  * スイムコイン交換所(docs/design/2026-10-17-spru-costumes-design.md 10章)。スイムコインで、きせかえを買う。
- * 買う前に確認を出す。持っているきせかえは、ここで着替える(「ふつうのスプル」に戻せる。タネ交換所と共有の1着)
+ * 買う前に確認を出す。持っているきせかえは、ここで着替える(「ふつうのスプラ」に戻せる。タネ交換所と共有の1着)
  */
 export function SwimShop() {
   const [shop, setShop] = useState<SwimCoinShop | null>(null);
@@ -52,7 +52,7 @@ export function SwimShop() {
 
         <div className="grid grid-cols-2 gap-3">
           <div className="flex flex-col items-center gap-2 rounded-3xl bg-[#fffaf0] p-3 shadow-[0_4px_12px_rgba(0,0,0,0.12)]">
-            <p className="text-sm font-black">ふつうのスプル</p>
+            <p className="text-sm font-black">ふつうのスプラ</p>
             <AppButton variant={shop?.costume_key ? "default" : "primary"} size="sm" disabled={!shop?.costume_key} onClick={() => wear(null)}>
               {shop?.costume_key ? "もどす" : "着ているよ"}
             </AppButton>

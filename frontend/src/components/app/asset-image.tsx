@@ -4,7 +4,7 @@ import { fixedImageSize } from "@/components/app/image-size";
 import type { SpruImage } from "@/components/spru/spru-assets";
 
 /**
- * 切り抜いたスプルの絵を、高さ(size)を決めて出す(docs/design/2026-09-29-spru-icons-design.md 4章)。
+ * 切り抜いたスプラの絵を、高さ(size)を決めて出す(docs/design/2026-09-29-spru-icons-design.md 4章)。
  * alt がなければ飾り。flip は左右反転(左向きの乗り物を右向きにする)。
  * 入れ物より少し広い絵も幅だけ縮まないよう、Tailwind の img の max-width:100% を外す(max-w-none)
  */

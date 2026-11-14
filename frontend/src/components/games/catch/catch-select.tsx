@@ -33,7 +33,7 @@ export function CatchSelect({
 
   return (
     <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center gap-5 px-6 py-10 pb-24 text-center">
-      <SpruFigure image="cheer" standHeight={110} alt="スプル" eager />
+      <SpruFigure image="cheer" standHeight={110} alt="スプラ" eager />
       <SkyTitle className="text-2xl">{config.title}</SkyTitle>
       <SkyText className="text-sm">
         <AutoFurigana text={config.intro} />

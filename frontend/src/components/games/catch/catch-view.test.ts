@@ -82,7 +82,7 @@ describe("落ちてくる言葉のカードの見た目", () => {
 });
 
 describe("成長の印の絵", () => {
-  it("種・芽は畑の絵、つぼみ・花はスプルの頭の絵", () => {
+  it("種・芽は畑の絵、つぼみ・花はスプラの頭の絵", () => {
     expect(growthImage("seed")).toBe(GROWTH_IMAGES["spru/seed"]);
     expect(growthImage("sprout")).toBe(GROWTH_IMAGES["spru/sprout"]);
     expect(growthImage("bud")).toBe(SPRU_BLOOM.bud);
@@ -133,8 +133,8 @@ describe("spruPose", () => {
 });
 
 describe("説明の文", () => {
-  it("名前は「スプルキャッチ（えいたんご）」、あそびかたは3つの手順、ヒントは2つ", () => {
-    expect(CATCH_TITLE).toBe("スプルキャッチ（えいたんご）");
+  it("名前は「スプラキャッチ（えいたんご）」、あそびかたは3つの手順、ヒントは2つ", () => {
+    expect(CATCH_TITLE).toBe("スプラキャッチ（えいたんご）");
     expect(CATCH_HOW_TO).toHaveLength(3);
     expect(CATCH_HOW_TO.every((line) => line.length > 0)).toBe(true);
     expect(CATCH_TAP_HINT).toBe("答えをタップ！");
@@ -144,11 +144,11 @@ describe("説明の文", () => {
 
 describe("ゲームの種類ごとの設定(CATCH_MODES)", () => {
   it("英語は今までの名前・あそびかた・窓口。国旗は、こっきの名前・国旗向けのあそびかた・窓口", () => {
-    expect(CATCH_MODES.catch).toMatchObject({ title: "スプルキャッチ（えいたんご）", apiPath: "/api/games/catch", emptyLink: true });
+    expect(CATCH_MODES.catch).toMatchObject({ title: "スプラキャッチ（えいたんご）", apiPath: "/api/games/catch", emptyLink: true });
     expect(CATCH_MODES.catch.howTo).toBe(CATCH_HOW_TO);
 
     expect(CATCH_MODES.flag_catch).toMatchObject({
-      title: "スプルキャッチ（こっき）",
+      title: "スプラキャッチ（こっき）",
       apiPath: "/api/games/flag-catch",
       missedHeading: "まちがえた国旗",
       emptyLink: false,

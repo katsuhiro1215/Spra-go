@@ -4,7 +4,7 @@ export const WORLD_COURSE_NAME = "世界ぜんぶ";
 export const WORLD_COURSE_NOTE = "ちょうむずかしい";
 
 /**
- * コースのカードに出す絵(大陸の地図とスプルのバッジ。3:2、540×360のWebP)。
+ * コースのカードに出す絵(大陸の地図とスプラのバッジ。3:2、540×360のWebP)。
  * 元の絵は company/spra/mascot/assets/course/course_{キー}_01.png
  */
 export const COURSE_IMAGES: Record<string, string> = {

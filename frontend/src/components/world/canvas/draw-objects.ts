@@ -30,7 +30,7 @@ export type Motion = {
   popped: { itemId: number; elapsed: number } | null;
   /** 跳ねている仲間と、跳ね始めてからの秒 */
   companionHop: { key: string; elapsed: number } | null;
-  /** スプルが跳ねているとき、跳ね始めてからの秒 */
+  /** スプラが跳ねているとき、跳ね始めてからの秒 */
   spruHop: number | null;
   /** 開いたばかりの雲が晴れ始めてからの秒(まだ晴れていなければ null) */
   veilClear: number | null;

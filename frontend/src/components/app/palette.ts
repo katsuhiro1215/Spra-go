@@ -39,7 +39,7 @@ export type StampTier = "none" | "bronze" | "silver" | "gold";
 
 type StampBadge = { badge: "medal-bronze" | "medal-silver" | "medal-gold" | null; ring: string; label: string };
 
-// 銅・銀・金のメダル(mascot-11のスプル入り、設計書4-2)。丸のふちもメダルの色
+// 銅・銀・金のメダル(mascot-11のスプラ入り、設計書4-2)。丸のふちもメダルの色
 const STAMP_BADGES: Record<StampTier, StampBadge> = {
   gold: { badge: "medal-gold", ring: "border-[#d4a72c]", label: "全難易度クリア" },
   silver: { badge: "medal-silver", ring: "border-[#9aa3ab]", label: "中級までクリア" },

@@ -6,7 +6,7 @@ import { SkyPage } from "@/components/app/sky-page";
 import { SPRU_ICONS, type SpruIconKey } from "@/components/spru/spru-assets";
 
 // メール確認・パスワード再設定の画面の共通の形(docs/design/2026-09-29-email-verify-reset-design.md 3章)。
-// ログイン画面と同じ、空の背景・スプルの絵・クリーム色のカード
+// ログイン画面と同じ、空の背景・スプラの絵・クリーム色のカード
 export const AUTH_LABEL_CLASS = "text-sm font-black text-[#3b3226]";
 export const AUTH_INPUT_CLASS =
   "h-11 rounded-xl border-2 border-[#e8dfcf] bg-white px-3 text-sm text-[#3b3226] outline-none focus-visible:border-[#2b6fa3]";

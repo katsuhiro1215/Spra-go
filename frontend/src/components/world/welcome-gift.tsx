@@ -12,7 +12,7 @@ export function WelcomeGift({ amount, busy, onReceive }: { amount: number; busy:
         aria-labelledby="welcome-gift-title"
         className="flex w-full max-w-[322px] flex-col items-center gap-2.5 rounded-3xl bg-[#fffaf0] px-5 pt-5 pb-5 text-center text-[#3b3226] shadow-[0_16px_36px_rgba(0,0,0,0.22)]"
       >
-        <SpruFigure image="jump" standHeight={120} alt="よろこぶスプル" className="animate-spru-hop" />
+        <SpruFigure image="jump" standHeight={120} alt="よろこぶスプラ" className="animate-spru-hop" />
         <h2 id="welcome-gift-title" className="text-2xl font-black text-[#2e6b1c]">
           <AutoFurigana text="ようこそ、自分の町へ！" />
         </h2>

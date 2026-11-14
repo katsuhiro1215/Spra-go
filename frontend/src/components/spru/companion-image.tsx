@@ -3,8 +3,8 @@ import Image from "next/image";
 import { COMPANION_IMAGES, SPRU_STAND_HEIGHT, type CompanionKey } from "./spru-assets";
 
 /**
- * HTMLの中で仲間を出す(クイズ・仲間のカード用)。standHeight はスプルの立ち姿の高さ(px)で、
- * 仲間は素材集の縮尺どおり、スプルより少し小さく描く
+ * HTMLの中で仲間を出す(クイズ・仲間のカード用)。standHeight はスプラの立ち姿の高さ(px)で、
+ * 仲間は素材集の縮尺どおり、スプラより少し小さく描く
  */
 export function CompanionImage({
   companionKey,

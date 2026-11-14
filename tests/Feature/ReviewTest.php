@@ -61,13 +61,13 @@ it('消された問題は出ない', function () {
     expect(Review::questionIds($profile))->toBe([]);
 });
 
-it('相棒がいないと、町のAPIの復習はスプルが出す', function () {
+it('相棒がいないと、町のAPIの復習はスプラが出す', function () {
     $profile = createActiveProfile();
     [$question] = createQuestionWithChoices();
     makeDue($profile, $question);
 
     $this->getJson('/api/world')->assertOk()->assertJsonPath('review', [
-        'available' => true, 'count' => 1, 'giver' => ['kind' => 'spru', 'key' => null, 'name' => 'スプル'],
+        'available' => true, 'count' => 1, 'giver' => ['kind' => 'spru', 'key' => null, 'name' => 'スプラ'],
     ]);
 });
 
@@ -123,7 +123,7 @@ it('やりきると今日の記録が付き、相棒に+5。「！」は次の�
     $this->getJson('/api/world')->assertJsonPath('review.available', true);
 });
 
-it('スプルが出した復習をやりきっても、なかよし度は誰にも足さない', function () {
+it('スプラが出した復習をやりきっても、なかよし度は誰にも足さない', function () {
     $profile = createActiveProfile();
     [$question] = createQuestionWithChoices();
     makeDue($profile, $question);

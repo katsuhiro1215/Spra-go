@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/** スプルのきせかえ(docs/design/2026-10-17-spru-costumes-design.md 5章)。持っている衣装と、いま着ている衣装 */
+/** スプラのきせかえ(docs/design/2026-10-17-spru-costumes-design.md 5章)。持っている衣装と、いま着ている衣装 */
 return new class extends Migration
 {
     public function up(): void

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { COSTUME_IMAGES, OUTING_IMAGES, type CostumeKey, type OutingKey } from "./spru-assets";
 
-/** リュックのスプル(mascot-7)。おつかいの受け取りとお出かけの場面だけで使う(設計書6章) */
+/** リュックのスプラ(mascot-7)。おつかいの受け取りとお出かけの場面だけで使う(設計書6章) */
 export function OutingImage({ image, height, className }: { image: OutingKey; height: number; className?: string }) {
   const asset = OUTING_IMAGES[image];
   return (
@@ -17,7 +17,7 @@ export function OutingImage({ image, height, className }: { image: OutingKey; he
   );
 }
 
-/** 季節の衣装のスプル(mascot-8) */
+/** 季節の衣装のスプラ(mascot-8) */
 export function CostumeImage({ costume, height, className }: { costume: CostumeKey; height: number; className?: string }) {
   const asset = COSTUME_IMAGES[costume];
   return (

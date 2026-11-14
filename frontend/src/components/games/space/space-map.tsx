@@ -110,7 +110,7 @@ export function SpaceMap({
           <AutoFurigana text="れんしゅう" />
         </AppButton>
       </div>
-      <SpruFigure image="cheer" standHeight={70} alt="スプル" />
+      <SpruFigure image="cheer" standHeight={70} alt="スプラ" />
     </div>
   );
 }

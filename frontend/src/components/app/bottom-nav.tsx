@@ -22,7 +22,7 @@ function ActiveBar() {
 
 /**
  * 画面下部の常設ナビ(設計書4-5)。学ぶ・せかい・まち(真ん中で大きく)・ショップ・じぶん。
- * 絵はスプルのアイコン、「じぶん」はそのプレイヤーのアバター(docs/design/2026-09-29-spru-icons-design.md 4-1)。
+ * 絵はスプラのアイコン、「じぶん」はそのプレイヤーのアバター(docs/design/2026-09-29-spru-icons-design.md 4-1)。
  * 「じぶん」はページを移らず、下から出るパネル(MeSheet)を開く。各ページは下端の余白(pb-24)を確保すること
  */
 export function BottomNav() {

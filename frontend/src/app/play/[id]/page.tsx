@@ -75,7 +75,7 @@ export default function Page({
     null,
   );
   const [stageIntro, setStageIntro] = useState<StageIntro | null>(null);
-  // スプルキャッチの問題の出どころ(「英語を学ぶ」)のカテゴリー。この画面がそれなら、ゲームのボタンを出す
+  // スプラキャッチの問題の出どころ(「英語を学ぶ」)のカテゴリー。この画面がそれなら、ゲームのボタンを出す
   const [catchCategoryId, setCatchCategoryId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -287,7 +287,7 @@ export default function Page({
             {catchCategoryId !== null && category?.id === catchCategoryId && (
               <Link href="/games/catch">
                 <AppButton variant="warning" size="lg" className="w-full">
-                  <AutoFurigana text="スプルキャッチで遊ぶ" />
+                  <AutoFurigana text="スプラキャッチで遊ぶ" />
                 </AppButton>
               </Link>
             )}

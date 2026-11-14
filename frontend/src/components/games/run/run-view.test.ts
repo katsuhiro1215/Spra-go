@@ -11,7 +11,7 @@ describe("run-view", () => {
     expect(scrollCqw(WORLD_W, 0.5)).toBe("-50cqw");
   });
 
-  it("スプルの絵: 空中はジャンプ(2段目は丸まる)、ぶつかった直後はびっくり、走るときは2枚を交互", () => {
+  it("スプラの絵: 空中はジャンプ(2段目は丸まる)、ぶつかった直後はびっくり、走るときは2枚を交互", () => {
     const s = createRun(1);
     expect(spruPose({ ...s, y: 10, jumps: 1, standing: false })).toBe("jump");
     expect(spruPose({ ...s, y: 10, jumps: 2, standing: false })).toBe("double-jump");
@@ -22,7 +22,7 @@ describe("run-view", () => {
     expect(spruPose({ ...s, distance: 40 })).toBe("run-b");
   });
 
-  it("スプルは、走る1枚目の高さを基準に、どのポーズも同じ倍率で描く", () => {
+  it("スプラは、走る1枚目の高さを基準に、どのポーズも同じ倍率で描く", () => {
     const runA = spruDraw("run-a", 78);
     const hit = spruDraw("hit", 78);
     expect(runA.height).toBe(78);

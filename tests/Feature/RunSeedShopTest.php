@@ -124,7 +124,7 @@ it('買ったきせかえは、季節の外でも着られる。ふつうに戻�
     expect($profile->fresh()->costume_key)->toBeNull();
 });
 
-it('スプルランの入口の情報に、いま着ている衣装が入る', function () {
+it('スプラランの入口の情報に、いま着ている衣装が入る', function () {
     $profile = createActiveProfile();
     config(['games.spru_run.catalog' => ['released_on' => '2026-10-01', 'ends_on' => null, 'season' => null]]);
     $profile->update(['run_seeds' => 2500]);

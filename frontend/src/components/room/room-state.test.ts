@@ -3,13 +3,13 @@ import { describe, expect, it } from "vitest";
 import { ROOM_SIT_AFTER_MS, ROOM_WAVE_MS, roomLine, roomMode, roomSpruPose } from "./room-state";
 
 describe("部屋の昼・夜(設計書 2026-10-05-spru-room 5章)", () => {
-  it("スプルが寝ていれば夜、起きていれば昼", () => {
+  it("スプラが寝ていれば夜、起きていれば昼", () => {
     expect(roomMode(true)).toBe("night");
     expect(roomMode(false)).toBe("day");
   });
 });
 
-describe("部屋のスプルの様子", () => {
+describe("部屋のスプラの様子", () => {
   const opened = 1000;
 
   it("開いた直後は立っていて、8秒たつと座る", () => {
@@ -33,7 +33,7 @@ describe("部屋のスプルの様子", () => {
   });
 });
 
-describe("部屋のスプルのひとこと", () => {
+describe("部屋のスプラのひとこと", () => {
   it("昼は3つを順に回す", () => {
     const lines = [0, 1, 2, 3].map((n) => roomLine("day", n));
     expect(lines[0]).toBe("やっほー！");

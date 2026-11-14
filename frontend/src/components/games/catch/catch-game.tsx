@@ -32,7 +32,7 @@ import {
   type SpruPose,
 } from "./catch-view";
 
-/** 落ちてくる言葉のカードの高さ・上のすきま・スプルの高さ(px)。受け取る線はスプルの頭 */
+/** 落ちてくる言葉のカードの高さ・上のすきま・スプラの高さ(px)。受け取る線はスプラの頭 */
 const CARD_PX = 64;
 const ROW_TOP_PX = 8;
 const SPRU_PX = 96;
@@ -55,10 +55,10 @@ const POSE_IMAGE: Record<SpruPose, SpruImage> = {
   sad: SPRU_IMAGES.sad,
 };
 
-/** スプルから言葉へ飛ぶ種(見た目だけ)。位置は、場の左上からのpx */
+/** スプラから言葉へ飛ぶ種(見た目だけ)。位置は、場の左上からのpx */
 type SeedFlight = { key: number; from: { x: number; y: number }; to: { x: number; y: number } };
 
-/** スプルキャッチのゲームの画面(docs/design/2026-09-29-spru-catch-design.md 7-3・7-5) */
+/** スプラキャッチのゲームの画面(docs/design/2026-09-29-spru-catch-design.md 7-3・7-5) */
 export function CatchGame({
   questions,
   settings,
@@ -150,7 +150,7 @@ export function CatchGame({
     onFinish(state);
   }, [state, onFinish]);
 
-  /** 落ちている言葉をタップして、スプルが種を投げて答える。種の動きは見た目だけで、出せなくても答えは決まる */
+  /** 落ちている言葉をタップして、スプラが種を投げて答える。種の動きは見た目だけで、出せなくても答えは決まる */
   const throwSeed = (lane: number) => {
     if (pausedRef.current || latestRef.current.phase !== "falling") return;
 
@@ -268,7 +268,7 @@ export function CatchGame({
           >
             <Image
               src={spru.src}
-              alt="スプル"
+              alt="スプラ"
               width={Math.round((SPRU_PX * spru.width) / spru.height)}
               height={SPRU_PX}
               className="h-full w-auto"
@@ -333,7 +333,7 @@ const SEED_PX = 28;
 const SEED_MS = 280;
 
 /**
- * スプルから言葉へ飛ぶ種。動きだけの部品(見た目のみ)。ゲームの画面は毎フレーム描き直されるので、
+ * スプラから言葉へ飛ぶ種。動きだけの部品(見た目のみ)。ゲームの画面は毎フレーム描き直されるので、
  * 終わったときの呼び出しは ref に持ち、タイマーを作り直さない
  */
 function SeedFlightView({ flight, onDone }: { flight: SeedFlight; onDone: () => void }) {

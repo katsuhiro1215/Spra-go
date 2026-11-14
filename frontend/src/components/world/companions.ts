@@ -33,25 +33,25 @@ export function checkNickname(input: string): NicknameCheck {
   return { ok: true, value };
 }
 
-/** スプルをタップしたときの動き。寝ているときは、その前に起きる(設計書3-6) */
+/** スプラをタップしたときの動き。寝ているときは、その前に起きる(設計書3-6) */
 export function pickSpruTap({ canSow, review }: { canSow: boolean; review: WorldReview }): "sow" | "review" | "chat" {
   if (canSow) return "sow";
   if (review.available && review.giver.kind === "spru") return "review";
   return "chat";
 }
 
-/** スプルのふだんのひとこと。畑の案内が無いときに言う(設計書3-6) */
+/** スプラのふだんのひとこと。畑の案内が無いときに言う(設計書3-6) */
 export function reviewPrompt(review: WorldReview): string | null {
   if (!review.available) return null;
   return review.giver.kind === "companion" ? `${review.giver.name}が復習を用意してるよ` : "この前の問題、いっしょに復習しよう！";
 }
 
-/** 仲間のカードと、スプルの復習カードの誘い(設計書3-5) */
+/** 仲間のカードと、スプラの復習カードの誘い(設計書3-5) */
 export function reviewInvite(count: number): string {
   return `おさらいの問題、いっしょにやってみよう！（${count}問）`;
 }
 
-/** 復習の「！」を出す相手。スプルなら "spru"、仲間ならそのキー、出さない日は null */
+/** 復習の「！」を出す相手。スプラなら "spru"、仲間ならそのキー、出さない日は null */
 export function reviewGiverKey(review: WorldReview): string | null {
   if (!review.available) return null;
   return review.giver.kind === "spru" ? "spru" : review.giver.key;
@@ -64,7 +64,7 @@ export function bornNote(companion: Pick<WorldCompanion, "is_partner" | "in_town
   return null;
 }
 
-/** 生まれる前に咲く花の見た目。仲間は緑(ふつうのスプル)、レアスプルはその色 */
+/** 生まれる前に咲く花の見た目。仲間は緑(ふつうのスプラ)、レアスプラはその色 */
 export function bornLook(companion: Pick<WorldCompanion, "key" | "rare">): string {
   return companion.rare ? companion.key : "spru";
 }

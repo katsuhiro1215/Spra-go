@@ -33,7 +33,7 @@ function advancedStage(UserProfile $profile, int $number, bool $cleared, string 
     return $stage;
 }
 
-/** スプルキャッチを終えた回(10問) */
+/** スプラキャッチを終えた回(10問) */
 function finishedCatch(UserProfile $profile, int $answered, int $correct, bool $finished = true): void
 {
     $profile->gamePlays()->create([
@@ -49,7 +49,7 @@ function finishedCatch(UserProfile $profile, int $answered, int $correct, bool $
     ]);
 }
 
-it('レアスプルは10色で、スプルの種からは選ばれず、ひとことが5つある', function () {
+it('レアスプラは10色で、スプラの種からは選ばれず、ひとことが5つある', function () {
     $rares = RareSeeds::rares();
 
     expect(array_keys($rares))->toBe(['ruby', 'sapphire', 'silver', 'amber', 'obsidian', 'crystal', 'pearl', 'emerald', 'gold', 'platinum'])
@@ -128,7 +128,7 @@ it('上級のステージは、クリアしたものだけ数える', function (
     expect(rareProgress($profile, 'obsidian'))->toMatchArray(['current' => 3, 'met' => true]);
 });
 
-it('スプルキャッチは、終えた回で出た問題を全部正解した回だけ数える', function () {
+it('スプラキャッチは、終えた回で出た問題を全部正解した回だけ数える', function () {
     $profile = createActiveProfile();
     finishedCatch($profile, 10, 9);
     finishedCatch($profile, 3, 3);
@@ -160,8 +160,8 @@ it('満たした色だけ種を渡し、2回目は何も渡さない', function 
         ->and(RareSeeds::grant($profile->fresh()))->toBe([])
         ->and($profile->specialSeeds()->count())->toBe(2)
         ->and(RareSeeds::bag($profile->fresh()))->toBe([
-            ['key' => 'ruby', 'name' => 'ルビースプル'],
-            ['key' => 'silver', 'name' => 'シルバースプル'],
+            ['key' => 'ruby', 'name' => 'ルビースプラ'],
+            ['key' => 'silver', 'name' => 'シルバースプラ'],
         ]);
 });
 
@@ -170,7 +170,7 @@ it('まいた種はふくろに入らない', function () {
     $profile->specialSeeds()->create(['rare_key' => 'ruby', 'granted_at' => now(), 'planted_at' => now()]);
     $profile->specialSeeds()->create(['rare_key' => 'gold', 'granted_at' => now()]);
 
-    expect(RareSeeds::bag($profile))->toBe([['key' => 'gold', 'name' => 'ゴールドスプル']]);
+    expect(RareSeeds::bag($profile))->toBe([['key' => 'gold', 'name' => 'ゴールドスプラ']]);
 });
 
 it('同じ色の種は2つ作れない', function () {
@@ -183,9 +183,9 @@ it('同じ色の種は2つ作れない', function () {
 
 it('お祝いの一言と条件の文', function () {
     expect(RareSeeds::present(['sapphire', 'ruby', 'crystal']))->toBe([
-        ['key' => 'sapphire', 'name' => 'サファイアスプル', 'reason' => '初めて外国に着いたね'],
-        ['key' => 'ruby', 'name' => 'ルビースプル', 'reason' => '7日続けて学んだね'],
-        ['key' => 'crystal', 'name' => 'クリスタルスプル', 'reason' => 'スプルキャッチで全問正解したね'],
+        ['key' => 'sapphire', 'name' => 'サファイアスプラ', 'reason' => '初めて外国に着いたね'],
+        ['key' => 'ruby', 'name' => 'ルビースプラ', 'reason' => '7日続けて学んだね'],
+        ['key' => 'crystal', 'name' => 'クリスタルスプラ', 'reason' => 'スプラキャッチで全問正解したね'],
     ])
         ->and(RareSeeds::text('trips', 3, 'goal'))->toBe('3か国に着く')
         ->and(RareSeeds::condition('obsidian', 1))->toBe(['text' => '上級のステージを3つクリア', 'current' => 1, 'target' => 3, 'unit' => 'つ']);

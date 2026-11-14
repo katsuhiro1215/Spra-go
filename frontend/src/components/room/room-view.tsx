@@ -22,8 +22,8 @@ const boxStyle = (item: Pick<RoomItem, "left" | "top" | "width" | "height">) => 
 });
 
 /**
- * スプルの家の中(見るだけの部屋。設計書 2026-10-05-spru-room)。
- * 昼・夜は、町のスプルが寝ているか(sleeping)で決める。寝ているスプルをタップすると、onWake で起こす(町と同じ処理)
+ * スプラの家の中(見るだけの部屋。設計書 2026-10-05-spru-room)。
+ * 昼・夜は、町のスプラが寝ているか(sleeping)で決める。寝ているスプラをタップすると、onWake で起こす(町と同じ処理)
  */
 export function RoomView({ sleeping, onWake, onClose }: { sleeping: boolean; onWake: () => void; onClose: () => void }) {
   const [openedAt] = useState(() => Date.now());
@@ -40,7 +40,7 @@ export function RoomView({ sleeping, onWake, onClose }: { sleeping: boolean; onW
   const mode = roomMode(sleeping);
   const pose = roomSpruPose({ openedAt, lastTapAt }, now);
   const items = roomItems(mode, pose);
-  // タップできるのは、昼は立って(座って)いるスプル、夜はベッドで眠るスプル
+  // タップできるのは、昼は立って(座って)いるスプラ、夜はベッドで眠るスプラ
   const target = items.find((item) => item.key.startsWith("spru_") || item.key === "bed_sleeping");
   const hopping = pose === "wave" && !prefersReducedMotion();
 
@@ -68,7 +68,7 @@ export function RoomView({ sleeping, onWake, onClose }: { sleeping: boolean; onW
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="スプルの家の中"
+        aria-label="スプラの家の中"
         className="flex w-full max-w-[480px] flex-col items-center gap-3 rounded-3xl bg-[#fffaf0] px-3 pt-4 pb-4 text-[#3b3226] shadow-[0_16px_36px_rgba(0,0,0,0.25)]"
       >
         <div
@@ -112,7 +112,7 @@ export function RoomView({ sleeping, onWake, onClose }: { sleeping: boolean; onW
           {target && (
             <button
               type="button"
-              aria-label={sleeping ? "ねているスプル(おこす)" : "スプル"}
+              aria-label={sleeping ? "ねているスプラ(おこす)" : "スプラ"}
               onClick={tap}
               className="absolute rounded-xl focus-visible:outline-3 focus-visible:outline-[#f2b632]"
               style={boxStyle(target)}

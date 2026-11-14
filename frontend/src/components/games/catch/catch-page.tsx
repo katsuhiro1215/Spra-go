@@ -37,7 +37,7 @@ async function fetchSummary(apiPath: string): Promise<CatchSummary | "/login" | 
   return res.ok ? res.json() : null;
 }
 
-/** 国旗版(flag_catch)も、種類(mode)を変えて同じ部品で動かす。ミニゲーム1本目「スプルキャッチ」。選ぶ → 3・2・1 → ゲーム → 結果(docs/design/2026-09-29-spru-catch-design.md 7章) */
+/** 国旗版(flag_catch)も、種類(mode)を変えて同じ部品で動かす。ミニゲーム1本目「スプラキャッチ」。選ぶ → 3・2・1 → ゲーム → 結果(docs/design/2026-09-29-spru-catch-design.md 7章) */
 export function CatchPageView({ mode }: { mode: CatchMode }) {
   const router = useRouter();
   const config = CATCH_MODES[mode];

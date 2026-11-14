@@ -31,7 +31,7 @@ describe("ステージの道の配置", () => {
   });
 });
 
-describe("スプルの立つ位置", () => {
+describe("スプラの立つ位置", () => {
   const stage = (cleared: boolean, locked = false) => ({ cleared, locked });
 
   it("何もクリアしていなければ最初。3つクリアなら4番目(次に遊ぶ)", () => {

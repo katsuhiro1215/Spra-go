@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { playsLeftText, quitAction, quitMessage, realButtonState } from "./swim-flow";
 
-describe("スプルスイムの流れ(docs/design/2026-11-10-spru-swim-design.md)", () => {
+describe("スプラスイムの流れ(docs/design/2026-11-10-spru-swim-design.md)", () => {
   it("始めて9秒までのやめるは回を戻し、それをこえたらそこまでの記録で終える(サーバーの10秒より少し手前で分ける)", () => {
     expect(quitAction(0)).toBe("abandon");
     expect(quitAction(9000)).toBe("abandon");

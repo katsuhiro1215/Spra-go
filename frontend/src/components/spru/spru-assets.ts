@@ -193,7 +193,7 @@ export const STAMP_IMAGES = {
   "kr": { src: "/spru/stamps/kr.webp", width: 203, height: 190 },
 } as const satisfies Record<string, SpruImage>;
 
-/** スプルの家(入口の1枚の絵)。町のマスには置かない */
+/** スプラの家(入口の1枚の絵)。町のマスには置かない */
 export const HOUSE_IMAGES = {
   "home": { src: "/spru/house/home.webp", width: 552, height: 528 },
 } as const satisfies Record<string, SpruImage>;
@@ -419,7 +419,7 @@ export const SPRU_TRAVEL = {
   "ticket": { src: "/spru/travel/ticket.webp", width: 192, height: 127 },
 } as const satisfies Record<string, SpruImage>;
 
-/** ページの絵(見つからないページの迷子のスプル) */
+/** ページの絵(見つからないページの迷子のスプラ) */
 export const SPRU_PAGES = {
   "lost": { src: "/spru/pages/lost.webp", width: 192, height: 178 },
 } as const satisfies Record<string, SpruImage>;

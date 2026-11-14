@@ -6,7 +6,7 @@ export function receivedCount(destination: Destination): number {
   return destination.souvenirs.filter((souvenir) => souvenir.received).length;
 }
 
-/** せかいで日本の島のスプルが言うひとこと。上から順に最初に当てはまるもの(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-2) */
+/** せかいで日本の島のスプラが言うひとこと。上から順に最初に当てはまるもの(設計書 docs/design/2026-09-28-travel-tickets-design.md 5-2) */
 export function hubLine(travel: Pick<TravelData, "tickets" | "ticket_hint" | "destinations">): string {
   const { destinations } = travel;
   const gift = destinations.find((destination) => destination.gift_ready);

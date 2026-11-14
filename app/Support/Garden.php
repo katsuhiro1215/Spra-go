@@ -9,7 +9,7 @@ use App\Models\UserProfile;
 use Illuminate\Support\Carbon;
 
 /**
- * スプルの育ち具合と、畑・仲間(docs/design/2026-09-27-spru-wave-b-design.md 3〜4章、C回の相棒は 2026-09-27-spru-wave-c-design.md)。
+ * スプラの育ち具合と、畑・仲間(docs/design/2026-09-27-spru-wave-b-design.md 3〜4章、C回の相棒は 2026-09-27-spru-wave-c-design.md)。
  * 育ち具合は保存せず、レベルと「前に種をまいたときのレベル」の差から決める。
  */
 class Garden
@@ -70,7 +70,7 @@ class Garden
 
     /**
      * 畑の見た目(docs/design/2026-09-29-rare-spru-design.md 3-4)。特別な種はその色、
-     * スプルの種は生まれる子にかかわらず spru(誰が生まれるかを画面に送らない)
+     * スプラの種は生まれる子にかかわらず spru(誰が生まれるかを画面に送らない)
      */
     public static function look(ProfileSeed $seed): string
     {
@@ -102,7 +102,7 @@ class Garden
     }
 
     /**
-     * ふつうの種が育つもの。仲間はレベルで会える形になったので、いつも「スプルの花」
+     * ふつうの種が育つもの。仲間はレベルで会える形になったので、いつも「スプラの花」
      * (docs/design/2026-10-08-town-growth-design.md 4-3)
      */
     public static function pickResult(UserProfile $profile): string
@@ -111,8 +111,8 @@ class Garden
     }
 
     /**
-     * 呼び出し側で、プロフィールを lockForUpdate してから呼ぶ。$seed は spru(スプルの種)か、
-     * ふくろにある特別な種の色(docs/design/2026-09-29-rare-spru-design.md 3-3)。特別な種はスプルの育ち具合を戻さない
+     * 呼び出し側で、プロフィールを lockForUpdate してから呼ぶ。$seed は spru(スプラの種)か、
+     * ふくろにある特別な種の色(docs/design/2026-09-29-rare-spru-design.md 3-3)。特別な種はスプラの育ち具合を戻さない
      */
     public static function sow(UserProfile $profile, string $seed = 'spru'): ProfileSeed
     {
@@ -158,7 +158,7 @@ class Garden
         return $born;
     }
 
-    /** 「スプルの花」(非売品の町のアイテム)。初めて咲いたときに作る */
+    /** 「スプラの花」(非売品の町のアイテム)。初めて咲いたときに作る */
     public static function flowerShopItem(): ShopItem
     {
         $item = config('companions.flower_item');

@@ -48,7 +48,7 @@ function answer(state: CatchState, correct: boolean): CatchState {
 }
 
 describe("始まり", () => {
-  it("スプルは真ん中の列(偶数なら真ん中の左)から始まる", () => {
+  it("スプラは真ん中の列(偶数なら真ん中の左)から始まる", () => {
     expect([startLane(2), startLane(3), startLane(4)]).toEqual([0, 1, 1]);
   });
 
@@ -107,7 +107,7 @@ describe("受け取る", () => {
     expect([state.lastCorrect, state.score, state.combo, state.hearts, state.feedbackMs]).toEqual([false, 0, 0, 2, FEEDBACK_MS.wrong]);
   });
 
-  it("○×のあと次の問題へ。スプルは同じ列のまま", () => {
+  it("○×のあと次の問題へ。スプラは同じ列のまま", () => {
     let state = createCatchGame([question(1, ["a", "b"], 1), question(2, ["c", "d"])], SETTINGS);
     state = endFeedback(fallToLine(moveBy(state, 1)));
     expect([state.index, state.phase, state.progress, state.lane, state.caughtLane]).toEqual([1, "falling", 0, 1, null]);
@@ -204,7 +204,7 @@ describe("種を投げて答える", () => {
     expect(state.answers).toEqual([{ questionId: 1, choiceId: 11, correct: false }]);
   });
 
-  it("言葉の高さは、投げた瞬間のまま止まる。スプルの列は動かない", () => {
+  it("言葉の高さは、投げた瞬間のまま止まる。スプラの列は動かない", () => {
     let state = createCatchGame(two, SETTINGS);
     state = tick(state, 100); // 0.1 落ちる
     const thrown = throwAt(state, 1);
@@ -213,7 +213,7 @@ describe("種を投げて答える", () => {
     expect(thrown.lane).toBe(state.lane);
   });
 
-  it("○×を見せたあと、次の問題へ進み、スプルは同じ列から始まる。投げた答えは1つだけ記録される", () => {
+  it("○×を見せたあと、次の問題へ進み、スプラは同じ列から始まる。投げた答えは1つだけ記録される", () => {
     const next = endFeedback(throwAt(createCatchGame(two, SETTINGS), 0));
 
     expect(next.index).toBe(1);
@@ -266,7 +266,7 @@ describe("種を投げて答える", () => {
     expect(scoreOf(state.answers.map((a) => a.correct))).toEqual({ score: state.score, bestCombo: state.bestCombo });
   });
 
-  it("投げたあとの、スプルの投げる絵の時間は 300ms", () => {
+  it("投げたあとの、スプラの投げる絵の時間は 300ms", () => {
     expect(THROW_POSE_MS).toBe(300);
   });
 });

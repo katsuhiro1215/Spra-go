@@ -11,7 +11,7 @@ return [
     | lines はハートの数だけ覚えるひとこと。1つ目が生まれたときのひとこと
     | (docs/design/2026-09-27-spru-wave-c-design.md 3-4)。
     | 特別な仲間を足すときは、絵(tools/spru-assets/crops.json の companions)と1行を足す。
-    | レアスプル(rare が true)は weight 0 で種から選ばれず、condition を満たすともらえる特別な種から生まれる
+    | レアスプラ(rare が true)は weight 0 で種から選ばれず、condition を満たすともらえる特別な種から生まれる
     | (docs/design/2026-09-29-rare-spru-design.md 3-1)。condition の数字は試験用で、ここだけで変えられる。
     | 立ち位置は config/world.php の companion_spots。
     |
@@ -53,8 +53,8 @@ return [
             'きみの考える力、どんどん強くなってるね',
             'きみとなら、どんななぞも解ける気がするよ',
         ]],
-        // レアスプル。並びはなかまの一覧の順(手に入る目安の早い順)
-        'ruby' => ['name' => 'ルビースプル', 'trait' => '赤・がんばる心', 'weight' => 0, 'rare' => true,
+        // レアスプラ。並びはなかまの一覧の順(手に入る目安の早い順)
+        'ruby' => ['name' => 'ルビースプラ', 'trait' => '赤・がんばる心', 'weight' => 0, 'rare' => true,
             'condition' => ['type' => 'streak', 'target' => 7], 'lines' => [
                 '毎日がんばるきみを見て、生まれてきたよ！',
                 '続けるって、すごい力なんだよ',
@@ -62,7 +62,7 @@ return [
                 '今日も会えてうれしいな。いっしょにがんばろう',
                 'きみはぼくの一番のしんゆう！ずっと続けていこうね',
             ]],
-        'sapphire' => ['name' => 'サファイアスプル', 'trait' => '青・海と空', 'weight' => 0, 'rare' => true,
+        'sapphire' => ['name' => 'サファイアスプラ', 'trait' => '青・海と空', 'weight' => 0, 'rare' => true,
             'condition' => ['type' => 'trips', 'target' => 1], 'lines' => [
                 '海をこえて会いに来たよ！',
                 '空と海の青は、世界じゅうつながってるんだよ',
@@ -70,7 +70,7 @@ return [
                 'きみといると、遠くの国もすぐそばに感じるね',
                 '世界のどこにいても、きみはわたしのしんゆうだよ',
             ]],
-        'silver' => ['name' => 'シルバースプル', 'trait' => '銀・こつこつ', 'weight' => 0, 'rare' => true,
+        'silver' => ['name' => 'シルバースプラ', 'trait' => '銀・こつこつ', 'weight' => 0, 'rare' => true,
             'condition' => ['type' => 'level', 'target' => 10], 'lines' => [
                 'レベル10、おめでとう！ピカピカだね',
                 'みがけばみがくほど、光るんだよ',
@@ -78,7 +78,7 @@ return [
                 'きみといっしょに、もっと輝きたいな',
                 'きみはぼくの自慢のしんゆう。つぎは金色をめざそう！',
             ]],
-        'amber' => ['name' => 'アンバースプル', 'trait' => '琥珀・思い出', 'weight' => 0, 'rare' => true,
+        'amber' => ['name' => 'アンバースプラ', 'trait' => '琥珀・思い出', 'weight' => 0, 'rare' => true,
             'condition' => ['type' => 'reviews', 'target' => 10], 'lines' => [
                 '覚えたことを、大切にしまっておいたよ',
                 '何度も思い出すと、忘れにくくなるんだって',
@@ -86,7 +86,7 @@ return [
                 'きみの覚えたこと、ぜんぶ宝物だよ',
                 'きみとの思い出も、ずっと大切にするね。しんゆう！',
             ]],
-        'obsidian' => ['name' => 'オブシディアンスプル', 'trait' => '黒曜石・ちょうせん', 'weight' => 0, 'rare' => true,
+        'obsidian' => ['name' => 'オブシディアンスプラ', 'trait' => '黒曜石・ちょうせん', 'weight' => 0, 'rare' => true,
             'condition' => ['type' => 'advanced_stages', 'target' => 3], 'lines' => [
                 'むずかしい問題に挑むきみ、かっこよかった！',
                 'まちがえても、また挑めばいいんだ',
@@ -94,7 +94,7 @@ return [
                 'きみの強さ、どんどん増えてるよ',
                 'どんな壁も、きみとなら越えられる。しんゆうだもん！',
             ]],
-        'crystal' => ['name' => 'クリスタルスプル', 'trait' => '水晶・集中', 'weight' => 0, 'rare' => true,
+        'crystal' => ['name' => 'クリスタルスプラ', 'trait' => '水晶・集中', 'weight' => 0, 'rare' => true,
             'condition' => ['type' => 'catch_perfect', 'target' => 1], 'lines' => [
                 '全問正解！すきとおるくらい、すっきりだね',
                 '落ち着いて見ると、答えが見えてくるよ',
@@ -102,7 +102,7 @@ return [
                 'きみといると、頭がすっきりするんだ',
                 'きみの心はクリスタルみたい。ずっとしんゆうでいてね',
             ]],
-        'pearl' => ['name' => 'パールスプル', 'trait' => '真珠・少しずつ', 'weight' => 0, 'rare' => true,
+        'pearl' => ['name' => 'パールスプラ', 'trait' => '真珠・少しずつ', 'weight' => 0, 'rare' => true,
             'condition' => ['type' => 'streak', 'target' => 30], 'lines' => [
                 '30日、毎日来てくれてありがとう',
                 '真珠はね、少しずつ少しずつ大きくなるの',
@@ -110,7 +110,7 @@ return [
                 'きみのがんばり、ずっと見てきたよ',
                 'きみはわたしの大切なしんゆう。これからもゆっくり行こうね',
             ]],
-        'emerald' => ['name' => 'エメラルドスプル', 'trait' => '緑・なかま', 'weight' => 0, 'rare' => true,
+        'emerald' => ['name' => 'エメラルドスプラ', 'trait' => '緑・なかま', 'weight' => 0, 'rare' => true,
             'condition' => ['type' => 'companions', 'target' => 5], 'lines' => [
                 '仲間がそろって、うれしくて生まれたよ！',
                 'みんなといっしょだと、もっと楽しいね',
@@ -118,7 +118,7 @@ return [
                 'きみのまわりには、いつも仲間がいるね',
                 'きみはみんなの、そしてぼくのしんゆうだよ',
             ]],
-        'gold' => ['name' => 'ゴールドスプル', 'trait' => '金・かがやき', 'weight' => 0, 'rare' => true,
+        'gold' => ['name' => 'ゴールドスプラ', 'trait' => '金・かがやき', 'weight' => 0, 'rare' => true,
             'condition' => ['type' => 'level', 'target' => 20], 'lines' => [
                 'レベル20！きみのがんばりが金色に光ったよ',
                 'たくさん学ぶと、心もピカピカになるね',
@@ -126,7 +126,7 @@ return [
                 'きみといると、毎日がかがやいて見えるよ',
                 'きみは最高のしんゆう！いっしょにもっと上をめざそう',
             ]],
-        'platinum' => ['name' => 'プラチナスプル', 'trait' => '白金・いちばんの光', 'weight' => 0, 'rare' => true,
+        'platinum' => ['name' => 'プラチナスプラ', 'trait' => '白金・いちばんの光', 'weight' => 0, 'rare' => true,
             'condition' => ['type' => 'level', 'target' => 30], 'lines' => [
                 'レベル30！ここまで来るなんて、本当にすごい',
                 '続けてきたきみだけが見られる景色だよ',
@@ -153,7 +153,7 @@ return [
 
     // 全員生まれた後の種から咲くもの(非売品の町のアイテム)
     'flower_result' => 'spru_flower',
-    'flower_item' => ['name' => 'スプルの花', 'asset_key' => 'spru_flower'],
+    'flower_item' => ['name' => 'スプラの花', 'asset_key' => 'spru_flower'],
 
     /*
     | 特別な種の条件の文(docs/design/2026-09-29-rare-spru-design.md 3-6)。goal はなかまの一覧、reached は種をもらった
@@ -165,7 +165,7 @@ return [
         'level' => ['goal' => 'レベル{n}になる', 'reached' => 'レベル{n}になったね', 'unit' => 'レベル'],
         'reviews' => ['goal' => '今日の復習を{n}回やりきる', 'reached' => '復習を{n}回やりきったね', 'unit' => '回'],
         'advanced_stages' => ['goal' => '上級のステージを{n}つクリア', 'reached' => '上級のステージを{n}つクリアしたね', 'unit' => 'つ'],
-        'catch_perfect' => ['goal' => 'スプルキャッチで{n}回全問正解', 'goal_one' => 'スプルキャッチで全問正解', 'reached' => 'スプルキャッチで{n}回全問正解したね', 'reached_one' => 'スプルキャッチで全問正解したね', 'unit' => '回'],
+        'catch_perfect' => ['goal' => 'スプラキャッチで{n}回全問正解', 'goal_one' => 'スプラキャッチで全問正解', 'reached' => 'スプラキャッチで{n}回全問正解したね', 'reached_one' => 'スプラキャッチで全問正解したね', 'unit' => '回'],
         'companions' => ['goal' => '仲間{n}人がそろう', 'reached' => '仲間が{n}人そろったね', 'unit' => '人'],
     ],
 

@@ -27,7 +27,7 @@ describe("文言とモード", () => {
     expect(starsText(7)).toBe("★ 7");
   });
 
-  it("スプルキャッチの選ぶ画面で使うモードが、うちゅう旅行のAPIを指す", () => {
+  it("スプラキャッチの選ぶ画面で使うモードが、うちゅう旅行のAPIを指す", () => {
     expect(CATCH_MODES.space_trip).toMatchObject({ title: "うちゅう旅行", apiPath: "/api/games/space-trip", emptyLink: false });
     expect(CATCH_MODES.space_trip.howTo).toHaveLength(3);
   });

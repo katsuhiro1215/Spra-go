@@ -36,7 +36,7 @@ import { GROUND, PATH_COLOR } from "./palette";
  * SVG版(world-scene.tsx)と同じ計算を、画面を描かない純粋な関数にしたもの。座標はSVGの単位(原点=マス(0,0)の上の角を基準にした iso.ts の座標)
  */
 
-// 町の中のスプルの立ち姿の高さ(SVGの単位)。座る・寝る・仲間は素材集の縮尺どおりにそろえる
+// 町の中のスプラの立ち姿の高さ(SVGの単位)。座る・寝る・仲間は素材集の縮尺どおりにそろえる
 export const TOWN_STAND_HEIGHT = 58;
 export const TOWN_SCALE = TOWN_STAND_HEIGHT / SPRU_STAND_HEIGHT;
 /** 土地の側面の高さ(iso.ts の LAND_THICKNESS と同じ) */
@@ -62,7 +62,7 @@ export type SceneInput = {
   reviewGiver: string | null;
   /** 見るだけ(家族の町)。畑の光は出さない */
   readOnly?: boolean;
-  /** 歩いているスプル(マスの番号は小数)。なければ、いつもの場所に立つ */
+  /** 歩いているスプラ(マスの番号は小数)。なければ、いつもの場所に立つ */
   walker?: { x: number; y: number; dir: WalkDirection; walking: boolean } | null;
 };
 
@@ -179,7 +179,7 @@ function cloudOf(land: WorldLand, plot: WorldPlot): CloudDraw {
   return { plot, area: parsePoints(cloudArea(land, plot)), puffs };
 }
 
-/** 地面の層の中身。アイテム・道・区画・時間帯が変わらない間は、使い回せる(スプルが歩くたびに作り直さない) */
+/** 地面の層の中身。アイテム・道・区画・時間帯が変わらない間は、使い回せる(スプラが歩くたびに作り直さない) */
 export function buildGroundModel(input: Pick<SceneInput, "land" | "items" | "companions" | "theme" | "roadStyle">): GroundModel {
   const { land, items, companions, roadStyle } = input;
 
@@ -201,7 +201,7 @@ export function buildGroundModel(input: Pick<SceneInput, "land" | "items" | "com
 
   const placedCompanions = companions.filter(isPlacedCompanion);
 
-  // 小物は、道・目印・アイテム・スプル・仲間が立たないマスに、マスの座標から決まる位置へ置く(毎回同じ)
+  // 小物は、道・目印・アイテム・スプラ・仲間が立たないマスに、マスの座標から決まる位置へ置く(毎回同じ)
   const decals: GroundModel["decals"] = [];
   if (GROUND_DECALS.length > 0) {
     const taken = new Set([
@@ -420,7 +420,7 @@ export function modelSources(model: SceneModel): string[] {
   if (model.preview?.item.image) srcs.add(model.preview.item.image.src);
   // 歩く絵(12枚で約130KB)。歩き始めて絵が抜けないよう、先に読んでおく
   for (const src of Object.values(SPRU_WALK)) srcs.add(src);
-  // 絵のない「スプルの花」は、花の絵を重ねて描く
+  // 絵のない「スプラの花」は、花の絵を重ねて描く
   const flower = model.objects.some((o) => o.kind === "item" && o.fallback === "flower") || model.preview?.item.fallback === "flower";
   if (flower) srcs.add(SPRU_BLOOM.flower.src);
   return [...srcs];
@@ -428,7 +428,7 @@ export function modelSources(model: SceneModel): string[] {
 
 /**
  * 動かない層(地面・崖・道・小物など)が変わるかを調べる鍵。同じなら、保存した層を使い回す。
- * アイテム・仲間・スプルの位置は、小物や林・花畑の置き場所を変えるので含める
+ * アイテム・仲間・スプラの位置は、小物や林・花畑の置き場所を変えるので含める
  */
 export function groundSignature(input: Pick<SceneInput, "land" | "items" | "companions" | "theme" | "roadStyle">): string {
   return JSON.stringify([

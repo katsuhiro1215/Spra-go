@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
  */
 class RareSeeds
 {
-    /** @return array<string, array<string, mixed>> 設定(config/companions.php の list)の順のレアスプル */
+    /** @return array<string, array<string, mixed>> 設定(config/companions.php の list)の順のレアスプラ */
     public static function rares(): array
     {
         return collect(config('companions.list'))->filter(fn (array $def) => $def['rare'] ?? false)->all();

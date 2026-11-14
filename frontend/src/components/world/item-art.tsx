@@ -10,7 +10,7 @@ import { ITEM_IMAGE_FIT } from "./item-image-fit";
 // 原点(0,0)がマスの中心(地面に接する点)。アイテム・おみやげは SPRU_ITEMS の画像で描く(docs/design/2026-09-28-town-items-design.md 7章)。
 // 夜の光の輪は町の側で重ねる(world-scene.tsx・lightCircles)
 
-// 種から咲いた「スプルの花」(非売品)。花は素材集の切り抜き
+// 種から咲いた「スプラの花」(非売品)。花は素材集の切り抜き
 const SPRU_FLOWER: ReactNode = (
   <g>
     <ellipse cx={0} cy={2} rx={11} ry={4.5} fill="#2f5d2a" opacity={0.15} />
@@ -50,7 +50,7 @@ export function ItemIcon({
   className?: string;
 }) {
   const image = itemImage(assetKey);
-  // 画像の物は画像の範囲に合わせる。スプルの花・プレゼント箱は1マスの範囲
+  // 画像の物は画像の範囲に合わせる。スプラの花・プレゼント箱は1マスの範囲
   const viewBox =
     image && assetKey
       ? iconViewBox(imagePlacement(image, assetFootprint(assetKey), ITEM_IMAGE_FIT[assetKey]))

@@ -4,14 +4,14 @@
 export const MINI_GAMES = [
   {
     key: "catch",
-    title: "スプルキャッチ（えいたんご）",
-    description: "落ちてくる英語の答えを、スプルがキャッチ！",
+    title: "スプラキャッチ（えいたんご）",
+    description: "落ちてくる英語の答えを、スプラがキャッチ！",
     href: "/games/catch",
   },
   {
     key: "flag-catch",
-    title: "スプルキャッチ（こっき）",
-    description: "流れてくる国旗を、スプルがキャッチ！",
+    title: "スプラキャッチ（こっき）",
+    description: "流れてくる国旗を、スプラがキャッチ！",
     href: "/games/flag-catch",
   },
   {
@@ -22,13 +22,13 @@ export const MINI_GAMES = [
   },
   {
     key: "spru-run",
-    title: "スプルラン",
+    title: "スプララン",
     description: "走って、ジャンプして、ランのタネを集めよう！",
     href: "/games/spru-run",
   },
   {
     key: "spru-swim",
-    title: "スプルスイム",
+    title: "スプラスイム",
     description: "タップでうく！ 泳いでスイムコインを集めよう！",
     href: "/games/spru-swim",
   },

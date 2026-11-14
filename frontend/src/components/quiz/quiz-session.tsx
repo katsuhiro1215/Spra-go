@@ -191,9 +191,9 @@ export function QuizSession({
     growthLine: string | null;
     bloom: Bloom | null;
   } | null>(null);
-  // スプルの育ち具合(回答APIが返す)。正解・不正解・結果のスプルにつぼみ・花を付ける
+  // スプラの育ち具合(回答APIが返す)。正解・不正解・結果のスプラにつぼみ・花を付ける
   const [spruGrowth, setSpruGrowth] = useState(0);
-  // 回答APIが返す相棒。スプルの隣に出す(やり直しの間は直前の相棒のまま)
+  // 回答APIが返す相棒。スプラの隣に出す(やり直しの間は直前の相棒のまま)
   const [partner, setPartner] = useState<AnswerPartner | null>(null);
   const [partnerUp, setPartnerUp] = useState<AnswerPartner | null>(null);
   const [levelUpOpen, setLevelUpOpen] = useState(false);
@@ -315,7 +315,7 @@ export function QuizSession({
             <SpruFigure image="sleep" standHeight={96} />
             <h1 className="text-xl font-black"><AutoFurigana text="これ以上続けられません" /></h1>
             <p className="text-sm text-[#6b5d45]">
-              <AutoFurigana text="スプルもひと休み。HPが回復したらまた遊ぼう" />
+              <AutoFurigana text="スプラもひと休み。HPが回復したらまた遊ぼう" />
             </p>
             {hpBlockedSecondsLeft > 0 ? (
               <p className="text-3xl font-bold text-[#2e6b1c]">

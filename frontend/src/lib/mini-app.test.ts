@@ -5,10 +5,10 @@ import { CATCH_MODES } from "@/components/games/catch/catch-view";
 import { daysLeft, limitedGame, listedGames, MINI_GAMES, MINI_QUIZ_EMPTY, newGameNotices, readDismissed, writeDismissed } from "./mini-app";
 
 describe("ミニゲームの一覧", () => {
-  it("スプルキャッチ（えいたんご）が入っていて、名前・説明・行き先がある", () => {
+  it("スプラキャッチ（えいたんご）が入っていて、名前・説明・行き先がある", () => {
     const catchGame = MINI_GAMES.find((game) => game.key === "catch");
 
-    expect(catchGame).toMatchObject({ title: "スプルキャッチ（えいたんご）", href: "/games/catch" });
+    expect(catchGame).toMatchObject({ title: "スプラキャッチ（えいたんご）", href: "/games/catch" });
     expect(catchGame?.description).toContain("英語");
   });
 
@@ -26,7 +26,7 @@ describe("ミニゲームの一覧", () => {
     expect(MINI_QUIZ_EMPTY).toBe("ミニクイズは、じゅんびちゅうだよ");
   });
 
-  it("スプルキャッチ（こっき）が入っていて、画面の設定の名前と同じ", () => {
+  it("スプラキャッチ（こっき）が入っていて、画面の設定の名前と同じ", () => {
     const flagCatch = MINI_GAMES.find((game) => game.key === "flag-catch");
 
     expect(flagCatch).toMatchObject({ title: CATCH_MODES.flag_catch.title, href: "/games/flag-catch" });
@@ -41,10 +41,10 @@ describe("ミニゲームの一覧", () => {
     expect(spaceTrip?.description).toContain("ロケット");
   });
 
-  it("スプルスイムが入っていて、名前・説明・行き先がある", () => {
+  it("スプラスイムが入っていて、名前・説明・行き先がある", () => {
     const swim = MINI_GAMES.find((game) => game.key === "spru-swim");
 
-    expect(swim).toMatchObject({ title: "スプルスイム", href: "/games/spru-swim" });
+    expect(swim).toMatchObject({ title: "スプラスイム", href: "/games/spru-swim" });
     expect(swim?.description.length).toBeGreaterThan(0);
   });
 });

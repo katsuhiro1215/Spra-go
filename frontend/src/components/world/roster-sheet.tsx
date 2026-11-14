@@ -32,7 +32,7 @@ export function RosterSheet({
   const townCount = companions.filter((c) => c.in_town).length;
   const sections: [string, RosterMember[]][] = [
     ["仲間", roster.members.filter((m) => !m.rare)],
-    ["レアスプル", roster.members.filter((m) => m.rare)],
+    ["レアスプラ", roster.members.filter((m) => m.rare)],
   ];
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(38,48,28,0.38)]">

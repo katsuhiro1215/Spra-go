@@ -11,7 +11,7 @@ type Row = { rank: number; name?: string; value: number; is_me: boolean };
 type Board = { rows: Row[]; me: { rank: number; value: number } | null };
 type Period = "week" | "all";
 
-/** スプルスイムの家族のランキング。本番の記録だけが載る(練習はサーバーに送らない) */
+/** スプラスイムの家族のランキング。本番の記録だけが載る(練習はサーバーに送らない) */
 export function SwimRanking() {
   const [period, setPeriod] = useState<Period>("week");
   const [board, setBoard] = useState<Board | null>(null);
@@ -35,7 +35,7 @@ export function SwimRanking() {
   return (
     <main className="flex min-h-dvh justify-center bg-gradient-to-b from-[#8fd3ff] to-[#1c8fe0] px-4 py-6 text-[#3b3226]">
       <div className="flex w-full max-w-md flex-col gap-4">
-        <h1 className="text-center text-2xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">スプルスイム ランキング</h1>
+        <h1 className="text-center text-2xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">スプラスイム ランキング</h1>
         <div className="grid grid-cols-2 gap-2">
           {(["week", "all"] as const).map((p) => (
             <button

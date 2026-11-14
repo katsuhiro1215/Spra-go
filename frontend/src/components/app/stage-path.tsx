@@ -22,7 +22,7 @@ export type StagePathNode = {
  * docs/content/test.tsx(Owner提供、過去にDuolingoを参考に作った試作)を参考に、
  * このプロジェクトの技術構成(react-circular-progressbar等は使わない)向けに
  * 作り直したもの。次にプレイできるステージには「START」の吹き出しを表示する。
- * 丸はスプルのバッジの絵で、番号は丸の下の札(docs/design/2026-09-29-spru-icons-design.md 4-4)。まだのボスだけ赤い丸とボスの印
+ * 丸はスプラのバッジの絵で、番号は丸の下の札(docs/design/2026-09-29-spru-icons-design.md 4-4)。まだのボスだけ赤い丸とボスの印
  */
 export function StagePath({
   stages,

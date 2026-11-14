@@ -169,7 +169,7 @@ export function TravelMap({
       })}
 
       <div className="absolute" style={{ left: `${((HOME.x - 26) / W) * 100}%`, top: `${((HOME.y - 78) / H) * 100}%` }}>
-        <SpruFigure image="wave" standHeight={64} alt="スプル" />
+        <SpruFigure image="wave" standHeight={64} alt="スプラ" />
       </div>
       <p
         className="absolute max-w-[62%] rounded-2xl bg-[#fffaf0] px-3 py-2 text-[13px] leading-snug font-bold text-[#3b3226] shadow"

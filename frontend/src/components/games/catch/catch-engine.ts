@@ -1,8 +1,8 @@
 import type { GameQuestion } from "@/components/games/game-question";
 
 /**
- * スプルキャッチのゲームの動き(docs/design/2026-09-29-spru-catch-design.md 3章・8章)。
- * 1問ごとに選択肢が横一列で落ち、受け取る線に着いたとき、スプルが立っている列の言葉を受け取る。
+ * スプラキャッチのゲームの動き(docs/design/2026-09-29-spru-catch-design.md 3章・8章)。
+ * 1問ごとに選択肢が横一列で落ち、受け取る線に着いたとき、スプラが立っている列の言葉を受け取る。
  * 画面はこの状態を描くだけにし、時間を進める・動かすのはここの関数だけで行う
  */
 export type CatchSettings = { lanes: number; fallMs: number };
@@ -16,7 +16,7 @@ export type CatchState = {
   settings: CatchSettings;
   /** 今の問題 */
   index: number;
-  /** スプルが立っている列(0が左) */
+  /** スプラが立っている列(0が左) */
   lane: number;
   /** 0(上)〜1(受け取る線) */
   progress: number;
@@ -36,14 +36,14 @@ export type CatchState = {
 
 export const CATCH_HEARTS = 3;
 export const FEEDBACK_MS = { correct: 800, wrong: 1600 };
-/** 種を投げたあと、スプルが投げる絵でいる時間(ミリ秒) */
+/** 種を投げたあと、スプラが投げる絵でいる時間(ミリ秒) */
 export const THROW_POSE_MS = 300;
 /** 1回に進める時間の上限。タブを離れていたあとなどに一気に進まないように */
 export const MAX_STEP_MS = 100;
 /** 点数の決まり。サーバーの config/games.php の catch.score と同じ */
 const SCORE_RULES = { correct: 10, comboBonus: 5, comboBonusFrom: 3 };
 
-/** 1問目のスプルの列。真ん中(偶数なら真ん中の左) */
+/** 1問目のスプラの列。真ん中(偶数なら真ん中の左) */
 export function startLane(lanes: number): number {
   return Math.floor((lanes - 1) / 2);
 }
@@ -128,8 +128,8 @@ function catchAtLine(state: CatchState): CatchState {
 }
 
 /**
- * 落ちている言葉をタップして、スプルが種を投げて答える(docs/design/2026-10-04-mini-app-tidy-design.md 4-1)。
- * 落ちている間だけ。どの高さでも投げられ、言葉はその高さで止まる。スプルの列は動かさない
+ * 落ちている言葉をタップして、スプラが種を投げて答える(docs/design/2026-10-04-mini-app-tidy-design.md 4-1)。
+ * 落ちている間だけ。どの高さでも投げられ、言葉はその高さで止まる。スプラの列は動かさない
  */
 export function throwAt(state: CatchState, lane: number): CatchState {
   if (state.phase !== "falling" || !Number.isInteger(lane) || lane < 0 || lane >= state.settings.lanes) return state;

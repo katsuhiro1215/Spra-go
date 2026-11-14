@@ -30,12 +30,12 @@ const garden = (overrides: Partial<WorldGarden> = {}): WorldGarden => ({
 });
 
 describe("pickGardenTap", () => {
-  it("スプルの種ができていて、ふくろが空なら、すぐ種まき", () => {
+  it("スプラの種ができていて、ふくろが空なら、すぐ種まき", () => {
     expect(pickGardenTap(garden({ spru_seed_ready: true, can_sow: true }))).toEqual({ action: "sow" });
   });
 
   it("ふくろに種があれば、どの種をまくかを選ぶ", () => {
-    const bag = [{ key: "ruby", name: "ルビースプル" }];
+    const bag = [{ key: "ruby", name: "ルビースプラ" }];
     expect(pickGardenTap(garden({ seed_bag: bag, can_sow: true }))).toEqual({ action: "choose" });
     expect(pickGardenTap(garden({ spru_seed_ready: true, seed_bag: bag, can_sow: true }))).toEqual({ action: "choose" });
   });
@@ -44,7 +44,7 @@ describe("pickGardenTap", () => {
     expect(pickGardenTap(garden())).toEqual({
       action: "say",
       image: "think",
-      line: "レベルが上がると、スプルに花が咲くよ",
+      line: "レベルが上がると、スプラに花が咲くよ",
     });
   });
 
@@ -70,44 +70,44 @@ describe("pickGardenTap", () => {
 });
 
 describe("gardenPrompt", () => {
-  it("スプルの種、特別な種、水やりの順に案内し、どれもできなければ無し", () => {
+  it("スプラの種、特別な種、水やりの順に案内し、どれもできなければ無し", () => {
     expect(gardenPrompt(garden({ spru_seed_ready: true, can_sow: true }))).toBe("花が咲いたよ！タップして種をまこう");
-    expect(gardenPrompt(garden({ seed_bag: [{ key: "ruby", name: "ルビースプル" }], can_sow: true }))).toBe(
+    expect(gardenPrompt(garden({ seed_bag: [{ key: "ruby", name: "ルビースプラ" }], can_sow: true }))).toBe(
       "特別な種を畑にまいてみよう！",
     );
     expect(gardenPrompt(garden({ state: "seed", can_water: true }))).toBe("芽に水をあげよう！");
     expect(gardenPrompt(garden({ state: "seed", learned_today: true, watered_today: true }))).toBeNull();
   });
 
-  it("畑に種があれば、スプルの種ができていても種まきの案内はしない", () => {
+  it("畑に種があれば、スプラの種ができていても種まきの案内はしない", () => {
     expect(gardenPrompt(garden({ state: "seed", spru_seed_ready: true, learned_today: true, watered_today: true }))).toBeNull();
   });
 });
 
 describe("canSowSpruSeed", () => {
-  it("畑が空いていて、スプルの種ができているときだけ", () => {
+  it("畑が空いていて、スプラの種ができているときだけ", () => {
     expect(canSowSpruSeed(garden({ spru_seed_ready: true }))).toBe(true);
-    expect(canSowSpruSeed(garden({ seed_bag: [{ key: "ruby", name: "ルビースプル" }], can_sow: true }))).toBe(false);
+    expect(canSowSpruSeed(garden({ seed_bag: [{ key: "ruby", name: "ルビースプラ" }], can_sow: true }))).toBe(false);
     expect(canSowSpruSeed(garden({ state: "seed", spru_seed_ready: true }))).toBe(false);
   });
 });
 
 describe("seedOptions", () => {
-  it("スプルの種(できているときだけ)→ふくろの種の順", () => {
+  it("スプラの種(できているときだけ)→ふくろの種の順", () => {
     const bag = [
-      { key: "ruby", name: "ルビースプル" },
-      { key: "gold", name: "ゴールドスプル" },
+      { key: "ruby", name: "ルビースプラ" },
+      { key: "gold", name: "ゴールドスプラ" },
     ];
     expect(seedOptions(garden({ spru_seed_ready: true, seed_bag: bag }))).toEqual([
-      { seed: "spru", label: "スプルの種", note: "なにが生まれるかな？", look: "spru" },
+      { seed: "spru", label: "スプラの種", note: "なにが生まれるかな？", look: "spru" },
       { seed: "ruby", label: "ルビーの種", note: null, look: "ruby" },
       { seed: "gold", label: "ゴールドの種", note: null, look: "gold" },
     ]);
     expect(seedOptions(garden({ seed_bag: bag })).map((option) => option.seed)).toEqual(["ruby", "gold"]);
   });
 
-  it("「〇〇スプル」を「〇〇の種」にする", () => {
-    expect(seedLabel("オブシディアンスプル")).toBe("オブシディアンの種");
+  it("「〇〇スプラ」を「〇〇の種」にする", () => {
+    expect(seedLabel("オブシディアンスプラ")).toBe("オブシディアンの種");
   });
 });
 
@@ -124,8 +124,8 @@ describe("growthLabel", () => {
 describe("levelUpGrowthLine", () => {
   it("育ち具合に合わせたひとことで、種ができたときは畑が空いているかで変える", () => {
     expect(levelUpGrowthLine(0, false)).toBeNull();
-    expect(levelUpGrowthLine(1, false)).toBe("スプルにつぼみがついた！");
-    expect(levelUpGrowthLine(2, false)).toBe("スプルの花が咲いた！");
+    expect(levelUpGrowthLine(1, false)).toBe("スプラにつぼみがついた！");
+    expect(levelUpGrowthLine(2, false)).toBe("スプラの花が咲いた！");
     expect(levelUpGrowthLine(3, false)).toBe("種ができた！町でまいてみよう");
     expect(levelUpGrowthLine(3, true)).toBe("畑の芽が育ったら、種をまけるよ");
   });
@@ -133,8 +133,8 @@ describe("levelUpGrowthLine", () => {
 
 describe("mergeNewSeeds", () => {
   it("あとから届いた空の返事で、まだ見せていないお祝いを消さない。同じ色は1つにする", () => {
-    const ruby = { key: "ruby", name: "ルビースプル", reason: "7日続けて学んだね" };
-    const gold = { key: "gold", name: "ゴールドスプル", reason: "レベル20になったね" };
+    const ruby = { key: "ruby", name: "ルビースプラ", reason: "7日続けて学んだね" };
+    const gold = { key: "gold", name: "ゴールドスプラ", reason: "レベル20になったね" };
     expect(mergeNewSeeds([ruby], [])).toEqual([ruby]);
     expect(mergeNewSeeds([ruby], [ruby, gold])).toEqual([ruby, gold]);
     expect(mergeNewSeeds([], [gold])).toEqual([gold]);

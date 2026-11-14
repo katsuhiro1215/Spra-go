@@ -131,7 +131,7 @@ class QuestionMemory
 
     /**
      * 最後の答えがまちがいだった問題を、まちがえた日の新しい順に最大 $limit 個返す。$questionIds の中から選ぶ
-     * (スプルキャッチ。docs/design/2026-09-29-spru-catch-design.md 4-2)
+     * (スプラキャッチ。docs/design/2026-09-29-spru-catch-design.md 4-2)
      *
      * @param  list<int>  $questionIds
      * @return list<int>
@@ -293,7 +293,7 @@ class QuestionMemory
             }
         }
 
-        // 最後の答えがまちがいだった日(スプルキャッチ。docs/design/2026-09-29-spru-catch-design.md 4-4)
+        // 最後の答えがまちがいだった日(スプラキャッチ。docs/design/2026-09-29-spru-catch-design.md 4-4)
         $memory->wrong_on = $correct ? null : $today;
         $memory->last_answered_on = $today;
         $memory->save();

@@ -63,7 +63,7 @@ export function errandGoLabel(errand: Pick<WorldErrand, "kind">): string {
 
 export type ErrandGo = { kind: "link"; href: string } | { kind: "say"; line: string };
 
-/** ［学ぶ／行く］の行き先。水やりともようがえ(バッグが空)は、カードを閉じてスプルが教える(設計書5-2) */
+/** ［学ぶ／行く］の行き先。水やりともようがえ(バッグが空)は、カードを閉じてスプラが教える(設計書5-2) */
 export function errandGo(
   errand: Pick<WorldErrand, "kind">,
   ctx: { continueHref: string; learnedToday: boolean; bagCount: number },
@@ -88,7 +88,7 @@ export function errandPrompt(errands: WorldErrands): string | null {
   return claimableErrands(errands).length > 0 ? "おつかいができたね！受け取ろう" : null;
 }
 
-/** スプルのふだんのひとことの優先順: おつかい → 畑 → 復習(設計書3-5) */
+/** スプラのふだんのひとことの優先順: おつかい → 畑 → 復習(設計書3-5) */
 export function townPrompt({
   errands,
   garden,

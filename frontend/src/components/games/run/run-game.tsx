@@ -28,11 +28,11 @@ import { bottomCss, GROUND_CQH, isBlinkOff, obstacleDraw, platformDraw, RUN_HINT
 
 const COUNTDOWN_FROM = 3;
 const COUNTDOWN_STEP_MS = 700;
-/** スプルの絵の大きさ(走る1枚目の高さ。ゲームの中の広さ。当たりの箱より大きく描く) */
+/** スプラの絵の大きさ(走る1枚目の高さ。ゲームの中の広さ。当たりの箱より大きく描く) */
 const SPRU_DRAW_H = 80;
 /** タネの絵の高さ(当たりの円より少し大きく描く) */
 const SEED_DRAW_H = SEED_R * 2.6;
-/** 地面の絵の、草の線(スプルが立つ所)の位置。絵の上からの割合 */
+/** 地面の絵の、草の線(スプラが立つ所)の位置。絵の上からの割合 */
 const GROUND_LINE = 0.22;
 /** 地面・草はら・山の絵の高さ(場面の横幅に合わせたとき。cqw) */
 const groundCqw = (100 * RUN_ASSETS["bg-ground"].height) / RUN_ASSETS["bg-ground"].width;
@@ -44,7 +44,7 @@ function ceilingForScreen(): number {
   return Math.max(300, Math.min(640, (window.innerHeight * (1 - GROUND_CQH / 100) - 130) / scale));
 }
 
-/** スプルランのゲームの画面(docs/design/2026-10-22-spru-run-design.md 5章)。絵は tools/spru-run/build_assets.py が作る */
+/** スプラランのゲームの画面(docs/design/2026-10-22-spru-run-design.md 5章)。絵は tools/spru-run/build_assets.py が作る */
 export function RunGame({
   seed,
   startMs = 0,
@@ -174,7 +174,7 @@ export function RunGame({
             }}
           />
         ))}
-        {/* 地面(草の線が、スプルの足もと) */}
+        {/* 地面(草の線が、スプラの足もと) */}
         <div
           aria-hidden
           className="absolute inset-x-0 bottom-0 bg-[#b96930] bg-repeat-x"
@@ -244,7 +244,7 @@ export function RunGame({
           );
         })}
 
-        {/* スプル */}
+        {/* スプラ */}
         <div
           className={cn("pointer-events-none absolute", isBlinkOff(state) && "opacity-30")}
           style={{
@@ -254,7 +254,7 @@ export function RunGame({
             height: sizeCqw(spru.height),
           }}
         >
-          <Image src={spru.src} alt="スプル" fill sizes="90px" unoptimized className="object-contain object-bottom" loading="eager" />
+          <Image src={spru.src} alt="スプラ" fill sizes="90px" unoptimized className="object-contain object-bottom" loading="eager" />
         </div>
 
         {/* 上の表示(場面に重ねる) */}

@@ -3,7 +3,7 @@ import type { GameChoice, GameQuestion } from "@/components/games/game-question"
 import type { CatchDifficulty, CatchFinish } from "../catch/catch-api";
 import type { SpaceMapResult } from "./space-map-api";
 
-/** うちゅう旅行のAPIの返事の形(docs/design/2026-10-09-space-trip-design.md 6章)。選ぶ画面の返事は、スプルキャッチと同じ */
+/** うちゅう旅行のAPIの返事の形(docs/design/2026-10-09-space-trip-design.md 6章)。選ぶ画面の返事は、スプラキャッチと同じ */
 export type SpaceStart = {
   play_id: number;
   difficulty: CatchDifficulty;
