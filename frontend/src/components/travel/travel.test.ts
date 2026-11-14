@@ -13,7 +13,6 @@ import {
   islandLabel,
   islandTag,
   lockedCountryText,
-  pickBeginnerGroup,
   ticketHintText,
   transportText,
   vehicleImage,
@@ -121,25 +120,6 @@ describe("乗り物と出発の場面の文", () => {
 describe("学ぶタブの鍵", () => {
   it("鍵の国を押したときの案内", () => {
     expect(lockedCountryText("アメリカ")).toBe("アメリカへは『せかい』でチケットを使うと行けるよ");
-  });
-});
-
-describe("pickBeginnerGroup", () => {
-  const group = (difficulty: string, language: boolean, boss: boolean, id: number) => ({
-    id,
-    category: { is_language_mode: language },
-    difficulty,
-    stages: [{ is_boss: false }, { is_boss: boss }],
-  });
-
-  it("初級で、ことばを学ぶモードでなく、ボスがあるグループを選ぶ", () => {
-    const groups = [group("初級", true, true, 1), group("初級", false, false, 2), group("初級", false, true, 3), group("中級", false, true, 4)];
-    expect(pickBeginnerGroup(groups)?.id).toBe(3);
-  });
-
-  it("当てはまるものがなければ最初の初級のグループ、初級がなければ null", () => {
-    expect(pickBeginnerGroup([group("中級", false, true, 1), group("初級", true, false, 2)])?.id).toBe(2);
-    expect(pickBeginnerGroup([group("中級", false, true, 1)])).toBeNull();
   });
 });
 

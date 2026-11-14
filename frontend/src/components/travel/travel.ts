@@ -59,18 +59,6 @@ export function lockedCountryText(name: string): string {
   return `${name}へは『せかい』でチケットを使うと行けるよ`;
 }
 
-export type BeginnerGroupLike = { category: { is_language_mode: boolean }; difficulty: string; stages: { is_boss: boolean }[] };
-
-/** 国の画面に出す初級のステージのグループ。ことばを学ぶモードでなく、ボスがあるもの(なければ最初の初級)(設計書5-3) */
-export function pickBeginnerGroup<T extends BeginnerGroupLike>(groups: T[]): T | null {
-  const beginner = groups.filter((group) => group.difficulty === "初級");
-  return (
-    beginner.find((group) => !group.category.is_language_mode && group.stages.some((stage) => stage.is_boss)) ??
-    beginner[0] ??
-    null
-  );
-}
-
 // 出発の場面の区切り(設計書5-2)。桟橋へ歩く → 船で渡る → 着いた → 国の画面へ
 export const WALK_MS = 1_200;
 export const SAIL_MS = 2_800;

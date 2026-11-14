@@ -7,26 +7,24 @@ import { useRouter } from "next/navigation";
 import { AppHeader } from "@/components/app/app-header";
 import { AutoFurigana } from "@/components/app/auto-furigana";
 import { BottomNav } from "@/components/app/bottom-nav";
-import { SkyPage, SkyText } from "@/components/app/sky-page";
+import { Button as AppButton } from "@/components/app/button";
+import { SkyPage } from "@/components/app/sky-page";
 import { LoadingScreen } from "@/components/app/spru-loading";
-import { StagePath, type StagePathNode } from "@/components/app/stage-path";
 import { SpruFigure } from "@/components/spru/spru-figure";
 import { Flag } from "@/components/travel/flag";
 import { SouvenirStand } from "@/components/travel/souvenir-stand";
-import { pickBeginnerGroup } from "@/components/travel/travel";
 import type { Destination, ReceiveResult, TravelSouvenir } from "@/components/travel/types";
 import { apiFetch } from "@/lib/api";
 
-type CountryGroups = {
-  groups: { category: { id: number; name: string; is_language_mode: boolean }; difficulty: string; locked: boolean; stages: StagePathNode[] }[];
-};
-
-/** 旅先の国の画面(設計書5-3)。まだ着いていない国・知らない国は旅のハブへ戻す */
+/**
+ * 旅先の国の画面(設計書5-3)。まだ着いていない国・知らない国は旅のハブへ戻す。
+ * クイズのステージ一覧は置かない(2026-11-14追記): 「学ぶ」と中身が重複して分かりにくいという指摘から、
+ * この画面はあいさつ・おみやげだけにし、クイズは必ず「学ぶ」(`/travel/{countryId}/start`)に一本化する
+ */
 export default function Page({ params }: { params: Promise<{ key: string }> }) {
   const { key } = use(params);
   const router = useRouter();
   const [destination, setDestination] = useState<Destination | null>(null);
-  const [country, setCountry] = useState<CountryGroups | null>(null);
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [message, setMessage] = useState<{ text: string; ok: boolean } | null>(null);
 
@@ -46,9 +44,6 @@ export default function Page({ params }: { params: Promise<{ key: string }> }) {
         const data: Destination = await res.json();
         if (!active) return;
         setDestination(data);
-        if (data.country_id === null) return;
-        const countryRes = await apiFetch(`/api/countries/${data.country_id}`);
-        if (active && countryRes.ok) setCountry(await countryRes.json());
       })
       .catch(() => {
         if (active) router.replace("/trip");
@@ -81,8 +76,6 @@ export default function Page({ params }: { params: Promise<{ key: string }> }) {
     return <LoadingScreen />;
   }
 
-  const group = country ? pickBeginnerGroup(country.groups) : null;
-
   return (
     <SkyPage>
       <AppHeader />
@@ -107,31 +100,16 @@ export default function Page({ params }: { params: Promise<{ key: string }> }) {
 
         <SouvenirStand destination={destination} busyKey={busyKey} message={message} onReceive={receive} />
 
-        <section aria-labelledby="trip-stages-title" className="flex flex-col gap-2">
-          <h2 id="trip-stages-title">
-            <SkyText as="span" className="text-sm">
-              <AutoFurigana text={`${destination.name}で学ぶ(初級)`} />
-            </SkyText>
-          </h2>
-          {group ? (
-            // 次に遊ぶステージの「START」の吹き出しが見出しに重ならないよう、上をあける
-            <div className="pt-6">
-              <StagePath stages={group.stages} onSelect={(stage) => router.push(`/quiz/${stage.id}`)} />
-            </div>
-          ) : (
-            <SkyText muted className="text-sm">
-              <AutoFurigana text={country || destination.country_id === null ? "まだこの国のステージがありません。" : "読み込み中..."} />
-            </SkyText>
-          )}
-          {destination.country_id !== null && (
-            <Link
-              href={`/travel/${destination.country_id}`}
-              className="self-center rounded-full bg-[#fffaf0] px-4 py-2 text-sm font-black text-[#2b5d7a] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
-            >
-              <AutoFurigana text="もっと学ぶ(中級・上級)" />
-            </Link>
-          )}
-        </section>
+        {destination.country_id !== null && (
+          <AppButton
+            variant="primary"
+            size="lg"
+            className="w-full normal-case"
+            onClick={() => router.push(`/travel/${destination.country_id}/start`)}
+          >
+            <AutoFurigana text={`${destination.name}を学ぶ`} />
+          </AppButton>
+        )}
       </main>
       <BottomNav />
     </SkyPage>
