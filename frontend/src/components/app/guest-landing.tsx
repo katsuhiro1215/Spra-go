@@ -39,20 +39,31 @@ export function GuestLanding() {
           <span className="rounded-full bg-black/30 px-2.5 py-1 text-xs font-bold text-white/90">{APP_VERSION}</span>
         </div>
 
-        <div className="relative z-10 mt-10 flex w-full max-w-[340px] flex-col items-center">
-          <div className="flex w-full flex-col items-center rounded-3xl bg-black/20 px-5 py-5 backdrop-blur-sm">
-            <h1 className="text-[34px] font-black tracking-wide text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">Spra Go</h1>
-            <p className="mt-1 text-sm font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.45)]">
-              <AutoFurigana text="学ぶほど、世界が広がる。" />
-            </p>
+        {/* タイトル: 大きく・弾けるポップイン(animate-stage-intro は既存のステージ登場演出を流用)。
+            2色づかいで「ポップで明るく」を狙う。本物のロゴ画像ができたら、この見出しを画像に差し替える */}
+        <div className="relative z-10 mt-3 flex flex-col items-center text-center">
+          <h1 className="animate-stage-intro flex items-baseline gap-1.5 text-[52px] leading-none font-black tracking-tight">
+            <span className="text-white [-webkit-text-stroke:3px_#2b6a1b]" style={{ textShadow: "0 4px 0 #1f4a12, 0 10px 18px rgba(0,0,0,0.35)" }}>
+              Spra
+            </span>
+            <span className="-rotate-3 text-[#ffd23f] [-webkit-text-stroke:3px_#b3471a]" style={{ textShadow: "0 4px 0 #8a3313, 0 10px 18px rgba(0,0,0,0.35)" }}>
+              Go
+            </span>
+          </h1>
+          <p className="animate-stage-intro-subtitle mt-1 text-sm font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.45)]">
+            <AutoFurigana text="学ぶほど、世界が広がる。" />
+          </p>
+        </div>
 
-            <Link
-              href="/register"
-              className="mt-6 flex h-[54px] w-full items-center justify-center rounded-2xl border-b-4 border-[#285a19] bg-[#3b7f26] text-lg font-black text-white shadow-lg hover:bg-[#438b2d] focus-visible:ring-4 focus-visible:ring-[#9fd8ff] focus-visible:outline-none active:translate-y-0.5 active:border-b-0"
-            >
-              はじめる
-            </Link>
-          </div>
+        {/* 国旗と胸の間あたりに、入口ボタンを置く(上の空いた余白はキャラクターと絵をそのまま見せる) */}
+        <div aria-hidden className="grow-[6]" />
+        <div className="relative z-10 flex w-full max-w-[340px] flex-col items-center">
+          <Link
+            href="/register"
+            className="flex h-[54px] w-full items-center justify-center rounded-2xl border-b-4 border-[#285a19] bg-[#3b7f26] text-lg font-black text-white shadow-lg hover:bg-[#438b2d] focus-visible:ring-4 focus-visible:ring-[#9fd8ff] focus-visible:outline-none active:translate-y-0.5 active:border-b-0"
+          >
+            はじめる
+          </Link>
           <Link
             href="/login"
             className="mt-3 flex items-center gap-1.5 rounded-full bg-[#fffaf0] py-1 pr-4 pl-1.5 text-sm font-black text-[#2b6fa3] shadow-[0_2px_6px_rgba(59,50,38,0.15)] hover:bg-white"
@@ -61,8 +72,9 @@ export function GuestLanding() {
             <AutoFurigana text="アカウントをお持ちの方はログイン" />
           </Link>
         </div>
+        <div aria-hidden className="grow" />
 
-        <div className="relative z-10 mt-auto flex w-full max-w-[340px] flex-col items-center">
+        <div className="relative z-10 flex w-full max-w-[340px] flex-col items-center">
           <p className="text-xs font-bold text-white/85 drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
             <AutoFurigana text="登録なしでお試しクイズ" />
           </p>
