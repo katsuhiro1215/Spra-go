@@ -11,6 +11,7 @@ class DeerDashboard
     public static function summary(): array
     {
         $today = Carbon::now('Asia/Tokyo')->startOfDay();
+        $stats = DeerStats::summary();
 
         return [
             'profile_count' => DB::table('deer_stage_records')->distinct()->count('user_profile_id'),
@@ -25,7 +26,11 @@ class DeerDashboard
                 ->distinct()->count('anon_id'),
             'first_play_rate' => self::firstPlayRate(),
             'public_ranking_families' => DB::table('user_schemas')->where('deer_ranking_public', true)->count(),
+            'total_plays' => $stats['plays'],
+            'total_players' => $stats['players'],
             'worlds' => self::worlds(),
+            // 面(1-1・1-2…)ごとの内訳。あまり遊ばれていない面を見つけるのに使う(/api/deer/stats と同じ数)
+            'levels' => $stats['levels'],
         ];
     }
 
@@ -46,7 +51,7 @@ class DeerDashboard
         return ['accounts' => $accounts, 'played' => $played, 'rate' => $accounts === 0 ? null : round($played / $accounts, 2)];
     }
 
-    /** ワールド(1〜8)ごとの、遊ばれた回数・遊んだ人数・クリア数(ログインなしもふくむ。面ごとの内訳は /api/deer/stats) */
+    /** ワールド(1〜8)ごとの、遊ばれた回数・遊んだ人数・クリア数(ログインなしもふくむ) */
     private static function worlds(): array
     {
         $rows = DB::table('deer_plays')

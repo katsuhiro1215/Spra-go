@@ -34,9 +34,13 @@ test('記録が無いときは、すべて0で、割合は null、ワールド�
         ->assertJsonPath('anon_players_last_7_days', 0)
         ->assertJsonPath('first_play_rate.accounts', 0)
         ->assertJsonPath('first_play_rate.rate', null)
-        ->assertJsonPath('public_ranking_families', 0);
+        ->assertJsonPath('public_ranking_families', 0)
+        ->assertJsonPath('total_plays', 0)
+        ->assertJsonPath('total_players', 0);
     expect($res->json('worlds'))->toHaveCount(8);
     expect($res->json('worlds.0'))->toBe(['world' => 1, 'plays' => 0, 'players' => 0, 'clears' => 0]);
+    expect($res->json('levels'))->toHaveCount(80);
+    expect($res->json('levels.0'))->toBe(['level' => '1-1', 'plays' => 0, 'players' => 0, 'clears' => 0, 'clear_players' => 0]);
 });
 
 test('プロフィール数・直近7日の人数(ログイン・ログインなし)・ワールドごとの集計・遊んだ割合・公開している家族数が出る', function () {
@@ -68,10 +72,18 @@ test('プロフィール数・直近7日の人数(ログイン・ログインな
         ->assertJsonPath('first_play_rate.accounts', 3)
         ->assertJsonPath('first_play_rate.played', 2)
         ->assertJsonPath('first_play_rate.rate', 0.67)
-        ->assertJsonPath('public_ranking_families', 1);
+        ->assertJsonPath('public_ranking_families', 1)
+        ->assertJsonPath('total_plays', 6)
+        ->assertJsonPath('total_players', 4);
 
     $worlds = collect($res->json('worlds'))->keyBy('world');
     expect($worlds[1])->toMatchArray(['plays' => 5, 'players' => 3, 'clears' => 2]);
     expect($worlds[8])->toMatchArray(['plays' => 1, 'players' => 1, 'clears' => 0]);
     expect($worlds[2]['plays'])->toBe(0);
+
+    $levels = collect($res->json('levels'))->keyBy('level');
+    expect($levels)->toHaveCount(80);
+    expect($levels['1-1'])->toBe(['level' => '1-1', 'plays' => 4, 'players' => 3, 'clears' => 2, 'clear_players' => 2]);
+    expect($levels['1-2'])->toBe(['level' => '1-2', 'plays' => 1, 'players' => 1, 'clears' => 0, 'clear_players' => 0]);
+    expect($levels['8-7'])->toBe(['level' => '8-7', 'plays' => 1, 'players' => 1, 'clears' => 0, 'clear_players' => 0]);
 });
