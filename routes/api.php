@@ -43,6 +43,7 @@ use App\Support\ContinueStage;
 use App\Support\CourseLevels;
 use App\Support\Courses;
 use App\Support\Csv;
+use App\Support\Deer\DeerDashboard;
 use App\Support\Deer\DeerStats;
 use App\Support\Errands;
 use App\Support\Family;
@@ -144,6 +145,9 @@ Route::middleware(['auth:owner'])->get('/owner/dashboard/summary', function () {
 
 // Tane の中の遊ばれ方(Owner ダッシュボードの Tane のカード)。全体の数だけで、個人の記録は出さない
 Route::middleware(['auth:owner'])->get('/owner/dashboard/tane', fn () => DashboardSummary::summary())->name('owner.dashboard.tane');
+
+// Spraと鹿。の中の遊ばれ方(Owner ダッシュボードのSpraと鹿。のカード)。全体の数だけで、個人の記録は出さない
+Route::middleware(['auth:owner'])->get('/owner/dashboard/deer', fn () => DeerDashboard::summary())->name('owner.dashboard.deer');
 
 // ログイン不要。登録画面が、招待コードの欄を出すか・おやすみ中かを知るための問い合わせ(コードそのものは返さない)
 Route::get('/registration', fn () => [

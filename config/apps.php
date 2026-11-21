@@ -7,5 +7,6 @@ return [
         'go' => ['name' => 'Spra Go'],
         'tane' => ['name' => 'Tane'],
         'world' => ['name' => 'Spra World'],
+        'deer' => ['name' => 'Spraと鹿。'],
     ],
 ];

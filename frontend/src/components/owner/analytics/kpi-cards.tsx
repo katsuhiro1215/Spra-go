@@ -1,14 +1,5 @@
+import { KpiCard as Card } from "@/components/owner/kpi-card";
 import { formatCount, formatMinutes, type AnalyticsData } from "@/lib/analytics";
-
-function Card({ label, value, sublabel }: { label: string; value: string; sublabel?: string }) {
-  return (
-    <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
-      <p className="text-xs font-medium text-muted-foreground">{label}</p>
-      <p className="mt-1 text-2xl font-bold">{value}</p>
-      {sublabel && <p className="mt-0.5 text-xs text-muted-foreground">{sublabel}</p>}
-    </div>
-  );
-}
 
 /** 概要のカード(docs/design/2026-10-03-analytics-design.md 6-1) */
 export function KpiCards({ summary }: { summary: AnalyticsData["summary"] }) {

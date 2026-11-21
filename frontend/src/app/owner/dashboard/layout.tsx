@@ -48,6 +48,15 @@ const navGroups = [
       { href: "/owner/dashboard/users", label: "User" },
     ],
   },
+  {
+    // ここ(Spra Go)は本体なのでサイドバー最上段のまま。共通アカウントでつながる、ほかのアプリの遊ばれ方はここにまとめる
+    // (docs/design/2026-10-14-multi-app-accounts-design.md)。アプリを足すときは、ここに1行足す
+    label: "連携アプリ",
+    items: [
+      { href: "/owner/dashboard/apps/tane", label: "Tane" },
+      { href: "/owner/dashboard/apps/deer", label: "Spraと鹿。" },
+    ],
+  },
 ];
 
 type Owner = {

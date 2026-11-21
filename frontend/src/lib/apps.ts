@@ -3,11 +3,12 @@ export const APPS = [
   { key: "go", label: "Spra Go" },
   { key: "tane", label: "Tane" },
   { key: "world", label: "Spra World" },
+  { key: "deer", label: "Spraと鹿。" },
 ] as const;
 
 export type AppUse = { app: string; first_used_at: string; last_used_at: string };
 
-export type AppFilter = "all" | "go" | "tane" | "world" | "multiple";
+export type AppFilter = "all" | "go" | "tane" | "world" | "deer" | "multiple";
 
 export function appLabel(key: string): string {
   return APPS.find((a) => a.key === key)?.label ?? key;

@@ -87,7 +87,7 @@ test('Ownerのダッシュボードに、アプリ別の人数と複数のアプ
 
     $apps = $this->actingAs(Owner::factory()->create(), 'owner')->getJson('/api/owner/dashboard/summary')->assertOk()->json('apps');
 
-    expect($apps['counts'])->toBe(['go' => 2, 'tane' => 1, 'world' => 0]);
+    expect($apps['counts'])->toBe(['go' => 2, 'tane' => 1, 'world' => 0, 'deer' => 0]);
     expect($apps['multiple'])->toBe(1);
 });
 

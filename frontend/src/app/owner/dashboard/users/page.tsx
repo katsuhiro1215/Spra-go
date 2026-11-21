@@ -26,6 +26,7 @@ const FILTERS: { key: AppFilter; label: string }[] = [
   { key: "all", label: "すべて" },
   { key: "go", label: "Goだけ" },
   { key: "tane", label: "Taneだけ" },
+  { key: "deer", label: "Spraと鹿。だけ" },
   { key: "multiple", label: "複数のアプリ" },
 ];
 
