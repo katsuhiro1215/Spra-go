@@ -3,13 +3,23 @@
 namespace App\Support\Tane;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 
+/**
+ * トークンのログインを使うアプリ(Tane・Spraと鹿。)に渡すトークン。
+ * どのアプリからかは X-Spra-App で見分ける(deer = Spraと鹿。、それ以外・無し = Tane。Tane のこれまでの動きは変えない)
+ */
 class TokenIssuer
 {
-    /** Tane に渡すトークンと、ユーザーの要点(Tane はこの形だけを知っている) */
-    public static function issue(User $user, string $deviceName): array
+    public static function app(Request $request): string
     {
-        $token = $user->createToken('tane:'.$deviceName, ['*'], now()->addDays(config('tane.token_days')));
+        return $request->header('X-Spra-App') === 'deer' ? 'deer' : 'tane';
+    }
+
+    /** アプリに渡すトークンと、ユーザーの要点(アプリはこの形だけを知っている) */
+    public static function issue(User $user, string $deviceName, string $app = 'tane'): array
+    {
+        $token = $user->createToken($app.':'.$deviceName, ['*'], now()->addDays(config("{$app}.token_days")));
 
         return [
             'token' => $token->plainTextToken,
@@ -23,9 +33,9 @@ class TokenIssuer
         ];
     }
 
-    /** 連携が止まっているとき(既定)は、トークンの発行・Tane からの登録を断る */
-    public static function ensureEnabled(): void
+    /** 連携が止まっているとき(既定)は、トークンの発行・アプリからの登録を断る */
+    public static function ensureEnabled(string $app = 'tane'): void
     {
-        abort_unless(config('tane.login_enabled'), 403, 'Tane との連携は、まだ使えません');
+        abort_unless(config("{$app}.login_enabled"), 403, $app === 'deer' ? 'Spraと鹿。との連携は、まだ使えません' : 'Tane との連携は、まだ使えません');
     }
 }

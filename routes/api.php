@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Deer\PlayController as DeerPlayController;
+use App\Http\Controllers\Deer\RankingController as DeerRankingController;
+use App\Http\Controllers\Deer\RecordController as DeerRecordController;
 use App\Http\Controllers\Owner\PuzzleImageController;
 use App\Http\Controllers\Tane\ParentController;
 use App\Http\Controllers\Tane\ProgressController;
@@ -40,6 +43,7 @@ use App\Support\ContinueStage;
 use App\Support\CourseLevels;
 use App\Support\Courses;
 use App\Support\Csv;
+use App\Support\Deer\DeerStats;
 use App\Support\Errands;
 use App\Support\Family;
 use App\Support\GameRollout;
@@ -162,6 +166,24 @@ Route::middleware(['auth:sanctum', 'terms.current'])->prefix('tane')->name('tane
     Route::get('/parent/records', [ParentController::class, 'records'])->name('parent.records');
 });
 Route::post('/auth/confirm-password', [ParentController::class, 'confirm'])->middleware('auth:sanctum')->name('tane.confirm-password');
+
+// Spraと鹿。(奈良の鹿のゲーム)。ログインは上の /auth/token を X-Spra-App: deer で使う(DEER_LOGIN_ENABLED が off の間は 403)。
+// docs/design/2026-11-21-deer-account-request.md
+Route::prefix('deer')->name('deer.')->group(function () {
+    // 遊んだ1回。ログインしていない人も送れる(anon_id で数える。遊べるのは各ワールドの2面目まで)。ログインした人は Bearer トークンと profile_id
+    Route::post('/plays', [DeerPlayController::class, 'start'])->middleware('throttle:60,1')->name('plays.start');
+    Route::post('/plays/{play}/finish', [DeerPlayController::class, 'finish'])->middleware('throttle:60,1')->name('plays.finish');
+    // 面ごとの遊ばれた数(だれでも見られる。数だけ)
+    Route::get('/stats', fn () => DeerStats::summary())->middleware('throttle:60,1')->name('stats');
+
+    Route::middleware(['auth:sanctum', 'terms.current'])->group(function () {
+        Route::get('/profiles/{profile}/records', [DeerRecordController::class, 'index'])->name('records.index');
+        Route::get('/ranking/settings', [DeerRankingController::class, 'settings'])->name('ranking.settings');
+        Route::put('/ranking/settings', [DeerRankingController::class, 'update'])->name('ranking.update');
+        Route::post('/ranking/nickname', [DeerRankingController::class, 'nickname'])->name('ranking.nickname');
+        Route::get('/ranking/{level}', [DeerRankingController::class, 'show'])->name('ranking.show');
+    });
+});
 
 Route::middleware(['auth:owner'])->get('/owner/settings', fn () => AppSettings::all())->name('owner.settings.show');
 

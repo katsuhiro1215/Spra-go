@@ -22,7 +22,8 @@ class TokenController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        TokenIssuer::ensureEnabled();
+        $app = TokenIssuer::app($request);
+        TokenIssuer::ensureEnabled($app);
 
         $data = $request->validate([
             'email' => ['required', 'string', 'email'],
@@ -50,19 +51,20 @@ class TokenController extends Controller
 
         RateLimiter::clear($key);
 
-        return response()->json(TokenIssuer::issue($user, $data['device_name']), 201);
+        return response()->json(TokenIssuer::issue($user, $data['device_name'], $app), 201);
     }
 
-    /** Tane からの登録。Spra Go と同じ招待制・同意・家族アカウントの決まりで作り、トークンを返す */
+    /** Tane・Spraと鹿。からの登録。Spra Go と同じ招待制・同意・家族アカウントの決まりで作り、トークンを返す */
     public function register(Request $request, RegisterUser $register): JsonResponse
     {
-        TokenIssuer::ensureEnabled();
+        $app = TokenIssuer::app($request);
+        TokenIssuer::ensureEnabled($app);
         // 登録したあとにトークンの名前でつまずかないよう、先に確かめる
         $request->validate(['device_name' => ['required', 'string', 'max:100']]);
 
         $user = $register->handle($request);
 
-        return response()->json(TokenIssuer::issue($user, $request->string('device_name')->toString()), 201);
+        return response()->json(TokenIssuer::issue($user, $request->string('device_name')->toString(), $app), 201);
     }
 
     /** 今のトークンだけを失効させる(ほかの端末のトークンは残る) */
