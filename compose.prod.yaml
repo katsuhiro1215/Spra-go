@@ -45,6 +45,7 @@ services:
         environment:
             WEB_SITE: ${WEB_SITE:-go.spra.jp}
             TANE_SITE: ${TANE_SITE:-http://tane.invalid}
+            DEER_SITE: ${DEER_SITE:-http://deer.invalid}
             API_SITE: ${API_SITE:-api.go.spra.jp}
             CADDY_ACME_EMAIL: ${CADDY_ACME_EMAIL:-admin@example.com}
         volumes:
@@ -88,6 +89,24 @@ services:
                 NEXT_PUBLIC_SPRA_API_URL: ${TANE_API_URL:-https://api.go.spra.jp}
                 NEXT_PUBLIC_TANE_LOGIN: ${TANE_LOGIN:-}
         image: spra-go-tane-prod
+        restart: always
+        mem_limit: 48m
+        logging: *logging
+
+    # Spraと鹿。(静的ファイルを配るだけの小さな Caddy)。リポジトリが無い間は作らない(profile: deer。
+    # scripts/deploy.sh が、DEER_SRC のフォルダがあるときだけ有効にする)
+    deer:
+        profiles: ['deer']
+        build:
+            context: .
+            dockerfile: Dockerfile.prod
+            target: deer
+            additional_contexts:
+                deer-src: ${DEER_SRC:-../deer}
+            args:
+                NEXT_PUBLIC_SPRA_API_URL: ${DEER_API_URL:-https://api.go.spra.jp}
+                NEXT_PUBLIC_DEER_LOGIN: ${DEER_LOGIN:-}
+        image: spra-go-deer-prod
         restart: always
         mem_limit: 48m
         logging: *logging

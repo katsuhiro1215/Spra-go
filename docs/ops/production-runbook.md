@@ -231,6 +231,22 @@ Tane は Node を動かさず、書き出した静的ファイル（`out/`）を
 
 **ふだんの更新**: Tane を直したら、Tane を push → サーバーで `scripts/deploy.sh`（Tane も `git pull` して作り直す）。`NEXT_PUBLIC_*`（`TANE_LOGIN`・`TANE_API_URL`）はビルドに埋め込まれるので、変えたときも再ビルド（deploy.sh）。
 
+## Spraと鹿。(静的ファイル)を同じインスタンスに置く(2026-11-21)
+
+Tane と同じ形。Spraと鹿。（Spra-deer）は Node を動かさず、書き出した静的ファイル（`out/`）を、小さな Caddy（`deer` コンテナ、メモリ48MB）が配る。外向きの Caddy が `deer.spra.jp` を受けて中継する。Tane との違いは2つ: ①リポジトリの直下が Next.js のプロジェクト（`frontend/` の下ではない）②画像・音は同じ名前で差し替えるので、`_next/static` 以外はすべて「毎回確かめる」（変わっていなければ 304）。
+
+**初回の準備（サーバー）**
+1. Spra-deer のリポジトリを、Spra Go のとなりに置く: `cd ~ && git clone https://github.com/katsuhiro1215/Spra-deer.git deer`（非公開なら、デプロイキーかトークンが要る）。`~/deer/package.json` があると、`scripts/deploy.sh` がいっしょに作る（場所を変えるときは `DEER_SRC=<絶対パス> scripts/deploy.sh`）。
+2. DNS に `deer` の A レコード（`go` と同じ IP）を作り、`dig +short deer.spra.jp` で確かめる。
+3. `.env.production` に `DEER_SITE=deer.spra.jp`・`DEER_URL=https://deer.spra.jp`（`DEER_API_URL` は既定のまま）。**`DEER_LOGIN` は空・`DEER_LOGIN_ENABLED` は false のまま**（まず、ログインなしで動くかを確かめる）。
+4. `scripts/deploy.sh --no-pull`（deer のビルドが加わる。メモリが足りなければスワップ、2-3）。外向きの Caddy が `deer.spra.jp` の証明書を自動で取る。
+
+**確認（ログインなし）**: `https://deer.spra.jp/`（トップ）・`/lost/?level=7-1`・`/run/?level=4-1` など各ゲームのページを直接開く・`/terms/`・`/privacy/`・`/nothing/`（404のページ）。音（`/assets/audio/*.mp3`）と画像（`/assets/costume/xmas-stag.webp`）が開く。`curl -I https://deer.spra.jp/assets/hero/stag.png` が `Cache-Control: no-cache`、`/_next/static/` 以下が `immutable`。
+
+**ログインを有効にする（第2段階）**: Spraと鹿。の規約・プライバシーポリシーの確認（Owner）が済んでから。`.env.production` を `DEER_LOGIN_ENABLED=true`・`DEER_LOGIN=on` にして `scripts/deploy.sh --no-pull`（`DEER_LOGIN` はビルドに埋め込まれるので再ビルドが要る）。確認: ログイン → だれが あそぶ？ → 3面目以降を遊ぶ → Owner ダッシュボードに遊ばれ方が出る。CORS: `curl -i -X OPTIONS https://api.go.spra.jp/api/deer/stats -H 'Origin: https://deer.spra.jp' -H 'Access-Control-Request-Method: GET' -H 'Access-Control-Request-Headers: authorization,x-spra-app'` が `Access-Control-Allow-Origin: https://deer.spra.jp`。
+
+**ふだんの更新**: Spra-deer を直したら、Spra-deer を push → サーバーで `scripts/deploy.sh`（deer も `git pull` して作り直す）。`NEXT_PUBLIC_*`（`DEER_LOGIN`・`DEER_API_URL`）は、変えたときも再ビルド。
+
 ## 依存パッケージの脆弱性チェック(2026-10-12)
 - `composer audit`: 0件(guzzle・laravel/framework・league/commonmark・flysystem を更新)。
 - `npm audit --omit=dev`: Next.js を 16.4.0 に更新(critical 解消)。残りの高リスク7件は `shadcn` の CLI 内部(braces・ts-morph など)で、ビルド時の CSS 取り込みにしか使わず、本番の実行物(standalone)には入らない。`shadcn` 側の更新が出たら上げる。

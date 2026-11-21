@@ -52,3 +52,16 @@
 		X-Content-Type-Options "nosniff"
 	}
 }
+
+# Spraと鹿。(静的ファイル。中身は deer コンテナが配る)。DEER_SITE が未設定のうちは、HTTPS の証明書を取りにいかない宛先にしておく。
+# DNS(deer.spra.jp)ができて、DEER_SITE=deer.spra.jp を .env.production に入れてから有効になる
+{$DEER_SITE:http://deer.invalid} {
+	encode gzip
+
+	reverse_proxy deer:80
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+	}
+}

@@ -45,17 +45,37 @@ fi
 # 場所を変えるときは TANE_SRC=<tane/frontend の絶対パス> を付けて実行する
 SERVICES=(app caddy next)
 UP_SERVICES=(app scheduler caddy next)
+PROFILES=()
 TANE_SRC="${TANE_SRC:-$REPO_DIR/../tane/frontend}"
 if [[ -f "$TANE_SRC/package.json" ]]; then
   TANE_SRC="$(cd "$TANE_SRC" && pwd)"
   export TANE_SRC
-  export COMPOSE_PROFILES=tane
+  PROFILES+=(tane)
   if [[ "$GIT_PULL" == "1" ]]; then
     git -C "$TANE_SRC/.." pull --ff-only
   fi
   SERVICES+=(tane)
   UP_SERVICES+=(tane)
   echo "Tane も配ります: $TANE_SRC"
+fi
+
+# Spraと鹿。(静的ファイル)。Spra-deer のリポジトリを ~/deer に置いてあるときだけ、いっしょに作って配る。
+# 場所を変えるときは DEER_SRC=<deer の絶対パス(package.json があるフォルダ)> を付けて実行する
+DEER_SRC="${DEER_SRC:-$REPO_DIR/../deer}"
+if [[ -f "$DEER_SRC/package.json" ]]; then
+  DEER_SRC="$(cd "$DEER_SRC" && pwd)"
+  export DEER_SRC
+  PROFILES+=(deer)
+  if [[ "$GIT_PULL" == "1" ]]; then
+    git -C "$DEER_SRC" pull --ff-only
+  fi
+  SERVICES+=(deer)
+  UP_SERVICES+=(deer)
+  echo "Spraと鹿。も配ります: $DEER_SRC"
+fi
+if (( ${#PROFILES[@]} )); then
+  COMPOSE_PROFILES="$(IFS=,; echo "${PROFILES[*]}")"
+  export COMPOSE_PROFILES
 fi
 
 echo "== ビルド(1つずつ。メモリを食うので並列にしない) =="

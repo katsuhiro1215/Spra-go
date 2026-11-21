@@ -1,0 +1,28 @@
+# Spraと鹿。(静的書き出し)を配る内側の Caddy。外向きの HTTPS・ホスト名の振り分けは、外向きの Caddy(Caddyfile.prod)が行う。
+# ここは compose のネットワークの中だけで、HTTP(80)で待つ。
+{
+	auto_https off
+}
+
+:80 {
+	encode gzip
+	root * /srv
+	file_server
+
+	# 一覧にない URL(静的書き出しで作っていないページ)は、書き出された 404.html を 404 のまま返す
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
+
+	# ビルドごとにファイル名が変わる _next/static は長く持たせる。それ以外(HTML・画像・音)は毎回確かめさせる
+	# (画像・音は、同じ名前のまま差し替えることがある。変わっていなければ 304 で済む)
+	@immutable path /_next/static/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+	@revalidate not path /_next/static/*
+	header @revalidate Cache-Control "no-cache"
+
+	header {
+		X-Content-Type-Options "nosniff"
+	}
+}
