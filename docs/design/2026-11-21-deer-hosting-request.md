@@ -60,3 +60,10 @@ Spraと鹿。の規約・プライバシーポリシー(下書き。【要入力
 - 規約・プライバシーポリシーの【要入力】(お問い合わせ先など)
 - Next.js 16.4.2 に既知の脆弱性があると開発画面が表示した(更新の判断)
 - 衣装の絵の差し替え・本番で見つかった修正
+
+## ビルドの結果(手元の Docker、2026-11-21)
+
+- 本番と同じ `Dockerfile.prod` の `deer` の段を、サーバーでの `git clone` 後と同じ状態(`git archive` で作った、`node_modules` なしのコピー)からビルド: 成功(Next.js のビルド約29秒、書き出し `out/` は 57MB)
+- 起動して確認: `/`・`/lost/`・`/run/`・`/terms/`・`/privacy/` が 200、画像・音(`/assets/audio/lost.mp3`)が 200、音の Range 要求が 206、存在しないURLが 404(404のページを返す)
+- キャッシュ: `_next/static/` 以下は `public, max-age=31536000, immutable`、それ以外(ページ・画像・音)は `no-cache`
+- 手元の Docker のビルドは `arm64` の環境。Lightsail(`x86_64`)では、同じ Dockerfile を使うが、まだ試していない
